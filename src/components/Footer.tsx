@@ -116,7 +116,7 @@ const CombinedComponent: React.FC = () => {
 		<>
 			<SocialContainer>
 				<Youtube
-					href='https://www.youtube.com/c/jamesqquick'
+					href='https://www.youtube.com/channel/UCIV08RQSLOnOCFMe7Kj5-iA'
 					className='youtube social'
 					target='_blank'
 					rel='noopener noreferrer'
@@ -138,7 +138,7 @@ const CombinedComponent: React.FC = () => {
 					/>
 				</Facebook>
 				<Instagram
-					href='http://www.instagram.com/larnbuildteach'
+					href='https://www.instagram.com/dollarsnlife/'
 					className='youtube social'
 					target='_blank'
 					rel='noopener noreferrer'
@@ -148,7 +148,7 @@ const CombinedComponent: React.FC = () => {
 						style={{ fontSize: "30px" }}
 					/>
 				</Instagram>
-				<Twitter
+				{/* <Twitter
 					href='https://wwww.twitter.com'
 					className='youtube social'
 					target='_blank'
@@ -158,7 +158,7 @@ const CombinedComponent: React.FC = () => {
 						icon={faTwitter as IconDefinition}
 						style={{ fontSize: "30px" }}
 					/>
-				</Twitter>
+				</Twitter> */}
 			</SocialContainer>
 			<FooterContainer>
 				<Column>
