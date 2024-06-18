@@ -115,25 +115,45 @@ const CombinedComponent: React.FC = () => {
 	return (
 		<>
 			<SocialContainer>
-				<Youtube href='https://www.youtube.com/c/jamesqquick'>
+				<Youtube
+					href='https://www.youtube.com/c/jamesqquick'
+					className='youtube social'
+					target='_blank'
+					rel='noopener noreferrer'
+				>
 					<FontAwesomeIcon
 						icon={faYoutube as IconDefinition}
 						style={{ fontSize: "30px" }}
 					/>
 				</Youtube>
-				<Facebook href='https://www.facebook.com/profile.php?id=61552256902083'>
+				<Facebook
+					href='https://www.facebook.com/profile.php?id=61552256902083'
+					className='youtube social'
+					target='_blank'
+					rel='noopener noreferrer'
+				>
 					<FontAwesomeIcon
 						icon={faFacebook as IconDefinition}
 						style={{ fontSize: "30px" }}
 					/>
 				</Facebook>
-				<Instagram href='http://www.instagram.com/larnbuildteach'>
+				<Instagram
+					href='http://www.instagram.com/larnbuildteach'
+					className='youtube social'
+					target='_blank'
+					rel='noopener noreferrer'
+				>
 					<FontAwesomeIcon
 						icon={faInstagram as IconDefinition}
 						style={{ fontSize: "30px" }}
 					/>
 				</Instagram>
-				<Twitter href='https://wwww.twitter.com'>
+				<Twitter
+					href='https://wwww.twitter.com'
+					className='youtube social'
+					target='_blank'
+					rel='noopener noreferrer'
+				>
 					<FontAwesomeIcon
 						icon={faTwitter as IconDefinition}
 						style={{ fontSize: "30px" }}
