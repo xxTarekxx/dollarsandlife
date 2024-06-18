@@ -6,19 +6,15 @@ const Container = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: center; /* Align vertically */
-	// height: 100vh; /* Full height of the viewport */
+	align-items: center;
 	max-width: 1280px;
 	margin: auto;
 `;
 
-// Styled components for the card layout
 const StyledLink = styled(Link)`
 	margin: 1%;
-	// display: flex;
-	// justify-content: space-between;
 	text-decoration: none;
-	color: inherit; /* Inherit the text color from the parent */
+	color: inherit;
 `;
 
 const Card = styled.div`
@@ -106,7 +102,7 @@ const ManageYourFinances: React.FC = () => {
 						/>
 					</CardHeader>
 					<CardBody>
-						<Tag className='tag-brown'>Food</Tag>
+						<Tag className='tag-brown'>Hot</Tag>
 						<h4>Delicious Food</h4>
 						<p>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi

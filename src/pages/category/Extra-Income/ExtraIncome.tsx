@@ -118,11 +118,35 @@ const Figure = styled.figure`
 	}
 `;
 
-const HomePage: React.FC = () => {
+const ExtraIncome: React.FC = () => {
 	return (
 		<>
 			<GlobalStyle />
 			<LinksContainer aria-label='Main navigation links'>
+				<LinkBox>
+					<Figure>
+						<Link to='/category/manageyourfinances'>
+							<img src={ManageIcon} alt='Manage Finance Photo' />
+							<figcaption>Manage Your Finances</figcaption>
+						</Link>
+					</Figure>
+				</LinkBox>
+				<LinkBox>
+					<Figure>
+						<Link to='/category/ExtraIncome/FreelanceJobs'>
+							<img src={ManageIcon} alt='Manage Finance Photo' />
+							<figcaption>Manage Your Finances</figcaption>
+						</Link>
+					</Figure>
+				</LinkBox>
+				<LinkBox>
+					<Figure>
+						<Link to='/category/manageyourfinances'>
+							<img src={ManageIcon} alt='Manage Finance Photo' />
+							<figcaption>Manage Your Finances</figcaption>
+						</Link>
+					</Figure>
+				</LinkBox>
 				<LinkBox>
 					<Figure>
 						<Link to='/category/manageyourfinances'>
@@ -152,4 +176,4 @@ const HomePage: React.FC = () => {
 	);
 };
 
-export default HomePage;
+export default ExtraIncome;

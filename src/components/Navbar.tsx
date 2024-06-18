@@ -86,7 +86,7 @@ const MenuItem = styled(Link)`
 		left: 0;
 		z-index: -1;
 		transform: scaleX(0);
-		transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+		transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
 	}
 
 	&::before {
