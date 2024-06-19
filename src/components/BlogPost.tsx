@@ -3,14 +3,23 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 // Styled components
+const Container = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center; /* Align vertically */
+	// height: 100vh; /* Full height of the viewport */
+	max-width: 1280px;
+	margin: auto;
+`;
+
 const Card = styled.div`
 	background: #7f7fd5;
 	border-radius: 10px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	transition: 0.3s;
 	width: 300px;
-	margin: 1rem;
-	text-align: center;
+	margin: 1rem 1rem;
 `;
 
 const CardHeader = styled.div`
@@ -69,25 +78,32 @@ const BlogPost: React.FC<BlogPostProps> = ({
 	datePosted,
 }) => {
 	return (
-		<Link to={`/blog/${id}`} style={{ textDecoration: "none" }}>
+		<Container>
 			<Card>
 				<CardHeader>
-					<img src={imageUrl} alt={title} />
+					<Link to={`/blog/${id}`} style={{ textDecoration: "none" }}>
+						<img src={imageUrl} alt={title} />
+					</Link>
 				</CardHeader>
 				<CardBody>
 					<Tag>Category</Tag>
-					<h4>{title}</h4>
+					<Link
+						to={`/blog/${id}`}
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
+						<h4>{title}</h4>
+					</Link>
 					<p>{content}</p>
 				</CardBody>
 				<CardFooter>
-					<UserImage src='./user-image-placeholder.png' alt='author' />
+					<UserImage src='./user-image-placeholder.png' alt={author} />
 					<UserInfo>
 						<h5>{author}</h5>
 						<small>{datePosted}</small>
 					</UserInfo>
 				</CardFooter>
 			</Card>
-		</Link>
+		</Container>
 	);
 };
 
