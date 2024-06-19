@@ -187,9 +187,9 @@ const Navbar: React.FC = () => {
 							Home
 						</MenuItem>
 						<MenuItem
-							to='/category/extra-income'
+							to='/category/extra-income/'
 							style={
-								location.pathname === "/extra-income"
+								location.pathname === "/category/extra-income/"
 									? { color: "#00A60B" }
 									: {}
 							}
