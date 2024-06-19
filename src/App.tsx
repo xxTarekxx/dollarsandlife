@@ -4,7 +4,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 // import Bargains from "./pages/category/Deals-and-saving/Bargains";
-import ManageYourFinances from "./pages/category/improve-yourself/ManageYourFinances";
+import ManageYourFinances from "./pages/category/Extra-Income/ManageYourFinances";
 import StartABlog from "./pages/category/Extra-Income/StartABlog";
 import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import PassiveIncome from "./pages/category/Extra-Income/PassiveIncome";
