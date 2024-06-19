@@ -1,30 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled, { keyframes, createGlobalStyle } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ManageIcon from "../images/icons/manage-your-finances-icon.png";
 import PassiveIcon from "../images/icons/passive-income.png";
 import DealsIcon from "../images/icons/deal-and-savings-icon.png";
 
+// Define GlobalStyle in the root of your application
+// const GlobalStyle = createGlobalStyle`...`;
+
 const LinksContainer = styled.div`
 	width: 100%;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
 	margin: 9% auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-`;
-
-const shakeAnimation = keyframes`
-  0% { transform: translateX(0); }
-  10% { transform: translateX(-10px); }
-  20% { transform: translateX(10px); }
-  30% { transform: translateX(-10px); }
-  40% { transform: translateX(10px); }
-  50% { transform: translateX(0); }
 `;
 
 const spinAnimation = keyframes`
@@ -39,9 +29,8 @@ const LinkBox = styled.div`
 	cursor: pointer;
 	background: white;
 	font-size: 22px;
-	border-top-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	margin: 1% 1%;
+	border-radius: 10px;
+	margin: 1%;
 	text-decoration: none;
 	color: black;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
@@ -54,7 +43,6 @@ const LinkBox = styled.div`
 
 	@media (max-width: 768px) {
 		width: 70%;
-		height: auto;
 	}
 
 	img {
@@ -70,8 +58,6 @@ const Figure = styled.figure`
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	height: 100%;
-	width: 100%;
 	margin: 0;
 	padding: 0.5rem;
 
@@ -91,34 +77,32 @@ const Figure = styled.figure`
 
 const HomePage = () => {
 	return (
-		<>
-			<LinksContainer aria-label='Main navigation links'>
-				<LinkBox>
-					<Figure>
-						<Link to='/category/manageyourfinances'>
-							<img src={ManageIcon} alt='Manage Finance Photo' />
-							<figcaption>Manage Your Finances</figcaption>
-						</Link>
-					</Figure>
-				</LinkBox>
-				<LinkBox>
-					<Figure>
-						<Link to='/passive-income'>
-							<img src={PassiveIcon} alt='Passive Income Icon' />
-							<figcaption>Passive Income</figcaption>
-						</Link>
-					</Figure>
-				</LinkBox>
-				<LinkBox>
-					<Figure>
-						<Link to='/amazon-products'>
-							<img src={DealsIcon} alt='Deals And Saving Icon' />
-							<figcaption>Deals</figcaption>
-						</Link>
-					</Figure>
-				</LinkBox>
-			</LinksContainer>
-		</>
+		<LinksContainer aria-label='Main navigation links'>
+			<LinkBox>
+				<Figure>
+					<Link to='/category/extra-income'>
+						<img src={ManageIcon} alt='Manage Finance Photo' loading='lazy' />
+						<figcaption>Extra Income</figcaption>
+					</Link>
+				</Figure>
+			</LinkBox>
+			<LinkBox>
+				<Figure>
+					<Link to='/passive-income'>
+						<img src={PassiveIcon} alt='Passive Income Icon' loading='lazy' />
+						<figcaption>Passive Income</figcaption>
+					</Link>
+				</Figure>
+			</LinkBox>
+			<LinkBox>
+				<Figure>
+					<Link to='/amazon-products'>
+						<img src={DealsIcon} alt='Deals And Saving Icon' loading='lazy' />
+						<figcaption>Deals</figcaption>
+					</Link>
+				</Figure>
+			</LinkBox>
+		</LinksContainer>
 	);
 };
 
