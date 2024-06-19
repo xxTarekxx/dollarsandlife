@@ -12,54 +12,6 @@ import PassiveIncome from "./pages/category/Extra-Income/PassiveIncome";
 import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSaving";
 import Footer from "./components/Footer";
 
-// import other pages...
-
-// const products = [
-// 	{
-// 		title: "Product 1",
-// 		imageUrl: "http://example.com/image1.jpg",
-// 		description: "This is a great product.",
-// 		price: "$99.99",
-// 		affiliateLink: "http://amazon.com/product-link-1",
-// 	},
-// 	{
-// 		title: "Product 2",
-// 		imageUrl: "http://example.com/image2.jpg",
-// 		description: "This is another great product.",
-// 		price: "$89.99",
-// 		affiliateLink: "http://amazon.com/product-link-2",
-// 	},
-// 	{
-// 		title: "Product 2",
-// 		imageUrl: "http://example.com/image2.jpg",
-// 		description: "This is another great product.",
-// 		price: "$89.99",
-// 		affiliateLink: "http://amazon.com/product-link-2",
-// 	},
-// 	{
-// 		title: "Product 1",
-// 		imageUrl: "http://example.com/image1.jpg",
-// 		description: "This is a great product.",
-// 		price: "$99.99",
-// 		affiliateLink: "http://amazon.com/product-link-1",
-// 	},
-// 	{
-// 		title: "Product 2",
-// 		imageUrl: "http://example.com/image2.jpg",
-// 		description: "This is another great product.",
-// 		price: "$89.99",
-// 		affiliateLink: "http://amazon.com/product-link-2",
-// 	},
-// 	{
-// 		title: "Product 2",
-// 		imageUrl: "http://example.com/image2.jpg",
-// 		description: "This is another great product.",
-// 		price: "$89.99",
-// 		affiliateLink: "http://amazon.com/product-link-2",
-// 	},
-// 	// Add more products as needed...
-// ];
-
 const App: React.FC = () => {
 	return (
 		<Router>
