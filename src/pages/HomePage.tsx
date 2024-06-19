@@ -5,14 +5,6 @@ import ManageIcon from "../images/icons/manage-your-finances-icon.png";
 import PassiveIcon from "../images/icons/passive-income.png";
 import DealsIcon from "../images/icons/deal-and-savings-icon.png";
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-`;
-
 const LinksContainer = styled.div`
 	width: 100%;
 	background-position: center;
@@ -35,6 +27,10 @@ const shakeAnimation = keyframes`
   50% { transform: translateX(0); }
 `;
 
+const spinAnimation = keyframes`
+  100% { transform: rotate(360deg); }
+`;
+
 const LinkBox = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -53,32 +49,7 @@ const LinkBox = styled.div`
 		rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
 	&:hover img {
-		// animation: ${shakeAnimation} 0.5s;
-		// animation-iteration-count: 1;
-
-		
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // width: 120px;
-    // height: 120px;
-    // margin:-60px 0 0 -60px;
-    -webkit-animation:spin 14s linear infinite;
-    -moz-animation:spin 4s linear infinite;
-    animation:spin 0.2s linear 1;
-}
-@-moz-keyframes spin { 
-    100% { -moz-transform: rotate(360deg); } 
-}
-@-webkit-keyframes spin { 
-    100% { -webkit-transform: rotate(360deg); } 
-}
-@keyframes spin { 
-    100% { 
-        -webkit-transform: rotate(360deg); 
-        transform:rotate(360deg); 
-    } 
-}
+		animation: ${spinAnimation} 0.2s linear 1;
 	}
 
 	@media (max-width: 768px) {
@@ -114,14 +85,13 @@ const Figure = styled.figure`
 	}
 
 	a {
-		text-decoration: none; // This will remove the underline from links
+		text-decoration: none;
 	}
 `;
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
 	return (
 		<>
-			<GlobalStyle />
 			<LinksContainer aria-label='Main navigation links'>
 				<LinkBox>
 					<Figure>
