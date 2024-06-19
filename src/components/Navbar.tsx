@@ -187,9 +187,9 @@ const Navbar: React.FC = () => {
 							Home
 						</MenuItem>
 						<MenuItem
-							to='/category/manageyourfinances'
+							to='/category/extra-income'
 							style={
-								location.pathname === "/category/manageyourfinances"
+								location.pathname === "/extra-income"
 									? { color: "#00A60B" }
 									: {}
 							}
@@ -198,23 +198,9 @@ const Navbar: React.FC = () => {
 								setIsOpen(false);
 							}}
 						>
-							Manage Your Finances
+							Extra Income
 						</MenuItem>
 
-						{/* <MenuItem
-							to='/start-a-business'
-							style={
-								location.pathname === "/start-a-business"
-									? { color: "#00A60B" }
-									: {}
-							}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							Start A Business
-						</MenuItem> */}
 						<MenuItem
 							to='/passive-income'
 							style={
@@ -285,4 +271,4 @@ const Navbar: React.FC = () => {
 	);
 };
 
-export default Navbar;
+export default React.memo(Navbar);

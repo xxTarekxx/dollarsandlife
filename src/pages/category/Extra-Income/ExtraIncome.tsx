@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
-import ManageIcon from "../images/icons/manage-your-finances-icon.png";
-import PassiveIcon from "../images/icons/passive-income.png";
-import DealsIcon from "../images/icons/deal-and-savings-icon.png";
+import ManageIcon from "../../../images/icons/manage-your-finances-icon.png";
+import PassiveIcon from "../../../images/icons/passive-income.png";
+import DealsIcon from "../../../images/icons/deal-and-savings-icon.png";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -127,31 +127,7 @@ const ExtraIncome: React.FC = () => {
 					<Figure>
 						<Link to='/category/manageyourfinances'>
 							<img src={ManageIcon} alt='Manage Finance Photo' />
-							<figcaption>Manage Your Finances</figcaption>
-						</Link>
-					</Figure>
-				</LinkBox>
-				<LinkBox>
-					<Figure>
-						<Link to='/category/ExtraIncome/FreelanceJobs'>
-							<img src={ManageIcon} alt='Manage Finance Photo' />
-							<figcaption>Manage Your Finances</figcaption>
-						</Link>
-					</Figure>
-				</LinkBox>
-				<LinkBox>
-					<Figure>
-						<Link to='/category/manageyourfinances'>
-							<img src={ManageIcon} alt='Manage Finance Photo' />
-							<figcaption>Manage Your Finances</figcaption>
-						</Link>
-					</Figure>
-				</LinkBox>
-				<LinkBox>
-					<Figure>
-						<Link to='/category/manageyourfinances'>
-							<img src={ManageIcon} alt='Manage Finance Photo' />
-							<figcaption>Manage Your Finances</figcaption>
+							<figcaption>Become A Freelancer </figcaption>
 						</Link>
 					</Figure>
 				</LinkBox>
