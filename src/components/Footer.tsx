@@ -110,7 +110,7 @@ const Copyright = styled.div`
 `;
 
 // Combined Component
-const CombinedComponent: React.FC = () => {
+const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();
 	return (
 		<>
@@ -195,4 +195,4 @@ const CombinedComponent: React.FC = () => {
 	);
 };
 
-export default CombinedComponent;
+export default React.memo(Footer);
