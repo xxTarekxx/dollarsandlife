@@ -7,12 +7,6 @@
 body {
   margin: 0;
   padding: 0;
-  background: #FF9A00;
-  /* url("./images/background-body.jpg"); */
-  font-weight: 600;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
 }
 
 .App {
