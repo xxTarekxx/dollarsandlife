@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import ManageIcon from "../../../images/icons/manage-your-finances-icon.png";
-import PassiveIcon from "../../../images/icons/passive-income.png";
-import DealsIcon from "../../../images/icons/deal-and-savings-icon.png";
+import ManageIcon from "../../../assets/images/icons/manage-your-finances-icon.png";
+import PassiveIcon from "../../../assets/images/icons/passive-income.png";
+import DealsIcon from "../../../assets/images/icons/deal-and-savings-icon.png";
 
 const LinksContainer = styled.div`
 	max-width: 1280px;

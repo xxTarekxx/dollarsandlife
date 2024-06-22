@@ -52,7 +52,7 @@ const Instagram = styled(SocialLink)`
 
 // Styled components for Footer
 const FooterContainer = styled.footer`
-	background: White;
+	background: #ff9a00;
 	width: 100%;
 	padding: 2rem 1rem;
 	box-sizing: border-box;

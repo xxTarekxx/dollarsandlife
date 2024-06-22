@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../images/website-logo.png";
-import SearchImg from "../images/favcons/searchicon.svg";
+import logo from "../assets/images/website-logo.png";
+import SearchImg from "../assets/images/favcons/searchicon.svg";
 
 const Nav = styled.nav`
 	background: White;
