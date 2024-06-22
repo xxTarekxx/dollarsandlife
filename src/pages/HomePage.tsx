@@ -25,7 +25,7 @@ const LinkBox = styled(Link)`
 	justify-content: center;
 	background: white;
 	font-size: 22px;
-	// border-radius: 10px;
+	border-radius: 20px;
 	margin: 1%;
 	color: black;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
