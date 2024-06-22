@@ -25,7 +25,8 @@ const Nav = styled.nav`
 
 const Logo = styled.img`
 	padding-left: 20px;
-	height: 40px;
+	width: 226px; /* Set the width */
+	height: 40px; /* Set the height */
 	cursor: pointer;
 `;
 

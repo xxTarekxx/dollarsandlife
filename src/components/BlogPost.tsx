@@ -7,8 +7,7 @@ const Container = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: center; /* Align vertically */
-	// height: 100vh; /* Full height of the viewport */
+	align-items: center;
 	max-width: 1280px;
 	margin: auto;
 `;
@@ -19,7 +18,7 @@ const Card = styled.div`
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	transition: 0.3s;
 	width: 300px;
-	margin: 1rem 1rem;
+	margin: 1rem;
 `;
 
 const CardHeader = styled.div`
