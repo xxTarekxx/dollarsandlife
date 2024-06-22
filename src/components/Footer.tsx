@@ -13,7 +13,7 @@ import {
 // Styled components for SocialFlaw
 const SocialContainer = styled.div`
 	// width: 100%;
-	background: #eee;
+	background-color: rgba(255, 255, 255, 0.8);
 	padding: 25px 50px;
 	display: flex;
 	justify-content: center;
@@ -52,7 +52,8 @@ const Instagram = styled(SocialLink)`
 
 // Styled components for Footer
 const FooterContainer = styled.footer`
-	background: #ff9a00;
+	// background: #ff9a00;
+	background-color: rgba(255, 255, 255, 0.8);
 	width: 100%;
 	padding: 2rem 1rem;
 	box-sizing: border-box;
@@ -60,7 +61,7 @@ const FooterContainer = styled.footer`
 	justify-content: center;
 	align-items: flex-start;
 	flex-wrap: wrap;
-	border-radius: 20px;
+	// border-radius: 20px;
 
 	@media (max-width: 768px) {
 		justify-content: center;
