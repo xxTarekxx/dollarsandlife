@@ -6,6 +6,7 @@ import PassiveIcon from "../../../images/icons/passive-income.png";
 import DealsIcon from "../../../images/icons/deal-and-savings-icon.png";
 
 const LinksContainer = styled.div`
+	max-width: 1280px;
 	width: 100%;
 	margin: 9% auto;
 	display: flex;
@@ -30,8 +31,8 @@ const LinkBox = styled(Link)`
 	justify-content: center;
 	background: white;
 	font-size: 22px;
-	border-radius: 10px;
-	margin: 1%;
+	border-radius: 20px;
+	margin: 0.5% 4%;
 	color: black;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
 		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
@@ -84,7 +85,19 @@ const ExtraIncome = () => {
 			</LinkBox>
 			<LinkBox to='/amazon-products' aria-label='Deals'>
 				<img src={DealsIcon} alt='Deals And Saving Icon' loading='lazy' />
-				<Figcaption>Deals</Figcaption>
+				<Figcaption>Start A Blog</Figcaption>
+			</LinkBox>
+			<LinkBox to='/amazon-products' aria-label='Deals'>
+				<img src={DealsIcon} alt='Deals And Saving Icon' loading='lazy' />
+				<Figcaption>Remote Jobs </Figcaption>
+			</LinkBox>
+			<LinkBox to='/amazon-products' aria-label='Deals'>
+				<img src={DealsIcon} alt='Deals And Saving Icon' loading='lazy' />
+				<Figcaption>Side Hustles</Figcaption>
+			</LinkBox>
+			<LinkBox to='/amazon-products' aria-label='Deals'>
+				<img src={DealsIcon} alt='Deals And Saving Icon' loading='lazy' />
+				<Figcaption>Make Money On Apps</Figcaption>
 			</LinkBox>
 		</LinksContainer>
 	);
