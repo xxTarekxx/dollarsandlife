@@ -8,6 +8,12 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background: url("./assets/images/main-bg.jpeg");
+  font-weight: 600;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  /* This will stretch the image to fit the width and height of the body */
+  background-attachment: fixed;
 
 }
 
