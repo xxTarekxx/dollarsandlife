@@ -2,83 +2,61 @@ import React from "react";
 import BlogPost from "../../../components/BlogPost";
 import BlogPostContainer from "../../../components/BlogPostContainer";
 import styled from "styled-components";
+import AdSense from "react-adsense";
 
-const Container = styled.div`
+// Styled component for the Ad container
+const AdContainer = styled.div`
+	padding-top: 10px;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh; // This makes the container take up the full viewport height
+	// flex-direction: row;
 `;
 
-const AdsContainer = styled.div`
-	background: #eee; // Change this to your ad background color
-	height: 600px; // Set the height of the ad container
-	width: 160px; // Change this to your ad width
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-`;
-
+// FreelanceJobs component
 const FreeLanceJobs: React.FC = () => {
 	const freelancejob = [
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300",
+			imageUrl: "https://picsum.photos/400/300?random=1",
 			content:
-				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!",
+				"Suspendisse potenti. Quisque vel lacus non nunc bibendum interdum. Aenean convallis magna sit amet arcu volutpat, id dapibus magna dignissim. Nulla facilisi.",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
 		},
 		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300",
+			id: 2,
+			title: "Amazing Travel",
+			imageUrl: "https://picsum.photos/400/300?random=2",
 			content:
-				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
+				"Suspendisse potenti. Quisque vel lacus non nunc bibendum interdum. Aenean convallis magna sit amet arcu volutpat, id dapibus magna dignissim. Nulla facilisi.",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
 		},
 		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300",
+			id: 3,
+			title: "Tech Innovations",
+			imageUrl: "https://picsum.photos/400/300?random=3",
 			content:
-				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
+				"In et tincidunt odio. Cras pretium odio et quam hendrerit, non varius velit tincidunt. Mauris in suscipit urna. Sed at ultrices est, at vehicula justo.",
+			author: "John Smith",
+			datePosted: "Last week",
 		},
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300",
-			content:
-				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300",
-			content:
-				"Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		// Add more jobs here...
 	];
 
 	return (
 		<BlogPostContainer>
-			<Container>
-				<AdsContainer>
-					{/* Your ads go here */}
-					<img src='https://picsum.photos/150/600' alt='Ad' />
-					<p>Ad description</p>
-				</AdsContainer>
-			</Container>
+			<AdContainer>
+				<AdSense.Google
+					client='ca-pub-1234567890123456'
+					slot='1234567890'
+					style={{ display: "block", width: 728, height: 90 }}
+					format='auto'
+					responsive='true'
+				/>
+			</AdContainer>
 
 			{freelancejob.map((freelance) => (
 				<BlogPost
