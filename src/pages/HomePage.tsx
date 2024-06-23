@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import useCompressedImage from "../components/compressed/useCompressedImage";
 import ManageIcon from "../assets/images/icons/manage-your-finances-icon.png";
 import PassiveIcon from "../assets/images/icons/passive-income.png";
 import DealsIcon from "../assets/images/icons/deal-and-savings-icon.png";
@@ -12,6 +13,7 @@ const LinksContainer = styled.div`
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
+	max-width: 1280px;
 `;
 
 const spinAnimation = keyframes`
@@ -64,19 +66,38 @@ const Figcaption = styled.figcaption`
 `;
 
 const HomePage = () => {
+	const compressedManageIcon = useCompressedImage(ManageIcon);
+	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
+	const compressedDealsIcon = useCompressedImage(DealsIcon);
+
 	return (
 		<LinksContainer aria-label='Main navigation links'>
 			<LinkBox to='/category/extra-income/' aria-label='Extra Income'>
-				<img src={ManageIcon} alt='Manage Finance Photo' loading='lazy' />
+				<img
+					src={compressedManageIcon || ManageIcon}
+					alt='Manage Finance Photo'
+					loading='lazy'
+				/>
 				<Figcaption>Extra Income</Figcaption>
 			</LinkBox>
-			<LinkBox to='/passive-income' aria-label='Passive Income'>
-				<img src={PassiveIcon} alt='Passive Income Icon' loading='lazy' />
-				<Figcaption>Passive Income</Figcaption>
+			<LinkBox
+				to='/category/deals-and-saving/ProductDisplay'
+				aria-label='Deals And Savings'
+			>
+				<img
+					src={compressedPassiveIcon || PassiveIcon}
+					alt='Passive Income Icon'
+					loading='lazy'
+				/>
+				<Figcaption>Deals & Savings</Figcaption>
 			</LinkBox>
 			<LinkBox to='/amazon-products' aria-label='Deals'>
-				<img src={DealsIcon} alt='Deals And Saving Icon' loading='lazy' />
-				<Figcaption>Deals</Figcaption>
+				<img
+					src={compressedDealsIcon || DealsIcon}
+					alt='Deals And Saving Icon'
+					loading='lazy'
+				/>
+				<Figcaption>Start A Blog</Figcaption>
 			</LinkBox>
 		</LinksContainer>
 	);
