@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/images/website-logo.png";
+import logo from "../assets/images/website-logo.webp";
 import SearchImg from "../assets/images/favcons/searchicon.svg";
 
 const Nav = styled.nav`
@@ -125,7 +125,7 @@ const SearchBarContainer = styled.div<{ open: boolean }>`
 	border-radius: 0 0 20px 20px;
 	box-sizing: border-box;
 	overflow: hidden;
-	// position: sticky;
+	position: sticky;
 `;
 
 const SearchBar = styled.input`
@@ -246,7 +246,7 @@ const Navbar: React.FC = () => {
 							Deals & Saving
 						</MenuItem>
 						<MenuItem
-							to='/start-a-blog'
+							to='/category/extra-income/Start-A-Blog'
 							style={
 								location.pathname === "/start-a-blog"
 									? { color: "#00A60B" }
