@@ -88,7 +88,10 @@ const ExtraIncome = () => {
 				/>
 				<Figcaption>Become A Freelancer</Figcaption>
 			</LinkBox>
-			<LinkBox to='/passive-income' aria-label='Passive Income'>
+			<LinkBox
+				to='/category/extra-income/Passive-income'
+				aria-label='Passive Income'
+			>
 				<img
 					src={compressedPassiveIcon || PassiveIcon}
 					alt='Passive Income Icon'
@@ -96,7 +99,7 @@ const ExtraIncome = () => {
 				/>
 				<Figcaption>Passive Income</Figcaption>
 			</LinkBox>
-			<LinkBox to='/amazon-products' aria-label='Deals'>
+			<LinkBox to='/category/extra-income/Start-A-Blog' aria-label='Deals'>
 				<img
 					src={compressedDealsIcon || DealsIcon}
 					alt='Deals And Saving Icon'
@@ -104,7 +107,7 @@ const ExtraIncome = () => {
 				/>
 				<Figcaption>Start A Blog</Figcaption>
 			</LinkBox>
-			<LinkBox to='/amazon-products' aria-label='Deals'>
+			<LinkBox to='/category/extra-income/Remote-Jobs' aria-label='Deals'>
 				<img
 					src={compressedDealsIcon || DealsIcon}
 					alt='Deals And Saving Icon'

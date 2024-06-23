@@ -231,7 +231,7 @@ const Navbar: React.FC = () => {
 							Side Hustles
 						</MenuItem> */}
 						<MenuItem
-							to='/category/deals-and-saving/ProductDisplay'
+							to='/category/deals-and-saving/Deals-And-Savings'
 							style={
 								location.pathname ===
 								"/category/deals-and-saving/ProductDisplay"

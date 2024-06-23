@@ -1,16 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 // Styled components
-const Container = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	max-width: 1280px;
-	margin: auto;
-`;
 
 const Card = styled.div`
 	background: #7f7fd5;
@@ -68,42 +60,40 @@ interface BlogPostProps {
 }
 
 // BlogPost component
-const BlogPost: React.FC<BlogPostProps> = ({
-	id,
-	title,
-	imageUrl,
-	content,
-	author,
-	datePosted,
-}) => {
-	return (
-		<Container>
-			<Card>
-				<CardHeader>
-					<Link to={`/blog/${id}`} style={{ textDecoration: "none" }}>
-						<img src={imageUrl} alt={title} />
-					</Link>
-				</CardHeader>
-				<CardBody>
-					<Tag>Category</Tag>
-					<Link
-						to={`/blog/${id}`}
-						style={{ textDecoration: "none", color: "inherit" }}
-					>
-						<h4>{title}</h4>
-					</Link>
-					<p>{content}</p>
-				</CardBody>
-				<CardFooter>
-					<UserImage src='./user-image-placeholder.png' alt={author} />
-					<UserInfo>
-						<h5>{author}</h5>
-						<small>{datePosted}</small>
-					</UserInfo>
-				</CardFooter>
-			</Card>
-		</Container>
-	);
-};
+const BlogPost: React.FC<BlogPostProps> = memo(
+	({ id, title, imageUrl, content, author, datePosted }) => {
+		return (
+			<>
+				<Card>
+					<CardHeader>
+						<Link to={`/blog/${id}`} style={{ textDecoration: "none" }}>
+							<img src={imageUrl} alt={`Cover image for ${title}`} />
+						</Link>
+					</CardHeader>
+					<CardBody>
+						<Tag>Category</Tag>
+						<Link
+							to={`/blog/${id}`}
+							style={{ textDecoration: "none", color: "inherit" }}
+						>
+							<h4>{title}</h4>
+						</Link>
+						<p>{content}</p>
+					</CardBody>
+					<CardFooter>
+						<UserImage
+							src='./user-image-placeholder.png'
+							alt={`Author ${author}`}
+						/>
+						<UserInfo>
+							<h5>{author}</h5>
+							<small>{datePosted}</small>
+						</UserInfo>
+					</CardFooter>
+				</Card>
+			</>
+		);
+	},
+);
 
 export default BlogPost;
