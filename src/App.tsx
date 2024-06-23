@@ -11,6 +11,7 @@ import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
+import StartAblog from "./pages/category/Extra-Income/StartABlog";
 
 const App: React.FC = () => {
 	return (
@@ -28,6 +29,10 @@ const App: React.FC = () => {
 					element={<PassiveIncome />}
 				/>
 				<Route
+					path='/category/extra-income/Start-A-Blog'
+					element={<StartAblog />}
+				/>
+				<Route
 					path='/category/extra-income/Remote-Jobs'
 					element={<RemoteOnlineJobs />}
 				/>
@@ -39,12 +44,11 @@ const App: React.FC = () => {
 					path='/category/extra-income/money-making-apps'
 					element={<MoneyMakingApps />}
 				/>
-				<Route path='/side-hustles' element={<SideHustles />} />
+
 				<Route
-					path='/category/deals-and-saving/ProductDisplay'
+					path='/category/deals-and-saving/Deals-And-Savings'
 					element={<DealsAndSavings />}
 				/>
-				<Route path='/passive-income' element={<PassiveIncome />} />
 
 				{/* Add other routes here */}
 			</Routes>
