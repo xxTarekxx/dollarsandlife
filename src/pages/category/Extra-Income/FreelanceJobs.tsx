@@ -14,7 +14,7 @@ const AdContainer = styled.div`
 	// flex-direction: row;
 `;
 
-// FreelanceJobs component
+// FreelanceJobs dummy data component
 const FreeLanceJobs: React.FC = () => {
 	const freelancejob = [
 		{
