@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import useCompressedImage from "../../../components/compressed/useCompressedImage";
-import ManageIcon from "../../../assets/images/icons/manage-your-finances-icon.png";
+import ExtraIncomeImage from "../../../assets/images/icons/extra-income-icon.webp";
 import PassiveIcon from "../../../assets/images/icons/passive-income.png";
-import DealsIcon from "../../../assets/images/icons/deal-and-savings-icon.png";
+import DealsIcon from "../../../assets/images/icons/deal-and-savings-icon.webp";
 
 const LinksContainer = styled.div`
 	max-width: 1280px;
@@ -71,7 +71,7 @@ const Figcaption = styled.figcaption`
 `;
 
 const ExtraIncome = () => {
-	const compressedManageIcon = useCompressedImage(ManageIcon);
+	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
 	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
 	const compressedDealsIcon = useCompressedImage(DealsIcon);
 
@@ -82,7 +82,7 @@ const ExtraIncome = () => {
 				aria-label='Become A Freelancer'
 			>
 				<img
-					src={compressedManageIcon || ManageIcon}
+					src={compressedExtraIncomeImage || ExtraIncomeImage}
 					alt='Manage Finance Photo'
 					loading='lazy'
 				/>

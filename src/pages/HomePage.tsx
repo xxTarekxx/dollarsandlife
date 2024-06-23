@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import useCompressedImage from "../components/compressed/useCompressedImage";
-import ManageIcon from "../assets/images/icons/manage-your-finances-icon.png";
+import ExtraIncomeImage from "../assets/images/icons/extra-income-icon.webp";
 import PassiveIcon from "../assets/images/icons/passive-income.png";
-import DealsIcon from "../assets/images/icons/deal-and-savings-icon.png";
+import DealsIcon from "../assets/images/icons/deal-and-savings-icon.webp";
 
 const LinksContainer = styled.div`
 	width: 100%;
@@ -66,7 +66,7 @@ const Figcaption = styled.figcaption`
 `;
 
 const HomePage = () => {
-	const compressedManageIcon = useCompressedImage(ManageIcon);
+	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
 	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
 	const compressedDealsIcon = useCompressedImage(DealsIcon);
 
@@ -74,7 +74,7 @@ const HomePage = () => {
 		<LinksContainer aria-label='Main navigation links'>
 			<LinkBox to='/category/extra-income/' aria-label='Extra Income'>
 				<img
-					src={compressedManageIcon || ManageIcon}
+					src={compressedPassiveIcon || PassiveIcon}
 					alt='Manage Finance Photo'
 					loading='lazy'
 				/>
@@ -85,7 +85,7 @@ const HomePage = () => {
 				aria-label='Deals And Savings'
 			>
 				<img
-					src={compressedPassiveIcon || PassiveIcon}
+					src={compressedDealsIcon || DealsIcon}
 					alt='Passive Income Icon'
 					loading='lazy'
 				/>
@@ -93,7 +93,7 @@ const HomePage = () => {
 			</LinkBox>
 			<LinkBox to='/amazon-products' aria-label='Deals'>
 				<img
-					src={compressedDealsIcon || DealsIcon}
+					src={compressedExtraIncomeImage || ExtraIncomeImage}
 					alt='Deals And Saving Icon'
 					loading='lazy'
 				/>
