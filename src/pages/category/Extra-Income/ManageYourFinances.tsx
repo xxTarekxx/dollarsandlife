@@ -1,267 +1,75 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import BlogPost from "../../../components/BlogPost";
+import BlogPostContainer from "../../../components/BlogPostContainer";
 import styled from "styled-components";
+import AdSense from "react-adsense";
 
-const Container = styled.div`
+// Styled component for the Ad container
+const AdContainer = styled.div`
+	padding-top: 10px;
+	width: 100%;
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	max-width: 1280px;
-	margin: auto;
+	// flex-direction: row;
 `;
 
-const StyledLink = styled(Link)`
-	margin: 1%;
-	text-decoration: none;
-	color: inherit;
-`;
-
-const Card = styled.div`
-	background: #7f7fd5;
-	border-radius: 10px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	transition: 0.3s;
-	width: 300px;
-	margin: 1rem auto;
-`;
-
-const CardHeader = styled.div`
-	img {
-		width: 100%;
-		border-radius: 10px 10px 0 0;
-	}
-`;
-
-const CardBody = styled.div`
-	padding: 2px 16px;
-`;
-
-const CardFooter = styled.div`
-	padding: 2px 16px;
-`;
-
-const UserImage = styled.img`
-	border-radius: 50%;
-	width: 40px;
-`;
-
-const UserInfo = styled.div`
-	display: inline-block;
-	vertical-align: middle;
-	margin-left: 8px;
-`;
-
-const Tag = styled.span`
-	display: inline-block;
-	background-color: #d1913c;
-	color: white;
-	border-radius: 10px;
-	padding: 5px;
-	margin-right: 5px;
-	font-size: 12px;
-`;
-
+// FreelanceJobs component
 const ManageYourFinances: React.FC = () => {
+	const ManageYourFinance = [
+		{
+			id: 1,
+			title: "Delicious Food",
+			imageUrl: "https://picsum.photos/400/300?random=1",
+			content:
+				"Suspendisse potenti. Quisque vel lacus non nunc bibendum interdum. Aenean convallis magna sit amet arcu volutpat, id dapibus magna dignissim. Nulla facilisi.",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 2,
+			title: "Amazing Travel",
+			imageUrl: "https://picsum.photos/400/300?random=2",
+			content:
+				"Suspendisse potenti. Quisque vel lacus non nunc bibendum interdum. Aenean convallis magna sit amet arcu volutpat, id dapibus magna dignissim. Nulla facilisi.",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
+			id: 3,
+			title: "Tech Innovations",
+			imageUrl: "https://picsum.photos/400/300?random=3",
+			content:
+				"In et tincidunt odio. Cras pretium odio et quam hendrerit, non varius velit tincidunt. Mauris in suscipit urna. Sed at ultrices est, at vehicula justo.",
+			author: "John Smith",
+			datePosted: "Last week",
+		},
+	];
+
 	return (
-		<Container>
-			<StyledLink to='/path-to-your-post'>
-				<Card>
-					<CardHeader>
-						<img
-							src='https://source.unsplash.com/600x400/?food'
-							alt='card__image'
-						/>
-					</CardHeader>
-					<CardBody>
-						<Tag className='tag-brown'>Food</Tag>
-						<h4>Delicious Food</h4>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-							perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-							atque quidem!
-						</p>
-					</CardBody>
-					<CardFooter>
-						<div className='user'>
-							<UserImage src='./' alt='user__image' />
-							<UserInfo>
-								<h5>Jony Doe</h5>
-								<small>Yesterday</small>
-							</UserInfo>
-						</div>
-					</CardFooter>
-				</Card>
-			</StyledLink>
-			<StyledLink to='/path-to-your-post'>
-				<Card>
-					<CardHeader>
-						<img
-							src='https://source.unsplash.com/600x400/?food'
-							alt='card__image'
-						/>
-					</CardHeader>
-					<CardBody>
-						<Tag className='tag-brown'>Hot</Tag>
-						<h4>Delicious Food</h4>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-							perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-							atque quidem!
-						</p>
-					</CardBody>
-					<CardFooter>
-						<div className='user'>
-							<UserImage src='./' alt='user__image' />
-							<UserInfo>
-								<h5>Jony Doe</h5>
-								<small>Yesterday</small>
-							</UserInfo>
-						</div>
-					</CardFooter>
-				</Card>
-			</StyledLink>
-			<StyledLink to='/path-to-your-post'>
-				<Card>
-					<CardHeader>
-						<img
-							src='https://source.unsplash.com/600x400/?food'
-							alt='card__image'
-						/>
-					</CardHeader>
-					<CardBody>
-						<Tag className='tag-brown'>Food</Tag>
-						<h4>Delicious Food</h4>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-							perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-							atque quidem!
-						</p>
-					</CardBody>
-					<CardFooter>
-						<div className='user'>
-							<UserImage src='./' alt='user__image' />
-							<UserInfo>
-								<h5>Jony Doe</h5>
-								<small>Yesterday</small>
-							</UserInfo>
-						</div>
-					</CardFooter>
-				</Card>
-			</StyledLink>
-			<StyledLink to='/path-to-your-post'>
-				<Card>
-					<CardHeader>
-						<img
-							src='https://source.unsplash.com/600x400/?food'
-							alt='card__image'
-						/>
-					</CardHeader>
-					<CardBody>
-						<Tag className='tag-brown'>Food</Tag>
-						<h4>Delicious Food</h4>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-							perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-							atque quidem!
-						</p>
-					</CardBody>
-					<CardFooter>
-						<div className='user'>
-							<UserImage src='./' alt='user__image' />
-							<UserInfo>
-								<h5>Jony Doe</h5>
-								<small>Yesterday</small>
-							</UserInfo>
-						</div>
-					</CardFooter>
-				</Card>
-			</StyledLink>
-			<StyledLink to='/path-to-your-post'>
-				<Card>
-					<CardHeader>
-						<img
-							src='https://source.unsplash.com/600x400/?food'
-							alt='card__image'
-						/>
-					</CardHeader>
-					<CardBody>
-						<Tag className='tag-brown'>Food</Tag>
-						<h4>Delicious Food</h4>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-							perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-							atque quidem!
-						</p>
-					</CardBody>
-					<CardFooter>
-						<div className='user'>
-							<UserImage src='./' alt='user__image' />
-							<UserInfo>
-								<h5>Jony Doe</h5>
-								<small>Yesterday</small>
-							</UserInfo>
-						</div>
-					</CardFooter>
-				</Card>
-			</StyledLink>
-			<StyledLink to='/path-to-your-post'>
-				<Card>
-					<CardHeader>
-						<img
-							src='https://source.unsplash.com/600x400/?food'
-							alt='card__image'
-						/>
-					</CardHeader>
-					<CardBody>
-						<Tag className='tag-brown'>Food</Tag>
-						<h4>Delicious Food</h4>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-							perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-							atque quidem!
-						</p>
-					</CardBody>
-					<CardFooter>
-						<div className='user'>
-							<UserImage src='./' alt='user__image' />
-							<UserInfo>
-								<h5>Jony Doe</h5>
-								<small>Yesterday</small>
-							</UserInfo>
-						</div>
-					</CardFooter>
-				</Card>
-			</StyledLink>
-			<StyledLink to='/path-to-your-post'>
-				<Card>
-					<CardHeader>
-						<img
-							src='https://source.unsplash.com/600x400/?food'
-							alt='card__image'
-						/>
-					</CardHeader>
-					<CardBody>
-						<Tag className='tag-brown'>Food</Tag>
-						<h4>Delicious Food</h4>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-							perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-							atque quidem!
-						</p>
-					</CardBody>
-					<CardFooter>
-						<div className='user'>
-							<UserImage src='./' alt='user__image' />
-							<UserInfo>
-								<h5>Jony Doe</h5>
-								<small>Yesterday</small>
-							</UserInfo>
-						</div>
-					</CardFooter>
-				</Card>
-			</StyledLink>
-		</Container>
+		<BlogPostContainer>
+			<AdContainer>
+				<AdSense.Google
+					client='ca-pub-1234567890123456'
+					slot='1234567890'
+					style={{ display: "block", width: 728, height: 90 }}
+					format='auto'
+					responsive='true'
+				/>
+			</AdContainer>
+
+			{ManageYourFinance.map((budgetting) => (
+				<BlogPost
+					key={budgetting.id}
+					id={budgetting.id}
+					title={budgetting.title}
+					imageUrl={budgetting.imageUrl}
+					content={budgetting.content}
+					author={budgetting.author}
+					datePosted={budgetting.datePosted}
+				/>
+			))}
+		</BlogPostContainer>
 	);
 };
 
