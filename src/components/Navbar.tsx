@@ -24,9 +24,9 @@ const Nav = styled.nav`
 `;
 
 const Logo = styled.img`
-	padding-left: 20px;
-	width: 226px; /* Set the width */
-	height: 40px; /* Set the height */
+	padding-left: 15px;
+	width: 255px; /* Set the width */
+	height: 50px; /* Set the height */
 	cursor: pointer;
 `;
 
@@ -54,7 +54,7 @@ const Menu = styled.div<{ open: boolean }>`
 	transition: all 0.3s ease-in-out;
 
 	@media (max-width: 768px) {
-		position: absolute;
+		position: fixed;
 		top: 60px;
 		left: 0;
 		flex-direction: column;
