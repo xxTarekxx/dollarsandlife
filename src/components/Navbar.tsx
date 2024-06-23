@@ -202,7 +202,7 @@ const Navbar: React.FC = () => {
 							Extra Income
 						</MenuItem>
 
-						<MenuItem
+						{/* <MenuItem
 							to='/passive-income'
 							style={
 								location.pathname === "/passive-income"
@@ -215,8 +215,8 @@ const Navbar: React.FC = () => {
 							}}
 						>
 							Passive Income
-						</MenuItem>
-						<MenuItem
+						</MenuItem> */}
+						{/* <MenuItem
 							to='/side-hustles'
 							style={
 								location.pathname === "/side-hustles"
@@ -229,7 +229,7 @@ const Navbar: React.FC = () => {
 							}}
 						>
 							Side Hustles
-						</MenuItem>
+						</MenuItem> */}
 						<MenuItem
 							to='/category/deals-and-saving/ProductDisplay'
 							style={
