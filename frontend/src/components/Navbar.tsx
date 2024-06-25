@@ -201,35 +201,6 @@ const Navbar: React.FC = () => {
 						>
 							Extra Income
 						</MenuItem>
-
-						{/* <MenuItem
-							to='/passive-income'
-							style={
-								location.pathname === "/passive-income"
-									? { color: "#00A60B" }
-									: {}
-							}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							Passive Income
-						</MenuItem> */}
-						{/* <MenuItem
-							to='/side-hustles'
-							style={
-								location.pathname === "/side-hustles"
-									? { color: "#00A60B" }
-									: {}
-							}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							Side Hustles
-						</MenuItem> */}
 						<MenuItem
 							to='/category/deals-and-saving/Deals-And-Savings'
 							style={
@@ -258,6 +229,20 @@ const Navbar: React.FC = () => {
 							}}
 						>
 							Start A Blog
+						</MenuItem>
+						<MenuItem
+							to='/category/extra-income/Start-A-Blog'
+							style={
+								location.pathname === "/start-a-blog"
+									? { color: "#00A60B" }
+									: {}
+							}
+							onClick={(event) => {
+								event.stopPropagation();
+								setIsOpen(false);
+							}}
+						>
+							My Story
 						</MenuItem>
 					</Menu>
 					<SearchIcon onClick={() => setIsSearchOpen(!isSearchOpen)}>

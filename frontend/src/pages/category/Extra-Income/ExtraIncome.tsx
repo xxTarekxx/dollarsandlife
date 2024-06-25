@@ -99,14 +99,6 @@ const ExtraIncome = () => {
 				/>
 				<Figcaption>Passive Income</Figcaption>
 			</LinkBox>
-			<LinkBox to='/category/extra-income/Start-A-Blog' aria-label='Deals'>
-				<img
-					src={compressedDealsIcon || DealsIcon}
-					alt='Deals And Saving Icon'
-					loading='lazy'
-				/>
-				<Figcaption>Start A Blog</Figcaption>
-			</LinkBox>
 			<LinkBox to='/category/extra-income/Remote-Jobs' aria-label='Deals'>
 				<img
 					src={compressedDealsIcon || DealsIcon}
@@ -130,6 +122,14 @@ const ExtraIncome = () => {
 					loading='lazy'
 				/>
 				<Figcaption>Make Money On Apps</Figcaption>
+			</LinkBox>
+			<LinkBox to='/category/extra-income/Start-A-Blog' aria-label='Deals'>
+				<img
+					src={compressedDealsIcon || DealsIcon}
+					alt='Deals And Saving Icon'
+					loading='lazy'
+				/>
+				<Figcaption>Start A Blog</Figcaption>
 			</LinkBox>
 		</LinksContainer>
 	);
