@@ -4,9 +4,8 @@ const BlogPostContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: center;
 	max-width: 1280px;
-	margin: auto;
+	margin: 12px auto auto auto;
 
 	@media (max-width: 768px) {
 		flex-direction: column;

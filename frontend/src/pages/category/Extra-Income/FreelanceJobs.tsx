@@ -21,8 +21,7 @@ const FreeLanceJobs: React.FC = () => {
 			id: 1,
 			title: "Delicious Food",
 			imageUrl: "https://picsum.photos/400/300?random=1",
-			content:
-				"Suspendisse potenti. Quisque vel lacus non nunc bibendum interdum. Aenean convallis magna sit amet arcu volutpat, id dapibus magna dignissim. Nulla facilisi.",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
 		},
@@ -30,8 +29,7 @@ const FreeLanceJobs: React.FC = () => {
 			id: 2,
 			title: "Amazing Travel",
 			imageUrl: "https://picsum.photos/400/300?random=2",
-			content:
-				"Suspendisse potenti. Quisque vel lacus non nunc bibendum interdum. Aenean convallis magna sit amet arcu volutpat, id dapibus magna dignissim. Nulla facilisi.",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
 		},
@@ -39,8 +37,7 @@ const FreeLanceJobs: React.FC = () => {
 			id: 3,
 			title: "Tech Innovations",
 			imageUrl: "https://picsum.photos/400/300?random=3",
-			content:
-				"In et tincidunt odio. Cras pretium odio et quam hendrerit, non varius velit tincidunt. Mauris in suscipit urna. Sed at ultrices est, at vehicula justo.",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
 		},
