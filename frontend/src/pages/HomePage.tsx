@@ -26,10 +26,12 @@ const LinkBox = styled(Link)`
 	align-items: center;
 	justify-content: center;
 	background: white;
-	font-size: 22px;
+	letter-spacing: 0.5px;
 	border-radius: 20px;
 	margin: 1%;
 	color: black;
+	font-size: 18px;
+
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
 		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
 		rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
@@ -54,16 +56,20 @@ const LinkBox = styled(Link)`
 		width: 220px;
 		height: 200px;
 	}
-`;
-
-const Figcaption = styled.figcaption`
-	color: black;
-	transition: color 0.3s ease-in-out;
 
 	&:hover {
 		color: #7600ff;
 	}
 `;
+
+// const Figcaption = styled.figcaption`
+// 	color: black;
+// 	transition: color 0.3s ease-in-out;
+
+// 	&:hover {
+// 		color: #7600ff;
+// 	}
+// `;
 
 const HomePage = () => {
 	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
@@ -78,7 +84,7 @@ const HomePage = () => {
 					alt='Manage Finance Photo'
 					loading='lazy'
 				/>
-				<Figcaption>Extra Income</Figcaption>
+				<caption>Extra Income</caption>
 			</LinkBox>
 			<LinkBox
 				to='/category/deals-and-saving/ProductDisplay'
@@ -89,7 +95,7 @@ const HomePage = () => {
 					alt='Passive Income Icon'
 					loading='lazy'
 				/>
-				<Figcaption>Deals & Savings</Figcaption>
+				<caption>Deals & Savings</caption>
 			</LinkBox>
 			<LinkBox to='/amazon-products' aria-label='Deals'>
 				<img
@@ -97,7 +103,7 @@ const HomePage = () => {
 					alt='Deals And Saving Icon'
 					loading='lazy'
 				/>
-				<Figcaption>Start A Blog</Figcaption>
+				<caption>Start A Blog</caption>
 			</LinkBox>
 		</LinksContainer>
 	);

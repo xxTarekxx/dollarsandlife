@@ -6,15 +6,14 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
 	faYoutube,
 	faFacebook,
-	faTwitter,
 	faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 
 // Styled components for SocialFlaw
 const SocialContainer = styled.div`
 	// width: 100%;
-	background-color: rgba(255, 255, 255, 0.8);
-	padding: 25px 50px;
+	background-color: rgba(255, 255, 255, 0.5);
+	padding: 15px 0px;
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
@@ -52,8 +51,7 @@ const Instagram = styled(SocialLink)`
 
 // Styled components for Footer
 const FooterContainer = styled.footer`
-	// background: #ff9a00;
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0.9);
 	width: 100%;
 	padding: 2rem 1rem;
 	box-sizing: border-box;
@@ -90,12 +88,12 @@ const FooterLink = styled(Link)`
 	text-decoration: none;
 	color: black;
 	margin-bottom: 0.5rem;
-	font-weight: 300;
+	font-weight: 500;
 	font-size: 1rem;
 	text-align: center;
 
 	&:hover {
-		color: #7b7fda;
+		color: #7600ff;
 	}
 
 	@media (max-width: 768px) {
@@ -149,17 +147,6 @@ const Footer: React.FC = () => {
 						style={{ fontSize: "30px" }}
 					/>
 				</Instagram>
-				{/* <Twitter
-					href='https://wwww.twitter.com'
-					className='youtube social'
-					target='_blank'
-					rel='noopener noreferrer'
-				>
-					<FontAwesomeIcon
-						icon={faTwitter as IconDefinition}
-						style={{ fontSize: "30px" }}
-					/>
-				</Twitter> */}
 			</SocialContainer>
 			<FooterContainer>
 				<Column>
