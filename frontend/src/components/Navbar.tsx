@@ -12,9 +12,8 @@ const Nav = styled.nav`
 	justify-content: space-between;
 	align-items: center;
 	border-radius: 20px;
-	position: sticky; /* Add this line */
-	top: 0; /* Add this line */
-	// z-index: 6; /* Add this line */
+	position: sticky;
+	top: 0;
 	padding: 0 1.5em;
 	box-sizing: border-box;
 
@@ -25,8 +24,8 @@ const Nav = styled.nav`
 
 const Logo = styled.img`
 	padding-left: 15px;
-	width: 255px; /* Set the width */
-	height: 50px; /* Set the height */
+	width: 255px;
+	height: 50px;
 	cursor: pointer;
 `;
 
@@ -71,36 +70,9 @@ const MenuItem = styled(Link)`
 	text-decoration: none;
 	color: black;
 	font-size: 1.08rem;
-	position: relative; // Added for absolute positioning of pseudo-elements
-	overflow: hidden; // Added to contain the pseudo-elements within the button
 
-	&::before,
-	&::after {
-		content: "";
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		display: block;
-		background: rgba(255, 192, 0, 0.5);
-		border-radius: 30%;
-		top: 0;
-		left: 0;
-		z-index: -1;
-		transform: scaleX(0);
-		transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
-	}
-
-	&::before {
-		left: -30%;
-	}
-
-	&::after {
-		right: -30%;
-		transition: transform 0.5s ease-in-out, background 0.5s; // Adjusted for the hover effect
-	}
-
-	&:hover::after {
-		transform: scaleX(1); // Adjusted to match the scaleX transformation
+	&:hover {
+		color: #00a60b;
 	}
 
 	&:active {
@@ -117,7 +89,7 @@ const MenuItem = styled(Link)`
 `;
 
 const SearchBarContainer = styled.div<{ open: boolean }>`
-	position: absolute;
+	position: fixed;
 	top: 60px;
 	width: 100%;
 	display: ${({ open }) => (open ? "block" : "none")};
@@ -125,7 +97,7 @@ const SearchBarContainer = styled.div<{ open: boolean }>`
 	border-radius: 0 0 20px 20px;
 	box-sizing: border-box;
 	overflow: hidden;
-	position: sticky;
+	z-index: 1;
 `;
 
 const SearchBar = styled.input`
@@ -141,7 +113,7 @@ const SearchIcon = styled.div`
 	cursor: pointer;
 	display: flex;
 	align-items: center;
-	justify-content: center; /* Center horizontally */
+	justify-content: center;
 	height: 100%;
 	margin-left: 1rem;
 
@@ -162,6 +134,17 @@ const Navbar: React.FC = () => {
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const location = useLocation();
 
+	const menuItems = [
+		{ to: "/", text: "Home" },
+		{ to: "/category/extra-income/", text: "Extra Income" },
+		{
+			to: "/category/deals-and-saving/Deals-And-Savings",
+			text: "Deals & Saving",
+		},
+		{ to: "/category/extra-income/Start-A-Blog", text: "Start A Blog" },
+		{ to: "/category/extra-income/Start-A-Blog", text: "My Story" },
+	];
+
 	return (
 		<>
 			<Nav>
@@ -177,73 +160,21 @@ const Navbar: React.FC = () => {
 						<div />
 					</Hamburger>
 					<Menu open={isOpen}>
-						<MenuItem
-							to='/'
-							style={location.pathname === "/" ? { color: "#00A60B" } : {}}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							Home
-						</MenuItem>
-						<MenuItem
-							to='/category/extra-income/'
-							style={
-								location.pathname === "/category/extra-income/"
-									? { color: "#00A60B" }
-									: {}
-							}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							Extra Income
-						</MenuItem>
-						<MenuItem
-							to='/category/deals-and-saving/Deals-And-Savings'
-							style={
-								location.pathname ===
-								"/category/deals-and-saving/ProductDisplay"
-									? { color: "#00A60B" }
-									: {}
-							}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							Deals & Saving
-						</MenuItem>
-						<MenuItem
-							to='/category/extra-income/Start-A-Blog'
-							style={
-								location.pathname === "/start-a-blog"
-									? { color: "#00A60B" }
-									: {}
-							}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							Start A Blog
-						</MenuItem>
-						<MenuItem
-							to='/category/extra-income/Start-A-Blog'
-							style={
-								location.pathname === "/start-a-blog"
-									? { color: "#00A60B" }
-									: {}
-							}
-							onClick={(event) => {
-								event.stopPropagation();
-								setIsOpen(false);
-							}}
-						>
-							My Story
-						</MenuItem>
+						{menuItems.map((item, index) => (
+							<MenuItem
+								key={index}
+								to={item.to}
+								style={
+									location.pathname === item.to ? { color: "#00A60B" } : {}
+								}
+								onClick={(event) => {
+									event.stopPropagation();
+									setIsOpen(false);
+								}}
+							>
+								{item.text}
+							</MenuItem>
+						))}
 					</Menu>
 					<SearchIcon onClick={() => setIsSearchOpen(!isSearchOpen)}>
 						<SearchIconImage src={SearchImg} alt='search' />
