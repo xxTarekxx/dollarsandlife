@@ -62,49 +62,47 @@ const LinkBox = styled(Link)`
 	}
 `;
 
-// const Figcaption = styled.figcaption`
-// 	color: black;
-// 	transition: color 0.3s ease-in-out;
-
-// 	&:hover {
-// 		color: #7600ff;
-// 	}
-// `;
-
 const HomePage = () => {
 	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
 	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
 	const compressedDealsIcon = useCompressedImage(DealsIcon);
 
+	const renderLinkBox = (
+		to: string,
+		ariaLabel: string,
+		imgSrc: string,
+		altText: string,
+		captionText: string,
+	) => (
+		<LinkBox to={to} aria-label={ariaLabel}>
+			<img src={imgSrc} alt={altText} loading='lazy' />
+			<caption>{captionText}</caption>
+		</LinkBox>
+	);
+
 	return (
 		<LinksContainer aria-label='Main navigation links'>
-			<LinkBox to='/category/extra-income/' aria-label='Extra Income'>
-				<img
-					src={compressedPassiveIcon || PassiveIcon}
-					alt='Manage Finance Photo'
-					loading='lazy'
-				/>
-				<caption>Extra Income</caption>
-			</LinkBox>
-			<LinkBox
-				to='/category/deals-and-saving/ProductDisplay'
-				aria-label='Deals And Savings'
-			>
-				<img
-					src={compressedDealsIcon || DealsIcon}
-					alt='Passive Income Icon'
-					loading='lazy'
-				/>
-				<caption>Deals & Savings</caption>
-			</LinkBox>
-			<LinkBox to='/amazon-products' aria-label='Deals'>
-				<img
-					src={compressedExtraIncomeImage || ExtraIncomeImage}
-					alt='Deals And Saving Icon'
-					loading='lazy'
-				/>
-				<caption>Start A Blog</caption>
-			</LinkBox>
+			{renderLinkBox(
+				"/category/extra-income/",
+				"Extra Income",
+				compressedPassiveIcon || PassiveIcon,
+				"Manage Finance Photo",
+				"Extra Income",
+			)}
+			{renderLinkBox(
+				"/category/deals-and-saving/ProductDisplay",
+				"Deals And Savings",
+				compressedDealsIcon || DealsIcon,
+				"Passive Income Icon",
+				"Deals & Savings",
+			)}
+			{renderLinkBox(
+				"/amazon-products",
+				"Deals",
+				compressedExtraIncomeImage || ExtraIncomeImage,
+				"Deals And Saving Icon",
+				"Start A Blog",
+			)}
 		</LinksContainer>
 	);
 };
