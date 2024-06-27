@@ -1,19 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import useCompressedImage from "../../../components/compressed/useCompressedImage";
 import ExtraIncomeImage from "../../../assets/images/icons/extra-income-icon.webp";
 import PassiveIcon from "../../../assets/images/icons/passive-income.png";
 import DealsIcon from "../../../assets/images/icons/deal-and-savings-icon.webp";
+import Breadcrumb from "../../../components/Breadcrumb";
+
+const PageContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const TopNav = styled.nav`
+	width: 100%;
+	background-color: #333;
+	color: white;
+	padding: 10px;
+	text-align: center;
+`;
 
 const LinksContainer = styled.div`
 	max-width: 1280px;
 	width: 100%;
-	margin: 9% auto;
+	margin: 2% auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
+`;
+
+const BreadcrumbContainer = styled.div`
+	width: 100%;
+	padding-top: 20px;
+	padding-left: 20px;
 `;
 
 const shakeAnimation = keyframes`
@@ -70,68 +91,85 @@ const Figcaption = styled.figcaption`
 	}
 `;
 
-const ExtraIncome = () => {
+const ExtraIncome: React.FC = () => {
+	useEffect(() => {
+		document.title = "Extra Income";
+	}, []);
+
 	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
 	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
 	const compressedDealsIcon = useCompressedImage(DealsIcon);
 
+	const breadcrumbPaths = [
+		{ title: "Home", url: "/" },
+		{ title: "Extra Income ", url: "/category/extra-income" },
+	];
+
 	return (
-		<LinksContainer aria-label='Main navigation links'>
-			<LinkBox
-				to='/category/extra-income/freelancers'
-				aria-label='Become A Freelancer'
-			>
-				<img
-					src={compressedExtraIncomeImage || ExtraIncomeImage}
-					alt='Manage Finance Photo'
-					loading='lazy'
-				/>
-				<Figcaption>Become A Freelancer</Figcaption>
-			</LinkBox>
-			<LinkBox
-				to='/category/extra-income/Passive-income'
-				aria-label='Passive Income'
-			>
-				<img
-					src={compressedPassiveIcon || PassiveIcon}
-					alt='Passive Income Icon'
-					loading='lazy'
-				/>
-				<Figcaption>Passive Income</Figcaption>
-			</LinkBox>
-			<LinkBox to='/category/extra-income/Remote-Jobs' aria-label='Deals'>
-				<img
-					src={compressedDealsIcon || DealsIcon}
-					alt='Deals And Saving Icon'
-					loading='lazy'
-				/>
-				<Figcaption>Remote Jobs </Figcaption>
-			</LinkBox>
-			<LinkBox to='/amazon-products' aria-label='Deals'>
-				<img
-					src={compressedDealsIcon || DealsIcon}
-					alt='Deals And Saving Icon'
-					loading='lazy'
-				/>
-				<Figcaption>Side Hustles</Figcaption>
-			</LinkBox>
-			<LinkBox to='/amazon-products' aria-label='Deals'>
-				<img
-					src={compressedDealsIcon || DealsIcon}
-					alt='Deals And Saving Icon'
-					loading='lazy'
-				/>
-				<Figcaption>Make Money On Apps</Figcaption>
-			</LinkBox>
-			<LinkBox to='/category/extra-income/Start-A-Blog' aria-label='Deals'>
-				<img
-					src={compressedDealsIcon || DealsIcon}
-					alt='Deals And Saving Icon'
-					loading='lazy'
-				/>
-				<Figcaption>Start A Blog</Figcaption>
-			</LinkBox>
-		</LinksContainer>
+		<PageContainer>
+			<BreadcrumbContainer>
+				<Breadcrumb paths={breadcrumbPaths} />
+			</BreadcrumbContainer>
+			<LinksContainer aria-label='Main navigation links'>
+				<LinkBox
+					to='/category/extra-income/Freelancers'
+					aria-label='Become A Freelancer'
+				>
+					<img
+						src={compressedExtraIncomeImage || ExtraIncomeImage}
+						alt='Manage Finance Photo'
+						loading='lazy'
+					/>
+					<Figcaption>Become A Freelancer</Figcaption>
+				</LinkBox>
+				<LinkBox
+					to='/category/extra-income/Passive-income'
+					aria-label='Passive Income'
+				>
+					<img
+						src={compressedPassiveIcon || PassiveIcon}
+						alt='Passive Income Icon'
+						loading='lazy'
+					/>
+					<Figcaption>Passive Income</Figcaption>
+				</LinkBox>
+				<LinkBox to='/category/extra-income/Remote-Jobs' aria-label='Deals'>
+					<img
+						src={compressedDealsIcon || DealsIcon}
+						alt='Deals And Saving Icon'
+						loading='lazy'
+					/>
+					<Figcaption>Remote Jobs </Figcaption>
+				</LinkBox>
+				<LinkBox to='/category/extra-income/Side-Hustles' aria-label='Deals'>
+					<img
+						src={compressedDealsIcon || DealsIcon}
+						alt='Deals And Saving Icon'
+						loading='lazy'
+					/>
+					<Figcaption>Side Hustles</Figcaption>
+				</LinkBox>
+				<LinkBox
+					to='/category/extra-income/money-making-apps'
+					aria-label='Deals'
+				>
+					<img
+						src={compressedDealsIcon || DealsIcon}
+						alt='Deals And Saving Icon'
+						loading='lazy'
+					/>
+					<Figcaption>Make Money On Apps</Figcaption>
+				</LinkBox>
+				<LinkBox to='/category/extra-income/Start-A-Blog' aria-label='Deals'>
+					<img
+						src={compressedDealsIcon || DealsIcon}
+						alt='Deals And Saving Icon'
+						loading='lazy'
+					/>
+					<Figcaption>Start A Blog</Figcaption>
+				</LinkBox>
+			</LinksContainer>
+		</PageContainer>
 	);
 };
 

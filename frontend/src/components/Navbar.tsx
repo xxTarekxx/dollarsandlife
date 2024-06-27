@@ -14,7 +14,7 @@ const Nav = styled.nav`
 	border-radius: 20px;
 	position: sticky;
 	top: 0;
-	padding: 0 1.5em;
+	padding: 1rem 1.5em;
 	box-sizing: border-box;
 
 	@media (max-width: 768px) {

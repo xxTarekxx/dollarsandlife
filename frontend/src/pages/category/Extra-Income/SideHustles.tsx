@@ -1,282 +1,239 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import AdComponent from "../../../components/AdComponent";
+import BlogPost from "../../../components/BlogPost";
+import Breadcrumb from "../../../components/Breadcrumb";
 
-const Container = styled.div`
+const PageContainer = styled.div`
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
 	justify-content: center;
-	align-items: center; /* Align vertically */
-	// height: 100vh; /* Full height of the viewport */
-	max-width: 1280px;
-	margin: auto;
+	align-items: center;
+	padding: 0 1rem;
 `;
 
-// Styled components for the card layout
-const StyledLink = styled(Link)`
-	margin: 1%;
-	// display: flex;
-	// justify-content: space-between;
-	text-decoration: none;
-	color: inherit; /* Inherit the text color from the parent */
+const TopNav = styled.nav`
+	width: 50%;
+	background-color: #333;
+	color: white;
+	padding: 10px;
+	text-align: center;
 `;
 
-const Card = styled.div`
-	background: #7f7fd5;
-	border-radius: 10px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	transition: 0.3s;
-	width: 300px;
-	margin: 1rem auto;
+const BreadcrumbContainer = styled.div`
+	width: 100%;
+	padding-top: 0px;
+	// background-color: #f9f9f9;
+	// padding: 10px 20px;
+	// margin-bottom: 20px;
 `;
 
-const CardHeader = styled.div`
-	img {
-		width: 100%;
-		border-radius: 10px 10px 0 0;
+const BlogPostWrapper = styled.div`
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 1rem;
+	justify-items: center;
+	margin-top: 6%;
+	width: 100%;
+`;
+
+const TopAdContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	background-color: white;
+	margin-top: 2px;
+	width: 100%;
+	max-width: 728px;
+	padding: 0rem 0;
+
+	@media (max-width: 806px) {
+		width: 360px;
+		height: 120px;
+		padding: 0;
 	}
 `;
 
-const CardBody = styled.div`
-	padding: 2px 16px;
+const SideAdContainer = styled.div`
+	max-width: 300px;
+	height: 602px;
+	margin: 20px 10px;
+	background-color: white;
+
+	@media (max-width: 806px) {
+		display: none;
+	}
 `;
 
-const CardFooter = styled.div`
-	padding: 2px 16px;
+const MobileAdContainer = styled.div`
+	display: none;
+	justify-content: center;
+	background-color: white;
+	width: 320px;
+	height: 100px;
+	margin: 20px 0;
+
+	@media (max-width: 806px) {
+		display: flex;
+	}
 `;
 
-const UserImage = styled.img`
-	border-radius: 50%;
-	width: 40px;
+const MobileBoxAdContainer = styled.div`
+	display: none;
+	justify-content: center;
+	background-color: white;
+	width: 250px;
+	height: 250px;
+	margin: 20px 0;
+
+	@media (max-width: 806px) {
+		display: flex;
+	}
 `;
 
-const UserInfo = styled.div`
-	display: inline-block;
-	vertical-align: middle;
-	margin-left: 8px;
-`;
+const RowContainer = styled.div`
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	width: 100%;
+	max-width: 1600px;
+	column-gap: 10px;
+	align-items: start;
 
-const Tag = styled.span`
-	display: inline-block;
-	background-color: #d1913c;
-	color: white;
-	border-radius: 10px;
-	padding: 5px;
-	margin-right: 5px;
-	font-size: 12px;
+	@media (max-width: 806px) {
+		grid-template-columns: 1fr;
+	}
 `;
 
 const SideHustles: React.FC = () => {
+	const breadcrumbPaths = [
+		{ title: "Home", url: "/" },
+		{ title: "Extra Income ", url: "/category/extra-income" },
+		{ title: "Side Hustles", url: "/category/extra-income/Side-Hustles" },
+	];
+
+	const sidehustle = [
+		{
+			id: 1,
+			title: "Delicious Food",
+			imageUrl: "https://picsum.photos/400/300?random=1",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 2,
+			title: "Amazing Travel",
+			imageUrl: "https://picsum.photos/400/300?random=2",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
+			id: 3,
+			title: "Tech Innovations",
+			imageUrl: "https://picsum.photos/400/300?random=3",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "John Smith",
+			datePosted: "Last week",
+		},
+		{
+			id: 4,
+			title: "Delicious Food",
+			imageUrl: "https://picsum.photos/400/300?random=1",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 5,
+			title: "Amazing Travel",
+			imageUrl: "https://picsum.photos/400/300?random=2",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
+			id: 6,
+			title: "Tech Innovations",
+			imageUrl: "https://picsum.photos/400/300?random=3",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "John Smith",
+			datePosted: "Last week",
+		},
+		{
+			id: 4,
+			title: "Delicious Food",
+			imageUrl: "https://picsum.photos/400/300?random=1",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 5,
+			title: "Amazing Travel",
+			imageUrl: "https://picsum.photos/400/300?random=2",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
+			id: 6,
+			title: "Tech Innovations",
+			imageUrl: "https://picsum.photos/400/300?random=3",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "John Smith",
+			datePosted: "Last week",
+		},
+	];
+
+	// Group blog posts into rows
+	const blogPostRows = [];
+	for (let i = 0; i < sidehustle.length; i += 3) {
+		blogPostRows.push(sidehustle.slice(i, i + 3));
+	}
+
 	return (
-		<div
-			style={{
-				backgroundImage: "url('../src/images/under-construction.jpg')",
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-				height: "100vh", // This will make sure the background covers the full height of the viewport
-			}}
-		>
-			<h1></h1>
-			{/* Add your blog posts here */}
-		</div>
-		// <Container>
-		// 	<StyledLink to='/path-to-your-post'>
-		// 		<Card>
-		// 			<CardHeader>
-		// 				<img
-		// 					src='https://source.unsplash.com/600x400/?food'
-		// 					alt='card__image'
-		// 				/>
-		// 			</CardHeader>
-		// 			<CardBody>
-		// 				<Tag className='tag-brown'>Food</Tag>
-		// 				<h4>Delicious Food</h4>
-		// 				<p>
-		// 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-		// 					perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-		// 					atque quidem!
-		// 				</p>
-		// 			</CardBody>
-		// 			<CardFooter>
-		// 				<div className='user'>
-		// 					<UserImage src='./' alt='user__image' />
-		// 					<UserInfo>
-		// 						<h5>Jony Doe</h5>
-		// 						<small>Yesterday</small>
-		// 					</UserInfo>
-		// 				</div>
-		// 			</CardFooter>
-		// 		</Card>
-		// 	</StyledLink>
-		// 	<StyledLink to='/path-to-your-post'>
-		// 		<Card>
-		// 			<CardHeader>
-		// 				<img
-		// 					src='https://source.unsplash.com/600x400/?food'
-		// 					alt='card__image'
-		// 				/>
-		// 			</CardHeader>
-		// 			<CardBody>
-		// 				<Tag className='tag-brown'>Food</Tag>
-		// 				<h4>Delicious Food</h4>
-		// 				<p>
-		// 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-		// 					perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-		// 					atque quidem!
-		// 				</p>
-		// 			</CardBody>
-		// 			<CardFooter>
-		// 				<div className='user'>
-		// 					<UserImage src='./' alt='user__image' />
-		// 					<UserInfo>
-		// 						<h5>Jony Doe</h5>
-		// 						<small>Yesterday</small>
-		// 					</UserInfo>
-		// 				</div>
-		// 			</CardFooter>
-		// 		</Card>
-		// 	</StyledLink>
-		// 	<StyledLink to='/path-to-your-post'>
-		// 		<Card>
-		// 			<CardHeader>
-		// 				<img
-		// 					src='https://source.unsplash.com/600x400/?food'
-		// 					alt='card__image'
-		// 				/>
-		// 			</CardHeader>
-		// 			<CardBody>
-		// 				<Tag className='tag-brown'>Food</Tag>
-		// 				<h4>Delicious Food</h4>
-		// 				<p>
-		// 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-		// 					perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-		// 					atque quidem!
-		// 				</p>
-		// 			</CardBody>
-		// 			<CardFooter>
-		// 				<div className='user'>
-		// 					<UserImage src='./' alt='user__image' />
-		// 					<UserInfo>
-		// 						<h5>Jony Doe</h5>
-		// 						<small>Yesterday</small>
-		// 					</UserInfo>
-		// 				</div>
-		// 			</CardFooter>
-		// 		</Card>
-		// 	</StyledLink>
-		// 	<StyledLink to='/path-to-your-post'>
-		// 		<Card>
-		// 			<CardHeader>
-		// 				<img
-		// 					src='https://source.unsplash.com/600x400/?food'
-		// 					alt='card__image'
-		// 				/>
-		// 			</CardHeader>
-		// 			<CardBody>
-		// 				<Tag className='tag-brown'>Food</Tag>
-		// 				<h4>Delicious Food</h4>
-		// 				<p>
-		// 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-		// 					perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-		// 					atque quidem!
-		// 				</p>
-		// 			</CardBody>
-		// 			<CardFooter>
-		// 				<div className='user'>
-		// 					<UserImage src='./' alt='user__image' />
-		// 					<UserInfo>
-		// 						<h5>Jony Doe</h5>
-		// 						<small>Yesterday</small>
-		// 					</UserInfo>
-		// 				</div>
-		// 			</CardFooter>
-		// 		</Card>
-		// 	</StyledLink>
-		// 	<StyledLink to='/path-to-your-post'>
-		// 		<Card>
-		// 			<CardHeader>
-		// 				<img
-		// 					src='https://source.unsplash.com/600x400/?food'
-		// 					alt='card__image'
-		// 				/>
-		// 			</CardHeader>
-		// 			<CardBody>
-		// 				<Tag className='tag-brown'>Food</Tag>
-		// 				<h4>Delicious Food</h4>
-		// 				<p>
-		// 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-		// 					perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-		// 					atque quidem!
-		// 				</p>
-		// 			</CardBody>
-		// 			<CardFooter>
-		// 				<div className='user'>
-		// 					<UserImage src='./' alt='user__image' />
-		// 					<UserInfo>
-		// 						<h5>Jony Doe</h5>
-		// 						<small>Yesterday</small>
-		// 					</UserInfo>
-		// 				</div>
-		// 			</CardFooter>
-		// 		</Card>
-		// 	</StyledLink>
-		// 	<StyledLink to='/path-to-your-post'>
-		// 		<Card>
-		// 			<CardHeader>
-		// 				<img
-		// 					src='https://source.unsplash.com/600x400/?food'
-		// 					alt='card__image'
-		// 				/>
-		// 			</CardHeader>
-		// 			<CardBody>
-		// 				<Tag className='tag-brown'>Food</Tag>
-		// 				<h4>Delicious Food</h4>
-		// 				<p>
-		// 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-		// 					perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-		// 					atque quidem!
-		// 				</p>
-		// 			</CardBody>
-		// 			<CardFooter>
-		// 				<div className='user'>
-		// 					<UserImage src='./' alt='user__image' />
-		// 					<UserInfo>
-		// 						<h5>Jony Doe</h5>
-		// 						<small>Yesterday</small>
-		// 					</UserInfo>
-		// 				</div>
-		// 			</CardFooter>
-		// 		</Card>
-		// 	</StyledLink>
-		// 	<StyledLink to='/path-to-your-post'>
-		// 		<Card>
-		// 			<CardHeader>
-		// 				<img
-		// 					src='https://source.unsplash.com/600x400/?food'
-		// 					alt='card__image'
-		// 				/>
-		// 			</CardHeader>
-		// 			<CardBody>
-		// 				<Tag className='tag-brown'>Food</Tag>
-		// 				<h4>Delicious Food</h4>
-		// 				<p>
-		// 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-		// 					perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea
-		// 					atque quidem!
-		// 				</p>
-		// 			</CardBody>
-		// 			<CardFooter>
-		// 				<div className='user'>
-		// 					<UserImage src='./' alt='user__image' />
-		// 					<UserInfo>
-		// 						<h5>Jony Doe</h5>
-		// 						<small>Yesterday</small>
-		// 					</UserInfo>
-		// 				</div>
-		// 			</CardFooter>
-		// 		</Card>
-		// 	</StyledLink>
-		// </Container>
+		<PageContainer>
+			<BreadcrumbContainer>
+				<Breadcrumb paths={breadcrumbPaths} />
+			</BreadcrumbContainer>
+			<TopAdContainer>
+				<AdComponent width={728} height={90} />
+			</TopAdContainer>
+			{blogPostRows.map((row, rowIndex) => (
+				<RowContainer key={rowIndex}>
+					<SideAdContainer>
+						<AdComponent width={300} height={600} />
+					</SideAdContainer>
+					<BlogPostWrapper>
+						{row.map((sidehustle, index) => (
+							<React.Fragment key={sidehustle.id}>
+								<BlogPost
+									id={sidehustle.id}
+									title={sidehustle.title}
+									imageUrl={sidehustle.imageUrl}
+									content={sidehustle.content}
+									author={sidehustle.author}
+									datePosted={sidehustle.datePosted}
+								/>
+								{(index + 1) % 3 === 0 && (
+									<MobileBoxAdContainer>
+										<AdComponent width={250} height={250} />
+									</MobileBoxAdContainer>
+								)}
+								{(index + 1) % 4 === 0 && (
+									<MobileAdContainer>
+										<AdComponent width={320} height={100} />
+									</MobileAdContainer>
+								)}
+							</React.Fragment>
+						))}
+					</BlogPostWrapper>
+					<SideAdContainer>
+						<AdComponent width={300} height={600} />
+					</SideAdContainer>
+				</RowContainer>
+			))}
+		</PageContainer>
 	);
 };
 

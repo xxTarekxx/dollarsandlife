@@ -29,10 +29,6 @@ const App: React.FC = () => {
 					element={<PassiveIncome />}
 				/>
 				<Route
-					path='/category/extra-income/Start-A-Blog'
-					element={<StartAblog />}
-				/>
-				<Route
 					path='/category/extra-income/Remote-Jobs'
 					element={<RemoteOnlineJobs />}
 				/>
@@ -49,8 +45,10 @@ const App: React.FC = () => {
 					path='/category/deals-and-saving/Deals-And-Savings'
 					element={<DealsAndSavings />}
 				/>
-
-				{/* Add other routes here */}
+				<Route
+					path='/category/extra-income/Start-A-Blog'
+					element={<StartAblog />}
+				/>
 			</Routes>
 			<Footer />
 		</Router>
