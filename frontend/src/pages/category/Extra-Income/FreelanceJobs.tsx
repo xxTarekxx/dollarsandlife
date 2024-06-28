@@ -150,7 +150,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -158,7 +158,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -166,7 +166,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
@@ -174,7 +174,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -182,7 +182,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -190,7 +190,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
@@ -198,7 +198,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -206,7 +206,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -214,7 +214,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
@@ -222,7 +222,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -230,7 +230,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -238,7 +238,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
@@ -246,7 +246,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -254,7 +254,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -262,7 +262,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
@@ -270,7 +270,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -278,7 +278,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -286,7 +286,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",

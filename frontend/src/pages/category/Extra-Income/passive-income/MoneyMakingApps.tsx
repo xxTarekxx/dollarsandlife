@@ -135,22 +135,25 @@ const PageNumber = styled.span`
 	}
 `;
 
-const FreeLanceJobs: React.FC = () => {
+const MoneyMakingApps: React.FC = () => {
 	useEffect(() => {
-		document.title = "Freelance Jobs";
+		document.title = "Money Making Apps";
 	}, []);
 
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
 		{ title: "Extra Income ", url: "/category/extra-income" },
-		{ title: "Freelance Jobs", url: "/category/extra-income/Freelancers" },
+		{
+			title: "Money Making Apps",
+			url: "/category/extra-income/money-making-apps",
+		},
 	];
 
-	const freelancejob = [
+	const moneymakingapp = [
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -158,7 +161,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -166,7 +169,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
@@ -174,7 +177,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 1,
 			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jony Doe",
 			datePosted: "Yesterday",
@@ -182,7 +185,7 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 2,
 			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "Jane Doe",
 			datePosted: "Two days ago",
@@ -190,15 +193,103 @@ const FreeLanceJobs: React.FC = () => {
 		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
 		},
 		{
+			id: 1,
+			title: "Delicious Food",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 2,
+			title: "Amazing Travel",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
 			id: 3,
 			title: "Tech Innovations",
-			imageUrl: "https://picsum.photos/400/300?random=3",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "John Smith",
+			datePosted: "Last week",
+		},
+		{
+			id: 1,
+			title: "Delicious Food",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 2,
+			title: "Amazing Travel",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
+			id: 3,
+			title: "Tech Innovations",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "John Smith",
+			datePosted: "Last week",
+		},
+		{
+			id: 1,
+			title: "Delicious Food",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 2,
+			title: "Amazing Travel",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
+			id: 3,
+			title: "Tech Innovations",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "John Smith",
+			datePosted: "Last week",
+		},
+		{
+			id: 1,
+			title: "Delicious Food",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jony Doe",
+			datePosted: "Yesterday",
+		},
+		{
+			id: 2,
+			title: "Amazing Travel",
+			imageUrl: "/blogpostimage.webp",
+			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
+			author: "Jane Doe",
+			datePosted: "Two days ago",
+		},
+		{
+			id: 3,
+			title: "Tech Innovations",
+			imageUrl: "/blogpostimage.webp",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
@@ -209,7 +300,7 @@ const FreeLanceJobs: React.FC = () => {
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const totalPages = Math.ceil(freelancejob.length / postsPerPage);
+	const totalPages = Math.ceil(moneymakingapp.length / postsPerPage);
 
 	const handlePrevPage = () => {
 		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -223,7 +314,7 @@ const FreeLanceJobs: React.FC = () => {
 		setCurrentPage(pageNumber);
 	};
 
-	const currentPosts = freelancejob.slice(
+	const currentPosts = moneymakingapp.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
@@ -264,15 +355,15 @@ const FreeLanceJobs: React.FC = () => {
 						<AdComponent width={300} height={600} />
 					</SideAdContainer>
 					<BlogPostWrapper>
-						{row.map((freelance, index) => (
-							<React.Fragment key={freelance.id}>
+						{row.map((moneymakingapp, index) => (
+							<React.Fragment key={moneymakingapp.id}>
 								<BlogPost
-									id={freelance.id}
-									title={freelance.title}
-									imageUrl={freelance.imageUrl}
-									content={freelance.content}
-									author={freelance.author}
-									datePosted={freelance.datePosted}
+									id={moneymakingapp.id}
+									title={moneymakingapp.title}
+									imageUrl={moneymakingapp.imageUrl}
+									content={moneymakingapp.content}
+									author={moneymakingapp.author}
+									datePosted={moneymakingapp.datePosted}
 								/>
 								{(index + 1) % 3 === 0 && (
 									<MobileBoxAdContainer>
@@ -322,4 +413,4 @@ const FreeLanceJobs: React.FC = () => {
 	);
 };
 
-export default FreeLanceJobs;
+export default MoneyMakingApps;
