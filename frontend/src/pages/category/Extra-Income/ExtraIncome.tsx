@@ -123,15 +123,15 @@ const ExtraIncome: React.FC = () => {
 					<Figcaption>Become A Freelancer</Figcaption>
 				</LinkBox>
 				<LinkBox
-					to='/category/extra-income/Passive-income'
-					aria-label='Passive Income'
+					to='/category/extra-income/Budgetting'
+					aria-label='Budgetting Guides'
 				>
 					<img
 						src={compressedPassiveIcon || PassiveIcon}
 						alt='Passive Income Icon'
 						loading='lazy'
 					/>
-					<Figcaption>Passive Income</Figcaption>
+					<Figcaption>Budgeting</Figcaption>
 				</LinkBox>
 				<LinkBox to='/category/extra-income/Remote-Jobs' aria-label='Deals'>
 					<img

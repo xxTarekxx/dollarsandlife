@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdComponent from "../../../components/AdComponent";
 import BlogPost from "../../../components/BlogPost";
@@ -23,9 +23,6 @@ const TopNav = styled.nav`
 const BreadcrumbContainer = styled.div`
 	width: 100%;
 	padding-top: 0px;
-	// background-color: #f9f9f9;
-	// padding: 10px 20px;
-	// margin-bottom: 20px;
 `;
 
 const BlogPostWrapper = styled.div`
@@ -103,7 +100,46 @@ const RowContainer = styled.div`
 	}
 `;
 
+const PaginationContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0;
+`;
+
+const PaginationButton = styled.button`
+	padding: 10px 20px;
+	margin: 0 5px;
+	background-color: #333;
+	color: white;
+	border: none;
+	cursor: pointer;
+
+	&:disabled {
+		background-color: #ddd;
+		color: #666;
+		cursor: not-allowed;
+	}
+`;
+
+const PageNumber = styled.span`
+	display: inline-block;
+	padding: 10px;
+	margin: 0 5px;
+	background-color: #333;
+	color: white;
+	cursor: pointer;
+
+	&.active {
+		background-color: #666;
+	}
+`;
+
 const SideHustles: React.FC = () => {
+	useEffect(() => {
+		document.title = "Side Hustles";
+	}, []);
+
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
 		{ title: "Extra Income ", url: "/category/extra-income" },
@@ -136,7 +172,7 @@ const SideHustles: React.FC = () => {
 			datePosted: "Last week",
 		},
 		{
-			id: 4,
+			id: 1,
 			title: "Delicious Food",
 			imageUrl: "https://picsum.photos/400/300?random=1",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
@@ -144,7 +180,7 @@ const SideHustles: React.FC = () => {
 			datePosted: "Yesterday",
 		},
 		{
-			id: 5,
+			id: 2,
 			title: "Amazing Travel",
 			imageUrl: "https://picsum.photos/400/300?random=2",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
@@ -152,7 +188,7 @@ const SideHustles: React.FC = () => {
 			datePosted: "Two days ago",
 		},
 		{
-			id: 6,
+			id: 3,
 			title: "Tech Innovations",
 			imageUrl: "https://picsum.photos/400/300?random=3",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
@@ -160,35 +196,58 @@ const SideHustles: React.FC = () => {
 			datePosted: "Last week",
 		},
 		{
-			id: 4,
-			title: "Delicious Food",
-			imageUrl: "https://picsum.photos/400/300?random=1",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 5,
-			title: "Amazing Travel",
-			imageUrl: "https://picsum.photos/400/300?random=2",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jane Doe",
-			datePosted: "Two days ago",
-		},
-		{
-			id: 6,
+			id: 3,
 			title: "Tech Innovations",
 			imageUrl: "https://picsum.photos/400/300?random=3",
 			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
 			author: "John Smith",
 			datePosted: "Last week",
 		},
+
+		// ... (more posts)
 	];
 
-	// Group blog posts into rows
-	const blogPostRows = [];
-	for (let i = 0; i < sidehustle.length; i += 3) {
-		blogPostRows.push(sidehustle.slice(i, i + 3));
+	const [currentPage, setCurrentPage] = useState(1);
+	const postsPerPage = 9;
+	const totalPages = Math.ceil(sidehustle.length / postsPerPage);
+
+	const handlePrevPage = () => {
+		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+	};
+
+	const handleNextPage = () => {
+		setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+	};
+
+	const handlePageNumberClick = (pageNumber: number) => {
+		setCurrentPage(pageNumber);
+	};
+
+	const currentPosts = sidehustle.slice(
+		(currentPage - 1) * postsPerPage,
+		currentPage * postsPerPage,
+	);
+
+	// Determine the number of columns for each row (assuming 3 columns per row)
+	const columnsPerRow = 3;
+
+	const groupedPosts = [];
+	for (let i = 0; i < currentPosts.length; i += columnsPerRow) {
+		groupedPosts.push(currentPosts.slice(i, i + columnsPerRow));
+	}
+
+	// Calculate the range of page numbers to display
+	const maxPageNumbersToShow = 5;
+	let startPageNumber = Math.max(
+		1,
+		currentPage - Math.floor(maxPageNumbersToShow / 2),
+	);
+	let endPageNumber = Math.min(
+		totalPages,
+		startPageNumber + maxPageNumbersToShow - 1,
+	);
+	if (endPageNumber - startPageNumber < maxPageNumbersToShow - 1) {
+		startPageNumber = Math.max(1, endPageNumber - maxPageNumbersToShow + 1);
 	}
 
 	return (
@@ -199,7 +258,7 @@ const SideHustles: React.FC = () => {
 			<TopAdContainer>
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
-			{blogPostRows.map((row, rowIndex) => (
+			{groupedPosts.map((row, rowIndex) => (
 				<RowContainer key={rowIndex}>
 					<SideAdContainer>
 						<AdComponent width={300} height={600} />
@@ -228,11 +287,37 @@ const SideHustles: React.FC = () => {
 							</React.Fragment>
 						))}
 					</BlogPostWrapper>
+
 					<SideAdContainer>
 						<AdComponent width={300} height={600} />
 					</SideAdContainer>
 				</RowContainer>
 			))}
+			<PaginationContainer>
+				<PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
+					Previous
+				</PaginationButton>
+				{Array.from(
+					{ length: endPageNumber - startPageNumber + 1 },
+					(_, index) => (
+						<PageNumber
+							key={startPageNumber + index}
+							className={
+								currentPage === startPageNumber + index ? "active" : ""
+							}
+							onClick={() => handlePageNumberClick(startPageNumber + index)}
+						>
+							{startPageNumber + index}
+						</PageNumber>
+					),
+				)}
+				<PaginationButton
+					onClick={handleNextPage}
+					disabled={currentPage === totalPages}
+				>
+					Next
+				</PaginationButton>
+			</PaginationContainer>
 		</PageContainer>
 	);
 };

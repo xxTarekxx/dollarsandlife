@@ -1,17 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
+import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
-import SideHustles from "./pages/category/Extra-Income/SideHustles";
-import PassiveIncome from "./pages/category/Extra-Income/PassiveIncome";
-import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSaving";
-import Footer from "./components/Footer";
+import Budget from "./pages/category/Extra-Income/Budget";
 import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
-import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
+import MoneyMakingApps from "./pages/category/Extra-Income/passive-income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
+import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import StartAblog from "./pages/category/Extra-Income/StartABlog";
+import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSaving";
 
 const App: React.FC = () => {
 	return (
@@ -24,10 +24,7 @@ const App: React.FC = () => {
 					path='/category/extra-income/freelancers'
 					element={<FreeLanceJobs />}
 				/>
-				<Route
-					path='/category/extra-income/Passive-income'
-					element={<PassiveIncome />}
-				/>
+				<Route path='/category/extra-income/Budgetting' element={<Budget />} />
 				<Route
 					path='/category/extra-income/Remote-Jobs'
 					element={<RemoteOnlineJobs />}
