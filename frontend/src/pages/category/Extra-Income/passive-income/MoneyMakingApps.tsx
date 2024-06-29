@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdComponent from "../../../../components/AdComponent";
-import BlogPost from "../../../../components/BlogPost";
+import BlogPost from "../../../../components/BlogPostCard";
 import Breadcrumb from "../../../../components/Breadcrumb";
 
 const PageContainer = styled.div`

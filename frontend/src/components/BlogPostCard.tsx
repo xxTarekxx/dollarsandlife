@@ -64,7 +64,7 @@ interface BlogPostProps {
 }
 
 // BlogPost component
-const BlogPost: React.FC<BlogPostProps> = memo(
+const BlogPostCard: React.FC<BlogPostProps> = memo(
 	({ id, title, imageUrl, content, author, datePosted }) => {
 		return (
 			<>
@@ -100,4 +100,4 @@ const BlogPost: React.FC<BlogPostProps> = memo(
 	},
 );
 
-export default BlogPost;
+export default BlogPostCard;

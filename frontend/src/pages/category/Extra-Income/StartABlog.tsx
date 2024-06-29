@@ -1,7 +1,6 @@
 import React from "react";
-import BlogPost from "../../../components/BlogPost";
-import Container from "../../../components/BlogPostContainer";
 import UnderConstructionImage from "../../../assets/images/under-construction.webp";
+import Container from "../../../components/BlogPostContainer";
 
 const StartAblog: React.FC = () => {
 	const blogguide = [
