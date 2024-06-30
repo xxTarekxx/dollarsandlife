@@ -24,8 +24,8 @@ const Nav = styled.nav`
 
 const Logo = styled.img`
 	padding-left: 15px;
-	width: 255px;
-	height: 50px;
+	width: 220px;
+	height: 40px;
 	cursor: pointer;
 `;
 
@@ -142,7 +142,7 @@ const Navbar: React.FC = () => {
 			text: "Deals & Saving",
 		},
 		{ to: "/category/extra-income/Start-A-Blog", text: "Start A Blog" },
-		{ to: "/category/extra-income/Start-A-Blog", text: "My Story" },
+		{ to: "/My-Story", text: "My Story" },
 	];
 
 	return (
