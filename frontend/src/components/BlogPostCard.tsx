@@ -2,25 +2,36 @@ import React from "react";
 import styled from "styled-components";
 
 const CardContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	background-color: white;
+	background: #fff;
 	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	cursor: pointer;
-	transition: all 0.3s ease-in-out;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s, box-shadow 0.3s;
+	display: flex;
+	flex-direction: row;
+	max-width: 800px;
+	width: 100%;
+	margin: 20px 0;
 
 	&:hover {
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-		transform: translateY(-5px);
+		transform: translateY(-10px);
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+	}
+
+	@media (max-width: 806px) {
+		flex-direction: column;
 	}
 `;
 
 const CardImage = styled.img`
-	width: 100%;
-	height: 200px;
+	width: 40%;
 	object-fit: cover;
+
+	@media (max-width: 806px) {
+		width: 100%;
+		height: auto;
+	}
 `;
 
 const CardContent = styled.div`
@@ -28,27 +39,28 @@ const CardContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 100%;
+	width: 60%;
+
+	@media (max-width: 806px) {
+		width: 100%;
+	}
 `;
 
 const CardTitle = styled.h3`
-	font-size: 1.25rem;
+	font-size: 1.5rem;
 	margin: 0;
 	color: #333;
 	font-weight: 700;
-	margin-bottom: 10px;
 `;
 
 const CardAuthor = styled.p`
 	font-size: 0.875rem;
 	color: #555;
-	margin: 0;
 `;
 
 const CardDate = styled.p`
 	font-size: 0.75rem;
 	color: #999;
-	margin: 0;
 	margin-top: 5px;
 `;
 
@@ -64,6 +76,22 @@ const CardText = styled.p`
 	line-height: 1.5;
 `;
 
+const ReadMoreButton = styled.button`
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	font-size: 0.875rem;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	align-self: flex-start; /* Align to the left */
+
+	&:hover {
+		background-color: #0056b3;
+	}
+`;
+
 interface BlogPostCardProps {
 	id: number;
 	title: string;
@@ -71,7 +99,7 @@ interface BlogPostCardProps {
 	content: string;
 	author: string;
 	datePosted: string;
-	onClick?: () => void; // Make onClick optional
+	onClick?: () => void;
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
@@ -80,7 +108,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	content,
 	author,
 	datePosted,
-	onClick, // Destructure onClick
+	onClick,
 }) => {
 	return (
 		<CardContainer onClick={onClick}>
@@ -88,10 +116,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 			<CardContent>
 				<div>
 					<CardTitle>{title}</CardTitle>
-					<CardAuthor>{author}</CardAuthor>
+					<Car dAuthor>{author}</Car>
 					<CardDate>{datePosted}</CardDate>
 				</div>
 				<CardText>{content}</CardText>
+				<ReadMoreButton>Read More</ReadMoreButton>
 			</CardContent>
 		</CardContainer>
 	);
