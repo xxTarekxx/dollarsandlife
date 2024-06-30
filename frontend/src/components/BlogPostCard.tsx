@@ -5,13 +5,14 @@ const CardContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	background-color: white;
-	border: 1px solid #ddd;
-	border-radius: 8px;
+	border-radius: 10px;
 	overflow: hidden;
 	cursor: pointer;
-	transition: transform 0.2s;
+	transition: all 0.3s ease-in-out;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
 	&:hover {
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 		transform: translateY(-5px);
 	}
 `;
@@ -23,28 +24,44 @@ const CardImage = styled.img`
 `;
 
 const CardContent = styled.div`
-	padding: 16px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
 `;
 
 const CardTitle = styled.h3`
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	margin: 0;
 	color: #333;
+	font-weight: 700;
+	margin-bottom: 10px;
 `;
 
 const CardAuthor = styled.p`
-	font-size: 0.9rem;
-	color: #777;
+	font-size: 0.875rem;
+	color: #555;
+	margin: 0;
 `;
 
 const CardDate = styled.p`
-	font-size: 0.8rem;
-	color: #aaa;
+	font-size: 0.75rem;
+	color: #999;
+	margin: 0;
+	margin-top: 5px;
 `;
 
 const CardText = styled.p`
-	font-size: 1rem;
-	color: #555;
+	font-size: 0.875rem;
+	color: #666;
+	margin: 15px 0;
+	display: -webkit-box;
+	-webkit-line-clamp: 4;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 1.5;
 `;
 
 interface BlogPostCardProps {
@@ -69,9 +86,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 		<CardContainer onClick={onClick}>
 			<CardImage src={imageUrl} alt={title} />
 			<CardContent>
-				<CardTitle>{title}</CardTitle>
-				<CardAuthor>{author}</CardAuthor>
-				<CardDate>{datePosted}</CardDate>
+				<div>
+					<CardTitle>{title}</CardTitle>
+					<CardAuthor>{author}</CardAuthor>
+					<CardDate>{datePosted}</CardDate>
+				</div>
 				<CardText>{content}</CardText>
 			</CardContent>
 		</CardContainer>
