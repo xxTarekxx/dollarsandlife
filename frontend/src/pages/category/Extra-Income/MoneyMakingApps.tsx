@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import AdComponent from "../../../components/AdComponent";
 import BlogPostCard from "../../../components/BlogPostCard";
 import Breadcrumb from "../../../components/Breadcrumb";
-import { Link } from "react-router-dom";
 
 const PageContainer = styled.div`
 	display: flex;
@@ -131,26 +131,26 @@ const SectionHeading = styled.h2`
 	text-align: center;
 `;
 
-const FreeLanceJobs: React.FC = () => {
-	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
+const MoneyMakingApps: React.FC = () => {
+	const [moneyMakingApps, setMoneyMakingApps] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		document.title = "Freelance Jobs";
+		document.title = "Money Making Apps";
 	}, []);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/freelancejobs.json");
+				const response = await fetch("/moneymakingapps.json");
 				if (!response.ok) {
 					throw new Error("Failed to fetch data");
 				}
 				const data = await response.json();
 				console.log("Fetched Data:", data);
-				setFreelanceJobs(data);
+				setMoneyMakingApps(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -165,7 +165,7 @@ const FreeLanceJobs: React.FC = () => {
 		}
 	}, [currentPage]);
 
-	const totalPages = Math.ceil(freelanceJobs.length / postsPerPage);
+	const totalPages = Math.ceil(moneyMakingApps.length / postsPerPage);
 
 	const handlePrevPage = () => {
 		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -179,7 +179,7 @@ const FreeLanceJobs: React.FC = () => {
 		setCurrentPage(pageNumber);
 	};
 
-	const currentPosts = freelanceJobs.slice(
+	const currentPosts = moneyMakingApps.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
@@ -187,7 +187,10 @@ const FreeLanceJobs: React.FC = () => {
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
 		{ title: "Extra Income", url: "/category/extra-income" },
-		{ title: "Freelance Jobs", url: "/category/extra-income/freelancers" },
+		{
+			title: "Money Making Apps",
+			url: "/category/extra-income/money-making-apps",
+		},
 	];
 
 	return (
@@ -198,21 +201,21 @@ const FreeLanceJobs: React.FC = () => {
 			<TopAdContainer>
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
-			<SectionHeading>Freelance Job Opportunities</SectionHeading>
+			<SectionHeading>Money Making Apps</SectionHeading>
 			<BlogPostWrapper>
-				{currentPosts.map((freelancedata, index) => (
-					<React.Fragment key={freelancedata.id}>
+				{currentPosts.map((appData, index) => (
+					<React.Fragment key={appData.id}>
 						<RowContainer>
 							<Link
-								to={`/category/extra-income/Freelancers/${freelancedata.id}`}
+								to={`/category/extra-income/money-making-apps/${appData.id}`}
 							>
 								<BlogPostCard
-									id={freelancedata.id}
-									title={freelancedata.title}
-									imageUrl={freelancedata.imageUrl}
-									content={freelancedata.content}
-									author={freelancedata.author}
-									datePosted={freelancedata.datePosted}
+									id={appData.id}
+									title={appData.title}
+									imageUrl={appData.imageUrl}
+									content={appData.content}
+									author={appData.author}
+									datePosted={appData.datePosted}
 								/>
 							</Link>
 						</RowContainer>
@@ -258,4 +261,4 @@ const FreeLanceJobs: React.FC = () => {
 	);
 };
 
-export default FreeLanceJobs;
+export default MoneyMakingApps;
