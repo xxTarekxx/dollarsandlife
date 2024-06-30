@@ -1,104 +1,81 @@
-import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 
-// Styled components
+const CardContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	overflow: hidden;
+	cursor: pointer;
+	transition: transform 0.2s;
 
-const Card = styled.div`
-	background: #7f7fd5;
-	border-radius: 10px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	transition: 0.3s;
-	width: 280px;
-	margin: 1rem;
-`;
-
-const CardHeader = styled.div`
-	img {
-		width: 100%;
-		border-radius: 10px 10px 0 0;
+	&:hover {
+		transform: translateY(-5px);
 	}
 `;
 
-const CardBody = styled.div`
-	padding: 2px 16px;
-
-	p {
-		font-size: 16px;
-	}
+const CardImage = styled.img`
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
 `;
 
-const CardFooter = styled.div`
-	padding: 2px 16px;
+const CardContent = styled.div`
+	padding: 16px;
 `;
 
-const UserImage = styled.img`
-	border-radius: 50%;
-	width: 40px;
+const CardTitle = styled.h3`
+	font-size: 1.5rem;
+	margin: 0;
+	color: #333;
 `;
 
-const UserInfo = styled.div`
-	display: inline-block;
-	vertical-align: middle;
-	margin-left: 8px;
+const CardAuthor = styled.p`
+	font-size: 0.9rem;
+	color: #777;
 `;
 
-const Tag = styled.span`
-	display: inline-block;
-	background-color: #d1913c;
-	color: white;
-	border-radius: 10px;
-	padding: 5px;
-	margin-right: 5px;
-	font-size: 12px;
+const CardDate = styled.p`
+	font-size: 0.8rem;
+	color: #aaa;
 `;
 
-// BlogPost component props interface
+const CardText = styled.p`
+	font-size: 1rem;
+	color: #555;
+`;
+
 interface BlogPostCardProps {
-	id: any;
-	title: any;
-	imageUrl: any;
-	content: any;
-	author: any;
-	datePosted: any;
-	onClick: () => void; // Ensure onClick is included in the props interface
+	id: number;
+	title: string;
+	imageUrl: string;
+	content: string;
+	author: string;
+	datePosted: string;
+	onClick?: () => void; // Make onClick optional
 }
 
-// BlogPost component
-const BlogPostCard: React.FC<BlogPostProps> = memo(
-	({ id, title, imageUrl, content, author, datePosted, onClick }) => {
-		return (
-			<>
-				<Card>
-					<CardHeader>
-						<Link to={`/blog/${id}`} style={{ textDecoration: "none" }}>
-							<img src={imageUrl} alt={`Cover image for ${title}`} />
-						</Link>
-					</CardHeader>
-					<CardBody>
-						<Tag>Category</Tag>
-						<Link
-							to={`/blog/${id}`}
-							style={{ textDecoration: "none", color: "inherit" }}
-						>
-							<h4>{title}</h4>
-						</Link>
-						<p>{content}</p>
-					</CardBody>
-					<CardFooter>
-						<UserImage
-							src='./user-image-placeholder.png'
-							alt={`Author ${author}`}
-						/>
-						<UserInfo>
-							<h5>{author}</h5>
-							<small>{datePosted}</small>
-						</UserInfo>
-					</CardFooter>
-				</Card>
-			</>
-		);
-	},
-);
+const BlogPostCard: React.FC<BlogPostCardProps> = ({
+	title,
+	imageUrl,
+	content,
+	author,
+	datePosted,
+	onClick, // Destructure onClick
+}) => {
+	return (
+		<CardContainer onClick={onClick}>
+			<CardImage src={imageUrl} alt={title} />
+			<CardContent>
+				<CardTitle>{title}</CardTitle>
+				<CardAuthor>{author}</CardAuthor>
+				<CardDate>{datePosted}</CardDate>
+				<CardText>{content}</CardText>
+			</CardContent>
+		</CardContainer>
+	);
+};
 
 export default BlogPostCard;

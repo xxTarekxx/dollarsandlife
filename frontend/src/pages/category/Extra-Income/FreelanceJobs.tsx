@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AdComponent from "../../../components/AdComponent";
 import BlogPostCard from "../../../components/BlogPostCard";
 import Breadcrumb from "../../../components/Breadcrumb";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PageContainer = styled.div`
 	display: flex;
@@ -132,7 +132,6 @@ const FreeLanceJobs: React.FC = () => {
 	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		document.title = "Freelance Jobs";
@@ -204,19 +203,18 @@ const FreeLanceJobs: React.FC = () => {
 					<BlogPostWrapper>
 						{row.map((freelancedata, index) => (
 							<React.Fragment key={freelancedata.id}>
-								<BlogPostCard
-									id={freelancedata.id}
-									title={freelancedata.title}
-									imageUrl={freelancedata.imageUrl}
-									content={freelancedata.content}
-									author={freelancedata.author}
-									datePosted={freelancedata.datePosted}
-									onClick={() =>
-										navigate(
-											`/category/extra-income/freelancers/${freelancedata.id}`,
-										)
-									}
-								/>
+								<Link
+									to={`/category/extra-income/Freelancers/${freelancedata.id}`}
+								>
+									<BlogPostCard
+										id={freelancedata.id}
+										title={freelancedata.title}
+										imageUrl={freelancedata.imageUrl}
+										content={freelancedata.content}
+										author={freelancedata.author}
+										datePosted={freelancedata.datePosted}
+									/>
+								</Link>
 								{(index + 1) % 3 === 0 && (
 									<MobileBoxAdContainer>
 										<AdComponent width={250} height={250} />

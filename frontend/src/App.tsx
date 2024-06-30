@@ -1,20 +1,20 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import Budget from "./pages/category/Extra-Income/Budget";
 import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
-import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import MoneyMakingApps from "./pages/category/Extra-Income/passive-income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
 import SideHustles from "./pages/category/Extra-Income/SideHustles";
+import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSaving";
 import BlogPostContent from "./components/BlogPostContent";
 
-const App = () => {
+const App: React.FC = () => {
 	return (
 		<Router>
 			<Navbar />
@@ -22,10 +22,9 @@ const App = () => {
 				<Route path='/' element={<HomePage />} />
 				<Route path='/category/extra-income' element={<ExtraIncome />} />
 				<Route
-					path='/category/extra-income/freelancers/*'
+					path='/category/extra-income/freelancers'
 					element={<FreeLanceJobs />}
 				/>
-
 				<Route path='/category/extra-income/budgetting' element={<Budget />} />
 				<Route
 					path='/category/extra-income/remote-jobs'

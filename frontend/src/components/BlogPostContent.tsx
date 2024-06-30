@@ -108,7 +108,7 @@ const BlogPostContent: React.FC = () => {
 			</BlogSubtitle>
 			<BlogImage src={blogPost.imageUrl} alt={blogPost.title} />
 			<BlogParagraph>{blogPost.content}</BlogParagraph>
-			<CurrentPath>Current Path: {location.pathname}</CurrentPath>
+			{/* <CurrentPath>Current Path: {location.pathname}</CurrentPath> */}
 		</BlogPostContainer>
 	);
 };

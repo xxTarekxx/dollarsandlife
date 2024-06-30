@@ -11,14 +11,7 @@ const PageContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-`;
-
-const TopNav = styled.nav`
-	width: 100%;
-	background-color: #333;
-	color: white;
-	padding: 10px;
-	text-align: center;
+	overflow: hidden; /* add this line */
 `;
 
 const LinksContainer = styled.div`
@@ -54,7 +47,8 @@ const LinkBox = styled(Link)`
 	background: white;
 	font-size: 22px;
 	border-radius: 20px;
-	margin: 0.5% 4%;
+	box-sizing: border-box; /* add this line */
+	margin: 0.5% 2%; /* adjust this line, reduce the margin */
 	color: black;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
 		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
