@@ -90,7 +90,7 @@ const HomePage = () => {
 				"Extra Income",
 			)}
 			{renderLinkBox(
-				"/category/deals-and-saving/ProductDisplay",
+				"/category/deals-and-saving/deals-and-savings",
 				"Deals And Savings",
 				compressedDealsIcon || DealsIcon,
 				"Passive Income Icon",
