@@ -116,7 +116,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 			<CardContent>
 				<div>
 					<CardTitle>{title}</CardTitle>
-					<Car dAuthor>{author}</Car>
+					<CardAuthor>{author}</CardAuthor>
 					<CardDate>{datePosted}</CardDate>
 				</div>
 				<CardText>{content}</CardText>

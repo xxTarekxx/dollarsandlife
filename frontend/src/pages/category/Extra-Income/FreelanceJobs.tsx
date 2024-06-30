@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import AdComponent from "../../../components/AdComponent";
 import BlogPostCard from "../../../components/BlogPostCard";
@@ -19,11 +19,9 @@ const BreadcrumbContainer = styled.div`
 `;
 
 const BlogPostWrapper = styled.div`
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	gap: 1rem;
-	justify-items: center;
-	margin-top: 6%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 100%;
 `;
 
@@ -43,10 +41,12 @@ const TopAdContainer = styled.div`
 	}
 `;
 
-const SideAdContainer = styled.div`
-	max-width: 300px;
-	height: 602px;
-	margin: 20px 10px;
+const AdRowContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	max-width: 660px;
+	margin: 20px 0;
 	background-color: white;
 
 	@media (max-width: 806px) {
@@ -81,16 +81,12 @@ const MobileBoxAdContainer = styled.div`
 `;
 
 const RowContainer = styled.div`
-	display: grid;
-	grid-template-columns: auto 1fr auto;
+	display: flex;
+	flex-direction: column;
 	width: 100%;
-	max-width: 1600px;
-	column-gap: 10px;
-	align-items: start;
-
-	@media (max-width: 806px) {
-		grid-template-columns: 1fr;
-	}
+	max-width: 800px;
+	align-items: center;
+	margin-bottom: 20px;
 `;
 
 const PaginationContainer = styled.div`
@@ -128,10 +124,18 @@ const PageNumber = styled.span`
 	}
 `;
 
+const SectionHeading = styled.h2`
+	font-size: 2rem;
+	color: #333;
+	margin: 20px 0;
+	text-align: center;
+`;
+
 const FreeLanceJobs: React.FC = () => {
 	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
+	const pageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		document.title = "Freelance Jobs";
@@ -155,6 +159,12 @@ const FreeLanceJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
+	useEffect(() => {
+		if (pageRef.current) {
+			pageRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [currentPage]);
+
 	const totalPages = Math.ceil(freelanceJobs.length / postsPerPage);
 
 	const handlePrevPage = () => {
@@ -174,13 +184,6 @@ const FreeLanceJobs: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	const columnsPerRow = 3;
-
-	const groupedPosts = [];
-	for (let i = 0; i < currentPosts.length; i += columnsPerRow) {
-		groupedPosts.push(currentPosts.slice(i, i + columnsPerRow));
-	}
-
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
 		{ title: "Extra Income", url: "/category/extra-income" },
@@ -188,51 +191,49 @@ const FreeLanceJobs: React.FC = () => {
 	];
 
 	return (
-		<PageContainer>
+		<PageContainer ref={pageRef}>
 			<BreadcrumbContainer>
 				<Breadcrumb paths={breadcrumbPaths} />
 			</BreadcrumbContainer>
 			<TopAdContainer>
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
-			{groupedPosts.map((row, rowIndex) => (
-				<RowContainer key={rowIndex}>
-					<SideAdContainer>
-						<AdComponent width={300} height={600} />
-					</SideAdContainer>
-					<BlogPostWrapper>
-						{row.map((freelancedata, index) => (
-							<React.Fragment key={freelancedata.id}>
-								<Link
-									to={`/category/extra-income/Freelancers/${freelancedata.id}`}
-								>
-									<BlogPostCard
-										id={freelancedata.id}
-										title={freelancedata.title}
-										imageUrl={freelancedata.imageUrl}
-										content={freelancedata.content}
-										author={freelancedata.author}
-										datePosted={freelancedata.datePosted}
-									/>
-								</Link>
-								{(index + 1) % 3 === 0 && (
-									<MobileBoxAdContainer>
-										<AdComponent width={250} height={250} />
-									</MobileBoxAdContainer>
-								)}
-								{(index + 1) % 4 === 0 && (
-									<MobileAdContainer>
-										<AdComponent width={320} height={100} />
-									</MobileAdContainer>
-								)}
-							</React.Fragment>
-						))}
-					</BlogPostWrapper>
-					<SideAdContainer>
-						<AdComponent width={300} height={600} />
-					</SideAdContainer>
-				</RowContainer>
-			))}
+			<SectionHeading>Freelance Job Opportunities</SectionHeading>
+			<BlogPostWrapper>
+				{currentPosts.map((freelancedata, index) => (
+					<React.Fragment key={freelancedata.id}>
+						<RowContainer>
+							<Link
+								to={`/category/extra-income/Freelancers/${freelancedata.id}`}
+							>
+								<BlogPostCard
+									id={freelancedata.id}
+									title={freelancedata.title}
+									imageUrl={freelancedata.imageUrl}
+									content={freelancedata.content}
+									author={freelancedata.author}
+									datePosted={freelancedata.datePosted}
+								/>
+							</Link>
+						</RowContainer>
+						{index > 0 && index % 3 === 0 && (
+							<AdRowContainer>
+								<AdComponent width={660} height={440} />
+							</AdRowContainer>
+						)}
+						{(index + 1) % 2 === 0 && (
+							<MobileBoxAdContainer>
+								<AdComponent width={250} height={250} />
+							</MobileBoxAdContainer>
+						)}
+						{(index + 1) % 4 === 0 && (
+							<MobileAdContainer>
+								<AdComponent width={320} height={100} />
+							</MobileAdContainer>
+						)}
+					</React.Fragment>
+				))}
+			</BlogPostWrapper>
 			<PaginationContainer>
 				<PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
 					Previous
