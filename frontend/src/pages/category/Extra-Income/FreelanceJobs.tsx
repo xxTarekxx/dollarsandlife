@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdComponent from "../../../components/AdComponent";
-import BlogPost from "../../../components/BlogPostCard";
+import BlogPostCard from "../../../components/BlogPostCard";
 import Breadcrumb from "../../../components/Breadcrumb";
+import { useNavigate } from "react-router-dom";
 
 const PageContainer = styled.div`
 	display: flex;
@@ -10,14 +11,6 @@ const PageContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	padding: 0 1rem;
-`;
-
-const TopNav = styled.nav`
-	width: 50%;
-	background-color: #333;
-	color: white;
-	padding: 10px;
-	text-align: center;
 `;
 
 const BreadcrumbContainer = styled.div`
@@ -136,168 +129,34 @@ const PageNumber = styled.span`
 `;
 
 const FreeLanceJobs: React.FC = () => {
+	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
+	const [currentPage, setCurrentPage] = useState(1);
+	const postsPerPage = 9;
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		document.title = "Freelance Jobs";
 	}, []);
 
-	const breadcrumbPaths = [
-		{ title: "Home", url: "/" },
-		{ title: "Extra Income ", url: "/category/extra-income" },
-		{ title: "Freelance Jobs", url: "/category/extra-income/Freelancers" },
-	];
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch("/freelancejobs.json");
+				if (!response.ok) {
+					throw new Error("Failed to fetch data");
+				}
+				const data = await response.json();
+				console.log("Fetched Data:", data);
+				setFreelanceJobs(data);
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
+		};
 
-	const freelancejob = [
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 2,
-			title: "Amazing Travel",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jane Doe",
-			datePosted: "Two days ago",
-		},
-		{
-			id: 3,
-			title: "Tech Innovations",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "John Smith",
-			datePosted: "Last week",
-		},
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 2,
-			title: "Amazing Travel",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jane Doe",
-			datePosted: "Two days ago",
-		},
-		{
-			id: 3,
-			title: "Tech Innovations",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "John Smith",
-			datePosted: "Last week",
-		},
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 2,
-			title: "Amazing Travel",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jane Doe",
-			datePosted: "Two days ago",
-		},
-		{
-			id: 3,
-			title: "Tech Innovations",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "John Smith",
-			datePosted: "Last week",
-		},
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 2,
-			title: "Amazing Travel",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jane Doe",
-			datePosted: "Two days ago",
-		},
-		{
-			id: 3,
-			title: "Tech Innovations",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "John Smith",
-			datePosted: "Last week",
-		},
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 2,
-			title: "Amazing Travel",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jane Doe",
-			datePosted: "Two days ago",
-		},
-		{
-			id: 3,
-			title: "Tech Innovations",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "John Smith",
-			datePosted: "Last week",
-		},
-		{
-			id: 1,
-			title: "Delicious Food",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jony Doe",
-			datePosted: "Yesterday",
-		},
-		{
-			id: 2,
-			title: "Amazing Travel",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "Jane Doe",
-			datePosted: "Two days ago",
-		},
-		{
-			id: 3,
-			title: "Tech Innovations",
-			imageUrl: "/blogpostimage.webp",
-			content: "Suspendisse potenti. Quisque vel lacus non nunc ",
-			author: "John Smith",
-			datePosted: "Last week",
-		},
+		fetchData();
+	}, []);
 
-		// ... (more posts)
-	];
-
-	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 9;
-	const totalPages = Math.ceil(freelancejob.length / postsPerPage);
+	const totalPages = Math.ceil(freelanceJobs.length / postsPerPage);
 
 	const handlePrevPage = () => {
 		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -311,12 +170,11 @@ const FreeLanceJobs: React.FC = () => {
 		setCurrentPage(pageNumber);
 	};
 
-	const currentPosts = freelancejob.slice(
+	const currentPosts = freelanceJobs.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
 
-	// Determine the number of columns for each row (assuming 3 columns per row)
 	const columnsPerRow = 3;
 
 	const groupedPosts = [];
@@ -324,19 +182,11 @@ const FreeLanceJobs: React.FC = () => {
 		groupedPosts.push(currentPosts.slice(i, i + columnsPerRow));
 	}
 
-	// Calculate the range of page numbers to display
-	const maxPageNumbersToShow = 5;
-	let startPageNumber = Math.max(
-		1,
-		currentPage - Math.floor(maxPageNumbersToShow / 2),
-	);
-	let endPageNumber = Math.min(
-		totalPages,
-		startPageNumber + maxPageNumbersToShow - 1,
-	);
-	if (endPageNumber - startPageNumber < maxPageNumbersToShow - 1) {
-		startPageNumber = Math.max(1, endPageNumber - maxPageNumbersToShow + 1);
-	}
+	const breadcrumbPaths = [
+		{ title: "Home", url: "/" },
+		{ title: "Extra Income", url: "/category/extra-income" },
+		{ title: "Freelance Jobs", url: "/category/extra-income/freelancers" },
+	];
 
 	return (
 		<PageContainer>
@@ -352,15 +202,20 @@ const FreeLanceJobs: React.FC = () => {
 						<AdComponent width={300} height={600} />
 					</SideAdContainer>
 					<BlogPostWrapper>
-						{row.map((freelance, index) => (
-							<React.Fragment key={freelance.id}>
-								<BlogPost
-									id={freelance.id}
-									title={freelance.title}
-									imageUrl={freelance.imageUrl}
-									content={freelance.content}
-									author={freelance.author}
-									datePosted={freelance.datePosted}
+						{row.map((freelancedata, index) => (
+							<React.Fragment key={freelancedata.id}>
+								<BlogPostCard
+									id={freelancedata.id}
+									title={freelancedata.title}
+									imageUrl={freelancedata.imageUrl}
+									content={freelancedata.content}
+									author={freelancedata.author}
+									datePosted={freelancedata.datePosted}
+									onClick={() =>
+										navigate(
+											`/category/extra-income/freelancers/${freelancedata.id}`,
+										)
+									}
 								/>
 								{(index + 1) % 3 === 0 && (
 									<MobileBoxAdContainer>
@@ -375,7 +230,6 @@ const FreeLanceJobs: React.FC = () => {
 							</React.Fragment>
 						))}
 					</BlogPostWrapper>
-
 					<SideAdContainer>
 						<AdComponent width={300} height={600} />
 					</SideAdContainer>
@@ -385,20 +239,15 @@ const FreeLanceJobs: React.FC = () => {
 				<PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
 					Previous
 				</PaginationButton>
-				{Array.from(
-					{ length: endPageNumber - startPageNumber + 1 },
-					(_, index) => (
-						<PageNumber
-							key={startPageNumber + index}
-							className={
-								currentPage === startPageNumber + index ? "active" : ""
-							}
-							onClick={() => handlePageNumberClick(startPageNumber + index)}
-						>
-							{startPageNumber + index}
-						</PageNumber>
-					),
-				)}
+				{Array.from({ length: totalPages }).map((_, index) => (
+					<PageNumber
+						key={index}
+						className={currentPage === index + 1 ? "active" : ""}
+						onClick={() => handlePageNumberClick(index + 1)}
+					>
+						{index + 1}
+					</PageNumber>
+				))}
 				<PaginationButton
 					onClick={handleNextPage}
 					disabled={currentPage === totalPages}

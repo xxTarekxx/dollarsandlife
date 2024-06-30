@@ -1,16 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-// Define types for props
 interface BreadcrumbProps {
 	paths: { title: string; url: string }[];
 }
 
-// Styled components for breadcrumb
 const BreadcrumbContainer = styled.nav`
-	background: transparent; /* Set background to transparent */
+	background: transparent;
 	padding: 10px 20px;
-	// margin: 20px 0;
 	border-radius: 4px;
 `;
 
@@ -46,13 +44,17 @@ const BreadcrumbSeparator = styled.span`
 `;
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
+	if (!paths || paths.length === 0) {
+		return null; // Return null if paths is undefined or empty
+	}
+
 	return (
 		<BreadcrumbContainer>
 			<BreadcrumbList>
 				{paths.map((path, index) => (
 					<React.Fragment key={index}>
 						<BreadcrumbItem>
-							<a href={path.url}>{path.title}</a>
+							<Link to={path.url}>{path.title}</Link>
 						</BreadcrumbItem>
 						{index < paths.length - 1 && (
 							<BreadcrumbSeparator>/</BreadcrumbSeparator>

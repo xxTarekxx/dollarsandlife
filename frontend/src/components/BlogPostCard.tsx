@@ -54,18 +54,19 @@ const Tag = styled.span`
 `;
 
 // BlogPost component props interface
-interface BlogPostProps {
-	id: number;
-	title: string;
-	imageUrl: string;
-	content: string;
-	author: string;
-	datePosted: string;
+interface BlogPostCardProps {
+	id: any;
+	title: any;
+	imageUrl: any;
+	content: any;
+	author: any;
+	datePosted: any;
+	onClick: () => void; // Ensure onClick is included in the props interface
 }
 
 // BlogPost component
 const BlogPostCard: React.FC<BlogPostProps> = memo(
-	({ id, title, imageUrl, content, author, datePosted }) => {
+	({ id, title, imageUrl, content, author, datePosted, onClick }) => {
 		return (
 			<>
 				<Card>
