@@ -62,6 +62,12 @@ const LinkBox = styled(Link)`
 	}
 `;
 
+const Caption = styled.span`
+	margin-top: 10px;
+	font-size: 1.1rem;
+	font-weight: 500;
+`;
+
 const HomePage = () => {
 	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
 	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
@@ -76,7 +82,7 @@ const HomePage = () => {
 	) => (
 		<LinkBox to={to} aria-label={ariaLabel}>
 			<img src={imgSrc} alt={altText} loading='lazy' />
-			<caption>{captionText}</caption>
+			<Caption>{captionText}</Caption>
 		</LinkBox>
 	);
 
@@ -85,22 +91,22 @@ const HomePage = () => {
 			{renderLinkBox(
 				"/category/extra-income/",
 				"Extra Income",
-				compressedPassiveIcon || PassiveIcon,
-				"Manage Finance Photo",
+				compressedExtraIncomeImage || ExtraIncomeImage,
+				"Extra Income Icon",
 				"Extra Income",
 			)}
 			{renderLinkBox(
 				"/category/deals-and-saving/deals-and-savings",
 				"Deals And Savings",
 				compressedDealsIcon || DealsIcon,
-				"Passive Income Icon",
+				"Deals And Savings Icon",
 				"Deals & Savings",
 			)}
 			{renderLinkBox(
 				"/amazon-products",
 				"Deals",
-				compressedExtraIncomeImage || ExtraIncomeImage,
-				"Deals And Saving Icon",
+				compressedPassiveIcon || PassiveIcon,
+				"Passive Income Icon",
 				"Start A Blog",
 			)}
 		</LinksContainer>
