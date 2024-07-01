@@ -1,7 +1,6 @@
 import React from "react";
 import UnderConstructionImage from "../../../assets/images/under-construction.webp";
-import Container from "../../../components/BlogPostContainer";
-
+import { PageContainer } from "../../../components/CommonStyles";
 const StartAblog: React.FC = () => {
 	const blogguide = [
 		// {
@@ -53,7 +52,7 @@ const StartAblog: React.FC = () => {
 	];
 
 	return (
-		<Container>
+		<PageContainer>
 			<img
 				src={UnderConstructionImage}
 				alt='Deals And Saving Icon'
@@ -70,7 +69,7 @@ const StartAblog: React.FC = () => {
 					datePosted={guide.datePosted}
 				/>
 			))} */}
-		</Container>
+		</PageContainer>
 	);
 };
 

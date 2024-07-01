@@ -9,15 +9,6 @@ import {
 	MobileBoxAdContainer,
 	RowContainer,
 	SectionHeading,
-	ProductCard,
-	ProductImage,
-	ProductInfo,
-	ProductTitle,
-	ProductDescription,
-	ProductPrice,
-	OriginalPrice,
-	DiscountedPrice,
-	BuyNowButton,
 } from "../../../components/CommonStyles";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
