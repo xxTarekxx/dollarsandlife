@@ -1,101 +1,29 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import {
+	PageContainer,
+	BreadcrumbContainer,
+	ContentWrapper,
+	TopAdContainer,
+	AdRowContainer,
+	MobileAdContainer,
+	MobileBoxAdContainer,
+	RowContainer,
+	SectionHeading,
+	ProductCard,
+	ProductImage,
+	ProductInfo,
+	ProductTitle,
+	ProductDescription,
+	ProductPrice,
+	OriginalPrice,
+	DiscountedPrice,
+	BuyNowButton,
+} from "../../../components/CommonStyles";
 import AdComponent from "../../../components/AdComponent";
-import BlogPostCard from "../../../components/BlogPostCard";
 import Breadcrumb from "../../../components/Breadcrumb";
-import PaginationContainer from "../../../components/PaginationContainer"; // Import the Pagination component
+import PaginationContainer from "../../../components/PaginationContainer";
+import BlogPostCard from "../../../components/BlogPostCard";
 import { Link } from "react-router-dom";
-
-const PageContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 0 1rem;
-`;
-
-const BreadcrumbContainer = styled.div`
-	width: 100%;
-	padding-top: 0px;
-`;
-
-const BlogPostWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-`;
-
-const TopAdContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	background-color: white;
-	margin-top: 2px;
-	width: 100%;
-	max-width: 728px;
-	padding: 0rem 0;
-
-	@media (max-width: 806px) {
-		width: 360px;
-		height: 120px;
-		padding: 0;
-	}
-`;
-
-const AdRowContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	max-width: 660px;
-	margin: 20px 0;
-	background-color: white;
-
-	@media (max-width: 806px) {
-		display: none;
-	}
-`;
-
-const MobileAdContainer = styled.div`
-	display: none;
-	justify-content: center;
-	background-color: white;
-	width: 320px;
-	height: 100px;
-	margin: 20px 0;
-
-	@media (max-width: 806px) {
-		display: flex;
-	}
-`;
-
-const MobileBoxAdContainer = styled.div`
-	display: none;
-	justify-content: center;
-	background-color: white;
-	width: 250px;
-	height: 250px;
-	margin: 20px 0;
-
-	@media (max-width: 806px) {
-		display: flex;
-	}
-`;
-
-const RowContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	max-width: 800px;
-	align-items: center;
-	margin-bottom: 20px;
-`;
-
-const SectionHeading = styled.h2`
-	font-size: 2rem;
-	color: #333;
-	margin: 20px 0;
-	text-align: center;
-`;
 
 const FreeLanceJobs: React.FC = () => {
 	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
@@ -151,7 +79,7 @@ const FreeLanceJobs: React.FC = () => {
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
 			<SectionHeading>Freelance Job Opportunities</SectionHeading>
-			<BlogPostWrapper>
+			<ContentWrapper>
 				{currentPosts.map((freelancedata, index) => (
 					<React.Fragment key={freelancedata.id}>
 						<RowContainer>
@@ -185,7 +113,7 @@ const FreeLanceJobs: React.FC = () => {
 						)}
 					</React.Fragment>
 				))}
-			</BlogPostWrapper>
+			</ContentWrapper>
 			<PaginationContainer
 				totalItems={freelanceJobs.length}
 				itemsPerPage={postsPerPage}

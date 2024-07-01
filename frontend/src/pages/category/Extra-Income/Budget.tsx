@@ -1,104 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import {
+	PageContainer,
+	BreadcrumbContainer,
+	ContentWrapper,
+	TopAdContainer,
+	AdRowContainer,
+	MobileAdContainer,
+	MobileBoxAdContainer,
+	RowContainer,
+	SectionHeading,
+} from "../../../components/CommonStyles";
 import AdComponent from "../../../components/AdComponent";
-import BlogPostCard from "../../../components/BlogPostCard";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
+import BlogPostCard from "../../../components/BlogPostCard";
 import { Link } from "react-router-dom";
 
-const PageContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 0 1rem;
-`;
-
-const BreadcrumbContainer = styled.div`
-	width: 100%;
-	padding-top: 0px;
-`;
-
-const BlogPostWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-`;
-
-const TopAdContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	background-color: white;
-	margin-top: 2px;
-	width: 100%;
-	max-width: 728px;
-	padding: 0rem 0;
-
-	@media (max-width: 806px) {
-		width: 360px;
-		height: 120px;
-		padding: 0;
-	}
-`;
-
-const AdRowContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	max-width: 660px;
-	margin: 20px 0;
-	background-color: white;
-
-	@media (max-width: 806px) {
-		display: none;
-	}
-`;
-
-const MobileAdContainer = styled.div`
-	display: none;
-	justify-content: center;
-	background-color: white;
-	width: 320px;
-	height: 100px;
-	margin: 20px 0;
-
-	@media (max-width: 806px) {
-		display: flex;
-	}
-`;
-
-const MobileBoxAdContainer = styled.div`
-	display: none;
-	justify-content: center;
-	background-color: white;
-	width: 250px;
-	height: 250px;
-	margin: 20px 0;
-
-	@media (max-width: 806px) {
-		display: flex;
-	}
-`;
-
-const RowContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	max-width: 800px;
-	align-items: center;
-	margin-bottom: 20px;
-`;
-
-const SectionHeading = styled.h2`
-	font-size: 2rem;
-	color: #333;
-	margin: 20px 0;
-	text-align: center;
-`;
-
-const Budgetting: React.FC = () => {
-	const [budget, setBudget] = useState<any[]>([]);
+const Budget: React.FC = () => {
+	const [budgetPosts, setBudgetPosts] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -116,7 +35,7 @@ const Budgetting: React.FC = () => {
 				}
 				const data = await response.json();
 				console.log("Fetched Data:", data);
-				setBudget(data);
+				setBudgetPosts(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -131,7 +50,7 @@ const Budgetting: React.FC = () => {
 		}
 	}, [currentPage]);
 
-	const currentPosts = budget.slice(
+	const currentPosts = budgetPosts.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
@@ -139,7 +58,7 @@ const Budgetting: React.FC = () => {
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
 		{ title: "Extra Income", url: "/category/extra-income" },
-		{ title: "Budgetting", url: "/category/extra-income/Budgetting" },
+		{ title: "Budget", url: "/category/extra-income/budget" },
 	];
 
 	return (
@@ -151,18 +70,18 @@ const Budgetting: React.FC = () => {
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
 			<SectionHeading>Budgeting Guides</SectionHeading>
-			<BlogPostWrapper>
-				{currentPosts.map((budget, index) => (
-					<React.Fragment key={budget.id}>
+			<ContentWrapper>
+				{currentPosts.map((budgetData, index) => (
+					<React.Fragment key={budgetData.id}>
 						<RowContainer>
-							<Link to={`/category/extra-income/Budgetting/${budget.id}`}>
+							<Link to={`/category/extra-income/budget/${budgetData.id}`}>
 								<BlogPostCard
-									id={budget.id}
-									title={budget.title}
-									imageUrl={budget.imageUrl}
-									content={budget.content}
-									author={budget.author}
-									datePosted={budget.datePosted}
+									id={budgetData.id}
+									title={budgetData.title}
+									imageUrl={budgetData.imageUrl}
+									content={budgetData.content}
+									author={budgetData.author}
+									datePosted={budgetData.datePosted}
 								/>
 							</Link>
 						</RowContainer>
@@ -183,9 +102,9 @@ const Budgetting: React.FC = () => {
 						)}
 					</React.Fragment>
 				))}
-			</BlogPostWrapper>
+			</ContentWrapper>
 			<PaginationContainer
-				totalItems={budget.length}
+				totalItems={budgetPosts.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
@@ -194,4 +113,4 @@ const Budgetting: React.FC = () => {
 	);
 };
 
-export default Budgetting;
+export default Budget;

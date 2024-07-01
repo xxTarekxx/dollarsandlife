@@ -36,14 +36,14 @@ const PageNumber = styled.span`
 	}
 `;
 
-interface PaginationContainerProps {
+interface PaginationProps {
 	totalItems: number;
 	itemsPerPage: number;
 	currentPage: number;
-	setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+	setCurrentPage: (pageNumber: number) => void;
 }
 
-const PaginationContainer: React.FC<PaginationContainerProps> = ({
+const PaginationContainer: React.FC<PaginationProps> = ({
 	totalItems,
 	itemsPerPage,
 	currentPage,
