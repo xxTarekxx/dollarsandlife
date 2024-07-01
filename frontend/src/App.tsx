@@ -5,15 +5,15 @@ import BlogPostContent from "./components/BlogPostContent";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
+import MyStory from "./pages/MyStory";
 import Budget from "./pages/category/Extra-Income/Budget";
 import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
+import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSavings";
 import SideHustles from "./pages/category/Extra-Income/SideHustles";
-import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSaving";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
-import MyStory from "./pages/MyStory";
 
 const App: React.FC = () => {
 	return (
@@ -39,10 +39,7 @@ const App: React.FC = () => {
 					path='/category/extra-income/money-making-apps'
 					element={<MoneyMakingApps />}
 				/>
-				<Route
-					path='/category/deals-and-saving/deals-and-savings'
-					element={<DealsAndSavings />}
-				/>
+				<Route path='/deals-and-savings' element={<DealsAndSavings />} />
 				<Route
 					path='/category/extra-income/start-a-blog'
 					element={<StartAblog />}
