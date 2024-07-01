@@ -34,7 +34,6 @@ const DealsAndSavings: React.FC = () => {
 					throw new Error("Failed to fetch data");
 				}
 				const data = await response.json();
-				console.log("Fetched Data:", data);
 				setDeals(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -84,9 +83,9 @@ const DealsAndSavings: React.FC = () => {
 									id={dealData.id}
 									title={dealData.title}
 									imageUrl={dealData.imageUrl}
-									content={dealData.description}
-									author={dealData.affiliateLink}
-									datePosted={dealData.discountedPrice}
+									content={dealData.content}
+									author={dealData.author}
+									datePosted={dealData.datePosted}
 								/>
 							</Link>
 						</RowContainer>

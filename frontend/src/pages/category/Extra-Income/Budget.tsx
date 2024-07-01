@@ -34,7 +34,6 @@ const Budget: React.FC = () => {
 					throw new Error("Failed to fetch data");
 				}
 				const data = await response.json();
-				console.log("Fetched Data:", data);
 				setBudgetPosts(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -69,7 +68,7 @@ const Budget: React.FC = () => {
 			<TopAdContainer>
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
-			<SectionHeading>Budgeting Guides</SectionHeading>
+			<SectionHeading>Budget Guides</SectionHeading>
 			<ContentWrapper>
 				{currentPosts.map((budgetData, index) => (
 					<React.Fragment key={budgetData.id}>

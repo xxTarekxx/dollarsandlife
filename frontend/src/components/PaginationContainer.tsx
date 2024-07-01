@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const PaginationWrapper = styled.div`
+const PaginationWrapper = styled.nav`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -36,14 +36,14 @@ const PageNumber = styled.span`
 	}
 `;
 
-interface PaginationProps {
+interface PaginationContainerProps {
 	totalItems: number;
 	itemsPerPage: number;
 	currentPage: number;
-	setCurrentPage: (pageNumber: number) => void;
+	setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const PaginationContainer: React.FC<PaginationProps> = ({
+const PaginationContainer: React.FC<PaginationContainerProps> = ({
 	totalItems,
 	itemsPerPage,
 	currentPage,
@@ -52,11 +52,15 @@ const PaginationContainer: React.FC<PaginationProps> = ({
 	const totalPages = Math.ceil(totalItems / itemsPerPage);
 
 	const handlePrevPage = () => {
-		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+		if (currentPage > 1) {
+			setCurrentPage(currentPage - 1);
+		}
 	};
 
 	const handleNextPage = () => {
-		setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+		if (currentPage < totalPages) {
+			setCurrentPage(currentPage + 1);
+		}
 	};
 
 	const handlePageNumberClick = (pageNumber: number) => {
@@ -64,8 +68,12 @@ const PaginationContainer: React.FC<PaginationProps> = ({
 	};
 
 	return (
-		<PaginationWrapper>
-			<PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
+		<PaginationWrapper aria-label='Page navigation'>
+			<PaginationButton
+				onClick={handlePrevPage}
+				disabled={currentPage === 1}
+				aria-label='Previous page'
+			>
 				Previous
 			</PaginationButton>
 			{Array.from({ length: totalPages }).map((_, index) => (
@@ -73,6 +81,7 @@ const PaginationContainer: React.FC<PaginationProps> = ({
 					key={index}
 					className={currentPage === index + 1 ? "active" : ""}
 					onClick={() => handlePageNumberClick(index + 1)}
+					aria-label={`Page ${index + 1}`}
 				>
 					{index + 1}
 				</PageNumber>
@@ -80,6 +89,7 @@ const PaginationContainer: React.FC<PaginationProps> = ({
 			<PaginationButton
 				onClick={handleNextPage}
 				disabled={currentPage === totalPages}
+				aria-label='Next page'
 			>
 				Next
 			</PaginationButton>

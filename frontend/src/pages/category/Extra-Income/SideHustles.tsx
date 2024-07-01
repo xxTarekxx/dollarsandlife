@@ -34,7 +34,6 @@ const SideHustles: React.FC = () => {
 					throw new Error("Failed to fetch data");
 				}
 				const data = await response.json();
-				console.log("Fetched Data:", data);
 				setSideHustles(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -71,19 +70,17 @@ const SideHustles: React.FC = () => {
 			</TopAdContainer>
 			<SectionHeading>Side Hustles</SectionHeading>
 			<ContentWrapper>
-				{currentPosts.map((sideHustleData, index) => (
-					<React.Fragment key={sideHustleData.id}>
+				{currentPosts.map((hustleData, index) => (
+					<React.Fragment key={hustleData.id}>
 						<RowContainer>
-							<Link
-								to={`/category/extra-income/side-hustles/${sideHustleData.id}`}
-							>
+							<Link to={`/category/extra-income/side-hustles/${hustleData.id}`}>
 								<BlogPostCard
-									id={sideHustleData.id}
-									title={sideHustleData.title}
-									imageUrl={sideHustleData.imageUrl}
-									content={sideHustleData.content}
-									author={sideHustleData.author}
-									datePosted={sideHustleData.datePosted}
+									id={hustleData.id}
+									title={hustleData.title}
+									imageUrl={hustleData.imageUrl}
+									content={hustleData.content}
+									author={hustleData.author}
+									datePosted={hustleData.datePosted}
 								/>
 							</Link>
 						</RowContainer>

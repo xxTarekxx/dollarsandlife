@@ -17,7 +17,7 @@ import BlogPostCard from "../../../components/BlogPostCard";
 import { Link } from "react-router-dom";
 
 const RemoteOnlineJobs: React.FC = () => {
-	const [jobs, setJobs] = useState<any[]>([]);
+	const [remoteJobs, setRemoteJobs] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -29,13 +29,12 @@ const RemoteOnlineJobs: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/remoteonlinejobs.json");
+				const response = await fetch("/remotejobs.json");
 				if (!response.ok) {
 					throw new Error("Failed to fetch data");
 				}
 				const data = await response.json();
-				console.log("Fetched Data:", data);
-				setJobs(data);
+				setRemoteJobs(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -50,7 +49,7 @@ const RemoteOnlineJobs: React.FC = () => {
 		}
 	}, [currentPage]);
 
-	const currentPosts = jobs.slice(
+	const currentPosts = remoteJobs.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
@@ -109,7 +108,7 @@ const RemoteOnlineJobs: React.FC = () => {
 				))}
 			</ContentWrapper>
 			<PaginationContainer
-				totalItems={jobs.length}
+				totalItems={remoteJobs.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}

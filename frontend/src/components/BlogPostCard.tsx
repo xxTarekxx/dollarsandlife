@@ -38,7 +38,9 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 					<CardDate>{datePosted}</CardDate>
 				</div>
 				<CardText>{content}</CardText>
-				<ReadMoreButton>Read More</ReadMoreButton>
+				<ReadMoreButton href='#' aria-label={`Read more about ${title}`}>
+					Read More
+				</ReadMoreButton>
 			</CardContent>
 		</CardContainer>
 	);

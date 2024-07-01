@@ -8,12 +8,12 @@ export const PageContainer = styled.div`
 	padding: 0 1rem;
 `;
 
-export const BreadcrumbContainer = styled.div`
+export const BreadcrumbContainer = styled.nav`
 	width: 100%;
 	padding-top: 0px;
 `;
 
-export const ContentWrapper = styled.div`
+export const ContentWrapper = styled.section`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -91,7 +91,7 @@ export const SectionHeading = styled.h2`
 	text-align: center;
 `;
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.article`
 	background: #fff;
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -166,7 +166,7 @@ export const CardText = styled.p`
 	line-height: 1.5;
 `;
 
-export const ReadMoreButton = styled.button`
+export const ReadMoreButton = styled.a`
 	background-color: #007bff;
 	color: white;
 	border: none;
@@ -176,6 +176,8 @@ export const ReadMoreButton = styled.button`
 	cursor: pointer;
 	transition: background-color 0.3s;
 	align-self: flex-start; /* Align to the left */
+	text-decoration: none;
+	text-align: center;
 
 	&:hover {
 		background-color: #0056b3;
