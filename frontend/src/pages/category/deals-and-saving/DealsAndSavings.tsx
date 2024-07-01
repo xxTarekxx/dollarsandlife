@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
+import PaginationContainer from "../../../components/PaginationContainer";
 import { Link } from "react-router-dom";
 
 const PageContainer = styled.div`
@@ -81,52 +82,18 @@ const MobileBoxAdContainer = styled.div`
 
 const RowContainer = styled.div`
 	display: flex;
-	flex-direction: row;
-	justify-content: center;
+	flex-direction: column;
 	width: 100%;
-	max-width: 1200px;
+	max-width: 800px;
 	align-items: center;
 	margin-bottom: 20px;
-
-	@media (max-width: 806px) {
-		flex-direction: column;
-		align-items: center;
-	}
 `;
 
-const PaginationContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
+const SectionHeading = styled.h2`
+	font-size: 2rem;
+	color: #333;
 	margin: 20px 0;
-`;
-
-const PaginationButton = styled.button`
-	padding: 10px 20px;
-	margin: 0 5px;
-	background-color: #333;
-	color: white;
-	border: none;
-	cursor: pointer;
-
-	&:disabled {
-		background-color: #ddd;
-		color: #666;
-		cursor: not-allowed;
-	}
-`;
-
-const PageNumber = styled.span`
-	display: inline-block;
-	padding: 10px;
-	margin: 0 5px;
-	background-color: #333;
-	color: white;
-	cursor: pointer;
-
-	&.active {
-		background-color: #666;
-	}
+	text-align: center;
 `;
 
 const ProductCard = styled.div`
@@ -204,8 +171,8 @@ interface ProductProps {
 	title: string;
 	imageUrl: string;
 	description: string;
-	originalPrice: number;
-	discountedPrice: number;
+	originalPrice: string;
+	discountedPrice: string;
 	affiliateLink: string;
 }
 
@@ -274,33 +241,18 @@ const DealsAndSavings: React.FC = () => {
 		}
 	}, [currentPage]);
 
-	const totalPages = Math.ceil(products.length / postsPerPage);
-
-	const handlePrevPage = () => {
-		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-	};
-
-	const handleNextPage = () => {
-		setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-	};
-
-	const handlePageNumberClick = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
-	};
-
 	const currentPosts = products.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
 
-	const groupedPosts = [];
-	for (let i = 0; i < currentPosts.length; i += 3) {
-		groupedPosts.push(currentPosts.slice(i, i + 3));
-	}
-
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
-		{ title: "Deals and Savings", url: "/deals-and-savings" },
+		{ title: "Extra Income", url: "/category/extra-income" },
+		{
+			title: "Deals and Savings",
+			url: "/category/extra-income/deals-and-savings",
+		},
 	];
 
 	return (
@@ -311,25 +263,24 @@ const DealsAndSavings: React.FC = () => {
 			<TopAdContainer>
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
+			<SectionHeading>Deals and Savings</SectionHeading>
 			<ProductsGrid>
-				{groupedPosts.map((row, rowIndex) => (
-					<React.Fragment key={rowIndex}>
+				{currentPosts.map((product, index) => (
+					<React.Fragment key={product.id}>
 						<RowContainer>
-							{row.map((product) => (
-								<ProductComponent {...product} key={product.id} />
-							))}
+							<ProductComponent {...product} />
 						</RowContainer>
-						{rowIndex % 2 === 0 && (
+						{index > 0 && index % 2 === 0 && (
 							<AdRowContainer>
 								<AdComponent width={660} height={440} />
 							</AdRowContainer>
 						)}
-						{rowIndex % 2 === 0 && (
+						{index % 2 === 0 && (
 							<MobileBoxAdContainer>
 								<AdComponent width={250} height={250} />
 							</MobileBoxAdContainer>
 						)}
-						{rowIndex % 4 === 0 && (
+						{index % 4 === 0 && (
 							<MobileAdContainer>
 								<AdComponent width={320} height={100} />
 							</MobileAdContainer>
@@ -337,26 +288,12 @@ const DealsAndSavings: React.FC = () => {
 					</React.Fragment>
 				))}
 			</ProductsGrid>
-			<PaginationContainer>
-				<PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
-					Previous
-				</PaginationButton>
-				{Array.from({ length: totalPages }).map((_, index) => (
-					<PageNumber
-						key={index}
-						className={currentPage === index + 1 ? "active" : ""}
-						onClick={() => handlePageNumberClick(index + 1)}
-					>
-						{index + 1}
-					</PageNumber>
-				))}
-				<PaginationButton
-					onClick={handleNextPage}
-					disabled={currentPage === totalPages}
-				>
-					Next
-				</PaginationButton>
-			</PaginationContainer>
+			<PaginationContainer
+				totalItems={products.length}
+				itemsPerPage={postsPerPage}
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+			/>
 		</PageContainer>
 	);
 };

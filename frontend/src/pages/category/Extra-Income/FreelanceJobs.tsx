@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AdComponent from "../../../components/AdComponent";
 import BlogPostCard from "../../../components/BlogPostCard";
 import Breadcrumb from "../../../components/Breadcrumb";
+import PaginationContainer from "../../../components/PaginationContainer"; // Import the Pagination component
 import { Link } from "react-router-dom";
 
 const PageContainer = styled.div`
@@ -89,41 +90,6 @@ const RowContainer = styled.div`
 	margin-bottom: 20px;
 `;
 
-const PaginationContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 20px 0;
-`;
-
-const PaginationButton = styled.button`
-	padding: 10px 20px;
-	margin: 0 5px;
-	background-color: #333;
-	color: white;
-	border: none;
-	cursor: pointer;
-
-	&:disabled {
-		background-color: #ddd;
-		color: #666;
-		cursor: not-allowed;
-	}
-`;
-
-const PageNumber = styled.span`
-	display: inline-block;
-	padding: 10px;
-	margin: 0 5px;
-	background-color: #333;
-	color: white;
-	cursor: pointer;
-
-	&.active {
-		background-color: #666;
-	}
-`;
-
 const SectionHeading = styled.h2`
 	font-size: 2rem;
 	color: #333;
@@ -164,20 +130,6 @@ const FreeLanceJobs: React.FC = () => {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
-
-	const totalPages = Math.ceil(freelanceJobs.length / postsPerPage);
-
-	const handlePrevPage = () => {
-		setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-	};
-
-	const handleNextPage = () => {
-		setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-	};
-
-	const handlePageNumberClick = (pageNumber: number) => {
-		setCurrentPage(pageNumber);
-	};
 
 	const currentPosts = freelanceJobs.slice(
 		(currentPage - 1) * postsPerPage,
@@ -221,12 +173,12 @@ const FreeLanceJobs: React.FC = () => {
 								<AdComponent width={660} height={440} />
 							</AdRowContainer>
 						)}
-						{(index + 1) % 2 === 0 && (
+						{index % 2 === 0 && (
 							<MobileBoxAdContainer>
 								<AdComponent width={250} height={250} />
 							</MobileBoxAdContainer>
 						)}
-						{(index + 1) % 4 === 0 && (
+						{index % 4 === 0 && (
 							<MobileAdContainer>
 								<AdComponent width={320} height={100} />
 							</MobileAdContainer>
@@ -234,26 +186,12 @@ const FreeLanceJobs: React.FC = () => {
 					</React.Fragment>
 				))}
 			</BlogPostWrapper>
-			<PaginationContainer>
-				<PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
-					Previous
-				</PaginationButton>
-				{Array.from({ length: totalPages }).map((_, index) => (
-					<PageNumber
-						key={index}
-						className={currentPage === index + 1 ? "active" : ""}
-						onClick={() => handlePageNumberClick(index + 1)}
-					>
-						{index + 1}
-					</PageNumber>
-				))}
-				<PaginationButton
-					onClick={handleNextPage}
-					disabled={currentPage === totalPages}
-				>
-					Next
-				</PaginationButton>
-			</PaginationContainer>
+			<PaginationContainer
+				totalItems={freelanceJobs.length}
+				itemsPerPage={postsPerPage}
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+			/>
 		</PageContainer>
 	);
 };
