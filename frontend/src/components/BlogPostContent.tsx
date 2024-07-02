@@ -50,7 +50,7 @@ const BlogParagraph = styled.p`
 const BlogImage = styled.img`
 	width: 100%;
 	max-width: 660px;
-	height: auto;
+	height: 440px;
 	object-fit: cover;
 	margin: 1em auto; /* Center the image */
 	display: block; /* Center the image */
