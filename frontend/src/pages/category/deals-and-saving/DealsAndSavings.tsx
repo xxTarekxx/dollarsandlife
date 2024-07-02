@@ -129,10 +129,9 @@ const DealsAndSavings: React.FC = () => {
 
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
-		{ title: "Extra Income", url: "/category/extra-income" },
 		{
 			title: "Deals and Savings",
-			url: "/category/extra-income/deals-and-savings",
+			url: "/deals-and-savings",
 		},
 	];
 

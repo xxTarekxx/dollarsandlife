@@ -2,17 +2,24 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import useCompressedImage from "../../../components/compressed/useCompressedImage";
+import Breadcrumb from "../../../components/Breadcrumb";
 import ExtraIncomeImage from "../../../assets/images/icons/extra-income-icon.webp";
 import PassiveIcon from "../../../assets/images/icons/passive-income.png";
 import DealsIcon from "../../../assets/images/icons/deal-and-savings-icon.webp";
-import Breadcrumb from "../../../components/Breadcrumb";
+import { PageContainer } from "../../../components/CommonStyles";
+import {
+	TopAdContainer,
+	AdRowContainer,
+	ContentWrapper,
+} from "../../../components/CommonStyles";
+import AdComponent from "../../../components/AdComponent";
 
-const PageContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	overflow: hidden; /* add this line */
-`;
+// const PageContainer = styled.div`
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	overflow: hidden;
+// `;
 
 const LinksContainer = styled.div`
 	max-width: 1280px;
@@ -45,10 +52,10 @@ const LinkBox = styled(Link)`
 	align-items: center;
 	justify-content: center;
 	background: white;
-	font-size: 22px;
+	font-size: 1.4rem;
 	border-radius: 20px;
-	box-sizing: border-box; /* add this line */
-	margin: 0.5% 2%; /* adjust this line, reduce the margin */
+	box-sizing: border-box;
+	margin: 0.5% 2%;
 	color: black;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
 		rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
@@ -61,8 +68,12 @@ const LinkBox = styled(Link)`
 		animation-iteration-count: 1;
 	}
 
+	&:hover figcaption {
+		color: #7600ff;
+	}
+
 	&:focus {
-		outline: 3px solid #7600ff; /* Focus state for keyboard navigation */
+		outline: 3px solid #7600ff;
 	}
 
 	@media (max-width: 768px) {
@@ -78,11 +89,9 @@ const LinkBox = styled(Link)`
 
 const Figcaption = styled.figcaption`
 	color: black;
-	transition: color 0.3s ease-in-out;
 
-	&:hover {
-		color: #7600ff;
-	}
+	transition: color 0.3s ease-in-out;
+	padding: 10px;
 `;
 
 const ExtraIncome: React.FC = () => {
@@ -99,70 +108,69 @@ const ExtraIncome: React.FC = () => {
 		{ title: "Extra Income ", url: "/category/extra-income" },
 	];
 
+	const linkBoxes = [
+		{
+			to: "/category/extra-income/Freelancers",
+			ariaLabel: "Become A Freelancer",
+			imgSrc: compressedExtraIncomeImage || ExtraIncomeImage,
+			altText: "Manage Finance Photo",
+			captionText: "Become A Freelancer",
+		},
+		{
+			to: "/category/extra-income/Budgetting",
+			ariaLabel: "Budgetting Guides",
+			imgSrc: compressedPassiveIcon || PassiveIcon,
+			altText: "Passive Income Icon",
+			captionText: "Budgeting",
+		},
+		{
+			to: "/category/extra-income/Remote-Jobs",
+			ariaLabel: "Deals",
+			imgSrc: compressedDealsIcon || DealsIcon,
+			altText: "Deals And Saving Icon",
+			captionText: "Remote Jobs",
+		},
+		{
+			to: "/category/extra-income/Side-Hustles",
+			ariaLabel: "Deals",
+			imgSrc: compressedDealsIcon || DealsIcon,
+			altText: "Deals And Saving Icon",
+			captionText: "Side Hustles",
+		},
+		{
+			to: "/category/extra-income/money-making-apps",
+			ariaLabel: "Deals",
+			imgSrc: compressedDealsIcon || DealsIcon,
+			altText: "Deals And Saving Icon",
+			captionText: "Make Money On Apps",
+		},
+		{
+			to: "/category/extra-income/Start-A-Blog",
+			ariaLabel: "Deals",
+			imgSrc: compressedDealsIcon || DealsIcon,
+			altText: "Deals And Saving Icon",
+			captionText: "Start A Blog",
+		},
+	];
+
 	return (
 		<PageContainer>
 			<BreadcrumbContainer>
 				<Breadcrumb paths={breadcrumbPaths} />
 			</BreadcrumbContainer>
-			<LinksContainer aria-label='Main navigation links'>
-				<LinkBox
-					to='/category/extra-income/Freelancers'
-					aria-label='Become A Freelancer'
-				>
-					<img
-						src={compressedExtraIncomeImage || ExtraIncomeImage}
-						alt='Manage Finance Photo'
-						loading='lazy'
-					/>
-					<Figcaption>Become A Freelancer</Figcaption>
-				</LinkBox>
-				<LinkBox
-					to='/category/extra-income/Budgetting'
-					aria-label='Budgetting Guides'
-				>
-					<img
-						src={compressedPassiveIcon || PassiveIcon}
-						alt='Passive Income Icon'
-						loading='lazy'
-					/>
-					<Figcaption>Budgeting</Figcaption>
-				</LinkBox>
-				<LinkBox to='/category/extra-income/Remote-Jobs' aria-label='Deals'>
-					<img
-						src={compressedDealsIcon || DealsIcon}
-						alt='Deals And Saving Icon'
-						loading='lazy'
-					/>
-					<Figcaption>Remote Jobs </Figcaption>
-				</LinkBox>
-				<LinkBox to='/category/extra-income/Side-Hustles' aria-label='Deals'>
-					<img
-						src={compressedDealsIcon || DealsIcon}
-						alt='Deals And Saving Icon'
-						loading='lazy'
-					/>
-					<Figcaption>Side Hustles</Figcaption>
-				</LinkBox>
-				<LinkBox
-					to='/category/extra-income/money-making-apps'
-					aria-label='Deals'
-				>
-					<img
-						src={compressedDealsIcon || DealsIcon}
-						alt='Deals And Saving Icon'
-						loading='lazy'
-					/>
-					<Figcaption>Make Money On Apps</Figcaption>
-				</LinkBox>
-				<LinkBox to='/category/extra-income/Start-A-Blog' aria-label='Deals'>
-					<img
-						src={compressedDealsIcon || DealsIcon}
-						alt='Deals And Saving Icon'
-						loading='lazy'
-					/>
-					<Figcaption>Start A Blog</Figcaption>
-				</LinkBox>
-			</LinksContainer>
+			<TopAdContainer>
+				<AdComponent width={728} height={90} />
+			</TopAdContainer>
+			<ContentWrapper>
+				<LinksContainer aria-label='Main navigation links'>
+					{linkBoxes.map((linkBox, index) => (
+						<LinkBox key={index} to={linkBox.to} aria-label={linkBox.ariaLabel}>
+							<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
+							<Figcaption>{linkBox.captionText}</Figcaption>
+						</LinkBox>
+					))}
+				</LinksContainer>
+			</ContentWrapper>
 		</PageContainer>
 	);
 };

@@ -7,18 +7,17 @@ const useCompressedImage = (src) => {
     useEffect(() => {
         const compressImage = async () => {
             try {
-                const img = new Image();
-                img.src = src;
-                await img.decode();  // wait until image is decoded
+                const response = await fetch(src);
+                const blob = await response.blob();
                 const options = {
                     maxSizeMB: 1,
                     maxWidthOrHeight: 1920,
                     useWebWorker: true
                 };
-                const compressedFile = await imageCompression(img, options);
+                const compressedFile = await imageCompression(blob, options);
                 setCompressedSrc(URL.createObjectURL(compressedFile));
             } catch (error) {
-                console.error(error);
+                console.error('Error compressing image:', error);
             }
         };
 

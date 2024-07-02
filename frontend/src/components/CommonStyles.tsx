@@ -85,10 +85,16 @@ export const RowContainer = styled.div`
 `;
 
 export const SectionHeading = styled.h2`
-	font-size: 2rem;
+	font-size: 1.7rem;
 	color: #333;
-	margin: 20px 0;
+	margin-bottom: 0px;
 	text-align: center;
+	padding: 0px;
+
+	@media (max-width: 768px) {
+		width: 100%;
+		font-size: 1.4em;
+	}
 `;
 
 export const CardContainer = styled.article`

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import useCompressedImage from "../components/compressed/useCompressedImage";
@@ -43,6 +43,10 @@ const LinkBox = styled(Link)`
 		animation: ${spinAnimation} 0.2s linear 1;
 	}
 
+	&:hover figcaption {
+		color: #7600ff;
+	}
+
 	&:focus {
 		outline: 3px solid #7600ff; /* Focus state for keyboard navigation */
 	}
@@ -56,19 +60,15 @@ const LinkBox = styled(Link)`
 		width: 220px;
 		height: 200px;
 	}
-
-	&:hover {
-		color: #7600ff;
-	}
 `;
 
-const Caption = styled.span`
-	margin-top: 10px;
-	font-size: 1.1rem;
-	font-weight: 500;
+const Figcaption = styled.figcaption`
+	color: black;
+	transition: color 0.3s ease-in-out;
+	padding: 20px;
 `;
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
 	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
 	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
 	const compressedDealsIcon = useCompressedImage(DealsIcon);
@@ -82,7 +82,7 @@ const HomePage = () => {
 	) => (
 		<LinkBox to={to} aria-label={ariaLabel}>
 			<img src={imgSrc} alt={altText} loading='lazy' />
-			<Caption>{captionText}</Caption>
+			<Figcaption>{captionText}</Figcaption>
 		</LinkBox>
 	);
 
@@ -92,21 +92,21 @@ const HomePage = () => {
 				"/category/extra-income/",
 				"Extra Income",
 				compressedExtraIncomeImage || ExtraIncomeImage,
-				"Extra Income Icon",
+				"Manage Finance Photo",
 				"Extra Income",
 			)}
 			{renderLinkBox(
 				"/category/deals-and-saving/deals-and-savings",
 				"Deals And Savings",
 				compressedDealsIcon || DealsIcon,
-				"Deals And Savings Icon",
+				"Passive Income Icon",
 				"Deals & Savings",
 			)}
 			{renderLinkBox(
 				"/amazon-products",
 				"Deals",
 				compressedPassiveIcon || PassiveIcon,
-				"Passive Income Icon",
+				"Deals And Saving Icon",
 				"Start A Blog",
 			)}
 		</LinksContainer>

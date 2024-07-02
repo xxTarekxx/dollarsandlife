@@ -1,6 +1,17 @@
 import React from "react";
 import UnderConstructionImage from "../../../assets/images/under-construction.webp";
+import styled from "styled-components";
 import { PageContainer } from "../../../components/CommonStyles";
+
+const BackgroundImage = styled.img`
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	object-fit: cover; /* Ensures the image covers the entire container */
+	z-index: -1; /* Places the image behind other content */
+`;
+
 const StartAblog: React.FC = () => {
 	const blogguide = [
 		// {
@@ -53,9 +64,9 @@ const StartAblog: React.FC = () => {
 
 	return (
 		<PageContainer>
-			<img
+			<BackgroundImage
 				src={UnderConstructionImage}
-				alt='Deals And Saving Icon'
+				alt='Under Construction'
 				loading='lazy'
 			/>
 			{/* {blogguide.map((guide) => (

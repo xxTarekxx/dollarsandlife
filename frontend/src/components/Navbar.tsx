@@ -141,7 +141,7 @@ const Navbar: React.FC = () => {
 			to: "/deals-and-savings",
 			text: "Deals & Saving",
 		},
-		{ to: "/category/extra-income/Start-A-Blog", text: "Start A Blog" },
+		{ to: "/Start-A-Blog", text: "Start A Blog" },
 		{ to: "/My-Story", text: "My Story" },
 	];
 
