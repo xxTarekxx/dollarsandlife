@@ -8,8 +8,9 @@ interface BreadcrumbProps {
 
 const BreadcrumbContainer = styled.nav`
 	background: transparent;
-	padding: 2px 10px;
+	padding: 2px;
 	border-radius: 4px;
+	padding-left: 28px;
 `;
 
 const BreadcrumbList = styled.ol`

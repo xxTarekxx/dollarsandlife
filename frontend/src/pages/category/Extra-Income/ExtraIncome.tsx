@@ -9,8 +9,8 @@ import DealsIcon from "../../../assets/images/icons/deal-and-savings-icon.webp";
 import { PageContainer } from "../../../components/CommonStyles";
 import {
 	TopAdContainer,
-	AdRowContainer,
 	ContentWrapper,
+	BreadcrumbContainer,
 } from "../../../components/CommonStyles";
 import AdComponent from "../../../components/AdComponent";
 
@@ -31,11 +31,11 @@ const LinksContainer = styled.div`
 	align-items: center;
 `;
 
-const BreadcrumbContainer = styled.div`
-	width: 100%;
-	padding-top: 20px;
-	padding-left: 20px;
-`;
+// const BreadcrumbContainer = styled.div`
+// 	width: 100%;
+// 	padding-top: 20px;
+// 	padding-left: 20px;
+// `;
 
 const shakeAnimation = keyframes`
   0% { transform: translateX(0); }
