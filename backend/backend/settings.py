@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -79,9 +80,9 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'dollarsandlife'),
-        'USER': os.getenv('POSTGRES_USER', 'seanpaul14'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'Ismail1407.'),
+        'NAME': 'dollarsandlife',
+        'USER': 'seanpaul14',
+        'PASSWORD': 'Ismail1407.',
         'HOST': 'db',
         'PORT': '5432',
     }

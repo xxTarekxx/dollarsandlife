@@ -3,19 +3,19 @@ FROM node:18 AS build-stage
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY package.json package-lock.json ./
+COPY package.json yarn.lock ./
 
 # Clean npm cache, remove node_modules and package-lock.json
-RUN npm cache clean --force && rm -rf node_modules package-lock.json
+RUN yarn cache clean --force && rm -rf node_modules yarn.lock
 
 # Install dependencies
-RUN npm install --verbose
+RUN yarn install --verbose
 
 # Copy the rest of the application code
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN yarn build
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.17.1-alpine
