@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: dollarsandlife
+      POSTGRES_USER: seanpaul14
+      POSTGRES_PASSWORD: Ismail1407.
+    volumes:
+      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U seanpaul14"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://seanpaul14:Ismail1407.@db:5432/dollarsandlife
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
