@@ -25,6 +25,10 @@ const ProductsGrid = styled.div`
 	justify-items: center;
 	max-width: 1280px;
 	margin: 12px 0;
+
+	@media (max-width: 806px) {
+		grid-template-columns: 1fr;
+	}
 `;
 
 const TopAdContainer = styled.div`
@@ -135,9 +139,35 @@ const DealsAndSavings: React.FC = () => {
 		},
 	];
 
-	const rows = [];
-	for (let i = 0; i < currentPosts.length; i += 3) {
-		rows.push(currentPosts.slice(i, i + 3));
+	// Insert ads into the product list at specified positions
+	const items = [];
+	for (let i = 0; i < currentPosts.length; i++) {
+		items.push(
+			<ProductCard
+				key={currentPosts[i].id}
+				id={currentPosts[i].id}
+				title={currentPosts[i].title}
+				imageUrl={currentPosts[i].imageUrl}
+				description={currentPosts[i].description}
+				originalPrice={currentPosts[i].originalPrice}
+				discountedPrice={currentPosts[i].discountedPrice}
+				affiliateLink={currentPosts[i].affiliateLink}
+			/>,
+		);
+		if ((i + 1) % 2 === 0) {
+			items.push(
+				<MobileBoxAdContainer key={`box-ad-${i}`}>
+					<AdComponent width={250} height={250} />
+				</MobileBoxAdContainer>,
+			);
+		}
+		if ((i + 1) % 3 === 0) {
+			items.push(
+				<MobileAdContainer key={`mobile-ad-${i}`}>
+					<AdComponent width={320} height={100} />
+				</MobileAdContainer>,
+			);
+		}
 	}
 
 	return (
@@ -149,39 +179,7 @@ const DealsAndSavings: React.FC = () => {
 				<AdComponent width={728} height={90} />
 			</TopAdContainer>
 			<SectionHeading>Deals and Savings</SectionHeading>
-			{rows.map((row, rowIndex) => (
-				<React.Fragment key={rowIndex}>
-					<ProductsGrid>
-						{row.map((productData) => (
-							<ProductCard
-								key={productData.id}
-								id={productData.id}
-								title={productData.title}
-								imageUrl={productData.imageUrl}
-								description={productData.description}
-								originalPrice={productData.originalPrice}
-								discountedPrice={productData.discountedPrice}
-								affiliateLink={productData.affiliateLink}
-							/>
-						))}
-					</ProductsGrid>
-					{(rowIndex + 1) % 2 === 0 && (
-						<AdRowContainer>
-							<AdComponent width={660} height={440} />
-						</AdRowContainer>
-					)}
-					{(rowIndex + 1) % 2 === 0 && (
-						<MobileBoxAdContainer>
-							<AdComponent width={250} height={250} />
-						</MobileBoxAdContainer>
-					)}
-					{(rowIndex + 1) % 2 === 0 && (
-						<MobileAdContainer>
-							<AdComponent width={320} height={100} />
-						</MobileAdContainer>
-					)}
-				</React.Fragment>
-			))}
+			<ProductsGrid>{items}</ProductsGrid>
 			<PaginationContainer
 				totalItems={products.length}
 				itemsPerPage={postsPerPage}
