@@ -1,12 +1,11 @@
-version: '3.9'
 
 services:
   db:
     image: postgres:13
     environment:
       POSTGRES_DB: dollarsandlife
-      POSTGRES_USER: seanpaul14
-      POSTGRES_PASSWORD: Ismail1407.
+      POSTGRES_USER: sean
+      POSTGRES_PASSWORD: paul12
     volumes:
       - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
@@ -15,32 +14,13 @@ services:
   backend:
     build:
       context: ./backend
-    command: >
-      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./backend:/app
+      - ./backend:/backend
     ports:
       - "8000:8000"
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://seanpaul14:Ismail1407.@db:5432/dollarsandlife
-
-  frontend:
-    build:
-      context: ./frontend
-    volumes:
-      - ./frontend:/app
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
-
-  nginx:
-    build:
-      context: ./frontend/nginx
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - frontend
+      DATABASE_URL: postgres://sean:paul12@db:5432/dollarsandlife
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
