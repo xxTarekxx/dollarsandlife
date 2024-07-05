@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import useCompressedImage from "../components/compressed/useCompressedImage";
-import ExtraIncomeImage from "../assets/images/icons/extra-income-icon.webp";
-import PassiveIcon from "../assets/images/icons/passive-income.png";
-import DealsIcon from "../assets/images/icons/deal-and-savings-icon.webp";
+import ExtraIncomeImg from "../assets/images/icons/img-extraincome.webp";
+import StartAblogimg from "../assets/images/icons/img-startablog.webp";
+import DealsAndSavingimg from "../assets/images/icons/img-dealsandsavings.webp";
 
 const LinksContainer = styled.div`
 	width: 100%;
-	margin: 9% auto;
+	margin: 12% auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -69,9 +69,9 @@ const Figcaption = styled.figcaption`
 `;
 
 const HomePage: React.FC = () => {
-	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
-	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
-	const compressedDealsIcon = useCompressedImage(DealsIcon);
+	const compressedExtraIncomeImg = useCompressedImage(ExtraIncomeImg);
+	const compressedStartAblogimg = useCompressedImage(StartAblogimg);
+	const compressedDealsAndSavingimg = useCompressedImage(DealsAndSavingimg);
 
 	const renderLinkBox = (
 		to: string,
@@ -91,21 +91,21 @@ const HomePage: React.FC = () => {
 			{renderLinkBox(
 				"/category/extra-income/",
 				"Extra Income",
-				compressedExtraIncomeImage || ExtraIncomeImage,
+				compressedExtraIncomeImg || ExtraIncomeImg,
 				"Manage Finance Photo",
 				"Extra Income",
 			)}
 			{renderLinkBox(
-				"/category/deals-and-saving/deals-and-savings",
+				"/deals-and-savings",
 				"Deals And Savings",
-				compressedDealsIcon || DealsIcon,
+				compressedDealsAndSavingimg || DealsAndSavingimg,
 				"Passive Income Icon",
 				"Deals & Savings",
 			)}
 			{renderLinkBox(
 				"/amazon-products",
 				"Deals",
-				compressedPassiveIcon || PassiveIcon,
+				compressedStartAblogimg || StartAblogimg,
 				"Deals And Saving Icon",
 				"Start A Blog",
 			)}

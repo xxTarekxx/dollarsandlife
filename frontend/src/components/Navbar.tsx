@@ -5,13 +5,14 @@ import logo from "../assets/images/website-logo.webp";
 import SearchImg from "../assets/images/favcons/searchicon.svg";
 
 const Nav = styled.nav`
-	background: White;
+	background: white;
 	height: 60px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-radius: 20px;
+	border-bottom: 4px solid #971ae1;
 	position: sticky;
 	top: 0;
 	padding: 1rem 1.5em;

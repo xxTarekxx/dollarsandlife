@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import useCompressedImage from "../../../components/compressed/useCompressedImage";
 import Breadcrumb from "../../../components/Breadcrumb";
-import ExtraIncomeImage from "../../../assets/images/icons/extra-income-icon.webp";
-import PassiveIcon from "../../../assets/images/icons/passive-income.png";
-import DealsIcon from "../../../assets/images/icons/deal-and-savings-icon.webp";
+import ExtraIncomeImg from "../../../assets/images/icons/img-extraincome.webp";
+import Budgettingimg from "../../../assets/images/icons/img-budgetting.webp";
+import DealsAndSavingimg from "../../../assets/images/icons/img-dealsandsavings.webp";
+import FreeLancerimg from "../../../assets/images/icons/img-freelancer.webp";
+import RemoteJobimg from "../../../assets/images/icons/img-remotejobs.webp";
+import SideHustlesimg from "../../../assets/images/icons/img-sidehustles.webp";
+import MoneyMakingAppsimg from "../../../assets/images/icons/img-moneymakingapps.webp";
 import { PageContainer } from "../../../components/CommonStyles";
 import {
 	TopAdContainer,
@@ -14,28 +18,15 @@ import {
 } from "../../../components/CommonStyles";
 import AdComponent from "../../../components/AdComponent";
 
-// const PageContainer = styled.div`
-// 	display: flex;
-// 	flex-direction: column;
-// 	align-items: center;
-// 	overflow: hidden;
-// `;
-
 const LinksContainer = styled.div`
 	max-width: 1280px;
 	width: 100%;
-	margin: 2% auto;
+	margin: 3% auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 `;
-
-// const BreadcrumbContainer = styled.div`
-// 	width: 100%;
-// 	padding-top: 20px;
-// 	padding-left: 20px;
-// `;
 
 const shakeAnimation = keyframes`
   0% { transform: translateX(0); }
@@ -78,6 +69,7 @@ const LinkBox = styled(Link)`
 
 	@media (max-width: 768px) {
 		width: 70%;
+		margin: 2% auto;
 	}
 
 	img {
@@ -99,9 +91,12 @@ const ExtraIncome: React.FC = () => {
 		document.title = "Extra Income";
 	}, []);
 
-	const compressedExtraIncomeImage = useCompressedImage(ExtraIncomeImage);
-	const compressedPassiveIcon = useCompressedImage(PassiveIcon);
-	const compressedDealsIcon = useCompressedImage(DealsIcon);
+	const compressedFreeLancerimg = useCompressedImage(FreeLancerimg);
+	const compressedSideHustlesimg = useCompressedImage(SideHustlesimg);
+	const compressedRemoteJobimg = useCompressedImage(RemoteJobimg);
+	const compressedMoneyMakingAppsimg = useCompressedImage(MoneyMakingAppsimg);
+	const compressedBudgettingimg = useCompressedImage(Budgettingimg);
+	const compressedDealsAndSavingimg = useCompressedImage(DealsAndSavingimg);
 
 	const breadcrumbPaths = [
 		{ title: "Home", url: "/" },
@@ -112,45 +107,45 @@ const ExtraIncome: React.FC = () => {
 		{
 			to: "/category/extra-income/Freelancers",
 			ariaLabel: "Become A Freelancer",
-			imgSrc: compressedExtraIncomeImage || ExtraIncomeImage,
+			imgSrc: compressedFreeLancerimg || FreeLancerimg,
 			altText: "Manage Finance Photo",
 			captionText: "Become A Freelancer",
 		},
 		{
 			to: "/category/extra-income/Budgetting",
 			ariaLabel: "Budgetting Guides",
-			imgSrc: compressedPassiveIcon || PassiveIcon,
+			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Passive Income Icon",
 			captionText: "Budgeting",
 		},
 		{
 			to: "/category/extra-income/Remote-Jobs",
 			ariaLabel: "Deals",
-			imgSrc: compressedDealsIcon || DealsIcon,
+			imgSrc: compressedRemoteJobimg || RemoteJobimg,
 			altText: "Deals And Saving Icon",
 			captionText: "Remote Jobs",
 		},
 		{
 			to: "/category/extra-income/Side-Hustles",
 			ariaLabel: "Deals",
-			imgSrc: compressedDealsIcon || DealsIcon,
+			imgSrc: compressedSideHustlesimg || SideHustlesimg,
 			altText: "Deals And Saving Icon",
 			captionText: "Side Hustles",
 		},
 		{
 			to: "/category/extra-income/money-making-apps",
 			ariaLabel: "Deals",
-			imgSrc: compressedDealsIcon || DealsIcon,
+			imgSrc: compressedMoneyMakingAppsimg || MoneyMakingAppsimg,
 			altText: "Deals And Saving Icon",
 			captionText: "Make Money On Apps",
 		},
-		{
-			to: "/category/extra-income/Start-A-Blog",
-			ariaLabel: "Deals",
-			imgSrc: compressedDealsIcon || DealsIcon,
-			altText: "Deals And Saving Icon",
-			captionText: "Start A Blog",
-		},
+		// {
+		// 	to: "/category/extra-income/Start-A-Blog",
+		// 	ariaLabel: "Deals",
+		// 	imgSrc: compressedDealsAndSavingimg || DealsAndSavingimg,
+		// 	altText: "Deals And Saving Icon",
+		// 	captionText: "Start A Blog",
+		// },
 	];
 
 	return (
