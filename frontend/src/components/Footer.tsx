@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,81 +6,7 @@ import {
 	faFacebook,
 	faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-
-const Container = styled.div`
-	background-color: rgba(255, 255, 255, 0.9);
-	padding: 2rem 1rem;
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-`;
-
-const SocialLink = styled.a`
-	margin: 0 1rem;
-	transition: transform 250ms;
-	display: inline-block;
-
-	&:hover {
-		transform: translateY(-2px);
-	}
-`;
-
-const SocialContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	padding-bottom: 1rem;
-`;
-
-const FooterLink = styled(Link)`
-	text-decoration: none;
-	color: black;
-	margin-bottom: 0.5rem;
-	font-weight: 500;
-	font-size: 1rem;
-	text-align: center;
-
-	&:hover {
-		color: #7600ff;
-	}
-
-	@media (max-width: 768px) {
-		font-size: 0.9rem;
-	}
-`;
-
-const FooterContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	padding: 1rem 0;
-
-	@media (max-width: 768px) {
-		flex-direction: column;
-		align-items: center;
-	}
-`;
-
-const Column = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 0px 15px;
-`;
-
-const Header = styled.h3`
-	margin-bottom: 1rem;
-	font-size: 1.05rem;
-	text-align: center;
-`;
-
-const Copyright = styled.div`
-	width: 100%;
-	text-align: center;
-	padding: 1rem 0;
-	font-size: 0.9rem;
-`;
+import "./Footer.css";
 
 const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();
@@ -137,36 +62,37 @@ const Footer: React.FC = () => {
 	];
 
 	return (
-		<Container>
-			<SocialContainer>
+		<div className='footer-container'>
+			<div className='social-container'>
 				{socialLinks.map((link, index) => (
-					<SocialLink
+					<a
 						key={index}
 						href={link.href}
 						target='_blank'
 						rel='noopener noreferrer'
+						className='social-link'
 						style={{ color: link.color }}
 					>
 						<FontAwesomeIcon icon={link.icon} style={{ fontSize: "30px" }} />
-					</SocialLink>
+					</a>
 				))}
-			</SocialContainer>
-			<FooterContainer>
+			</div>
+			<div className='main-footer-container'>
 				{footerLinks.map((column, index) => (
-					<Column key={index}>
-						<Header>{column.header}</Header>
+					<div className='column' key={index}>
+						<h3 className='header'>{column.header}</h3>
 						{column.links.map((link, linkIndex) => (
-							<FooterLink key={linkIndex} to={link.to}>
+							<Link key={linkIndex} to={link.to} className='footer-link'>
 								{link.text}
-							</FooterLink>
+							</Link>
 						))}
-					</Column>
+					</div>
 				))}
-			</FooterContainer>
-			<Copyright>
+			</div>
+			<div className='copyright'>
 				© {currentYear} All Rights Reserved Texas Connect LLC
-			</Copyright>
-		</Container>
+			</div>
+		</div>
 	);
 };
 
