@@ -1,134 +1,8 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/images/website-logo.webp";
 import SearchImg from "../assets/images/favcons/searchicon.svg";
-
-const Nav = styled.nav`
-	background: white;
-	height: 60px;
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-radius: 20px;
-	border-bottom: 4px solid #971ae1;
-	position: sticky;
-	top: 0;
-	padding: 1rem 1.5em;
-	box-sizing: border-box;
-
-	@media (max-width: 768px) {
-		padding: 0 1em;
-	}
-`;
-
-const Logo = styled.img`
-	padding-left: 15px;
-	width: 220px;
-	height: 40px;
-	cursor: pointer;
-`;
-
-const Hamburger = styled.div`
-	display: none;
-	flex-direction: column;
-	cursor: pointer;
-
-	div {
-		width: 25px;
-		height: 2px;
-		background: #000;
-		margin-bottom: 4px;
-		border-radius: 5px;
-	}
-
-	@media (max-width: 768px) {
-		display: flex;
-	}
-`;
-
-const Menu = styled.div<{ open: boolean }>`
-	display: flex;
-	align-items: center;
-	transition: all 0.3s ease-in-out;
-
-	@media (max-width: 768px) {
-		position: fixed;
-		top: 60px;
-		left: 0;
-		flex-direction: column;
-		width: 100%;
-		background: white;
-		display: ${({ open }) => (open ? "flex" : "none")};
-	}
-`;
-
-const MenuItem = styled(Link)`
-	padding: 0px 1rem;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	color: black;
-	font-size: 1.08rem;
-
-	&:hover {
-		color: #00a60b;
-	}
-
-	&:active {
-		transform: translateY(2px);
-	}
-
-	@media (max-width: 768px) {
-		width: 100%;
-		padding: 1rem 0;
-		text-align: left;
-		padding-left: 1rem;
-		font-size: 1.2rem;
-	}
-`;
-
-const SearchBarContainer = styled.div<{ open: boolean }>`
-	position: fixed;
-	top: 60px;
-	width: 100%;
-	display: ${({ open }) => (open ? "block" : "none")};
-	padding: 0 1rem;
-	border-radius: 0 0 20px 20px;
-	box-sizing: border-box;
-	overflow: hidden;
-	z-index: 1;
-`;
-
-const SearchBar = styled.input`
-	width: calc(80% - 2rem);
-	background: rgba(0, 166, 11, 1);
-	border-radius: 25%;
-	float: right;
-	padding: 0.5rem;
-	box-sizing: border-box;
-`;
-
-const SearchIcon = styled.div`
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	margin-left: 1rem;
-
-	@media (max-width: 768px) {
-		order: -1;
-		margin-left: 0;
-		margin-right: 1rem;
-	}
-`;
-
-const SearchIconImage = styled.img`
-	width: 25px;
-	height: 25px;
-`;
+import "./NavBar.css";
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -138,53 +12,66 @@ const Navbar: React.FC = () => {
 	const menuItems = [
 		{ to: "/", text: "Home" },
 		{ to: "/category/extra-income/", text: "Extra Income" },
-		{
-			to: "/deals-and-savings",
-			text: "Deals & Saving",
-		},
+		{ to: "/deals-and-savings", text: "Deals & Saving" },
 		{ to: "/Start-A-Blog", text: "Start A Blog" },
 		{ to: "/My-Story", text: "My Story" },
 	];
 
+	const handleMenuItemClick = (
+		event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+		to: string,
+	) => {
+		event.stopPropagation();
+		setIsOpen(false);
+		window.scrollTo({ top: 0, behavior: "smooth" });
+		if (location.pathname !== to) {
+			window.location.href = to;
+		}
+	};
+
 	return (
 		<>
-			<Nav>
-				<Logo
+			<nav className='nav'>
+				<img
+					className='logo'
 					src={logo}
 					alt='logo'
 					onClick={() => (window.location.href = "/")}
 				/>
 				<div style={{ display: "flex", alignItems: "center" }}>
-					<Hamburger onClick={() => setIsOpen(!isOpen)}>
+					<div className='hamburger' onClick={() => setIsOpen(!isOpen)}>
 						<div />
 						<div />
 						<div />
-					</Hamburger>
-					<Menu open={isOpen}>
+					</div>
+					<div className={`menu ${isOpen ? "open" : "closed"}`}>
 						{menuItems.map((item, index) => (
-							<MenuItem
+							<Link
 								key={index}
+								className='menu-item'
 								to={item.to}
 								style={
 									location.pathname === item.to ? { color: "#00A60B" } : {}
 								}
-								onClick={(event) => {
-									event.stopPropagation();
-									setIsOpen(false);
-								}}
+								onClick={(event) => handleMenuItemClick(event, item.to)}
 							>
 								{item.text}
-							</MenuItem>
+							</Link>
 						))}
-					</Menu>
-					<SearchIcon onClick={() => setIsSearchOpen(!isSearchOpen)}>
-						<SearchIconImage src={SearchImg} alt='search' />
-					</SearchIcon>
+					</div>
+					<div
+						className='search-icon'
+						onClick={() => setIsSearchOpen(!isSearchOpen)}
+					>
+						<img className='search-icon-image' src={SearchImg} alt='search' />
+					</div>
 				</div>
-			</Nav>
-			<SearchBarContainer open={isSearchOpen}>
-				<SearchBar type='text' placeholder='Search...' />
-			</SearchBarContainer>
+			</nav>
+			<div
+				className={`search-bar-container ${isSearchOpen ? "open" : "closed"}`}
+			>
+				<input className='search-bar' type='text' placeholder='Search...' />
+			</div>
 		</>
 	);
 };

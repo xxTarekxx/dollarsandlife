@@ -1,0 +1,151 @@
+/* NavBar.css */
+
+.nav {
+    background: white;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+    border-bottom: 4px solid #971ae1;
+    position: sticky;
+    top: 0;
+    padding: 1rem 1.5em;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        padding: 0 1em;
+    }
+}
+
+.logo {
+    padding-left: 15px;
+    width: 220px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 2px;
+    background: #000;
+    margin-bottom: 4px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .menu {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: white;
+    }
+
+    .menu.open {
+        display: flex;
+    }
+
+    .menu.closed {
+        display: none;
+    }
+}
+
+.menu-item {
+    padding: 0px 1rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    font-size: 1.08rem;
+}
+
+.menu-item:hover {
+    color: #00a60b;
+}
+
+.menu-item:active {
+    transform: translateY(2px);
+}
+
+@media (max-width: 768px) {
+    .menu-item {
+        width: 100%;
+        padding: 1rem 0;
+        text-align: left;
+        padding-left: 1rem;
+        font-size: 1.2rem;
+    }
+}
+
+.search-bar-container {
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    padding: 0 1rem;
+    border-radius: 0 0 20px 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.search-bar-container.open {
+    display: block;
+}
+
+.search-bar-container.closed {
+    display: none;
+}
+
+.search-bar {
+    width: calc(80% - 2rem);
+    background: rgba(0, 166, 11, 1);
+    border-radius: 25%;
+    float: right;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.search-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-left: 1rem;
+}
+
+@media (max-width: 768px) {
+    .search-icon {
+        order: -1;
+        margin-left: 0;
+        margin-right: 1rem;
+    }
+}
+
+.search-icon-image {
+    width: 25px;
+    height: 25px;
+}

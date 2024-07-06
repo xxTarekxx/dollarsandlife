@@ -1,20 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-	PageContainer,
-	BreadcrumbContainer,
-	ContentWrapper,
-	TopAdContainer,
-	AdRowContainer,
-	MobileAdContainer,
-	MobileBoxAdContainer,
-	RowContainer,
-	SectionHeading,
-} from "../../../components/CommonStyles";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
 import { Link } from "react-router-dom";
+import "../../../components/CommonStyles.css";
 
 const SideHustles: React.FC = () => {
 	const [sideHustles, setSideHustles] = useState<any[]>([]);
@@ -61,18 +51,18 @@ const SideHustles: React.FC = () => {
 	];
 
 	return (
-		<PageContainer ref={pageRef}>
-			<BreadcrumbContainer>
+		<div className='page-container' ref={pageRef}>
+			<div className='breadcrumb-container'>
 				<Breadcrumb paths={breadcrumbPaths} />
-			</BreadcrumbContainer>
-			<TopAdContainer>
+			</div>
+			<div className='top-ad-container'>
 				<AdComponent width={728} height={90} />
-			</TopAdContainer>
-			<SectionHeading>Side Hustles</SectionHeading>
-			<ContentWrapper>
+			</div>
+			<h2 className='section-heading'>Side Hustles</h2>
+			<div className='content-wrapper'>
 				{currentPosts.map((hustleData, index) => (
 					<React.Fragment key={hustleData.id}>
-						<RowContainer>
+						<div className='row-container'>
 							<Link to={`/category/extra-income/side-hustles/${hustleData.id}`}>
 								<BlogPostCard
 									id={hustleData.id}
@@ -83,32 +73,32 @@ const SideHustles: React.FC = () => {
 									datePosted={hustleData.datePosted}
 								/>
 							</Link>
-						</RowContainer>
+						</div>
 						{index > 0 && index % 2 === 0 && (
-							<AdRowContainer>
+							<div className='ad-row-container'>
 								<AdComponent width={660} height={440} />
-							</AdRowContainer>
+							</div>
 						)}
 						{index % 2 === 0 && (
-							<MobileBoxAdContainer>
+							<div className='mobile-box-ad-container'>
 								<AdComponent width={250} height={250} />
-							</MobileBoxAdContainer>
+							</div>
 						)}
 						{index % 4 === 0 && (
-							<MobileAdContainer>
+							<div className='mobile-ad-container'>
 								<AdComponent width={320} height={100} />
-							</MobileAdContainer>
+							</div>
 						)}
 					</React.Fragment>
 				))}
-			</ContentWrapper>
+			</div>
 			<PaginationContainer
 				totalItems={sideHustles.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
-		</PageContainer>
+		</div>
 	);
 };
 

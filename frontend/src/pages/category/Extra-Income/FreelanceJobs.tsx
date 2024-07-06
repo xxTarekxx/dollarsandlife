@@ -1,20 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-	PageContainer,
-	BreadcrumbContainer,
-	ContentWrapper,
-	TopAdContainer,
-	AdRowContainer,
-	MobileAdContainer,
-	MobileBoxAdContainer,
-	RowContainer,
-	SectionHeading,
-} from "../../../components/CommonStyles";
+import { Link } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
-import { Link } from "react-router-dom";
+import "../../../components/CommonStyles.css";
 
 const FreeLanceJobs: React.FC = () => {
 	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
@@ -34,7 +24,6 @@ const FreeLanceJobs: React.FC = () => {
 					throw new Error("Failed to fetch data");
 				}
 				const data = await response.json();
-				console.log("Fetched Data:", data);
 				setFreelanceJobs(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -61,57 +50,65 @@ const FreeLanceJobs: React.FC = () => {
 		{ title: "Freelance Jobs", url: "/category/extra-income/freelancers" },
 	];
 
+	const items = [];
+	for (let i = 0; i < currentPosts.length; i++) {
+		items.push(
+			<div className='row-container' key={currentPosts[i].id}>
+				<Link to={`/category/extra-income/Freelancers/${currentPosts[i].id}`}>
+					<BlogPostCard
+						id={currentPosts[i].id}
+						title={currentPosts[i].title}
+						imageUrl={currentPosts[i].imageUrl}
+						content={currentPosts[i].content}
+						author={currentPosts[i].author}
+						datePosted={currentPosts[i].datePosted}
+					/>
+				</Link>
+			</div>,
+		);
+
+		if (i > 0 && i % 2 === 0) {
+			items.push(
+				<div className='ad-row-container' key={`ad-row-${i}`}>
+					<AdComponent width={660} height={440} />
+				</div>,
+			);
+		}
+
+		if (i % 2 === 0) {
+			items.push(
+				<div className='mobile-box-ad-container' key={`mobile-box-ad-${i}`}>
+					<AdComponent width={250} height={250} />
+				</div>,
+			);
+		}
+
+		if (i % 4 === 0) {
+			items.push(
+				<div className='mobile-ad-container' key={`mobile-ad-${i}`}>
+					<AdComponent width={320} height={100} />
+				</div>,
+			);
+		}
+	}
+
 	return (
-		<PageContainer ref={pageRef}>
-			<BreadcrumbContainer>
+		<div className='page-container' ref={pageRef}>
+			<div className='breadcrumb-container'>
 				<Breadcrumb paths={breadcrumbPaths} />
-			</BreadcrumbContainer>
-			<TopAdContainer>
+			</div>
+			<div className='top-ad-container'>
 				<AdComponent width={728} height={90} />
-			</TopAdContainer>
-			<SectionHeading>Freelance Job Opportunities</SectionHeading>
-			<ContentWrapper>
-				{currentPosts.map((freelancedata, index) => (
-					<React.Fragment key={freelancedata.id}>
-						<RowContainer>
-							<Link
-								to={`/category/extra-income/Freelancers/${freelancedata.id}`}
-							>
-								<BlogPostCard
-									id={freelancedata.id}
-									title={freelancedata.title}
-									imageUrl={freelancedata.imageUrl}
-									content={freelancedata.content}
-									author={freelancedata.author}
-									datePosted={freelancedata.datePosted}
-								/>
-							</Link>
-						</RowContainer>
-						{index > 0 && index % 2 === 0 && (
-							<AdRowContainer>
-								<AdComponent width={660} height={440} />
-							</AdRowContainer>
-						)}
-						{index % 2 === 0 && (
-							<MobileBoxAdContainer>
-								<AdComponent width={250} height={250} />
-							</MobileBoxAdContainer>
-						)}
-						{index % 4 === 0 && (
-							<MobileAdContainer>
-								<AdComponent width={320} height={100} />
-							</MobileAdContainer>
-						)}
-					</React.Fragment>
-				))}
-			</ContentWrapper>
+			</div>
+			<h2 className='section-heading'>Freelance Job Opportunities</h2>
+			<div className='content-wrapper'>{items}</div>
 			<PaginationContainer
 				totalItems={freelanceJobs.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
-		</PageContainer>
+		</div>
 	);
 };
 

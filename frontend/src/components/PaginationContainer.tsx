@@ -1,40 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-
-const PaginationWrapper = styled.nav`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 20px 0;
-`;
-
-const PaginationButton = styled.button`
-	padding: 10px 20px;
-	margin: 0 5px;
-	background-color: #333;
-	color: white;
-	border: none;
-	cursor: pointer;
-
-	&:disabled {
-		background-color: #ddd;
-		color: #666;
-		cursor: not-allowed;
-	}
-`;
-
-const PageNumber = styled.span`
-	display: inline-block;
-	padding: 10px;
-	margin: 0 5px;
-	background-color: #333;
-	color: white;
-	cursor: pointer;
-
-	&.active {
-		background-color: #666;
-	}
-`;
+import "./PaginationContainer.css";
 
 interface PaginationContainerProps {
 	totalItems: number;
@@ -68,32 +33,34 @@ const PaginationContainer: React.FC<PaginationContainerProps> = ({
 	};
 
 	return (
-		<PaginationWrapper aria-label='Page navigation'>
-			<PaginationButton
+		<nav className='pagination-wrapper' aria-label='Page navigation'>
+			<button
+				className='pagination-button'
 				onClick={handlePrevPage}
 				disabled={currentPage === 1}
 				aria-label='Previous page'
 			>
 				Previous
-			</PaginationButton>
+			</button>
 			{Array.from({ length: totalPages }).map((_, index) => (
-				<PageNumber
+				<span
 					key={index}
-					className={currentPage === index + 1 ? "active" : ""}
+					className={`page-number ${currentPage === index + 1 ? "active" : ""}`}
 					onClick={() => handlePageNumberClick(index + 1)}
 					aria-label={`Page ${index + 1}`}
 				>
 					{index + 1}
-				</PageNumber>
+				</span>
 			))}
-			<PaginationButton
+			<button
+				className='pagination-button'
 				onClick={handleNextPage}
 				disabled={currentPage === totalPages}
 				aria-label='Next page'
 			>
 				Next
-			</PaginationButton>
-		</PaginationWrapper>
+			</button>
+		</nav>
 	);
 };
 

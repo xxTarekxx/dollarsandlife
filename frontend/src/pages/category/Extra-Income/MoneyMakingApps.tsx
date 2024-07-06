@@ -1,20 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-	PageContainer,
-	BreadcrumbContainer,
-	ContentWrapper,
-	TopAdContainer,
-	AdRowContainer,
-	MobileAdContainer,
-	MobileBoxAdContainer,
-	RowContainer,
-	SectionHeading,
-} from "../../../components/CommonStyles";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
 import { Link } from "react-router-dom";
+import "../../../components/CommonStyles.css";
 
 const MoneyMakingApps: React.FC = () => {
 	const [apps, setApps] = useState<any[]>([]);
@@ -64,18 +54,18 @@ const MoneyMakingApps: React.FC = () => {
 	];
 
 	return (
-		<PageContainer ref={pageRef}>
-			<BreadcrumbContainer>
+		<div className='page-container' ref={pageRef}>
+			<div className='breadcrumb-container'>
 				<Breadcrumb paths={breadcrumbPaths} />
-			</BreadcrumbContainer>
-			<TopAdContainer>
+			</div>
+			<div className='top-ad-container'>
 				<AdComponent width={728} height={90} />
-			</TopAdContainer>
-			<SectionHeading>Money Making Apps</SectionHeading>
-			<ContentWrapper>
+			</div>
+			<h2 className='section-heading'>Money Making Apps</h2>
+			<div className='content-wrapper'>
 				{currentPosts.map((appData, index) => (
 					<React.Fragment key={appData.id}>
-						<RowContainer>
+						<div className='row-container'>
 							<Link
 								to={`/category/extra-income/money-making-apps/${appData.id}`}
 							>
@@ -88,32 +78,32 @@ const MoneyMakingApps: React.FC = () => {
 									datePosted={appData.datePosted}
 								/>
 							</Link>
-						</RowContainer>
+						</div>
 						{index > 0 && index % 2 === 0 && (
-							<AdRowContainer>
+							<div className='ad-row-container'>
 								<AdComponent width={660} height={440} />
-							</AdRowContainer>
+							</div>
 						)}
 						{index % 2 === 0 && (
-							<MobileBoxAdContainer>
+							<div className='mobile-box-ad-container'>
 								<AdComponent width={250} height={250} />
-							</MobileBoxAdContainer>
+							</div>
 						)}
 						{index % 4 === 0 && (
-							<MobileAdContainer>
+							<div className='mobile-ad-container'>
 								<AdComponent width={320} height={100} />
-							</MobileAdContainer>
+							</div>
 						)}
 					</React.Fragment>
 				))}
-			</ContentWrapper>
+			</div>
 			<PaginationContainer
 				totalItems={apps.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
-		</PageContainer>
+		</div>
 	);
 };
 
