@@ -3,34 +3,36 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
-  <meta name="google-adsense-account" content="ca-pub-1079721341426198">
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!-- Critical CSS: Inline the critical CSS to avoid render-blocking -->
-  <style>
-    /* Add your critical CSS here */
-    body {
-      font-family: 'Roboto', sans-serif;
-      /* Ensure the font is loaded immediately */
-    }
+  <meta name="google-adsense-account" content="ca-pub-1079721341426198" />
+  <title>Dollars And Life</title>
 
-    /* Add more critical styles here */
-  </style>
-  <!-- Preconnect and preload important resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
     rel="stylesheet">
-  <title>React App</title>
+
+  <link rel="stylesheet" href="/assets/index.css" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Other critical styles you might need to avoid FOUC */
+  </style>
+
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
-<body style="height: 100%; margin: 0;">
+<body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+
+  <script type="module" crossorigin src="/assets/index.js"></script>
 </body>
 
 </html>
