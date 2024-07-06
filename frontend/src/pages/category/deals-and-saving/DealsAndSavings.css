@@ -1,32 +1,28 @@
-.page-container {
+/* DealsAndSavings.css */
+
+.PageContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* padding: 0 1rem; */
+    padding: 0 1rem;
 }
 
-.breadcrumb-container {
+.BreadcrumbContainer {
     width: 100%;
-    padding-top: 0;
+    padding-top: 0px;
 }
 
-.products-grid {
+.ProductsGrid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     justify-items: center;
     max-width: 1280px;
     margin: 12px 0;
 }
 
-@media (max-width: 806px) {
-    .products-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.top-ad-container {
+.TopAdContainer {
     display: flex;
     justify-content: center;
     background-color: white;
@@ -37,14 +33,14 @@
 }
 
 @media (max-width: 806px) {
-    .top-ad-container {
+    .TopAdContainer {
         width: 360px;
         height: 120px;
         padding: 0;
     }
 }
 
-.ad-row-container {
+.AdRowContainer {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -54,12 +50,12 @@
 }
 
 @media (max-width: 806px) {
-    .ad-row-container {
+    .AdRowContainer {
         display: none;
     }
 }
 
-.mobile-ad-container {
+.MobileAdContainer {
     display: none;
     justify-content: center;
     background-color: white;
@@ -69,12 +65,12 @@
 }
 
 @media (max-width: 806px) {
-    .mobile-ad-container {
+    .MobileAdContainer {
         display: flex;
     }
 }
 
-.mobile-box-ad-container {
+.MobileBoxAdContainer {
     display: none;
     justify-content: center;
     background-color: white;
@@ -84,14 +80,92 @@
 }
 
 @media (max-width: 806px) {
-    .mobile-box-ad-container {
+    .MobileBoxAdContainer {
         display: flex;
     }
 }
 
-.section-heading {
+.SectionHeading {
     font-size: 2rem;
     color: #333;
     margin: 20px 0;
     text-align: center;
+}
+
+.CardContainer {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    width: 100%;
+    margin: 20px;
+}
+
+.CardContainer:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.CardImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.CardContent {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.CardTitle {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #333;
+    font-weight: 700;
+}
+
+.CardDescription {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 10px 0;
+}
+
+.CardPrice {
+    font-size: 1rem;
+    color: #333;
+    margin: 10px 0;
+}
+
+.OriginalPrice {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+}
+
+.DiscountedPrice {
+    color: #e60023;
+    font-weight: bold;
+}
+
+.BuyNowButton {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.BuyNowButton:hover {
+    background: #0056b3;
 }

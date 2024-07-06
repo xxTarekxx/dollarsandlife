@@ -2,14 +2,53 @@ import React, { useEffect, useState, useRef } from "react";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
-import ProductCard from "./ProductCard";
-
 import "./DealsAndSavings.css";
+
+interface ProductCardProps {
+	id: string;
+	title: string;
+	imageUrl: string;
+	description: string;
+	originalPrice: string;
+	discountedPrice: string;
+	affiliateLink: string;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+	title,
+	imageUrl,
+	description,
+	originalPrice,
+	discountedPrice,
+	affiliateLink,
+}) => {
+	return (
+		<div className='CardContainer'>
+			<img src={imageUrl} alt={title} className='CardImage' />
+			<div className='CardContent'>
+				<h3 className='CardTitle'>{title}</h3>
+				<p className='CardDescription'>{description}</p>
+				<p className='CardPrice'>
+					<span className='OriginalPrice'>{originalPrice}</span>
+					<span className='DiscountedPrice'>{discountedPrice}</span>
+				</p>
+				<a
+					href={affiliateLink}
+					target='_blank'
+					rel='noopener noreferrer'
+					className='BuyNowButton'
+				>
+					Buy Now
+				</a>
+			</div>
+		</div>
+	);
+};
 
 const DealsAndSavings: React.FC = () => {
 	const [products, setProducts] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 12; // 4 rows per page
+	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -52,40 +91,53 @@ const DealsAndSavings: React.FC = () => {
 		},
 	];
 
-	// Insert ads into the product list at specified positions
-	const items = [];
-	for (let i = 0; i < currentPosts.length; i++) {
-		items.push(
-			<ProductCard
-				key={currentPosts[i].id}
-				id={currentPosts[i].id}
-				title={currentPosts[i].title}
-				imageUrl={currentPosts[i].imageUrl}
-				description={currentPosts[i].description}
-				originalPrice={currentPosts[i].originalPrice}
-				discountedPrice={currentPosts[i].discountedPrice}
-				affiliateLink={currentPosts[i].affiliateLink}
-			/>,
-		);
-		if ((i + 1) % 6 === 0) {
-			items.push(
-				<div className='ad-row-container' key={`ad-row-${i}`}>
-					<AdComponent width={660} height={440} />
-				</div>,
-			);
-		}
+	const rows = [];
+	for (let i = 0; i < currentPosts.length; i += 3) {
+		rows.push(currentPosts.slice(i, i + 3));
 	}
 
 	return (
-		<div className='page-container' ref={pageRef}>
-			<div className='breadcrumb-container'>
+		<div className='PageContainer' ref={pageRef}>
+			<div className='BreadcrumbContainer'>
 				<Breadcrumb paths={breadcrumbPaths} />
 			</div>
-			<div className='top-ad-container'>
+			<div className='TopAdContainer'>
 				<AdComponent width={728} height={90} />
 			</div>
-			<h2 className='section-heading'>Deals and Savings</h2>
-			<div className='products-grid'>{items}</div>
+			<h2 className='SectionHeading'>Deals and Savings</h2>
+			{rows.map((row, rowIndex) => (
+				<React.Fragment key={rowIndex}>
+					<div className='ProductsGrid'>
+						{row.map((productData) => (
+							<ProductCard
+								key={productData.id}
+								id={productData.id}
+								title={productData.title}
+								imageUrl={productData.imageUrl}
+								description={productData.description}
+								originalPrice={productData.originalPrice}
+								discountedPrice={productData.discountedPrice}
+								affiliateLink={productData.affiliateLink}
+							/>
+						))}
+					</div>
+					{(rowIndex + 1) % 2 === 0 && (
+						<div className='AdRowContainer'>
+							<AdComponent width={660} height={440} />
+						</div>
+					)}
+					{(rowIndex + 1) % 2 === 0 && (
+						<div className='MobileBoxAdContainer'>
+							<AdComponent width={250} height={250} />
+						</div>
+					)}
+					{(rowIndex + 1) % 2 === 0 && (
+						<div className='MobileAdContainer'>
+							<AdComponent width={320} height={100} />
+						</div>
+					)}
+				</React.Fragment>
+			))}
 			<PaginationContainer
 				totalItems={products.length}
 				itemsPerPage={postsPerPage}
