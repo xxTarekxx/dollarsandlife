@@ -4,7 +4,7 @@ import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
-import "../../../components/CommonStyles.css";
+import "./CommonStyles.css";
 
 const FreeLanceJobs: React.FC = () => {
 	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
@@ -94,9 +94,6 @@ const FreeLanceJobs: React.FC = () => {
 
 	return (
 		<div className='page-container' ref={pageRef}>
-			<div className='breadcrumb-container'>
-				<Breadcrumb paths={breadcrumbPaths} />
-			</div>
 			<div className='top-ad-container'>
 				<AdComponent width={728} height={90} />
 			</div>

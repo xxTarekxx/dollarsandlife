@@ -4,6 +4,8 @@
     height: 100%;
 }
 
+
+
 /* AdContainer.css */
 .top-ad-container,
 .ad-container {
@@ -32,12 +34,13 @@
     max-width: 660px;
     margin: 20px 0;
     background-color: white;
+}
 
-    @media (max-width: 806px) {
+@media (max-width: 806px) {
+    .ad-row-container {
         display: none;
     }
 }
-
 
 
 .mobile-ad-container {
@@ -47,8 +50,10 @@
     width: 320px;
     height: 100px;
     margin: 20px 0;
+}
 
-    @media (max-width: 806px) {
+@media (max-width: 806px) {
+    .mobile-ad-container {
         display: flex;
     }
 }
@@ -62,6 +67,12 @@
     width: 250px;
     height: 250px;
     margin: 20px 0;
+}
+
+@media (max-width: 806px) {
+    .mobile-box-ad-container {
+        display: flex;
+    }
 }
 
 

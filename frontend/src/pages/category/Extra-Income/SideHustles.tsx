@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
+import BlogPostCard from "../../../components/BlogPostCard";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
-import BlogPostCard from "../../../components/BlogPostCard";
-import { Link } from "react-router-dom";
-import "../../../components/CommonStyles.css";
+import "./CommonStyles.css";
 
 const SideHustles: React.FC = () => {
 	const [sideHustles, setSideHustles] = useState<any[]>([]);
@@ -52,9 +52,6 @@ const SideHustles: React.FC = () => {
 
 	return (
 		<div className='page-container' ref={pageRef}>
-			<div className='breadcrumb-container'>
-				<Breadcrumb paths={breadcrumbPaths} />
-			</div>
 			<div className='top-ad-container'>
 				<AdComponent width={728} height={90} />
 			</div>

@@ -1,11 +1,19 @@
-.links-container {
+body {
+    overflow-x: hidden;
+}
+
+.home-main-links {
     width: 100%;
-    margin: 12% auto;
+    margin: 5% auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     max-width: 1280px;
+    box-sizing: border-box;
+    /* Ensure padding and border are included in the element's total width and height */
+    padding: 0 15px;
+    /* Add some padding to avoid elements sticking to the edge */
 }
 
 @keyframes spinAnimation {
@@ -14,14 +22,14 @@
     }
 }
 
-.link-box {
+.home-links {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: white;
-    letter-spacing: 0.5px;
-    border-radius: 20px;
+    /* letter-spacing: 0.5px; */
+    border-radius: 50%;
     margin: 1%;
     color: black;
     font-size: 18px;
@@ -30,34 +38,48 @@
         rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     text-align: center;
     text-decoration: none;
+    padding: 25px;
+    box-sizing: border-box;
+
+
+
+    /* Ensure padding and border are included in the element's total width and height */
 }
 
-.link-box:hover img {
-    animation: spinAnimation 0.2s linear 1;
+.home-links:hover img {
+    animation: spinAnimation 0.3s linear 1;
 }
 
-.link-box:hover figcaption {
+.home-links:hover .home-figcaption {
     color: #7600ff;
 }
 
-.link-box:focus {
+.home-links:focus {
     outline: 3px solid #7600ff;
 }
 
 @media (max-width: 768px) {
-    .link-box {
+    .home-links {
         width: 70%;
     }
 }
 
-.link-box img {
+.home-links img {
     padding: 5px;
     width: 220px;
     height: 200px;
+
+    @media (max-width: 768px) {
+        width: 180px;
+        height: 160px;
+        padding: 5px;
+    }
 }
 
-.figcaption {
+.home-figcaption {
     color: black;
     transition: color 0.3s ease-in-out;
-    padding: 20px;
+    padding-bottom: 5px;
+
+
 }

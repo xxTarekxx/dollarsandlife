@@ -98,9 +98,6 @@ const DealsAndSavings: React.FC = () => {
 
 	return (
 		<div className='PageContainer' ref={pageRef}>
-			<div className='BreadcrumbContainer'>
-				<Breadcrumb paths={breadcrumbPaths} />
-			</div>
 			<div className='TopAdContainer'>
 				<AdComponent width={728} height={90} />
 			</div>

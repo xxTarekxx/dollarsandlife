@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+	Route,
+	BrowserRouter as Router,
+	Routes,
+	useLocation,
+} from "react-router-dom";
 import "./App.css";
 import BlogPostContent from "./components/BlogPostContent";
 import Footer from "./components/Footer";
@@ -14,6 +19,7 @@ import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
 import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSavings";
 import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
+import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
 import styled from "styled-components";
 
 const AppContainer = styled.div`
@@ -27,45 +33,45 @@ const MainContent = styled.div`
 `;
 
 const App: React.FC = () => {
+	const location = useLocation();
+
 	return (
-		<Router>
+		<AppContainer>
 			<Navbar />
+			{location.pathname !== "/" && <BreadcrumbWrapper />}
 			<MainContent>
 				<Routes>
 					<Route path='/' element={<HomePage />} />
-					<Route path='/category/extra-income' element={<ExtraIncome />} />
+					<Route path='/extra-income' element={<ExtraIncome />} />
+					<Route path='/extra-income/freelancers' element={<FreeLanceJobs />} />
+					<Route path='/extra-income/budgetting' element={<Budget />} />
 					<Route
-						path='/category/extra-income/freelancers'
-						element={<FreeLanceJobs />}
-					/>
-					<Route
-						path='/category/extra-income/budgetting'
-						element={<Budget />}
-					/>
-					<Route
-						path='/category/extra-income/remote-jobs'
+						path='/extra-income/remote-jobs'
 						element={<RemoteOnlineJobs />}
 					/>
+					<Route path='/extra-income/side-hustles' element={<SideHustles />} />
 					<Route
-						path='/category/extra-income/side-hustles'
-						element={<SideHustles />}
-					/>
-					<Route
-						path='/category/extra-income/money-making-apps'
+						path='/extra-income/money-making-apps'
 						element={<MoneyMakingApps />}
 					/>
 					<Route path='/deals-and-savings' element={<DealsAndSavings />} />
 					<Route path='/start-a-blog' element={<StartAblog />} />
 					<Route path='/My-Story' element={<MyStory />} />
 					<Route
-						path='/category/extra-income/freelancers/:id'
+						path='/extra-income/freelancers/:id'
 						element={<BlogPostContent />}
 					/>
 				</Routes>
 			</MainContent>
 			<Footer />
-		</Router>
+		</AppContainer>
 	);
 };
 
-export default App;
+const WrappedApp: React.FC = () => (
+	<Router>
+		<App />
+	</Router>
+);
+
+export default WrappedApp;

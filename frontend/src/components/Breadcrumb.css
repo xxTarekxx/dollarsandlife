@@ -1,7 +1,14 @@
 .breadcrumb-container {
     background: transparent;
-    margin-top: 6px;
-    padding-left: 44px;
+    margin-top: 0px;
+    padding-left: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+
+    @media (max-width: 768px) {
+        margin-top: 0px;
+    }
 }
 
 .breadcrumb-list {
@@ -13,7 +20,11 @@
 
 .breadcrumb-item {
     font-size: 14px;
-    margin-right: 10px;
+    margin-right: 0px;
+
+    @media (max-width: 768px) {
+        font-size: 10px;
+    }
 }
 
 .breadcrumb-item:last-child {
@@ -31,6 +42,16 @@
 }
 
 .breadcrumb-separator {
-    margin: 0 5px;
-    color: #7212e0;
+    margin: 0 2px;
+    width: 10px;
+    padding-top: 6px;
+    color: green;
+    height: 8px;
+    display: inline-block;
+
+    @media (max-width: 768px) {
+        width: 10px;
+        height: 6px;
+        padding-top: 3px;
+    }
 }

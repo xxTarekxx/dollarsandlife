@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useCompressedImage from "../../../components/compressed/useCompressedImage";
-import Breadcrumb from "../../../components/Breadcrumb";
 import Budgettingimg from "../../../assets/images/icons/img-budgetting.webp";
 import FreeLancerimg from "../../../assets/images/icons/img-freelancer.webp";
 import RemoteJobimg from "../../../assets/images/icons/img-remotejobs.webp";
@@ -28,35 +27,35 @@ const ExtraIncome: React.FC = () => {
 
 	const linkBoxes = [
 		{
-			to: "/category/extra-income/Freelancers",
+			to: "/extra-income/Freelancers",
 			ariaLabel: "Become A Freelancer",
 			imgSrc: compressedFreeLancerimg || FreeLancerimg,
 			altText: "Manage Finance Photo",
 			captionText: "Become A Freelancer",
 		},
 		{
-			to: "/category/extra-income/Budgetting",
+			to: "/extra-income/Budgetting",
 			ariaLabel: "Budgetting Guides",
 			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Passive Income Icon",
 			captionText: "Budgeting",
 		},
 		{
-			to: "/category/extra-income/Remote-Jobs",
+			to: "/extra-income/Remote-Jobs",
 			ariaLabel: "Deals",
 			imgSrc: compressedRemoteJobimg || RemoteJobimg,
 			altText: "Deals And Saving Icon",
 			captionText: "Remote Jobs",
 		},
 		{
-			to: "/category/extra-income/Side-Hustles",
+			to: "/extra-income/Side-Hustles",
 			ariaLabel: "Deals",
 			imgSrc: compressedSideHustlesimg || SideHustlesimg,
 			altText: "Deals And Saving Icon",
 			captionText: "Side Hustles",
 		},
 		{
-			to: "/category/extra-income/money-making-apps",
+			to: "/extra-income/money-making-apps",
 			ariaLabel: "Deals",
 			imgSrc: compressedMoneyMakingAppsimg || MoneyMakingAppsimg,
 			altText: "Deals And Saving Icon",
@@ -66,9 +65,11 @@ const ExtraIncome: React.FC = () => {
 
 	return (
 		<>
-			<Breadcrumb paths={breadcrumbPaths} />
 			<AdComponent width={728} height={90} />
-			<div className='links-container' aria-label='Main navigation links'>
+			<div
+				className='category-links-container'
+				aria-label='Main navigation links'
+			>
 				{linkBoxes.map((linkBox, index) => (
 					<Link
 						className='link-box'
@@ -77,7 +78,7 @@ const ExtraIncome: React.FC = () => {
 						aria-label={linkBox.ariaLabel}
 					>
 						<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
-						<figcaption className='figcaption'>
+						<figcaption className='extraincome-figcaption'>
 							{linkBox.captionText}
 						</figcaption>
 					</Link>

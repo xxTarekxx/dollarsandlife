@@ -1,13 +1,18 @@
 /* Footer Container */
 .footer-container {
     background-color: rgba(255, 255, 255, 0.9);
-    padding: 2rem 1rem;
+    padding: 2rem 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: end;
+    position: sticky;
+
 }
+
+/* Other styles for the footer content (Social Links, Footer Links, Copyright) remain the same */
+
 
 /* Social Links */
 .social-link {

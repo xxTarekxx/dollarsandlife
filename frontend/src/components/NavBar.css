@@ -26,6 +26,10 @@
     width: 220px;
     height: 40px;
     cursor: pointer;
+
+    @media (max-width: 768px) {
+        padding-left: 0px;
+    }
 }
 
 .hamburger {

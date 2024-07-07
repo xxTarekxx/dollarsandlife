@@ -1,0 +1,75 @@
+/* Container for the entire page content to push footer to bottom */
+.page-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.page-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0 1rem;
+	flex: 1;
+	/* Ensure this container takes up available space */
+}
+
+.content-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.row-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 800px;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.section-heading {
+	font-size: 1.7rem;
+	color: #333;
+	margin-bottom: 0;
+	text-align: center;
+	padding: 0;
+}
+
+@media (max-width: 768px) {
+	.section-heading {
+		width: 100%;
+		font-size: 1.4em;
+	}
+}
+
+
+/* Keyframes for shake animation */
+@keyframes shake-animation {
+	0% {
+		transform: translateX(0);
+	}
+
+	10% {
+		transform: translateX(-10px);
+	}
+
+	20% {
+		transform: translateX(10px);
+	}
+
+	30% {
+		transform: translateX(-10px);
+	}
+
+	40% {
+		transform: translateX(10px);
+	}
+
+	50% {
+		transform: translateX(0);
+	}
+}

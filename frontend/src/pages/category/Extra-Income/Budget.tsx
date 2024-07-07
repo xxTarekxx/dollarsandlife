@@ -4,7 +4,7 @@ import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
 import { Link } from "react-router-dom";
-import "../../../components/CommonStyles.css";
+import "./CommonStyles.css";
 
 const Budget: React.FC = () => {
 	const [budgetPosts, setBudgetPosts] = useState<any[]>([]);
@@ -52,9 +52,6 @@ const Budget: React.FC = () => {
 
 	return (
 		<div className='page-container' ref={pageRef}>
-			<div className='breadcrumb-container'>
-				<Breadcrumb paths={breadcrumbPaths} />
-			</div>
 			<div className='top-ad-container'>
 				<AdComponent width={728} height={90} />
 			</div>

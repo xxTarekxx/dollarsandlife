@@ -1,5 +1,5 @@
-.links-container {
-    max-width: 1280px;
+.category-links-container {
+    /* max-width: 1280px; */
     width: 100%;
     margin: 3% auto;
     display: flex;
@@ -58,7 +58,7 @@
     animation-iteration-count: 1;
 }
 
-.link-box:hover figcaption {
+.link-box:hover extraincome-figcaption {
     color: #7600ff;
 }
 
@@ -79,7 +79,7 @@
     height: 200px;
 }
 
-.figcaption {
+.extraincome-figcaption {
     color: black;
     transition: color 0.3s ease-in-out;
     padding: 10px;
