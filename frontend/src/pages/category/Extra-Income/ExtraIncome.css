@@ -1,5 +1,4 @@
 .category-links-container {
-    /* max-width: 1280px; */
     width: 100%;
     margin: 3% auto;
     display: flex;
@@ -9,28 +8,20 @@
 }
 
 @keyframes shakeAnimation {
-    0% {
+
+    0%,
+    50% {
         transform: translateX(0);
     }
 
-    10% {
-        transform: translateX(-10px);
-    }
-
-    20% {
-        transform: translateX(10px);
-    }
-
+    10%,
     30% {
         transform: translateX(-10px);
     }
 
+    20%,
     40% {
         transform: translateX(10px);
-    }
-
-    50% {
-        transform: translateX(0);
     }
 }
 
@@ -58,8 +49,8 @@
     animation-iteration-count: 1;
 }
 
-.link-box:hover extraincome-figcaption {
-    color: #7600ff;
+.link-box:hover .extraincome-figcaption {
+    color: #FFC000;
 }
 
 .link-box:focus {

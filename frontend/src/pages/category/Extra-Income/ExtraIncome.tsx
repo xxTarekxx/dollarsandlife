@@ -20,45 +20,40 @@ const ExtraIncome: React.FC = () => {
 	const compressedMoneyMakingAppsimg = useCompressedImage(MoneyMakingAppsimg);
 	const compressedBudgettingimg = useCompressedImage(Budgettingimg);
 
-	const breadcrumbPaths = [
-		{ title: "Home", url: "/" },
-		{ title: "Extra Income ", url: "/category/extra-income" },
-	];
-
 	const linkBoxes = [
 		{
 			to: "/extra-income/Freelancers",
 			ariaLabel: "Become A Freelancer",
 			imgSrc: compressedFreeLancerimg || FreeLancerimg,
-			altText: "Manage Finance Photo",
+			altText: "Freelancer Icon",
 			captionText: "Become A Freelancer",
 		},
 		{
 			to: "/extra-income/Budget/",
 			ariaLabel: "Budgetting Guides",
 			imgSrc: compressedBudgettingimg || Budgettingimg,
-			altText: "Passive Income Icon",
+			altText: "Budgeting Icon",
 			captionText: "Budgeting",
 		},
 		{
 			to: "/extra-income/Remote-Jobs",
-			ariaLabel: "Deals",
+			ariaLabel: "Remote Jobs",
 			imgSrc: compressedRemoteJobimg || RemoteJobimg,
-			altText: "Deals And Saving Icon",
+			altText: "Remote Jobs Icon",
 			captionText: "Remote Jobs",
 		},
 		{
 			to: "/extra-income/Side-Hustles",
-			ariaLabel: "Deals",
+			ariaLabel: "Side Hustles",
 			imgSrc: compressedSideHustlesimg || SideHustlesimg,
-			altText: "Deals And Saving Icon",
+			altText: "Side Hustles Icon",
 			captionText: "Side Hustles",
 		},
 		{
 			to: "/extra-income/money-making-apps",
-			ariaLabel: "Deals",
+			ariaLabel: "Make Money On Apps",
 			imgSrc: compressedMoneyMakingAppsimg || MoneyMakingAppsimg,
-			altText: "Deals And Saving Icon",
+			altText: "Money Making Apps Icon",
 			captionText: "Make Money On Apps",
 		},
 	];
