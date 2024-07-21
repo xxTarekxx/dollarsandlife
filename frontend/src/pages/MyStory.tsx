@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const BlogPostContainer = styled.div`
@@ -54,13 +54,6 @@ const BlogListItem = styled.li`
 	margin: 0.5em 0;
 `;
 
-const CurrentPath = styled.p`
-	font-size: 0.9em;
-	color: #888;
-	text-align: center;
-	margin-top: 2em;
-`;
-
 interface BlogPostData {
 	id: number;
 	title: string;
@@ -73,7 +66,6 @@ interface BlogPostData {
 const MyStory: React.FC = () => {
 	const { id } = useParams<{ id: string }>();
 	const [blogPost, setBlogPost] = useState<BlogPostData | null>(null);
-	const location = useLocation();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -108,7 +100,6 @@ const MyStory: React.FC = () => {
 			</BlogSubtitle>
 			<BlogImage src={blogPost.imageUrl} alt={blogPost.title} />
 			<BlogParagraph>{blogPost.content}</BlogParagraph>
-			{/* <CurrentPath>Current Path: {location.pathname}</CurrentPath> */}
 		</BlogPostContainer>
 	);
 };

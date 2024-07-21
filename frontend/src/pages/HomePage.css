@@ -2,18 +2,46 @@ body {
     overflow-x: hidden;
 }
 
+.home-container {
+    text-align: center;
+    margin-top: 2%;
+}
+
+.home-container h1 {
+    font-size: 2rem;
+    margin-bottom: 0;
+
+    @media (max-width: 768px) {
+        font-size: 1.6rem;
+    }
+
+}
+
+.home-container .landing-subtitle {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+.next-to-p-image {
+    height: 20px;
+    width: 14px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
 .home-main-links {
     width: 100%;
-    margin: 5% auto;
+    margin: 2% auto 14% auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     max-width: 1280px;
     box-sizing: border-box;
-    /* Ensure padding and border are included in the element's total width and height */
     padding: 0 15px;
-    /* Add some padding to avoid elements sticking to the edge */
 }
 
 @keyframes spinAnimation {
@@ -28,7 +56,6 @@ body {
     align-items: center;
     justify-content: center;
     background: white;
-    /* letter-spacing: 0.5px; */
     border-radius: 50%;
     margin: 1%;
     color: black;
@@ -40,10 +67,6 @@ body {
     text-decoration: none;
     padding: 25px;
     box-sizing: border-box;
-
-
-
-    /* Ensure padding and border are included in the element's total width and height */
 }
 
 .home-links:hover img {
@@ -80,6 +103,4 @@ body {
     color: black;
     transition: color 0.3s ease-in-out;
     padding-bottom: 5px;
-
-
 }

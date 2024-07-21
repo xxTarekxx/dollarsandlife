@@ -34,7 +34,7 @@ const ExtraIncome: React.FC = () => {
 			captionText: "Become A Freelancer",
 		},
 		{
-			to: "/extra-income/Budgetting",
+			to: "/extra-income/Budget/",
 			ariaLabel: "Budgetting Guides",
 			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Passive Income Icon",

@@ -4,6 +4,7 @@ import useCompressedImage from "../components/compressed/useCompressedImage";
 import ExtraIncomeImg from "../assets/images/icons/img-extraincome.webp";
 import StartAblogimg from "../assets/images/icons/img-startablog.webp";
 import DealsAndSavingimg from "../assets/images/icons/img-dealsandsavings.webp";
+import NextToPImage from "../assets/images/favcons/down-arrow.webp"; // Add the image for next to the P tag
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
@@ -36,8 +37,12 @@ const HomePage: React.FC = () => {
 	];
 
 	return (
-		<div>
-			<h2>Your Life Changes Here</h2>
+		<div className='home-container'>
+			<h1>Your Life Changes Here</h1>
+			<p className='landing-subtitle'>
+				Start Now{" "}
+				<img src={NextToPImage} alt='Next to P' className='next-to-p-image' />
+			</p>
 			<div className='home-main-links' aria-label='Main navigation links'>
 				{linkBoxes.map((linkBox, index) => (
 					<Link

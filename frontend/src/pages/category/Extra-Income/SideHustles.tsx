@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
-import BlogPostCard from "../../../components/BlogPostCard";
-import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
+import BlogPostCard from "../../../components/BlogPostCard";
+import BlogPostContent from "../../../components/BlogPostContent";
 import "./CommonStyles.css";
 
 const SideHustles: React.FC = () => {
@@ -44,57 +44,74 @@ const SideHustles: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	const breadcrumbPaths = [
-		{ title: "Home", url: "/" },
-		{ title: "Extra Income", url: "/category/extra-income" },
-		{ title: "Side Hustles", url: "/category/extra-income/side-hustles" },
-	];
+	const items = [];
+	for (let i = 0; i < currentPosts.length; i++) {
+		items.push(
+			<div className='row-container' key={currentPosts[i].id}>
+				<Link to={`/extra-income/side-hustles/${currentPosts[i].id}`}>
+					<BlogPostCard
+						id={currentPosts[i].id}
+						title={currentPosts[i].title}
+						imageUrl={currentPosts[i].imageUrl}
+						content={currentPosts[i].content}
+						author={currentPosts[i].author}
+						datePosted={currentPosts[i].datePosted}
+					/>
+				</Link>
+			</div>,
+		);
+
+		if (i > 0 && i % 2 === 0) {
+			items.push(
+				<div className='ad-row-container' key={`ad-row-${i}`}>
+					<AdComponent width={660} height={440} />
+				</div>,
+			);
+		}
+
+		if (i % 2 === 0) {
+			items.push(
+				<div className='mobile-box-ad-container' key={`mobile-box-ad-${i}`}>
+					<AdComponent width={250} height={250} />
+				</div>,
+			);
+		}
+
+		if (i % 4 === 0) {
+			items.push(
+				<div className='mobile-ad-container' key={`mobile-ad-${i}`}>
+					<AdComponent width={320} height={100} />
+				</div>,
+			);
+		}
+	}
 
 	return (
 		<div className='page-container' ref={pageRef}>
-			<div className='top-ad-container'>
-				<AdComponent width={728} height={90} />
-			</div>
-			<h2 className='section-heading'>Side Hustles</h2>
-			<div className='content-wrapper'>
-				{currentPosts.map((hustleData, index) => (
-					<React.Fragment key={hustleData.id}>
-						<div className='row-container'>
-							<Link to={`/category/extra-income/side-hustles/${hustleData.id}`}>
-								<BlogPostCard
-									id={hustleData.id}
-									title={hustleData.title}
-									imageUrl={hustleData.imageUrl}
-									content={hustleData.content}
-									author={hustleData.author}
-									datePosted={hustleData.datePosted}
-								/>
-							</Link>
-						</div>
-						{index > 0 && index % 2 === 0 && (
-							<div className='ad-row-container'>
-								<AdComponent width={660} height={440} />
+			<Routes>
+				<Route
+					path='/'
+					element={
+						<>
+							<div className='top-ad-container'>
+								<AdComponent width={728} height={90} />
 							</div>
-						)}
-						{index % 2 === 0 && (
-							<div className='mobile-box-ad-container'>
-								<AdComponent width={250} height={250} />
-							</div>
-						)}
-						{index % 4 === 0 && (
-							<div className='mobile-ad-container'>
-								<AdComponent width={320} height={100} />
-							</div>
-						)}
-					</React.Fragment>
-				))}
-			</div>
-			<PaginationContainer
-				totalItems={sideHustles.length}
-				itemsPerPage={postsPerPage}
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-			/>
+							<h2 className='section-heading'>Side Hustles</h2>
+							<div className='content-wrapper'>{items}</div>
+							<PaginationContainer
+								totalItems={sideHustles.length}
+								itemsPerPage={postsPerPage}
+								currentPage={currentPage}
+								setCurrentPage={setCurrentPage}
+							/>
+						</>
+					}
+				/>
+				<Route
+					path=':id'
+					element={<BlogPostContent jsonFile='sidehustles.json' />}
+				/>
+			</Routes>
 		</div>
 	);
 };

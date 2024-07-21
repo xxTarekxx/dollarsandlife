@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes, useParams } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
-import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
+import BlogPostContent from "../../../components/BlogPostContent";
 import "./CommonStyles.css";
 
 const FreeLanceJobs: React.FC = () => {
@@ -44,17 +44,11 @@ const FreeLanceJobs: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	const breadcrumbPaths = [
-		{ title: "Home", url: "/" },
-		{ title: "Extra Income", url: "/category/extra-income" },
-		{ title: "Freelance Jobs", url: "/category/extra-income/freelancers" },
-	];
-
 	const items = [];
 	for (let i = 0; i < currentPosts.length; i++) {
 		items.push(
 			<div className='row-container' key={currentPosts[i].id}>
-				<Link to={`/category/extra-income/Freelancers/${currentPosts[i].id}`}>
+				<Link to={`/extra-income/freelancers/${currentPosts[i].id}`}>
 					<BlogPostCard
 						id={currentPosts[i].id}
 						title={currentPosts[i].title}
@@ -94,17 +88,30 @@ const FreeLanceJobs: React.FC = () => {
 
 	return (
 		<div className='page-container' ref={pageRef}>
-			<div className='top-ad-container'>
-				<AdComponent width={728} height={90} />
-			</div>
-			<h2 className='section-heading'>Freelance Job Opportunities</h2>
-			<div className='content-wrapper'>{items}</div>
-			<PaginationContainer
-				totalItems={freelanceJobs.length}
-				itemsPerPage={postsPerPage}
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-			/>
+			<Routes>
+				<Route
+					path='/'
+					element={
+						<>
+							<div className='top-ad-container'>
+								<AdComponent width={728} height={90} />
+							</div>
+							<h2 className='section-heading'>Freelance Job Opportunities</h2>
+							<div className='content-wrapper'>{items}</div>
+							<PaginationContainer
+								totalItems={freelanceJobs.length}
+								itemsPerPage={postsPerPage}
+								currentPage={currentPage}
+								setCurrentPage={setCurrentPage}
+							/>
+						</>
+					}
+				/>
+				<Route
+					path=':id'
+					element={<BlogPostContent jsonFile='freelancejobs.json' />}
+				/>
+			</Routes>
 		</div>
 	);
 };

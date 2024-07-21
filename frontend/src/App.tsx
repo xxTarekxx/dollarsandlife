@@ -6,7 +6,6 @@ import {
 	useLocation,
 } from "react-router-dom";
 import "./App.css";
-import BlogPostContent from "./components/BlogPostContent";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
@@ -43,24 +42,26 @@ const App: React.FC = () => {
 				<Routes>
 					<Route path='/' element={<HomePage />} />
 					<Route path='/extra-income' element={<ExtraIncome />} />
-					<Route path='/extra-income/freelancers' element={<FreeLanceJobs />} />
-					<Route path='/extra-income/budgetting' element={<Budget />} />
 					<Route
-						path='/extra-income/remote-jobs'
+						path='/extra-income/freelancers/*'
+						element={<FreeLanceJobs />}
+					/>
+					<Route path='/extra-income/Budget/*' element={<Budget />} />
+					<Route
+						path='/extra-income/remote-jobs/*'
 						element={<RemoteOnlineJobs />}
 					/>
-					<Route path='/extra-income/side-hustles' element={<SideHustles />} />
 					<Route
-						path='/extra-income/money-making-apps'
+						path='/extra-income/side-hustles/*'
+						element={<SideHustles />}
+					/>
+					<Route
+						path='/extra-income/money-making-apps/*'
 						element={<MoneyMakingApps />}
 					/>
 					<Route path='/deals-and-savings' element={<DealsAndSavings />} />
-					<Route path='/start-a-blog' element={<StartAblog />} />
+					<Route path='/start-a-blog/*' element={<StartAblog />} />
 					<Route path='/My-Story' element={<MyStory />} />
-					<Route
-						path='/extra-income/freelancers/:id'
-						element={<BlogPostContent />}
-					/>
 				</Routes>
 			</MainContent>
 			<Footer />

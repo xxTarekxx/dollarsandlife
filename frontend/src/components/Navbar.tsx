@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/images/website-logo.webp";
 import SearchImg from "../assets/images/favcons/searchicon.svg";
@@ -9,9 +9,13 @@ const Navbar: React.FC = () => {
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const location = useLocation();
 
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location.pathname]);
+
 	const menuItems = [
 		{ to: "/", text: "Home" },
-		{ to: "/category/extra-income/", text: "Extra Income" },
+		{ to: "/extra-income/", text: "Extra Income" },
 		{ to: "/deals-and-savings", text: "Deals & Saving" },
 		{ to: "/Start-A-Blog", text: "Start A Blog" },
 		{ to: "/My-Story", text: "My Story" },
@@ -23,7 +27,6 @@ const Navbar: React.FC = () => {
 	) => {
 		event.stopPropagation();
 		setIsOpen(false);
-		window.scrollTo({ top: 0, behavior: "smooth" });
 		if (location.pathname !== to) {
 			window.location.href = to;
 		}

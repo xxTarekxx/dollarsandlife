@@ -1,68 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import AdComponent from "../../src/components/AdComponent";
 import "./BlogPostContent.css";
 
-interface BlogPostData {
-	id: number;
-	title: string;
-	imageUrl: string;
-	content: string;
-	author: string;
-	datePosted: string;
+interface BlogPostContentProps {
+	jsonFile: string;
 }
 
-const BlogPostContent: React.FC = () => {
-	const { id } = useParams<{ id: string }>();
-	const [blogPost, setBlogPost] = useState<BlogPostData | null>(null);
-	const location = useLocation();
+const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
+	const { id: postId } = useParams<{ id: string }>();
+	const [post, setPost] = useState<any>(null);
 
 	useEffect(() => {
-		const fetchData = async () => {
+		const fetchPost = async () => {
+			console.log(`Fetching from ${jsonFile} for post ID ${postId}`);
 			try {
-				const response = await fetch("/freelancejobs.json");
+				const response = await fetch(`/${jsonFile}`);
 				if (!response.ok) {
-					throw new Error("Failed to fetch");
+					throw new Error("Failed to fetch post");
 				}
-				const data = (await response.json()) as BlogPostData[];
-				const foundPost = data.find((post) => post.id.toString() === id);
-				if (!foundPost) {
+				const data = await response.json();
+				const postData = data.find((item: any) => item.id === postId);
+				if (!postData) {
 					throw new Error("Post not found");
 				}
-				setBlogPost(foundPost);
+				setPost(postData);
 			} catch (error) {
-				console.error("Error fetching data:", error);
+				console.error("Error fetching post:", error);
 			}
 		};
 
-		fetchData();
-	}, [id]);
+		fetchPost();
+	}, [postId, jsonFile]);
 
-	if (!blogPost) {
+	if (!post) {
 		return <div>Loading...</div>;
 	}
 
-	const formattedDate = new Date(blogPost.datePosted).toLocaleDateString(
-		"en-US",
-		{
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-		},
-	);
-
 	return (
-		<div className='blog-post-container'>
-			<h1 className='blog-title'>{blogPost.title}</h1>
-			<h2 className='blog-subtitle'>
-				{blogPost.author} - {formattedDate}
-			</h2>
-			<img
-				className='blog-image'
-				src={blogPost.imageUrl}
-				alt={blogPost.title}
-			/>
-			<p className='blog-paragraph'>{blogPost.content}</p>
-			{/* <p className="current-path">Current Path: {location.pathname}</p> */}
+		<div className='blog-post-content'>
+			<h1>{post.title}</h1>
+			<p>{post.author}</p>
+			<p>{post.datePosted}</p>
+			<img src={post.imageUrl} alt={post.title} />
+			<div dangerouslySetInnerHTML={{ __html: post.content }} />
+			<div className='ad-container'>
+				<AdComponent width={728} height={90} />
+			</div>
 		</div>
 	);
 };

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, Route, Routes } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
-import BlogPostCard from "../../../components/BlogPostCard";
-import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
+import BlogPostCard from "../../../components/BlogPostCard";
+import BlogPostContent from "../../../components/BlogPostContent";
 import "./StartABlog.css";
 
 const StartABlog: React.FC = () => {
@@ -44,16 +44,11 @@ const StartABlog: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	const breadcrumbPaths = [
-		{ title: "Home", url: "/" },
-		{ title: "Start A Blog", url: "/category/start-a-blog" },
-	];
-
 	const items = [];
 	for (let i = 0; i < currentPosts.length; i++) {
 		items.push(
 			<div className='row-container' key={currentPosts[i].id}>
-				<Link to={`/category/start-a-blog/${currentPosts[i].id}`}>
+				<Link to={`/start-a-blog/${currentPosts[i].id}`}>
 					<BlogPostCard
 						id={currentPosts[i].id}
 						title={currentPosts[i].title}
@@ -65,6 +60,7 @@ const StartABlog: React.FC = () => {
 				</Link>
 			</div>,
 		);
+
 		if ((i + 1) % 2 === 0) {
 			items.push(
 				<div className='ad-row-container' key={`ad-row-${i}`}>
@@ -76,17 +72,30 @@ const StartABlog: React.FC = () => {
 
 	return (
 		<div className='blog-main-container' ref={pageRef}>
-			<div className='top-ad-container'>
-				<AdComponent width={728} height={90} />
-			</div>
-			<h2 className='section-heading'>Start A Blog</h2>
-			<div className='content-wrapper'>{items}</div>
-			<PaginationContainer
-				totalItems={blogPosts.length}
-				itemsPerPage={postsPerPage}
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-			/>
+			<Routes>
+				<Route
+					path='/'
+					element={
+						<>
+							<div className='top-ad-container'>
+								<AdComponent width={728} height={90} />
+							</div>
+							<h2 className='section-heading'>Start A Blog</h2>
+							<div className='content-wrapper'>{items}</div>
+							<PaginationContainer
+								totalItems={blogPosts.length}
+								itemsPerPage={postsPerPage}
+								currentPage={currentPage}
+								setCurrentPage={setCurrentPage}
+							/>
+						</>
+					}
+				/>
+				<Route
+					path=':id'
+					element={<BlogPostContent jsonFile='blogposts.json' />}
+				/>
+			</Routes>
 		</div>
 	);
 };
