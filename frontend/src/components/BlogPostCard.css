@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: row;
     max-width: 600px;
+    height: 240px;
     width: 100%;
     margin: 20px 0;
 }
@@ -22,6 +23,8 @@
         flex-direction: column;
         width: 90%;
         margin: 20px auto;
+        height: auto;
+        /* Allow the height to adjust based on content */
     }
 }
 
@@ -48,6 +51,8 @@
 @media (max-width: 768px) {
     .card-content {
         width: 100%;
+        margin-left: 0;
+        /* Reset margin for mobile layout */
     }
 }
 
@@ -80,25 +85,15 @@
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.5;
-
-    /* Required for text overflow ellipsis */
-    text-overflow: ellipsis;
-    white-space: normal;
-
-    /* Required for non-WebKit browsers (using standard syntax) */
-    line-clamp: 4;
-    /* Standard property, not widely supported yet */
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -o-flexbox;
-    display: flex;
-    box-orient: vertical;
     -moz-box-orient: vertical;
     -ms-box-orient: vertical;
     -o-box-orient: vertical;
-    flex-direction: column;
+    overflow: hidden;
+    line-height: 1.5;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-clamp: 4;
+    /* Standard property (not widely supported yet) */
 }
 
 .read-more-button {
