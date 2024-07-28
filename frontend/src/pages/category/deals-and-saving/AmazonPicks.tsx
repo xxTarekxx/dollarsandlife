@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "./DealsAndSavings.css";
+import "./AmazonPicks.css";
 
 interface ProductCardProps {
 	id: string;

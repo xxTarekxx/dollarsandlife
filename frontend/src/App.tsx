@@ -15,7 +15,7 @@ import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
-import DealsAndSavings from "./pages/category/deals-and-saving/DealsAndSavings";
+import AmazonPicks from "./pages/category/deals-and-saving/AmazonPicks";
 import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
@@ -59,7 +59,7 @@ const App: React.FC = () => {
 						path='/extra-income/money-making-apps/*'
 						element={<MoneyMakingApps />}
 					/>
-					<Route path='/deals-and-savings' element={<DealsAndSavings />} />
+					<Route path='/Amazon-Picks' element={<AmazonPicks />} />
 					<Route path='/start-a-blog/*' element={<StartAblog />} />
 					<Route path='/My-Story' element={<MyStory />} />
 				</Routes>

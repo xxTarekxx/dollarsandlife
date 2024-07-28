@@ -10,7 +10,7 @@ const breadcrumbNameMap: { [key: string]: string } = {
 	"/extra-income/remote-jobs": "Remote Jobs",
 	"/extra-income/side-hustles": "Side Hustles",
 	"/extra-income/money-making-apps": "Money Making Apps",
-	"/deals-and-savings": "Deals and Savings",
+	"/AmazonPicks": "Amazon Picks",
 	"/start-a-blog": "Start A Blog",
 	"/My-Story": "My Story",
 };

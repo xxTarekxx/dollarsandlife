@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import useCompressedImage from "../components/compressed/useCompressedImage";
 import ExtraIncomeImg from "../assets/images/icons/img-extraincome.webp";
 import StartAblogimg from "../assets/images/icons/img-startablog.webp";
-import DealsAndSavingimg from "../assets/images/icons/img-dealsandsavings.webp";
+import AmazonPicksImg from "../assets/images/icons/img-dealsandsavings.webp";
 import NextToPImage from "../assets/images/favcons/down-arrow.webp"; // Add the image for next to the P tag
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
 	const compressedExtraIncomeImg = useCompressedImage(ExtraIncomeImg);
 	const compressedStartAblogimg = useCompressedImage(StartAblogimg);
-	const compressedDealsAndSavingimg = useCompressedImage(DealsAndSavingimg);
+	const compressedAmazonPicksImg = useCompressedImage(AmazonPicksImg);
 
 	const linkBoxes = [
 		{
@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
 		{
 			to: "/deals-and-savings",
 			ariaLabel: "Deals And Savings",
-			imgSrc: compressedDealsAndSavingimg || DealsAndSavingimg,
+			imgSrc: compressedAmazonPicksImg || AmazonPicksImg,
 			altText: "Passive Income Icon",
 			captionText: "Deals & Savings",
 		},
