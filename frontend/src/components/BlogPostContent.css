@@ -1,110 +1,98 @@
-.blog-post-container {
+.blog-post-content {
     background-color: white;
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
     color: #333;
 }
 
 @media (max-width: 768px) {
-    .blog-post-container {
+    .blog-post-content {
         padding: 10px;
         margin: 10px 10px;
     }
 }
 
-.blog-title {
+.blog-post-content h1 {
     font-size: 2.5em;
     margin-bottom: 0.5em;
     color: #222;
 }
 
 @media (max-width: 768px) {
-    .blog-title {
+    .blog-post-content h1 {
         font-size: 2em;
     }
 }
 
-.blog-subtitle {
-    font-size: 1.5em;
+.blog-post-content p {
+    font-size: 1.1em;
     margin: 1em 0;
     color: #555;
 }
 
 @media (max-width: 768px) {
-    .blog-subtitle {
-        font-size: 1.2em;
+    .blog-post-content p {
+        font-size: 1em;
     }
 }
 
-.blog-paragraph {
-    margin: 1em 0;
-    font-size: 1em;
-    color: #666;
-}
-
-@media (max-width: 768px) {
-    .blog-paragraph {
-        font-size: 0.9em;
-    }
-}
-
-.blog-image {
+.blog-post-content img {
     width: 100%;
     max-width: 660px;
-    height: 440px;
+    height: auto;
     object-fit: cover;
-    margin: 1em auto;
+    margin: 1em 0;
     display: block;
 }
 
 @media (max-width: 768px) {
-    .blog-image {
+    .blog-post-content img {
         width: 100%;
     }
 }
 
-.blog-quote {
+.blog-post-content blockquote {
     margin: 1em 0;
     padding: 0.5em 1em;
     border-left: 4px solid #ccc;
     color: #888;
     font-style: italic;
+    background: #f9f9f9;
 }
 
 @media (max-width: 768px) {
-    .blog-quote {
+    .blog-post-content blockquote {
         padding: 0.5em;
     }
 }
 
-.blog-list {
+.blog-post-content ul {
     margin: 1em 0;
     padding-left: 20px;
     list-style-type: disc;
 }
 
 @media (max-width: 768px) {
-    .blog-list {
+    .blog-post-content ul {
         padding-left: 15px;
     }
 }
 
-.blog-list-item {
+.blog-post-content li {
     margin: 0.5em 0;
+    font-size: 1.1em;
 }
 
 @media (max-width: 768px) {
-    .blog-list-item {
+    .blog-post-content li {
         margin: 0.3em 0;
     }
 }
 
-.current-path {
-    font-size: 0.9em;
-    color: #888;
+.blog-post-content .ad-container {
+    margin: 2em 0;
     text-align: center;
-    margin-top: 2em;
 }
