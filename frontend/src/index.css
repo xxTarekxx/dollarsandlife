@@ -7,8 +7,6 @@ body {
   max-width: 100%;
   box-sizing: border-box;
   font-weight: 600;
-  margin: 0;
-  padding: 0;
 }
 
 body::before {
@@ -24,12 +22,20 @@ body::before {
   z-index: -1;
 }
 
-html {
-  overflow-x: hidden;
+html,
+body {
   height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  /* Temporarily test with overflow hidden */
+}
+
+
+/* html {
   display: flex;
   flex-direction: column;
-}
+} */
 
 @media (max-width: 820px) {
   body::before {
