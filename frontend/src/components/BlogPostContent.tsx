@@ -7,9 +7,26 @@ interface BlogPostContentProps {
 	jsonFile: string;
 }
 
+interface PostContent {
+	subtitle?: string;
+	text?: string;
+	imageUrl?: string;
+	bulletPoints?: string[];
+	numberedPoints?: string[];
+}
+
+interface BlogPost {
+	id: string;
+	title: string;
+	author: string;
+	datePosted: string;
+	imageUrl: string;
+	content: PostContent[];
+}
+
 const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
-	const [post, setPost] = useState<any>(null);
+	const [post, setPost] = useState<BlogPost | null>(null);
 
 	useEffect(() => {
 		const fetchPost = async () => {
@@ -20,7 +37,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					throw new Error("Failed to fetch post");
 				}
 				const data = await response.json();
-				const postData = data.find((item: any) => item.id === postId);
+				const postData = data.find((item: BlogPost) => item.id === postId);
 				if (!postData) {
 					throw new Error("Post not found");
 				}
@@ -37,13 +54,91 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		return <div>Loading...</div>;
 	}
 
+	let subtitleCount = 0;
+
 	return (
 		<div className='blog-post-content'>
+			{/* Top Ad */}
+			<div className='ad-top'>
+				<AdComponent width={730} height={90} />
+			</div>
+
 			<h1>{post.title}</h1>
-			<p>{post.author}</p>
-			<p>{post.datePosted}</p>
-			<img src={post.imageUrl} alt={post.title} />
-			<div dangerouslySetInnerHTML={{ __html: post.content }} />
+			<div className='mage-ibox'>
+				<img src={post.imageUrl} alt={post.title} className='main-image' />
+			</div>
+
+			<div className='author-date'>
+				<p className='author'>By: {post.author}</p>
+				<p className='date'>{new Date(post.datePosted).toLocaleDateString()}</p>
+			</div>
+			{post.content.map((section, index) => {
+				const elements = [];
+
+				if (section.subtitle) {
+					// Increment subtitle count
+					subtitleCount++;
+
+					// Add an ad before every 2 subtitles
+					if (subtitleCount > 1 && subtitleCount % 2 === 1) {
+						elements.push(
+							<div key={`ad-${index}`} className='ad-container'>
+								<AdComponent width={600} height={300} />
+							</div>,
+						);
+					}
+
+					elements.push(<h2 key={`subtitle-${index}`}>{section.subtitle}</h2>);
+				}
+
+				if (section.text) {
+					elements.push(
+						<p
+							key={`text-${index}`}
+							dangerouslySetInnerHTML={{ __html: section.text }}
+						/>,
+					);
+				}
+
+				if (section.imageUrl) {
+					elements.push(
+						<img
+							key={`image-${index}`}
+							src={section.imageUrl}
+							alt=''
+							className='section-image'
+						/>,
+					);
+				}
+
+				if (section.bulletPoints) {
+					elements.push(
+						<ul key={`bulletPoints-${index}`}>
+							{section.bulletPoints.map((point, i) => (
+								<li key={`bullet-${i}`}>{point}</li>
+							))}
+						</ul>,
+					);
+				}
+
+				if (section.numberedPoints) {
+					elements.push(
+						<ol key={`numberedPoints-${index}`}>
+							{section.numberedPoints.map((point, i) => (
+								<li key={`numbered-${i}`}>{point}</li>
+							))}
+						</ol>,
+					);
+				}
+
+				return (
+					<div key={index} className='content-section'>
+						{elements}
+					</div>
+				);
+			})}
+
+			{/* Bottom Ad */}
 			<div className='ad-container'>
 				<AdComponent width={728} height={90} />
 			</div>

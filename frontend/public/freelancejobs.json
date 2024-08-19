@@ -1,107 +1,100 @@
 [
   {
-    "id": "Uber-DoorDash-and-Gigs-Apps",
-    "title": "Ubder Driver And Food Delivery",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Et magna aliqua excepteur aute sit est. Velit magna incididunt in adipisicing ea anim irure duis sit tempor Lorem dolor voluptate. Non nostrud magna ex nostrud quis in aute ut nostrud veniam aliqua elit ut consequat. Sint irure laboris sint id nostrud ut pariatur. Sint deserunt velit proident est in pariatur minim sint veniam. Ex minim mollit consectetur amet exercitation dolore magna.\r\n",
+    "id": "Uber-Driving-Gig-Economy",
+    "title": "How Uber Driver gig Works",
+    "author": "Anonymous",
+    "datePosted": "2024-08-18T04:43:11",
+    "imageUrl": "../../src/assets/images/article-images/uber-driver-main.webp", 
+    "content": [
+      {
+        "subtitle": "Introduction",
+        "text": "In today's gig economy, Uber driving stands out as a popular and flexible freelance opportunity. Whether you're looking for a side hustle to supplement your income, a part-time job that fits around your schedule, or a full-time gig, Uber offers a way to earn money on your own terms. This article will dive into how Uber driving works as a freelance gig, outline the sign-up process, and explore the various services within the Uber Driver app, including ride-sharing, package deliveries, and food deliveries. Additionally, we'll look at how much you can potentially earn on a weekly basis in the U.S. <a href='https://auth.uber.com/v2/?breeze_init_req_id=6cf49322-7016-4d02-8e07-cf1816b48da4&breeze_local_zone=dca20&next_url=https%3A%2F%2Fdrivers.uber.com%2F%3F_gl%3D1%252Azvqrrk%252A_gcl_au%252AOTYyODkwMTE2LjE3MjQwMTAwMDY.%252A_ga%252AMTc1NDg3NTU5OC4xNzI0MDEwMDA2%252A_ga_XTGQLY6KPT%252AMTcyNDAxMDAwNS4xLjEuMTcyNDAxMDQ4OC4wLjAuMA..%26invite_code%3Ddv3bkxfr8779%26marketing_vistor_id%3Ddcb4d913-e022-4418-85d1-fccba1a806cf%26uclick_id%3D33356963-1ec6-4281-a36b-102119fd92b2&state=qfMQyrxPNh7SqSuUwPeRg1ADnHubZbIjCj0ypRa-yL4%3D'>Click Here To Start Now</a>"
+      },
+      {
+        "subtitle": "How Uber Driving Works",
+        "text": "Uber operates as a platform that connects drivers with people who need transportation, package deliveries, or food deliveries. As an Uber driver, you use your vehicle to complete various tasks based on the requests you receive through the Uber Driver app. The app handles all the logistics, from finding passengers and delivery requests to processing payments, allowing you to focus on driving."
+      },
+      {
+        "subtitle": "Flexibility and Freedom",
+        "text": "One of the most appealing aspects of driving for Uber is the flexibility it offers. Unlike traditional jobs with fixed hours, Uber allows you to set your schedule. You can choose when and where you want to work, whether it’s early in the morning, late at night, or during your lunch break. This flexibility makes Uber driving an attractive option for many, especially those with other commitments.",
+        "imageUrl": "http://placehold.it/660x300"
+      },
+      {
+        "subtitle": "Types of Services in the Uber Driver App",
+        "bulletPoints": [
+          "UberX: The most common service, offering affordable rides in standard vehicles.",
+          "UberXL: For larger groups, providing rides in SUVs and vans.",
+          "UberSELECT: A premium option offering rides in high-end vehicles.",
+          "UberBLACK: A luxury service providing rides in black luxury vehicles.",
+          "UberPOOL: A carpooling service where passengers share rides with others going in the same direction.",
+          "UberEats: Food delivery service where you pick up orders from restaurants and deliver them to customers.",
+          "Uber Connect: A package delivery service allowing customers to send packages to others within their city."
+        ]
+      },
+      {
+        "subtitle": "How to Sign Up as an Uber Driver",
+        "text": "Signing up to become an Uber driver is a straightforward process, but there are specific requirements you'll need to meet. Here’s a step-by-step guide to getting started: <a href='https://auth.uber.com/v2/?breeze_init_req_id=6cf49322-7016-4d02-8e07-cf1816b48da4&breeze_local_zone=dca20&next_url=https%3A%2F%2Fdrivers.uber.com%2F%3F_gl%3D1%252Azvqrrk%252A_gcl_au%252AOTYyODkwMTE2LjE3MjQwMTAwMDY.%252A_ga%252AMTc1NDg3NTU5OC4xNzI0MDEwMDA2%252A_ga_XTGQLY6KPT%252AMTcyNDAxMDAwNS4xLjEuMTcyNDAxMDQ4OC4wLjAuMA..%26invite_code%3Ddv3bkxfr8779%26marketing_vistor_id%3Ddcb4d913-e022-4418-85d1-fccba1a806cf%26uclick_id%3D33356963-1ec6-4281-a36b-102119fd92b2&state=qfMQyrxPNh7SqSuUwPeRg1ADnHubZbIjCj0ypRa-yL4%3D' target='_blank' rel='noopener noreferrer'>Click Here To Start Now</a>",
+        "numberedPoints": [
+          "Meet the Basic Requirements: Age, driving experience, valid driver's license, vehicle requirements, and background check.",
+          "Sign Up Online: Create an account on Uber's website or download the Uber Driver app and enter your personal information.",
+          "Upload Documents: Upload necessary documents including a valid driver's license, proof of vehicle insurance, vehicle registration, and a profile photo.",
+          "Vehicle Inspection: Ensure your vehicle passes a safety inspection as required by Uber.",
+          "Complete a Background Check: Uber will review your driving record and any criminal history.",
+          "Activate Your Account: Once approved, you can start accepting ride requests and deliveries."
+        ]
+      },
+      {
+        "subtitle": "How Much Can Uber Drivers Make?",
+        "text": "Earnings as an Uber driver can vary significantly depending on factors such as location, time of day, and the number of hours you work. Here’s a breakdown of what you can expect:"
+      }
+    ]
+  },  {
+    "id": "DoorDash-Delivery-Gig-Economy",
+    "title": "How DoorDash Works as a Freelance Gig",
     "author": "MEDICROIX",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b557c7161ea6d316e2ae",
-    "title": "Pauline Johns",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Ea laborum laboris cillum ad elit laboris minim sunt ea sint id ut. Do officia est veniam reprehenderit ea ad esse nisi id tempor proident sunt exercitation nisi. Eiusmod velit voluptate dolor voluptate. Sint commodo do consectetur consequat velit culpa. Duis ullamco magna cillum reprehenderit. Proident ad aliqua enim est elit aute incididunt ullamco adipisicing in Lorem. Exercitation ullamco voluptate excepteur aliqua minim excepteur excepteur minim irure dolor est eu duis irure.\r\n",
-    "author": "ANIVET",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b557bc586b1b3fd9fa65",
-    "title": "Dona Benjamin",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Deserunt reprehenderit nulla occaecat officia. Enim non nostrud culpa exercitation amet. Deserunt in veniam aliqua aliqua mollit tempor mollit cillum occaecat eu ut. Proident minim excepteur cillum aute reprehenderit veniam est adipisicing sint eiusmod quis do ex.\r\n",
-    "author": "AQUOAVO",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b557bcc34bd4615051c5",
-    "title": "Potter Patel",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Laboris labore veniam exercitation ex enim irure fugiat do aliquip nulla. Dolore mollit cupidatat voluptate pariatur voluptate culpa magna proident. Ea fugiat id cupidatat veniam.\r\n",
-    "author": "PRIMORDIA",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b557ed5dd1b58e48c5dd",
-    "title": "Olivia Martin",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Laboris voluptate in proident sunt. Deserunt veniam voluptate sint cupidatat adipisicing aliqua velit velit reprehenderit ex tempor. Laboris id ipsum eiusmod aliqua ex ex Lorem proident in ut ea. Culpa sint laboris nostrud mollit sint sunt id ullamco ex in consequat aliqua sunt. Do id magna elit amet. Cillum est nulla est occaecat ipsum excepteur elit laboris laborum. Tempor ut adipisicing excepteur fugiat qui anim et occaecat sit sint.\r\n",
-    "author": "MINGA",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b55790cf5692dcafc09e",
-    "title": "Taylor Chavez",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Consequat enim magna velit ex. Consectetur nostrud velit eu voluptate sunt labore laborum. Fugiat est incididunt consectetur aliqua occaecat reprehenderit commodo ipsum magna sint eiusmod ut duis.\r\n",
-    "author": "NUTRALAB",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b557290abbd721a60ea5",
-    "title": "Brandie Hamilton",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Eiusmod et dolor quis dolor ea nostrud sunt velit commodo non ad nulla id. Id id ullamco eu ad Lorem. Ad excepteur deserunt reprehenderit nulla do eiusmod sit dolor magna magna fugiat in reprehenderit. Sit mollit laboris commodo et exercitation eu elit veniam sit quis in ex ea. Magna anim qui nostrud aliquip esse velit laboris. Cillum sit qui cillum culpa qui pariatur anim amet sunt. Anim occaecat labore excepteur sit eiusmod nostrud eiusmod duis ipsum minim sint sunt non.\r\n",
-    "author": "ZENOLUX",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b557fcdd65f870eaa47d",
-    "title": "Sanders Beach",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Do fugiat duis nostrud et enim. Id labore sit culpa consequat culpa id. Sit enim elit incididunt elit ipsum velit magna. Eiusmod Lorem anim veniam nulla est duis dolor proident exercitation adipisicing. Velit deserunt et ad nisi ut magna excepteur esse enim dolor sit ullamco. Aliqua et velit exercitation nisi labore laborum reprehenderit minim officia dolor ex do.\r\n",
-    "author": "PODUNK",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b55773064f9b2a5dd662",
-    "title": "Mattie Fuentes",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Aliquip eu est qui voluptate cupidatat. Qui anim labore sunt veniam commodo sit cillum ex dolor nisi. Commodo culpa tempor quis cupidatat id. Sunt sint consectetur ad cupidatat ullamco irure deserunt velit nostrud. Ea irure ad do occaecat aliqua ipsum. Ullamco quis in dolore velit voluptate sunt occaecat.\r\n",
-    "author": "GEEKULAR",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b557da7bec4bd4223c63",
-    "title": "Avila Mercer",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Quis magna cillum esse consequat irure laboris duis nulla deserunt labore nisi anim. Lorem nostrud aute excepteur reprehenderit irure adipisicing in velit dolor exercitation magna. Magna commodo sunt dolor Lorem. Irure incididunt culpa et labore laboris magna labore reprehenderit id quis occaecat. Amet commodo ut consequat ex dolor excepteur ipsum tempor enim enim. Excepteur reprehenderit commodo cupidatat dolore irure pariatur deserunt amet sunt eiusmod duis.\r\n",
-    "author": "BIOLIVE",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b5575db15418b5ab858c",
-    "title": "Christensen Santos",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Voluptate dolor magna Lorem elit. Tempor irure anim sint ut. Occaecat commodo laboris adipisicing veniam cillum. Id anim ea pariatur proident ut aute non dolor commodo velit. Dolor ea voluptate exercitation esse adipisicing voluptate sit cillum enim excepteur. Voluptate tempor excepteur duis dolor cillum nisi.\r\n",
-    "author": "HAIRPORT",
-    "datePosted": "2018-06-29T04:43:11"
-  }, 
-   {
-    "id": "6680b5575db15418b5ab858asdasc",
-    "title": "Christensen Santos",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Voluptate dolor magna Lorem elit. Tempor irure anim sint ut. Occaecat commodo laboris adipisicing veniam cillum. Id anim ea pariatur proident ut aute non dolor commodo velit. Dolor ea voluptate exercitation esse adipisicing voluptate sit cillum enim excepteur. Voluptate tempor excepteur duis dolor cillum nisi.\r\n",
-    "author": "HAIRPORT",
-    "datePosted": "2018-06-29T04:43:11"
-  },
-  {
-    "id": "6680b5575db15418b5ab858asdasc",
-    "title": "Christensen Santos",
-    "imageUrl": "http://placehold.it/32x32",
-    "content": "Voluptate dolor magna Lorem elit. Tempor irure anim sint ut. Occaecat commodo laboris adipisicing veniam cillum. Id anim ea pariatur proident ut aute non dolor commodo velit. Dolor ea voluptate exercitation esse adipisicing voluptate sit cillum enim excepteur. Voluptate tempor excepteur duis dolor cillum nisi.\r\n",
-    "author": "HAIRPORT",
-    "datePosted": "2018-06-29T04:43:11"
+    "datePosted": "2024-08-18T04:43:11",
+    "imageUrl": "http://placehold.it/800x400",
+    "content": [
+      {
+        "subtitle": "Introduction",
+        "text": "In today's fast-paced world, the gig economy offers countless opportunities for those seeking flexible work options. DoorDash has emerged as a leading platform for freelance delivery drivers, providing a straightforward way to earn money by delivering food to customers. Whether you're looking to supplement your income or searching for a full-time gig, DoorDash allows you to work on your own schedule. This article explores how DoorDash works, the sign-up process, the types of deliveries you can make, and the potential earnings you can expect as a Dasher.",
+        "imageUrl": "http://placehold.it/660x300"
+      },
+      {
+        "subtitle": "How DoorDash Works",
+        "text": "DoorDash connects drivers, known as Dashers, with customers who need food delivered from local restaurants. The process is simple: you accept delivery requests through the DoorDash app, pick up the order from the restaurant, and deliver it to the customer's location. The app handles all the logistics, including navigation, payment processing, and customer communication, allowing you to focus on making timely deliveries and providing excellent service."
+      },
+      {
+        "subtitle": "Why Drive for DoorDash?",
+        "text": "Driving for DoorDash offers numerous benefits, particularly for those who value flexibility and autonomy. As a Dasher, you can choose when, where, and how often you want to work. This freedom makes DoorDash an attractive option for students, parents, or anyone looking to earn extra money without committing to a fixed schedule. Additionally, DoorDash offers a simple pay structure with clear earnings breakdowns, so you know exactly how much you'll make for each delivery.",
+        "imageUrl": "http://placehold.it/660x300"
+      },
+      {
+        "subtitle": "Types of Deliveries on DoorDash",
+        "bulletPoints": [
+          "Standard Food Deliveries: Pick up and deliver food orders from local restaurants to customers.",
+          "Grocery Deliveries: Assist with grocery shopping and deliver items to customers' doors.",
+          "Alcohol Deliveries: Deliver alcoholic beverages, following local laws and regulations.",
+          "Convenience Store Deliveries: Pick up items from convenience stores like CVS or Walgreens and deliver them to customers.",
+          "DashMart Deliveries: Deliver items from DoorDash's own convenience stores, offering a variety of household essentials."
+        ]
+      },
+      {
+        "subtitle": "How to Sign Up as a DoorDash Driver",
+        "text": "Signing up to become a Dasher is quick and easy. Here's how you can get started:",
+        "numberedPoints": [
+          "Meet the Basic Requirements: Be at least 18 years old, have a valid driver's license, insurance, and a reliable vehicle (car, bike, or scooter).",
+          "Sign Up Online: Create an account on the DoorDash website or through the Dasher app by entering your personal information.",
+          "Submit Documents: Upload necessary documents, including your driver's license, proof of insurance, and a profile photo.",
+          "Complete a Background Check: DoorDash will conduct a background check to ensure you meet safety standards.",
+          "Start Dashing: Once your account is approved, you can start accepting delivery requests and earning money."
+        ],
+        "textAfter": "Ready to start earning with DoorDash? <a href='https://www.doordash.com/dasher/signup/' target='_blank' rel='noopener noreferrer'>Click Here To Start Now</a>"
+      },
+      {
+        "subtitle": "How Much Can DoorDash Drivers Make?",
+        "text": "Earnings as a Dasher vary based on factors like location, time of day, and the number of hours you work. DoorDash offers a base pay for each delivery, which is determined by the time, distance, and desirability of the order. In addition to the base pay, Dashers can earn more through customer tips and promotional offers like Peak Pay. On average, Dashers in the U.S. can expect to make between $15 and $25 per hour, depending on the region and demand."
+      }
+    ]
   }
-  ]
-  
+]

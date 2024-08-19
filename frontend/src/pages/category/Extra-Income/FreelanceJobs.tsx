@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
@@ -39,6 +39,18 @@ const FreeLanceJobs: React.FC = () => {
 		}
 	}, [currentPage]);
 
+	const getExcerpt = (content: any[]) => {
+		const firstSection = content[0];
+		let excerpt = firstSection.text || "";
+
+		// Limit the excerpt to the first 200 characters or less
+		if (excerpt.length > 200) {
+			excerpt = excerpt.substring(0, 200) + "...";
+		}
+
+		return excerpt;
+	};
+
 	const currentPosts = freelanceJobs.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
@@ -53,7 +65,7 @@ const FreeLanceJobs: React.FC = () => {
 						id={currentPosts[i].id}
 						title={currentPosts[i].title}
 						imageUrl={currentPosts[i].imageUrl}
-						content={currentPosts[i].content}
+						content={getExcerpt(currentPosts[i].content)}
 						author={currentPosts[i].author}
 						datePosted={currentPosts[i].datePosted}
 					/>
