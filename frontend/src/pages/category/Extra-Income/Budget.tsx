@@ -17,7 +17,6 @@ const Budget: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log("Fetching budget data...");
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/budgetdata.json");
@@ -26,7 +25,6 @@ const Budget: React.FC = () => {
 				}
 				const data = await response.json();
 				setBudgetPosts(data);
-				console.log("Data fetched successfully:", data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -41,6 +39,18 @@ const Budget: React.FC = () => {
 		}
 	}, [currentPage]);
 
+	const getExcerpt = (content: any[]) => {
+		const firstSection = content[0];
+		let excerpt = firstSection.text || "";
+
+		// Limit the excerpt to the first 200 characters or less
+		if (excerpt.length > 200) {
+			excerpt = excerpt.substring(0, 200) + "...";
+		}
+
+		return excerpt;
+	};
+
 	const currentPosts = budgetPosts.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
@@ -50,12 +60,12 @@ const Budget: React.FC = () => {
 	for (let i = 0; i < currentPosts.length; i++) {
 		items.push(
 			<div className='row-container' key={currentPosts[i].id}>
-				<Link to={`/extra-income/Budget/${currentPosts[i].id}`}>
+				<Link to={`/extra-income/budget/${currentPosts[i].id}`}>
 					<BlogPostCard
 						id={currentPosts[i].id}
 						title={currentPosts[i].title}
 						imageUrl={currentPosts[i].imageUrl}
-						content={currentPosts[i].content}
+						content={getExcerpt(currentPosts[i].content)}
 						author={currentPosts[i].author}
 						datePosted={currentPosts[i].datePosted}
 					/>

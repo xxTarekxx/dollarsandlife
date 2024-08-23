@@ -39,6 +39,18 @@ const SideHustles: React.FC = () => {
 		}
 	}, [currentPage]);
 
+	const getExcerpt = (content: any[]) => {
+		const firstSection = content[0];
+		let excerpt = firstSection.text || "";
+
+		// Limit the excerpt to the first 200 characters or less
+		if (excerpt.length > 200) {
+			excerpt = excerpt.substring(0, 200) + "...";
+		}
+
+		return excerpt;
+	};
+
 	const currentPosts = sideHustles.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
@@ -53,7 +65,7 @@ const SideHustles: React.FC = () => {
 						id={currentPosts[i].id}
 						title={currentPosts[i].title}
 						imageUrl={currentPosts[i].imageUrl}
-						content={currentPosts[i].content}
+						content={getExcerpt(currentPosts[i].content)}
 						author={currentPosts[i].author}
 						datePosted={currentPosts[i].datePosted}
 					/>
