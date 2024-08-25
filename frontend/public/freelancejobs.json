@@ -1,10 +1,10 @@
 [
   {
     "id": "Uber-Driving-Gig-Economy",
-    "title": "How Uber Driver gig Works",
+    "title": "How Uber Driver Gig Works",
     "author": "Anonymous",
     "datePosted": "2024-08-18T04:43:11",
-    "imageUrl": "../../src/assets/images/article-images/uber-driver-main.webp", 
+    "imageUrl": "../../src/assets/images/article-images/uber-driver-main.webp",
     "content": [
       {
         "subtitle": "Introduction",
@@ -17,7 +17,7 @@
       {
         "subtitle": "Flexibility and Freedom",
         "text": "One of the most appealing aspects of driving for Uber is the flexibility it offers. Unlike traditional jobs with fixed hours, Uber allows you to set your schedule. You can choose when and where you want to work, whether it’s early in the morning, late at night, or during your lunch break. This flexibility makes Uber driving an attractive option for many, especially those with other commitments.",
-        "imageUrl": "http://placehold.it/660x300"
+        "imageUrl": "../../src/assets/images/article-images/uber-logo-driver-main.webp"
       },
       {
         "subtitle": "Types of Services in the Uber Driver App",
@@ -45,7 +45,15 @@
       },
       {
         "subtitle": "How Much Can Uber Drivers Make?",
-        "text": "Earnings as an Uber driver can vary significantly depending on factors such as location, time of day, and the number of hours you work. Here’s a breakdown of what you can expect:"
+        "text": "Earnings as an Uber driver can vary significantly depending on factors such as location, time of day, and the number of hours you work. Here’s a breakdown of what you can expect:",
+        "bulletPoints": [
+          "Average Hourly Earnings: $15 to $25 per hour.",
+          "Average Weekly Earnings: $300 to $800 for part-time drivers (15-20 hours/week).",
+          "Full-Time Drivers: Can earn up to $1,500 per week working 40-50 hours.",
+          "Peak Hours: Earnings can increase by 20% to 50% during busy times like weekends, holidays, and rush hours.",
+          "Top Cities: Drivers in cities like San Francisco, New York, and Los Angeles tend to earn more due to higher demand and fare multipliers.",
+          "Expenses: Drivers should account for expenses like fuel, vehicle maintenance, and insurance, which can reduce net earnings by 20% to 30%."
+        ]
       }
     ]
   },  {
@@ -53,7 +61,7 @@
     "title": "How DoorDash Works as a Freelance Gig",
     "author": "MEDICROIX",
     "datePosted": "2024-08-18T04:43:11",
-    "imageUrl": "http://placehold.it/800x400",
+    "imageUrl": "../../src/assets/images/article-images/doordash-logo-dasher.webp",
     "content": [
       {
         "subtitle": "Introduction",
