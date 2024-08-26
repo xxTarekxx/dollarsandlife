@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AdComponent from "../../src/components/AdComponent";
+import FiverrWidget from "./FiverrWidget"; // Import the FiverrWidget component
 import "./BlogPostContent.css";
 
 interface BlogPostContentProps {
@@ -51,17 +52,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		fetchPost();
 	}, [postId, jsonFile]);
 
-	useEffect(() => {
-		const script = document.createElement("script");
-		script.src = "https://www.fiverr.com/gig_widgets/sdk";
-		script.async = true;
-		document.body.appendChild(script);
-
-		return () => {
-			document.body.removeChild(script);
-		};
-	}, []);
-
 	if (!post) {
 		return <div>Loading...</div>;
 	}
@@ -92,25 +82,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					// Increment subtitle count
 					subtitleCount++;
 
-					// Add an ad before every 2 subtitles
-					if (subtitleCount > 1 && subtitleCount % 2 === 1) {
-						elements.push(
-							<div key={`ad-${index}`} className='ad-container'>
-								<AdComponent width={600} height={300} />
-							</div>,
-						);
-					}
-
 					elements.push(<h2 key={`subtitle-${index}`}>{section.subtitle}</h2>);
-				}
-
-				if (section.htmlContent) {
-					elements.push(
-						<div
-							key={`htmlContent-${index}`}
-							dangerouslySetInnerHTML={{ __html: section.htmlContent }}
-						/>,
-					);
 				}
 
 				if (section.text) {
@@ -120,6 +92,11 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 							dangerouslySetInnerHTML={{ __html: section.text }}
 						/>,
 					);
+
+					// Conditionally render Fiverr widget after the "Introduction" section
+					// if (section.subtitle === "Introduction") {
+					// 	elements.push(<FiverrWidget key={`fiverr-widget`} />);
+					// }
 				}
 
 				if (section.imageUrl) {
