@@ -64,6 +64,10 @@
     "imageUrl": "../../src/assets/images/article-images/doordash-logo-dasher.webp",
     "content": [
       {
+        "subtitle": "Fiverr Widget",
+        "htmlContent": "<iframe src=\"https://www.fiverr.com/gig_widgets?id=U2FsdGVkX18GS2Tp28i4y4I3OSAit3pWmG/l7846qBwZ5vQXSst4ZCcp2TD/zvxaipDQiFFdM0ciMsnFGdXkkt7iNKZyBM9TuFCMfQpcuH3vEDabiTHZ4NHXlSQxaR5lVYX7vvbUn/awMeArDvl779hjU+mF+g4tgMbWCIaE5WLHiBznQSa4h/GQ5m+9hFERdPpsxg2zqFwvHHkSrZzkch0MbfGfPJbA0Fd0ErJ8c6tKoh8K5WHJ0BCd3Q3FLLnMYJ8s8y1KNitCQZiAqKVQgPbLduEqqKoXgZtuhHDnfUUNYXfUQf5809YGcdXn5ggxBpH/P3STGSGio4blzYYmG5urdjBRNmL7XeipDj4T0TNCZqLX0cBSBxG2eURDd6/Ngknzl2rBLfHcgIDZtAuRjDza4p6kgTRFmxjG+N3vuja9aHyrbYMXzEAhQrsvhsQT4+3ZWOdtWBPjdB6fVPdGjw==&affiliate_id=1034557&strip_google_tagmanager=true\" loading=\"lazy\" data-with-title=\"true\" class=\"fiverr_nga_frame\" frameborder=\"0\" height=\"350\" width=\"100%\" referrerpolicy=\"no-referrer-when-downgrade\" data-mode=\"random_gigs\" onload=\" var frame = this; var script = document.createElement('script'); script.addEventListener('load', function() { window.FW_SDK.register(frame); }); script.setAttribute('src', 'https://www.fiverr.com/gig_widgets/sdk'); document.body.appendChild(script); \"></iframe>"
+      },
+      {
         "subtitle": "Introduction",
         "text": "In today's fast-paced world, the gig economy offers countless opportunities for those seeking flexible work options. DoorDash has emerged as a leading platform for freelance delivery drivers, providing a straightforward way to earn money by delivering food to customers. Whether you're looking to supplement your income or searching for a full-time gig, DoorDash allows you to work on your own schedule. This article explores how DoorDash works, the sign-up process, the types of deliveries you can make, and the potential earnings you can expect as a Dasher.",
         "imageUrl": "http://placehold.it/660x300"
@@ -104,5 +108,108 @@
         "text": "Earnings as a Dasher vary based on factors like location, time of day, and the number of hours you work. DoorDash offers a base pay for each delivery, which is determined by the time, distance, and desirability of the order. In addition to the base pay, Dashers can earn more through customer tips and promotional offers like Peak Pay. On average, Dashers in the U.S. can expect to make between $15 and $25 per hour, depending on the region and demand."
       }
     ]
+  },
+  {
+    "id": "fiverr-seller",
+    "title": "Become a Successful Fiverr Seller: A Comprehensive Guide",
+    "author": "John Doe",
+    "datePosted": "2024-08-22T08:00:00",
+    "imageUrl": "http://placehold.it/800x400",
+    "content": [
+      {
+        "subtitle": "Introduction",
+        "text": "Fiverr is one of the leading online marketplaces for freelancers to offer services, known as 'gigs', to clients around the world. Whether you’re a graphic designer, writer, marketer, or software developer, Fiverr provides an excellent platform to start or grow your freelance business. This guide will take you through everything you need to know to become a successful Fiverr seller."
+      },
+      {
+        "subtitle": "Why Choose Fiverr?",
+        "text": "Fiverr offers a user-friendly platform that connects freelancers with clients in need of a wide range of services. With its global reach, Fiverr allows you to tap into a vast market, providing opportunities to work with clients from different industries and countries. The platform’s search feature, customer support, and community forums are designed to help you succeed as a freelancer."
+      },
+      {
+        "subtitle": "Top Fiverr Gigs to Offer",
+        "bulletPoints": [
+          "Graphic Design: Create logos, business cards, social media graphics, and custom illustrations.  <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start Here</a>",
+          "Writing & Translation: Offer blog posts, articles, copywriting, technical writing, and proofreading services. <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start Here</a>",
+          "Digital Marketing: Provide SEO services, social media management, email marketing, and pay-per-click (PPC) campaigns. <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start Here</a>",
+          "Video & Animation: Produce explainer videos, intros and outros, video editing, and animation. <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start Here</a>",
+          "Programming & Tech: Develop websites, mobile apps, eCommerce solutions, and offer tech support. <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start Selling Here</a>",
+          "Lifestyle: Offer online lessons, career counseling, relationship advice, and fitness coaching. <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start Here</a>",
+          "Business: Provide virtual assistant services, data entry, business plans, and market research. <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start Here</a>"
+        ]
+      },
+      {
+        "subtitle": "How to Sign Up for Fiverr",
+        "numberedPoints": [
+          "Visit the Fiverr website: Go to <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Fiverr Seller sign-up page</a>",
+          "Create an account: Sign up using your email, Facebook, Google, or Apple account.",
+          "Set up your profile: Upload a professional profile picture, write a compelling bio highlighting your skills and experience, and list your top skills.",
+          "Create your first gig: Choose a category that matches your service, write a clear and concise gig title, provide a detailed description of your services, set competitive pricing, and add relevant tags to improve your gig’s visibility.",
+          "Publish your gig: After completing your gig setup, publish it to make it live on Fiverr’s marketplace.",
+          "Optimize your gig: Continuously refine your gig’s description, pricing, and tags based on client feedback and market trends."
+        ]
+      },
+      {
+        "subtitle": "Tips for Success as a Fiverr Freelancer",
+        "bulletPoints": [
+          "Deliver High-Quality Work: Ensure that every project you deliver meets or exceeds client expectations. High-quality work leads to positive reviews and repeat business.",
+          "Communicate Effectively: Clear and prompt communication with clients is key to avoiding misunderstandings and building a strong reputation.",
+          "Set Competitive Prices: Research what other freelancers in your category are charging and set your prices accordingly. As you gain experience and positive reviews, you can gradually increase your rates.",
+          "Leverage Fiverr’s Tools: Use Fiverr’s analytics tools to track your gig performance, understand client behavior, and adjust your strategy accordingly.",
+          "Stay Active: Regularly update your gigs, respond to client inquiries promptly, and deliver orders on time. Fiverr rewards active sellers with better visibility in search results.",
+          "Offer Multiple Gigs: Diversify your offerings by creating multiple gigs in different categories or services. This increases your chances of being discovered by potential clients.",
+          "Ask for Reviews: Politely request clients to leave a review after completing a project. Positive reviews boost your credibility and attract more clients.",
+          "Upsell Your Services: Offer additional services or gig extras that add value to your base offering. This not only increases your earnings per order but also provides clients with more comprehensive solutions."
+        ]
+      },
+      {
+        "subtitle": "How Fiverr’s Payment System Works",
+        "text": "Fiverr’s payment system is straightforward. Once you complete a gig and the client marks it as complete, the payment is released to your Fiverr account. Fiverr takes a 20% commission on each transaction. You can withdraw your earnings through PayPal, bank transfer, or Fiverr Revenue Card, depending on your preference."
+      },
+      {
+        "subtitle": "Challenges to Be Aware Of",
+        "text": "While Fiverr offers great opportunities, it also comes with challenges. Competition is fierce, especially in popular categories. Building a client base and gaining positive reviews takes time and consistent effort. Additionally, Fiverr’s 20% commission fee can eat into your profits, so it’s important to price your services appropriately."
+      },
+      {
+        "subtitle": "Sign Up Today",
+        "text": "Ready to start your journey as a Fiverr seller? <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Click Here To Sign Up Now</a> and begin offering your services to a global audience."
+      },
+      {
+        "subtitle": "Other Fiverr gigs and Freelancer Opportunities",
+        "bulletPoints": [
+          "<span style='color:black;'>Website Design and Development</span>: <span style='color:#555555;'>Offering services such as creating static websites, responsive design, landing pages, and redesign/revamp projects.</span> <a href=\"https://go.fiverr.com/visit/?bta=1034557&brand=fiverrmarketplace&landingPage=https%253A%252F%252Fwww.fiverr.com%252Fstart_selling%253Fsource%253Dtop_nav\" target=\"_blank\" rel=\"noopener noreferrer\">Start </a>",
+
+          "<span style='color:black;'>E-commerce Development</span>: <span style='color:#555555;'>Providing Shopify setups, WooCommerce solutions, and custom e-commerce platforms using frameworks like Magento and OpenCart.</span>",
+
+          "<span style='color:black;'>Custom Web Applications</span>: <span style='color:#555555;'>Developing frontend interfaces with React.js, Angular, Vue.js, backend systems with Node.js, Django, Ruby on Rails, and full-stack solutions.</span>",
+
+          "<span style='color:black;'>CMS Development</span>: <span style='color:#555555;'>Customizing and developing websites using WordPress, Joomla, and Drupal.</span>",
+
+          "<span style='color:black;'>Web Maintenance and Support</span>: <span style='color:#555555;'>Offering bug fixing, updates, upgrades, and ongoing support contracts.</span>",
+
+          "<span style='color:black;'>SEO and Performance Optimization</span>: <span style='color:#555555;'>Enhancing websites with on-page SEO, speed optimization, and technical SEO practices.</span>",
+
+          "<span style='color:black;'>Custom API Integration</span>: <span style='color:#555555;'>Integrating third-party services and building RESTful APIs tailored to specific needs.</span>",
+
+          "<span style='color:black;'>Consultation Services</span>: <span style='color:#555555;'>Providing technical consultation, project planning, and guidance on selecting the right Fiverr developer for your project.</span>",
+
+          "<span style='color:black;'>Voice Over Services</span>: <span style='color:#555555;'>Professional voice recordings for commercials, explainer videos, audiobooks, and more. Includes accents and language-specific voice-over services, as well as character voices for animations, video games, and podcasts.</span>",
+
+          "<span style='color:black;'>Music & Audio</span>: <span style='color:#555555;'>Services such as music production, podcast editing, and creating custom jingles and sound effects.</span>",
+
+          "<span style='color:black;'>Social Media Services</span>: <span style='color:#555555;'>Offering influencer marketing, social media content creation, and account management for platforms like Instagram, Facebook, and Twitter.</span>",
+
+          "<span style='color:black;'>Photography & Editing</span>: <span style='color:#555555;'>Services including photo editing, product photography, and advanced photo manipulation.</span>",
+
+          "<span style='color:black;'>Legal Consulting</span>: <span style='color:#555555;'>Providing contract drafting and review, trademark registration assistance, and legal research services.</span>",
+
+          "<span style='color:black;'>Data Analysis & Reports</span>: <span style='color:#555555;'>Creating data visualizations, performing statistical analysis, and providing business analytics and recommendations.</span>",
+
+          "<span style='color:black;'>Virtual Reality (VR) & Augmented Reality (AR)</span>: <span style='color:#555555;'>Development of VR/AR experiences, games, and applications for various platforms.</span>"
+        ]
+      }
+    ]
   }
+  
+  
+  
+  
 ]

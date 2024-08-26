@@ -35,19 +35,17 @@ const Footer: React.FC = () => {
 			links: [
 				{ to: "/calculator", text: "Calculators" },
 				{ to: "/budget-apps", text: "Budget Apps" },
-				{ to: "/investment", text: "Investment" },
+				// { to: "/investment", text: "Investment" },
 				{ to: "/passive-income-apps", text: "Passive Income Apps" },
 			],
 		},
 		{
 			header: "Earning",
 			links: [
-				{ to: "/passive-income", text: "Passive Income" },
-				{ to: "/side-hustles", text: "Side Hustles" },
-				{
-					to: "/category/deals-and-saving/manageyourfinances",
-					text: "Deals & Saving",
-				},
+				{ to: "/extra-income/Freelancers", text: "Freelancer Oppurtunities" },
+				{ to: "/extra-income/Side-Hustles", text: "Side Hustles" },
+				{ to: "/extra-income/Budget/", text: "Budgeting" },
+				{ to: "/Amazon-Picks", text: "Deals & Saving" },
 				{ to: "/start-a-blog", text: "Start A Blog" },
 			],
 		},
@@ -56,7 +54,7 @@ const Footer: React.FC = () => {
 			links: [
 				{ to: "/about-us", text: "About Us" },
 				{ to: "/contact-us", text: "Contact Us" },
-				{ to: "/our-team", text: "Our Team Members" },
+				{ to: "/terms-of-service", text: "Terms Of Service" },
 			],
 		},
 	];

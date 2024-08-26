@@ -18,6 +18,7 @@ import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
 import AmazonPicks from "./pages/category/deals-and-saving/AmazonPicks";
 import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
+import TermsOfService from "./pages/TermsOfService";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
 import styled from "styled-components";
 
@@ -62,6 +63,7 @@ const App: React.FC = () => {
 					<Route path='/Amazon-Picks' element={<AmazonPicks />} />
 					<Route path='/start-a-blog/*' element={<StartAblog />} />
 					<Route path='/My-Story' element={<MyStory />} />
+					<Route path='/terms-of-service' element={<TermsOfService />} />
 				</Routes>
 			</MainContent>
 			<Footer />

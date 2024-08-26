@@ -13,6 +13,7 @@ interface PostContent {
 	imageUrl?: string;
 	bulletPoints?: string[];
 	numberedPoints?: string[];
+	htmlContent?: string;
 }
 
 interface BlogPost {
@@ -50,6 +51,17 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		fetchPost();
 	}, [postId, jsonFile]);
 
+	useEffect(() => {
+		const script = document.createElement("script");
+		script.src = "https://www.fiverr.com/gig_widgets/sdk";
+		script.async = true;
+		document.body.appendChild(script);
+
+		return () => {
+			document.body.removeChild(script);
+		};
+	}, []);
+
 	if (!post) {
 		return <div>Loading...</div>;
 	}
@@ -72,6 +84,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				<p className='author'>By: {post.author}</p>
 				<p className='date'>{new Date(post.datePosted).toLocaleDateString()}</p>
 			</div>
+
 			{post.content.map((section, index) => {
 				const elements = [];
 
@@ -89,6 +102,15 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					}
 
 					elements.push(<h2 key={`subtitle-${index}`}>{section.subtitle}</h2>);
+				}
+
+				if (section.htmlContent) {
+					elements.push(
+						<div
+							key={`htmlContent-${index}`}
+							dangerouslySetInnerHTML={{ __html: section.htmlContent }}
+						/>,
+					);
 				}
 
 				if (section.text) {
@@ -115,7 +137,10 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					elements.push(
 						<ul key={`bulletPoints-${index}`}>
 							{section.bulletPoints.map((point, i) => (
-								<li key={`bullet-${i}`}>{point}</li>
+								<li
+									key={`bullet-${i}`}
+									dangerouslySetInnerHTML={{ __html: point }}
+								/>
 							))}
 						</ul>,
 					);
@@ -125,7 +150,10 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					elements.push(
 						<ol key={`numberedPoints-${index}`}>
 							{section.numberedPoints.map((point, i) => (
-								<li key={`numbered-${i}`}>{point}</li>
+								<li
+									key={`numbered-${i}`}
+									dangerouslySetInnerHTML={{ __html: point }}
+								/>
 							))}
 						</ol>,
 					);

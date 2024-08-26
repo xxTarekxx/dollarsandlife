@@ -26,7 +26,7 @@ const ExtraIncome: React.FC = () => {
 			ariaLabel: "Become A Freelancer",
 			imgSrc: compressedFreeLancerimg || FreeLancerimg,
 			altText: "Freelancer Icon",
-			captionText: "Become A Freelancer",
+			captionText: "Freelance Oppurtunities",
 		},
 		{
 			to: "/extra-income/Budget/",
