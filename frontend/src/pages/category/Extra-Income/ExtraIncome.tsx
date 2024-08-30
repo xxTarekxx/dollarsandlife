@@ -60,7 +60,6 @@ const ExtraIncome: React.FC = () => {
 
 	return (
 		<>
-			<AdComponent width={728} height={90} />
 			<div
 				className='category-links-container'
 				aria-label='Main navigation links'

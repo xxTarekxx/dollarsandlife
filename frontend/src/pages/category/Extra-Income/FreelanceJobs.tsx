@@ -13,7 +13,7 @@ const FreeLanceJobs: React.FC = () => {
 	const pageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		document.title = "Freelance Jobs";
+		document.title = "Freelancers";
 	}, []);
 
 	useEffect(() => {
@@ -108,7 +108,7 @@ const FreeLanceJobs: React.FC = () => {
 							<div className='top-ad-container'>
 								<AdComponent width={728} height={90} />
 							</div>
-							<h2 className='section-heading'>Freelance Job Opportunities</h2>
+							<h2 className='section-heading'>Freelancers Opportunities</h2>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={freelanceJobs.length}
