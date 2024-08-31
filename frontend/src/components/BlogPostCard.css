@@ -46,7 +46,7 @@
     padding: 8px 4px;
     display: flex;
     flex-direction: column;
-    margin-left: 2px;
+    /* margin-left: 2px; */
     width: 60%;
 }
 

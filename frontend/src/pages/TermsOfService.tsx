@@ -5,12 +5,6 @@ import AdComponent from "../components/AdComponent";
 const TermsOfService: React.FC = () => {
 	return (
 		<main className='terms-of-service-content' role='main'>
-			{/* Top Ad */}
-			<div className='ad-top' aria-hidden='true'>
-				{/* Assuming AdComponent is reusable across the app */}
-				<AdComponent width={730} height={90} />
-			</div>
-
 			<h1 tabIndex={0}>Terms of Service</h1>
 
 			<section className='content-section'>
@@ -119,11 +113,6 @@ const TermsOfService: React.FC = () => {
 					understood, and agree to be bound by these Terms of Use.
 				</p>
 			</section>
-
-			{/* Bottom Ad */}
-			<div className='ad-container' aria-hidden='true'>
-				<AdComponent width={728} height={90} />
-			</div>
 		</main>
 	);
 };

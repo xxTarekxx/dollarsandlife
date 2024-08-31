@@ -42,13 +42,13 @@ const ExtraIncome: React.FC = () => {
 			altText: "Remote Jobs Icon",
 			captionText: "Remote Jobs",
 		},
-		{
-			to: "/extra-income/Side-Hustles",
-			ariaLabel: "Side Hustles",
-			imgSrc: compressedSideHustlesimg || SideHustlesimg,
-			altText: "Side Hustles Icon",
-			captionText: "Side Hustles",
-		},
+		// {
+		// 	to: "/extra-income/Side-Hustles",
+		// 	ariaLabel: "Side Hustles",
+		// 	imgSrc: compressedSideHustlesimg || SideHustlesimg,
+		// 	altText: "Side Hustles Icon",
+		// 	captionText: "Side Hustles",
+		// },
 		{
 			to: "/extra-income/money-making-apps",
 			ariaLabel: "Make Money On Apps",

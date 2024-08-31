@@ -7,7 +7,7 @@ import BlogPostContent from "../../../components/BlogPostContent";
 import "./CommonStyles.css";
 
 const MoneyMakingApps: React.FC = () => {
-	const [apps, setApps] = useState<any[]>([]);
+	const [apps, setApps] = useState<any[]>([]); // Ensure apps is initialized as an empty array
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -24,9 +24,17 @@ const MoneyMakingApps: React.FC = () => {
 					throw new Error("Failed to fetch data");
 				}
 				const data = await response.json();
-				setApps(data);
+
+				// Ensure the fetched data is an array
+				if (Array.isArray(data)) {
+					setApps(data);
+				} else {
+					console.error("Fetched data is not an array:", data);
+					setApps([]); // Set to an empty array in case of invalid data
+				}
 			} catch (error) {
 				console.error("Error fetching data:", error);
+				setApps([]); // Set to an empty array in case of an error
 			}
 		};
 
@@ -40,6 +48,11 @@ const MoneyMakingApps: React.FC = () => {
 	}, [currentPage]);
 
 	const getExcerpt = (content: any[]) => {
+		// Check if content is defined and has at least one section
+		if (!content || content.length === 0) {
+			return ""; // Return an empty string if content is undefined or empty
+		}
+
 		const firstSection = content[0];
 		let excerpt = firstSection.text || "";
 

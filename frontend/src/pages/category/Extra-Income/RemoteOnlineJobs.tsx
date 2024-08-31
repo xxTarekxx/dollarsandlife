@@ -40,10 +40,13 @@ const RemoteOnlineJobs: React.FC = () => {
 	}, [currentPage]);
 
 	const getExcerpt = (content: any[]) => {
+		if (!content || content.length === 0) {
+			return ""; // Return an empty string if content is undefined or empty
+		}
+
 		const firstSection = content[0];
 		let excerpt = firstSection.text || "";
 
-		// Limit the excerpt to the first 200 characters or less
 		if (excerpt.length > 200) {
 			excerpt = excerpt.substring(0, 200) + "...";
 		}
