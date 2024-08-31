@@ -21,11 +21,11 @@ const HomePage: React.FC = () => {
 			captionText: "Extra Income",
 		},
 		{
-			to: "/Amazon-Picks",
-			ariaLabel: "Amazon Picks",
+			to: "/Shopping-deals",
+			ariaLabel: "Shopping Deals",
 			imgSrc: compressedAmazonPicksImg || AmazonPicksImg,
-			altText: "Amazon Picks Menu link",
-			captionText: "Amazon Picks",
+			altText: "Shopping List Menu link",
+			captionText: "Shopping Deals",
 		},
 		{
 			to: "/Start-A-Blog",

@@ -99,8 +99,8 @@ const TermsOfService: React.FC = () => {
 					at:
 				</p>
 				<p>
-					<a href='mailto:support@dollarsandlife.com'>
-						Email: support@dollarsandlife.com
+					<a href='mailto:contact@dollarsandlife.com'>
+						Email: contact@dollarsandlife.com
 					</a>
 				</p>
 				<p>

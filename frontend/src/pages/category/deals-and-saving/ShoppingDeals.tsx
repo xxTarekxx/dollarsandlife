@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import AdComponent from "../../../components/AdComponent";
 import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "./AmazonPicks.css";
+import "./ShoppingDeals.css";
 
 interface ProductCardProps {
 	id: string;
@@ -45,7 +45,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	);
 };
 
-const DealsAndSavings: React.FC = () => {
+const ShoppingDeals: React.FC = () => {
 	const [products, setProducts] = useState<any[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
@@ -87,7 +87,7 @@ const DealsAndSavings: React.FC = () => {
 		{ title: "Home", url: "/" },
 		{
 			title: "Deals and Savings",
-			url: "/deals-and-savings",
+			url: "/shopping-deals",
 		},
 	];
 
@@ -145,4 +145,4 @@ const DealsAndSavings: React.FC = () => {
 	);
 };
 
-export default DealsAndSavings;
+export default ShoppingDeals;

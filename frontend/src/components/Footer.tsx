@@ -35,8 +35,8 @@ const Footer: React.FC = () => {
 			links: [
 				{ to: "/calculator", text: "Calculators" },
 				// { to: "/budget-apps", text: "Budget Apps" },
-				{ to: "/investment", text: "Investment" },
-				{ to: "/passive-income-apps", text: "Passive Income Apps" },
+				{ to: "/extra-income/money-making-apps", text: "Investment" },
+				{ to: "/extra-income/money-making-apps", text: "Passive Income Apps" },
 			],
 		},
 		{
@@ -45,8 +45,8 @@ const Footer: React.FC = () => {
 				{ to: "/extra-income/Freelancers", text: "Freelancer Oppurtunities" },
 				// { to: "/extra-income/Side-Hustles", text: "Side Hustles" },
 				{ to: "/extra-income/Budget/", text: "Budgeting" },
-				{ to: "/Amazon-Picks", text: "Deals & Saving" },
-				{ to: "/start-a-blog", text: "Start A Blog" },
+				{ to: "/Shopping-Deals", text: "Deals & Saving" },
+				{ to: "/Start-A-Blog", text: "Start A Blog" },
 			],
 		},
 		{

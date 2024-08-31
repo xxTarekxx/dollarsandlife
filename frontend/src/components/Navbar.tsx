@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
 	const menuItems = [
 		{ to: "/", text: "Home" },
 		{ to: "/extra-income/", text: "Extra Income" },
-		{ to: "/Amazon-Picks", text: "Amazon Picks" },
+		{ to: "/Shopping-deals", text: "Shopping Deals" },
 		{ to: "/Start-A-Blog", text: "Start A Blog" },
 		{ to: "/My-Story", text: "My Story" },
 	];
