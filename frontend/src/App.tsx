@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
 	Route,
 	BrowserRouter as Router,
@@ -21,6 +21,7 @@ import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./components/ContactUs";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
+import FinancialCalculators from "./components/FinancialCaculators"; // Import FinancialCalculators component
 import styled from "styled-components";
 
 const AppContainer = styled.div`
@@ -32,17 +33,6 @@ const AppContainer = styled.div`
 const MainContent = styled.div`
 	flex: 1;
 `;
-
-// ScrollToTop Component to scroll to the top smoothly on every route change
-const ScrollToTop: React.FC = () => {
-	const { pathname } = useLocation();
-
-	useEffect(() => {
-		window.scrollTo({ top: 0, behavior: "smooth" });
-	}, [pathname]);
-
-	return null;
-};
 
 const App: React.FC = () => {
 	const location = useLocation();
@@ -77,6 +67,10 @@ const App: React.FC = () => {
 					<Route path='/My-Story' element={<MyStory />} />
 					<Route path='/terms-of-service' element={<TermsOfService />} />
 					<Route path='/contact-us' element={<ContactUs />} />
+					<Route
+						path='/financial-calculators'
+						element={<FinancialCalculators />}
+					/>
 				</Routes>
 			</MainContent>
 			<Footer />
@@ -86,8 +80,6 @@ const App: React.FC = () => {
 
 const WrappedApp: React.FC = () => (
 	<Router>
-		<ScrollToTop />{" "}
-		{/* Ensures scroll-to-top with smooth behavior on every route change */}
 		<App />
 	</Router>
 );
