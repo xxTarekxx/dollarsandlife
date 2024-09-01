@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
 		{
 			header: "Discover",
 			links: [
-				{ to: "/calculator", text: "Calculators" },
+				{ to: "/financial-calculators", text: "Calculators" },
 				// { to: "/budget-apps", text: "Budget Apps" },
 				{ to: "/extra-income/money-making-apps", text: "Investment" },
 				{ to: "/extra-income/money-making-apps", text: "Passive Income Apps" },
