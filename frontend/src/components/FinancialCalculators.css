@@ -1,0 +1,106 @@
+.financial-calculators-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.calculator-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+}
+
+.calculator {
+    flex: 1 1 calc(50% - 40px);
+    /* Two calculators per row with some gap */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    max-width: 450px;
+    /* Ensure calculators do not exceed a certain width */
+}
+
+.calculator h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    /* Center-align the heading */
+}
+
+.calculator form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center-align the form contents */
+}
+
+.calculator label {
+    margin-bottom: 10px;
+    width: 100%;
+    /* Full width for better alignment */
+}
+
+.calculator input {
+    padding: 8px;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    /* Full width to match labels */
+}
+
+.calculator button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 50%;
+    /* Center the button with a fixed width */
+    margin-top: 10px;
+    text-align: center;
+    /* Ensure text is centered */
+}
+
+.calculator button:hover {
+    background-color: #0056b3;
+}
+
+.result-field {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+    /* Center-align the result text */
+}
+
+.ad-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .calculator-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .calculator {
+        width: 90%;
+        margin-bottom: 20px;
+        flex: 1 1 100%;
+        /* Full width for smaller screens */
+    }
+}
