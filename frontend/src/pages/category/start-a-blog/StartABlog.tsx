@@ -19,12 +19,16 @@ const StartABlog: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/blogposts.json");
+				const response = await fetch("/startablogdata.json");
 				if (!response.ok) {
-					throw new Error("Failed to fetch data");
+					throw new Error(`Failed to fetch data: ${response.statusText}`);
 				}
 				const data = await response.json();
-				setBlogPosts(data);
+				if (Array.isArray(data)) {
+					setBlogPosts(data);
+				} else {
+					console.error("Invalid data format: Expected an array.");
+				}
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -38,6 +42,17 @@ const StartABlog: React.FC = () => {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
+
+	const getExcerpt = (content: any[]) => {
+		const firstSection = content[0];
+		let excerpt = firstSection?.text || "";
+
+		if (excerpt.length > 200) {
+			excerpt = excerpt.substring(0, 200) + "...";
+		}
+
+		return excerpt;
+	};
 
 	const currentPosts = blogPosts.slice(
 		(currentPage - 1) * postsPerPage,
@@ -53,7 +68,7 @@ const StartABlog: React.FC = () => {
 						id={currentPosts[i].id}
 						title={currentPosts[i].title}
 						imageUrl={currentPosts[i].imageUrl}
-						content={currentPosts[i].content}
+						content={getExcerpt(currentPosts[i].content)}
 						author={currentPosts[i].author}
 						datePosted={currentPosts[i].datePosted}
 					/>
@@ -61,10 +76,26 @@ const StartABlog: React.FC = () => {
 			</div>,
 		);
 
-		if ((i + 1) % 2 === 0) {
+		if (i > 0 && i % 2 === 0) {
 			items.push(
 				<div className='ad-row-container' key={`ad-row-${i}`}>
 					<AdComponent width={660} height={440} />
+				</div>,
+			);
+		}
+
+		if (i % 2 === 0) {
+			items.push(
+				<div className='mobile-box-ad-container' key={`mobile-box-ad-${i}`}>
+					<AdComponent width={250} height={250} />
+				</div>,
+			);
+		}
+
+		if (i % 4 === 0) {
+			items.push(
+				<div className='mobile-ad-container' key={`mobile-ad-${i}`}>
+					<AdComponent width={320} height={100} />
 				</div>,
 			);
 		}
@@ -80,7 +111,10 @@ const StartABlog: React.FC = () => {
 							<div className='top-ad-container'>
 								<AdComponent width={728} height={90} />
 							</div>
-							<h2 className='section-heading'>Start A Blog</h2>
+							<h2 className='section-heading'>
+								How to Start a Successful Blog in 2024: Step-by-Step Guide for
+								Beginners
+							</h2>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={blogPosts.length}
@@ -93,7 +127,7 @@ const StartABlog: React.FC = () => {
 				/>
 				<Route
 					path=':id'
-					element={<BlogPostContent jsonFile='blogposts.json' />}
+					element={<BlogPostContent jsonFile='startablogdata.json' />}
 				/>
 			</Routes>
 		</div>
