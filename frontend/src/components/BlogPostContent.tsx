@@ -12,6 +12,7 @@ interface BlogPostContentProps {
 interface PostContent {
 	subtitle?: string;
 	text?: string;
+	details?: string; // Added the "details" field
 	imageUrl?: string;
 	bulletPoints?: string[];
 	numberedPoints?: string[];
@@ -77,35 +78,15 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				/>,
 			);
 			textCount++;
+		}
 
-			// Add a small ad section after every two text sections
-			if (textCount % 2 === 0) {
-				contentSections.push(
-					<div key={`content-section-${index}`} className='content-section'>
-						{sectionElements}
-					</div>,
-				);
-
-				contentSections.push(
-					<div key={`ad-${index}`} className='ad-background'>
-						<div className='ad-container'>
-							<AdComponent width={336} height={280} />
-						</div>
-					</div>,
-				);
-			} else {
-				contentSections.push(
-					<div key={`content-section-${index}`} className='content-section'>
-						{sectionElements}
-					</div>,
-				);
-			}
-		} else if (section.subtitle) {
-			// Ensure sections with only a subtitle are rendered correctly
-			contentSections.push(
-				<div key={`content-section-${index}`} className='content-section'>
-					{sectionElements}
-				</div>,
+		if (section.details) {
+			sectionElements.push(
+				<p
+					key={`details-${index}`}
+					className='details'
+					dangerouslySetInnerHTML={{ __html: section.details }}
+				/>,
 			);
 		}
 
@@ -133,12 +114,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			);
 		}
 
-		if (
-			section.subtitle === "How Your Profile Would Look on Fiverr As A Seller"
-		) {
-			sectionElements.push(<FiverrWidget key={`fiverr-widget`} />);
-		}
-
 		if (section.numberedPoints) {
 			sectionElements.push(
 				<ol key={`numberedPoints-${index}`}>
@@ -151,14 +126,31 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				</ol>,
 			);
 		}
-	});
 
-	// Ensure the final content is pushed, even if it's not a pair
-	contentSections.push(
-		<div key={`content-section-final`} className='content-section'>
-			{contentSections.pop()}
-		</div>,
-	);
+		if (
+			section.subtitle === "How Your Profile Would Look on Fiverr As A Seller"
+		) {
+			sectionElements.push(<FiverrWidget key={`fiverr-widget`} />);
+		}
+
+		// Add the content section to contentSections
+		contentSections.push(
+			<div key={`content-section-${index}`} className='content-section'>
+				{sectionElements}
+			</div>,
+		);
+
+		// Add ad component after every two text sections
+		if (textCount % 2 === 0 && textCount > 0) {
+			contentSections.push(
+				<div key={`ad-${index}`} className='ad-background'>
+					<div className='ad-container'>
+						<AdComponent width={336} height={280} />
+					</div>
+				</div>,
+			);
+		}
+	});
 
 	return (
 		<div className='blog-post-content'>
@@ -184,8 +176,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			<div className='ad-container'>
 				<AdComponent width={728} height={90} />
 			</div>
-
-			{/* Small Ad at the end if textCount is odd */}
 		</div>
 	);
 };
