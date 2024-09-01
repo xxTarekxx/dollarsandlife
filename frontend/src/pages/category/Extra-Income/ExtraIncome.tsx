@@ -6,7 +6,6 @@ import FreeLancerimg from "../../../assets/images/icons/img-freelancer.webp";
 import RemoteJobimg from "../../../assets/images/icons/img-remotejobs.webp";
 import SideHustlesimg from "../../../assets/images/icons/img-sidehustles.webp";
 import MoneyMakingAppsimg from "../../../assets/images/icons/img-moneymakingapps.webp";
-import AdComponent from "../../../components/AdComponent";
 import "./ExtraIncome.css";
 
 const ExtraIncome: React.FC = () => {
@@ -42,13 +41,6 @@ const ExtraIncome: React.FC = () => {
 			altText: "Remote Jobs Icon",
 			captionText: "Remote Jobs",
 		},
-		// {
-		// 	to: "/extra-income/Side-Hustles",
-		// 	ariaLabel: "Side Hustles",
-		// 	imgSrc: compressedSideHustlesimg || SideHustlesimg,
-		// 	altText: "Side Hustles Icon",
-		// 	captionText: "Side Hustles",
-		// },
 		{
 			to: "/extra-income/money-making-apps",
 			ariaLabel: "Make Money On Apps",
