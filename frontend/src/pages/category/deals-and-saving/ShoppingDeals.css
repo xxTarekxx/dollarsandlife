@@ -22,6 +22,16 @@
     margin: 12px 0;
 }
 
+/* Adjust layout for mobile devices */
+@media (max-width: 600px) {
+    .ProductsGrid {
+        grid-template-columns: 1fr;
+        /* Stack product cards in a single column */
+        gap: 10px;
+        /* Reduce gap for better spacing on smaller screens */
+    }
+}
+
 .TopAdContainer {
     display: flex;
     justify-content: center;
@@ -152,6 +162,13 @@
 .DiscountedPrice {
     color: #e60023;
     font-weight: bold;
+}
+
+.DayPosted {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 5px 0;
+    font-style: italic;
 }
 
 .BuyNowButton {
