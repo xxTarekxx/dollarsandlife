@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import AdComponent from "../../../components/AdComponent";
-import Breadcrumb from "../../../components/Breadcrumb";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
 
@@ -58,7 +57,7 @@ const ShoppingDeals: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/products.json");
+				const response = await fetch("src/data/products.json");
 				if (!response.ok) {
 					throw new Error("Failed to fetch data");
 				}

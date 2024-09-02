@@ -19,7 +19,7 @@ const RemoteOnlineJobs: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/remotejobs.json");
+				const response = await fetch("../../src/data/remotejobs.json");
 				if (!response.ok) {
 					throw new Error("Failed to fetch data");
 				}

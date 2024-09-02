@@ -19,7 +19,7 @@ const SideHustles: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/sidehustles.json");
+				const response = await fetch("../../src/data/sidehustles.json");
 				if (!response.ok) {
 					throw new Error("Failed to fetch data");
 				}

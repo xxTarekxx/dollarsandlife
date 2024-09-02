@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import AdComponent from "../../src/components/AdComponent";
+import AdComponent from "./AdComponent";
 import FiverrWidget from "./FiverrWidget";
 import "./BlogPostContent.css";
 import "./AdComponent.css"; // Ensure the AdComponent styles are imported
@@ -36,12 +36,13 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		const fetchPost = async () => {
 			console.log(`Fetching from ${jsonFile} for post ID ${postId}`);
 			try {
-				const response = await fetch(`/${jsonFile}`);
+				// Updated path to point to the correct JSON directory
+				const response = await fetch(`/src/data/${jsonFile}`);
 				if (!response.ok) {
 					throw new Error("Failed to fetch post");
 				}
-				const data = await response.json();
-				const postData = data.find((item: BlogPost) => item.id === postId);
+				const data: BlogPost[] = await response.json();
+				const postData = data.find((item) => item.id === postId);
 				if (!postData) {
 					throw new Error("Post not found");
 				}
