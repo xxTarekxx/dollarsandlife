@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
 import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
@@ -11,10 +11,7 @@ const RemoteOnlineJobs: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		document.title = "Remote Online Jobs";
-	}, []);
+	const location = useLocation();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -39,9 +36,27 @@ const RemoteOnlineJobs: React.FC = () => {
 		}
 	}, [currentPage]);
 
+	useEffect(() => {
+		const updateTitle = () => {
+			const pathSegments = location.pathname.split("/");
+			const postId = pathSegments[pathSegments.length - 1];
+
+			if (postId && postId !== "remote-online-jobs") {
+				const post = remoteJobs.find((post) => post.id === postId);
+				if (post) {
+					document.title = post.title;
+				}
+			} else {
+				document.title = "Remote Online Jobs";
+			}
+		};
+
+		updateTitle();
+	}, [remoteJobs, location.pathname]);
+
 	const getExcerpt = (content: any[]) => {
 		if (!content || content.length === 0) {
-			return ""; // Return an empty string if content is undefined or empty
+			return "";
 		}
 
 		const firstSection = content[0];
@@ -59,47 +74,37 @@ const RemoteOnlineJobs: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	const items = [];
-	for (let i = 0; i < currentPosts.length; i++) {
-		items.push(
-			<div className='row-container' key={currentPosts[i].id}>
-				<Link to={`/extra-income/remote-jobs/${currentPosts[i].id}`}>
+	const items = currentPosts.map((post, i) => (
+		<React.Fragment key={post.id}>
+			<div className='row-container'>
+				<Link to={`/extra-income/remote-jobs/${post.id}`}>
 					<BlogPostCard
-						id={currentPosts[i].id}
-						title={currentPosts[i].title}
-						imageUrl={currentPosts[i].imageUrl}
-						content={getExcerpt(currentPosts[i].content)}
-						author={currentPosts[i].author}
-						datePosted={currentPosts[i].datePosted}
+						id={post.id}
+						title={post.title}
+						imageUrl={post.imageUrl}
+						content={getExcerpt(post.content)}
+						author={post.author}
+						datePosted={post.datePosted}
 					/>
 				</Link>
-			</div>,
-		);
-
-		if (i > 0 && i % 2 === 0) {
-			items.push(
-				<div className='ad-row-container' key={`ad-row-${i}`}>
+			</div>
+			{i > 0 && i % 2 === 0 && (
+				<div className='ad-row-container'>
 					<AdComponent width={660} height={440} />
-				</div>,
-			);
-		}
-
-		if (i % 2 === 0) {
-			items.push(
-				<div className='mobile-box-ad-container' key={`mobile-box-ad-${i}`}>
+				</div>
+			)}
+			{i % 2 === 0 && (
+				<div className='mobile-box-ad-container'>
 					<AdComponent width={250} height={250} />
-				</div>,
-			);
-		}
-
-		if (i % 4 === 0) {
-			items.push(
-				<div className='mobile-ad-container' key={`mobile-ad-${i}`}>
+				</div>
+			)}
+			{i % 4 === 0 && (
+				<div className='mobile-ad-container'>
 					<AdComponent width={320} height={100} />
-				</div>,
-			);
-		}
-	}
+				</div>
+			)}
+		</React.Fragment>
+	));
 
 	return (
 		<div className='page-container' ref={pageRef}>

@@ -25,11 +25,11 @@ const ExtraIncome: React.FC = () => {
 			ariaLabel: "Become A Freelancer",
 			imgSrc: compressedFreeLancerimg || FreeLancerimg,
 			altText: "Freelancer Icon",
-			captionText: "Freelance Oppurtunities",
+			captionText: "Freelance Opportunities",
 		},
 		{
 			to: "/extra-income/Budget/",
-			ariaLabel: "Budgetting Guides",
+			ariaLabel: "Budgeting Guides",
 			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Budgeting Icon",
 			captionText: "Budgeting",
@@ -51,26 +51,24 @@ const ExtraIncome: React.FC = () => {
 	];
 
 	return (
-		<>
-			<div
-				className='category-links-container'
-				aria-label='Main navigation links'
-			>
-				{linkBoxes.map((linkBox, index) => (
-					<Link
-						className='link-box'
-						key={index}
-						to={linkBox.to}
-						aria-label={linkBox.ariaLabel}
-					>
-						<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
-						<figcaption className='extraincome-figcaption'>
-							{linkBox.captionText}
-						</figcaption>
-					</Link>
-				))}
-			</div>
-		</>
+		<div
+			className='category-links-container'
+			aria-label='Main navigation links'
+		>
+			{linkBoxes.map((linkBox, index) => (
+				<Link
+					className='link-box'
+					key={index}
+					to={linkBox.to}
+					aria-label={linkBox.ariaLabel}
+				>
+					<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
+					<figcaption className='extraincome-figcaption'>
+						{linkBox.captionText}
+					</figcaption>
+				</Link>
+			))}
+		</div>
 	);
 };
 

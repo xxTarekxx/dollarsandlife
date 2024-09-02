@@ -21,7 +21,7 @@ import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./components/ContactUs";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
-import FinancialCalculators from "./components/FinancialCaculators"; // Import FinancialCalculators component
+import FinancialCalculators from "./components/FinancialCaculators";
 import styled from "styled-components";
 
 const AppContainer = styled.div`
@@ -63,7 +63,8 @@ const App: React.FC = () => {
 						element={<MoneyMakingApps />}
 					/>
 					<Route path='/shopping-Deals' element={<ShoppingDeals />} />
-					<Route path='/start-a-blog' element={<StartAblog />} />
+					{/* Add trailing '*' to allow nested routing */}
+					<Route path='/start-a-blog/*' element={<StartAblog />} />
 					<Route path='/My-Story' element={<MyStory />} />
 					<Route path='/terms-of-service' element={<TermsOfService />} />
 					<Route path='/contact-us' element={<ContactUs />} />
