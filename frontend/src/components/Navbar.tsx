@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/images/website-logo.webp";
-import SearchImg from "../assets/images/favcons/searchicon.svg";
+import logo from "/images/website-logo.webp";
+import SearchImg from "/images/favcons/searchicon.svg";
 import "./NavBar.css";
 
 const Navbar: React.FC = () => {

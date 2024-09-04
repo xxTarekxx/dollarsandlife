@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import breadcrumbseparator from "../assets/images/favcons/breadcrumb-divider.webp";
+import breadcrumbseparator from "/images/favcons/breadcrumb-divider.webp";
 import "./Breadcrumb.css";
 
 interface BreadcrumbProps {

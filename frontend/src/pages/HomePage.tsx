@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useCompressedImage from "../components/compressed/useCompressedImage";
-import ExtraIncomeImg from "../assets/images/icons/img-extraincome.webp";
-import StartAblogimg from "../assets/images/icons/img-startablog.webp";
-import AmazonPicksImg from "../assets/images/icons/img-dealsandsavings.webp";
-import NextToPImage from "../assets/images/favcons/down-arrow.webp"; // Add the image for next to the P tag
+import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
+import StartAblogimg from "/images/icons/img-startablog.webp";
+import AmazonPicksImg from "/images/icons/img-dealsandsavings.webp";
+import NextToPImage from "/images/favcons/down-arrow.webp"; // Add the image for next to the P tag
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {

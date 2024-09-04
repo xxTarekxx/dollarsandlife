@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useCompressedImage from "../../../components/compressed/useCompressedImage";
-import Budgettingimg from "../../../assets/images/icons/img-budgetting.webp";
-import FreeLancerimg from "../../../assets/images/icons/img-freelancer.webp";
-import RemoteJobimg from "../../../assets/images/icons/img-remotejobs.webp";
-import SideHustlesimg from "../../../assets/images/icons/img-sidehustles.webp";
-import MoneyMakingAppsimg from "../../../assets/images/icons/img-moneymakingapps.webp";
+import Budgettingimg from "/images/icons/img-budgetting.webp";
+import FreeLancerimg from "/images/icons/img-freelancer.webp";
+import RemoteJobimg from "/images/icons/img-remotejobs.webp";
+import SideHustlesimg from "/images/icons/img-sidehustles.webp";
+import MoneyMakingAppsimg from "/images/icons/img-moneymakingapps.webp";
 import "./ExtraIncome.css";
 
 const ExtraIncome: React.FC = () => {

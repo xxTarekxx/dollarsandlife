@@ -21,7 +21,7 @@ import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./components/ContactUs";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
-import FinancialCalculators from "./components/FinancialCaculators";
+import FinancialCalculators from "./components/FinancialCalculators";
 import styled from "styled-components";
 
 const AppContainer = styled.div`

@@ -8,21 +8,30 @@
     align-items: center;
     justify-content: end;
     position: sticky;
-
 }
-
-/* Other styles for the footer content (Social Links, Footer Links, Copyright) remain the same */
-
 
 /* Social Links */
 .social-link {
     margin: 0 1rem;
-    transition: transform 250ms;
+    transition: transform 250ms, filter 250ms;
     display: inline-block;
 }
 
-.social-link:hover {
-    transform: translateY(-2px);
+
+
+/* Social Icons */
+.social-icon {
+    width: 95px;
+    height: 90px;
+    display: block;
+    transition: transform 250ms, filter 250ms;
+    /* Smooth transition for hover effect */
+}
+
+.social-icon:hover {
+    transform: translateY(-4px);
+    filter: brightness(1.2);
+    /* Slightly brighten the icon on hover */
 }
 
 /* Social Container */
@@ -44,6 +53,8 @@
 
 .footer-link:hover {
     color: #7600ff;
+    transform: translateY(-2px);
+    filter: brightness(1.2);
 }
 
 @media (max-width: 768px) {

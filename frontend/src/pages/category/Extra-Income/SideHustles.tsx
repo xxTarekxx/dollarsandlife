@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
-import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
+import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
 const SideHustles: React.FC = () => {
@@ -19,7 +19,7 @@ const SideHustles: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("../../src/data/sidehustles.json");
+				const response = await fetch("/data/sidehustles.json");
 				if (!response.ok) {
 					throw new Error("Failed to fetch data");
 				}

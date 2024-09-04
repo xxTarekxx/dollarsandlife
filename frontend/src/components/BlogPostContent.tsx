@@ -37,7 +37,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			console.log(`Fetching from ${jsonFile} for post ID ${postId}`);
 			try {
 				// Updated path to point to the correct JSON directory
-				const response = await fetch(`/src/data/${jsonFile}`);
+				const response = await fetch(`/data/${jsonFile}`);
 				if (!response.ok) {
 					throw new Error("Failed to fetch post");
 				}

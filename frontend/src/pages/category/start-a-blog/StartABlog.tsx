@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import AdComponent from "../../../components/AdComponent";
-import PaginationContainer from "../../../components/PaginationContainer";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
+import PaginationContainer from "../../../components/PaginationContainer";
 import "./StartABlog.css";
 
 const StartABlog: React.FC = () => {
@@ -19,7 +19,7 @@ const StartABlog: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("../../src/data/startablogdata.json");
+				const response = await fetch("/data/startablogdata.json");
 				if (!response.ok) {
 					throw new Error(`Failed to fetch data: ${response.statusText}`);
 				}

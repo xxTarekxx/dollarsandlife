@@ -157,7 +157,7 @@ const FinancialCalculators: React.FC = () => {
 							Current Savings ($):
 							<input
 								type='number'
-								min='0'
+								min=''
 								step='0.01'
 								value={retirementSavings}
 								onChange={(e) => setRetirementSavings(Number(e.target.value))}
@@ -199,7 +199,9 @@ const FinancialCalculators: React.FC = () => {
 						<div className='result-field'>{retirementResult}</div>
 					</form>
 				</div>
-
+				<div className='ad-container'>
+					<AdComponent width={300} height={600} />
+				</div>
 				{/* Mortgage Calculator */}
 				<div className='calculator'>
 					<h2>Mortgage Calculator</h2>
@@ -287,7 +289,9 @@ const FinancialCalculators: React.FC = () => {
 						<div className='result-field'>{creditCardResult}</div>
 					</form>
 				</div>
-
+				<div className='ad-container'>
+					<AdComponent width={400} height={400} />
+				</div>
 				{/* Auto Loan Calculator */}
 				<div className='calculator'>
 					<h2>Auto Loan Calculator</h2>
@@ -371,7 +375,9 @@ const FinancialCalculators: React.FC = () => {
 						<div className='result-field'>{savingsResult}</div>
 					</form>
 				</div>
-
+				<div className='ad-container'>
+					<AdComponent width={400} height={400} />
+				</div>
 				{/* Investment Calculator */}
 				<div className='calculator'>
 					<h2>Investment Calculator</h2>
@@ -413,7 +419,7 @@ const FinancialCalculators: React.FC = () => {
 			</div>
 
 			<div className='ad-container'>
-				<AdComponent width={728} height={90} />
+				<AdComponent width={300} height={600} />
 			</div>
 
 			<div className='calculator-row'>
@@ -455,7 +461,9 @@ const FinancialCalculators: React.FC = () => {
 						<div className='result-field'>{loanResult}</div>
 					</form>
 				</div>
-
+				<div className='ad-container'>
+					<AdComponent width={728} height={90} />
+				</div>
 				{/* Tax Calculator */}
 				<div className='calculator'>
 					<h2>Tax Calculator</h2>
@@ -487,7 +495,7 @@ const FinancialCalculators: React.FC = () => {
 			</div>
 
 			<div className='ad-container'>
-				<AdComponent width={728} height={90} />
+				<AdComponent width={730} height={600} />
 			</div>
 
 			<div className='calculator-row'>
