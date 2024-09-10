@@ -1,3 +1,4 @@
+/* Navbar Styling */
 .nav {
     background: white;
     height: 60px;
@@ -7,21 +8,21 @@
     align-items: center;
     border-radius: 20px;
     border-bottom: 4px solid #971ae1;
-    /* position: sticky; */
     top: 0;
-    /* Ensure the navbar sticks to the top */
     z-index: 100;
-    /* Ensure the navbar is above other content */
     padding: 1rem 1.5em;
     box-sizing: border-box;
+    position: relative;
 }
 
+/* Responsive Navbar Padding */
 @media (max-width: 768px) {
     .nav {
         padding: 0 1em;
     }
 }
 
+/* Logo Styling */
 .logo {
     padding-left: 15px;
     width: 220px;
@@ -31,10 +32,11 @@
 
 @media (max-width: 768px) {
     .logo {
-        padding-left: 0px;
+        padding-left: 0;
     }
 }
 
+/* Hamburger Menu Styling */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -55,6 +57,7 @@
     }
 }
 
+/* Menu Items Styling */
 .menu {
     display: flex;
     align-items: center;
@@ -81,7 +84,7 @@
 }
 
 .menu-item {
-    padding: 0px 1rem;
+    padding: 0 1rem;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
@@ -107,34 +110,45 @@
     }
 }
 
+/* Search Bar Container Styling */
 .search-bar-container {
     position: fixed;
     top: 60px;
-    width: 100%;
+    right: 1rem;
+    width: 20%;
     padding: 0 1rem;
     border-radius: 0 0 20px 20px;
     box-sizing: border-box;
-    overflow: hidden;
-    z-index: 1;
+    overflow: visible;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #ddd;
 }
 
+/* Show Search Bar When Open */
 .search-bar-container.open {
-    display: block;
+    display: flex;
 }
 
+/* Hide Search Bar When Closed */
 .search-bar-container.closed {
     display: none;
 }
 
+/* Search Bar Styling */
 .search-bar {
-    width: calc(80% - 2rem);
+    width: 100%;
     background: rgba(0, 166, 11, 1);
-    border-radius: 25%;
-    float: right;
+    border-radius: 5px;
     padding: 0.5rem;
     box-sizing: border-box;
+    border: 1px solid #ddd;
+    outline: none;
 }
 
+/* Search Icon Styling */
 .search-icon {
     cursor: pointer;
     display: flex;
@@ -155,4 +169,31 @@
 .search-icon-image {
     width: 25px;
     height: 25px;
+}
+
+/* Suggestions List Styling */
+.suggestions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    width: 100%;
+    z-index: 3;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual Suggestion Item Styling */
+.suggestions-list li {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
 }
