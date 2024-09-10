@@ -1,11 +1,30 @@
-/* DealsAndSavings.css */
-
 .PageContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0 1rem;
+}
+
+.TopBanner {
+    display: block;
+    width: 100%;
+    max-width: 728px;
+    margin: 20px 0;
+}
+
+.TopBannerImage {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+@media (max-width: 600px) {
+    .SectionHeading {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
 }
 
 .BreadcrumbContainer {
@@ -19,16 +38,14 @@
     gap: 20px;
     justify-items: center;
     max-width: 1280px;
-    margin: 12px 0;
+    /* margin: 12px 0; */
 }
 
 /* Adjust layout for mobile devices */
 @media (max-width: 600px) {
     .ProductsGrid {
         grid-template-columns: 1fr;
-        /* Stack product cards in a single column */
-        gap: 10px;
-        /* Reduce gap for better spacing on smaller screens */
+        /* gap: 10px; */
     }
 }
 
@@ -111,9 +128,14 @@
     transition: transform 0.1s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 10px;
+    width: auto;
+    height: auto;
     max-width: 300px;
-    width: 100%;
-    margin: 20px;
+    padding: 20px;
+    position: relative;
 }
 
 .CardContainer:hover {
@@ -122,45 +144,69 @@
 }
 
 .CardImage {
-    width: 100%;
-    height: 200px;
+    max-width: 100%;
+    height: auto;
     object-fit: cover;
+    object-position: center;
+}
+
+@media (max-width: 806px) {
+    .CardImage {
+        height: 280px;
+    }
 }
 
 .CardContent {
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
 }
 
 .CardTitle {
     font-size: 1.5rem;
-    margin: 0;
     color: #333;
     font-weight: 700;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    /* Pushes the title towards the bottom */
 }
 
 .CardDescription {
     font-size: 0.875rem;
     color: #666;
     margin: 10px 0;
+    text-align: center;
+}
+
+.CardDescriptionText {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .CardPrice {
     font-size: 1rem;
     color: #333;
     margin: 10px 0;
+    text-align: center;
+    margin-top: 5px;
+    /* Adds small space between title and price */
 }
 
-.OriginalPrice {
-    text-decoration: line-through;
-    color: #999;
+.DiscountPercentage {
+    color: #ff0000;
     margin-right: 10px;
 }
 
 .DiscountedPrice {
-    color: #e60023;
+    color: #000000;
     font-weight: bold;
 }
 
@@ -172,8 +218,10 @@
 }
 
 .BuyNowButton {
-    display: inline-block;
-    margin-top: 10px;
+    margin-top: 5px;
+    /* Adds small space between price and button */
+    align-self: center;
+    /* Centers the button horizontally */
     padding: 10px 20px;
     background: #007bff;
     color: white;

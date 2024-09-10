@@ -8,17 +8,18 @@ interface ProductCardProps {
 	title: string;
 	imageUrl: string;
 	description: string;
-	originalPrice: string;
-	discountedPrice: string;
+	currentPrice: string;
+	discountPercentage?: string;
 	affiliateLink: string;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
+	id,
 	title,
 	imageUrl,
 	description,
-	originalPrice,
-	discountedPrice,
+	currentPrice,
+	discountPercentage,
 	affiliateLink,
 }) => {
 	return (
@@ -26,11 +27,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
 			<img src={imageUrl} alt={title} className='CardImage' />
 			<div className='CardContent'>
 				<h3 className='CardTitle'>{title}</h3>
-				<p className='CardDescription'>{description}</p>
-				<p className='CardPrice'>
-					<span className='OriginalPrice'>{originalPrice}</span>
-					<span className='DiscountedPrice'>{discountedPrice}</span>
+				<p className='CardDescription'>
+					<span className='CardDescriptionText'>{description}</span>
 				</p>
+				{discountPercentage && (
+					<p className='CardPrice'>
+						<span className='DiscountPercentage'>
+							Discount: {discountPercentage}
+						</span>
+					</p>
+				)}
+				<p className='CardPrice'>Now: {currentPrice}</p>
 				<a
 					href={affiliateLink}
 					target='_blank'
@@ -61,8 +68,8 @@ const ShoppingDeals: React.FC = () => {
 				if (!response.ok) {
 					throw new Error("Failed to fetch data");
 				}
-				const data = await response.json();
-				setProducts(data);
+				const products = await response.json();
+				setProducts(products);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -82,14 +89,6 @@ const ShoppingDeals: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	const breadcrumbPaths = [
-		{ title: "Home", url: "/" },
-		{
-			title: "Deals and Savings",
-			url: "/shopping-deals",
-		},
-	];
-
 	const rows = [];
 	for (let i = 0; i < currentPosts.length; i += 3) {
 		rows.push(currentPosts.slice(i, i + 3));
@@ -97,9 +96,18 @@ const ShoppingDeals: React.FC = () => {
 
 	return (
 		<div className='PageContainer' ref={pageRef}>
-			<div className='TopAdContainer'>
-				<AdComponent width={728} height={90} />
-			</div>
+			<a
+				href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+				target='_blank'
+				rel='noopener noreferrer'
+				className='TopBanner'
+			>
+				<img
+					src='/images/shoppinganddeals/amazon-banner.webp'
+					alt='Amazon Prime Banner'
+					className='TopBannerImage'
+				/>
+			</a>
 			<h2 className='SectionHeading'>Deals and Savings</h2>
 			{rows.map((row, rowIndex) => (
 				<React.Fragment key={rowIndex}>
@@ -111,27 +119,12 @@ const ShoppingDeals: React.FC = () => {
 								title={productData.title}
 								imageUrl={productData.imageUrl}
 								description={productData.description}
-								originalPrice={productData.originalPrice}
-								discountedPrice={productData.discountedPrice}
+								currentPrice={productData.currentPrice}
+								discountPercentage={productData.discountPercentage}
 								affiliateLink={productData.affiliateLink}
 							/>
 						))}
 					</div>
-					{(rowIndex + 1) % 2 === 0 && (
-						<div className='AdRowContainer'>
-							<AdComponent width={660} height={440} />
-						</div>
-					)}
-					{(rowIndex + 1) % 2 === 0 && (
-						<div className='MobileBoxAdContainer'>
-							<AdComponent width={250} height={250} />
-						</div>
-					)}
-					{(rowIndex + 1) % 2 === 0 && (
-						<div className='MobileAdContainer'>
-							<AdComponent width={320} height={100} />
-						</div>
-					)}
 				</React.Fragment>
 			))}
 			<PaginationContainer

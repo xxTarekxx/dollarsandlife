@@ -113,9 +113,18 @@ const RemoteOnlineJobs: React.FC = () => {
 					path='/'
 					element={
 						<>
-							<div className='top-ad-container'>
-								<AdComponent width={728} height={90} />
-							</div>
+							<a
+								href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+								target='_blank'
+								rel='noopener noreferrer'
+								className='TopBanner'
+							>
+								<img
+									src='/images/shoppinganddeals/amazon-banner.webp'
+									alt='Amazon Prime Banner'
+									className='TopBannerImage'
+								/>
+							</a>
 							<h2 className='section-heading'>Remote Online Jobs</h2>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer

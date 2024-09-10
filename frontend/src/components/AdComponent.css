@@ -5,7 +5,6 @@
     background-color: black;
 }
 
-.top-ad-container,
 .ad-container {
     display: flex;
     justify-content: center;
@@ -14,6 +13,22 @@
     /* Vertically center the content */
     /* background-color: red; */
     margin-top: 2px;
+    width: 100%;
+    /* max-width: 728px; */
+    height: auto;
+}
+
+.top-ad-container {
+    max-height: 220px;
+    /* max-width: 760px; */
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    /* Horizontally center the content */
+    /* align-items: center; */
+    /* Vertically center the content */
+    /* background-color: red; */
+    /* margin-top: 2px; */
     width: 100%;
     /* max-width: 728px; */
     height: auto;

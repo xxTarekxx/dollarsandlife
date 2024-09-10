@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import AdComponent from "./AdComponent";
 import FiverrWidget from "./FiverrWidget";
 import "./BlogPostContent.css";
-import "./AdComponent.css"; // Ensure the AdComponent styles are imported
+import "./AdComponent.css";
 
 interface BlogPostContentProps {
 	jsonFile: string;
@@ -12,7 +12,7 @@ interface BlogPostContentProps {
 interface PostContent {
 	subtitle?: string;
 	text?: string;
-	details?: string; // Added the "details" field
+	details?: string;
 	imageUrl?: string;
 	bulletPoints?: string[];
 	numberedPoints?: string[];
@@ -36,7 +36,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		const fetchPost = async () => {
 			console.log(`Fetching from ${jsonFile} for post ID ${postId}`);
 			try {
-				// Updated path to point to the correct JSON directory
 				const response = await fetch(`/data/${jsonFile}`);
 				if (!response.ok) {
 					throw new Error("Failed to fetch post");
@@ -134,14 +133,12 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			sectionElements.push(<FiverrWidget key={`fiverr-widget`} />);
 		}
 
-		// Add the content section to contentSections
 		contentSections.push(
 			<div key={`content-section-${index}`} className='content-section'>
 				{sectionElements}
 			</div>,
 		);
 
-		// Add ad component after every two text sections
 		if (textCount % 2 === 0 && textCount > 0) {
 			contentSections.push(
 				<div key={`ad-${index}`} className='ad-background'>
@@ -156,8 +153,23 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	return (
 		<div className='blog-post-content'>
 			{/* Top Ad */}
-			<div className='ad-container'>
-				<AdComponent width={728} height={90} />
+			<div className='top-banner-container'>
+				<a
+					href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='TopBanner'
+				>
+					<img
+						src='/images/shoppinganddeals/amazon-banner.webp'
+						alt='Amazon Prime Banner'
+						className='TopBannerImage'
+					/>
+					<button className='topbanner-button'>
+						Click Here To Get Your Free Trial
+					</button>{" "}
+					{/* Updated button name and text */}
+				</a>
 			</div>
 
 			<h1>{post.title}</h1>
