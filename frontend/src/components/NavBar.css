@@ -25,7 +25,8 @@
 /* Logo Styling */
 .logo {
     padding-left: 15px;
-    width: 220px;
+    width: 180px;
+    /* Adjusted width for smaller screens */
     height: 40px;
     cursor: pointer;
 }
@@ -72,6 +73,8 @@
         flex-direction: column;
         width: 100%;
         background: white;
+        z-index: 2;
+        /* Ensure the menu is above other content */
     }
 
     .menu.open {
@@ -137,6 +140,17 @@
     display: none;
 }
 
+/* Adjust Search Bar for Mobile */
+@media (max-width: 768px) {
+    .search-bar-container {
+        width: 90%;
+        /* Adjusted width for smaller screens */
+        left: 5%;
+        /* Center the search bar on smaller screens */
+        right: auto;
+    }
+}
+
 /* Search Bar Styling */
 .search-bar {
     width: 100%;
@@ -146,6 +160,8 @@
     box-sizing: border-box;
     border: 1px solid #ddd;
     outline: none;
+    font-size: 1rem;
+    color: white;
 }
 
 /* Search Icon Styling */
@@ -176,7 +192,8 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 200px;
+    max-height: 300px;
+    /* Increased height to show more suggestions */
     overflow-y: auto;
     background-color: white;
     border: 1px solid #ddd;
@@ -185,15 +202,44 @@
     right: 0;
     width: 100%;
     z-index: 3;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    /* Rounded corners for a smoother look */
+    transition: all 0.2s ease-in-out;
+    /* Smooth transition for hover effect */
 }
 
 /* Individual Suggestion Item Styling */
 .suggestions-list li {
-    padding: 0.5rem;
+    padding: 0.8rem;
     cursor: pointer;
+    font-size: 0.95rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    line-height: 1.4;
 }
 
 .suggestions-list li:hover {
-    background-color: #f0f0f0;
+    background-color: #f9f9f9;
+    color: #007bff;
+    /* Slight color change on hover */
+    font-weight: bold;
+    /* Bold text on hover */
+}
+
+/* Responsive Suggestions for Mobile */
+@media (max-width: 768px) {
+    .suggestions-list {
+        width: 90%;
+        left: 5%;
+        right: auto;
+        top: calc(100% + 10px);
+        /* Adjust positioning for better visibility */
+        max-height: 250px;
+        /* Slightly smaller height for mobile */
+        font-size: 0.9rem;
+        /* Smaller font size for mobile */
+    }
 }

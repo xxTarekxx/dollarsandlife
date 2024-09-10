@@ -1,107 +1,74 @@
+/* Container for the entire calculator section */
 .financial-calculators-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 14px;
     width: 100%;
     box-sizing: border-box;
-    /* Ensures padding does not affect the width */
 }
 
-.calculator-row {
+/* Top banner container styling specific to FinancialCalculators */
+.top-banner-container {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin-bottom: 30px;
-    box-sizing: border-box;
-    /* Ensures padding does not affect the width */
-}
-
-.calculator {
-    flex: 1 1 calc(50% - 40px);
-    /* Two calculators per row with some gap */
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    max-width: 450px;
-    box-sizing: border-box;
-    /* Ensures padding does not affect the width */
-}
-
-.calculator h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 6px;
+    position: relative;
     text-align: center;
-    /* Center-align the heading */
 }
 
-.calculator form {
+.TopBanner {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* Center-align the form contents */
+    position: relative;
+    /* Makes it a positioning context for the button */
+    text-decoration: none;
+    color: inherit;
     width: 100%;
+    max-width: 1000px;
 }
 
-.calculator label {
-    margin-bottom: 10px;
+.TopBannerImage {
     width: 100%;
-    /* Full width for better alignment */
+    margin: auto;
+    height: auto;
+    border-radius: 8px;
+    display: block;
 }
 
-.calculator input {
-    padding: 8px;
-    font-size: 16px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 100%;
-    /* Full width to match labels */
-    box-sizing: border-box;
-    /* Ensures padding does not affect the width */
-}
-
-.calculator button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
+/* Button styling to place it at the bottom inside the image */
+.topbanner-button {
+    position: absolute;
+    bottom: 6px;
+    /* Places the button 10px from the bottom of the image */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f0c14b;
+    color: #111;
+    border: 1px solid #a88734;
+    border-radius: 15px;
+    padding: 4px 16px;
     cursor: pointer;
-    width: 50%;
-    /* Center the button with a fixed width */
-    margin-top: 10px;
-    text-align: center;
-    /* Ensure text is centered */
-    box-sizing: border-box;
-    /* Ensures padding does not affect the width */
-}
-
-.calculator button:hover {
-    background-color: #0056b3;
-}
-
-.result-field {
-    margin-top: 15px;
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
-    /* Center-align the result text */
+    transition: background-color 0.3s ease;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
 }
 
-.ad-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 20px 0;
+.topbanner-button:hover {
+    background-color: #e2ae40;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
+    .topbanner-button {
+        font-size: 12px;
+        padding: 6px 12px;
+        bottom: 6px;
+        /* Adjusts the bottom spacing for smaller screens */
+    }
+
     .calculator-row {
         flex-direction: column;
         align-items: center;
@@ -111,11 +78,22 @@
         width: 90%;
         margin-bottom: 20px;
         flex: 1 1 100%;
-        /* Full width for smaller screens */
     }
 }
 
 @media (max-width: 480px) {
+    .topbanner-button {
+        font-size: 8px;
+        padding: 0px 4px;
+        bottom: 2px;
+        /* Further adjusts for very small screens */
+    }
+
+    .TopBannerImage {
+        border-radius: 5px;
+        /* Reduces the border-radius for small screens */
+    }
+
     .calculator h2 {
         font-size: 18px;
     }
@@ -127,4 +105,89 @@
     .calculator button {
         width: 100%;
     }
+}
+
+/* Container for individual calculator rows */
+.calculator-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+}
+
+/* Individual calculator styling */
+.calculator {
+    flex: 1 1 calc(50% - 40px);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    max-width: 450px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.calculator h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.calculator form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.calculator label {
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+.calculator input {
+    padding: 8px;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.calculator button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.calculator button:hover {
+    background-color: #0056b3;
+}
+
+.result-field {
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Ad container styling */
+.ad-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0;
 }
