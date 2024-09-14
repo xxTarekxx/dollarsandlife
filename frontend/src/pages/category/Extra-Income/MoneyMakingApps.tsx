@@ -94,19 +94,14 @@ const MoneyMakingApps: React.FC = () => {
 					/>
 				</Link>
 			</div>
-			{i > 0 && i % 2 === 0 && (
+			{i > 0 && i % 2 === 1 && (
 				<div className='ad-row-container'>
 					<AdComponent width={660} height={440} />
 				</div>
 			)}
-			{i % 2 === 0 && (
-				<div className='mobile-box-ad-container'>
-					<AdComponent width={250} height={250} />
-				</div>
-			)}
-			{i % 4 === 0 && (
+			{i % 1 === 0 && (
 				<div className='mobile-ad-container'>
-					<AdComponent width={320} height={100} />
+					<AdComponent width={320} height={320} />
 				</div>
 			)}
 		</React.Fragment>

@@ -84,19 +84,14 @@ const FreeLanceJobs: React.FC = () => {
 					/>
 				</Link>
 			</div>
-			{i > 0 && i % 2 === 0 && (
+			{i > 0 && i % 2 === 1 && (
 				<div className='ad-row-container'>
 					<AdComponent width={660} height={440} />
 				</div>
 			)}
-			{i % 2 === 0 && (
-				<div className='mobile-box-ad-container'>
-					<AdComponent width={250} height={250} />
-				</div>
-			)}
-			{i % 4 === 0 && (
+			{i % 1 === 0 && (
 				<div className='mobile-ad-container'>
-					<AdComponent width={320} height={100} />
+					<AdComponent width={320} height={320} />
 				</div>
 			)}
 		</React.Fragment>
@@ -109,18 +104,24 @@ const FreeLanceJobs: React.FC = () => {
 					path='/'
 					element={
 						<>
-							<a
-								href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
-								target='_blank'
-								rel='noopener noreferrer'
-								className='TopBanner'
-							>
-								<img
-									src='/images/shoppinganddeals/amazon-banner.webp'
-									alt='Amazon Prime Banner'
-									className='TopBannerImage'
-								/>
-							</a>
+							<div className='top-banner-container'>
+								<a
+									href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+									target='_blank'
+									rel='noopener noreferrer'
+									className='TopBanner'
+								>
+									<img
+										src='/images/shoppinganddeals/amazon-banner.webp'
+										alt='Amazon Prime Banner'
+										className='TopBannerImage'
+									/>
+									<button className='topbanner-button'>
+										Click Here To Get Your Free Trial
+									</button>{" "}
+									{/* Updated button name and text */}
+								</a>
+							</div>
 							<h2 className='section-heading'>Freelancers Opportunities</h2>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer

@@ -1,107 +1,185 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import AdComponent from "../components/AdComponent";
+import "../components/BlogPostContent.css";
 
-const BlogPostContainer = styled.div`
-	background-color: white;
-	max-width: 800px;
-	margin: 0 auto;
-	padding: 20px;
-	font-family: Arial, sans-serif;
-	line-height: 1.6;
-	color: #333;
-`;
-
-const BlogTitle = styled.h1`
-	font-size: 2.5em;
-	margin-bottom: 0.5em;
-	color: #222;
-`;
-
-const BlogSubtitle = styled.h2`
-	font-size: 1.5em;
-	margin: 1em 0;
-	color: #555;
-`;
-
-const BlogParagraph = styled.p`
-	margin: 1em 0;
-	font-size: 1em;
-	color: #666;
-`;
-
-const BlogImage = styled.img`
-	width: 100%;
-	height: auto;
-	margin: 1em 0;
-`;
-
-const BlogQuote = styled.blockquote`
-	margin: 1em 0;
-	padding: 0.5em 1em;
-	border-left: 4px solid #ccc;
-	color: #888;
-	font-style: italic;
-`;
-
-const BlogList = styled.ul`
-	margin: 1em 0;
-	padding-left: 20px;
-	list-style-type: disc;
-`;
-
-const BlogListItem = styled.li`
-	margin: 0.5em 0;
-`;
-
-interface BlogPostData {
-	id: number;
-	title: string;
-	imageUrl: string;
-	content: string;
-	author: string;
-	datePosted: string;
+interface BlogPostContentProps {
+	jsonFile: string;
 }
 
-const MyStory: React.FC = () => {
-	const { id } = useParams<{ id: string }>();
-	const [blogPost, setBlogPost] = useState<BlogPostData | null>(null);
+interface PostContent {
+	subtitle?: string;
+	text?: string;
+	details?: string;
+	imageUrl?: string;
+	bulletPoints?: string[];
+	numberedPoints?: string[];
+	htmlContent?: string;
+}
+
+interface BlogPost {
+	id: string;
+	title: string;
+	author: string;
+	datePosted: string;
+	imageUrl: string;
+	content: PostContent[];
+}
+
+const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
+	const [post, setPost] = useState<BlogPost | null>(null);
 
 	useEffect(() => {
-		const fetchData = async () => {
+		const fetchPost = async () => {
+			console.log(`Fetching from /data/${jsonFile}`);
 			try {
-				const response = await fetch("/freelancejobs.json");
+				// Corrected fetch path to the JSON file
+				const response = await fetch(`/data/${jsonFile}`);
 				if (!response.ok) {
-					throw new Error("Failed to fetch");
+					throw new Error("Failed to fetch post");
 				}
-				const data = (await response.json()) as BlogPostData[];
-				const foundPost = data.find((post) => post.id.toString() === id);
-				if (!foundPost) {
+				const data: BlogPost[] = await response.json();
+
+				// Ensure the data is an array and contains the expected object
+				if (Array.isArray(data) && data.length > 0) {
+					setPost(data[0]); // Assume there is only one post
+				} else {
 					throw new Error("Post not found");
 				}
-				setBlogPost(foundPost);
 			} catch (error) {
-				console.error("Error fetching data:", error);
+				console.error("Error fetching post:", error);
 			}
 		};
 
-		fetchData();
-	}, [id]);
+		fetchPost();
+	}, [jsonFile]);
 
-	if (!blogPost) {
+	if (!post) {
 		return <div>Loading...</div>;
 	}
 
+	let textCount = 0;
+	let contentSections: JSX.Element[] = [];
+
+	post.content.forEach((section, index) => {
+		const sectionElements: JSX.Element[] = [];
+
+		if (section.subtitle) {
+			sectionElements.push(
+				<h2 key={`subtitle-${index}`}>{section.subtitle}</h2>,
+			);
+		}
+
+		if (section.text) {
+			sectionElements.push(
+				<p
+					key={`text-${index}`}
+					dangerouslySetInnerHTML={{ __html: section.text }}
+				/>,
+			);
+			textCount++;
+		}
+
+		if (section.details) {
+			sectionElements.push(
+				<p
+					key={`details-${index}`}
+					className='details'
+					dangerouslySetInnerHTML={{ __html: section.details }}
+				/>,
+			);
+		}
+
+		if (section.imageUrl) {
+			sectionElements.push(
+				<img
+					key={`image-${index}`}
+					src={section.imageUrl}
+					alt=''
+					className='section-image'
+				/>,
+			);
+		}
+
+		if (section.bulletPoints) {
+			sectionElements.push(
+				<ul key={`bulletPoints-${index}`}>
+					{section.bulletPoints.map((point, i) => (
+						<li
+							key={`bullet-${i}`}
+							dangerouslySetInnerHTML={{ __html: point }}
+						/>
+					))}
+				</ul>,
+			);
+		}
+
+		if (section.numberedPoints) {
+			sectionElements.push(
+				<ol key={`numberedPoints-${index}`}>
+					{section.numberedPoints.map((point, i) => (
+						<li
+							key={`numbered-${i}`}
+							dangerouslySetInnerHTML={{ __html: point }}
+						/>
+					))}
+				</ol>,
+			);
+		}
+
+		contentSections.push(
+			<div key={`content-section-${index}`} className='content-section'>
+				{sectionElements}
+			</div>,
+		);
+
+		if (textCount % 2 === 0 && textCount > 0) {
+			contentSections.push(
+				<div key={`ad-${index}`} className='ad-background'>
+					<div className='ad-row-container'>
+						<AdComponent width={660} height={440} />
+					</div>
+				</div>,
+			);
+		}
+	});
+
 	return (
-		<BlogPostContainer>
-			<BlogTitle>{blogPost.title}</BlogTitle>
-			<BlogSubtitle>
-				{blogPost.author} - {blogPost.datePosted}
-			</BlogSubtitle>
-			<BlogImage src={blogPost.imageUrl} alt={blogPost.title} />
-			<BlogParagraph>{blogPost.content}</BlogParagraph>
-		</BlogPostContainer>
+		<div className='blog-post-content'>
+			<div className='top-banner-container'>
+				<a
+					href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='TopBanner'
+				>
+					<img
+						src='/images/shoppinganddeals/amazon-banner.webp'
+						alt='Amazon Prime Banner'
+						className='TopBannerImage'
+					/>
+					<button className='topbanner-button'>
+						Click Here To Get Your Free Trial
+					</button>
+				</a>
+			</div>
+
+			<h1>{post.title}</h1>
+			<div className='image-box'>
+				<img src={post.imageUrl} alt={post.title} className='main-image' />
+			</div>
+
+			<div className='author-date'>
+				<p className='author'>By: {post.author}</p>
+				<p className='date'>{new Date(post.datePosted).toLocaleDateString()}</p>
+			</div>
+
+			{contentSections}
+
+			<div className='ad-container'>
+				<AdComponent width={728} height={90} />
+			</div>
+		</div>
 	);
 };
 
-export default MyStory;
+export default BlogPostContent;

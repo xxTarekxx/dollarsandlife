@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import AdComponent from "../../../components/AdComponent";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "../../../components/AdComponent.css";
 import "./ShoppingDeals.css";
 
 interface ProductCardProps {
@@ -112,19 +113,32 @@ const ShoppingDeals: React.FC = () => {
 			{rows.map((row, rowIndex) => (
 				<React.Fragment key={rowIndex}>
 					<div className='ProductsGrid'>
-						{row.map((productData) => (
-							<ProductCard
-								key={productData.id}
-								id={productData.id}
-								title={productData.title}
-								imageUrl={productData.imageUrl}
-								description={productData.description}
-								currentPrice={productData.currentPrice}
-								discountPercentage={productData.discountPercentage}
-								affiliateLink={productData.affiliateLink}
-							/>
+						{row.map((productData, productIndex) => (
+							<React.Fragment key={productData.id}>
+								<ProductCard
+									id={productData.id}
+									title={productData.title}
+									imageUrl={productData.imageUrl}
+									description={productData.description}
+									currentPrice={productData.currentPrice}
+									discountPercentage={productData.discountPercentage}
+									affiliateLink={productData.affiliateLink}
+								/>
+								{/* Ad for mobile devices after every 2 products */}
+								{window.innerWidth <= 600 && productIndex % 2 === 1 && (
+									<div className='mobile-ad-container'>
+										<AdComponent width={320} height={320} />
+									</div>
+								)}
+							</React.Fragment>
 						))}
 					</div>
+					{/* Ad for desktop devices after every row */}
+					{window.innerWidth > 600 && (
+						<div className='ad-row-container'>
+							<AdComponent width={660} height={440} />
+						</div>
+					)}
 				</React.Fragment>
 			))}
 			<PaginationContainer

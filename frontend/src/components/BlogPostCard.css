@@ -83,7 +83,6 @@
 .card-text {
     font-size: 0.875rem;
     color: #666;
-    /* margin: 0 15px 15px 0; */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;

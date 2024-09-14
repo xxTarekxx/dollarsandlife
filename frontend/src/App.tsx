@@ -9,7 +9,7 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
-import MyStory from "./pages/MyStory";
+import BlogPostContent from "./components/BlogPostContent"; // Import the BlogPostContent component
 import Budget from "./pages/category/Extra-Income/Budget";
 import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
@@ -63,9 +63,12 @@ const App: React.FC = () => {
 						element={<MoneyMakingApps />}
 					/>
 					<Route path='/shopping-Deals' element={<ShoppingDeals />} />
-					{/* Add trailing '*' to allow nested routing */}
 					<Route path='/start-a-blog/*' element={<StartAblog />} />
-					<Route path='/My-Story' element={<MyStory />} />
+					{/* Route for "My Story" to render BlogPostContent with mystory.json */}
+					<Route
+						path='/my-story'
+						element={<BlogPostContent jsonFile='mystory.json' />}
+					/>
 					<Route path='/terms-of-service' element={<TermsOfService />} />
 					<Route path='/contact-us' element={<ContactUs />} />
 					<Route

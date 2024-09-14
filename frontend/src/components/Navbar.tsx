@@ -9,7 +9,7 @@ const menuItems = [
 	{ to: "/extra-income/", text: "Extra Income" },
 	{ to: "/shopping-deals", text: "Shopping Deals" },
 	{ to: "/start-a-blog", text: "Start A Blog" },
-	{ to: "/my-story", text: "My Story" },
+	// { to: "/my-story", text: "My Story" },
 ];
 
 const Navbar: React.FC = () => {

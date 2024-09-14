@@ -76,29 +76,21 @@ const StartABlog: React.FC = () => {
 			</div>,
 		);
 
-		if (i > 0 && i % 2 === 0) {
-			items.push(
-				<div className='ad-row-container' key={`ad-row-${i}`}>
-					<AdComponent width={440} height={440} />
-				</div>,
+		{
+			i % 2 === 0 && (
+				<div className='ad-row-container'>
+					<AdComponent width={660} height={440} />
+				</div>
 			);
 		}
 
-		if (i % 2 === 0) {
-			items.push(
-				<div className='mobile-box-ad-container' key={`mobile-box-ad-${i}`}>
-					<AdComponent width={440} height={440} />
-				</div>,
-			);
-		}
-
-		if (i % 4 === 0) {
-			items.push(
-				<div className='mobile-ad-container' key={`mobile-ad-${i}`}>
-					<AdComponent width={440} height={440} />
-				</div>,
-			);
-		}
+		// {
+		// 	i % 1 === 0 && (
+		// 		<div className='mobile-ad-container'>
+		// 			<AdComponent width={320} height={320} />
+		// 		</div>
+		// 	);
+		// }
 	}
 
 	return (

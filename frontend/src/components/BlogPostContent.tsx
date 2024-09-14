@@ -141,9 +141,12 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 
 		if (textCount % 2 === 0 && textCount > 0) {
 			contentSections.push(
-				<div key={`ad-${index}`} className='ad-background'>
-					<div className='ad-container'>
-						<AdComponent width={336} height={280} />
+				<div key={`ad-${index}`} className='ad-container'>
+					<div className='ad-row-container'>
+						<AdComponent width={660} height={440} />
+					</div>
+					<div className='mobile-ad-container'>
+						<AdComponent width={320} height={320} />
 					</div>
 				</div>,
 			);
@@ -186,9 +189,9 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			{contentSections}
 
 			{/* Bottom Ad */}
-			<div className='ad-container'>
+			{/* <div className='ad-container'>
 				<AdComponent width={728} height={90} />
-			</div>
+			</div> */}
 		</div>
 	);
 };
