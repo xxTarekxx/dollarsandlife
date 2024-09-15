@@ -17,8 +17,8 @@ const TermsOfService: React.FC = () => {
 
 				<h2 tabIndex={0}>Acceptance of Terms</h2>
 				<p>
-					By using “Dollars And Life”, you agree to these Terms of Use and our
-					Privacy Policy. If you do not agree, please do not use our site.
+					By using “www.dollarsandlife.com”, you agree to these Terms of Use and
+					our Privacy Policy. If you do not agree, please do not use our site.
 				</p>
 
 				<h2 tabIndex={0}>Changes to Terms</h2>
@@ -31,9 +31,10 @@ const TermsOfService: React.FC = () => {
 
 				<h2 tabIndex={0}>Use of the Site</h2>
 				<p>
-					You agree to use “Dollars And Life” for lawful purposes only. You must
-					not use the site in any way that causes, or may cause, damage to the
-					site or impairment of the availability or accessibility of the site.
+					You agree to use “www.dollarsandlife.com” for lawful purposes only.
+					You must not use the site in any way that causes, or may cause, damage
+					to the site or impairment of the availability or accessibility of the
+					site.
 				</p>
 
 				<h2 tabIndex={0}>FTC Disclosure and Affiliate Marketing</h2>
@@ -43,10 +44,10 @@ const TermsOfService: React.FC = () => {
 				</p>
 
 				<p>
-					<strong>Affiliate Links:</strong> Dollars And Life contains links to
-					affiliate websites. If you choose to use these links, we may earn a
-					commission at no additional cost to you. We only recommend products or
-					services we believe will add value to our readers.
+					<strong>Affiliate Links:</strong> www.dollarsandlife.com contains
+					links to affiliate websites. If you choose to use these links, we may
+					earn a commission at no additional cost to you. We only recommend
+					products or services we believe will add value to our readers.
 				</p>
 				<p>
 					<strong>Amazon Associate Program:</strong> Texas Connect LLC is a
@@ -57,22 +58,22 @@ const TermsOfService: React.FC = () => {
 
 				<h2 tabIndex={0}>Disclaimer</h2>
 				<p>
-					All information provided on “Dollars And Life” is for informational
-					purposes only. We make no representations as to the accuracy,
-					completeness, or validity of any information on this site and will not
-					be liable for any errors, omissions, or delays in this information or
-					any losses, injuries, or damages arising from its use.
+					All information provided on “www.dollarsandlife.com” is for
+					informational purposes only. We make no representations as to the
+					accuracy, completeness, or validity of any information on this site
+					and will not be liable for any errors, omissions, or delays in this
+					information or any losses, injuries, or damages arising from its use.
 				</p>
 
 				<h2 tabIndex={0}>Limitation of Liability</h2>
 				<p>
 					To the fullest extent permitted by law, Texas Connect LLC disclaims
-					all warranties, express or implied, regarding “Dollars And Life” and
-					any services or products provided through our affiliate links. We will
-					not be liable for any damages of any kind arising from the use of this
-					site or from any information, content, materials, products (including
-					software), or services included on or otherwise made available to you
-					through this site.
+					all warranties, express or implied, regarding “www.dollarsandlife.com”
+					and any services or products provided through our affiliate links. We
+					will not be liable for any damages of any kind arising from the use of
+					this site or from any information, content, materials, products
+					(including software), or services included on or otherwise made
+					available to you through this site.
 				</p>
 
 				<h2 tabIndex={0}>Indemnification</h2>
@@ -109,7 +110,7 @@ const TermsOfService: React.FC = () => {
 				</p>
 
 				<p>
-					By using “Dollars And Life”, you acknowledge that you have read,
+					By using “www.dollarsandlife.com”, you acknowledge that you have read,
 					understood, and agree to be bound by these Terms of Use.
 				</p>
 			</section>

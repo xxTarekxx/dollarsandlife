@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
 		{
 			header: "Who Are We?",
 			links: [
-				{ to: "/about-us", text: "About Us" },
+				// { to: "/about-us", text: "About Us" },
 				{ to: "/contact-us", text: "Contact Us" },
 				{ to: "/terms-of-service", text: "Terms Of Service" },
 			],
