@@ -1,5 +1,10 @@
+html,
 body {
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
+    /* Ensures horizontal overflow is hidden on all devices */
+    width: 100%;
 }
 
 .home-container {
@@ -10,11 +15,12 @@ body {
 .home-container h1 {
     font-size: 2rem;
     margin-bottom: 0;
+}
 
-    @media (max-width: 768px) {
+@media (max-width: 768px) {
+    .home-container h1 {
         font-size: 1.6rem;
     }
-
 }
 
 .home-container .landing-subtitle {
@@ -89,14 +95,14 @@ body {
     outline: 3px solid #7600ff;
 }
 
-
-
 .home-links img {
     padding: 5px;
     width: 220px;
     height: 200px;
+}
 
-    @media (max-width: 768px) {
+@media (max-width: 768px) {
+    .home-links img {
         width: 120px;
         height: 90px;
         padding: 10px;
@@ -106,5 +112,4 @@ body {
 .home-figcaption {
     color: black;
     transition: color 0.3s ease-in-out;
-    /* padding-bottom: 5px; */
 }

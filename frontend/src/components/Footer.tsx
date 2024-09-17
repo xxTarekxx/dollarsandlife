@@ -84,7 +84,12 @@ const Footer: React.FC = () => {
 			</div>
 			{/* Copyright */}
 			<div className='copyright'>
-				© {currentYear} All Rights Reserved Texas Connect LLC
+				© {currentYear} All Rights Reserved Texas Connect LLC <br />
+				Developed And Designed By
+				<a href='https://www.linkedin.com/in/tarek-ismael-96777578/'>
+					{" "}
+					Tarek I.{" "}
+				</a>
 			</div>
 		</div>
 	);

@@ -2,3 +2,70 @@
   font-family: 'Playfair Display', serif;
   font-size: 18px;
 }
+
+/* Styles for Cookie Consent Banner */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* Ensure padding and border are included in the width */
+  overflow: hidden;
+  /* Prevent overflow of content */
+}
+
+.cookie-banner p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  /* Ensures text wraps correctly */
+}
+
+.cookie-banner button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  /* Ensure padding is included in the width */
+}
+
+.cookie-banner button:hover {
+  background-color: #0056b3;
+}
+
+/* Media queries for responsive design */
+@media (min-width: 600px) {
+  .cookie-banner {
+    flex-direction: row;
+    padding: 15px 20px;
+    justify-content: space-between;
+  }
+
+  .cookie-banner p {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .cookie-banner button {
+    margin-left: 10px;
+    font-size: 16px;
+  }
+}

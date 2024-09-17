@@ -83,14 +83,6 @@ const StartABlog: React.FC = () => {
 				</div>
 			);
 		}
-
-		// {
-		// 	i % 1 === 0 && (
-		// 		<div className='mobile-ad-container'>
-		// 			<AdComponent width={320} height={320} />
-		// 		</div>
-		// 	);
-		// }
 	}
 
 	return (
@@ -100,18 +92,24 @@ const StartABlog: React.FC = () => {
 					path='/'
 					element={
 						<>
-							<a
-								href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
-								target='_blank'
-								rel='noopener noreferrer'
-								className='TopBanner'
-							>
-								<img
-									src='/images/shoppinganddeals/amazon-banner.webp'
-									alt='Amazon Prime Banner'
-									className='TopBannerImage'
-								/>
-							</a>
+							<div className='top-banner-container'>
+								<a
+									href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+									target='_blank'
+									rel='noopener noreferrer'
+									className='TopBanner'
+								>
+									<img
+										src='/images/shoppinganddeals/amazon-banner.webp'
+										alt='Amazon Prime Banner'
+										className='TopBannerImage'
+									/>
+									<button className='topbanner-button'>
+										Click Here To Get Your Free Trial
+									</button>{" "}
+									{/* Updated button name and text */}
+								</a>
+							</div>
 							<h2 className='section-heading'>
 								How to Start a Successful Blog in 2024: Step-by-Step Guide for
 								Beginners

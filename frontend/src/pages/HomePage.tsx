@@ -4,7 +4,7 @@ import useCompressedImage from "../components/compressed/useCompressedImage";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
 import StartAblogimg from "/images/icons/img-startablog.webp";
 import AmazonPicksImg from "/images/icons/img-dealsandsavings.webp";
-import NextToPImage from "/images/favcons/down-arrow.webp"; // Add the image for next to the P tag
+import NextToPImage from "/images/favcons/down-arrow.webp";
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {

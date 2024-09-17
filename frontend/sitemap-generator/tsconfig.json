@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "lib": ["DOM", "ESNext"],
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "moduleResolution": "Node",
+      "resolveJsonModule": true,
+      "noEmit": false,
+      "outDir": "../dist",
+      "typeRoots": ["./node_modules/@types"] // Explicitly specify type roots
+    },
+    "include": ["generate-sitemap.ts"]
+  }
+  

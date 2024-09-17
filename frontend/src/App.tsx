@@ -1,3 +1,4 @@
+// App.tsx
 import React from "react";
 import {
 	Route,
@@ -5,24 +6,25 @@ import {
 	Routes,
 	useLocation,
 } from "react-router-dom";
+import styled from "styled-components";
 import "./App.css";
+import BlogPostContent from "./components/BlogPostContent";
+import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
+import ContactUs from "./components/ContactUs";
+import FinancialCalculators from "./components/FinancialCalculators";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
-import BlogPostContent from "./components/BlogPostContent"; // Import the BlogPostContent component
+import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
 import Budget from "./pages/category/Extra-Income/Budget";
 import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
-import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
 import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
+import HomePage from "./pages/HomePage";
 import TermsOfService from "./pages/TermsOfService";
-import ContactUs from "./components/ContactUs";
-import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
-import FinancialCalculators from "./components/FinancialCalculators";
-import styled from "styled-components";
+import CookieConsentBanner from "./components/CookieConsentBanner"; // Import the CookieConsentBanner component
 
 const AppContainer = styled.div`
 	display: flex;
@@ -64,7 +66,6 @@ const App: React.FC = () => {
 					/>
 					<Route path='/shopping-Deals' element={<ShoppingDeals />} />
 					<Route path='/start-a-blog/*' element={<StartAblog />} />
-					{/* Route for "My Story" to render BlogPostContent with mystory.json */}
 					<Route
 						path='/my-story'
 						element={<BlogPostContent jsonFile='mystory.json' />}
@@ -78,6 +79,7 @@ const App: React.FC = () => {
 				</Routes>
 			</MainContent>
 			<Footer />
+			<CookieConsentBanner /> {/* Add the CookieConsentBanner component here */}
 		</AppContainer>
 	);
 };
