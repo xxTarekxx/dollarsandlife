@@ -1,6 +1,6 @@
 .contact-us-container {
     max-width: 700px;
-    margin: 0 auto;
+    margin: 28px auto;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
@@ -60,4 +60,15 @@
     color: red;
     font-size: 14px;
     margin-top: 5px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }

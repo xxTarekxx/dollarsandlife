@@ -97,45 +97,67 @@ const ContactUs: React.FC = () => {
 	};
 
 	return (
-		<div className='contact-us-container'>
+		<section className='contact-us-container'>
 			<h2>Contact Us</h2>
 			<form onSubmit={handleSubmit} className='contact-form'>
-				<input
-					type='text'
-					placeholder='First Name'
-					value={firstName}
-					onChange={handleFirstNameChange}
-					required
-				/>
-				<input
-					type='text'
-					placeholder='Last Name'
-					value={lastName}
-					onChange={handleLastNameChange}
-					required
-				/>
-				<input
-					type='email'
-					placeholder='Email'
-					value={email}
-					onChange={handleEmailChange}
-					required
-				/>
-				<textarea
-					placeholder='Your message'
-					value={message}
-					onChange={(e) => setMessage(e.target.value)}
-					required
-				/>
+				<label>
+					<span className='visually-hidden'>First Name</span>
+					<input
+						type='text'
+						placeholder='First Name'
+						value={firstName}
+						onChange={handleFirstNameChange}
+						required
+						aria-label='First Name'
+					/>
+				</label>
+				<label>
+					<span className='visually-hidden'>Last Name</span>
+					<input
+						type='text'
+						placeholder='Last Name'
+						value={lastName}
+						onChange={handleLastNameChange}
+						required
+						aria-label='Last Name'
+					/>
+				</label>
+				<label>
+					<span className='visually-hidden'>Email</span>
+					<input
+						type='email'
+						placeholder='Email'
+						value={email}
+						onChange={handleEmailChange}
+						required
+						aria-label='Email'
+					/>
+				</label>
+				<label>
+					<span className='visually-hidden'>Your message</span>
+					<textarea
+						placeholder='Your message'
+						value={message}
+						onChange={(e) => setMessage(e.target.value)}
+						required
+						aria-label='Your message'
+					/>
+				</label>
 				<ReCAPTCHA
-					sitekey='6Le2mjMqAAAAABzmZ0UJy5K6Gl5vw-CDG-mhon5L' // Your actual v2 Site Key
+					sitekey='6Le2mjMqAAAAABzmZ0UJy5K6Gl5vw-CDG-mhon5L'
 					ref={recaptchaRef}
 				/>
 				{captchaError && <p className='error'>{captchaError}</p>}
-				<button type='submit'>Send</button>
-				{formStatus && <p className='form-status'>{formStatus}</p>}
+				<button type='submit' aria-label='Send Message'>
+					Send
+				</button>
+				{formStatus && (
+					<p className='form-status' aria-live='polite'>
+						{formStatus}
+					</p>
+				)}
 			</form>
-		</div>
+		</section>
 	);
 };
 
