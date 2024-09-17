@@ -12,7 +12,6 @@ interface BlogPostCardProps {
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
-	id,
 	title,
 	imageUrl,
 	content,
@@ -27,20 +26,29 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	});
 
 	return (
-		<div className='card-container'>
-			<a href={`/post/${id}`} className='card-link' onClick={onClick}>
-				<img className='card-image' src={imageUrl} alt={title} loading='lazy' />
-				<div className='card-content'>
-					<h3 className='card-title'>{title}</h3>
-					<p className='card-text'>{content}</p>
-					<div>
-						<p className='card-author'>By {author}</p>
-						<p className='card-date'>{formattedDate}</p>
-						<div className='read-more-link'>Read More</div>
-					</div>
+		<article className='card-container' onClick={onClick}>
+			<img className='card-image' src={imageUrl} alt={title} loading='lazy' />
+			<div className='card-content'>
+				<header>
+					<h2 className='card-title'>{title}</h2>
+				</header>
+				<p className='card-text'>{content}</p>
+				<div>
+					<p className='card-author'>By {author}</p>
+					<time className='card-date' dateTime={datePosted}>
+						{formattedDate}
+					</time>
 				</div>
-			</a>
-		</div>
+				<div>
+					<button
+						className='read-more-button'
+						aria-label={`Read more about ${title}`}
+					>
+						Read More
+					</button>
+				</div>
+			</div>
+		</article>
 	);
 };
 
