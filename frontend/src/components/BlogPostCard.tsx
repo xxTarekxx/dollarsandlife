@@ -36,7 +36,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 					<div>
 						<p className='card-author'>By {author}</p>
 						<p className='card-date'>{formattedDate}</p>
-						<span className='read-more-link'>Read More</span>
+						<div className='read-more-link'>Read More</div>
 					</div>
 				</div>
 			</a>
