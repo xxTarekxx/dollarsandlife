@@ -95,8 +95,9 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				<img
 					key={`image-${index}`}
 					src={section.imageUrl}
-					alt=''
+					alt={`Image related to ${section.subtitle || post.title}`}
 					className='section-image'
+					loading='lazy'
 				/>,
 			);
 		}
@@ -167,17 +168,22 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						src='/images/shoppinganddeals/amazon-banner.webp'
 						alt='Amazon Prime Banner'
 						className='TopBannerImage'
+						loading='lazy'
 					/>
 					<button className='topbanner-button'>
-						Click Here To Get Your Free Trial
-					</button>{" "}
-					{/* Updated button name and text */}
+						Get Your Free Amazon Prime Trial
+					</button>
 				</a>
 			</div>
 
 			<h1>{post.title}</h1>
 			<div className='image-box'>
-				<img src={post.imageUrl} alt={post.title} className='main-image' />
+				<img
+					src={post.imageUrl}
+					alt={post.title}
+					className='main-image'
+					loading='lazy'
+				/>
 			</div>
 
 			<div className='author-date'>
@@ -187,11 +193,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 
 			{/* Render all content sections and ads */}
 			{contentSections}
-
-			{/* Bottom Ad */}
-			{/* <div className='ad-container'>
-				<AdComponent width={728} height={90} />
-			</div> */}
 		</div>
 	);
 };
