@@ -12,6 +12,7 @@ interface BlogPostCardProps {
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
+	id,
 	title,
 	imageUrl,
 	content,
@@ -26,19 +27,19 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	});
 
 	return (
-		<div className='card-container' onClick={onClick}>
-			<img className='card-image' src={imageUrl} alt={title} />
-			<div className='card-content'>
-				<div>
+		<div className='card-container'>
+			<a href={`/post/${id}`} className='card-link' onClick={onClick}>
+				<img className='card-image' src={imageUrl} alt={title} loading='lazy' />
+				<div className='card-content'>
 					<h3 className='card-title'>{title}</h3>
+					<p className='card-text'>{content}</p>
+					<div>
+						<p className='card-author'>By {author}</p>
+						<p className='card-date'>{formattedDate}</p>
+						<span className='read-more-link'>Read More</span>
+					</div>
 				</div>
-				<p className='card-text'>{content}</p>
-				<div>
-					<p className='card-author'>{author}</p>
-					<p className='card-date'>{formattedDate}</p>
-					<button className='read-more-button'>Read More</button>
-				</div>
-			</div>
+			</a>
 		</div>
 	);
 };
