@@ -10,8 +10,9 @@ import styled from "styled-components";
 import "./App.css";
 import BlogPostContent from "./components/BlogPostContent";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
+import FinancialCalculators from "./components/calculators/FinancialCalculators";
 import ContactUs from "./components/ContactUs";
-import FinancialCalculators from "./components/FinancialCalculators";
+import CookieConsentBanner from "./components/CookieConsentBanner"; // Import the CookieConsentBanner component
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
@@ -24,7 +25,6 @@ import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import TermsOfService from "./pages/TermsOfService";
-import CookieConsentBanner from "./components/CookieConsentBanner"; // Import the CookieConsentBanner component
 
 const AppContainer = styled.div`
 	display: flex;

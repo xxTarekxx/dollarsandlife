@@ -163,7 +163,7 @@
 
 .calculator button {
     padding: 10px;
-    background-color: #007bff;
+    background-color: #971ae1;
     color: white;
     border: none;
     border-radius: 4px;
@@ -175,14 +175,23 @@
 }
 
 .calculator button:hover {
-    background-color: #0056b3;
+    background-color: #41a522;
 }
 
 .result-field {
     margin-top: 15px;
     font-weight: bold;
     text-align: center;
+    font-size: 0.8em;
 }
+
+@media (max-width: 806px) {
+    .result-field {
+        font-size: 0.6em;
+    }
+}
+
+
 
 /* Ad container styling */
 .ad-container {
