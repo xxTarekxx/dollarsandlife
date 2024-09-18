@@ -113,7 +113,7 @@ const ShoppingDeals: React.FC = () => {
 				</button>{" "}
 				{/* Updated button name and text */}
 			</a>
-			<h2 className='SectionHeading'>Deals and Savings</h2>
+			<h1 className='SectionHeading'>Deals and Savings</h1>
 			{rows.map((row, rowIndex) => (
 				<React.Fragment key={rowIndex}>
 					<div className='ProductsGrid'>

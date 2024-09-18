@@ -1,3 +1,14 @@
+/* Center the h1 heading */
+h1 {
+    color: #6000ce;
+    text-align: center;
+    font-size: 2rem;
+    /* Adjust as needed */
+    margin-bottom: 2rem;
+    /* Add some space below the heading */
+}
+
+/* Category Links Container */
 .category-links-container {
     width: 100%;
     margin: 3% auto;
@@ -6,7 +17,6 @@
     justify-content: center;
     align-items: center;
 }
-
 
 @keyframes shakeAnimation {
 

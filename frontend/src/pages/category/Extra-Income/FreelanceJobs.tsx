@@ -122,7 +122,7 @@ const FreeLanceJobs: React.FC = () => {
 									{/* Updated button name and text */}
 								</a>
 							</div>
-							<h2 className='section-heading'>Freelancers Opportunities</h2>
+							<h1 className='section-heading'>Freelancers Opportunities</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={freelanceJobs.length}

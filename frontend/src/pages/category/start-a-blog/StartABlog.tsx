@@ -110,10 +110,10 @@ const StartABlog: React.FC = () => {
 									{/* Updated button name and text */}
 								</a>
 							</div>
-							<h2 className='section-heading'>
+							<h1 className='section-heading'>
 								How to Start a Successful Blog in 2024: Step-by-Step Guide for
 								Beginners
-							</h2>
+							</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={blogPosts.length}

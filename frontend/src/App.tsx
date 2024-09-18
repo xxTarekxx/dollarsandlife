@@ -7,12 +7,13 @@ import {
 	useLocation,
 } from "react-router-dom";
 import styled from "styled-components";
+import { HelmetProvider, Helmet } from "react-helmet-async"; // Import Helmet
 import "./App.css";
 import BlogPostContent from "./components/BlogPostContent";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
 import FinancialCalculators from "./components/calculators/FinancialCalculators";
 import ContactUs from "./components/ContactUs";
-import CookieConsentBanner from "./components/CookieConsentBanner"; // Import the CookieConsentBanner component
+import CookieConsentBanner from "./components/CookieConsentBanner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
@@ -37,50 +38,61 @@ const MainContent = styled.div`
 `;
 
 const App: React.FC = () => {
-	const location = useLocation();
+	const location = useLocation(); // Get the current path
 
 	return (
-		<AppContainer>
-			<Navbar />
-			{location.pathname !== "/" && <BreadcrumbWrapper />}
-			<MainContent>
-				<Routes>
-					<Route path='/' element={<HomePage />} />
-					<Route path='/extra-income' element={<ExtraIncome />} />
-					<Route
-						path='/extra-income/freelancers/*'
-						element={<FreeLanceJobs />}
+		<HelmetProvider>
+			{" "}
+			{/* Wrap the app with HelmetProvider */}
+			<AppContainer>
+				<Helmet>
+					{/* Set the dynamic canonical URL */}
+					<link
+						rel='canonical'
+						href={`https://www.dollarsandlife.com${location.pathname}`}
 					/>
-					<Route path='/extra-income/Budget/*' element={<Budget />} />
-					<Route
-						path='/extra-income/remote-jobs/*'
-						element={<RemoteOnlineJobs />}
-					/>
-					<Route
-						path='/extra-income/side-hustles/*'
-						element={<SideHustles />}
-					/>
-					<Route
-						path='/extra-income/money-making-apps/*'
-						element={<MoneyMakingApps />}
-					/>
-					<Route path='/shopping-Deals' element={<ShoppingDeals />} />
-					<Route path='/start-a-blog/*' element={<StartAblog />} />
-					<Route
-						path='/my-story'
-						element={<BlogPostContent jsonFile='mystory.json' />}
-					/>
-					<Route path='/terms-of-service' element={<TermsOfService />} />
-					<Route path='/contact-us' element={<ContactUs />} />
-					<Route
-						path='/financial-calculators'
-						element={<FinancialCalculators />}
-					/>
-				</Routes>
-			</MainContent>
-			<Footer />
-			<CookieConsentBanner /> {/* Add the CookieConsentBanner component here */}
-		</AppContainer>
+				</Helmet>
+				<Navbar />
+				{location.pathname !== "/" && <BreadcrumbWrapper />}
+				<MainContent>
+					<Routes>
+						<Route path='/' element={<HomePage />} />
+						<Route path='/extra-income' element={<ExtraIncome />} />
+						<Route
+							path='/extra-income/freelancers/*'
+							element={<FreeLanceJobs />}
+						/>
+						<Route path='/extra-income/Budget/*' element={<Budget />} />
+						<Route
+							path='/extra-income/remote-jobs/*'
+							element={<RemoteOnlineJobs />}
+						/>
+						<Route
+							path='/extra-income/side-hustles/*'
+							element={<SideHustles />}
+						/>
+						<Route
+							path='/extra-income/money-making-apps/*'
+							element={<MoneyMakingApps />}
+						/>
+						<Route path='/shopping-Deals' element={<ShoppingDeals />} />
+						<Route path='/start-a-blog/*' element={<StartAblog />} />
+						<Route
+							path='/my-story'
+							element={<BlogPostContent jsonFile='mystory.json' />}
+						/>
+						<Route path='/terms-of-service' element={<TermsOfService />} />
+						<Route path='/contact-us' element={<ContactUs />} />
+						<Route
+							path='/financial-calculators'
+							element={<FinancialCalculators />}
+						/>
+					</Routes>
+				</MainContent>
+				<Footer />
+				<CookieConsentBanner />
+			</AppContainer>
+		</HelmetProvider>
 	);
 };
 

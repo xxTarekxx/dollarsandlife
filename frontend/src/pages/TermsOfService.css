@@ -19,16 +19,16 @@
 }
 
 .terms-of-service-content h1 {
-    font-size: 2em;
+    font-size: 1.5em;
     margin-bottom: 0.5em;
-    color: #222;
+    color: #6000ce;
     line-height: 1.2;
     text-align: center;
 }
 
 @media (max-width: 768px) {
     .terms-of-service-content h1 {
-        font-size: 1.6em;
+        font-size: 1.4em;
     }
 }
 

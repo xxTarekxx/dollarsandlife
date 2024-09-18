@@ -51,23 +51,29 @@ const ExtraIncome: React.FC = () => {
 	];
 
 	return (
-		<div
-			className='category-links-container'
-			aria-label='Main navigation links'
-		>
-			{linkBoxes.map((linkBox, index) => (
-				<Link
-					className='link-box'
-					key={index}
-					to={linkBox.to}
-					aria-label={linkBox.ariaLabel}
-				>
-					<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
-					<figcaption className='extraincome-figcaption'>
-						{linkBox.captionText}
-					</figcaption>
-				</Link>
-			))}
+		<div>
+			{/* Main Heading */}
+			<h1>Explore Extra Income Opportunities</h1>
+
+			{/* Category Links */}
+			<div
+				className='category-links-container'
+				aria-label='Main navigation links'
+			>
+				{linkBoxes.map((linkBox, index) => (
+					<Link
+						className='link-box'
+						key={index}
+						to={linkBox.to}
+						aria-label={linkBox.ariaLabel}
+					>
+						<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
+						<figcaption className='extraincome-figcaption'>
+							{linkBox.captionText}
+						</figcaption>
+					</Link>
+				))}
+			</div>
 		</div>
 	);
 };

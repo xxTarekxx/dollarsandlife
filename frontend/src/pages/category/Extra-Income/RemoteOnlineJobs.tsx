@@ -120,7 +120,7 @@ const RemoteOnlineJobs: React.FC = () => {
 									className='TopBannerImage'
 								/>
 							</a>
-							<h2 className='section-heading'>Remote Online Jobs</h2>
+							<h1 className='section-heading'>Remote Online Jobs</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={remoteJobs.length}

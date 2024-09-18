@@ -117,7 +117,7 @@ const SideHustles: React.FC = () => {
 									className='TopBannerImage'
 								/>
 							</a>
-							<h2 className='section-heading'>Side Hustles</h2>
+							<h1 className='section-heading'>Side Hustles</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={sideHustles.length}

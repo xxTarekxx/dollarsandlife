@@ -126,7 +126,7 @@ const MoneyMakingApps: React.FC = () => {
 									className='TopBannerImage'
 								/>
 							</a>
-							<h2 className='section-heading'>Money Making Apps</h2>
+							<h1 className='section-heading'>Money Making Apps</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={apps.length}

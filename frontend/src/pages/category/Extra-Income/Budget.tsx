@@ -123,7 +123,7 @@ const Budget: React.FC = () => {
 									{/* Updated button name and text */}
 								</a>
 							</div>
-							<h2 className='section-heading'>Budget Guides</h2>
+							<h1 className='section-heading'>Budget Guides</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={budgetPosts.length}
