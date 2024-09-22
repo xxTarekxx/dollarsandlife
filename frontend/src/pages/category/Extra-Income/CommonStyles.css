@@ -74,3 +74,9 @@
 		transform: translateX(0);
 	}
 }
+
+.top-banner-container {
+	position: relative;
+	text-align: center;
+	width: 100%;
+}

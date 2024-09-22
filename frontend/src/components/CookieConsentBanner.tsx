@@ -37,8 +37,10 @@ const CookieConsentBanner: React.FC = () => {
 				site, you accept our use of cookies. For more information, please see
 				our <a href='/terms-of-service'>Terms of Service</a>.
 			</p>
-			<button onClick={handleAccept}>Accept</button>
-			<button onClick={handleReject}>Reject</button>
+			<div className='cookie-buttons-container'>
+				<button onClick={handleAccept}>Accept</button>
+				<button onClick={handleReject}>Reject</button>
+			</div>
 		</div>
 	);
 };

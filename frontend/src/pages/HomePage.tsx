@@ -1,12 +1,12 @@
 import React from "react";
+import { Helmet } from "react-helmet-async"; // Import Helmet for dynamic metadata
 import { Link } from "react-router-dom";
 import useCompressedImage from "../components/compressed/useCompressedImage";
+import "./HomePage.css";
+import NextToPImage from "/images/favicon/down-arrow.svg";
+import AmazonPicksImg from "/images/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
 import StartAblogimg from "/images/icons/img-startablog.webp";
-import AmazonPicksImg from "/images/icons/img-dealsandsavings.webp";
-import NextToPImage from "/images/favcons/down-arrow.webp";
-import { Helmet } from "react-helmet-async"; // Import Helmet for dynamic metadata
-import "./HomePage.css";
 
 const HomePage: React.FC = () => {
 	const compressedExtraIncomeImg = useCompressedImage(ExtraIncomeImg);
@@ -20,6 +20,8 @@ const HomePage: React.FC = () => {
 			imgSrc: compressedExtraIncomeImg || ExtraIncomeImg,
 			altText: "Extra Income Menu link",
 			captionText: "Extra Income",
+			width: 220,
+			height: 220,
 		},
 		{
 			to: "/Shopping-deals",
@@ -27,6 +29,8 @@ const HomePage: React.FC = () => {
 			imgSrc: compressedAmazonPicksImg || AmazonPicksImg,
 			altText: "Shopping List Menu link",
 			captionText: "Shopping Deals",
+			width: 220,
+			height: 220,
 		},
 		{
 			to: "/Start-A-Blog",
@@ -34,6 +38,8 @@ const HomePage: React.FC = () => {
 			imgSrc: compressedStartAblogimg || StartAblogimg,
 			altText: "Start A Blog Guide link",
 			captionText: "Start A Blog",
+			width: 220,
+			height: 220,
 		},
 	];
 
@@ -61,10 +67,11 @@ const HomePage: React.FC = () => {
 			{/* Main H1 tag for SEO */}
 			<h1>Your Life Changes Here</h1>
 
-			<p className='landing-subtitle'>
-				Start Now{" "}
+			<h2 className='landing-subtitle'>
 				<img src={NextToPImage} alt='Next to P' className='next-to-p-image' />
-			</p>
+				Start Now
+				<img src={NextToPImage} alt='Next to P' className='next-to-p-image' />
+			</h2>
 
 			{/* Main Navigation Links */}
 			<div className='home-main-links' aria-label='Main navigation links'>
@@ -75,7 +82,13 @@ const HomePage: React.FC = () => {
 						to={linkBox.to}
 						aria-label={linkBox.ariaLabel}
 					>
-						<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
+						<img
+							src={linkBox.imgSrc}
+							alt={linkBox.altText}
+							loading='lazy'
+							width={linkBox.width}
+							height={linkBox.height}
+						/>
 						<figcaption className='home-figcaption'>
 							{linkBox.captionText}
 						</figcaption>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "/images/website-logo.webp";
-import SearchImg from "/images/favcons/searchicon.svg";
 import "./NavBar.css";
+import SearchImg from "/images/favicon/searchicon.svg";
+import logo from "/images/website-logo.webp";
 
 const menuItems = [
 	{ to: "/", text: "Home" },
@@ -142,7 +142,7 @@ const Navbar: React.FC = () => {
 								className='menu-item'
 								to={item.to}
 								style={
-									location.pathname === item.to ? { color: "#00A60B" } : {}
+									location.pathname === item.to ? { color: "#008507" } : {}
 								}
 								onClick={(event) => handleMenuItemClick(event, item.to)}
 							>

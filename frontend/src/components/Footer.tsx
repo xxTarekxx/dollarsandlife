@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.css";
-import FacebookIcon from "/images/favcons/facebook-icon.svg";
-import InstagramIcon from "/images/favcons/instagram-icon.svg";
-import YoutubeIcon from "/images/favcons/youtube-icon.svg";
+import FacebookIcon from "/images/favicon/facebook-icon.svg";
+import InstagramIcon from "/images/favicon/instagram-icon.svg";
+import YoutubeIcon from "/images/favicon/youtube-icon.svg";
 
 const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();

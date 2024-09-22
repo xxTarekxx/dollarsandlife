@@ -27,6 +27,7 @@ import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import TermsOfService from "./pages/TermsOfService";
 
+// Styled components
 const AppContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -42,16 +43,26 @@ const App: React.FC = () => {
 
 	return (
 		<HelmetProvider>
-			{" "}
-			{/* Wrap the app with HelmetProvider */}
 			<AppContainer>
+				{/* Helmet for dynamic canonical URL, meta description, and adding Google Tag Manager */}
 				<Helmet>
-					{/* Set the dynamic canonical URL */}
+					{/* Canonical URL */}
 					<link
 						rel='canonical'
 						href={`https://www.dollarsandlife.com${location.pathname}`}
 					/>
+					{/* Meta description for search engine results */}
+					<meta
+						name='description'
+						content='Dollars And Life is a personal finance blog offering tips on earning extra income, finding the best deals, and achieving financial freedom. Explore topics like budgeting, side hustles, and starting a blog.'
+					/>
+					<meta
+						property='og:description'
+						content='Dollars And Life is your go-to resource for personal finance, offering guides on budgeting, extra income, and money-saving tips.'
+					/>
+					{/* Add Google Tag Manager Script */}
 				</Helmet>
+
 				<Navbar />
 				{location.pathname !== "/" && <BreadcrumbWrapper />}
 				<MainContent>

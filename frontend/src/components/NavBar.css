@@ -24,8 +24,8 @@
 
 /* Logo Styling */
 .logo {
-    padding-left: 15px;
-    height: 40px;
+    height: 46px;
+    width: 240px;
     cursor: pointer;
 }
 
@@ -94,11 +94,11 @@
 }
 
 .menu-item:hover {
-    color: #00a60b;
+    color: #008507;
 }
 
 .menu-item:active {
-    transform: translateY(2px);
+    transform: translateY(3px);
 }
 
 @media (max-width: 768px) {
@@ -152,14 +152,14 @@
 /* Search Bar Styling */
 .search-bar {
     width: 100%;
-    background: rgba(0, 166, 11, 1);
+    background: rgb(231, 218, 243);
     border-radius: 5px;
     padding: 0.5rem;
     box-sizing: border-box;
     border: 1px solid #ddd;
     outline: none;
     font-size: 1rem;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 /* Search Icon Styling */

@@ -46,18 +46,34 @@
   <!-- Favicon -->
   <link rel="icon" href="/path-to-your-favicon.ico" />
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="/assets/index.css" />
-
-  <style>
-    /* Critical CSS to avoid FOUC */
-  </style>
+  <!-- Load CSS asynchronously -->
+  <link rel="stylesheet" href="/assets/index.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/assets/index.css">
+  </noscript>
 
   <!-- Google reCAPTCHA v2 -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+  <!-- Initialize Google Tag Manager (GTM) asynchronously after load -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-S7FWNHSD7P');
+
+    // Defer Google Tag Manager script until after page load
+    window.addEventListener('load', function () {
+      var gtmScript = document.createElement('script');
+      gtmScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P';
+      gtmScript.async = true;
+      document.head.appendChild(gtmScript);
+    });
+  </script>
+
 </head>
 
 <body>
@@ -66,7 +82,7 @@
   <div id="root"></div>
 
   <!-- Main Script -->
-  <script type="module" crossorigin src="/assets/index.js"></script>
+  <script type="module" crossorigin src="/assets/index.js" defer></script>
 </body>
 
 </html>
