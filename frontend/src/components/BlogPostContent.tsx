@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import AdComponent from "./AdComponent";
+// import AdComponent from "./AdComponent"; // Commented out for later use
 import FiverrWidget from "./FiverrWidget";
 import "./BlogPostContent.css";
 import "./AdComponent.css";
@@ -140,14 +140,27 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			</div>,
 		);
 
-		if (textCount % 2 === 0 && textCount > 0) {
+		// Show the 300x250 ad after every two text sections, but not at the very bottom
+		if (
+			textCount % 2 === 0 &&
+			textCount > 0 &&
+			index < post.content.length - 1
+		) {
 			contentSections.push(
 				<div key={`ad-${index}`} className='ad-container'>
 					<div className='ad-row-container'>
-						<AdComponent width={660} height={440} />
-					</div>
-					<div className='mobile-ad-container'>
-						<AdComponent width={320} height={320} />
+						<a
+							href='https://www.kqzyfj.com/click-101252893-15236454'
+							target='_top'
+						>
+							<img
+								src='https://www.ftjcfx.com/image-101252893-15236454'
+								width='300'
+								height='250'
+								alt=''
+								border='4'
+							/>
+						</a>
 					</div>
 				</div>,
 			);
@@ -193,6 +206,24 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 
 			{/* Render all content sections and ads */}
 			{contentSections}
+
+			{/* Ad at the very bottom */}
+			<div className='ad-container'>
+				<div className='ad-bottom-container'>
+					<a
+						href='https://www.tkqlhce.com/click-101252893-14103279'
+						target='_top'
+					>
+						<img
+							src='https://www.ftjcfx.com/image-101252893-14103279'
+							// width='728'
+							// height='90'
+							alt='Speak a new language fluently fast. Start now!'
+							border='2'
+						/>
+					</a>
+				</div>
+			</div>
 		</div>
 	);
 };
