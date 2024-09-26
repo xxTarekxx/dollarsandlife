@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
+import "../../../components/AdComponent.css"; // Import AdComponent CSS
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import PaginationContainer from "../../../components/PaginationContainer";
-import "../../../components/AdComponent.css"; // Import AdComponent CSS
 import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
+import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
 const Budget: React.FC = () => {
@@ -87,7 +87,7 @@ const Budget: React.FC = () => {
 			</div>
 			{/* Show small ad (300x250) after every 2 rows */}
 			{i > 0 && i % 2 === 1 && (
-				<div className='ad-container'>
+				<div className='postings-container'>
 					<a
 						href='https://www.kqzyfj.com/click-101252893-15236454'
 						target='_blank'
@@ -98,7 +98,7 @@ const Budget: React.FC = () => {
 							width='300'
 							height='250'
 							alt='Small Ad'
-							className='ad-image'
+							className='postings-image'
 						/>
 					</a>
 				</div>
@@ -139,15 +139,15 @@ const Budget: React.FC = () => {
 								setCurrentPage={setCurrentPage}
 							/>
 							{/* Show large ad (728x90) at the very bottom */}
-							<div className='ad-container'>
-								<div className='ad-bottom-container'>
+							<div className='postings-container'>
+								<div className='postings-bottom-container'>
 									<a
 										href='https://www.tkqlhce.com/click-101252893-14103279'
 										target='_blank'
 										rel='noopener noreferrer'
 									>
 										<img
-											className='ad-image'
+											className='postings-image'
 											src='https://www.ftjcfx.com/image-101252893-14103279'
 											alt='Speak a new language fluently fast. Start now!'
 											width='728'

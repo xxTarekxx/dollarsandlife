@@ -6,7 +6,7 @@ const AdComponent: React.FC<{ width: number; height: number }> = ({
 	width,
 	height,
 }) => (
-	<div className='ad-component-container' style={{ width, height }}>
+	<div className='postings-component-container' style={{ width, height }}>
 		<AdSense.Google
 			client='ca-pub-1234567890123456'
 			slot='1234567890'

@@ -64,7 +64,7 @@
     justify-content: center;
 }
 
-.ad-row-container {
+.postings-row-container {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -72,7 +72,7 @@
     margin: 20px auto;
 }
 
-.mobile-ad-container {
+.mobile-postings-container {
     display: none;
     justify-content: center;
     width: 100%;
@@ -81,7 +81,7 @@
 }
 
 @media (max-width: 768px) {
-    .mobile-ad-container {
+    .mobile-postings-container {
         display: flex;
     }
 }

@@ -1,11 +1,11 @@
-.ad-component-container {
+.postings-component-container {
     display: block;
     width: 100%;
     height: auto;
     /* background-color: black; */
 }
 
-.ad-container {
+.postings-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,7 +18,7 @@
     }
 }
 
-.top-ad-container {
+.top-postings-container {
     max-height: 220px;
     margin: auto;
     display: flex;
@@ -30,8 +30,8 @@
 
 @media (max-width: 806px) {
 
-    .top-ad-container,
-    .ad-container {
+    .top-postings-container,
+    .postings-container {
         max-width: 100%;
         /* Ensure it uses full width on smaller screens */
         width: auto;
@@ -40,7 +40,7 @@
     }
 }
 
-.ad-row-container {
+.postings-row-container {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -49,14 +49,14 @@
 
     img {
         border: 2px solid #6000ce;
-        width: 440px;
-        height: 440px;
+        /* width: 440px; */
+        /* height: 440px; */
     }
 }
 
 
 
-.mobile-ad-container {
+.mobile-postings-container {
     display: none;
     justify-content: center;
     width: 100%;
@@ -65,13 +65,13 @@
 }
 
 @media (max-width: 806px) {
-    .mobile-ad-container {
+    .mobile-postings-container {
         display: flex;
         height: auto;
     }
 }
 
-.mobile-box-ad-container {
+.mobile-box-postings-container {
     display: none;
     justify-content: center;
     width: 100%;
@@ -80,7 +80,7 @@
 }
 
 @media (max-width: 806px) {
-    .mobile-box-ad-container {
+    .mobile-box-postings-container {
         display: flex;
     }
 }
@@ -94,7 +94,7 @@
     margin-bottom: 20px;
 }
 
-.ad-bottom-container img {
+.postings-bottom-container img {
     display: flex;
     flex-direction: column;
     /* width: 100%; */

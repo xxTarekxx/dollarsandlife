@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../../components/AdComponent.css";
-import "./ShoppingDeals.css";
 import "../../../components/BlogPostContent.css"; // Import the BlogPostContent CSS
 import PaginationContainer from "../../../components/PaginationContainer";
-import "../../../components/AdComponent.css";
+import "./ShoppingDeals.css";
 
 interface ProductCardProps {
 	id: string;
@@ -132,8 +131,8 @@ const ShoppingDeals: React.FC = () => {
 					</div>
 					{/* Insert small ad (300x250) after each row except the last one */}
 					{rowIndex < rows.length - 1 && (
-						<div className='ad-container'>
-							<div className='ad-row-container'>
+						<div className='postings-container'>
+							<div className='postings-row-container'>
 								<a
 									href='https://www.kqzyfj.com/click-101252893-15236454'
 									target='_blank'
@@ -141,7 +140,7 @@ const ShoppingDeals: React.FC = () => {
 									<img
 										src='https://www.ftjcfx.com/image-101252893-15236454'
 										alt=''
-										className='ad-image'
+										className='postings-image'
 									/>
 								</a>
 							</div>
@@ -157,14 +156,14 @@ const ShoppingDeals: React.FC = () => {
 			/>
 
 			{/* Large Ad (728x90) at the very bottom */}
-			<div className='ad-container'>
-				<div className='ad-bottom-container'>
+			<div className='postings-container'>
+				<div className='postings-bottom-container'>
 					<a
 						href='https://www.tkqlhce.com/click-101252893-14103279'
 						target='_blank'
 					>
 						<img
-							className='ad-image'
+							className='postings-image'
 							src='https://www.ftjcfx.com/image-101252893-14103279'
 							alt='Speak a new language fluently fast. Start now!'
 						/>

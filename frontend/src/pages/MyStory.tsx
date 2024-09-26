@@ -150,7 +150,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 
 			{contentSections}
 
-			<div className='ad-container'>
+			<div className='postings-container'>
 				<AdComponent width={728} height={90} />
 			</div>
 		</div>

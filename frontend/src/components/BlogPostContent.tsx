@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // import AdComponent from "./AdComponent"; // Commented out for later use
-import FiverrWidget from "./FiverrWidget";
-import "./BlogPostContent.css";
 import "./AdComponent.css";
+import "./BlogPostContent.css";
+import FiverrWidget from "./FiverrWidget";
 
 interface BlogPostContentProps {
 	jsonFile: string;
@@ -147,8 +147,8 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			index < post.content.length - 1
 		) {
 			contentSections.push(
-				<div key={`ad-${index}`} className='ad-container'>
-					<div className='ad-row-container'>
+				<div key={`ad-${index}`} className='postings-container'>
+					<div className='postings-row-container'>
 						<a
 							href='https://www.kqzyfj.com/click-101252893-15236454'
 							target='_blank'
@@ -156,7 +156,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 							<img
 								src='https://www.ftjcfx.com/image-101252893-15236454'
 								alt=''
-								className='ad-image'
+								className='postings-image'
 							/>
 						</a>
 					</div>
@@ -206,14 +206,14 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			{contentSections}
 
 			{/* Ad at the very bottom */}
-			<div className='ad-container'>
-				<div className='ad-bottom-container'>
+			<div className='postings-container'>
+				<div className='postings-bottom-container'>
 					<a
 						href='https://www.tkqlhce.com/click-101252893-14103279'
 						target='_blank'
 					>
 						<img
-							className='ad-image'
+							className='postings-image'
 							src='https://www.ftjcfx.com/image-101252893-14103279'
 							alt='Speak a new language fluently fast. Start now!'
 						/>

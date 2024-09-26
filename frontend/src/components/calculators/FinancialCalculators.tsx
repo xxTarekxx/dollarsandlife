@@ -1,14 +1,14 @@
 import React from "react";
 import { Helmet } from "react-helmet-async"; // For SEO
-import { RetirementCalculator } from "./RetirementCalculator";
-import { MortgageCalculator } from "./MortgageCalculator";
-import { CreditCardCalculator } from "./CreditCardCalculator";
-import { AutoLoanCalculator } from "./AutoLoanCalculator";
-import { SavingsCalculator } from "./SavingsCalculator";
-import { LoanPaymentCalculator } from "./LoanPaymentCalculator";
-import { TaxCalculator } from "./TaxCalculator";
 import AdComponent from "../AdComponent";
+import { AutoLoanCalculator } from "./AutoLoanCalculator";
+import { CreditCardCalculator } from "./CreditCardCalculator";
 import "./FinancialCalculators.css";
+import { LoanPaymentCalculator } from "./LoanPaymentCalculator";
+import { MortgageCalculator } from "./MortgageCalculator";
+import { RetirementCalculator } from "./RetirementCalculator";
+import { SavingsCalculator } from "./SavingsCalculator";
+import { TaxCalculator } from "./TaxCalculator";
 
 const FinancialCalculators: React.FC = () => {
 	const calculators = [
@@ -61,14 +61,14 @@ const FinancialCalculators: React.FC = () => {
 
 					{/* Insert a large ad after every two calculators */}
 					{i > 0 && i % 2 === 1 && (
-						<div className='ad-row-container'>
+						<div className='postings-row-container'>
 							<AdComponent width={660} height={440} />
 						</div>
 					)}
 
 					{/* Insert a mobile-friendly ad after each calculator */}
 					{i % 1 === 0 && (
-						<div className='mobile-ad-container'>
+						<div className='mobile-postings-container'>
 							<AdComponent width={320} height={320} />
 						</div>
 					)}

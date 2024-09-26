@@ -75,7 +75,7 @@ const SideHustles: React.FC = () => {
 
 		if (i > 0 && i % 2 === 0) {
 			items.push(
-				<div className='ad-row-container' key={`ad-row-${i}`}>
+				<div className='postings-row-container' key={`ad-row-${i}`}>
 					<AdComponent width={660} height={440} />
 				</div>,
 			);
@@ -83,7 +83,10 @@ const SideHustles: React.FC = () => {
 
 		if (i % 2 === 0) {
 			items.push(
-				<div className='mobile-box-ad-container' key={`mobile-box-ad-${i}`}>
+				<div
+					className='mobile-box-postings-container'
+					key={`mobile-box-ad-${i}`}
+				>
 					<AdComponent width={250} height={250} />
 				</div>,
 			);
@@ -91,7 +94,7 @@ const SideHustles: React.FC = () => {
 
 		if (i % 4 === 0) {
 			items.push(
-				<div className='mobile-ad-container' key={`mobile-ad-${i}`}>
+				<div className='mobile-postings-container' key={`mobile-ad-${i}`}>
 					<AdComponent width={320} height={100} />
 				</div>,
 			);
