@@ -151,14 +151,12 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					<div className='ad-row-container'>
 						<a
 							href='https://www.kqzyfj.com/click-101252893-15236454'
-							target='_top'
+							target='_blank'
 						>
 							<img
 								src='https://www.ftjcfx.com/image-101252893-15236454'
-								width='300'
-								height='250'
 								alt=''
-								border='4'
+								className='ad-image'
 							/>
 						</a>
 					</div>
@@ -212,14 +210,12 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				<div className='ad-bottom-container'>
 					<a
 						href='https://www.tkqlhce.com/click-101252893-14103279'
-						target='_top'
+						target='_blank'
 					>
 						<img
+							className='ad-image'
 							src='https://www.ftjcfx.com/image-101252893-14103279'
-							// width='728'
-							// height='90'
 							alt='Speak a new language fluently fast. Start now!'
-							border='2'
 						/>
 					</a>
 				</div>

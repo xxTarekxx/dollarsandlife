@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import AdComponent from "../../../components/AdComponent";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "../../../components/AdComponent.css"; // Import AdComponent CSS
+import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
 import "./StartABlog.css";
 
 const StartABlog: React.FC = () => {
@@ -59,31 +60,40 @@ const StartABlog: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	const items = [];
-	for (let i = 0; i < currentPosts.length; i++) {
-		items.push(
-			<div className='row-container' key={currentPosts[i].id}>
-				<Link to={`/start-a-blog/${currentPosts[i].id}`}>
+	const items = currentPosts.map((post, i) => (
+		<React.Fragment key={post.id}>
+			<div className='row-container'>
+				<Link to={`/start-a-blog/${post.id}`}>
 					<BlogPostCard
-						id={currentPosts[i].id}
-						title={currentPosts[i].title}
-						imageUrl={currentPosts[i].imageUrl}
-						content={getExcerpt(currentPosts[i].content)}
-						author={currentPosts[i].author}
-						datePosted={currentPosts[i].datePosted}
+						id={post.id}
+						title={post.title}
+						imageUrl={post.imageUrl}
+						content={getExcerpt(post.content)}
+						author={post.author}
+						datePosted={post.datePosted}
 					/>
 				</Link>
-			</div>,
-		);
-
-		{
-			i % 2 === 0 && (
-				<div className='ad-row-container'>
-					<AdComponent width={660} height={440} />
+			</div>
+			{/* Show small ad (300x250) after every 2 rows */}
+			{i > 0 && i % 2 === 1 && (
+				<div className='ad-container'>
+					<a
+						href='https://www.kqzyfj.com/click-101252893-15236454'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<img
+							src='https://www.ftjcfx.com/image-101252893-15236454'
+							width='300'
+							height='250'
+							alt='Small Ad'
+							className='ad-image'
+						/>
+					</a>
 				</div>
-			);
-		}
-	}
+			)}
+		</React.Fragment>
+	));
 
 	return (
 		<div className='blog-main-container' ref={pageRef}>
@@ -106,8 +116,7 @@ const StartABlog: React.FC = () => {
 									/>
 									<button className='topbanner-button'>
 										Click Here To Get Your Free Trial
-									</button>{" "}
-									{/* Updated button name and text */}
+									</button>
 								</a>
 							</div>
 							<h1 className='section-heading'>
@@ -121,6 +130,24 @@ const StartABlog: React.FC = () => {
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
+							{/* Show large ad (728x90) at the very bottom */}
+							<div className='ad-container'>
+								<div className='ad-bottom-container'>
+									<a
+										href='https://www.tkqlhce.com/click-101252893-14103279'
+										target='_blank'
+										rel='noopener noreferrer'
+									>
+										<img
+											className='ad-image'
+											src='https://www.ftjcfx.com/image-101252893-14103279'
+											alt='Speak a new language fluently fast. Start now!'
+											width='728'
+											height='90'
+										/>
+									</a>
+								</div>
+							</div>
 						</>
 					}
 				/>

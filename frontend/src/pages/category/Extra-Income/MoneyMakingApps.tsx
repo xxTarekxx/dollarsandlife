@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import AdComponent from "../../../components/AdComponent";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "../../../components/AdComponent.css"; // Import AdComponent CSS
+import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
 import "./CommonStyles.css";
 
 const MoneyMakingApps: React.FC = () => {
@@ -94,14 +95,22 @@ const MoneyMakingApps: React.FC = () => {
 					/>
 				</Link>
 			</div>
+			{/* Show small ad (300x250) after every 2 rows */}
 			{i > 0 && i % 2 === 1 && (
-				<div className='ad-row-container'>
-					<AdComponent width={660} height={440} />
-				</div>
-			)}
-			{i % 1 === 0 && (
-				<div className='mobile-ad-container'>
-					<AdComponent width={320} height={320} />
+				<div className='ad-container'>
+					<a
+						href='https://www.kqzyfj.com/click-101252893-15236454'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						<img
+							src='https://www.ftjcfx.com/image-101252893-15236454'
+							width='300'
+							height='250'
+							alt='Small Ad'
+							className='ad-image'
+						/>
+					</a>
 				</div>
 			)}
 		</React.Fragment>
@@ -140,6 +149,24 @@ const MoneyMakingApps: React.FC = () => {
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
+							{/* Show large ad (728x90) at the very bottom */}
+							<div className='ad-container'>
+								<div className='ad-bottom-container'>
+									<a
+										href='https://www.tkqlhce.com/click-101252893-14103279'
+										target='_blank'
+										rel='noopener noreferrer'
+									>
+										<img
+											className='ad-image'
+											src='https://www.ftjcfx.com/image-101252893-14103279'
+											alt='Speak a new language fluently fast. Start now!'
+											width='728'
+											height='90'
+										/>
+									</a>
+								</div>
+							</div>
 						</>
 					}
 				/>

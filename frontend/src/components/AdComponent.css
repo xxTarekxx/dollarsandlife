@@ -12,6 +12,10 @@
     margin-top: 2px;
     width: 100%;
     height: auto;
+
+    img {
+        border: 2px solid #6000ce;
+    }
 }
 
 .top-ad-container {
@@ -42,14 +46,15 @@
     width: 100%;
     max-width: 660px;
     margin: 20px 0;
-    /* background-color: white; */
+
+    img {
+        border: 2px solid #6000ce;
+        width: 440px;
+        height: 440px;
+    }
 }
 
-/* @media (max-width: 806px) {
-    .ad-row-container {
-        display: none;
-    }
-} */
+
 
 .mobile-ad-container {
     display: none;
@@ -92,8 +97,7 @@
 .ad-bottom-container img {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    /* max-width: 400px; */
+    /* width: 100%; */
     align-items: center;
-    margin-bottom: 20px;
+    /* margin: 20px; */
 }

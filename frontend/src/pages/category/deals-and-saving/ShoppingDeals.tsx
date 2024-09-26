@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import AdComponent from "../../../components/AdComponent";
-import PaginationContainer from "../../../components/PaginationContainer";
 import "../../../components/AdComponent.css";
 import "./ShoppingDeals.css";
+import "../../../components/BlogPostContent.css"; // Import the BlogPostContent CSS
+import PaginationContainer from "../../../components/PaginationContainer";
+import "../../../components/AdComponent.css";
 
 interface ProductCardProps {
 	id: string;
@@ -110,37 +111,40 @@ const ShoppingDeals: React.FC = () => {
 				/>
 				<button className='topbanner-button'>
 					Click Here To Get Your Free Trial
-				</button>{" "}
-				{/* Updated button name and text */}
+				</button>
 			</a>
 			<h1 className='SectionHeading'>Deals and Savings</h1>
 			{rows.map((row, rowIndex) => (
 				<React.Fragment key={rowIndex}>
 					<div className='ProductsGrid'>
-						{row.map((productData, productIndex) => (
-							<React.Fragment key={productData.id}>
-								<ProductCard
-									id={productData.id}
-									title={productData.title}
-									imageUrl={productData.imageUrl}
-									description={productData.description}
-									currentPrice={productData.currentPrice}
-									discountPercentage={productData.discountPercentage}
-									affiliateLink={productData.affiliateLink}
-								/>
-								{/* Ad for mobile devices after every 2 products */}
-								{window.innerWidth <= 600 && productIndex % 2 === 1 && (
-									<div className='mobile-ad-container'>
-										<AdComponent width={320} height={320} />
-									</div>
-								)}
-							</React.Fragment>
+						{row.map((productData) => (
+							<ProductCard
+								key={productData.id}
+								id={productData.id}
+								title={productData.title}
+								imageUrl={productData.imageUrl}
+								description={productData.description}
+								currentPrice={productData.currentPrice}
+								discountPercentage={productData.discountPercentage}
+								affiliateLink={productData.affiliateLink}
+							/>
 						))}
 					</div>
-					{/* Ad for desktop devices after every row */}
-					{window.innerWidth > 600 && (
-						<div className='ad-row-container'>
-							<AdComponent width={660} height={440} />
+					{/* Insert small ad (300x250) after each row except the last one */}
+					{rowIndex < rows.length - 1 && (
+						<div className='ad-container'>
+							<div className='ad-row-container'>
+								<a
+									href='https://www.kqzyfj.com/click-101252893-15236454'
+									target='_blank'
+								>
+									<img
+										src='https://www.ftjcfx.com/image-101252893-15236454'
+										alt=''
+										className='ad-image'
+									/>
+								</a>
+							</div>
 						</div>
 					)}
 				</React.Fragment>
@@ -151,6 +155,22 @@ const ShoppingDeals: React.FC = () => {
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
+
+			{/* Large Ad (728x90) at the very bottom */}
+			<div className='ad-container'>
+				<div className='ad-bottom-container'>
+					<a
+						href='https://www.tkqlhce.com/click-101252893-14103279'
+						target='_blank'
+					>
+						<img
+							className='ad-image'
+							src='https://www.ftjcfx.com/image-101252893-14103279'
+							alt='Speak a new language fluently fast. Start now!'
+						/>
+					</a>
+				</div>
+			</div>
 		</div>
 	);
 };

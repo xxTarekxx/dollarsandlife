@@ -9,6 +9,7 @@ const menuItems = [
 	{ to: "/extra-income/", text: "Extra Income" },
 	{ to: "/shopping-deals", text: "Shopping Deals" },
 	{ to: "/start-a-blog", text: "Start A Blog" },
+	{ to: "/financial-calculators", text: "Calculators" },
 	// { to: "/my-story", text: "My Story" },
 ];
 
