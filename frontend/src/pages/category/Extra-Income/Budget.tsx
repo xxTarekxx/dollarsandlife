@@ -125,9 +125,7 @@ const Budget: React.FC = () => {
 										alt='Amazon Prime Banner'
 										className='TopBannerImage'
 									/>
-									<button className='topbanner-button'>
-										Click Here To Get Your Free Trial
-									</button>
+									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
 							<h1 className='section-heading'>Budget Guides</h1>
@@ -150,8 +148,8 @@ const Budget: React.FC = () => {
 											className='postings-image'
 											src='https://www.ftjcfx.com/image-101252893-14103279'
 											alt='Speak a new language fluently fast. Start now!'
-											width='728'
-											height='90'
+											// width='728'
+											// height='90'
 										/>
 									</a>
 								</div>

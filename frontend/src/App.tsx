@@ -22,7 +22,6 @@ import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
-import SideHustles from "./pages/category/Extra-Income/SideHustles";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import TermsOfService from "./pages/TermsOfService";
@@ -77,10 +76,6 @@ const App: React.FC = () => {
 						<Route
 							path='/extra-income/remote-jobs/*'
 							element={<RemoteOnlineJobs />}
-						/>
-						<Route
-							path='/extra-income/side-hustles/*'
-							element={<SideHustles />}
 						/>
 						<Route
 							path='/extra-income/money-making-apps/*'

@@ -41,7 +41,6 @@ const Navbar: React.FC = () => {
 					},
 					{ file: "products.json", route: "/shopping-deals/" },
 					{ file: "remotejobs.json", route: "/extra-income/remote-jobs/" },
-					{ file: "sidehustles.json", route: "/extra-income/side-hustles/" },
 					{ file: "startablogdata.json", route: "/start-a-blog/" },
 				];
 

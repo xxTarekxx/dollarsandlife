@@ -1,18 +1,16 @@
 {
-    "compilerOptions": {
-      "target": "ESNext",
-      "module": "ESNext",
-      "lib": ["DOM", "ESNext"],
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "moduleResolution": "Node",
-      "resolveJsonModule": true,
-      "noEmit": false,
-      "outDir": "../dist",
-      "typeRoots": ["./node_modules/@types"] // Explicitly specify type roots
-    },
-    "include": ["generate-sitemap.ts"]
-  }
-  
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",  // ESNext to work with ES Modules
+    "lib": ["DOM", "ESNext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,  // Allows default imports for CommonJS modules
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "outDir": "../dist"  // Output directory for compiled JS files
+  },
+  "include": ["generate-sitemap.ts"],
+  "exclude": ["node_modules"]
+}

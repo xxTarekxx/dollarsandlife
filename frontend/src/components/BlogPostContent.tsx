@@ -181,9 +181,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						className='TopBannerImage'
 						loading='lazy'
 					/>
-					<button className='topbanner-button'>
-						Get Your Free Amazon Prime Trial
-					</button>
+					<button className='topbanner-button'>Free Trial</button>
 				</a>
 			</div>
 

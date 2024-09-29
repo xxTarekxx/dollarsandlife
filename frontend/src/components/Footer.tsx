@@ -28,9 +28,9 @@ const Footer: React.FC = () => {
 			],
 		},
 		{
-			header: "Who Are We?",
+			header: "Get In Touch",
 			links: [
-				// { to: "/about-us", text: "About Us" },
+				// { to: "/about-us", text: "Get In Touch" },
 				{ to: "/contact-us", text: "Contact Us" },
 				{ to: "/terms-of-service", text: "Terms Of Service" },
 			],

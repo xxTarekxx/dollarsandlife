@@ -4,7 +4,6 @@ import useCompressedImage from "../../../components/compressed/useCompressedImag
 import Budgettingimg from "/images/icons/img-budgetting.webp";
 import FreeLancerimg from "/images/icons/img-freelancer.webp";
 import RemoteJobimg from "/images/icons/img-remotejobs.webp";
-import SideHustlesimg from "/images/icons/img-sidehustles.webp";
 import MoneyMakingAppsimg from "/images/icons/img-moneymakingapps.webp";
 import "./ExtraIncome.css";
 
@@ -14,7 +13,6 @@ const ExtraIncome: React.FC = () => {
 	}, []);
 
 	const compressedFreeLancerimg = useCompressedImage(FreeLancerimg);
-	const compressedSideHustlesimg = useCompressedImage(SideHustlesimg);
 	const compressedRemoteJobimg = useCompressedImage(RemoteJobimg);
 	const compressedMoneyMakingAppsimg = useCompressedImage(MoneyMakingAppsimg);
 	const compressedBudgettingimg = useCompressedImage(Budgettingimg);

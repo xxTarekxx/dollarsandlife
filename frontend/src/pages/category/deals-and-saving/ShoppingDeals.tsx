@@ -108,9 +108,7 @@ const ShoppingDeals: React.FC = () => {
 					alt='Amazon Prime Banner'
 					className='TopBannerImage'
 				/>
-				<button className='topbanner-button'>
-					Click Here To Get Your Free Trial
-				</button>
+				<button className='topbanner-button'>Free Trial</button>
 			</a>
 			<h1 className='SectionHeading'>Deals and Savings</h1>
 			{rows.map((row, rowIndex) => (

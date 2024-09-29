@@ -49,8 +49,7 @@
 
     img {
         border: 2px solid #6000ce;
-        /* width: 440px; */
-        /* height: 440px; */
+
     }
 }
 
@@ -82,6 +81,8 @@
 @media (max-width: 806px) {
     .mobile-box-postings-container {
         display: flex;
+        width: 100%;
+        height: auto;
     }
 }
 
@@ -100,4 +101,12 @@
     /* width: 100%; */
     align-items: center;
     /* margin: 20px; */
+}
+
+@media (max-width: 806px) {
+    .postings-bottom-container img {
+        display: flex;
+        width: 100%;
+        height: auto;
+    }
 }

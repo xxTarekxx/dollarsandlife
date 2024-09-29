@@ -1,11 +1,7 @@
-import { SitemapStream, streamToPromise } from 'sitemap';
-import { createWriteStream } from 'fs';
+// ES module imports (no need for "import * as ...")
 import path from 'path';
-import { fileURLToPath } from 'url';
 import fs from 'fs';
-// Convert __dirname to use with ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { SitemapStream, streamToPromise } from 'sitemap';
 // Define the base URL of your site
 const BASE_URL = 'https://www.dollarsandlife.com';
 // Define your static routes
@@ -15,7 +11,6 @@ const staticRoutes = [
     { url: '/extra-income/freelancers', changefreq: 'monthly', priority: 0.8 },
     { url: '/extra-income/Budget', changefreq: 'monthly', priority: 0.5 },
     { url: '/extra-income/remote-jobs', changefreq: 'monthly', priority: 0.5 },
-    { url: '/extra-income/side-hustles', changefreq: 'monthly', priority: 0.8 },
     { url: '/extra-income/money-making-apps', changefreq: 'monthly', priority: 0.5 },
     { url: '/shopping-Deals', changefreq: 'weekly', priority: 0.9 },
     { url: '/start-a-blog', changefreq: 'monthly', priority: 0.2 },
@@ -29,64 +24,81 @@ async function fetchDynamicRoutes() {
     const dynamicRoutes = [];
     // List of JSON files to read
     const jsonFiles = [
-        path.resolve(__dirname, '../public/data/remotejobs.json'), // Adjusted path to point to the correct location
-        path.resolve(__dirname, '../public/data/freelancejobs.json'),
-        path.resolve(__dirname, '../public/data/moneymakingapps.json'),
-        path.resolve(__dirname, '../public/data/budgetdata.json'),
-        path.resolve(__dirname, '../public/data/sidehustles.json'),
-        path.resolve(__dirname, '../public/data/startablogdata.json'),
-        path.resolve(__dirname, '../public/data/mystory.json'),
-        path.resolve(__dirname, '../public/data/products.json'),
+        path.resolve(process.cwd(), 'public/data/remotejobs.json'),
+        path.resolve(process.cwd(), 'public/data/freelancejobs.json'),
+        path.resolve(process.cwd(), 'public/data/moneymakingapps.json'),
+        path.resolve(process.cwd(), 'public/data/budgetdata.json'),
+        path.resolve(process.cwd(), 'public/data/startablogdata.json'),
+        path.resolve(process.cwd(), 'public/data/mystory.json'),
+        path.resolve(process.cwd(), 'public/data/products.json'),
     ];
-    // Loop through each JSON file
-    jsonFiles.forEach((filePath) => {
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
-        const jsonData = JSON.parse(fileContent);
-        jsonData.forEach((post) => {
-            // Construct the URL based on JSON data
-            const urlBase = filePath.includes('remotejobs')
-                ? '/extra-income/remote-jobs'
-                : filePath.includes('freelancejobs')
-                    ? '/extra-income/freelancers'
-                    : filePath.includes('moneymakingapps')
-                        ? '/extra-income/money-making-apps'
-                        : filePath.includes('budgetdata')
-                            ? '/extra-income/Budget'
-                            : filePath.includes('sidehustles')
-                                ? '/extra-income/side-hustles'
+    // Loop through each JSON file and read its contents
+    for (const filePath of jsonFiles) {
+        try {
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            const jsonData = JSON.parse(fileContent);
+            jsonData.forEach((post) => {
+                if (!post.id || !post.datePosted) {
+                    console.error(`Invalid data in ${filePath}:`, post);
+                    return;
+                }
+                // Determine the URL base based on the file type
+                const urlBase = filePath.includes('remotejobs')
+                    ? '/extra-income/remote-jobs'
+                    : filePath.includes('freelancejobs')
+                        ? '/extra-income/freelancers'
+                        : filePath.includes('moneymakingapps')
+                            ? '/extra-income/money-making-apps'
+                            : filePath.includes('budgetdata')
+                                ? '/extra-income/Budget'
                                 : filePath.includes('startablogdata')
                                     ? '/start-a-blog'
                                     : filePath.includes('mystory')
                                         ? '/my-story'
-                                        : '/products'; // Default URL base
-            // Add each entry in the JSON file to dynamic routes
-            dynamicRoutes.push({
-                url: `${urlBase}/${post.id}`,
-                changefreq: 'weekly',
-                priority: 0.7,
-                lastmod: post.datePosted || new Date().toISOString() // Use provided date or current date
+                                        : '/products'; // Default URL base for products
+                // Add each entry in the JSON file to dynamic routes
+                dynamicRoutes.push({
+                    url: `${urlBase}/${post.id}`,
+                    changefreq: 'weekly',
+                    priority: 0.7,
+                    lastmod: post.datePosted || new Date().toISOString(), // Use provided date or current date
+                });
             });
-        });
-    });
+        }
+        catch (err) {
+            console.error(`Error reading or parsing ${filePath}:`, err);
+        }
+    }
     return dynamicRoutes;
 }
-// Function to handle generating the sitemap
-async function generateSitemap() {
-    // Create a new SitemapStream instance
-    const sitemap = new SitemapStream({ hostname: BASE_URL });
-    // Add static routes to the sitemap
-    staticRoutes.forEach((route) => sitemap.write(route));
-    // Fetch and add dynamic routes to the sitemap
-    const dynamicRoutes = await fetchDynamicRoutes();
-    dynamicRoutes.forEach((route) => sitemap.write(route));
-    // End the sitemap stream
-    sitemap.end();
-    // Convert stream to promise and write the sitemap to the public directory
-    const sitemapData = await streamToPromise(sitemap);
-    createWriteStream(path.resolve(__dirname, '../public', 'sitemap.xml')).write(sitemapData); // Write to the correct location
-    console.log('Sitemap generated successfully!');
+// Function to generate the sitemap
+export async function generateSitemap() {
+    try {
+        // Create a new SitemapStream instance
+        const sitemap = new SitemapStream({ hostname: BASE_URL });
+        // Create a writable stream to output the sitemap to a file
+        const sitemapPath = path.resolve(process.cwd(), 'public/sitemap.xml');
+        const writeStream = fs.createWriteStream(sitemapPath);
+        // Pipe the sitemap stream to the file stream
+        sitemap.pipe(writeStream);
+        // Add static routes to the sitemap
+        staticRoutes.forEach((route) => sitemap.write(route));
+        // Fetch dynamic routes and add them to the sitemap
+        const dynamicRoutes = await fetchDynamicRoutes();
+        dynamicRoutes.forEach((route) => sitemap.write(route));
+        // End the sitemap stream
+        sitemap.end();
+        // Wait for the sitemap to fully write to the file
+        await streamToPromise(sitemap);
+        console.log('Sitemap generated successfully at:', sitemapPath);
+    }
+    catch (err) {
+        console.error('Error generating sitemap:', err);
+    }
 }
-// Run the sitemap generation
-generateSitemap().catch((err) => {
-    console.error('Error generating sitemap:', err);
-});
+// Run the sitemap generation if this script is run directly
+if (process.argv[1] === path.resolve(process.cwd(), 'dist/generate-sitemap.js')) {
+    generateSitemap().catch((err) => {
+        console.error('Error during sitemap generation:', err);
+    });
+}

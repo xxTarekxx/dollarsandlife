@@ -125,9 +125,7 @@ const FreeLanceJobs: React.FC = () => {
 										alt='Amazon Prime Banner'
 										className='TopBannerImage'
 									/>
-									<button className='topbanner-button'>
-										Click Here To Get Your Free Trial
-									</button>
+									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
 							<h1 className='section-heading'>Freelancers Opportunities</h1>

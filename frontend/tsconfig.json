@@ -15,8 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": [], // Make sure this is an empty array or only includes necessary types
-    "typeRoots": ["./node_modules/@types"] // Explicitly specify where to look for types
+    "types": ["jest"],
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src", "sitemap-generator/generate-sitemap.ts"] // Only include the necessary files
+  "include": ["src", "sitemap-generator/generate-sitemap.ts", "src/setupTests.ts"]
 }
