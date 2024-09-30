@@ -1,14 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import "../../../components/AdComponent.css"; // Import AdComponent CSS
+import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
+// Defining a BlogPost type for better type safety
+interface BlogPost {
+	id: string;
+	title: string;
+	imageUrl: string;
+	content: { text: string }[];
+	author: string;
+	datePosted: string;
+}
+
 const Budget: React.FC = () => {
-	const [budgetPosts, setBudgetPosts] = useState<any[]>([]);
+	const [budgetPosts, setBudgetPosts] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -18,10 +28,8 @@ const Budget: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/budgetdata.json");
-				if (!response.ok) {
-					throw new Error("Failed to fetch data");
-				}
-				const data = await response.json();
+				if (!response.ok) throw new Error("Failed to fetch data");
+				const data: BlogPost[] = await response.json();
 				setBudgetPosts(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -31,12 +39,14 @@ const Budget: React.FC = () => {
 		fetchData();
 	}, []);
 
+	// Scroll to the top when the currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
+	// Update the document title based on the selected post
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
@@ -55,17 +65,19 @@ const Budget: React.FC = () => {
 		updateTitle();
 	}, [budgetPosts, location.pathname]);
 
-	const getExcerpt = (content: any[]) => {
+	// Extracts an excerpt from the first content section
+	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
-		let excerpt = firstSection.text || "";
+		let excerpt = firstSection?.text || "";
 
 		if (excerpt.length > 200) {
-			excerpt = excerpt.substring(0, 200) + "...";
+			excerpt = `${excerpt.substring(0, 200)}...`;
 		}
 
 		return excerpt;
 	};
 
+	// Paginate the blog posts
 	const currentPosts = budgetPosts.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
@@ -148,8 +160,6 @@ const Budget: React.FC = () => {
 											className='postings-image'
 											src='https://www.ftjcfx.com/image-101252893-14103279'
 											alt='Speak a new language fluently fast. Start now!'
-											// width='728'
-											// height='90'
 										/>
 									</a>
 								</div>

@@ -1,14 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import "../../../components/AdComponent.css"; // Import AdComponent CSS
+import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./StartABlog.css";
 
+// Define a type for blog post data
+interface BlogPost {
+	id: string;
+	title: string;
+	imageUrl: string;
+	content: { text: string }[];
+	author: string;
+	datePosted: string;
+}
+
 const StartABlog: React.FC = () => {
-	const [blogPosts, setBlogPosts] = useState<any[]>([]);
+	const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -24,7 +34,7 @@ const StartABlog: React.FC = () => {
 				if (!response.ok) {
 					throw new Error(`Failed to fetch data: ${response.statusText}`);
 				}
-				const data = await response.json();
+				const data: BlogPost[] = await response.json();
 				if (Array.isArray(data)) {
 					setBlogPosts(data);
 				} else {
@@ -44,12 +54,12 @@ const StartABlog: React.FC = () => {
 		}
 	}, [currentPage]);
 
-	const getExcerpt = (content: any[]) => {
+	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
 
 		if (excerpt.length > 200) {
-			excerpt = excerpt.substring(0, 200) + "...";
+			excerpt = `${excerpt.substring(0, 200)}...`;
 		}
 
 		return excerpt;
@@ -74,7 +84,6 @@ const StartABlog: React.FC = () => {
 					/>
 				</Link>
 			</div>
-			{/* Show small ad (300x250) after every 2 rows */}
 			{i > 0 && i % 2 === 1 && (
 				<div className='postings-container'>
 					<a
@@ -128,7 +137,6 @@ const StartABlog: React.FC = () => {
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-							{/* Show large ad (728x90) at the very bottom */}
 							<div className='postings-container'>
 								<div className='postings-bottom-container'>
 									<a

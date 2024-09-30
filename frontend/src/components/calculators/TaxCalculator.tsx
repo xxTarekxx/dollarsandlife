@@ -1,81 +1,88 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+// Define types for tax data and tax brackets
+interface TaxBracket {
+	rate: number;
+	upTo: number | string;
+}
+
+interface TaxData {
+	[key: string]: {
+		brackets: TaxBracket[];
+	};
+}
 
 export const TaxCalculator: React.FC = () => {
-	const [selectedState, setSelectedState] = useState<string>(""); // Default state is blank
-	const [householdSize, setHouseholdSize] = useState<string>(""); // Default household size is blank
-	const [income, setIncome] = useState<string>(""); // Default income is blank
-	const [federalTaxResult, setFederalTaxResult] = useState<string>(""); // To store federal tax result
-	const [stateTaxResult, setStateTaxResult] = useState<string>(""); // To store state tax result
-	const [taxData, setTaxData] = useState<{
-		[key: string]: { brackets: { rate: number; upTo: number | string }[] };
-	} | null>(null); // To store tax data
-	const [loading, setLoading] = useState<boolean>(false); // Loading state for fetching data
-	const [error, setError] = useState<string>(""); // Error state for any issues fetching data
+	const [selectedState, setSelectedState] = useState<string>("");
+	const [householdSize, setHouseholdSize] = useState<string>("");
+	const [income, setIncome] = useState<string>("");
+	const [federalTaxResult, setFederalTaxResult] = useState<string>("");
+	const [stateTaxResult, setStateTaxResult] = useState<string>("");
+	const [taxData, setTaxData] = useState<TaxData | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [error, setError] = useState<string>("");
 
-	// Fetch tax data from JSON file in public/data directory
+	// Fetch tax data from JSON file
 	useEffect(() => {
 		const fetchTaxData = async () => {
-			setLoading(true); // Start loading state
+			setLoading(true);
 			try {
-				const response = await fetch("/data/taxBrackets.json"); // Fetch request to the JSON file
-				const data = await response.json(); // Parse the JSON response
-				setTaxData(data); // Update the state with fetched data
-				setLoading(false); // Stop loading state
-			} catch (err) {
-				setError("Failed to load tax data. Please try again later."); // Set error message
-				setLoading(false); // Stop loading state
+				const response = await fetch("/data/taxBrackets.json");
+				if (!response.ok) throw new Error("Failed to fetch data");
+				const data: TaxData = await response.json();
+				setTaxData(data);
+			} catch {
+				setError("Failed to load tax data. Please try again later.");
+			} finally {
+				setLoading(false);
 			}
 		};
 
-		fetchTaxData(); // Call the fetch function on component mount
+		fetchTaxData();
 	}, []);
 
-	// Handler for state dropdown change
+	// Handle state selection change
 	const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectedState(event.target.value); // Update selected state
+		setSelectedState(event.target.value);
 	};
 
-	// Handler for income input change
+	// Handle income input change
 	const handleIncomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setIncome(event.target.value); // Update income, handle invalid input
+		setIncome(event.target.value);
 	};
 
-	// Handler for household size input change
+	// Handle household size input change
 	const handleHouseholdSizeChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
 	) => {
-		setHouseholdSize(event.target.value); // Update household size, handle invalid input
+		setHouseholdSize(event.target.value);
 	};
 
-	// Function to calculate tax based on brackets
-	const calculateTax = (
-		brackets: { rate: number; upTo: number | string }[],
-		income: number,
-	) => {
+	// Calculate tax based on income and tax brackets
+	const calculateTax = (brackets: TaxBracket[], income: number) => {
 		let tax = 0;
 		let remainingIncome = income;
 
 		for (const { rate, upTo } of brackets) {
-			const upperLimit = upTo === "Infinity" ? Infinity : Number(upTo); // Convert "Infinity" to a number
-			const taxableAmount = Math.min(remainingIncome, upperLimit); // Determine the taxable amount
-			tax += taxableAmount * rate; // Calculate tax for this bracket
-			remainingIncome -= taxableAmount; // Update remaining income
-			if (remainingIncome <= 0) break; // Exit if no remaining income
+			const upperLimit = upTo === "Infinity" ? Infinity : Number(upTo);
+			const taxableAmount = Math.min(remainingIncome, upperLimit);
+			tax += taxableAmount * rate;
+			remainingIncome -= taxableAmount;
+			if (remainingIncome <= 0) break;
 		}
 
 		return tax;
 	};
 
-	// Handler for calculating tax
+	// Handle form submission and tax calculation
 	const handleCalculateTax = (e: React.FormEvent) => {
-		e.preventDefault(); // Prevent form submission
+		e.preventDefault();
 
-		// Validate user input
 		if (!selectedState || !income || !householdSize) {
 			setFederalTaxResult(
 				"Please enter valid income, household size, and state.",
-			); // Set error message
-			setStateTaxResult(""); // Clear state tax result
+			);
+			setStateTaxResult("");
 			return;
 		}
 
@@ -96,7 +103,7 @@ export const TaxCalculator: React.FC = () => {
 		}
 
 		if (!taxData) {
-			setFederalTaxResult("Tax data is not available."); // Check if tax data is available
+			setFederalTaxResult("Tax data is not available.");
 			setStateTaxResult("");
 			return;
 		}
@@ -105,11 +112,7 @@ export const TaxCalculator: React.FC = () => {
 		const federalBrackets = taxData["federal"]?.brackets;
 		if (federalBrackets) {
 			const federalTax = calculateTax(federalBrackets, numericIncome);
-			const formattedFederalTax = federalTax.toLocaleString("en-US", {
-				minimumFractionDigits: 2,
-				maximumFractionDigits: 2,
-			});
-			setFederalTaxResult(`Federal Tax: $${formattedFederalTax}`);
+			setFederalTaxResult(`Federal Tax: $${federalTax.toFixed(2)}`);
 		} else {
 			setFederalTaxResult("Federal tax data is not available.");
 		}
@@ -118,12 +121,8 @@ export const TaxCalculator: React.FC = () => {
 		const stateBrackets = taxData[selectedState]?.brackets;
 		if (stateBrackets) {
 			const stateTax = calculateTax(stateBrackets, numericIncome);
-			const formattedStateTax = stateTax.toLocaleString("en-US", {
-				minimumFractionDigits: 2,
-				maximumFractionDigits: 2,
-			});
 			setStateTaxResult(
-				`State Tax for ${selectedState}: $${formattedStateTax}`,
+				`State Tax for ${selectedState}: $${stateTax.toFixed(2)}`,
 			);
 		} else {
 			setStateTaxResult(`No state tax data available for ${selectedState}.`);
@@ -137,16 +136,14 @@ export const TaxCalculator: React.FC = () => {
 			aria-labelledby='state-tax-calculator'
 		>
 			<h2 id='state-tax-calculator'>State and Federal Tax Calculator</h2>
-			{loading && <p aria-live='polite'>Loading tax data...</p>}{" "}
-			{/* Show loading message */}
+			{loading && <p aria-live='polite'>Loading tax data...</p>}
 			{error && (
 				<p style={{ color: "red" }} aria-live='assertive'>
 					{error}
 				</p>
-			)}{" "}
-			{/* Show error message */}
+			)}
+
 			<form onSubmit={handleCalculateTax}>
-				{/* Dropdown for selecting state */}
 				<label htmlFor='state-select'>
 					Select State:
 					<select
@@ -155,9 +152,9 @@ export const TaxCalculator: React.FC = () => {
 						onChange={handleStateChange}
 						aria-required='true'
 						aria-label='Select your state'
-						disabled={!taxData} // Disable if data not loaded
+						disabled={!taxData}
 					>
-						<option value=''>Select a State</option> {/* Placeholder option */}
+						<option value=''>Select a State</option>
 						{taxData &&
 							Object.keys(taxData)
 								.filter((key) => key !== "federal")
@@ -168,7 +165,7 @@ export const TaxCalculator: React.FC = () => {
 								))}
 					</select>
 				</label>
-				{/* Input for household size */}
+
 				<label htmlFor='household-size'>
 					Household Size:
 					<input
@@ -183,7 +180,7 @@ export const TaxCalculator: React.FC = () => {
 						placeholder='e.g., 3'
 					/>
 				</label>
-				{/* Input for annual income */}
+
 				<label htmlFor='annual-income'>
 					Annual Income ($):
 					<input
@@ -197,6 +194,7 @@ export const TaxCalculator: React.FC = () => {
 						placeholder='e.g., 50000'
 					/>
 				</label>
+
 				<button
 					type='submit'
 					aria-label='Calculate state and federal tax'
@@ -204,16 +202,16 @@ export const TaxCalculator: React.FC = () => {
 				>
 					Calculate
 				</button>
-				{/* Display the federal and state tax results */}
+
 				<pre className='result-field' aria-live='polite'>
 					{federalTaxResult}
 					<br />
 					{stateTaxResult}
 				</pre>
-				{/* Note about tax data accuracy */}
+
 				<p className='disclaimer' aria-live='polite'>
 					Please note: State tax or Federal Tax brackets may have changed, or
-					not up to date and not accurate.
+					may not be up to date and accurate.
 				</p>
 			</form>
 		</div>

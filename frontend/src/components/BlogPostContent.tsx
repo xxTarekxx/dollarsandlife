@@ -59,7 +59,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	}
 
 	let textCount = 0;
-	let contentSections: JSX.Element[] = [];
+	const contentSections: JSX.Element[] = [];
 
 	post.content.forEach((section, index) => {
 		const sectionElements: JSX.Element[] = [];

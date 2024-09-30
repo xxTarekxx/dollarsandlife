@@ -1,15 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-// import AdComponent from "../../../components/AdComponent";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
-const FreeLanceJobs: React.FC = () => {
-	const [freelanceJobs, setFreelanceJobs] = useState<any[]>([]);
+// Define a type for freelance job posts
+interface FreelanceJob {
+	id: string;
+	title: string;
+	imageUrl: string;
+	content: { text: string }[];
+	author: string;
+	datePosted: string;
+}
+
+const FreelanceJobs: React.FC = () => {
+	const [freelanceJobs, setFreelanceJobs] = useState<FreelanceJob[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -19,10 +28,8 @@ const FreeLanceJobs: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/freelancejobs.json");
-				if (!response.ok) {
-					throw new Error("Failed to fetch data");
-				}
-				const data = await response.json();
+				if (!response.ok) throw new Error("Failed to fetch data");
+				const data: FreelanceJob[] = await response.json();
 				setFreelanceJobs(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -32,12 +39,14 @@ const FreeLanceJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
+	// Scroll to the top when the currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
+	// Update the document title based on the selected post
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
@@ -56,17 +65,19 @@ const FreeLanceJobs: React.FC = () => {
 		updateTitle();
 	}, [freelanceJobs, location.pathname]);
 
-	const getExcerpt = (content: any[]) => {
+	// Extracts an excerpt from the first content section
+	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
-		let excerpt = firstSection.text || "";
+		let excerpt = firstSection?.text || "";
 
 		if (excerpt.length > 200) {
-			excerpt = excerpt.substring(0, 200) + "...";
+			excerpt = `${excerpt.substring(0, 200)}...`;
 		}
 
 		return excerpt;
 	};
 
+	// Paginate the freelance job posts
 	const currentPosts = freelanceJobs.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
@@ -93,10 +104,11 @@ const FreeLanceJobs: React.FC = () => {
 						<a
 							href='https://www.kqzyfj.com/click-101252893-15236454'
 							target='_blank'
+							rel='noopener noreferrer'
 						>
 							<img
 								src='https://www.ftjcfx.com/image-101252893-15236454'
-								alt=''
+								alt='Freelance Ad'
 								className='postings-image'
 							/>
 						</a>
@@ -164,4 +176,4 @@ const FreeLanceJobs: React.FC = () => {
 	);
 };
 
-export default FreeLanceJobs;
+export default FreelanceJobs;

@@ -1,14 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import "../../../components/AdComponent.css"; // Import AdComponent CSS
+import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
+// Define a type for remote job posts
+interface RemoteJob {
+	id: string;
+	title: string;
+	imageUrl: string;
+	content: { text: string }[];
+	author: string;
+	datePosted: string;
+}
+
 const RemoteOnlineJobs: React.FC = () => {
-	const [remoteJobs, setRemoteJobs] = useState<any[]>([]);
+	const [remoteJobs, setRemoteJobs] = useState<RemoteJob[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -18,25 +28,26 @@ const RemoteOnlineJobs: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/remotejobs.json");
-				if (!response.ok) {
-					throw new Error("Failed to fetch data");
-				}
-				const data = await response.json();
+				if (!response.ok) throw new Error("Failed to fetch data");
+				const data: RemoteJob[] = await response.json();
 				setRemoteJobs(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
+				setRemoteJobs([]);
 			}
 		};
 
 		fetchData();
 	}, []);
 
+	// Scroll to the top when the currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
+	// Update the document title based on the selected post
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
@@ -55,21 +66,21 @@ const RemoteOnlineJobs: React.FC = () => {
 		updateTitle();
 	}, [remoteJobs, location.pathname]);
 
-	const getExcerpt = (content: any[]) => {
-		if (!content || content.length === 0) {
-			return "";
-		}
+	// Extracts an excerpt from the first content section
+	const getExcerpt = (content: { text: string }[]): string => {
+		if (!content || content.length === 0) return "";
 
 		const firstSection = content[0];
-		let excerpt = firstSection.text || "";
+		let excerpt = firstSection?.text || "";
 
 		if (excerpt.length > 200) {
-			excerpt = excerpt.substring(0, 200) + "...";
+			excerpt = `${excerpt.substring(0, 200)}...`;
 		}
 
 		return excerpt;
 	};
 
+	// Paginate the job posts
 	const currentPosts = remoteJobs.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,

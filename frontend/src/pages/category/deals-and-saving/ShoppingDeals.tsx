@@ -1,8 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../../../components/AdComponent.css";
-import "../../../components/BlogPostContent.css"; // Import the BlogPostContent CSS
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
+
+// Define a type for the product data
+interface Product {
+	id: string;
+	title: string;
+	imageUrl: string;
+	description: string;
+	currentPrice: string;
+	discountPercentage?: string;
+	affiliateLink: string;
+}
 
 interface ProductCardProps {
 	id: string;
@@ -24,7 +35,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	affiliateLink,
 }) => {
 	return (
-		<div className='CardContainer'>
+		<div className='CardContainer' data-id={id}>
+			{" "}
+			{/* Use id here */}
 			<img src={imageUrl} alt={title} className='CardImage' />
 			<div className='CardContent'>
 				<h3 className='CardTitle'>{title}</h3>
@@ -53,23 +66,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
 };
 
 const ShoppingDeals: React.FC = () => {
-	const [products, setProducts] = useState<any[]>([]);
+	const [products, setProducts] = useState<Product[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
 
+	// Set the document title
 	useEffect(() => {
 		document.title = "Deals and Savings";
 	}, []);
 
+	// Fetch product data from the JSON file
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/products.json");
-				if (!response.ok) {
-					throw new Error("Failed to fetch data");
-				}
-				const products = await response.json();
+				if (!response.ok) throw new Error("Failed to fetch data");
+				const products: Product[] = await response.json();
 				setProducts(products);
 			} catch (error) {
 				console.error("Error fetching data:", error);
@@ -79,6 +92,7 @@ const ShoppingDeals: React.FC = () => {
 		fetchData();
 	}, []);
 
+	// Scroll to the top of the page on page change
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -114,30 +128,30 @@ const ShoppingDeals: React.FC = () => {
 			{rows.map((row, rowIndex) => (
 				<React.Fragment key={rowIndex}>
 					<div className='ProductsGrid'>
-						{row.map((productData) => (
+						{row.map((product) => (
 							<ProductCard
-								key={productData.id}
-								id={productData.id}
-								title={productData.title}
-								imageUrl={productData.imageUrl}
-								description={productData.description}
-								currentPrice={productData.currentPrice}
-								discountPercentage={productData.discountPercentage}
-								affiliateLink={productData.affiliateLink}
+								key={product.id}
+								id={product.id}
+								title={product.title}
+								imageUrl={product.imageUrl}
+								description={product.description}
+								currentPrice={product.currentPrice}
+								discountPercentage={product.discountPercentage}
+								affiliateLink={product.affiliateLink}
 							/>
 						))}
 					</div>
-					{/* Insert small ad (300x250) after each row except the last one */}
 					{rowIndex < rows.length - 1 && (
 						<div className='postings-container'>
 							<div className='postings-row-container'>
 								<a
 									href='https://www.kqzyfj.com/click-101252893-15236454'
 									target='_blank'
+									rel='noopener noreferrer'
 								>
 									<img
 										src='https://www.ftjcfx.com/image-101252893-15236454'
-										alt=''
+										alt='Ad'
 										className='postings-image'
 									/>
 								</a>
@@ -152,18 +166,19 @@ const ShoppingDeals: React.FC = () => {
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
-
-			{/* Large Ad (728x90) at the very bottom */}
 			<div className='postings-container'>
 				<div className='postings-bottom-container'>
 					<a
 						href='https://www.tkqlhce.com/click-101252893-14103279'
 						target='_blank'
+						rel='noopener noreferrer'
 					>
 						<img
 							className='postings-image'
 							src='https://www.ftjcfx.com/image-101252893-14103279'
 							alt='Speak a new language fluently fast. Start now!'
+							width='728'
+							height='90'
 						/>
 					</a>
 				</div>

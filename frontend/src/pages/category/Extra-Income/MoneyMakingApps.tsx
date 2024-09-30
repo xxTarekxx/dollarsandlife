@@ -7,8 +7,18 @@ import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
+// Define a type for MoneyMakingApp posts
+interface MoneyMakingApp {
+	id: string;
+	title: string;
+	imageUrl: string;
+	content: { text: string }[];
+	author: string;
+	datePosted: string;
+}
+
 const MoneyMakingApps: React.FC = () => {
-	const [apps, setApps] = useState<any[]>([]);
+	const [apps, setApps] = useState<MoneyMakingApp[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
@@ -18,10 +28,8 @@ const MoneyMakingApps: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/moneymakingapps.json");
-				if (!response.ok) {
-					throw new Error("Failed to fetch data");
-				}
-				const data = await response.json();
+				if (!response.ok) throw new Error("Failed to fetch data");
+				const data: MoneyMakingApp[] = await response.json();
 				if (Array.isArray(data)) {
 					setApps(data);
 				} else {
@@ -37,12 +45,14 @@ const MoneyMakingApps: React.FC = () => {
 		fetchData();
 	}, []);
 
+	// Scroll to the top when the currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
+	// Update the document title based on the selected post
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
@@ -61,21 +71,21 @@ const MoneyMakingApps: React.FC = () => {
 		updateTitle();
 	}, [apps, location.pathname]);
 
-	const getExcerpt = (content: any[]) => {
-		if (!content || content.length === 0) {
-			return "";
-		}
+	// Extracts an excerpt from the first content section
+	const getExcerpt = (content: { text: string }[]): string => {
+		if (!content || content.length === 0) return "";
 
 		const firstSection = content[0];
-		let excerpt = firstSection.text || "";
+		let excerpt = firstSection?.text || "";
 
 		if (excerpt.length > 200) {
-			excerpt = excerpt.substring(0, 200) + "...";
+			excerpt = `${excerpt.substring(0, 200)}...`;
 		}
 
 		return excerpt;
 	};
 
+	// Paginate the app posts
 	const currentPosts = apps.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,

@@ -4,23 +4,26 @@ import "./NavBar.css";
 import SearchImg from "/images/favicon/searchicon.svg";
 import logo from "/images/website-logo.webp";
 
+interface Post {
+	id: string;
+	route: string;
+	jsonFile: string;
+}
+
 const menuItems = [
 	{ to: "/", text: "Home" },
 	{ to: "/extra-income/", text: "Extra Income" },
 	{ to: "/shopping-deals", text: "Shopping Deals" },
 	{ to: "/start-a-blog", text: "Start A Blog" },
 	{ to: "/financial-calculators", text: "Calculators" },
-	// { to: "/my-story", text: "My Story" },
 ];
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [suggestions, setSuggestions] = useState<
-		{ id: string; jsonFile: string }[]
-	>([]);
-	const [posts, setPosts] = useState<any[]>([]);
+	const [suggestions, setSuggestions] = useState<Post[]>([]);
+	const [posts, setPosts] = useState<Post[]>([]);
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -28,7 +31,6 @@ const Navbar: React.FC = () => {
 		window.scrollTo(0, 0);
 	}, [location.pathname]);
 
-	// Fetch all JSON files dynamically from the /data directory
 	useEffect(() => {
 		const fetchPosts = async () => {
 			try {
@@ -44,7 +46,7 @@ const Navbar: React.FC = () => {
 					{ file: "startablogdata.json", route: "/start-a-blog/" },
 				];
 
-				const allPosts: any[] = [];
+				const allPosts: Post[] = [];
 
 				for (const fileInfo of files) {
 					const response = await fetch(`/data/${fileInfo.file}`);
@@ -53,17 +55,16 @@ const Navbar: React.FC = () => {
 							`Failed to fetch ${fileInfo.file}: ${response.statusText}`,
 						);
 					}
-					const data = await response.json();
-					const postsWithRoute = data.map((post: any) => ({
+					const data: Post[] = await response.json();
+					const postsWithRoute = data.map((post) => ({
 						...post,
-						route: fileInfo.route, // Attach route to each post
-						jsonFile: fileInfo.file, // Attach the corresponding JSON file
+						route: fileInfo.route,
+						jsonFile: fileInfo.file,
 					}));
 					allPosts.push(...postsWithRoute);
 				}
 
 				setPosts(allPosts);
-				console.log("Fetched posts:", allPosts); // Debugging output
 			} catch (error) {
 				console.error("Error fetching posts:", error);
 			}
@@ -72,7 +73,6 @@ const Navbar: React.FC = () => {
 		fetchPosts();
 	}, []);
 
-	// Filter suggestions based on the search term
 	useEffect(() => {
 		if (searchTerm) {
 			const lowerCaseTerm = searchTerm.toLowerCase();
@@ -81,17 +81,17 @@ const Navbar: React.FC = () => {
 				.map((post) => ({
 					id: post.id,
 					jsonFile: post.jsonFile,
+					route: post.route,
 				}));
 
 			setSuggestions(filteredSuggestions);
-			console.log("Suggestions:", filteredSuggestions); // Debugging output
 		} else {
 			setSuggestions([]);
 		}
 	}, [searchTerm, posts]);
 
 	const handleMenuItemClick = (
-		event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+		event: React.MouseEvent<HTMLAnchorElement>,
 		to: string,
 	) => {
 		event.stopPropagation();
@@ -105,14 +105,9 @@ const Navbar: React.FC = () => {
 		event: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		setSearchTerm(event.target.value);
-		console.log("Search term:", event.target.value); // Debugging output
 	};
 
-	const handleSuggestionClick = (suggestion: {
-		id: string;
-		jsonFile: string;
-	}) => {
-		// Navigate to the specific post using its ID
+	const handleSuggestionClick = (suggestion: Post) => {
 		const jsonFileRoute =
 			posts.find((post) => post.id === suggestion.id)?.route || "/";
 		navigate(`${jsonFileRoute}${suggestion.id}`);
