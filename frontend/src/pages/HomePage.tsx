@@ -70,7 +70,7 @@ const HomePage: React.FC = () => {
 					rel='preload'
 					as='image'
 					href={compressedStartAblogimg || StartAblogimg}
-					imagesrcset={`${compressedStartAblogimg || StartAblogimg} 1x`}
+					imageSrcSet={`${compressedStartAblogimg || StartAblogimg} 1x`}
 				/>
 			</Helmet>
 
