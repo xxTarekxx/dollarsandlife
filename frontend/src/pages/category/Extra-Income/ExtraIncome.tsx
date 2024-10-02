@@ -24,6 +24,7 @@ const ExtraIncome: React.FC = () => {
 			imgSrc: compressedFreeLancerimg || FreeLancerimg,
 			altText: "Freelancer Icon",
 			captionText: "Freelance Opportunities",
+			priority: true, // Set as the LCP image if critical
 		},
 		{
 			to: "/extra-income/Budget/",
@@ -31,6 +32,7 @@ const ExtraIncome: React.FC = () => {
 			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Budgeting Icon",
 			captionText: "Budgeting",
+			priority: false, // Non-critical image
 		},
 		{
 			to: "/extra-income/Remote-Jobs",
@@ -38,6 +40,7 @@ const ExtraIncome: React.FC = () => {
 			imgSrc: compressedRemoteJobimg || RemoteJobimg,
 			altText: "Remote Jobs Icon",
 			captionText: "Remote Jobs",
+			priority: false, // Non-critical image
 		},
 		{
 			to: "/extra-income/money-making-apps",
@@ -45,6 +48,7 @@ const ExtraIncome: React.FC = () => {
 			imgSrc: compressedMoneyMakingAppsimg || MoneyMakingAppsimg,
 			altText: "Money Making Apps Icon",
 			captionText: "Make Money On Apps",
+			priority: false, // Non-critical image
 		},
 	];
 
@@ -52,6 +56,13 @@ const ExtraIncome: React.FC = () => {
 		<div>
 			{/* Main Heading */}
 			<h1>Explore Extra Income Opportunities</h1>
+
+			{/* Preload critical LCP image */}
+			<link
+				rel='preload'
+				as='image'
+				href={compressedFreeLancerimg || FreeLancerimg}
+			/>
 
 			{/* Category Links */}
 			<div
@@ -65,7 +76,17 @@ const ExtraIncome: React.FC = () => {
 						to={linkBox.to}
 						aria-label={linkBox.ariaLabel}
 					>
-						<img src={linkBox.imgSrc} alt={linkBox.altText} loading='lazy' />
+						<img
+							src={linkBox.imgSrc}
+							alt={linkBox.altText}
+							srcSet={`
+								${linkBox.imgSrc} 1x, 
+								${linkBox.imgSrc.replace(".webp", "@2x.webp")} 2x
+							`} // Use srcSet for responsive images
+							loading={linkBox.priority ? "eager" : "lazy"} // Eager load for LCP image, lazy for others
+							width='220'
+							height='220'
+						/>
 						<figcaption className='extraincome-figcaption'>
 							{linkBox.captionText}
 						</figcaption>
