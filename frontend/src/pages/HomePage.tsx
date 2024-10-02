@@ -22,6 +22,7 @@ const HomePage: React.FC = () => {
 			captionText: "Extra Income",
 			width: 220,
 			height: 220,
+			priority: false, // Non-critical image
 		},
 		{
 			to: "/Shopping-deals",
@@ -31,6 +32,7 @@ const HomePage: React.FC = () => {
 			captionText: "Shopping Deals",
 			width: 220,
 			height: 220,
+			priority: false, // Non-critical image
 		},
 		{
 			to: "/Start-A-Blog",
@@ -40,6 +42,7 @@ const HomePage: React.FC = () => {
 			captionText: "Start A Blog",
 			width: 220,
 			height: 220,
+			priority: true, // This is the critical LCP image
 		},
 	];
 
@@ -62,6 +65,13 @@ const HomePage: React.FC = () => {
 					content='https://www.dollarsandlife.com/path-to-home-image.jpg'
 				/>
 				<meta property='og:url' content='https://www.dollarsandlife.com/' />
+				{/* Preload the critical LCP image */}
+				<link
+					rel='preload'
+					as='image'
+					href={compressedStartAblogimg || StartAblogimg}
+					imagesrcset={`${compressedStartAblogimg || StartAblogimg} 1x`}
+				/>
 			</Helmet>
 
 			{/* Main H1 tag for SEO */}
@@ -85,7 +95,7 @@ const HomePage: React.FC = () => {
 						<img
 							src={linkBox.imgSrc}
 							alt={linkBox.altText}
-							loading='lazy'
+							loading={linkBox.priority ? "eager" : "lazy"} // Eager loading for LCP image
 							width={linkBox.width}
 							height={linkBox.height}
 						/>
