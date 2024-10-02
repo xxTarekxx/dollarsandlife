@@ -114,11 +114,12 @@ const MoneyMakingApps: React.FC = () => {
 						rel='noopener noreferrer'
 					>
 						<img
-							src='https://www.ftjcfx.com/image-101252893-15236454'
+							srcSet='https://www.ftjcfx.com/image-101252893-15236454 1x, https://www.ftjcfx.com/image-101252893-15236454@2x.jpg 2x'
 							width='300'
 							height='250'
 							alt='Small Ad'
 							className='postings-image'
+							loading='lazy'
 						/>
 					</a>
 				</div>
@@ -144,7 +145,8 @@ const MoneyMakingApps: React.FC = () => {
 										src='/images/shoppinganddeals/amazon-banner.webp'
 										alt='Amazon Prime Banner'
 										className='TopBannerImage'
-										loading='lazy'
+										loading='eager' // Preload the banner image
+										srcSet='/images/shoppinganddeals/amazon-banner.webp 1x, /images/shoppinganddeals/amazon-banner@2x.webp 2x'
 									/>
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
@@ -167,10 +169,11 @@ const MoneyMakingApps: React.FC = () => {
 									>
 										<img
 											className='postings-image'
-											src='https://www.ftjcfx.com/image-101252893-14103279'
+											srcSet='https://www.ftjcfx.com/image-101252893-14103279 1x, https://www.ftjcfx.com/image-101252893-14103279@2x.jpg 2x'
 											alt='Speak a new language fluently fast. Start now!'
 											width='728'
 											height='90'
+											loading='lazy'
 										/>
 									</a>
 								</div>

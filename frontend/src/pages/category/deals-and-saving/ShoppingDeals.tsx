@@ -36,9 +36,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
 	return (
 		<div className='CardContainer' data-id={id}>
-			{" "}
-			{/* Use id here */}
-			<img src={imageUrl} alt={title} className='CardImage' />
+			<img
+				src={imageUrl}
+				alt={title}
+				className='CardImage'
+				srcSet={`${imageUrl} 1x, ${imageUrl.replace(".webp", "@2x.webp")} 2x`}
+				loading='lazy'
+			/>
 			<div className='CardContent'>
 				<h3 className='CardTitle'>{title}</h3>
 				<p className='CardDescription'>
@@ -121,6 +125,8 @@ const ShoppingDeals: React.FC = () => {
 					src='/images/shoppinganddeals/amazon-banner.webp'
 					alt='Amazon Prime Banner'
 					className='TopBannerImage'
+					loading='eager' // Preload the banner image
+					srcSet='/images/shoppinganddeals/amazon-banner.webp 1x, /images/shoppinganddeals/amazon-banner@2x.webp 2x'
 				/>
 				<button className='topbanner-button'>Free Trial</button>
 			</a>
@@ -150,9 +156,10 @@ const ShoppingDeals: React.FC = () => {
 									rel='noopener noreferrer'
 								>
 									<img
-										src='https://www.ftjcfx.com/image-101252893-15236454'
+										srcSet='https://www.ftjcfx.com/image-101252893-15236454 1x, https://www.ftjcfx.com/image-101252893-15236454@2x.jpg 2x'
 										alt='Ad'
 										className='postings-image'
+										loading='lazy'
 									/>
 								</a>
 							</div>
@@ -175,10 +182,11 @@ const ShoppingDeals: React.FC = () => {
 					>
 						<img
 							className='postings-image'
-							src='https://www.ftjcfx.com/image-101252893-14103279'
+							srcSet='https://www.ftjcfx.com/image-101252893-14103279 1x, https://www.ftjcfx.com/image-101252893-14103279@2x.jpg 2x'
 							alt='Speak a new language fluently fast. Start now!'
 							width='728'
 							height='90'
+							loading='lazy'
 						/>
 					</a>
 				</div>

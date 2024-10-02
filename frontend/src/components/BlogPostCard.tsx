@@ -27,7 +27,19 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 
 	return (
 		<article className='card-container' onClick={onClick}>
-			<img className='card-image' src={imageUrl} alt={title} loading='lazy' />
+			{/* Optimize image loading with srcSet for responsiveness */}
+			<img
+				className='card-image'
+				src={imageUrl}
+				alt={title}
+				loading='lazy'
+				srcSet={`
+					${imageUrl} 1x,
+					${imageUrl.replace(".jpg", "@2x.jpg")} 2x
+				`}
+				width='320' // Adjust the width and height for layout stability
+				height='240'
+			/>
 			<div className='card-content'>
 				<header>
 					<h2 className='card-title'>{title}</h2>

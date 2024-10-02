@@ -29,9 +29,8 @@
 }
 
 .card-image {
-    width: 45%;
-    object-fit: fill;
-    margin-right: 6px;
+    width: 48%;
+    height: auto;
 }
 
 @media (max-width: 768px) {

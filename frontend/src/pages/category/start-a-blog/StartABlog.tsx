@@ -23,10 +23,12 @@ const StartABlog: React.FC = () => {
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
 
+	// Set the page title
 	useEffect(() => {
 		document.title = "Start A Blog";
 	}, []);
 
+	// Fetch the blog post data
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -48,12 +50,14 @@ const StartABlog: React.FC = () => {
 		fetchData();
 	}, []);
 
+	// Scroll to the top when currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
+	// Extract excerpt from content
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
@@ -65,6 +69,7 @@ const StartABlog: React.FC = () => {
 		return excerpt;
 	};
 
+	// Paginate blog posts
 	const currentPosts = blogPosts.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
@@ -84,6 +89,7 @@ const StartABlog: React.FC = () => {
 					/>
 				</Link>
 			</div>
+			{/* Show small ad (300x250) after every 2 rows */}
 			{i > 0 && i % 2 === 1 && (
 				<div className='postings-container'>
 					<a
@@ -92,11 +98,12 @@ const StartABlog: React.FC = () => {
 						rel='noopener noreferrer'
 					>
 						<img
-							src='https://www.ftjcfx.com/image-101252893-15236454'
+							srcSet='https://www.ftjcfx.com/image-101252893-15236454 1x, https://www.ftjcfx.com/image-101252893-15236454@2x.jpg 2x'
 							width='300'
 							height='250'
 							alt='Small Ad'
 							className='postings-image'
+							loading='lazy'
 						/>
 					</a>
 				</div>
@@ -122,6 +129,8 @@ const StartABlog: React.FC = () => {
 										src='/images/shoppinganddeals/amazon-banner.webp'
 										alt='Amazon Prime Banner'
 										className='TopBannerImage'
+										loading='eager' // Preload important banner image
+										srcSet='/images/shoppinganddeals/amazon-banner.webp 1x, /images/shoppinganddeals/amazon-banner@2x.webp 2x'
 									/>
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
@@ -137,6 +146,7 @@ const StartABlog: React.FC = () => {
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
+							{/* Show large ad (728x90) at the very bottom */}
 							<div className='postings-container'>
 								<div className='postings-bottom-container'>
 									<a
@@ -146,10 +156,11 @@ const StartABlog: React.FC = () => {
 									>
 										<img
 											className='postings-image'
-											src='https://www.ftjcfx.com/image-101252893-14103279'
+											srcSet='https://www.ftjcfx.com/image-101252893-14103279 1x, https://www.ftjcfx.com/image-101252893-14103279@2x.jpg 2x'
 											alt='Speak a new language fluently fast. Start now!'
 											width='728'
 											height='90'
+											loading='lazy'
 										/>
 									</a>
 								</div>
