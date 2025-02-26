@@ -15,7 +15,6 @@
 ✅ **Investment & Savings Strategies** - Explore apps and tools for growing your wealth.  
 ✅ **SEO-Optimized Blog** - Fast and mobile-friendly, ensuring a great user experience.  
 ✅ **Google AdSense Integrated** - Monetization through Google ads and affiliate marketing.  
-✅ **Django CMS for Content Management** *(Planned feature update!)*  
 
 ---
 
