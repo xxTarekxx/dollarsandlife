@@ -127,7 +127,7 @@ const FreelanceJobs: React.FC = () => {
 						<>
 							<div className='top-banner-container'>
 								<a
-									href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl0c-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+									href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl02-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
 									target='_blank'
 									rel='noopener noreferrer'
 									className='TopBanner'
