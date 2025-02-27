@@ -25,6 +25,7 @@ import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
 import StartAblog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import TermsOfService from "./pages/TermsOfService";
+import BreakingNews from "./pages/category/breakingnews/BreakingNews"; // New Import
 
 // Styled components
 const AppContainer = styled.div`
@@ -81,7 +82,7 @@ const App: React.FC = () => {
 							path='/extra-income/money-making-apps/*'
 							element={<MoneyMakingApps />}
 						/>
-						<Route path='/shopping-Deals' element={<ShoppingDeals />} />
+						<Route path='/shopping-deals' element={<ShoppingDeals />} />
 						<Route path='/start-a-blog/*' element={<StartAblog />} />
 						<Route
 							path='/my-story'
@@ -93,6 +94,8 @@ const App: React.FC = () => {
 							path='/financial-calculators'
 							element={<FinancialCalculators />}
 						/>
+						<Route path='/breaking-news' element={<BreakingNews />} />{" "}
+						{/* New Route */}
 					</Routes>
 				</MainContent>
 				<Footer />
