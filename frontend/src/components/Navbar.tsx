@@ -15,6 +15,7 @@ const menuItems = [
 	{ to: "/extra-income/", text: "Extra Income" },
 	{ to: "/shopping-deals", text: "Shopping Deals" },
 	{ to: "/start-a-blog", text: "Start A Blog" },
+	{ to: "/breaking-news", text: "Breaking News" }, // New button added here
 	{ to: "/financial-calculators", text: "Calculators" },
 ];
 
