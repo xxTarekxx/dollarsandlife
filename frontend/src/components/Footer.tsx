@@ -82,7 +82,19 @@ const Footer: React.FC = () => {
 					</div>
 				))}
 			</div>
-			{/* Copyright */}
+			<div className='disclosure-statment'>
+				<p>
+					This site contains affiliate links, and we may earn a commission if
+					you make a purchase. Some apps or services mentioned may collect and
+					share data for market research. We do not target ads based on
+					sensitive data, and all recommendations are intended for general
+					audiences only. Refer to{" "}
+					<a href='https://www.dollarsandlife.com/terms-of-service'>
+						Terms Of Service
+					</a>{" "}
+					page.
+				</p>
+			</div>
 			<div className='copyright'>
 				© {currentYear} All Rights Reserved Texas Connect LLC <br />
 				Developed And Designed By
