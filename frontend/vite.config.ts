@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/', // Ensure this matches the root of your deployment
   build: {
-    outDir: 'build', // Ensure this matches the build output directory
+    outDir: 'dist', // Ensure this matches the build output directory
     rollupOptions: {
       output: {
         manualChunks: {
