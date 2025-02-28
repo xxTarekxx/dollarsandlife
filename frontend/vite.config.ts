@@ -1,18 +1,14 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/', // Ensure this matches the root of your deployment
+  base: "./",  // Ensures relative paths
+  publicDir: "public",  // Keeps static assets in public
   build: {
-    outDir: 'dist', // Ensure this matches the build output directory
+    outDir: "build",  // Ensures the build goes into 'build' folder
     rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-router-dom', 'react-dom'],
-        },
-      },
+      input: "index.html",  // Explicitly set entry file
     },
   },
   server: {
