@@ -34,7 +34,7 @@ const BreakingNews: React.FC = () => {
 		const fetchNews = async () => {
 			try {
 				setLoading(true);
-				const API_KEY = import.meta.env.VITE_NEWS_API_KEY; // Replace with your actual API key
+				const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 				const BASE_URL = "https://newsdata.io/api/1/news";
 				const language = "en";
 
