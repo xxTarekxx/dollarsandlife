@@ -151,7 +151,7 @@ const MoneyMakingApps: React.FC = () => {
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
-							<h1 className='section-heading'>Money Making Apps</h1>
+							<h1>Money Making Apps</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={apps.length}

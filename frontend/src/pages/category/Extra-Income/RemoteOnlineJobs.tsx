@@ -148,7 +148,7 @@ const RemoteOnlineJobs: React.FC = () => {
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
-							<h1 className='section-heading'>Remote Online Jobs</h1>
+							<h1>Remote Online Jobs</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={remoteJobs.length}

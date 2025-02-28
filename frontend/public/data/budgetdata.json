@@ -1,8 +1,84 @@
-[
+[{
+	"id": "No-Tax-On-Overtime-Impact",
+	"title": "The Comprehensive Guide to the 'No Tax on Overtime' Bill",
+	"author": "Dollars & Life",
+	"datePosted": "2025-02-27T09:00:00",
+	"imageUrl": "/images/budgetting/no-tax-on-overtime.webp",
+	"content": [
+	  {
+		"subtitle": "Introduction",
+		"text": "The 'No Tax on Overtime' bill, officially known as the 'Overtime Pay Tax Relief Act of 2025,' is a proposed legislative measure aiming to exempt overtime earnings from federal income taxation. This initiative has garnered attention from policymakers, economists, and workers due to its potential impact on take-home pay and the broader economy. <a href=\"https://www.congress.gov/bill/119th-congress/house-bill/561\" target=\"_blank\">Congress.gov</a>"
+	  },
+	  {
+		"subtitle": "What is the 'No Tax on Overtime' Bill?",
+		"text": "The primary objective of this bill is to amend the Internal Revenue Code of 1986 to establish a deduction for certain overtime payments. Specifically, it allows a deduction equal to the lesser of overtime compensation received or 20% of the individual's other wages from the same employer for the taxable year. <a href=\"https://www.congress.gov/bill/119th-congress/house-bill/561/text/ih\" target=\"_blank\">Congress.gov</a>",
+		"bulletPoints": [
+		  "Introduces a federal income tax deduction on qualifying overtime earnings.",
+		  "Aims to benefit middle- and lower-income workers by increasing their take-home pay.",
+		  "Encourages employees to work additional hours without the burden of extra taxes.",
+		  "Potential to boost overall workforce productivity.",
+		  "Seeks to reduce the need for multiple jobs by enhancing primary job earnings."
+		]
+	  },
+	  {
+		"subtitle": "Legislative Journey and Key Figures",
+		"text": "The 'Overtime Pay Tax Relief Act of 2025' was introduced in the House of Representatives on January 20, 2025. As of now, the bill awaits further deliberation and voting in both the House and the Senate. <a href=\"https://www.congress.gov/bill/119th-congress/house-bill/561/actions\" target=\"_blank\">Congress.gov</a>",
+		"bulletPoints": [
+		  "Introduced in the House on January 20, 2025.",
+		  "Pending discussions and votes in the House Ways and Means Committee.",
+		  "Awaiting subsequent consideration in the Senate.",
+		  "Potential amendments and debates anticipated during the legislative process.",
+		  "Public opinion varies, with support from labor groups and scrutiny from fiscal conservatives."
+		]
+	  },
+	  {
+		"subtitle": "Potential Economic and Workforce Impact",
+		"text": "Proponents of the bill argue that exempting overtime pay from federal taxation will increase disposable income for workers, thereby stimulating consumer spending and economic growth. However, critics express concerns about potential reductions in federal revenue, which could impact funding for public services and programs. <a href=\"https://www.cbo.gov/publication/60150\" target=\"_blank\">Congressional Budget Office</a>",
+		"bulletPoints": [
+		  "Could lead to higher disposable income for eligible workers.",
+		  "May result in increased consumer spending and economic activity.",
+		  "Potential challenges in offsetting decreased federal tax revenues.",
+		  "Debate over long-term sustainability and fiscal responsibility.",
+		  "Possible implications for funding of federal programs and services."
+		]
+	  },
+	  {
+		"subtitle": "Similar Tax Policies and Global Comparisons",
+		"text": "Various countries have implemented tax policies affecting overtime pay. For instance, some nations offer tax incentives to encourage additional work hours, while others impose strict regulations on overtime to protect workers' health and well-being. Analyzing these international approaches can provide insights into the potential outcomes of the proposed U.S. legislation. <a href=\"https://www.worldbank.org/global-tax-policies-overtime\" target=\"_blank\">World Bank</a>",
+		"bulletPoints": [
+		  "Some countries provide tax breaks on overtime to boost labor participation.",
+		  "Others enforce limits on overtime to prevent worker exploitation.",
+		  "Mixed results observed globally regarding economic growth and worker satisfaction.",
+		  "Cultural and economic contexts influence the effectiveness of such policies.",
+		  "Lessons from international experiences can inform U.S. policy decisions."
+		]
+	  },
+	  {
+		"subtitle": "Challenges in Implementing the Policy",
+		"text": "Implementing the 'No Tax on Overtime' policy presents several challenges. Key concerns include potential reductions in federal revenue, complexities in tax code adjustments, and ensuring that employers do not exploit the system by overworking employees without fair compensation. <a href=\"https://www.cbo.gov/publication/60150\" target=\"_blank\">Congressional Budget Office</a>",
+		"bulletPoints": [
+		  "Risk of significant decreases in federal tax income.",
+		  "Complexity in modifying existing tax codes and regulations.",
+		  "Ensuring employers comply with fair labor practices.",
+		  "Monitoring the policy's impact on worker health and well-being.",
+		  "Balancing short-term benefits with long-term economic implications."
+		]
+	  },
+	  {
+		"subtitle": "Conclusion and Next Steps",
+		"text": "The 'No Tax on Overtime' bill is poised to significantly impact workers' earnings and the broader economy. As it progresses through the legislative process, stakeholders—including employees, employers, and policymakers—should closely monitor developments. Staying informed and engaging in discussions will be crucial as the bill moves toward potential enactment. <a href=\"https://www.congress.gov/bill/119th-congress/house-bill/561\" target=\"_blank\">Congress.gov</a>"
+	  }
+	]
+  }
+  
+	  
+	  
+	  
+	  ,
 	{
 		"id": "Election-Financial-Impact",
 		"title": "How the Upcoming Election Could Affect You Financially",
-		"author": "Tareq I.",
+		"author": "Dollars & Life",
 		"datePosted": "2024-11-02T09:00:00",
 		"imageUrl": "/images/budgetting/voting-vote-counts-image.webp",
 		"content": [
@@ -85,7 +161,7 @@
   {
 	"id": "recession-guide",
 	"title": "How to Navigate a Recession: A Comprehensive Guide",
-	"author": "Tareq I.",
+	"author": "Dollars & Life",
 	"datePosted": "2024-10-09T08:00:00",
 	"imageUrl": "/images/budgetting/recession-img.webp",
 	"content": [
@@ -152,7 +228,7 @@
 	{
 		"id": "financial-saving-strategies",
 		"title": "Best Money-Saving Apps to Help You Save More in 2024",
-		"author": "Tareq I.",
+		"author": "Dollars & Life",
 		"datePosted": "2024-09-20T08:00:00",
 		"imageUrl": "/images/budgetting/budget-main-article-savings.svg",
 		"content": [
@@ -196,7 +272,7 @@
 				"subtitle": "Shop Smarter Online",
 				"text": "Find deals, coupons, and cashback offers while shopping online.",
 				"bulletPoints": [
-					"Find Coupons and Cashback Offers: Use shopping apps like <a href=\"https://www.joinhoney.com/ref/oyar1rv\" target=\"_blank\" rel=\"noopener noreferrer\">Honey</a> or <a href=\"https://www.rakuten.com/r/TEXASC835?eeid=28187\" target=\"_blank\" rel=\"noopener noreferrer\">Rakuten</a> to find and apply coupon codes automatically. These apps also offer cashback on your purchases.",
+					"Find Coupons and Cashback Offers: Use shopping apps like <a href=\"https://www.joinhoney.com/ref/oyar1rv\" target=\"_blank\" rel=\"noopener noreferrer\">Honey</a> or <a href=\"https://www.rakuten.com/r/TEXASC835?eeid=28187\" target=\"_blank\" rel=\"noopener noreferrer\">Rakuten</a> to find and apply coupon codes automatically Rakuten have $30 sign up reward. These apps also offer cashback on your purchases.",
 					"Set Price Alerts for Deals: Monitor price drops with apps like <a href=\"https://get.keepa.com/d5s2r8\" target=\"_blank\" rel=\"noopener noreferrer\">Keepa</a> (for Amazon) . This way, you can avoid impulse buying and wait for items to go on sale."
 				]
 			},
@@ -237,7 +313,7 @@
 	{
 		"id": "best-cashback-apps-and-credit-cards",
 		"title": "Top Cashback Apps and Credit Cards for Maximum Savings in 2024",
-		"author": "Tareq I.",
+		"author": "Dollars & Life",
 		"datePosted": "2024-09-18T08:00:00",
 		"imageUrl": "/images/budgetting/cashback-main-image.svg",
 		"content": [
@@ -250,10 +326,9 @@
 				"text": "Best Apps to Earn Cashback While Shopping",
 				"bulletPoints": [
 					"<span style='color:black;'>TopCashback</span>: Shop at top retailers and earn cashback on every purchase. TopCashback passes 100% of its commission back to users, offering some of the highest cashback rates. Find out more at <a href='https://www.topcashback.com/ref/member940801271458' target='_blank' rel='noopener noreferrer'>TopCashback</a>.",
-					"<span style='color:black;'>Rakuten</span>: Earn cashback at over 2,500 stores online and in-store. Rakuten offers cashback deals and promo codes, with payouts via check or PayPal every quarter. Join millions of savers at <a href='https://www.rakuten.com/r/TEXASC835?eeid=28187' target='_blank' rel='noopener noreferrer'>Rakuten</a> and start earning rewards.",
-					"<span style='color:black;'>Dosh</span>: Get instant cashback by using your linked card at participating retailers and restaurants. Cashback is deposited into your Dosh Wallet, which you can transfer to your bank account or PayPal. Sign up at <a href='https://link.dosh.cash/TEXASC1' target='_blank' rel='noopener noreferrer'>Dosh</a> to start earning.",
+					"<span style='color:black;'>Rakuten</span>: Earn $30 when you sign up and cashback at over 2,500 stores online and in-store. Rakuten offers cashback deals and promo codes, with payouts via check or PayPal every quarter. Join millions of savers at <a href='www.rakuten.com/r/TEXASC835?eeid=28187' target='_blank' rel='noopener noreferrer'>Rakuten</a> and start earning rewards.",
 					"<span style='color:black;'>Fetch Rewards</span>: Scan your grocery receipts and earn points that can be redeemed for gift cards or cashback. Fetch Rewards works with any grocery receipt, making it a flexible option for cashback. Discover more at <a href='https://referral.fetch.com/vvv3/referralsocial?code=DFUR29' target='_blank' rel='noopener noreferrer'>Fetch Rewards</a>.",
-					"<span style='color:black;'>Shopkick</span>: Earn points (kicks) for scanning barcodes, walking into stores, and purchasing with linked cards. Points can be redeemed for gift cards or cashback. Join the savings community at <a href='https://play.google.com/store/apps/details?id=com.shopkick.app&hl=en_US&pli=1' target='_blank' rel='noopener noreferrer'>Shopkick</a>.",
+					"<span style='color:black;'>Shopkick</span>: Earn points (kicks) for scanning barcodes, walking into stores, and purchasing with linked cards. Points can be redeemed for gift cards or cashback. Join the savings community at <a href='https://play.google.com/store/apps/details?id=com.shopkick.app&hl=en_US&pli=1' target='_blank' rel='noopener noreferrer'>Shopkick</a> Use code SALE100531 for 50 kicks reward.",
 					"<span style='color:black;'>GetUpside</span>: Save on gas, groceries, and dining by earning cashback on every purchase. GetUpside offers better cashback rates than many other apps. Download the app at <a href='https://upside.app.link/TEXAS8524' target='_blank' rel='noopener noreferrer'>Upside</a>",
 					"<span style='color:black;'>Fluz</span>: Earn cashback instantly when shopping through the Fluz app's network of over 200 retailers. Stack cashback with other deals to maximize savings. Join now at <a href='https://joinfluz.app.link/TEXASCONNECT220473C0CC' target='_blank' rel='noopener noreferrer'>Fluz</a>.",
 					"<span style='color:black;'>CouponCabin</span>: Earn cashback online and in-store with additional savings from coupons and exclusive member offers. Start saving more at <a href='https://www.couponcabin.com/mobile/' target='_blank' rel='noopener noreferrer'>CouponCabin</a>."
