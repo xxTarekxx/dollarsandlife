@@ -144,7 +144,7 @@ const Budget: React.FC = () => {
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
-							<h1 className='section-heading'>Budget Guides</h1>
+							<h1>Budget Guides</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={budgetPosts.length}

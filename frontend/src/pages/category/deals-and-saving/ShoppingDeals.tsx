@@ -130,7 +130,7 @@ const ShoppingDeals: React.FC = () => {
 				/>
 				<button className='topbanner-button'>Free Trial</button>
 			</a>
-			<h1 className='SectionHeading'>Deals and Savings</h1>
+			<h1>Deals and Savings</h1>
 			{rows.map((row, rowIndex) => (
 				<React.Fragment key={rowIndex}>
 					<div className='ProductsGrid'>

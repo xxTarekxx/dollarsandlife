@@ -135,9 +135,9 @@ const StartABlog: React.FC = () => {
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
-							<h1 className='section-heading'>
-								How to Start a Successful Blog in 2024: Step-by-Step Guide for
-								Beginners
+							<h1>
+								How to Start a Successful Blog in 2025<br></br> Step-by-Step
+								Guide for Beginners
 							</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
