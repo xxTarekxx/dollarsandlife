@@ -12,11 +12,11 @@ interface Post {
 
 const menuItems = [
 	{ to: "/", text: "Home" },
-	{ to: "/extra-income/", text: "Extra Income" },
+	{ to: "/extra-income", text: "Extra Income" },
 	{ to: "/shopping-deals", text: "Shopping Deals" },
 	{ to: "/start-a-blog", text: "Start A Blog" },
-	{ to: "/breaking-news", text: "Breaking News" }, // New button added here
-	{ to: "/financial-calculators", text: "Calculators" },
+	{ to: "/breaking-news", text: "Breaking News" },
+	{ to: "/financial-calculators", text: "Calculators" }, // Ensure no trailing slash
 ];
 
 const Navbar: React.FC = () => {
@@ -28,23 +28,25 @@ const Navbar: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
+	// Scroll to top on route change
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [location.pathname]);
 
+	// Fetch search-related posts
 	useEffect(() => {
 		const fetchPosts = async () => {
 			try {
 				const files = [
-					{ file: "budgetdata.json", route: "/extra-income/" },
-					{ file: "freelancejobs.json", route: "/extra-income/freelancers/" },
+					{ file: "budgetdata.json", route: "/extra-income" },
+					{ file: "freelancejobs.json", route: "/extra-income/freelancers" },
 					{
 						file: "moneymakingapps.json",
-						route: "/extra-income/money-making-apps/",
+						route: "/extra-income/money-making-apps",
 					},
-					{ file: "products.json", route: "/shopping-deals/" },
-					{ file: "remotejobs.json", route: "/extra-income/remote-jobs/" },
-					{ file: "startablogdata.json", route: "/start-a-blog/" },
+					{ file: "products.json", route: "/shopping-deals" },
+					{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
+					{ file: "startablogdata.json", route: "/start-a-blog" },
 				];
 
 				const allPosts: Post[] = [];
@@ -74,6 +76,7 @@ const Navbar: React.FC = () => {
 		fetchPosts();
 	}, []);
 
+	// Filter search suggestions
 	useEffect(() => {
 		if (searchTerm) {
 			const lowerCaseTerm = searchTerm.toLowerCase();
@@ -91,6 +94,7 @@ const Navbar: React.FC = () => {
 		}
 	}, [searchTerm, posts]);
 
+	// Handle menu navigation
 	const handleMenuItemClick = (
 		event: React.MouseEvent<HTMLAnchorElement>,
 		to: string,
@@ -98,16 +102,18 @@ const Navbar: React.FC = () => {
 		event.stopPropagation();
 		setIsOpen(false);
 		if (location.pathname !== to) {
-			window.location.href = to;
+			navigate(to); // Changed from `window.location.href` to `navigate`
 		}
 	};
 
+	// Handle search input change
 	const handleSearchInputChange = (
 		event: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		setSearchTerm(event.target.value);
 	};
 
+	// Handle search suggestion click
 	const handleSuggestionClick = (suggestion: Post) => {
 		const jsonFileRoute =
 			posts.find((post) => post.id === suggestion.id)?.route || "/";
@@ -123,7 +129,7 @@ const Navbar: React.FC = () => {
 					className='logo'
 					src={logo}
 					alt='logo'
-					onClick={() => (window.location.href = "/")}
+					onClick={() => navigate("/")}
 				/>
 				<div style={{ display: "flex", alignItems: "center" }}>
 					<div className='hamburger' onClick={() => setIsOpen(!isOpen)}>
