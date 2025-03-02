@@ -37,10 +37,15 @@ const RemoteOnlineJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
+	// useEffect(() => {
+	// 	if (pageRef.current) {
+	// 		pageRef.current.scrollIntoView({ behavior: "smooth" });
+	// 	}
+	// }, [currentPage]);
+
+	// ✅ Completely remove auto-scrolling
 	useEffect(() => {
-		if (pageRef.current) {
-			pageRef.current.scrollIntoView({ behavior: "smooth" });
-		}
+		// Do nothing (no scrolling at all)
 	}, [currentPage]);
 
 	useEffect(() => {

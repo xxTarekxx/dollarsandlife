@@ -31,6 +31,7 @@ const BreakingNews: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const pageRef = useRef<HTMLDivElement>(null);
+	const firstRender = useRef(true); // Track first render
 
 	useEffect(() => {
 		document.title = "Breaking News";
@@ -79,10 +80,19 @@ const BreakingNews: React.FC = () => {
 		fetchNews();
 	}, []);
 
+	// Prevent initial scroll on first render
+	// useEffect(() => {
+	// 	if (!firstRender.current) {
+	// 		if (pageRef.current) {
+	// 			pageRef.current.scrollIntoView({ behavior: "smooth" });
+	// 		}
+	// 	}
+	// 	firstRender.current = false;
+	// }, [currentPage]);
+
+	// ✅ Completely remove auto-scrolling
 	useEffect(() => {
-		if (pageRef.current) {
-			pageRef.current.scrollIntoView({ behavior: "smooth" });
-		}
+		// Do nothing (no scrolling at all)
 	}, [currentPage]);
 
 	useEffect(() => {
@@ -145,7 +155,13 @@ const BreakingNews: React.FC = () => {
 				<div className='postings-container' key={`ad-${index}`}>
 					<ins
 						className='adsbygoogle'
-						style={{ display: "block", width: "300px", height: "250px" }}
+						style={{
+							display: "block",
+							width: "300px",
+							height: "250px",
+							minWidth: "300px",
+							minHeight: "250px",
+						}}
 						data-ad-client='ca-pub-2295073683044412'
 						data-ad-slot='9380614635'
 						data-ad-format='rectangle'
