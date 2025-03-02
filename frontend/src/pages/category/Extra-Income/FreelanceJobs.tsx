@@ -115,12 +115,18 @@ const FreelanceJobs: React.FC = () => {
 											<div className='postings-container'>
 												<ins
 													className='adsbygoogle'
-													style={{ display: "block" }}
+													style={{
+														display: "block",
+														width: "300px",
+														height: "250px",
+														minWidth: "300px",
+														minHeight: "250px",
+													}}
 													data-ad-client='ca-pub-2295073683044412'
-													data-ad-slot='YOUR_AD_SLOT'
-													data-ad-format='auto'
-													data-full-width-responsive='true'
-												></ins>
+													data-ad-slot='9380614635'
+													data-ad-format='rectangle'
+													data-full-width-responsive='false'
+												/>
 											</div>
 										)}
 									</React.Fragment>

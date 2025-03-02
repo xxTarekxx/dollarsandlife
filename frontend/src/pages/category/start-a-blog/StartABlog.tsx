@@ -17,6 +17,12 @@ interface BlogPost {
 	datePosted: string;
 }
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const StartABlog: React.FC = () => {
 	const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -57,6 +63,26 @@ const StartABlog: React.FC = () => {
 		}
 	}, [currentPage]);
 
+	// Load Google Ads after component mounts
+	useEffect(() => {
+		setTimeout(() => {
+			const adContainers = document.querySelectorAll(".postings-container");
+			let adsPushed = false;
+			adContainers.forEach((adContainer) => {
+				if (
+					(adContainer as HTMLElement).offsetWidth > 0 &&
+					(adContainer as HTMLElement).offsetHeight > 0
+				) {
+					if (!adsPushed) {
+						console.log("Pushing AdSense ads...");
+						(window.adsbygoogle = window.adsbygoogle || []).push({});
+						adsPushed = true;
+					}
+				}
+			});
+		}, 2000);
+	}, []);
+
 	// Extract excerpt from content
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
@@ -89,23 +115,16 @@ const StartABlog: React.FC = () => {
 					/>
 				</Link>
 			</div>
-			{/* Show small ad (300x250) after every 2 rows */}
 			{i > 0 && i % 2 === 1 && (
 				<div className='postings-container'>
-					<a
-						href='https://www.kqzyfj.com/click-101252893-15236454'
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						<img
-							srcSet='https://www.ftjcfx.com/image-101252893-15236454 1x, https://www.ftjcfx.com/image-101252893-15236454@2x.jpg 2x'
-							width='300'
-							height='250'
-							alt='Small Ad'
-							className='postings-image'
-							loading='lazy'
-						/>
-					</a>
+					<ins
+						className='adsbygoogle'
+						style={{ display: "block", width: "300px", height: "250px" }}
+						data-ad-client='ca-pub-2295073683044412'
+						data-ad-slot='9380614635'
+						data-ad-format='rectangle'
+						data-full-width-responsive='false'
+					/>
 				</div>
 			)}
 		</React.Fragment>
@@ -129,15 +148,14 @@ const StartABlog: React.FC = () => {
 										src='/images/shoppinganddeals/amazon-banner.webp'
 										alt='Amazon Prime Banner'
 										className='TopBannerImage'
-										loading='eager' // Preload important banner image
-										srcSet='/images/shoppinganddeals/amazon-banner.webp 1x, /images/shoppinganddeals/amazon-banner@2x.webp 2x'
+										loading='eager'
 									/>
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
 							<h1>
-								How to Start a Successful Blog in 2025<br></br> Step-by-Step
-								Guide for Beginners
+								How to Start a Successful Blog in 2025
+								<br /> Step-by-Step Guide for Beginners
 							</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
@@ -146,24 +164,15 @@ const StartABlog: React.FC = () => {
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-							{/* Show large ad (728x90) at the very bottom */}
 							<div className='postings-container'>
-								<div className='postings-bottom-container'>
-									<a
-										href='https://www.tkqlhce.com/click-101252893-14103279'
-										target='_blank'
-										rel='noopener noreferrer'
-									>
-										<img
-											className='postings-image'
-											srcSet='https://www.ftjcfx.com/image-101252893-14103279 1x, https://www.ftjcfx.com/image-101252893-14103279@2x.jpg 2x'
-											alt='Speak a new language fluently fast. Start now!'
-											width='728'
-											height='90'
-											loading='lazy'
-										/>
-									</a>
-								</div>
+								<ins
+									className='adsbygoogle'
+									style={{ display: "block", width: "728px", height: "90px" }}
+									data-ad-client='ca-pub-2295073683044412'
+									data-ad-slot='9380614635'
+									data-ad-format='horizontal'
+									data-full-width-responsive='false'
+								/>
 							</div>
 						</>
 					}

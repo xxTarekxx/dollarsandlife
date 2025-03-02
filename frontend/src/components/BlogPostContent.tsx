@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import AdComponent from "./AdComponent"; // Commented out for later use
 import "./AdComponent.css";
 import "./BlogPostContent.css";
 import FiverrWidget from "./FiverrWidget";
@@ -28,23 +27,32 @@ interface BlogPost {
 	content: PostContent[];
 }
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
 	const [post, setPost] = useState<BlogPost | null>(null);
 
 	useEffect(() => {
 		const fetchPost = async () => {
-			console.log(`Fetching from ${jsonFile} for post ID ${postId}`);
 			try {
+				console.log(
+					`Fetching data from: /data/${jsonFile} for post ID: ${postId}`,
+				);
 				const response = await fetch(`/data/${jsonFile}`);
-				if (!response.ok) {
-					throw new Error("Failed to fetch post");
-				}
+				if (!response.ok) throw new Error("Failed to fetch post");
+
 				const data: BlogPost[] = await response.json();
+				console.log("Fetched Data:", data);
+
 				const postData = data.find((item) => item.id === postId);
-				if (!postData) {
-					throw new Error("Post not found");
-				}
+				if (!postData) throw new Error("Post not found");
+
+				console.log("Post Data:", postData);
 				setPost(postData);
 			} catch (error) {
 				console.error("Error fetching post:", error);
@@ -52,122 +60,37 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		};
 
 		fetchPost();
+
+		// Ensure AdSense pushes ads AFTER the component has mounted and ad container is visible
+		setTimeout(() => {
+			const adContainer = document.querySelector(
+				".postings-container",
+			) as HTMLElement | null;
+			if (adContainer && adContainer.offsetHeight > 0) {
+				console.log("Pushing AdSense ads...");
+				(window.adsbygoogle = window.adsbygoogle || []).push({});
+			} else {
+				console.warn("Ad container is not visible yet, retrying...");
+				setTimeout(() => {
+					console.log("Retrying AdSense push...");
+					(window.adsbygoogle = window.adsbygoogle || []).push({});
+				}, 2000);
+			}
+		}, 2000);
 	}, [postId, jsonFile]);
 
+	if (!post) return <div>Loading...</div>;
+
+	console.log("Rendering BlogPostContent...");
 	if (!post) {
+		console.log("Post is still null, returning Loading...");
 		return <div>Loading...</div>;
 	}
 
-	let textCount = 0;
-	const contentSections: JSX.Element[] = [];
-
-	post.content.forEach((section, index) => {
-		const sectionElements: JSX.Element[] = [];
-
-		if (section.subtitle) {
-			sectionElements.push(
-				<h2 key={`subtitle-${index}`}>{section.subtitle}</h2>,
-			);
-		}
-
-		if (section.text) {
-			sectionElements.push(
-				<p
-					key={`text-${index}`}
-					dangerouslySetInnerHTML={{ __html: section.text }}
-				/>,
-			);
-			textCount++;
-		}
-
-		if (section.details) {
-			sectionElements.push(
-				<p
-					key={`details-${index}`}
-					className='details'
-					dangerouslySetInnerHTML={{ __html: section.details }}
-				/>,
-			);
-		}
-
-		if (section.imageUrl) {
-			sectionElements.push(
-				<img
-					key={`image-${index}`}
-					src={section.imageUrl}
-					alt={`Image related to ${section.subtitle || post.title}`}
-					className='section-image'
-					loading='lazy'
-				/>,
-			);
-		}
-
-		if (section.bulletPoints) {
-			sectionElements.push(
-				<ul key={`bulletPoints-${index}`}>
-					{section.bulletPoints.map((point, i) => (
-						<li
-							key={`bullet-${i}`}
-							dangerouslySetInnerHTML={{ __html: point }}
-						/>
-					))}
-				</ul>,
-			);
-		}
-
-		if (section.numberedPoints) {
-			sectionElements.push(
-				<ol key={`numberedPoints-${index}`}>
-					{section.numberedPoints.map((point, i) => (
-						<li
-							key={`numbered-${i}`}
-							dangerouslySetInnerHTML={{ __html: point }}
-						/>
-					))}
-				</ol>,
-			);
-		}
-
-		if (
-			section.subtitle === "How Your Profile Would Look on Fiverr As A Seller"
-		) {
-			sectionElements.push(<FiverrWidget key={`fiverr-widget`} />);
-		}
-
-		contentSections.push(
-			<div key={`content-section-${index}`} className='content-section'>
-				{sectionElements}
-			</div>,
-		);
-
-		// Show the 300x250 ad after every two text sections, but not at the very bottom
-		if (
-			textCount % 2 === 0 &&
-			textCount > 0 &&
-			index < post.content.length - 1
-		) {
-			contentSections.push(
-				<div key={`ad-${index}`} className='postings-container'>
-					<div className='postings-row-container'>
-						<a
-							href='https://www.kqzyfj.com/click-101252893-15236454'
-							target='_blank'
-						>
-							<img
-								src='https://www.ftjcfx.com/image-101252893-15236454'
-								alt=''
-								className='postings-image'
-							/>
-						</a>
-					</div>
-				</div>,
-			);
-		}
-	});
+	console.log("Rendering post title:", post.title);
 
 	return (
 		<div className='blog-post-content'>
-			{/* Top Ad */}
 			<div className='top-banner-container'>
 				<a
 					href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl02-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
@@ -200,24 +123,82 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				<p className='date'>{new Date(post.datePosted).toLocaleDateString()}</p>
 			</div>
 
-			{/* Render all content sections and ads */}
-			{contentSections}
-
-			{/* Ad at the very bottom */}
-			<div className='postings-container'>
-				<div className='postings-bottom-container'>
-					<a
-						href='https://www.tkqlhce.com/click-101252893-14103279'
-						target='_blank'
-					>
-						<img
-							className='postings-image'
-							src='https://www.ftjcfx.com/image-101252893-14103279'
-							alt='Speak a new language fluently fast. Start now!'
+			{post.content.map((section, index) => (
+				<div key={index} className='content-section'>
+					{section.subtitle && <h2>{section.subtitle}</h2>}
+					{section.text && (
+						<p dangerouslySetInnerHTML={{ __html: section.text }} />
+					)}
+					{section.details && (
+						<p
+							className='details'
+							dangerouslySetInnerHTML={{ __html: section.details }}
 						/>
-					</a>
+					)}
+					{section.imageUrl && (
+						<img
+							src={section.imageUrl}
+							alt=''
+							className='section-image'
+							loading='lazy'
+						/>
+					)}
+					{section.bulletPoints && (
+						<ul>
+							{section.bulletPoints.map((point, i) => (
+								<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+							))}
+						</ul>
+					)}
+					{section.numberedPoints && (
+						<ol>
+							{section.numberedPoints.map((point, i) => (
+								<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+							))}
+						</ol>
+					)}
+					{section.subtitle ===
+						"How Your Profile Would Look on Fiverr As A Seller" && (
+						<FiverrWidget />
+					)}
+					{index % 2 === 1 && (
+						<div className='postings-container'>
+							<ins
+								className='adsbygoogle'
+								style={{
+									display: "block",
+									width: "300px",
+									height: "250px",
+									minWidth: "300px",
+									minHeight: "250px",
+								}}
+								data-ad-client='ca-pub-2295073683044412'
+								data-ad-slot='9380614635'
+								data-ad-format='rectangle'
+								data-full-width-responsive='false'
+							/>
+						</div>
+					)}
 				</div>
+			))}
+
+			<div className='postings-container'>
+				<ins
+					className='adsbygoogle'
+					style={{
+						display: "block",
+						width: "728px",
+						height: "90px",
+						minWidth: "728px",
+						minHeight: "90px",
+					}}
+					data-ad-client='ca-pub-2295073683044412'
+					data-ad-slot='9380614635'
+					data-ad-format='horizontal'
+					data-full-width-responsive='false'
+				/>
 			</div>
+			<script>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</script>
 		</div>
 	);
 };

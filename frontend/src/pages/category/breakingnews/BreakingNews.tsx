@@ -18,6 +18,12 @@ interface NewsArticle {
 	category: string[];
 }
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const BreakingNews: React.FC = () => {
 	const [news, setNews] = useState<NewsArticle[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -38,7 +44,6 @@ const BreakingNews: React.FC = () => {
 				const BASE_URL = "https://newsdata.io/api/1/news";
 				const language = "en";
 
-				// Fetch latest Business (Finance) and Health articles
 				const businessRes = await fetch(
 					`${BASE_URL}?apikey=${API_KEY}&language=${language}&category=business`,
 				);
@@ -53,7 +58,6 @@ const BreakingNews: React.FC = () => {
 				const businessData = await businessRes.json();
 				const healthData = await healthRes.json();
 
-				// Select 2 Business articles and 2 Health articles
 				const businessArticles = businessData.results?.slice(0, 2) || [];
 				const healthArticles = healthData.results?.slice(0, 2) || [];
 
@@ -75,14 +79,31 @@ const BreakingNews: React.FC = () => {
 		fetchNews();
 	}, []);
 
-	// Scroll to the top when the currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
-	// Paginate the news articles
+	useEffect(() => {
+		setTimeout(() => {
+			const adContainers = document.querySelectorAll(".postings-container");
+			let adsPushed = false;
+			adContainers.forEach((adContainer) => {
+				if (
+					(adContainer as HTMLElement).offsetWidth > 0 &&
+					(adContainer as HTMLElement).offsetHeight > 0
+				) {
+					if (!adsPushed) {
+						console.log("Pushing AdSense ads...");
+						(window.adsbygoogle = window.adsbygoogle || []).push({});
+						adsPushed = true;
+					}
+				}
+			});
+		}, 2000);
+	}, []);
+
 	const currentPosts = news.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
@@ -116,34 +137,20 @@ const BreakingNews: React.FC = () => {
 									{new Date(article.pubDate).toLocaleDateString()}
 								</time>
 							</div>
-							<div>
-								<button
-									className='read-more-button'
-									aria-label={`Read more about ${article.title}`}
-								>
-									Read More
-								</button>
-							</div>
 						</div>
 					</article>
 				</Link>
 			</div>
-			{/* Show small ad (300x250) after every 2 rows */}
 			{index > 0 && index % 2 === 1 && (
 				<div className='postings-container' key={`ad-${index}`}>
-					<div className='postings-row-container'>
-						<a
-							href='https://www.kqzyfj.com/click-101252893-15236454'
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							<img
-								src='https://www.ftjcfx.com/image-101252893-15236454'
-								alt='Ad'
-								className='postings-image'
-							/>
-						</a>
-					</div>
+					<ins
+						className='adsbygoogle'
+						style={{ display: "block", width: "300px", height: "250px" }}
+						data-ad-client='ca-pub-2295073683044412'
+						data-ad-slot='9380614635'
+						data-ad-format='rectangle'
+						data-full-width-responsive='false'
+					/>
 				</div>
 			)}
 		</React.Fragment>
@@ -151,45 +158,26 @@ const BreakingNews: React.FC = () => {
 
 	return (
 		<div className='news-main-container' ref={pageRef}>
-			<Routes>
-				<Route
-					path='/'
-					element={
-						<>
-							<h1 className='section-heading'>Breaking News</h1>
-							{loading && <p>Loading news...</p>}
-							{error && <p className='error-text'>{error}</p>}
-							<div className='content-wrapper'>{items}</div>
-							<PaginationContainer
-								totalItems={news.length}
-								itemsPerPage={postsPerPage}
-								currentPage={currentPage}
-								setCurrentPage={setCurrentPage}
-							/>
-							{/* Show large ad (728x90) at the very bottom */}
-							<div className='postings-container'>
-								<div className='postings-bottom-container'>
-									<a
-										href='https://www.tkqlhce.com/click-101252893-14103279'
-										target='_blank'
-										rel='noopener noreferrer'
-									>
-										<img
-											className='postings-image'
-											src='https://www.ftjcfx.com/image-101252893-14103279'
-											alt='Ad'
-										/>
-									</a>
-								</div>
-							</div>
-						</>
-					}
+			<h1 className='section-heading'>Breaking News</h1>
+			{loading && <p>Loading news...</p>}
+			{error && <p className='error-text'>{error}</p>}
+			<div className='content-wrapper'>{items}</div>
+			<PaginationContainer
+				totalItems={news.length}
+				itemsPerPage={postsPerPage}
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+			/>
+			<div className='postings-container'>
+				<ins
+					className='adsbygoogle'
+					style={{ display: "block", width: "728px", height: "90px" }}
+					data-ad-client='ca-pub-2295073683044412'
+					data-ad-slot='9380614635'
+					data-ad-format='horizontal'
+					data-full-width-responsive='false'
 				/>
-				<Route
-					path=':id'
-					element={<BlogPostContent jsonFile='breakingnewsdata.json' />}
-				/>
-			</Routes>
+			</div>
 		</div>
 	);
 };

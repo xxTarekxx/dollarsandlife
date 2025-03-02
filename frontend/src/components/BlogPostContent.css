@@ -147,11 +147,18 @@
 }
 
 .blog-post-content .postings-container {
-    margin: 1.5em 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    box-sizing: border-box;
+    min-height: 250px;
+    /* Ensure enough space for ads */
+    background-color: #00000000;
+    /* Light background to see the container */
+    border: 1px dashed #ccc;
+    /* Temporary border for debugging */
 }
+
 
 @media (max-width: 768px) {
     .blog-post-content .postings-container {
