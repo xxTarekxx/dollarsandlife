@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async"; // For SEO
-import AdComponent from "../AdComponent";
+import "./FinancialCalculators.css";
 import { AutoLoanCalculator } from "./AutoLoanCalculator";
 import { CreditCardCalculator } from "./CreditCardCalculator";
-import "./FinancialCalculators.css";
 import { LoanPaymentCalculator } from "./LoanPaymentCalculator";
 import { MortgageCalculator } from "./MortgageCalculator";
 import { RetirementCalculator } from "./RetirementCalculator";
 import { SavingsCalculator } from "./SavingsCalculator";
 import { TaxCalculator } from "./TaxCalculator";
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const FinancialCalculators: React.FC = () => {
+	useEffect(() => {
+		setTimeout(() => {
+			const adContainers = document.querySelectorAll(".adsbygoogle");
+			let adsPushed = false;
+			adContainers.forEach((adContainer) => {
+				if (
+					(adContainer as HTMLElement).offsetWidth > 0 &&
+					(adContainer as HTMLElement).offsetHeight > 0
+				) {
+					if (!adsPushed) {
+						console.log("Pushing AdSense ads...");
+						(window.adsbygoogle = window.adsbygoogle || []).push({});
+						adsPushed = true;
+					}
+				}
+			});
+		}, 2000);
+	}, []);
+
 	const calculators = [
 		<RetirementCalculator />,
 		<MortgageCalculator />,
@@ -60,14 +84,34 @@ const FinancialCalculators: React.FC = () => {
 					{/* Insert a large ad after every two calculators */}
 					{i > 0 && i % 2 === 1 && (
 						<div className='postings-row-container'>
-							<AdComponent width={660} height={440} />
+							<ins
+								className='adsbygoogle'
+								style={{ display: "block", width: "660px", height: "440px" }}
+								data-ad-client='ca-pub-2295073683044412'
+								data-ad-slot='9380614635'
+								data-ad-format='rectangle'
+								data-full-width-responsive='false'
+							/>
 						</div>
 					)}
 
 					{/* Insert a mobile-friendly ad after each calculator */}
 					{i % 1 === 0 && (
 						<div className='mobile-postings-container'>
-							<AdComponent width={320} height={320} />
+							<ins
+								className='adsbygoogle'
+								style={{
+									display: "block",
+									width: "300px",
+									height: "250px",
+									minWidth: "300px",
+									minHeight: "250px",
+								}}
+								data-ad-client='ca-pub-2295073683044412'
+								data-ad-slot='9380614635'
+								data-ad-format='rectangle'
+								data-full-width-responsive='false'
+							/>
 						</div>
 					)}
 				</React.Fragment>
