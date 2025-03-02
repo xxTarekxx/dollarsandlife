@@ -28,6 +28,7 @@ const StartABlog: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
+	const firstRender = useRef(true); // Track first render
 
 	// Set the page title
 	useEffect(() => {
@@ -56,11 +57,47 @@ const StartABlog: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// Scroll to the top when currentPage changes
+	// ✅ Absolutely prevent any unwanted scrolling
+	// useEffect(() => {
+	// 	if (!firstRender.current) {
+	// 		// Allow scroll only when changing pages
+	// 		setTimeout(() => {
+	// 			if (pageRef.current) {
+	// 				window.scrollTo({
+	// 					top: pageRef.current.offsetTop,
+	// 					behavior: "smooth",
+	// 				});
+	// 			}
+	// 		}, 50);
+	// 	}
+	// 	firstRender.current = false; // Mark first render as done
+	// }, [currentPage]);
+
+	// useEffect(() => {
+	// 	if (!firstRender.current) {
+	// 		requestAnimationFrame(() => {
+	// 			if (pageRef.current) {
+	// 				// Get the navbar height including margins, paddings, and potential misalignment
+	// 				const navbar = document.querySelector(".nav");
+	// 				let navbarHeight = navbar ? navbar.getBoundingClientRect().height : 0;
+
+	// 				// Additional correction for extra padding/margins
+	// 				const correctionOffset = 10; // Adjust this value as needed
+
+	// 				// Scroll exactly below the navbar with correction
+	// 				window.scrollTo({
+	// 					top: pageRef.current.offsetTop - navbarHeight - correctionOffset,
+	// 					behavior: "smooth",
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+	// 	firstRender.current = false;
+	// }, [currentPage]);
+
+	// ✅ Completely remove auto-scrolling
 	useEffect(() => {
-		if (pageRef.current) {
-			pageRef.current.scrollIntoView({ behavior: "smooth" });
-		}
+		// Do nothing (no scrolling at all)
 	}, [currentPage]);
 
 	// Load Google Ads after component mounts
@@ -167,10 +204,16 @@ const StartABlog: React.FC = () => {
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle'
-									style={{ display: "block", width: "728px", height: "90px" }}
+									style={{
+										display: "block",
+										width: "300px",
+										height: "250px",
+										minWidth: "300px",
+										minHeight: "250px",
+									}}
 									data-ad-client='ca-pub-2295073683044412'
 									data-ad-slot='9380614635'
-									data-ad-format='horizontal'
+									data-ad-format='rectangle'
 									data-full-width-responsive='false'
 								/>
 							</div>
