@@ -4,6 +4,12 @@ import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 // Define a type for the product data
 interface Product {
 	id: string;
@@ -15,15 +21,7 @@ interface Product {
 	affiliateLink: string;
 }
 
-interface ProductCardProps {
-	id: string;
-	title: string;
-	imageUrl: string;
-	description: string;
-	currentPrice: string;
-	discountPercentage?: string;
-	affiliateLink: string;
-}
+interface ProductCardProps extends Product {}
 
 const ProductCard: React.FC<ProductCardProps> = ({
 	id,
@@ -75,12 +73,10 @@ const ShoppingDeals: React.FC = () => {
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
 
-	// Set the document title
 	useEffect(() => {
 		document.title = "Deals and Savings";
 	}, []);
 
-	// Fetch product data from the JSON file
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -96,77 +92,65 @@ const ShoppingDeals: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// Scroll to the top of the page on page change
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
+	useEffect(() => {
+		setTimeout(() => {
+			const adContainers = document.querySelectorAll(".postings-container");
+			let adsPushed = false;
+			adContainers.forEach((adContainer) => {
+				if (
+					(adContainer as HTMLElement).offsetWidth > 0 &&
+					(adContainer as HTMLElement).offsetHeight > 0
+				) {
+					if (!adsPushed) {
+						console.log("Pushing AdSense ads...");
+						(window.adsbygoogle = window.adsbygoogle || []).push({});
+						adsPushed = true;
+					}
+				}
+			});
+		}, 2000);
+	}, []);
+
 	const currentPosts = products.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
 
-	const rows = [];
-	for (let i = 0; i < currentPosts.length; i += 3) {
-		rows.push(currentPosts.slice(i, i + 3));
+	const items: JSX.Element[] = [];
+	const numColumns = window.innerWidth > 600 ? 3 : 1; // Detects mobile vs desktop layout
+
+	for (let i = 0; i < currentPosts.length; i += numColumns) {
+		const rowItems = currentPosts
+			.slice(i, i + numColumns)
+			.map((product) => <ProductCard key={product.id} {...product} />);
+
+		items.push(
+			<React.Fragment key={i}>
+				<div className='ProductsGrid'>{rowItems}</div>
+				<div className='postings-container'>
+					<ins
+						className='adsbygoogle'
+						style={{ display: "block", width: "300px", height: "250px" }}
+						data-ad-client='ca-pub-2295073683044412'
+						data-ad-slot='9380614635'
+						data-ad-format='rectangle'
+						data-full-width-responsive='false'
+					/>
+				</div>
+			</React.Fragment>,
+		);
 	}
 
 	return (
 		<div className='PageContainer' ref={pageRef}>
-			<a
-				href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl02-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
-				target='_blank'
-				rel='noopener noreferrer'
-				className='TopBanner'
-			>
-				<img
-					src='/images/shoppinganddeals/amazon-banner.webp'
-					alt='Amazon Prime Banner'
-					className='TopBannerImage'
-					loading='eager' // Preload the banner image
-					srcSet='/images/shoppinganddeals/amazon-banner.webp 1x, /images/shoppinganddeals/amazon-banner@2x.webp 2x'
-				/>
-				<button className='topbanner-button'>Free Trial</button>
-			</a>
 			<h1>Deals and Savings</h1>
-			{rows.map((row, rowIndex) => (
-				<React.Fragment key={rowIndex}>
-					<div className='ProductsGrid'>
-						{row.map((product) => (
-							<ProductCard
-								key={product.id}
-								id={product.id}
-								title={product.title}
-								imageUrl={product.imageUrl}
-								description={product.description}
-								currentPrice={product.currentPrice}
-								discountPercentage={product.discountPercentage}
-								affiliateLink={product.affiliateLink}
-							/>
-						))}
-					</div>
-					{rowIndex < rows.length - 1 && (
-						<div className='postings-container'>
-							<div className='postings-row-container'>
-								<a
-									href='https://www.kqzyfj.com/click-101252893-15236454'
-									target='_blank'
-									rel='noopener noreferrer'
-								>
-									<img
-										srcSet='https://www.ftjcfx.com/image-101252893-15236454 1x, https://www.ftjcfx.com/image-101252893-15236454@2x.jpg 2x'
-										alt='Ad'
-										className='postings-image'
-										loading='lazy'
-									/>
-								</a>
-							</div>
-						</div>
-					)}
-				</React.Fragment>
-			))}
+			{items}
 			<PaginationContainer
 				totalItems={products.length}
 				itemsPerPage={postsPerPage}
@@ -174,22 +158,14 @@ const ShoppingDeals: React.FC = () => {
 				setCurrentPage={setCurrentPage}
 			/>
 			<div className='postings-container'>
-				<div className='postings-bottom-container'>
-					<a
-						href='https://www.tkqlhce.com/click-101252893-14103279'
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						<img
-							className='postings-image'
-							srcSet='https://www.ftjcfx.com/image-101252893-14103279 1x, https://www.ftjcfx.com/image-101252893-14103279@2x.jpg 2x'
-							alt='Speak a new language fluently fast. Start now!'
-							width='728'
-							height='90'
-							loading='lazy'
-						/>
-					</a>
-				</div>
+				<ins
+					className='adsbygoogle'
+					style={{ display: "block", width: "728px", height: "90px" }}
+					data-ad-client='ca-pub-2295073683044412'
+					data-ad-slot='9380614635'
+					data-ad-format='horizontal'
+					data-full-width-responsive='false'
+				/>
 			</div>
 		</div>
 	);
