@@ -7,7 +7,6 @@ import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
-// Define a type for remote job posts
 interface RemoteJob {
 	id: string;
 	title: string;
@@ -24,7 +23,6 @@ const RemoteOnlineJobs: React.FC = () => {
 	const pageRef = useRef<HTMLDivElement>(null);
 	const location = useLocation();
 
-	// Fetch job posts data
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -34,26 +32,21 @@ const RemoteOnlineJobs: React.FC = () => {
 				setRemoteJobs(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
-				setRemoteJobs([]);
 			}
 		};
-
 		fetchData();
 	}, []);
 
-	// Scroll to the top when currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
-	// Update the document title based on the selected post
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
 			const postId = pathSegments[pathSegments.length - 1];
-
 			if (postId && postId !== "remote-online-jobs") {
 				const post = remoteJobs.find((post) => post.id === postId);
 				if (post) {
@@ -63,66 +56,19 @@ const RemoteOnlineJobs: React.FC = () => {
 				document.title = "Remote Online Jobs";
 			}
 		};
-
 		updateTitle();
 	}, [remoteJobs, location.pathname]);
 
-	// Extracts an excerpt from the first content section
 	const getExcerpt = (content: { text: string }[]): string => {
-		if (!content || content.length === 0) return "";
-
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
-
-		if (excerpt.length > 200) {
-			excerpt = `${excerpt.substring(0, 200)}...`;
-		}
-
-		return excerpt;
+		return excerpt.length > 200 ? `${excerpt.substring(0, 200)}...` : excerpt;
 	};
 
-	// Paginate the job posts
 	const currentPosts = remoteJobs.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
-
-	// Render job posts and ads
-	const items = currentPosts.map((post, i) => (
-		<React.Fragment key={post.id}>
-			<div className='row-container'>
-				<Link to={`/extra-income/remote-jobs/${post.id}`}>
-					<BlogPostCard
-						id={post.id}
-						title={post.title}
-						imageUrl={post.imageUrl}
-						content={getExcerpt(post.content)}
-						author={post.author}
-						datePosted={post.datePosted}
-					/>
-				</Link>
-			</div>
-			{/* Show small ad (300x250) after every 2 rows */}
-			{i > 0 && i % 2 === 1 && (
-				<div className='postings-container'>
-					<a
-						href='https://www.kqzyfj.com/click-101252893-15236454'
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						<img
-							srcSet='https://www.ftjcfx.com/image-101252893-15236454 1x, https://www.ftjcfx.com/image-101252893-15236454@2x.jpg 2x'
-							width='300'
-							height='250'
-							alt='Small Ad'
-							className='postings-image'
-							loading='lazy'
-						/>
-					</a>
-				</div>
-			)}
-		</React.Fragment>
-	));
 
 	return (
 		<div className='page-container' ref={pageRef}>
@@ -142,39 +88,60 @@ const RemoteOnlineJobs: React.FC = () => {
 										src='/images/shoppinganddeals/amazon-banner.webp'
 										alt='Amazon Prime Banner'
 										className='TopBannerImage'
-										loading='eager' // Load important banner eagerly
-										srcSet='/images/shoppinganddeals/amazon-banner.webp 1x, /images/shoppinganddeals/amazon-banner@2x.webp 2x'
 									/>
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
 							<h1>Remote Online Jobs</h1>
-							<div className='content-wrapper'>{items}</div>
+							<div className='content-wrapper'>
+								{currentPosts.map((post, i) => (
+									<React.Fragment key={post.id}>
+										<div className='row-container'>
+											<Link to={`/extra-income/remote-jobs/${post.id}`}>
+												<BlogPostCard
+													id={post.id}
+													title={post.title}
+													imageUrl={post.imageUrl}
+													content={getExcerpt(post.content)}
+													author={post.author}
+													datePosted={post.datePosted}
+												/>
+											</Link>
+										</div>
+										{i > 0 && i % 2 === 1 && (
+											<div className='postings-container'>
+												<ins
+													className='adsbygoogle'
+													style={{ display: "block" }}
+													data-ad-client='ca-pub-2295073683044412'
+													data-ad-slot='YOUR_AD_SLOT'
+													data-ad-format='auto'
+													data-full-width-responsive='true'
+												></ins>
+											</div>
+										)}
+									</React.Fragment>
+								))}
+							</div>
 							<PaginationContainer
 								totalItems={remoteJobs.length}
 								itemsPerPage={postsPerPage}
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-							{/* Show large ad (728x90) at the very bottom */}
 							<div className='postings-container'>
-								<div className='postings-bottom-container'>
-									<a
-										href='https://www.tkqlhce.com/click-101252893-14103279'
-										target='_blank'
-										rel='noopener noreferrer'
-									>
-										<img
-											className='postings-image'
-											srcSet='https://www.ftjcfx.com/image-101252893-14103279 1x, https://www.ftjcfx.com/image-101252893-14103279@2x.jpg 2x'
-											alt='Speak a new language fluently fast. Start now!'
-											width='728'
-											height='90'
-											loading='lazy'
-										/>
-									</a>
-								</div>
+								<ins
+									className='adsbygoogle'
+									style={{ display: "block" }}
+									data-ad-client='ca-pub-2295073683044412'
+									data-ad-slot='YOUR_BOTTOM_AD_SLOT'
+									data-ad-format='auto'
+									data-full-width-responsive='true'
+								></ins>
 							</div>
+							<script>
+								{`(adsbygoogle = window.adsbygoogle || []).push({});`}
+							</script>
 						</>
 					}
 				/>
