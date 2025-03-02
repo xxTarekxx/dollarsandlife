@@ -7,7 +7,6 @@ import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
-// Define a type for freelance job posts
 interface FreelanceJob {
 	id: string;
 	title: string;
@@ -39,14 +38,12 @@ const FreelanceJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// Scroll to the top when the currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
-	// Update the document title based on the selected post
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
@@ -65,58 +62,16 @@ const FreelanceJobs: React.FC = () => {
 		updateTitle();
 	}, [freelanceJobs, location.pathname]);
 
-	// Extracts an excerpt from the first content section
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
-
-		if (excerpt.length > 200) {
-			excerpt = `${excerpt.substring(0, 200)}...`;
-		}
-
-		return excerpt;
+		return excerpt.length > 200 ? `${excerpt.substring(0, 200)}...` : excerpt;
 	};
 
-	// Paginate the freelance job posts
 	const currentPosts = freelanceJobs.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
-
-	const items = currentPosts.map((post, i) => (
-		<React.Fragment key={post.id}>
-			<div className='row-container'>
-				<Link to={`/extra-income/freelancers/${post.id}`}>
-					<BlogPostCard
-						id={post.id}
-						title={post.title}
-						imageUrl={post.imageUrl}
-						content={getExcerpt(post.content)}
-						author={post.author}
-						datePosted={post.datePosted}
-					/>
-				</Link>
-			</div>
-			{/* Show small ad (300x250) after every 2 rows */}
-			{i > 0 && i % 2 === 1 && (
-				<div className='postings-container'>
-					<div className='postings-row-container'>
-						<a
-							href='https://www.kqzyfj.com/click-101252893-15236454'
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							<img
-								src='https://www.ftjcfx.com/image-101252893-15236454'
-								alt='Freelance Ad'
-								className='postings-image'
-							/>
-						</a>
-					</div>
-				</div>
-			)}
-		</React.Fragment>
-	));
 
 	return (
 		<div className='page-container' ref={pageRef}>
@@ -141,29 +96,55 @@ const FreelanceJobs: React.FC = () => {
 								</a>
 							</div>
 							<h1>Freelancers Opportunities</h1>
-							<div className='content-wrapper'>{items}</div>
+							<div className='content-wrapper'>
+								{currentPosts.map((post, i) => (
+									<React.Fragment key={post.id}>
+										<div className='row-container'>
+											<Link to={`/extra-income/freelancers/${post.id}`}>
+												<BlogPostCard
+													id={post.id}
+													title={post.title}
+													imageUrl={post.imageUrl}
+													content={getExcerpt(post.content)}
+													author={post.author}
+													datePosted={post.datePosted}
+												/>
+											</Link>
+										</div>
+										{i > 0 && i % 2 === 1 && (
+											<div className='postings-container'>
+												<ins
+													className='adsbygoogle'
+													style={{ display: "block" }}
+													data-ad-client='ca-pub-2295073683044412'
+													data-ad-slot='YOUR_AD_SLOT'
+													data-ad-format='auto'
+													data-full-width-responsive='true'
+												></ins>
+											</div>
+										)}
+									</React.Fragment>
+								))}
+							</div>
 							<PaginationContainer
 								totalItems={freelanceJobs.length}
 								itemsPerPage={postsPerPage}
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-							{/* Show large ad (728x90) at the very bottom */}
 							<div className='postings-container'>
-								<div className='postings-bottom-container'>
-									<a
-										href='https://www.tkqlhce.com/click-101252893-14103279'
-										target='_blank'
-										rel='noopener noreferrer'
-									>
-										<img
-											className='postings-image'
-											src='https://www.ftjcfx.com/image-101252893-14103279'
-											alt='Speak a new language fluently fast. Start now!'
-										/>
-									</a>
-								</div>
+								<ins
+									className='adsbygoogle'
+									style={{ display: "block" }}
+									data-ad-client='ca-pub-2295073683044412'
+									data-ad-slot='YOUR_BOTTOM_AD_SLOT'
+									data-ad-format='auto'
+									data-full-width-responsive='true'
+								></ins>
 							</div>
+							<script>
+								{`(adsbygoogle = window.adsbygoogle || []).push({});`}
+							</script>
 						</>
 					}
 				/>
