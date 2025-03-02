@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import "../../../components/AdComponent.css"; // Import AdComponent CSS
+import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css"; // Import BlogPostContent CSS
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
-// Define a type for MoneyMakingApp posts
 interface MoneyMakingApp {
 	id: string;
 	title: string;
@@ -30,34 +29,24 @@ const MoneyMakingApps: React.FC = () => {
 				const response = await fetch("/data/moneymakingapps.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: MoneyMakingApp[] = await response.json();
-				if (Array.isArray(data)) {
-					setApps(data);
-				} else {
-					console.error("Fetched data is not an array:", data);
-					setApps([]);
-				}
+				setApps(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
-				setApps([]);
 			}
 		};
-
 		fetchData();
 	}, []);
 
-	// Scroll to the top when the currentPage changes
 	useEffect(() => {
 		if (pageRef.current) {
 			pageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [currentPage]);
 
-	// Update the document title based on the selected post
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
 			const postId = pathSegments[pathSegments.length - 1];
-
 			if (postId && postId !== "money-making-apps") {
 				const post = apps.find((post) => post.id === postId);
 				if (post) {
@@ -67,65 +56,19 @@ const MoneyMakingApps: React.FC = () => {
 				document.title = "Money Making Apps";
 			}
 		};
-
 		updateTitle();
 	}, [apps, location.pathname]);
 
-	// Extracts an excerpt from the first content section
 	const getExcerpt = (content: { text: string }[]): string => {
-		if (!content || content.length === 0) return "";
-
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
-
-		if (excerpt.length > 200) {
-			excerpt = `${excerpt.substring(0, 200)}...`;
-		}
-
-		return excerpt;
+		return excerpt.length > 200 ? `${excerpt.substring(0, 200)}...` : excerpt;
 	};
 
-	// Paginate the app posts
 	const currentPosts = apps.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
-
-	const items = currentPosts.map((post, i) => (
-		<React.Fragment key={post.id}>
-			<div className='row-container'>
-				<Link to={`/extra-income/money-making-apps/${post.id}`}>
-					<BlogPostCard
-						id={post.id}
-						title={post.title}
-						imageUrl={post.imageUrl}
-						content={getExcerpt(post.content)}
-						author={post.author}
-						datePosted={post.datePosted}
-					/>
-				</Link>
-			</div>
-			{/* Show small ad (300x250) after every 2 rows */}
-			{i > 0 && i % 2 === 1 && (
-				<div className='postings-container'>
-					<a
-						href='https://www.kqzyfj.com/click-101252893-15236454'
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						<img
-							srcSet='https://www.ftjcfx.com/image-101252893-15236454 1x, https://www.ftjcfx.com/image-101252893-15236454@2x.jpg 2x'
-							width='300'
-							height='250'
-							alt='Small Ad'
-							className='postings-image'
-							loading='lazy'
-						/>
-					</a>
-				</div>
-			)}
-		</React.Fragment>
-	));
 
 	return (
 		<div className='page-container' ref={pageRef}>
@@ -145,39 +88,60 @@ const MoneyMakingApps: React.FC = () => {
 										src='/images/shoppinganddeals/amazon-banner.webp'
 										alt='Amazon Prime Banner'
 										className='TopBannerImage'
-										loading='eager' // Preload the banner image
-										srcSet='/images/shoppinganddeals/amazon-banner.webp 1x, /images/shoppinganddeals/amazon-banner@2x.webp 2x'
 									/>
 									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
 							<h1>Money Making Apps</h1>
-							<div className='content-wrapper'>{items}</div>
+							<div className='content-wrapper'>
+								{currentPosts.map((post, i) => (
+									<React.Fragment key={post.id}>
+										<div className='row-container'>
+											<Link to={`/extra-income/money-making-apps/${post.id}`}>
+												<BlogPostCard
+													id={post.id}
+													title={post.title}
+													imageUrl={post.imageUrl}
+													content={getExcerpt(post.content)}
+													author={post.author}
+													datePosted={post.datePosted}
+												/>
+											</Link>
+										</div>
+										{i > 0 && i % 2 === 1 && (
+											<div className='postings-container'>
+												<ins
+													className='adsbygoogle'
+													style={{ display: "block" }}
+													data-ad-client='ca-pub-2295073683044412'
+													data-ad-slot='YOUR_AD_SLOT'
+													data-ad-format='auto'
+													data-full-width-responsive='true'
+												></ins>
+											</div>
+										)}
+									</React.Fragment>
+								))}
+							</div>
 							<PaginationContainer
 								totalItems={apps.length}
 								itemsPerPage={postsPerPage}
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-							{/* Show large ad (728x90) at the very bottom */}
 							<div className='postings-container'>
-								<div className='postings-bottom-container'>
-									<a
-										href='https://www.tkqlhce.com/click-101252893-14103279'
-										target='_blank'
-										rel='noopener noreferrer'
-									>
-										<img
-											className='postings-image'
-											srcSet='https://www.ftjcfx.com/image-101252893-14103279 1x, https://www.ftjcfx.com/image-101252893-14103279@2x.jpg 2x'
-											alt='Speak a new language fluently fast. Start now!'
-											width='728'
-											height='90'
-											loading='lazy'
-										/>
-									</a>
-								</div>
+								<ins
+									className='adsbygoogle'
+									style={{ display: "block" }}
+									data-ad-client='ca-pub-2295073683044412'
+									data-ad-slot='YOUR_BOTTOM_AD_SLOT'
+									data-ad-format='auto'
+									data-full-width-responsive='true'
+								></ins>
 							</div>
+							<script>
+								{`(adsbygoogle = window.adsbygoogle || []).push({});`}
+							</script>
 						</>
 					}
 				/>
