@@ -84,17 +84,16 @@ const RemoteOnlineJobs: React.FC = () => {
 						<>
 							<div className='top-banner-container'>
 								<a
-									href='https://www.amazon.com/amazonprime?primeCampaignId=studentWlpPrimeRedir&linkCode=ll2&tag=dollarsandl02-20&linkId=879184c8c8106f03c9fbbea8df411e86&language=en_US&ref_=as_li_ss_tl'
+									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
 									target='_blank'
 									rel='noopener noreferrer'
 									className='TopBanner'
 								>
 									<img
-										src='/images/shoppinganddeals/amazon-banner.webp'
-										alt='Amazon Prime Banner'
+										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
+										alt='Lyca Mobile Banner'
 										className='TopBannerImage'
 									/>
-									<button className='topbanner-button'>Free Trial</button>
 								</a>
 							</div>
 							<h1>Remote Online Jobs</h1>
