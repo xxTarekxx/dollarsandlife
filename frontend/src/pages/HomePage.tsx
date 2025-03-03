@@ -105,6 +105,21 @@ const HomePage: React.FC = () => {
 					</Link>
 				))}
 			</div>
+			<div className='top-banner-container'>
+				<a
+					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='TopBanner'
+				>
+					<img
+						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
+						alt='Lyca Mobile Banner'
+						className='TopBannerImage'
+						loading='eager'
+					/>
+				</a>
+			</div>
 		</div>
 	);
 };
