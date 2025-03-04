@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async"; // Import Helmet for dynamic metada
 import { Link } from "react-router-dom";
 import useCompressedImage from "../components/compressed/useCompressedImage";
 import "./HomePage.css";
-// import "../pages/category/Extra-Income/CommonStyles.css";
+
 import NextToPImage from "/images/favicon/down-arrow.svg";
 import AmazonPicksImg from "/images/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
