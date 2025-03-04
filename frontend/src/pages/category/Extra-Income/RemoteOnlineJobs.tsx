@@ -82,6 +82,7 @@ const RemoteOnlineJobs: React.FC = () => {
 					path='/'
 					element={
 						<>
+							<h1>Remote Online Jobs</h1>
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -96,7 +97,6 @@ const RemoteOnlineJobs: React.FC = () => {
 									/>
 								</a>
 							</div>
-							<h1>Remote Online Jobs</h1>
 							<div className='content-wrapper'>
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>

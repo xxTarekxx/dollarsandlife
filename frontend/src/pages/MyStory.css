@@ -25,24 +25,6 @@
     margin: 0 auto;
 }
 
-.topbanner-button {
-    position: absolute;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #f0c14b;
-    color: #111;
-    border: 1px solid #a88734;
-    border-radius: 15px;
-    padding: 4px 16px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset;
-}
-
 .section-heading {
     font-size: 2em;
     margin-bottom: 1em;
@@ -91,26 +73,4 @@
         padding: 10px;
         max-width: 98%;
     }
-
-    .topbanner-button {
-        font-size: 12px;
-        padding: 0px 12px;
-        bottom: 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    .topbanner-button {
-        font-size: 8px;
-        padding: 0px 4px;
-        bottom: 2px;
-    }
-}
-
-.topbanner-button:hover {
-    background-color: #e68900;
-    transform: translate(-50%, -10%);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    text-decoration: underline;
-    letter-spacing: 0.5px;
 }
