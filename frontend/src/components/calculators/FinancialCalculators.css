@@ -9,32 +9,7 @@
 }
 
 /* Top banner container styling specific to FinancialCalculators */
-.top-banner-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 6px;
-    position: relative;
-    text-align: center;
-}
 
-.TopBanner {
-    display: flex;
-    position: relative;
-    /* Makes it a positioning context for the button */
-    text-decoration: none;
-    color: inherit;
-    width: 100%;
-    max-width: 1000px;
-}
-
-.TopBannerImage {
-    width: 100%;
-    margin: auto;
-    height: auto;
-    border-radius: 8px;
-    display: block;
-}
 
 .calculator-row {
     flex-direction: column;
@@ -42,7 +17,7 @@
 }
 
 .calculator {
-    width: 90%;
+    width: 100%;
     margin-bottom: 20px;
     flex: 1 1 100%;
 }

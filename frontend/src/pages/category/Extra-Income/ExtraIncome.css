@@ -2,16 +2,14 @@
 h1 {
     color: #6000ce;
     text-align: center;
-    font-size: 2rem;
-    /* Adjust as needed */
-    margin-bottom: 2rem;
-    /* Add some space below the heading */
+    font-size: 1.6rem;
+    margin: 0;
 }
 
 /* Category Links Container */
 .category-links-container {
     width: 100%;
-    margin: 3% auto;
+    margin: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
