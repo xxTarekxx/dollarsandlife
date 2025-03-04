@@ -1,11 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import "../../../components/AdComponent.css";
+import { Link } from "react-router-dom";
 import BlogPostCard from "../../../components/BlogPostCard";
-import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "../../../components/AdComponent.css";
+import "../../../components/BlogPostContent.css";
 import "../Extra-Income/CommonStyles.css";
+
+interface BlogPost {
+	id: string;
+	title: string;
+	author: string;
+	datePosted: string;
+	imageUrl: string;
+	content: {
+		subtitle?: string;
+		text?: string;
+		bulletPoints?: string[];
+	}[];
+}
 
 interface NewsArticle {
 	id: string;
@@ -25,18 +37,27 @@ declare global {
 }
 
 const BreakingNews: React.FC = () => {
+	// State for JSON posts (featured articles)
+	const [jsonPosts, setJsonPosts] = useState<BlogPost[]>([]);
+	// State for API news items
 	const [news, setNews] = useState<NewsArticle[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const pageRef = useRef<HTMLDivElement>(null);
-	const firstRender = useRef(true); // Track first render
 
+	// Fetch JSON posts (featured articles)
 	useEffect(() => {
-		document.title = "Breaking News";
+		fetch("/data/crypto-articles.json")
+			.then((response) => response.json())
+			.then((data: BlogPost[]) => {
+				setJsonPosts(data);
+			})
+			.catch((error) => console.error("Error fetching JSON posts:", error));
 	}, []);
 
+	// Fetch API news articles (original API logic)
 	useEffect(() => {
 		const fetchNews = async () => {
 			try {
@@ -61,7 +82,6 @@ const BreakingNews: React.FC = () => {
 
 				const businessArticles = businessData.results?.slice(0, 2) || [];
 				const healthArticles = healthData.results?.slice(0, 2) || [];
-
 				const selectedArticles = [...businessArticles, ...healthArticles];
 
 				if (selectedArticles.length === 0) {
@@ -80,21 +100,13 @@ const BreakingNews: React.FC = () => {
 		fetchNews();
 	}, []);
 
-	// Prevent initial scroll on first render
-	// useEffect(() => {
-	// 	if (!firstRender.current) {
-	// 		if (pageRef.current) {
-	// 			pageRef.current.scrollIntoView({ behavior: "smooth" });
-	// 		}
-	// 	}
-	// 	firstRender.current = false;
-	// }, [currentPage]);
+	// Pagination for API news items
+	const currentPosts = news.slice(
+		(currentPage - 1) * postsPerPage,
+		currentPage * postsPerPage,
+	);
 
-	// ✅ Completely remove auto-scrolling
-	useEffect(() => {
-		// Do nothing (no scrolling at all)
-	}, [currentPage]);
-
+	// AdSense effect remains unchanged
 	useEffect(() => {
 		setTimeout(() => {
 			const adContainers = document.querySelectorAll(".postings-container");
@@ -114,80 +126,112 @@ const BreakingNews: React.FC = () => {
 		}, 2000);
 	}, []);
 
-	const currentPosts = news.slice(
-		(currentPage - 1) * postsPerPage,
-		currentPage * postsPerPage,
-	);
-
-	const items = currentPosts.map((article, index) => (
-		<React.Fragment key={article.id || `news-${index}`}>
-			<div className='news-row-container'>
-				<Link to={article.link} target='_blank' rel='noopener noreferrer'>
-					<article className='card-container'>
-						<img
-							className='card-image'
-							src={
-								article.image_url
-									? article.image_url
-									: "/images/Breaking-News.webp"
-							}
-							alt={article.title}
-							loading='lazy'
-						/>
-						<div className='card-content'>
-							<header>
-								<h2 className='card-title'>{article.title}</h2>
-							</header>
-							<p className='card-text'>
-								{article.description || "No description available"}
-							</p>
-							<div>
-								<p className='card-author'>By {article.source_id}</p>
-								<time className='card-date' dateTime={article.pubDate}>
-									{new Date(article.pubDate).toLocaleDateString()}
-								</time>
-							</div>
-						</div>
-					</article>
-				</Link>
-			</div>
-			{index > 0 && index % 2 === 1 && (
-				<div className='postings-container' key={`ad-${index}`}>
-					<ins
-						className='adsbygoogle'
-						style={{
-							display: "block",
-							width: "300px",
-							height: "250px",
-							minWidth: "300px",
-							minHeight: "250px",
-						}}
-						data-ad-client='ca-pub-2295073683044412'
-						data-ad-slot='9380614635'
-						data-ad-format='rectangle'
-						data-full-width-responsive='false'
-					/>
-				</div>
-			)}
-		</React.Fragment>
-	));
-
 	return (
 		<div className='news-main-container' ref={pageRef}>
-			<h1 className='section-heading'>Breaking News</h1>
-			{loading && <p>Loading news...</p>}
-			{error && <p className='error-text'>{error}</p>}
-			<div className='content-wrapper'>{items}</div>
+			<h1 className='section-heading'>
+				<b>Breaking</b> <b>News</b>
+			</h1>
+
+			{/* Render BlogPostCards from JSON file (Featured Articles) */}
+			<div className='content-wrapper'>
+				{jsonPosts.map((post) => (
+					<Link key={post.id} to={`/post/${post.id}`}>
+						<BlogPostCard
+							id={post.id}
+							title={post.title}
+							imageUrl={post.imageUrl}
+							content={post.content[0]?.text || ""}
+							author={post.author}
+							datePosted={post.datePosted}
+						/>
+					</Link>
+				))}
+			</div>
+
+			{/* Render API news articles */}
+			<div className='content-wrapper'>
+				{loading && <p>Loading news...</p>}
+				{error && (
+					<p className='error-text'>
+						We Will Be Posting More Breaking News Articles Soon
+					</p>
+				)}
+				{!error &&
+					currentPosts.map((article, index) => (
+						<React.Fragment key={article.id || `news-${index}`}>
+							<div className='news-row-container'>
+								<Link
+									to={article.link}
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									<article className='card-container'>
+										<img
+											className='card-image'
+											src={
+												article.image_url
+													? article.image_url
+													: "/images/Breaking-News.webp"
+											}
+											alt={article.title}
+											loading='lazy'
+										/>
+										<div className='card-content'>
+											<header>
+												<h2 className='card-title'>{article.title}</h2>
+											</header>
+											<p className='card-text'>
+												{article.description || "No description available"}
+											</p>
+											<div>
+												<p className='card-author'>By {article.source_id}</p>
+												<time className='card-date' dateTime={article.pubDate}>
+													{new Date(article.pubDate).toLocaleDateString()}
+												</time>
+											</div>
+										</div>
+									</article>
+								</Link>
+							</div>
+							{index > 0 && index % 2 === 1 && (
+								<div className='postings-container' key={`ad-${index}`}>
+									<ins
+										className='adsbygoogle'
+										style={{
+											display: "block",
+											width: "300px",
+											height: "250px",
+											minWidth: "300px",
+											minHeight: "250px",
+										}}
+										data-ad-client='ca-pub-2295073683044412'
+										data-ad-slot='9380614635'
+										data-ad-format='rectangle'
+										data-full-width-responsive='false'
+									/>
+								</div>
+							)}
+						</React.Fragment>
+					))}
+			</div>
+
 			<PaginationContainer
 				totalItems={news.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
+
 			<div className='postings-container'>
 				<ins
 					className='adsbygoogle'
-					style={{ display: "block", width: "728px", height: "90px" }}
+					style={{
+						display: "block",
+						width: "728px",
+						height: "90px",
+						minWidth: "728px",
+						minHeight: "90px",
+					}}
 					data-ad-client='ca-pub-2295073683044412'
 					data-ad-slot='9380614635'
 					data-ad-format='horizontal'

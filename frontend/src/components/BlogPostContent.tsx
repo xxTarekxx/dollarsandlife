@@ -91,6 +91,20 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 
 	return (
 		<div className='blog-post-content'>
+			<h1>{post.title}</h1>
+			<div className='image-box'>
+				<img
+					src={post.imageUrl}
+					alt={post.title}
+					className='main-image'
+					loading='lazy'
+				/>
+			</div>
+
+			<div className='author-date'>
+				<p className='author'>By: {post.author}</p>
+				<p className='date'>{new Date(post.datePosted).toLocaleDateString()}</p>
+			</div>
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -106,22 +120,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					/>
 				</a>
 			</div>
-
-			<h1>{post.title}</h1>
-			<div className='image-box'>
-				<img
-					src={post.imageUrl}
-					alt={post.title}
-					className='main-image'
-					loading='lazy'
-				/>
-			</div>
-
-			<div className='author-date'>
-				<p className='author'>By: {post.author}</p>
-				<p className='date'>{new Date(post.datePosted).toLocaleDateString()}</p>
-			</div>
-
 			{post.content.map((section, index) => (
 				<div key={index} className='content-section'>
 					{section.subtitle && <h2>{section.subtitle}</h2>}

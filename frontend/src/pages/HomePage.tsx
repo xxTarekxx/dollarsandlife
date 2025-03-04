@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async"; // Import Helmet for dynamic metada
 import { Link } from "react-router-dom";
 import useCompressedImage from "../components/compressed/useCompressedImage";
 import "./HomePage.css";
+// import "../pages/category/Extra-Income/CommonStyles.css";
 import NextToPImage from "/images/favicon/down-arrow.svg";
 import AmazonPicksImg from "/images/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
@@ -73,7 +74,21 @@ const HomePage: React.FC = () => {
 					imageSrcSet={`${compressedStartAblogimg || StartAblogimg} 1x`}
 				/>
 			</Helmet>
-
+			<div className='top-banner-container'>
+				<a
+					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='TopBanner'
+				>
+					<img
+						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
+						alt='Lyca Mobile Banner'
+						className='TopBannerImage'
+						loading='eager'
+					/>
+				</a>
+			</div>
 			{/* Main H1 tag for SEO */}
 			<h1>Your Life Changes Here</h1>
 
@@ -104,21 +119,6 @@ const HomePage: React.FC = () => {
 						</figcaption>
 					</Link>
 				))}
-			</div>
-			<div className='top-banner-container'>
-				<a
-					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-					target='_blank'
-					rel='noopener noreferrer'
-					className='TopBanner'
-				>
-					<img
-						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-						alt='Lyca Mobile Banner'
-						className='TopBannerImage'
-						loading='eager'
-					/>
-				</a>
 			</div>
 		</div>
 	);

@@ -174,6 +174,10 @@ const StartABlog: React.FC = () => {
 					path='/'
 					element={
 						<>
+							<h1>
+								How to Start a Successful Blog in 2025
+								<br /> Step-by-Step Guide for Beginners
+							</h1>
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -189,10 +193,6 @@ const StartABlog: React.FC = () => {
 									/>
 								</a>
 							</div>
-							<h1>
-								How to Start a Successful Blog in 2025
-								<br /> Step-by-Step Guide for Beginners
-							</h1>
 							<div className='content-wrapper'>{items}</div>
 							<PaginationContainer
 								totalItems={blogPosts.length}

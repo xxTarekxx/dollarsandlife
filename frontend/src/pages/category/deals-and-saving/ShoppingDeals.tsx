@@ -154,6 +154,7 @@ const ShoppingDeals: React.FC = () => {
 
 	return (
 		<div className='PageContainer' ref={pageRef}>
+			<h1>Deals and Savings</h1>
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -169,7 +170,6 @@ const ShoppingDeals: React.FC = () => {
 					/>
 				</a>
 			</div>
-			<h1>Deals and Savings</h1>
 			{items}
 			<PaginationContainer
 				totalItems={products.length}
