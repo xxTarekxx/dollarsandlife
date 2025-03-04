@@ -43,7 +43,7 @@
 .breadcrumb-separator {
     margin: 0 2px;
     width: 10px;
-    padding-top: 6px;
+    padding-top: 9px;
     color: green;
     height: 8px;
     display: inline-block;
@@ -51,6 +51,6 @@
     @media (max-width: 768px) {
         width: 8px;
         height: 4px;
-        padding-top: 4px;
+        padding-top: 6px;
     }
 }
