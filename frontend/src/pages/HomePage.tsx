@@ -74,6 +74,8 @@ const HomePage: React.FC = () => {
 					imageSrcSet={`${compressedStartAblogimg || StartAblogimg} 1x`}
 				/>
 			</Helmet>
+			{/* Main H1 tag for SEO */}
+			<h1>Your Life Changes Here</h1>
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -89,12 +91,9 @@ const HomePage: React.FC = () => {
 					/>
 				</a>
 			</div>
-			{/* Main H1 tag for SEO */}
-			<h1>Your Life Changes Here</h1>
-
 			<h2 className='landing-subtitle'>
 				<img src={NextToPImage} alt='Next to P' className='next-to-p-image' />
-				Start Now
+				{/* <img src={NextToPImage} alt='Next to P' className='next-to-p-image' /> */}
 				<img src={NextToPImage} alt='Next to P' className='next-to-p-image' />
 			</h2>
 
