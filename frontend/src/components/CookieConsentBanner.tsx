@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./CookieConsentBanner.css";
 
 // ✅ Declare global properties to prevent TypeScript errors
@@ -84,7 +84,7 @@ const CookieConsentBanner: React.FC = () => {
 		script.src =
 			"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
 		script.async = true;
-		script.setAttribute("data-ad-client", "ca-pub-2295073683044412"); // ✅ Uses your AdSense ID
+		script.setAttribute("data-ad-client", "ca-pub-1079721341426198"); // ✅ Uses your AdSense ID
 		document.body.appendChild(script);
 		console.log("Google AdSense script loaded.");
 	};
