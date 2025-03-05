@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
+import "../Extra-Income/CommonStyles.css";
+import "../../../components/BlogPostContent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "./StartABlog.css";
 
-// Define a type for blog post data
 interface BlogPost {
 	id: string;
 	title: string;
@@ -28,147 +27,40 @@ const StartABlog: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
-	const firstRender = useRef(true); // Track first render
 
-	// Set the page title
 	useEffect(() => {
 		document.title = "Start A Blog";
 	}, []);
 
-	// Fetch the blog post data
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/startablogdata.json");
-				if (!response.ok) {
+				if (!response.ok)
 					throw new Error(`Failed to fetch data: ${response.statusText}`);
-				}
 				const data: BlogPost[] = await response.json();
-				if (Array.isArray(data)) {
-					setBlogPosts(data);
-				} else {
-					console.error("Invalid data format: Expected an array.");
-				}
+				if (Array.isArray(data)) setBlogPosts(data);
+				else console.error("Invalid data format: Expected an array.");
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
 		};
-
 		fetchData();
 	}, []);
 
-	// ✅ Absolutely prevent any unwanted scrolling
-	// useEffect(() => {
-	// 	if (!firstRender.current) {
-	// 		// Allow scroll only when changing pages
-	// 		setTimeout(() => {
-	// 			if (pageRef.current) {
-	// 				window.scrollTo({
-	// 					top: pageRef.current.offsetTop,
-	// 					behavior: "smooth",
-	// 				});
-	// 			}
-	// 		}, 50);
-	// 	}
-	// 	firstRender.current = false; // Mark first render as done
-	// }, [currentPage]);
-
-	// useEffect(() => {
-	// 	if (!firstRender.current) {
-	// 		requestAnimationFrame(() => {
-	// 			if (pageRef.current) {
-	// 				// Get the navbar height including margins, paddings, and potential misalignment
-	// 				const navbar = document.querySelector(".nav");
-	// 				let navbarHeight = navbar ? navbar.getBoundingClientRect().height : 0;
-
-	// 				// Additional correction for extra padding/margins
-	// 				const correctionOffset = 10; // Adjust this value as needed
-
-	// 				// Scroll exactly below the navbar with correction
-	// 				window.scrollTo({
-	// 					top: pageRef.current.offsetTop - navbarHeight - correctionOffset,
-	// 					behavior: "smooth",
-	// 				});
-	// 			}
-	// 		});
-	// 	}
-	// 	firstRender.current = false;
-	// }, [currentPage]);
-
-	// ✅ Completely remove auto-scrolling
-	useEffect(() => {
-		// Do nothing (no scrolling at all)
-	}, [currentPage]);
-
-	// Load Google Ads after component mounts
-	useEffect(() => {
-		setTimeout(() => {
-			const adContainers = document.querySelectorAll(".postings-container");
-			let adsPushed = false;
-			adContainers.forEach((adContainer) => {
-				if (
-					(adContainer as HTMLElement).offsetWidth > 0 &&
-					(adContainer as HTMLElement).offsetHeight > 0
-				) {
-					if (!adsPushed) {
-						console.log("Pushing AdSense ads...");
-						(window.adsbygoogle = window.adsbygoogle || []).push({});
-						adsPushed = true;
-					}
-				}
-			});
-		}, 2000);
-	}, []);
-
-	// Extract excerpt from content
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
-
-		if (excerpt.length > 200) {
-			excerpt = `${excerpt.substring(0, 200)}...`;
-		}
-
-		return excerpt;
+		return excerpt.length > 200 ? `${excerpt.substring(0, 200)}...` : excerpt;
 	};
 
-	// Paginate blog posts
 	const currentPosts = blogPosts.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
 
-	const items = currentPosts.map((post, i) => (
-		<React.Fragment key={post.id}>
-			<div className='row-container'>
-				<Link to={`/start-a-blog/${post.id}`}>
-					<BlogPostCard
-						id={post.id}
-						title={post.title}
-						imageUrl={post.imageUrl}
-						content={getExcerpt(post.content)}
-						author={post.author}
-						datePosted={post.datePosted}
-					/>
-				</Link>
-			</div>
-			{i > 0 && i % 2 === 1 && (
-				<div className='postings-container'>
-					<ins
-						className='adsbygoogle'
-						style={{ display: "block", width: "300px", height: "250px" }}
-						data-ad-client='ca-pub-1079721341426198'
-						data-ad-slot='9380614635'
-						data-ad-format='rectangle'
-						data-full-width-responsive='false'
-					/>
-				</div>
-			)}
-		</React.Fragment>
-	));
-
 	return (
-		<div className='blog-main-container' ref={pageRef}>
+		<div className='page-container' ref={pageRef}>
 			<Routes>
 				<Route
 					path='/'
@@ -193,7 +85,48 @@ const StartABlog: React.FC = () => {
 									/>
 								</a>
 							</div>
-							<div className='content-wrapper'>{items}</div>
+							<div className='content-wrapper'>
+								{currentPosts.map((post, i) => (
+									<React.Fragment key={post.id}>
+										<div className='row-container'>
+											<Link to={`/start-a-blog/${post.id}`}>
+												<BlogPostCard
+													id={post.id}
+													title={post.title}
+													imageUrl={post.imageUrl}
+													content={getExcerpt(post.content)}
+													author={post.author}
+													datePosted={post.datePosted}
+												/>
+											</Link>
+										</div>
+										{i > 0 && i % 2 === 1 && (
+											<div className='postings-container'>
+												<ins
+													className='adsbygoogle'
+													style={{
+														display: "block",
+														width: "300px",
+														height: "250px",
+														minWidth: "300x",
+														minHeight: "250px",
+													}}
+													data-ad-client='ca-pub-1079721341426198'
+													data-ad-slot='7197282987'
+													data-ad-format='auto'
+													data-full-width-responsive='true'
+												></ins>
+												<script
+													dangerouslySetInnerHTML={{
+														__html:
+															"(adsbygoogle = window.adsbygoogle || []).push({});",
+													}}
+												/>
+											</div>
+										)}
+									</React.Fragment>
+								))}
+							</div>
 							<PaginationContainer
 								totalItems={blogPosts.length}
 								itemsPerPage={postsPerPage}
@@ -202,20 +135,25 @@ const StartABlog: React.FC = () => {
 							/>
 							<div className='postings-container'>
 								<ins
-									className='adsbygoogle'
+									className='adsbygoogle-banner'
 									style={{
 										display: "block",
-										width: "300px",
-										height: "250px",
+										width: "728px",
+										height: "90px",
 										minWidth: "300px",
-										minHeight: "250px",
+										minHeight: "90px",
 									}}
 									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='9380614635'
-									data-ad-format='rectangle'
-									data-full-width-responsive='false'
-								/>
+									data-ad-slot='6375155907'
+									data-ad-format='horizontal'
+									data-full-width-responsive='true'
+								></ins>
 							</div>
+							<script
+								dangerouslySetInnerHTML={{
+									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+								}}
+							/>
 						</>
 					}
 				/>

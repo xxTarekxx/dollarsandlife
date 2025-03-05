@@ -143,7 +143,7 @@ const ShoppingDeals: React.FC = () => {
 						className='adsbygoogle'
 						style={{ display: "block", width: "300px", height: "250px" }}
 						data-ad-client='ca-pub-1079721341426198'
-						data-ad-slot='9380614635'
+						data-ad-slot='7197282987'
 						data-ad-format='rectangle'
 						data-full-width-responsive='false'
 					/>
@@ -182,7 +182,7 @@ const ShoppingDeals: React.FC = () => {
 					className='adsbygoogle'
 					style={{ display: "block", width: "728px", height: "90px" }}
 					data-ad-client='ca-pub-1079721341426198'
-					data-ad-slot='9380614635'
+					data-ad-slot='6375155907'
 					data-ad-format='horizontal'
 					data-full-width-responsive='false'
 				/>

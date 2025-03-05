@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
@@ -38,16 +38,15 @@ const FreelanceJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// ✅ Completely remove auto-scrolling
+	// Remove auto-scrolling – nothing happens here.
 	useEffect(() => {
-		// Do nothing (no scrolling at all)
+		// Do nothing
 	}, [currentPage]);
 
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
 			const postId = pathSegments[pathSegments.length - 1];
-
 			if (postId && postId !== "freelancers") {
 				const post = freelanceJobs.find((post) => post.id === postId);
 				if (post) {
@@ -109,6 +108,7 @@ const FreelanceJobs: React.FC = () => {
 												/>
 											</Link>
 										</div>
+										{/* Insert ad after every two posts */}
 										{i > 0 && i % 2 === 1 && (
 											<div className='postings-container'>
 												<ins
@@ -117,38 +117,53 @@ const FreelanceJobs: React.FC = () => {
 														display: "block",
 														width: "300px",
 														height: "250px",
-														minWidth: "300px",
+														minWidth: "300x",
 														minHeight: "250px",
 													}}
 													data-ad-client='ca-pub-1079721341426198'
-													data-ad-slot='9380614635'
-													data-ad-format='rectangle'
-													data-full-width-responsive='false'
+													data-ad-slot='7197282987'
+													data-ad-format='auto'
+													data-full-width-responsive='true'
+												></ins>
+												<script
+													dangerouslySetInnerHTML={{
+														__html:
+															"(adsbygoogle = window.adsbygoogle || []).push({});",
+													}}
 												/>
 											</div>
 										)}
 									</React.Fragment>
 								))}
 							</div>
+							{/* Bottom ad */}
+							<div className='postings-container'>
+								<ins
+									className='adsbygoogle-banner'
+									style={{
+										display: "block",
+										width: "728px",
+										height: "90px",
+										minWidth: "300px",
+										minHeight: "90px",
+									}}
+									data-ad-client='ca-pub-1079721341426198'
+									data-ad-slot='6375155907'
+									data-ad-format='horizontal'
+									data-full-width-responsive='true'
+								></ins>
+							</div>
+							<script
+								dangerouslySetInnerHTML={{
+									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+								}}
+							/>
 							<PaginationContainer
 								totalItems={freelanceJobs.length}
 								itemsPerPage={postsPerPage}
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-							<div className='postings-container'>
-								<ins
-									className='adsbygoogle'
-									style={{ display: "block" }}
-									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='YOUR_BOTTOM_AD_SLOT'
-									data-ad-format='auto'
-									data-full-width-responsive='true'
-								></ins>
-							</div>
-							<script>
-								{`(adsbygoogle = window.adsbygoogle || []).push({});`}
-							</script>
 						</>
 					}
 				/>

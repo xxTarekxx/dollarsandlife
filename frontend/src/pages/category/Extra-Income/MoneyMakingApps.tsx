@@ -114,14 +114,14 @@ const MoneyMakingApps: React.FC = () => {
 														display: "block",
 														width: "300px",
 														height: "250px",
-														minWidth: "300px",
+														minWidth: "300x",
 														minHeight: "250px",
 													}}
 													data-ad-client='ca-pub-1079721341426198'
-													data-ad-slot='9380614635'
-													data-ad-format='rectangle'
-													data-full-width-responsive='false'
-												/>
+													data-ad-slot='7197282987'
+													data-ad-format='auto'
+													data-full-width-responsive='true'
+												></ins>
 											</div>
 										)}
 									</React.Fragment>
@@ -135,11 +135,17 @@ const MoneyMakingApps: React.FC = () => {
 							/>
 							<div className='postings-container'>
 								<ins
-									className='adsbygoogle'
-									style={{ display: "block" }}
+									className='adsbygoogle-banner'
+									style={{
+										display: "block",
+										width: "728px",
+										height: "90px",
+										minWidth: "300px",
+										minHeight: "90px",
+									}}
 									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='YOUR_BOTTOM_AD_SLOT'
-									data-ad-format='auto'
+									data-ad-slot='6375155907'
+									data-ad-format='horizontal'
 									data-full-width-responsive='true'
 								></ins>
 							</div>
