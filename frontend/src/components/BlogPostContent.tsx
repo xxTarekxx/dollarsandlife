@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./AdComponent.css";
 import "./BlogPostContent.css";
+import "../pages/category/Extra-Income/CommonStyles.css";
 import FiverrWidget from "./FiverrWidget";
 
 interface BlogPostContentProps {
@@ -196,11 +197,18 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						<div className='postings-container'>
 							<ins
 								className='adsbygoogle'
+								style={{
+									display: "block",
+									width: "300px",
+									height: "250px",
+									minWidth: "300x",
+									minHeight: "250px",
+								}}
 								data-ad-client='ca-pub-1079721341426198'
-								data-ad-slot='6375155907'
+								data-ad-slot='7197282987'
 								data-ad-format='auto'
 								data-full-width-responsive='true'
-							/>
+							></ins>
 							<script
 								dangerouslySetInnerHTML={{
 									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
@@ -211,20 +219,27 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				</div>
 			))}
 			{/* Bottom Ad */}
-			<div className='postings-container'>
+			{/* <div className='postings-container'>
 				<ins
-					className='adsbygoogle'
+					className='adsbygoogle-banner'
+					style={{
+						display: "block",
+						width: "728px",
+						height: "90px",
+						minWidth: "300px",
+						minHeight: "90px",
+					}}
 					data-ad-client='ca-pub-1079721341426198'
-					data-ad-slot='9380614635'
+					data-ad-slot='6375155907'
 					data-ad-format='horizontal'
-					data-full-width-responsive='false'
-				/>
+					data-full-width-responsive='true'
+				></ins>
 			</div>
 			<script
 				dangerouslySetInnerHTML={{
 					__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
 				}}
-			/>
+			/> */}
 		</div>
 	);
 };
