@@ -120,7 +120,7 @@ const FreelanceJobs: React.FC = () => {
 														minWidth: "300px",
 														minHeight: "250px",
 													}}
-													data-ad-client='ca-pub-2295073683044412'
+													data-ad-client='ca-pub-1079721341426198'
 													data-ad-slot='9380614635'
 													data-ad-format='rectangle'
 													data-full-width-responsive='false'
@@ -140,7 +140,7 @@ const FreelanceJobs: React.FC = () => {
 								<ins
 									className='adsbygoogle'
 									style={{ display: "block" }}
-									data-ad-client='ca-pub-2295073683044412'
+									data-ad-client='ca-pub-1079721341426198'
 									data-ad-slot='YOUR_BOTTOM_AD_SLOT'
 									data-ad-format='auto'
 									data-full-width-responsive='true'
