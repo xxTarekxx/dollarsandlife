@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import BlogPostCard from "../../../components/BlogPostCard";
-import PaginationContainer from "../../../components/PaginationContainer";
 import "../../../components/AdComponent.css";
+import BlogPostCard from "../../../components/BlogPostCard";
 import "../../../components/BlogPostContent.css";
+import PaginationContainer from "../../../components/PaginationContainer";
 import "../Extra-Income/CommonStyles.css";
 
 interface BlogPost {
@@ -204,7 +204,7 @@ const BreakingNews: React.FC = () => {
 											minWidth: "300px",
 											minHeight: "250px",
 										}}
-										data-ad-client='ca-pub-2295073683044412'
+										data-ad-client='ca-pub-1079721341426198'
 										data-ad-slot='9380614635'
 										data-ad-format='rectangle'
 										data-full-width-responsive='false'
@@ -232,7 +232,7 @@ const BreakingNews: React.FC = () => {
 						minWidth: "728px",
 						minHeight: "90px",
 					}}
-					data-ad-client='ca-pub-2295073683044412'
+					data-ad-client='ca-pub-1079721341426198'
 					data-ad-slot='9380614635'
 					data-ad-format='horizontal'
 					data-full-width-responsive='false'
