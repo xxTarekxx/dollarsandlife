@@ -38,16 +38,15 @@ const Budget: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// ✅ Completely remove auto-scrolling
+	// Remove auto-scrolling – nothing happens here.
 	useEffect(() => {
-		// Do nothing (no scrolling at all)
+		// Do nothing
 	}, [currentPage]);
 
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
 			const postId = pathSegments[pathSegments.length - 1];
-
 			if (postId && postId !== "budget") {
 				const post = budgetPosts.find((post) => post.id === postId);
 				if (post) {
@@ -109,16 +108,29 @@ const Budget: React.FC = () => {
 												/>
 											</Link>
 										</div>
+										{/* Insert ad after every two posts */}
 										{i > 0 && i % 2 === 1 && (
 											<div className='postings-container'>
 												<ins
 													className='adsbygoogle'
-													style={{ display: "block" }}
+													style={{
+														display: "block",
+														width: "300px",
+														height: "250px",
+														minWidth: "300x",
+														minHeight: "250px",
+													}}
 													data-ad-client='ca-pub-1079721341426198'
-													data-ad-slot='YOUR_AD_SLOT'
+													data-ad-slot='7197282987'
 													data-ad-format='auto'
 													data-full-width-responsive='true'
 												></ins>
+												<script
+													dangerouslySetInnerHTML={{
+														__html:
+															"(adsbygoogle = window.adsbygoogle || []).push({});",
+													}}
+												/>
 											</div>
 										)}
 									</React.Fragment>
@@ -130,25 +142,28 @@ const Budget: React.FC = () => {
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
+							{/* Bottom ad */}
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle'
 									style={{
 										display: "block",
-										width: "300px",
-										height: "250px",
-										minWidth: "300px",
-										minHeight: "250px",
+										width: "728px",
+										height: "90px",
+										minWidth: "728px",
+										minHeight: "90px",
 									}}
 									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='9380614635'
-									data-ad-format='rectangle'
-									data-full-width-responsive='false'
-								/>
+									data-ad-slot='6375155907'
+									data-ad-format='horizontal'
+									data-full-width-responsive='true'
+								></ins>
 							</div>
-							<script>
-								{`(adsbygoogle = window.adsbygoogle || []).push({});`}
-							</script>
+							<script
+								dangerouslySetInnerHTML={{
+									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+								}}
+							/>
 						</>
 					}
 				/>

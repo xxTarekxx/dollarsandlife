@@ -5,33 +5,77 @@
     /* background-color: black; */
 }
 
+/* Desktop (default) */
 .postings-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2px;
+    display: block !important;
+    text-align: center !important;
     width: 100%;
-    height: auto;
+    max-height: 300px;
+    min-width: 300px;
+    margin-top: 2px;
+}
 
-    img {
-        border: 2px solid #6000ce;
+.postings-container .adsbygoogle {
+    display: inline-block !important;
+    margin: 0 auto !important;
+    width: 300px;
+    height: 250px;
+}
+
+/* Mobile / Responsive: adjust when viewport is less than 768px */
+@media (max-width: 768px) {
+    .postings-container {
+        width: 100% !important;
+        min-width: 300px !important;
+    }
+
+    .postings-container .adsbygoogle {
+        width: 100% !important;
+        /* take up full width of container */
+        height: auto !important;
+        /* height adjusts automatically */
+        max-width: 300px !important;
+        /* but do not exceed 300px */
     }
 }
 
-.top-postings-container {
-    max-height: 220px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
+
+/* Default styling for banner ads */
+.postings-container .adsbygoogle-banner {
+    display: block !important;
+    text-align: center !important;
     width: 100%;
+    max-width: 728px;
+    /* Do not exceed 728px */
     height: auto;
+    text-align: center;
 }
+
+/* Ensure proper scaling on mobile */
+@media (max-width: 768px) {
+    .postings-container {
+        width: 100%;
+        text-align: center;
+    }
+
+    .postings-container .adsbygoogle-banner {
+        width: 100% !important;
+        /* Forces it to take full width */
+        max-width: 100% !important;
+        /* Prevents it from exceeding screen size */
+        height: auto !important;
+        /* Keeps aspect ratio */
+    }
+}
+
+
 
 
 @media (max-width: 806px) {
 
     .top-postings-container,
     .postings-container {
+
         max-width: 100%;
         /* Ensure it uses full width on smaller screens */
         width: auto;

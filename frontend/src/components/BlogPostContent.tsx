@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./AdComponent.css";
 import "./BlogPostContent.css";
@@ -33,6 +33,63 @@ declare global {
 	}
 }
 
+/* 
+  Reusable ad component. 
+  It renders the ad markup (an <ins> element with the "adsbygoogle" class) 
+  and, once mounted, pushes an ad request via the AdSense API.
+  
+  All styling is handled by your AdComponent.css (the postings-container class, etc.).
+*/
+interface AdsenseAdProps {
+	dataAdSlot: string;
+	dataAdClient: string;
+	dataAdFormat: string;
+	dataFullWidthResponsive: string;
+}
+
+const AdsenseAd: React.FC<AdsenseAdProps> = ({
+	dataAdSlot,
+	dataAdClient,
+	dataAdFormat,
+	dataFullWidthResponsive,
+}) => {
+	const containerRef = useRef<HTMLDivElement>(null);
+	const insRef = useRef<HTMLModElement>(null);
+	const adPushedRef = useRef(false);
+
+	useEffect(() => {
+		const pushAd = () => {
+			if (
+				!adPushedRef.current &&
+				insRef.current &&
+				insRef.current.getAttribute("data-adsbygoogle-status") !== "done"
+			) {
+				try {
+					(window.adsbygoogle = window.adsbygoogle || []).push({});
+					adPushedRef.current = true;
+				} catch (error) {
+					console.error("Adsense error:", error);
+				}
+			}
+		};
+		// Delay push to ensure the element is mounted and styled by CSS
+		setTimeout(pushAd, 1000);
+	}, []);
+
+	return (
+		<div ref={containerRef} className='postings-container'>
+			<ins
+				ref={insRef}
+				className='adsbygoogle'
+				data-ad-client={dataAdClient}
+				data-ad-slot={dataAdSlot}
+				data-ad-format={dataAdFormat}
+				data-full-width-responsive={dataFullWidthResponsive}
+			></ins>
+		</div>
+	);
+};
+
 const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
 	const [post, setPost] = useState<BlogPost | null>(null);
@@ -60,34 +117,11 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		};
 
 		fetchPost();
-
-		// Ensure AdSense pushes ads AFTER the component has mounted and ad container is visible
-		setTimeout(() => {
-			const adContainer = document.querySelector(
-				".postings-container",
-			) as HTMLElement | null;
-			if (adContainer && adContainer.offsetHeight > 0) {
-				console.log("Pushing AdSense ads...");
-				(window.adsbygoogle = window.adsbygoogle || []).push({});
-			} else {
-				console.warn("Ad container is not visible yet, retrying...");
-				setTimeout(() => {
-					console.log("Retrying AdSense push...");
-					(window.adsbygoogle = window.adsbygoogle || []).push({});
-				}, 2000);
-			}
-		}, 2000);
 	}, [postId, jsonFile]);
 
 	if (!post) return <div>Loading...</div>;
 
-	console.log("Rendering BlogPostContent...");
-	if (!post) {
-		console.log("Post is still null, returning Loading...");
-		return <div>Loading...</div>;
-	}
-
-	console.log("Rendering post title:", post.title);
+	console.log("Rendering BlogPostContent...", post.title);
 
 	return (
 		<div className='blog-post-content'>
@@ -100,7 +134,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					loading='lazy'
 				/>
 			</div>
-
 			<div className='author-date'>
 				<p className='author'>By: {post.author}</p>
 				<p className='date'>{new Date(post.datePosted).toLocaleDateString()}</p>
@@ -158,44 +191,40 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						"How Your Profile Would Look on Fiverr As A Seller" && (
 						<FiverrWidget />
 					)}
+					{/* Insert ad after every 2nd section */}
 					{index % 2 === 1 && (
 						<div className='postings-container'>
 							<ins
 								className='adsbygoogle'
-								style={{
-									display: "block",
-									width: "300px",
-									height: "250px",
-									minWidth: "300px",
-									minHeight: "250px",
-								}}
 								data-ad-client='ca-pub-1079721341426198'
-								data-ad-slot='9380614635'
-								data-ad-format='rectangle'
-								data-full-width-responsive='false'
+								data-ad-slot='6375155907'
+								data-ad-format='auto'
+								data-full-width-responsive='true'
+							/>
+							<script
+								dangerouslySetInnerHTML={{
+									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+								}}
 							/>
 						</div>
 					)}
 				</div>
 			))}
-
+			{/* Bottom Ad */}
 			<div className='postings-container'>
 				<ins
 					className='adsbygoogle'
-					style={{
-						display: "block",
-						width: "728px",
-						height: "90px",
-						minWidth: "728px",
-						minHeight: "90px",
-					}}
 					data-ad-client='ca-pub-1079721341426198'
 					data-ad-slot='9380614635'
 					data-ad-format='horizontal'
 					data-full-width-responsive='false'
 				/>
 			</div>
-			<script>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</script>
+			<script
+				dangerouslySetInnerHTML={{
+					__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+				}}
+			/>
 		</div>
 	);
 };

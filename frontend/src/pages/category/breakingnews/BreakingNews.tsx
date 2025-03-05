@@ -106,26 +106,6 @@ const BreakingNews: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
-	// AdSense effect remains unchanged
-	useEffect(() => {
-		setTimeout(() => {
-			const adContainers = document.querySelectorAll(".postings-container");
-			let adsPushed = false;
-			adContainers.forEach((adContainer) => {
-				if (
-					(adContainer as HTMLElement).offsetWidth > 0 &&
-					(adContainer as HTMLElement).offsetHeight > 0
-				) {
-					if (!adsPushed) {
-						console.log("Pushing AdSense ads...");
-						(window.adsbygoogle = window.adsbygoogle || []).push({});
-						adsPushed = true;
-					}
-				}
-			});
-		}, 2000);
-	}, []);
-
 	return (
 		<div className='news-main-container' ref={pageRef}>
 			<h1 className='section-heading'>
@@ -201,14 +181,14 @@ const BreakingNews: React.FC = () => {
 											display: "block",
 											width: "300px",
 											height: "250px",
-											minWidth: "300px",
+											minWidth: "300x",
 											minHeight: "250px",
 										}}
 										data-ad-client='ca-pub-1079721341426198'
-										data-ad-slot='9380614635'
-										data-ad-format='rectangle'
-										data-full-width-responsive='false'
-									/>
+										data-ad-slot='7197282987'
+										data-ad-format='auto'
+										data-full-width-responsive='true'
+									></ins>
 								</div>
 							)}
 						</React.Fragment>
@@ -224,19 +204,19 @@ const BreakingNews: React.FC = () => {
 
 			<div className='postings-container'>
 				<ins
-					className='adsbygoogle'
+					className='adsbygoogle-banner'
 					style={{
 						display: "block",
 						width: "728px",
 						height: "90px",
-						minWidth: "728px",
+						minWidth: "300px",
 						minHeight: "90px",
 					}}
 					data-ad-client='ca-pub-1079721341426198'
-					data-ad-slot='9380614635'
+					data-ad-slot='6375155907'
 					data-ad-format='horizontal'
-					data-full-width-responsive='false'
-				/>
+					data-full-width-responsive='true'
+				></ins>
 			</div>
 		</div>
 	);
