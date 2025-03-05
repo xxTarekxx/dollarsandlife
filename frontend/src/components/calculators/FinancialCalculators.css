@@ -124,11 +124,3 @@
         font-size: 0.6em;
     }
 }
-
-
-.postings-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 20px 0;
-}

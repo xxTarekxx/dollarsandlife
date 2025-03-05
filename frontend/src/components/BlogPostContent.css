@@ -146,25 +146,6 @@
     }
 }
 
-.blog-post-content .postings-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 250px;
-    /* Ensure enough space for ads */
-    background-color: #00000000;
-    /* Light background to see the container */
-    border: 1px dashed #ccc;
-    /* Temporary border for debugging */
-}
-
-
-@media (max-width: 768px) {
-    .blog-post-content .postings-container {
-        margin: 1.2em 0;
-    }
-}
 
 .blog-post-content strong {
     font-weight: bold;
