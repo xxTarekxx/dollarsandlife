@@ -38,7 +38,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
 	const location = useLocation();
 	const [post, setPost] = useState<BlogPost | null>(null);
-	const [forceRender, setForceRender] = useState(false); // ✅ Forces re-render when navigating via search
+	const [forceRender, setForceRender] = useState(0); // ✅ Change from boolean to number to fix the key issue
 
 	useEffect(() => {
 		const fetchPost = async () => {
@@ -57,7 +57,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				setPost(postData);
 
 				// ✅ Ensures React properly updates layout on search navigation
-				setForceRender((prev) => !prev);
+				setForceRender((prev) => prev + 1); // ✅ Change from boolean toggle to incrementing number
 			} catch (error) {
 				console.error("Error fetching post:", error);
 			}
@@ -73,7 +73,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	return (
 		<div key={forceRender} className='page-container'>
 			{" "}
-			{/* ✅ Ensuring correct wrapper is always applied */}
+			{/* ✅ Fix: `forceRender` is now a valid number */}
 			<div className='blog-post-content'>
 				<h1>{post.title}</h1>
 				<div className='image-box'>
