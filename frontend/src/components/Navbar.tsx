@@ -6,6 +6,7 @@ import logo from "/images/website-logo.webp";
 
 interface Post {
 	id: string;
+	title: string;
 	route: string;
 	jsonFile: string;
 }
@@ -16,7 +17,7 @@ const menuItems = [
 	{ to: "/shopping-deals", text: "Shopping Deals" },
 	{ to: "/start-a-blog", text: "Start A Blog" },
 	{ to: "/breaking-news", text: "Breaking News" },
-	{ to: "/financial-calculators", text: "Calculators" }, // Ensure no trailing slash
+	{ to: "/financial-calculators", text: "Calculators" },
 ];
 
 const Navbar: React.FC = () => {
@@ -33,7 +34,7 @@ const Navbar: React.FC = () => {
 		window.scrollTo(0, 0);
 	}, [location.pathname]);
 
-	// Fetch search-related posts
+	// Fetch posts from different JSON files
 	useEffect(() => {
 		const fetchPosts = async () => {
 			try {
@@ -54,9 +55,10 @@ const Navbar: React.FC = () => {
 				for (const fileInfo of files) {
 					const response = await fetch(`/data/${fileInfo.file}`);
 					if (!response.ok) {
-						throw new Error(
+						console.warn(
 							`Failed to fetch ${fileInfo.file}: ${response.statusText}`,
 						);
+						continue;
 					}
 					const data: Post[] = await response.json();
 					const postsWithRoute = data.map((post) => ({
@@ -78,15 +80,13 @@ const Navbar: React.FC = () => {
 
 	// Filter search suggestions
 	useEffect(() => {
-		if (searchTerm) {
+		if (searchTerm.trim()) {
 			const lowerCaseTerm = searchTerm.toLowerCase();
-			const filteredSuggestions = posts
-				.filter((post) => post.id.toLowerCase().includes(lowerCaseTerm))
-				.map((post) => ({
-					id: post.id,
-					jsonFile: post.jsonFile,
-					route: post.route,
-				}));
+			const filteredSuggestions = posts.filter(
+				(post) =>
+					post.title.toLowerCase().includes(lowerCaseTerm) ||
+					post.id.toLowerCase().includes(lowerCaseTerm),
+			);
 
 			setSuggestions(filteredSuggestions);
 		} else {
@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
 		event.stopPropagation();
 		setIsOpen(false);
 		if (location.pathname !== to) {
-			navigate(to); // Changed from `window.location.href` to `navigate`
+			navigate(to);
 		}
 	};
 
@@ -115,9 +115,12 @@ const Navbar: React.FC = () => {
 
 	// Handle search suggestion click
 	const handleSuggestionClick = (suggestion: Post) => {
-		const jsonFileRoute =
-			posts.find((post) => post.id === suggestion.id)?.route || "/";
-		navigate(`${jsonFileRoute}${suggestion.id}`);
+		// Ensure proper routing structure
+		const fullRoute = `${suggestion.route}/${suggestion.id}`;
+
+		console.log("Navigating to:", fullRoute); // Debugging output
+
+		navigate(fullRoute);
 		setSearchTerm("");
 		setIsSearchOpen(false);
 	};
@@ -160,6 +163,8 @@ const Navbar: React.FC = () => {
 					</div>
 				</div>
 			</nav>
+
+			{/* Search Bar */}
 			<div
 				className={`search-bar-container ${isSearchOpen ? "open" : "closed"}`}
 			>
@@ -174,7 +179,7 @@ const Navbar: React.FC = () => {
 					<ul className='suggestions-list'>
 						{suggestions.map((suggestion, index) => (
 							<li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-								{suggestion.id}
+								{suggestion.title}
 							</li>
 						))}
 					</ul>
