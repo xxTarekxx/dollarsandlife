@@ -1,4 +1,3 @@
-// App.tsx
 import React from "react";
 import {
 	Route,
@@ -7,7 +6,7 @@ import {
 	useLocation,
 } from "react-router-dom";
 import styled from "styled-components";
-import { HelmetProvider, Helmet } from "react-helmet-async"; // Import Helmet
+import { HelmetProvider, Helmet } from "react-helmet-async";
 import "./App.css";
 import BlogPostContent from "./components/BlogPostContent";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
@@ -19,15 +18,14 @@ import Navbar from "./components/Navbar";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
 import Budget from "./pages/category/Extra-Income/Budget";
 import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
-import FreeLanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
+import FreelanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
-import StartAblog from "./pages/category/start-a-blog/StartABlog";
+import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import TermsOfService from "./pages/TermsOfService";
-import BreakingNews from "./pages/category/breakingnews/BreakingNews"; // New Import
+import BreakingNews from "./pages/category/breakingnews/BreakingNews";
 
-// Styled components
 const AppContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -39,28 +37,24 @@ const MainContent = styled.div`
 `;
 
 const App: React.FC = () => {
-	const location = useLocation(); // Get the current path
+	const location = useLocation();
 
 	return (
 		<HelmetProvider>
 			<AppContainer>
-				{/* Helmet for dynamic canonical URL, meta description, and adding Google Tag Manager */}
 				<Helmet>
-					{/* Canonical URL */}
 					<link
 						rel='canonical'
 						href={`https://www.dollarsandlife.com${location.pathname}`}
 					/>
-					{/* Meta description for search engine results */}
 					<meta
 						name='description'
-						content='Dollars And Life is a personal finance blog offering tips on earning extra income, finding the best deals, and achieving financial freedom. Explore topics like budgeting, side hustles, and starting a blog.'
+						content='Dollars And Life is a personal finance blog offering tips on earning extra income, finding the best deals, and achieving financial freedom.'
 					/>
 					<meta
 						property='og:description'
 						content='Dollars And Life is your go-to resource for personal finance, offering guides on budgeting, extra income, and money-saving tips.'
 					/>
-					{/* Add Google Tag Manager Script */}
 				</Helmet>
 
 				<Navbar />
@@ -71,9 +65,9 @@ const App: React.FC = () => {
 						<Route path='/extra-income' element={<ExtraIncome />} />
 						<Route
 							path='/extra-income/freelancers/*'
-							element={<FreeLanceJobs />}
+							element={<FreelanceJobs />}
 						/>
-						<Route path='/extra-income/Budget/*' element={<Budget />} />
+						<Route path='/extra-income/budget/*' element={<Budget />} />
 						<Route
 							path='/extra-income/remote-jobs/*'
 							element={<RemoteOnlineJobs />}
@@ -83,7 +77,7 @@ const App: React.FC = () => {
 							element={<MoneyMakingApps />}
 						/>
 						<Route path='/shopping-deals' element={<ShoppingDeals />} />
-						<Route path='/start-a-blog/*' element={<StartAblog />} />
+						<Route path='/start-a-blog/*' element={<StartABlog />} />
 						<Route
 							path='/my-story'
 							element={<BlogPostContent jsonFile='mystory.json' />}
@@ -94,8 +88,31 @@ const App: React.FC = () => {
 							path='/financial-calculators'
 							element={<FinancialCalculators />}
 						/>
-						<Route path='/breaking-news' element={<BreakingNews />} />{" "}
-						{/* New Route */}
+						<Route path='/breaking-news' element={<BreakingNews />} />
+
+						{/* ✅ Pass jsonFile for normal navigation */}
+						<Route
+							path='/extra-income/:id'
+							element={<BlogPostContent jsonFile='budgetdata.json' />}
+						/>
+						<Route
+							path='/shopping-deals/:id'
+							element={<BlogPostContent jsonFile='products.json' />}
+						/>
+						<Route
+							path='/start-a-blog/:id'
+							element={<BlogPostContent jsonFile='startablogdata.json' />}
+						/>
+						<Route
+							path='/breaking-news/:id'
+							element={<BlogPostContent jsonFile='breakingnews.json' />}
+						/>
+
+						{/* ✅ Ensure search results still work dynamically */}
+						<Route path='/extra-income/:id' element={<BlogPostContent />} />
+						<Route path='/shopping-deals/:id' element={<BlogPostContent />} />
+						<Route path='/start-a-blog/:id' element={<BlogPostContent />} />
+						<Route path='/breaking-news/:id' element={<BlogPostContent />} />
 					</Routes>
 				</MainContent>
 				<Footer />
