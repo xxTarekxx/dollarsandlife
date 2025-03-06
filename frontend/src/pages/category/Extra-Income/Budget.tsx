@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import "../../../components/AdComponent.css";
+import "../../../components/BlogPostContent.css";
+import "./CommonStyles.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "./CommonStyles.css";
 
 interface BlogPost {
 	id: string;
@@ -136,13 +136,6 @@ const Budget: React.FC = () => {
 									</React.Fragment>
 								))}
 							</div>
-							<PaginationContainer
-								totalItems={budgetPosts.length}
-								itemsPerPage={postsPerPage}
-								currentPage={currentPage}
-								setCurrentPage={setCurrentPage}
-							/>
-							{/* Bottom ad */}
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle'
@@ -164,6 +157,13 @@ const Budget: React.FC = () => {
 									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
 								}}
 							/>
+							<PaginationContainer
+								totalItems={budgetPosts.length}
+								itemsPerPage={postsPerPage}
+								currentPage={currentPage}
+								setCurrentPage={setCurrentPage}
+							/>
+							{/* Bottom ad */}
 						</>
 					}
 				/>
