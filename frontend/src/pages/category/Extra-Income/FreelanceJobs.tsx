@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import "../../../components/AdComponent.css";
+import "../../../components/BlogPostContent.css";
+import "./CommonStyles.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "./CommonStyles.css";
 
 interface FreelanceJob {
 	id: string;
