@@ -90,7 +90,7 @@ const App: React.FC = () => {
 						/>
 						<Route path='/breaking-news' element={<BreakingNews />} />
 
-						{/* ✅ Pass jsonFile for normal navigation */}
+						{/* ✅ Fix: Ensure jsonFile is passed correctly */}
 						<Route
 							path='/extra-income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}
@@ -107,12 +107,6 @@ const App: React.FC = () => {
 							path='/breaking-news/:id'
 							element={<BlogPostContent jsonFile='breakingnews.json' />}
 						/>
-
-						{/* ✅ Ensure search results still work dynamically */}
-						<Route path='/extra-income/:id' element={<BlogPostContent />} />
-						<Route path='/shopping-deals/:id' element={<BlogPostContent />} />
-						<Route path='/start-a-blog/:id' element={<BlogPostContent />} />
-						<Route path='/breaking-news/:id' element={<BlogPostContent />} />
 					</Routes>
 				</MainContent>
 				<Footer />
