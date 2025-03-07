@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "../../../components/AdComponent.css";
 import "../../../components/BlogPostContent.css";
 import "./CommonStyles.css";
@@ -37,11 +38,6 @@ const RemoteOnlineJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// Remove auto-scrolling
-	useEffect(() => {
-		// Do nothing
-	}, [currentPage]);
-
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
@@ -52,7 +48,7 @@ const RemoteOnlineJobs: React.FC = () => {
 					document.title = post.title;
 				}
 			} else {
-				document.title = "Remote Online Jobs";
+				document.title = "Remote Online Jobs - Work from Home Opportunities";
 			}
 		};
 		updateTitle();
@@ -71,12 +67,45 @@ const RemoteOnlineJobs: React.FC = () => {
 
 	return (
 		<div className='page-container' ref={pageRef}>
+			{/* SEO Metadata with Helmet */}
+			<Helmet>
+				<title>Remote Online Jobs | Work from Home & Freelance Gigs</title>
+				<meta
+					name='description'
+					content='Find the best remote jobs, freelance gigs, and online work opportunities. Work from home and earn a stable income in 2024.'
+				/>
+				<link
+					rel='canonical'
+					href='https://www.dollarsandlife.com/extra-income/remote-jobs'
+				/>
+				<script type='application/ld+json'>
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "WebPage",
+						name: "Remote Online Jobs - Work from Home & Freelance Gigs",
+						url: "https://www.dollarsandlife.com/extra-income/remote-jobs",
+						description:
+							"Find the best remote jobs, freelance gigs, and online work opportunities. Work from home and earn a stable income in 2024.",
+						publisher: {
+							"@type": "Organization",
+							name: "Dollars & Life",
+							logo: {
+								"@type": "ImageObject",
+								url: "/images/favicon/favicon.webp",
+							},
+						},
+					})}
+				</script>
+			</Helmet>
+
 			<Routes>
 				<Route
 					path='/'
 					element={
 						<>
 							<h1>Remote Online Jobs</h1>
+
+							{/* Ad Banner */}
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -86,11 +115,14 @@ const RemoteOnlineJobs: React.FC = () => {
 								>
 									<img
 										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-										alt='Lyca Mobile Banner'
+										alt='Lyca Mobile Banner - Affordable International Calling'
 										className='TopBannerImage'
+										loading='eager'
 									/>
 								</a>
 							</div>
+
+							{/* Remote Jobs Listings */}
 							<div className='content-wrapper'>
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
@@ -106,7 +138,7 @@ const RemoteOnlineJobs: React.FC = () => {
 												/>
 											</Link>
 										</div>
-										{/* Insert ad after every two posts */}
+										{/* Insert AdSense ad after every two posts */}
 										{i > 0 && i % 2 === 1 && (
 											<div className='postings-container'>
 												<ins
@@ -115,8 +147,6 @@ const RemoteOnlineJobs: React.FC = () => {
 														display: "block",
 														width: "300px",
 														height: "250px",
-														minWidth: "300x",
-														minHeight: "250px",
 													}}
 													data-ad-client='ca-pub-1079721341426198'
 													data-ad-slot='7197282987'
@@ -134,13 +164,16 @@ const RemoteOnlineJobs: React.FC = () => {
 									</React.Fragment>
 								))}
 							</div>
+
+							{/* Pagination */}
 							<PaginationContainer
 								totalItems={remoteJobs.length}
 								itemsPerPage={postsPerPage}
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-							{/* Bottom ad */}
+
+							{/* Bottom Banner Ad */}
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle-banner'
@@ -148,8 +181,6 @@ const RemoteOnlineJobs: React.FC = () => {
 										display: "block",
 										width: "728px",
 										height: "90px",
-										minWidth: "300px",
-										minHeight: "90px",
 									}}
 									data-ad-client='ca-pub-1079721341426198'
 									data-ad-slot='6375155907'
