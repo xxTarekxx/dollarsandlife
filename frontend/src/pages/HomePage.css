@@ -114,26 +114,10 @@ body {
     font-size: 1.1rem;
 }
 
-.top-banner-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    text-align: center;
-}
-
 
 .TopBannerImage {
     width: 100%;
     margin: auto;
     height: auto;
     display: block;
-}
-
-@media (max-width: 480px) {
-    .top-banner-container .TopBannerImage {
-        width: 360px;
-    }
-
-
 }

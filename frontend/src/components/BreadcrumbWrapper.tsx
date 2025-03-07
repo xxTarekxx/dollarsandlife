@@ -5,7 +5,7 @@ import Breadcrumb from "./Breadcrumb";
 const breadcrumbNameMap: { [key: string]: string } = {
 	"/": "Home",
 	"/extra-income": "Extra Income",
-	"/extra-income/freelancers": "Freelance Jobs",
+	"/extra-income/freelancers": "Freelancers",
 	"/extra-income/budgetting": "Budgeting",
 	"/extra-income/remote-jobs": "Remote Jobs",
 	"/extra-income/side-hustles": "Side Hustles",

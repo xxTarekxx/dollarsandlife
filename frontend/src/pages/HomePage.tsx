@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet-async"; // Import Helmet for dynamic metadata
+import { Helmet } from "react-helmet-async"; //  SEO Optimization
 import { Link } from "react-router-dom";
 import useCompressedImage from "../components/compressed/useCompressedImage";
 import "./HomePage.css";
@@ -10,6 +10,7 @@ import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
 import StartAblogimg from "/images/icons/img-startablog.webp";
 
 const HomePage: React.FC = () => {
+	// Optimize images using compression
 	const compressedExtraIncomeImg = useCompressedImage(ExtraIncomeImg);
 	const compressedStartAblogimg = useCompressedImage(StartAblogimg);
 	const compressedAmazonPicksImg = useCompressedImage(AmazonPicksImg);
@@ -49,7 +50,7 @@ const HomePage: React.FC = () => {
 
 	return (
 		<div className='home-container'>
-			{/* Helmet for SEO: Title, Meta Description, and Open Graph Tags */}
+			{/* SEO: Helmet for Title, Meta Description, and Open Graph Tags */}
 			<Helmet>
 				<title>Home - Dollars And Life: Personal Finance Tips</title>
 				<meta
@@ -66,7 +67,9 @@ const HomePage: React.FC = () => {
 					content='https://www.dollarsandlife.com/path-to-home-image.jpg'
 				/>
 				<meta property='og:url' content='https://www.dollarsandlife.com/' />
-				{/* Preload the critical LCP image */}
+				<meta property='og:type' content='website' />
+
+				{/* Preload LCP (Largest Contentful Paint) image */}
 				<link
 					rel='preload'
 					as='image'
@@ -74,8 +77,31 @@ const HomePage: React.FC = () => {
 					imageSrcSet={`${compressedStartAblogimg || StartAblogimg} 1x`}
 				/>
 			</Helmet>
-			{/* Main H1 tag for SEO */}
+
+			{/* Structured Data (Schema.org) */}
+			<script type='application/ld+json'>
+				{JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "WebPage",
+					name: "Home - Dollars And Life",
+					description:
+						"Discover personal finance tips, how to earn extra income, shopping deals, and how to start a blog at Dollars And Life.",
+					url: "https://www.dollarsandlife.com/",
+					publisher: {
+						"@type": "Organization",
+						name: "Dollars And Life",
+						logo: {
+							"@type": "ImageObject",
+							url: "https://www.dollarsandlife.com/favicon.webp",
+						},
+					},
+				})}
+			</script>
+
+			{/* Main H1 for SEO */}
 			<h1>Your Life Changes Here</h1>
+
+			{/* Top Banner Ad */}
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -91,13 +117,27 @@ const HomePage: React.FC = () => {
 					/>
 				</a>
 			</div>
+
+			{/* Decorative images for section separation */}
 			<h2 className='landing-subtitle'>
-				<img src={NextToPImage} alt='Next to P' className='next-to-p-image' />
-				{/* <img src={NextToPImage} alt='Next to P' className='next-to-p-image' /> */}
-				<img src={NextToPImage} alt='Next to P' className='next-to-p-image' />
+				<img
+					src={NextToPImage}
+					alt='Decorative arrow'
+					className='next-to-p-image'
+				/>
+				<img
+					src={NextToPImage}
+					alt='Decorative arrow'
+					className='next-to-p-image'
+				/>
+				<img
+					src={NextToPImage}
+					alt='Decorative arrow'
+					className='next-to-p-image'
+				/>
 			</h2>
 
-			{/* Main Navigation Links */}
+			{/*Main Navigation Links */}
 			<div className='home-main-links' aria-label='Main navigation links'>
 				{linkBoxes.map((linkBox, index) => (
 					<Link
@@ -109,7 +149,7 @@ const HomePage: React.FC = () => {
 						<img
 							src={linkBox.imgSrc}
 							alt={linkBox.altText}
-							loading={linkBox.priority ? "eager" : "lazy"} // Eager loading for LCP image
+							loading={linkBox.priority ? "eager" : "lazy"} // Eager load for LCP image
 							width={linkBox.width}
 							height={linkBox.height}
 						/>

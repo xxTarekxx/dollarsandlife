@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import SearchImg from "/images/favicon/searchicon.svg";
@@ -87,7 +88,6 @@ const Navbar: React.FC = () => {
 					post.title.toLowerCase().includes(lowerCaseTerm) ||
 					post.id.toLowerCase().includes(lowerCaseTerm),
 			);
-
 			setSuggestions(filteredSuggestions);
 		} else {
 			setSuggestions([]);
@@ -115,11 +115,8 @@ const Navbar: React.FC = () => {
 
 	// Handle search suggestion click
 	const handleSuggestionClick = (suggestion: Post) => {
-		// Ensure proper routing structure
 		const fullRoute = `${suggestion.route}/${suggestion.id}`;
-
-		console.log("Navigating to:", fullRoute); // Debugging output
-
+		console.log("Navigating to:", fullRoute);
 		navigate(fullRoute);
 		setSearchTerm("");
 		setIsSearchOpen(false);
@@ -127,11 +124,27 @@ const Navbar: React.FC = () => {
 
 	return (
 		<>
+			<Helmet>
+				<script type='application/ld+json'>
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "WebSite",
+						name: "Dollars And Life",
+						url: "https://www.dollarsandlife.com",
+						potentialAction: {
+							"@type": "SearchAction",
+							target: "https://www.dollarsandlife.com/search?q={search_term}",
+							"query-input": "required name=search_term",
+						},
+					})}
+				</script>
+			</Helmet>
+
 			<nav className='nav'>
 				<img
 					className='logo'
 					src={logo}
-					alt='logo'
+					alt='Dollars and Life Logo'
 					onClick={() => navigate("/")}
 				/>
 				<div style={{ display: "flex", alignItems: "center" }}>
@@ -159,7 +172,11 @@ const Navbar: React.FC = () => {
 						className='search-icon'
 						onClick={() => setIsSearchOpen(!isSearchOpen)}
 					>
-						<img className='search-icon-image' src={SearchImg} alt='search' />
+						<img
+							className='search-icon-image'
+							src={SearchImg}
+							alt='Search Icon'
+						/>
 					</div>
 				</div>
 			</nav>
@@ -174,6 +191,7 @@ const Navbar: React.FC = () => {
 					placeholder='Search...'
 					value={searchTerm}
 					onChange={handleSearchInputChange}
+					aria-label='Search for articles'
 				/>
 				{suggestions.length > 0 && (
 					<ul className='suggestions-list'>
