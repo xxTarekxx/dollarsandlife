@@ -89,7 +89,7 @@
 
 @media (max-width: 768px) {
     .blog-post-content h2 {
-        font-size: 1.4em;
+        font-size: 1.2em;
         margin-bottom: 0.4em;
     }
 }
@@ -166,10 +166,21 @@
 }
 
 /* Center the top banner ad */
-.blog-post-content .top-banner-container {
+.top-banner-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     position: relative;
     text-align: center;
-    width: 100%;
+
+}
+
+@media (max-width: 480px) {
+    .top-banner-container .TopBannerImage {
+        width: 360px;
+    }
+
+
 }
 
 .blog-post-content .TopBanner {

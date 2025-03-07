@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import "./AdComponent.css";
 import "./BlogPostContent.css";
@@ -38,7 +38,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
 	const location = useLocation();
 	const [post, setPost] = useState<BlogPost | null>(null);
-	const [forceRender, setForceRender] = useState(0); // ✅ Change from boolean to number to fix the key issue
+	const [forceRender, setForceRender] = useState(0); // Used to force re-render
 
 	useEffect(() => {
 		const fetchPost = async () => {
@@ -56,8 +56,8 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				console.log("Post Data:", postData);
 				setPost(postData);
 
-				// ✅ Ensures React properly updates layout on search navigation
-				setForceRender((prev) => prev + 1); // ✅ Change from boolean toggle to incrementing number
+				// Force re-render to ensure layout updates
+				setForceRender((prev) => prev + 1);
 			} catch (error) {
 				console.error("Error fetching post:", error);
 			}
@@ -66,14 +66,14 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		fetchPost();
 	}, [postId, jsonFile]);
 
-	if (!post) return <div>Loading...</div>;
+	if (!post) {
+		return <div>Loading...</div>;
+	}
 
 	console.log("Rendering BlogPostContent...", post.title);
 
 	return (
 		<div key={forceRender} className='page-container'>
-			{" "}
-			{/* ✅ Fix: `forceRender` is now a valid number */}
 			<div className='blog-post-content'>
 				<h1>{post.title}</h1>
 				<div className='image-box'>
@@ -105,71 +105,75 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						/>
 					</a>
 				</div>
-				{post.content.map((section, index) => (
-					<div key={index} className='content-section'>
-						{section.subtitle && <h2>{section.subtitle}</h2>}
-						{section.text && (
-							<p dangerouslySetInnerHTML={{ __html: section.text }} />
-						)}
-						{section.details && (
-							<p
-								className='details'
-								dangerouslySetInnerHTML={{ __html: section.details }}
-							/>
-						)}
-						{section.imageUrl && (
-							<img
-								src={section.imageUrl}
-								alt=''
-								className='section-image'
-								loading='lazy'
-							/>
-						)}
-						{section.bulletPoints && (
-							<ul>
-								{section.bulletPoints.map((point, i) => (
-									<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
-								))}
-							</ul>
-						)}
-						{section.numberedPoints && (
-							<ol>
-								{section.numberedPoints.map((point, i) => (
-									<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
-								))}
-							</ol>
-						)}
-						{section.subtitle ===
-							"How Your Profile Would Look on Fiverr As A Seller" && (
-							<FiverrWidget />
-						)}
-						{/* Insert ad after every 2nd section */}
-						{index % 2 === 1 && (
-							<div className='postings-container'>
-								<ins
-									className='adsbygoogle'
-									style={{
-										display: "block",
-										width: "300px",
-										height: "250px",
-										minWidth: "300x",
-										minHeight: "250px",
-									}}
-									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='7197282987'
-									data-ad-format='auto'
-									data-full-width-responsive='true'
-								></ins>
-								<script
-									dangerouslySetInnerHTML={{
-										__html:
-											"(adsbygoogle = window.adsbygoogle || []).push({});",
-									}}
+				{post.content && post.content.length > 0 ? (
+					post.content.map((section, index) => (
+						<div key={index} className='content-section'>
+							{section.subtitle && <h2>{section.subtitle}</h2>}
+							{section.text && (
+								<p dangerouslySetInnerHTML={{ __html: section.text }} />
+							)}
+							{section.details && (
+								<p
+									className='details'
+									dangerouslySetInnerHTML={{ __html: section.details }}
 								/>
-							</div>
-						)}
-					</div>
-				))}
+							)}
+							{section.imageUrl && (
+								<img
+									src={section.imageUrl}
+									alt=''
+									className='section-image'
+									loading='lazy'
+								/>
+							)}
+							{section.bulletPoints && (
+								<ul>
+									{section.bulletPoints.map((point, i) => (
+										<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+									))}
+								</ul>
+							)}
+							{section.numberedPoints && (
+								<ol>
+									{section.numberedPoints.map((point, i) => (
+										<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+									))}
+								</ol>
+							)}
+							{section.subtitle ===
+								"How Your Profile Would Look on Fiverr As A Seller" && (
+								<FiverrWidget />
+							)}
+							{/* Insert ad after every 2nd section */}
+							{index % 2 === 1 && (
+								<div className='postings-container'>
+									<ins
+										className='adsbygoogle'
+										style={{
+											display: "block",
+											width: "300px",
+											height: "250px",
+											minWidth: "300x",
+											minHeight: "250px",
+										}}
+										data-ad-client='ca-pub-1079721341426198'
+										data-ad-slot='7197282987'
+										data-ad-format='auto'
+										data-full-width-responsive='true'
+									></ins>
+									<script
+										dangerouslySetInnerHTML={{
+											__html:
+												"(adsbygoogle = window.adsbygoogle || []).push({});",
+										}}
+									/>
+								</div>
+							)}
+						</div>
+					))
+				) : (
+					<div>No content available.</div>
+				)}
 			</div>
 		</div>
 	);
