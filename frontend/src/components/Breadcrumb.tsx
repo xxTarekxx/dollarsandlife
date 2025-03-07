@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Breadcrumb.css";
-import breadcrumbseparator from "/images/favicon/breadcrumb-divider.webp";
 
 interface BreadcrumbProps {
 	paths: { title: string; url: string }[];
@@ -13,22 +12,29 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 	}
 
 	return (
-		<nav>
-			<div className='breadcrumb-container'>
+		<nav aria-label='Breadcrumb Navigation'>
+			<div
+				className='breadcrumb-container'
+				itemScope
+				itemType='https://schema.org/BreadcrumbList'
+			>
 				<ol className='breadcrumb-list'>
 					{paths.map((path, index) => (
-						<React.Fragment key={index}>
-							<li className='breadcrumb-item'>
-								<Link to={path.url}>{path.title}</Link>
-							</li>
+						<li
+							key={index}
+							className='breadcrumb-item'
+							itemProp='itemListElement'
+							itemScope
+							itemType='https://schema.org/ListItem'
+						>
+							<Link to={path.url} itemProp='item'>
+								<span itemProp='name'>{path.title}</span>
+							</Link>
+							<meta itemProp='position' content={(index + 1).toString()} />
 							{index < paths.length - 1 && (
-								<img
-									src={breadcrumbseparator}
-									alt='separator'
-									className='breadcrumb-separator'
-								/>
+								<span className='breadcrumb-separator'>››</span>
 							)}
-						</React.Fragment>
+						</li>
 					))}
 				</ol>
 			</div>
