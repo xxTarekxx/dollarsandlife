@@ -124,7 +124,7 @@
 
 .cookie-buttons-container button:last-child {
     background: #dc3545;
-    margin-left: 10px;
+    /* margin-left: 10px; */
 }
 
 .cookie-buttons-container button:hover {
@@ -134,16 +134,27 @@
 /* === MOBILE RESPONSIVE === */
 @media (max-width: 480px) {
     .cookie-banner {
-        width: 95%;
+        /* width: 95%; */
         padding: 14px;
     }
 
     .cookie-buttons-container {
         flex-direction: column;
         gap: 8px;
+
     }
 
     .cookie-buttons-container button {
-        width: 100%;
+        width: 95%;
+        margin: auto;
     }
 }
+
+/* Privacy Certification Label */
+/* .privacy-certification {
+    font-size: 12px;
+    color: #008000;
+    text-align: center;
+    margin-top: 8px;
+    font-weight: bold;
+} */
