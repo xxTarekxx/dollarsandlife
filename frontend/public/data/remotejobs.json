@@ -3,7 +3,7 @@
 		"id": "Remote-Job-Guide-2025",
 		"title": "How to Find a Remote Job in 2025: A Step-by-Step Guide to Landing Your Dream Role",
 		"author": "Dollars & Life",
-		"datePosted": "2025-03-15T09:00:00",
+		"datePosted": "2025-03-05T09:00:00",
 		"imageUrl": "/images/remotejobs/Find-a-Remote-Job-in-2025.webp",
 		"imageAltText": "How to Find a Remote Job in 2025 - Step-by-Step Guide",
 		"metaDescription": "Learn how to find a remote job in 2025 with this step-by-step guide. Discover where to look, what you need, and how to prepare for remote job interviews to land your dream role.",
@@ -92,7 +92,7 @@
 		"id": "Trending-Remote-Jobs-2025",
 		"title": "Top 10 High-Demand Remote Jobs in 2025: Skills And Salaries",
 		"author": "Dollars & Life",
-		"datePosted": "2025-03-10T08:30:00",
+		"datePosted": "2025-03-05T08:30:00",
 		"imageUrl": "/images/remotejobs/Top-10-High-Demand-Remote-Jobs-2025.webp",
 		"imageAltText": "Top 10 High-Demand Remote Jobs in 2025 - Future of Work Trends",
 		"metaDescription": "Discover the top 10 high-demand remote jobs in 2025, including AI ethics consultants, sustainability managers, and cybersecurity analysts. Learn the skills, salaries, and how to land these roles.",
@@ -171,10 +171,20 @@
 	},
 	{
 		"id": "software-developer-jobs-2024",
-		"title": "Remote Software Engineer Jobs Jobs to Explore in 2024: Top Opportunities",
+		"title": "Best Remote Software Developer Jobs in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-08-27T08:00:00",
 		"imageUrl": "/images/remotejobs/software-developer-banner.webp",
+		"imageAltText": "Remote Software Developer Jobs in 2024",
+		"metaDescription": "Discover the best remote software developer jobs in 2024. Learn about career opportunities, required skills, and top hiring companies.",
+		"keywords": [
+			"remote software jobs",
+			"best coding jobs",
+			"full-stack developer remote",
+			"back-end engineer jobs",
+			"remote front-end developer"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/software-developer-jobs-2024",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -209,10 +219,21 @@
 	},
 	{
 		"id": "digital-marketing-jobs-2024",
-		"title": "Remote Digital Marketing Jobs to Consider in 2024: Best Career Options",
+		"title": "Remote Digital Marketing Jobs to Consider in 2024: Best Career Paths",
 		"author": "Dollars & Life",
 		"datePosted": "2024-08-27T08:00:00",
 		"imageUrl": "/images/remotejobs/digital-marketing-banner.webp",
+		"imageAltText": "Remote Digital Marketing Jobs in 2024",
+		"metaDescription": "Explore top remote digital marketing jobs in 2024. Learn about key roles, in-demand skills, and best job search strategies to land your ideal position.",
+		"keywords": [
+			"remote digital marketing jobs",
+			"SEO specialist jobs",
+			"content marketing remote",
+			"social media manager",
+			"PPC specialist work from home",
+			"affiliate marketing jobs"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/digital-marketing-jobs-2024",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -247,10 +268,20 @@
 	},
 	{
 		"id": "virtual-assistant-jobs-2024",
-		"title": "Remote Virtual Assistant Jobs to Pursue in 2024: Leading Roles",
+		"title": "Best Remote Virtual Assistant Jobs in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-08-20T08:00:00",
 		"imageUrl": "/images/remotejobs/remote-virtual-assistance.svg",
+		"imageAltText": "Remote Virtual Assistant Jobs in 2024",
+		"metaDescription": "Find top virtual assistant jobs you can do remotely in 2024. Learn about job roles, required skills, and the best platforms to get hired.",
+		"keywords": [
+			"remote virtual assistant",
+			"best VA jobs",
+			"virtual assistant career",
+			"freelance admin work",
+			"remote executive assistant"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/virtual-assistant-jobs-2024",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -285,10 +316,20 @@
 	},
 	{
 		"id": "project-manager-jobs-2024",
-		"title": "Remote Project Manager Jobs to Explore in 2024: Best Opportunities",
+		"title": "Top Remote Project Manager Jobs in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-08-15T08:00:00",
 		"imageUrl": "/images/remotejobs/project-manager.webp",
+		"imageAltText": "Remote Project Manager Jobs in 2024",
+		"metaDescription": "Explore the best remote project management jobs in 2024. Learn about key responsibilities, industries hiring, and skills needed for success.",
+		"keywords": [
+			"remote project manager",
+			"agile project management",
+			"best PM jobs",
+			"remote leadership roles",
+			"work from home management"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/project-manager-jobs-2024",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -323,10 +364,20 @@
 	},
 	{
 		"id": "customer-service-jobs-2024",
-		"title": "Remote Customer Service Jobs to Consider in 2024: Top Choices",
+		"title": "Best Remote Customer Service Jobs in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-09-10T08:00:00",
 		"imageUrl": "/images/remotejobs/customer-service.jpg",
+		"imageAltText": "Remote Customer Service Jobs in 2024",
+		"metaDescription": "Find the best remote customer service jobs in 2024. Learn about work-from-home support roles, required skills, and top hiring companies.",
+		"keywords": [
+			"remote customer service jobs",
+			"work from home support",
+			"customer service representative",
+			"best remote call center jobs",
+			"customer success careers"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/customer-service-jobs-2024",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -361,10 +412,20 @@
 	},
 	{
 		"id": "healthcare-jobs-2024",
-		"title": "Remote Healthcare Jobs to Explore in 2024: Best Career Paths",
+		"title": "Top Remote Healthcare Jobs in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-08-01T08:00:00",
 		"imageUrl": "/images/remotejobs/healthcare-remote.svg",
+		"imageAltText": "Remote Healthcare Jobs in 2024",
+		"metaDescription": "Explore top remote healthcare jobs in 2024, including telehealth roles and medical coding positions. Learn about job outlook and career growth.",
+		"keywords": [
+			"remote healthcare jobs",
+			"telehealth careers",
+			"medical coding jobs",
+			"work from home nursing",
+			"best healthcare remote roles"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/healthcare-jobs-2024",
 		"content": [
 			{
 				"subtitle": "Introduction",
