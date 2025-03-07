@@ -1,61 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
 export const SavingsCalculator: React.FC = () => {
-	const [savingsPrincipal, setSavingsPrincipal] = useState<string>("");
-	const [savingsRate, setSavingsRate] = useState<string>("");
-	const [savingsYears, setSavingsYears] = useState<string>("");
-	const [extraDeposit, setExtraDeposit] = useState<string>("");
-	const [savingsResult, setSavingsResult] = useState<string>("");
+	const [savingsPrincipal, setSavingsPrincipal] = useState("");
+	const [savingsRate, setSavingsRate] = useState("");
+	const [savingsYears, setSavingsYears] = useState("");
+	const [extraDeposit, setExtraDeposit] = useState("");
+	const [savingsResult, setSavingsResult] = useState("");
 
-	const handleSavingsCalculation = (e: React.FormEvent) => {
-		e.preventDefault();
-		const principal = parseFloat(savingsPrincipal || "0");
-		const annualRate = parseFloat(savingsRate || "0") / 100;
-		const years = parseFloat(savingsYears || "0");
-		const extraDepositPerMonth = parseFloat(extraDeposit || "0");
-		const months = years * 12;
+	const handleSavingsCalculation = useCallback(
+		(e: React.FormEvent) => {
+			e.preventDefault();
 
-		// Validate inputs
-		if (principal < 0) {
-			setSavingsResult("Please enter a positive principal amount.");
-			return;
-		}
+			const principal = parseFloat(savingsPrincipal);
+			const annualRate = parseFloat(savingsRate) / 100;
+			const years = parseFloat(savingsYears);
+			const extraDepositPerMonth = parseFloat(extraDeposit) || 0;
+			const months = years * 12;
 
-		if (annualRate < 0) {
-			setSavingsResult("Please enter a valid interest rate.");
-			return;
-		}
+			// Validate inputs
+			if (!principal || principal < 0) {
+				setSavingsResult("Please enter a valid principal amount.");
+				return;
+			}
 
-		if (years <= 0) {
-			setSavingsResult("Please enter a time period greater than 0.");
-			return;
-		}
+			if (!annualRate || annualRate < 0) {
+				setSavingsResult("Please enter a valid interest rate.");
+				return;
+			}
 
-		if (extraDepositPerMonth < 0) {
-			setSavingsResult("Please enter a positive extra deposit amount.");
-			return;
-		}
+			if (!years || years <= 0) {
+				setSavingsResult("Please enter a valid time period greater than 0.");
+				return;
+			}
 
-		// Calculate future value with extra monthly deposits
-		const totalExtraDeposits = extraDepositPerMonth * months;
-		const futureValueWithoutExtra = principal * Math.pow(1 + annualRate, years);
-		const futureValueWithExtra =
-			totalExtraDeposits * Math.pow(1 + annualRate / 12, months);
-		const totalFutureValue = futureValueWithoutExtra + futureValueWithExtra;
+			if (extraDepositPerMonth < 0) {
+				setSavingsResult("Extra deposit must be a positive number.");
+				return;
+			}
 
-		// Format the result with commas as needed
-		const formattedTotalFutureValue = totalFutureValue.toLocaleString("en-US", {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-		});
+			// Calculate future value with extra monthly deposits
+			const totalExtraDeposits = extraDepositPerMonth * months;
+			const futureValueWithoutExtra =
+				principal * Math.pow(1 + annualRate, years);
+			const futureValueWithExtra =
+				(totalExtraDeposits * Math.pow(1 + annualRate / 12, months)) /
+				(annualRate / 12);
+			const totalFutureValue = futureValueWithoutExtra + futureValueWithExtra;
 
-		// Update the result in a sentence format with a line break
-		setSavingsResult(
-			`Over ${years} years with a rate of ${parseFloat(savingsRate).toFixed(
-				2,
-			)}% \nYou Would Save $${formattedTotalFutureValue}.`,
-		);
-	};
+			const formattedTotalFutureValue = totalFutureValue.toLocaleString(
+				"en-US",
+				{
+					minimumFractionDigits: 2,
+					maximumFractionDigits: 2,
+				},
+			);
+
+			setSavingsResult(
+				`Over ${years} years with a rate of ${parseFloat(savingsRate).toFixed(
+					2,
+				)}%, 
+			You Would Save $${formattedTotalFutureValue}.`,
+			);
+		},
+		[savingsPrincipal, savingsRate, savingsYears, extraDeposit],
+	);
+
+	// Memoized result display
+	const displayResult = useMemo(
+		() =>
+			savingsResult ? (
+				<pre className='result-field'>{savingsResult}</pre>
+			) : null,
+		[savingsResult],
+	);
 
 	return (
 		<div className='calculator'>
@@ -73,10 +90,14 @@ export const SavingsCalculator: React.FC = () => {
 						onChange={(e) => setSavingsPrincipal(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the initial amount of savings'
+						aria-describedby='principal-amount-desc'
 						placeholder='e.g., 10000'
 					/>
+					<span id='principal-amount-desc' className='visually-hidden'>
+						Enter the initial amount you are saving.
+					</span>
 				</label>
+
 				<label htmlFor='interest-rate'>
 					Interest Rate (%):
 					<input
@@ -86,10 +107,14 @@ export const SavingsCalculator: React.FC = () => {
 						onChange={(e) => setSavingsRate(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the annual interest rate'
+						aria-describedby='interest-rate-desc'
 						placeholder='e.g., 5'
 					/>
+					<span id='interest-rate-desc' className='visually-hidden'>
+						Enter the annual interest rate as a percentage.
+					</span>
 				</label>
+
 				<label htmlFor='savings-years'>
 					Time (Years):
 					<input
@@ -99,10 +124,14 @@ export const SavingsCalculator: React.FC = () => {
 						onChange={(e) => setSavingsYears(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the number of years for savings'
+						aria-describedby='savings-years-desc'
 						placeholder='e.g., 10'
 					/>
+					<span id='savings-years-desc' className='visually-hidden'>
+						Enter the number of years you plan to save.
+					</span>
 				</label>
+
 				<label htmlFor='extra-deposit'>
 					Extra Deposit/Month ($):
 					<input
@@ -110,17 +139,22 @@ export const SavingsCalculator: React.FC = () => {
 						type='number'
 						value={extraDeposit}
 						onChange={(e) => setExtraDeposit(e.target.value)}
-						aria-label='Enter extra monthly deposit amount'
+						aria-describedby='extra-deposit-desc'
 						placeholder='e.g., 100'
 					/>
+					<span id='extra-deposit-desc' className='visually-hidden'>
+						Optional: Enter an additional monthly deposit.
+					</span>
 				</label>
+
 				<button type='submit' aria-label='Calculate savings amount'>
 					Calculate
 				</button>
-				{/* Display the result using preformatted text to preserve line breaks */}
-				<pre className='result-field' aria-live='polite'>
-					{savingsResult}
-				</pre>
+
+				{/* Fixed height to prevent layout shift */}
+				<div style={{ minHeight: "2em" }} aria-live='polite'>
+					{displayResult}
+				</div>
 			</form>
 		</div>
 	);

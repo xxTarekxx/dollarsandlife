@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async"; // For SEO
 import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import "../Extra-Income/CommonStyles.css";
@@ -29,10 +30,6 @@ const StartABlog: React.FC = () => {
 	const pageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		document.title = "Start A Blog";
-	}, []);
-
-	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/startablogdata.json");
@@ -61,15 +58,40 @@ const StartABlog: React.FC = () => {
 
 	return (
 		<div className='page-container' ref={pageRef}>
+			{/* SEO Metadata & Structured Data */}
+			<Helmet>
+				<title>How to Start a Blog in 2025 Step-by-Step Guide</title>
+				<meta
+					name='description'
+					content='Learn how to start a successful blog in 2025 with our step-by-step guide. Discover the best blogging platforms, tools, and strategies for monetization.'
+				/>
+				<script type='application/ld+json'>
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "ItemList",
+						itemListElement: blogPosts.map((post, index) => ({
+							"@type": "Article",
+							position: index + 1,
+							headline: post.title,
+							image: post.imageUrl,
+							author: { "@type": "Person", name: post.author },
+							datePublished: post.datePosted,
+							url: `https://www.dollarsandlife.com/start-a-blog/${post.id}`,
+						})),
+					})}
+				</script>
+			</Helmet>
+
 			<Routes>
 				<Route
 					path='/'
 					element={
 						<>
-							<h1>
-								How to Start a Successful Blog in 2025
-								<br /> Step-by-Step Guide for Beginners
+							<h1 className='title-heading'>
+								How to Start a Successful Blog <br /> in 2025 Step-by-Step Guide
+								for Beginners
 							</h1>
+
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -85,11 +107,15 @@ const StartABlog: React.FC = () => {
 									/>
 								</a>
 							</div>
+
 							<div className='content-wrapper'>
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
-											<Link to={`/start-a-blog/${post.id}`}>
+											<Link
+												to={`/start-a-blog/${post.id}`}
+												aria-label={`Read more about ${post.title}`}
+											>
 												<BlogPostCard
 													id={post.id}
 													title={post.title}
@@ -108,31 +134,27 @@ const StartABlog: React.FC = () => {
 														display: "block",
 														width: "300px",
 														height: "250px",
-														minWidth: "300x",
+														minWidth: "300px",
 														minHeight: "250px",
 													}}
 													data-ad-client='ca-pub-1079721341426198'
 													data-ad-slot='7197282987'
 													data-ad-format='auto'
 													data-full-width-responsive='true'
-												></ins>
-												<script
-													dangerouslySetInnerHTML={{
-														__html:
-															"(adsbygoogle = window.adsbygoogle || []).push({});",
-													}}
 												/>
 											</div>
 										)}
 									</React.Fragment>
 								))}
 							</div>
+
 							<PaginationContainer
 								totalItems={blogPosts.length}
 								itemsPerPage={postsPerPage}
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
+
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle-banner'
@@ -147,13 +169,8 @@ const StartABlog: React.FC = () => {
 									data-ad-slot='6375155907'
 									data-ad-format='horizontal'
 									data-full-width-responsive='true'
-								></ins>
+								/>
 							</div>
-							<script
-								dangerouslySetInnerHTML={{
-									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
-								}}
-							/>
 						</>
 					}
 				/>

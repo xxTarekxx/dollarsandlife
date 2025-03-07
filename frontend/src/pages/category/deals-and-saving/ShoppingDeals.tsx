@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async"; // For SEO
 import "../../../components/AdComponent.css";
 import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
@@ -59,6 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					target='_blank'
 					rel='noopener noreferrer'
 					className='BuyNowButton'
+					aria-label={`Buy ${title} now`}
 				>
 					Buy Now
 				</a>
@@ -74,7 +76,7 @@ const ShoppingDeals: React.FC = () => {
 	const pageRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		document.title = "Deals and Savings";
+		document.title = "Deals and Savings - Best Shopping Discounts";
 	}, []);
 
 	useEffect(() => {
@@ -92,16 +94,8 @@ const ShoppingDeals: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// useEffect(() => {
-	// 	if (pageRef.current) {
-	// 		pageRef.current.scrollIntoView({ behavior: "smooth" });
-	// 	}
-	// }, [currentPage]);
-
-	// ✅ Completely remove auto-scrolling
-	useEffect(() => {
-		// Do nothing (no scrolling at all)
-	}, [currentPage]);
+	// Remove auto-scrolling
+	useEffect(() => {}, [currentPage]);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -128,7 +122,7 @@ const ShoppingDeals: React.FC = () => {
 	);
 
 	const items: JSX.Element[] = [];
-	const numColumns = window.innerWidth > 600 ? 3 : 1; // Detects mobile vs desktop layout
+	const numColumns = window.innerWidth > 600 ? 3 : 1;
 
 	for (let i = 0; i < currentPosts.length; i += numColumns) {
 		const rowItems = currentPosts
@@ -145,7 +139,7 @@ const ShoppingDeals: React.FC = () => {
 						data-ad-client='ca-pub-1079721341426198'
 						data-ad-slot='7197282987'
 						data-ad-format='rectangle'
-						data-full-width-responsive='false'
+						data-full-width-responsive='true'
 					/>
 				</div>
 			</React.Fragment>,
@@ -154,7 +148,37 @@ const ShoppingDeals: React.FC = () => {
 
 	return (
 		<div className='PageContainer' ref={pageRef}>
+			{/* SEO Meta & Structured Data */}
+			<Helmet>
+				<title>Deals and Savings - Best Shopping Discounts</title>
+				<meta
+					name='description'
+					content='Find the best deals and savings on top products. Shop discounts on tech, gadgets, and home essentials. Limited-time offers updated daily!'
+				/>
+				<script type='application/ld+json'>
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "ItemList",
+						itemListElement: products.map((product, index) => ({
+							"@type": "Product",
+							position: index + 1,
+							name: product.title,
+							image: product.imageUrl,
+							description: product.description,
+							offers: {
+								"@type": "Offer",
+								price: product.currentPrice.replace("$", ""),
+								priceCurrency: "USD",
+								availability: "https://schema.org/InStock",
+								url: product.affiliateLink,
+							},
+						})),
+					})}
+				</script>
+			</Helmet>
+
 			<h1>Deals and Savings</h1>
+
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -170,13 +194,16 @@ const ShoppingDeals: React.FC = () => {
 					/>
 				</a>
 			</div>
+
 			{items}
+
 			<PaginationContainer
 				totalItems={products.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
+
 			<div className='postings-container'>
 				<ins
 					className='adsbygoogle'
@@ -184,7 +211,7 @@ const ShoppingDeals: React.FC = () => {
 					data-ad-client='ca-pub-1079721341426198'
 					data-ad-slot='6375155907'
 					data-ad-format='horizontal'
-					data-full-width-responsive='false'
+					data-full-width-responsive='true'
 				/>
 			</div>
 		</div>

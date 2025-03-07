@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "../../../components/AdComponent.css";
 import "../../../components/BlogPostContent.css";
 import "./CommonStyles.css";
@@ -38,11 +39,6 @@ const FreelanceJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// Remove auto-scrolling – nothing happens here.
-	useEffect(() => {
-		// Do nothing
-	}, [currentPage]);
-
 	useEffect(() => {
 		const updateTitle = () => {
 			const pathSegments = location.pathname.split("/");
@@ -53,7 +49,7 @@ const FreelanceJobs: React.FC = () => {
 					document.title = post.title;
 				}
 			} else {
-				document.title = "Freelancers";
+				document.title = "Freelancers - Best Online Jobs & Gigs";
 			}
 		};
 
@@ -73,12 +69,45 @@ const FreelanceJobs: React.FC = () => {
 
 	return (
 		<div className='page-container' ref={pageRef}>
+			{/* SEO Metadata with Helmet */}
+			<Helmet>
+				<title>Freelance Jobs & Opportunities | Earn Money Online</title>
+				<meta
+					name='description'
+					content='Discover top freelance jobs and online work opportunities. Explore remote work, side gigs, and contract jobs to increase your income.'
+				/>
+				<link
+					rel='canonical'
+					href='https://www.dollarsandlife.com/extra-income/freelancers'
+				/>
+				<script type='application/ld+json'>
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "WebPage",
+						name: "Freelance Jobs & Opportunities",
+						url: "https://www.dollarsandlife.com/extra-income/freelancers",
+						description:
+							"Discover top freelance jobs and online work opportunities. Explore remote work, side gigs, and contract jobs to increase your income.",
+						publisher: {
+							"@type": "Organization",
+							name: "Dollars & Life",
+							logo: {
+								"@type": "ImageObject",
+								url: "/images/favicon/favicon.webp",
+							},
+						},
+					})}
+				</script>
+			</Helmet>
+
 			<Routes>
 				<Route
 					path='/'
 					element={
 						<>
 							<h1>Freelancers Opportunities</h1>
+
+							{/* Ad Banner */}
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -88,11 +117,14 @@ const FreelanceJobs: React.FC = () => {
 								>
 									<img
 										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-										alt='Lyca Mobile Banner'
+										alt='Lyca Mobile Banner - Affordable International Calling'
 										className='TopBannerImage'
+										loading='eager'
 									/>
 								</a>
 							</div>
+
+							{/* Freelance Job Listings */}
 							<div className='content-wrapper'>
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
@@ -108,7 +140,7 @@ const FreelanceJobs: React.FC = () => {
 												/>
 											</Link>
 										</div>
-										{/* Insert ad after every two posts */}
+										{/* Insert AdSense ad after every two posts */}
 										{i > 0 && i % 2 === 1 && (
 											<div className='postings-container'>
 												<ins
@@ -117,8 +149,6 @@ const FreelanceJobs: React.FC = () => {
 														display: "block",
 														width: "300px",
 														height: "250px",
-														minWidth: "300x",
-														minHeight: "250px",
 													}}
 													data-ad-client='ca-pub-1079721341426198'
 													data-ad-slot='7197282987'
@@ -136,7 +166,8 @@ const FreelanceJobs: React.FC = () => {
 									</React.Fragment>
 								))}
 							</div>
-							{/* Bottom ad */}
+
+							{/* Bottom Banner Ad */}
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle-banner'
@@ -144,8 +175,6 @@ const FreelanceJobs: React.FC = () => {
 										display: "block",
 										width: "728px",
 										height: "90px",
-										minWidth: "300px",
-										minHeight: "90px",
 									}}
 									data-ad-client='ca-pub-1079721341426198'
 									data-ad-slot='6375155907'
@@ -158,6 +187,8 @@ const FreelanceJobs: React.FC = () => {
 									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
 								}}
 							/>
+
+							{/* Pagination */}
 							<PaginationContainer
 								totalItems={freelanceJobs.length}
 								itemsPerPage={postsPerPage}

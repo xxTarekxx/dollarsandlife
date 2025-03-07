@@ -19,6 +19,11 @@ html {
 	padding: 0 1rem;
 	flex: 1;
 	/* Ensure this container takes up available space */
+
+	@media (max-width: 768px) {
+		padding-left: 2px;
+		padding-right: 2px;
+	}
 }
 
 .content-wrapper {
@@ -37,18 +42,24 @@ html {
 	margin-bottom: 20px;
 }
 
-.section-heading {
-	font-size: 1.7rem;
-	color: #333;
-	margin-bottom: 0;
+.title-heading {
+	word-wrap: break-word;
+	white-space: normal;
+	overflow-wrap: break-word;
 	text-align: center;
-	padding: 0;
+	max-width: 100%;
+	font-size: 1.8rem;
+	line-height: 1.2;
+	margin-bottom: 0.5rem;
 }
 
 @media (max-width: 768px) {
-	.section-heading {
+	.title-heading {
 		width: 100%;
 		font-size: 1.4em;
+		margin-bottom: 0rem;
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 }
 
@@ -78,10 +89,4 @@ html {
 	50% {
 		transform: translateX(0);
 	}
-}
-
-.top-banner-container {
-	position: relative;
-	text-align: center;
-	width: 100%;
 }

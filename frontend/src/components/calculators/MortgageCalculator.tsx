@@ -1,34 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
 export const MortgageCalculator: React.FC = () => {
-	const [mortgageAmount, setMortgageAmount] = useState<string>("");
-	const [mortgageInterestRate, setMortgageInterestRate] = useState<string>("");
-	const [mortgageTermYears, setMortgageTermYears] = useState<string>("");
-	const [mortgageResult, setMortgageResult] = useState<string>("");
+	const [mortgageAmount, setMortgageAmount] = useState("");
+	const [mortgageInterestRate, setMortgageInterestRate] = useState("");
+	const [mortgageTermYears, setMortgageTermYears] = useState("");
+	const [mortgageResult, setMortgageResult] = useState("");
 
-	const handleMortgageCalculation = (e: React.FormEvent) => {
-		e.preventDefault();
-		const principal = parseFloat(mortgageAmount || "0");
-		const monthlyRate = parseFloat(mortgageInterestRate || "0") / 100 / 12;
-		const numberOfPayments = parseFloat(mortgageTermYears || "0") * 12;
+	const handleMortgageCalculation = useCallback(
+		(e: React.FormEvent) => {
+			e.preventDefault();
 
-		const monthlyPayment =
-			(principal * monthlyRate) /
-			(1 - Math.pow(1 + monthlyRate, -numberOfPayments));
+			const principal = parseFloat(mortgageAmount);
+			const monthlyRate = parseFloat(mortgageInterestRate) / 100 / 12;
+			const numberOfPayments = parseFloat(mortgageTermYears) * 12;
 
-		// Format the result with commas as needed
-		const formattedMonthlyPayment = monthlyPayment.toLocaleString("en-US", {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-		});
+			// Validate inputs
+			if (!principal || principal <= 0) {
+				setMortgageResult("Please enter a valid loan amount greater than 0.");
+				return;
+			}
 
-		// Update the result in a sentence format with a line break
-		setMortgageResult(
-			`Your Monthly Payment over ${mortgageTermYears} years with a rate of ${parseFloat(
-				mortgageInterestRate,
-			).toFixed(2)}% \nis $${formattedMonthlyPayment}/Month.`,
-		);
-	};
+			if (!monthlyRate || monthlyRate < 0) {
+				setMortgageResult("Please enter a valid interest rate.");
+				return;
+			}
+
+			if (!numberOfPayments || numberOfPayments <= 0) {
+				setMortgageResult("Please enter a valid loan term greater than 0.");
+				return;
+			}
+
+			// Calculate monthly payment
+			const monthlyPayment =
+				(principal * monthlyRate) /
+				(1 - Math.pow(1 + monthlyRate, -numberOfPayments));
+
+			// Format the result
+			const formattedMonthlyPayment = monthlyPayment.toLocaleString("en-US", {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			});
+
+			setMortgageResult(
+				`Your Monthly Payment over ${mortgageTermYears} years with a rate of ${parseFloat(
+					mortgageInterestRate,
+				).toFixed(2)}% is $${formattedMonthlyPayment}/Month.`,
+			);
+		},
+		[mortgageAmount, mortgageInterestRate, mortgageTermYears],
+	);
+
+	// Memoized result display
+	const displayResult = useMemo(
+		() =>
+			mortgageResult ? (
+				<pre className='result-field'>{mortgageResult}</pre>
+			) : null,
+		[mortgageResult],
+	);
 
 	return (
 		<div className='calculator'>
@@ -46,10 +75,14 @@ export const MortgageCalculator: React.FC = () => {
 						onChange={(e) => setMortgageAmount(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the mortgage loan amount'
+						aria-describedby='loan-amount-desc'
 						placeholder='e.g., 300000'
 					/>
+					<span id='loan-amount-desc' className='visually-hidden'>
+						Enter the total mortgage loan amount.
+					</span>
 				</label>
+
 				<label htmlFor='interest-rate'>
 					Interest Rate (%):
 					<input
@@ -59,10 +92,14 @@ export const MortgageCalculator: React.FC = () => {
 						onChange={(e) => setMortgageInterestRate(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the annual interest rate'
+						aria-describedby='interest-rate-desc'
 						placeholder='e.g., 3.5'
 					/>
+					<span id='interest-rate-desc' className='visually-hidden'>
+						Enter the annual interest rate as a percentage.
+					</span>
 				</label>
+
 				<label htmlFor='loan-term'>
 					Term (Years):
 					<input
@@ -72,17 +109,22 @@ export const MortgageCalculator: React.FC = () => {
 						onChange={(e) => setMortgageTermYears(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the loan term in years'
+						aria-describedby='loan-term-desc'
 						placeholder='e.g., 30'
 					/>
+					<span id='loan-term-desc' className='visually-hidden'>
+						Enter the loan term in years.
+					</span>
 				</label>
+
 				<button type='submit' aria-label='Calculate mortgage payment'>
 					Calculate
 				</button>
-				{/* Display the result using preformatted text to preserve line breaks */}
-				<pre className='result-field' aria-live='polite'>
-					{mortgageResult}
-				</pre>
+
+				{/* Fixed height to prevent layout shift */}
+				<div style={{ minHeight: "2em" }} aria-live='polite'>
+					{displayResult}
+				</div>
 			</form>
 		</div>
 	);

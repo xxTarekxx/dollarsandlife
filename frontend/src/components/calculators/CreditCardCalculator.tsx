@@ -1,56 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
 export const CreditCardCalculator: React.FC = () => {
-	const [creditCardBalance, setCreditCardBalance] = useState<string>("");
-	const [creditCardInterestRate, setCreditCardInterestRate] =
-		useState<string>("");
-	const [monthlyPayment, setMonthlyPayment] = useState<string>("");
-	const [creditCardResult, setCreditCardResult] = useState<string>("");
+	const [creditCardBalance, setCreditCardBalance] = useState("");
+	const [creditCardInterestRate, setCreditCardInterestRate] = useState("");
+	const [monthlyPayment, setMonthlyPayment] = useState("");
+	const [creditCardResult, setCreditCardResult] = useState("");
 
-	const handleCreditCardCalculation = (e: React.FormEvent) => {
-		e.preventDefault();
-		const balance = parseFloat(creditCardBalance || "0");
-		const annualRate = parseFloat(creditCardInterestRate || "0") / 100;
-		const monthlyRate = annualRate / 12;
-		const payment = parseFloat(monthlyPayment || "0");
+	const handleCreditCardCalculation = useCallback(
+		(e: React.FormEvent) => {
+			e.preventDefault();
 
-		if (balance <= 0) {
-			setCreditCardResult("Please enter a balance greater than 0.");
-			return;
-		}
+			const balance = parseFloat(creditCardBalance);
+			const annualRate = parseFloat(creditCardInterestRate) / 100;
+			const monthlyRate = annualRate / 12;
+			const payment = parseFloat(monthlyPayment);
 
-		if (annualRate < 0) {
-			setCreditCardResult("Please enter a valid interest rate.");
-			return;
-		}
+			// Input validation
+			if (!balance || balance <= 0) {
+				setCreditCardResult("Please enter a valid balance greater than 0.");
+				return;
+			}
 
-		if (payment <= 0) {
-			setCreditCardResult("Please enter a monthly payment greater than 0.");
-			return;
-		}
+			if (!annualRate || annualRate < 0) {
+				setCreditCardResult("Please enter a valid interest rate.");
+				return;
+			}
 
-		if (payment <= balance * monthlyRate) {
+			if (!payment || payment <= 0) {
+				setCreditCardResult(
+					"Please enter a valid monthly payment greater than 0.",
+				);
+				return;
+			}
+
+			if (payment <= balance * monthlyRate) {
+				setCreditCardResult(
+					"Your monthly payment is too low to cover the interest. The balance will never be paid off.",
+				);
+				return;
+			}
+
+			// Calculate months to payoff
+			const monthsToPayoff =
+				-Math.log(1 - (balance * monthlyRate) / payment) /
+				Math.log(1 + monthlyRate);
+
+			if (isNaN(monthsToPayoff) || !isFinite(monthsToPayoff)) {
+				setCreditCardResult("Unable to calculate. Please check your inputs.");
+				return;
+			}
+
 			setCreditCardResult(
-				"Your monthly payment is too low to cover the interest. The balance will never be paid off.",
+				`${Math.ceil(monthsToPayoff)} months to pay off the balance.`,
 			);
-			return;
-		}
+		},
+		[creditCardBalance, creditCardInterestRate, monthlyPayment],
+	);
 
-		const monthsToPayoff =
-			-Math.log(1 - (balance * monthlyRate) / payment) /
-			Math.log(1 + monthlyRate);
-
-		if (isNaN(monthsToPayoff) || !isFinite(monthsToPayoff)) {
-			setCreditCardResult("Unable to calculate. Please check your inputs.");
-			return;
-		}
-
-		const formattedMonthsToPayoff = Math.ceil(monthsToPayoff);
-
-		setCreditCardResult(
-			`${formattedMonthsToPayoff} months to pay off the balance.`,
-		);
-	};
+	// Memoizing the result display
+	const displayResult = useMemo(
+		() =>
+			creditCardResult ? (
+				<pre className='result-field'>{creditCardResult}</pre>
+			) : null,
+		[creditCardResult],
+	);
 
 	return (
 		<div className='calculator'>
@@ -68,10 +82,14 @@ export const CreditCardCalculator: React.FC = () => {
 						onChange={(e) => setCreditCardBalance(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the outstanding balance'
+						aria-describedby='credit-balance-desc'
 						placeholder='e.g., 5000'
 					/>
+					<span id='credit-balance-desc' className='visually-hidden'>
+						Enter the current outstanding balance on your credit card.
+					</span>
 				</label>
+
 				<label htmlFor='interest-rate'>
 					Interest Rate (%):
 					<input
@@ -81,10 +99,14 @@ export const CreditCardCalculator: React.FC = () => {
 						onChange={(e) => setCreditCardInterestRate(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the annual interest rate'
+						aria-describedby='interest-rate-desc'
 						placeholder='e.g., 15'
 					/>
+					<span id='interest-rate-desc' className='visually-hidden'>
+						Enter the annual percentage rate (APR) on your credit card.
+					</span>
 				</label>
+
 				<label htmlFor='monthly-payment'>
 					Monthly Payment ($):
 					<input
@@ -94,16 +116,22 @@ export const CreditCardCalculator: React.FC = () => {
 						onChange={(e) => setMonthlyPayment(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the monthly payment amount'
+						aria-describedby='monthly-payment-desc'
 						placeholder='e.g., 200'
 					/>
+					<span id='monthly-payment-desc' className='visually-hidden'>
+						Enter the amount you plan to pay each month.
+					</span>
 				</label>
+
 				<button type='submit' aria-label='Calculate credit card payoff time'>
 					Calculate
 				</button>
-				<pre className='result-field' aria-live='polite'>
-					{creditCardResult}
-				</pre>
+
+				{/* Fixed height to prevent layout shift */}
+				<div style={{ minHeight: "2em" }} aria-live='polite'>
+					{displayResult}
+				</div>
 			</form>
 		</div>
 	);

@@ -38,23 +38,69 @@ const MainContent = styled.div`
 
 const App: React.FC = () => {
 	const location = useLocation();
+	const canonicalUrl = `https://www.dollarsandlife.com${location.pathname}`;
 
 	return (
 		<HelmetProvider>
 			<AppContainer>
 				<Helmet>
-					<link
-						rel='canonical'
-						href={`https://www.dollarsandlife.com${location.pathname}`}
-					/>
+					<title>
+						Dollars And Life - Personal Finance, Extra Income & Savings
+					</title>
+					<link rel='canonical' href={canonicalUrl} />
 					<meta
 						name='description'
-						content='Dollars And Life is a personal finance blog offering tips on earning extra income, finding the best deals, and achieving financial freedom.'
+						content='Dollars And Life is a personal finance blog offering expert advice on earning extra income, budgeting, and finding the best money-saving deals.'
+					/>
+					<meta
+						property='og:title'
+						content='Dollars And Life - Personal Finance & Savings'
 					/>
 					<meta
 						property='og:description'
-						content='Dollars And Life is your go-to resource for personal finance, offering guides on budgeting, extra income, and money-saving tips.'
+						content='Discover financial strategies, income opportunities, and shopping deals at Dollars And Life. Get insights on starting a blog, budgeting, and passive income apps.'
 					/>
+					<meta property='og:url' content={canonicalUrl} />
+					<meta property='og:type' content='website' />
+					<meta
+						property='og:image'
+						content='https://www.dollarsandlife.com/path-to-site-image.jpg'
+					/>
+					<meta property='twitter:card' content='summary_large_image' />
+					<meta
+						property='twitter:title'
+						content='Dollars And Life - Smart Financial Choices'
+					/>
+					<meta
+						property='twitter:description'
+						content='Financial freedom starts here. Learn budgeting, side hustles, and investment strategies.'
+					/>
+					<meta
+						property='twitter:image'
+						content='https://www.dollarsandlife.com/path-to-site-image.jpg'
+					/>
+
+					{/* Structured Data for Breadcrumbs */}
+					<script type='application/ld+json'>
+						{JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "BreadcrumbList",
+							itemListElement: [
+								{
+									"@type": "ListItem",
+									position: 1,
+									name: "Home",
+									item: "https://www.dollarsandlife.com/",
+								},
+								{
+									"@type": "ListItem",
+									position: 2,
+									name: location.pathname.replace("/", ""),
+									item: canonicalUrl,
+								},
+							],
+						})}
+					</script>
 				</Helmet>
 
 				<Navbar />
@@ -90,7 +136,7 @@ const App: React.FC = () => {
 						/>
 						<Route path='/breaking-news' element={<BreakingNews />} />
 
-						{/* Fix: Ensure jsonFile is passed correctly */}
+						{/* Blog Post Pages with Dynamic JSON Files */}
 						<Route
 							path='/extra-income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}

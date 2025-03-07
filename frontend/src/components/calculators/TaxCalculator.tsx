@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 
-// Define types for tax data and tax brackets
 interface TaxBracket {
 	rate: number;
 	upTo: number | string;
@@ -13,16 +12,16 @@ interface TaxData {
 }
 
 export const TaxCalculator: React.FC = () => {
-	const [selectedState, setSelectedState] = useState<string>("");
-	const [householdSize, setHouseholdSize] = useState<string>("");
-	const [income, setIncome] = useState<string>("");
-	const [federalTaxResult, setFederalTaxResult] = useState<string>("");
-	const [stateTaxResult, setStateTaxResult] = useState<string>("");
+	const [selectedState, setSelectedState] = useState("");
+	const [householdSize, setHouseholdSize] = useState("");
+	const [income, setIncome] = useState("");
+	const [federalTaxResult, setFederalTaxResult] = useState("");
+	const [stateTaxResult, setStateTaxResult] = useState("");
 	const [taxData, setTaxData] = useState<TaxData | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string>("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
 
-	// Fetch tax data from JSON file
+	// Fetch tax data on mount
 	useEffect(() => {
 		const fetchTaxData = async () => {
 			setLoading(true);
@@ -37,29 +36,11 @@ export const TaxCalculator: React.FC = () => {
 				setLoading(false);
 			}
 		};
-
 		fetchTaxData();
 	}, []);
 
-	// Handle state selection change
-	const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setSelectedState(event.target.value);
-	};
-
-	// Handle income input change
-	const handleIncomeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setIncome(event.target.value);
-	};
-
-	// Handle household size input change
-	const handleHouseholdSizeChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		setHouseholdSize(event.target.value);
-	};
-
-	// Calculate tax based on income and tax brackets
-	const calculateTax = (brackets: TaxBracket[], income: number) => {
+	// Tax calculation function
+	const calculateTax = useCallback((brackets: TaxBracket[], income: number) => {
 		let tax = 0;
 		let remainingIncome = income;
 
@@ -72,62 +53,81 @@ export const TaxCalculator: React.FC = () => {
 		}
 
 		return tax;
-	};
+	}, []);
 
-	// Handle form submission and tax calculation
-	const handleCalculateTax = (e: React.FormEvent) => {
-		e.preventDefault();
+	// Handle tax calculation
+	const handleCalculateTax = useCallback(
+		(e: React.FormEvent) => {
+			e.preventDefault();
 
-		if (!selectedState || !income || !householdSize) {
+			if (!selectedState || !income || !householdSize) {
+				setFederalTaxResult(
+					"Please enter valid income, household size, and state.",
+				);
+				setStateTaxResult("");
+				return;
+			}
+
+			const numericIncome = parseFloat(income);
+			const numericHouseholdSize = parseInt(householdSize);
+
+			if (
+				isNaN(numericIncome) ||
+				numericIncome <= 0 ||
+				isNaN(numericHouseholdSize) ||
+				numericHouseholdSize <= 0
+			) {
+				setFederalTaxResult(
+					"Please enter a valid numeric income and household size.",
+				);
+				setStateTaxResult("");
+				return;
+			}
+
+			if (!taxData) {
+				setFederalTaxResult("Tax data is not available.");
+				setStateTaxResult("");
+				return;
+			}
+
+			// Calculate federal tax
+			const federalBrackets = taxData["federal"]?.brackets;
+			const federalTax = federalBrackets
+				? calculateTax(federalBrackets, numericIncome)
+				: null;
 			setFederalTaxResult(
-				"Please enter valid income, household size, and state.",
+				federalTax !== null
+					? `Federal Tax: $${federalTax.toFixed(2)}`
+					: "Federal tax data is not available.",
 			);
-			setStateTaxResult("");
-			return;
-		}
 
-		const numericIncome = parseFloat(income);
-		const numericHouseholdSize = parseInt(householdSize);
-
-		if (
-			isNaN(numericIncome) ||
-			numericIncome <= 0 ||
-			isNaN(numericHouseholdSize) ||
-			numericHouseholdSize <= 0
-		) {
-			setFederalTaxResult(
-				"Please enter a valid numeric income and household size.",
-			);
-			setStateTaxResult("");
-			return;
-		}
-
-		if (!taxData) {
-			setFederalTaxResult("Tax data is not available.");
-			setStateTaxResult("");
-			return;
-		}
-
-		// Calculate federal tax
-		const federalBrackets = taxData["federal"]?.brackets;
-		if (federalBrackets) {
-			const federalTax = calculateTax(federalBrackets, numericIncome);
-			setFederalTaxResult(`Federal Tax: $${federalTax.toFixed(2)}`);
-		} else {
-			setFederalTaxResult("Federal tax data is not available.");
-		}
-
-		// Calculate state tax
-		const stateBrackets = taxData[selectedState]?.brackets;
-		if (stateBrackets) {
-			const stateTax = calculateTax(stateBrackets, numericIncome);
+			// Calculate state tax
+			const stateBrackets = taxData[selectedState]?.brackets;
+			const stateTax = stateBrackets
+				? calculateTax(stateBrackets, numericIncome)
+				: null;
 			setStateTaxResult(
-				`State Tax for ${selectedState}: $${stateTax.toFixed(2)}`,
+				stateTax !== null
+					? `State Tax for ${selectedState}: $${stateTax.toFixed(2)}`
+					: `No state tax data available for ${selectedState}.`,
 			);
-		} else {
-			setStateTaxResult(`No state tax data available for ${selectedState}.`);
-		}
-	};
+		},
+		[selectedState, income, householdSize, taxData, calculateTax],
+	);
+
+	// Memoized result display
+	const displayResult = useMemo(
+		() => (
+			<div style={{ minHeight: "2em" }} aria-live='polite'>
+				<pre className='result-field'>
+					{federalTaxResult}
+					<br />
+					{stateTaxResult}
+				</pre>
+			</div>
+		),
+		[federalTaxResult, stateTaxResult],
+	);
 
 	return (
 		<div
@@ -149,9 +149,9 @@ export const TaxCalculator: React.FC = () => {
 					<select
 						id='state-select'
 						value={selectedState}
-						onChange={handleStateChange}
+						onChange={(e) => setSelectedState(e.target.value)}
 						aria-required='true'
-						aria-label='Select your state'
+						aria-describedby='state-select-desc'
 						disabled={!taxData}
 					>
 						<option value=''>Select a State</option>
@@ -164,6 +164,9 @@ export const TaxCalculator: React.FC = () => {
 									</option>
 								))}
 					</select>
+					<span id='state-select-desc' className='visually-hidden'>
+						Select the state for tax calculation.
+					</span>
 				</label>
 
 				<label htmlFor='household-size'>
@@ -173,12 +176,15 @@ export const TaxCalculator: React.FC = () => {
 						type='number'
 						min='1'
 						value={householdSize}
-						onChange={handleHouseholdSizeChange}
+						onChange={(e) => setHouseholdSize(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter the number of people in your household'
+						aria-describedby='household-size-desc'
 						placeholder='e.g., 3'
 					/>
+					<span id='household-size-desc' className='visually-hidden'>
+						Enter the number of people in your household.
+					</span>
 				</label>
 
 				<label htmlFor='annual-income'>
@@ -187,12 +193,15 @@ export const TaxCalculator: React.FC = () => {
 						id='annual-income'
 						type='number'
 						value={income}
-						onChange={handleIncomeChange}
+						onChange={(e) => setIncome(e.target.value)}
 						required
 						aria-required='true'
-						aria-label='Enter your total annual income'
+						aria-describedby='annual-income-desc'
 						placeholder='e.g., 50000'
 					/>
+					<span id='annual-income-desc' className='visually-hidden'>
+						Enter your total annual income before taxes.
+					</span>
 				</label>
 
 				<button
@@ -203,15 +212,11 @@ export const TaxCalculator: React.FC = () => {
 					Calculate
 				</button>
 
-				<pre className='result-field' aria-live='polite'>
-					{federalTaxResult}
-					<br />
-					{stateTaxResult}
-				</pre>
+				{displayResult}
 
 				<p className='disclaimer' aria-live='polite'>
-					Please note: State tax or Federal Tax brackets may have changed, or
-					may not be up to date and accurate.
+					Please note: State and Federal tax brackets may change over time and
+					may not always be up to date.
 				</p>
 			</form>
 		</div>

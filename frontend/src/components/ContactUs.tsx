@@ -1,156 +1,168 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import "./ContactUs.css";
 import emailjs from "emailjs-com";
+import "./ContactUs.css";
 
 const ContactUs: React.FC = () => {
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [email, setEmail] = useState("");
-	const [message, setMessage] = useState("");
+	const [formData, setFormData] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		message: "",
+	});
 	const [formStatus, setFormStatus] = useState("");
 	const [captchaError, setCaptchaError] = useState("");
-
-	// Create a ref for the reCAPTCHA component
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-	// Scroll to the top of the page when the component loads
+	// Scroll to top when the component mounts
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
+	// Validate Email Format
+	const validateEmail = (email: string) =>
+		/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+	// Handle Input Change
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+	) => {
+		const { name, value } = e.target;
+		if (name === "firstName" || name === "lastName") {
+			if (!/^[a-zA-Z]*$/.test(value)) return;
+		}
+		setFormData((prev) => ({ ...prev, [name]: value }));
+	};
+
+	// Handle Form Submission
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		if (!validateEmail(email)) {
+		if (!validateEmail(formData.email)) {
 			setFormStatus("Please enter a valid email address.");
 			return;
 		}
 
-		const token = recaptchaRef.current?.getValue(); // Get the reCAPTCHA token
-
+		const token = recaptchaRef.current?.getValue();
 		if (!token) {
 			setCaptchaError("Please verify that you are not a robot.");
 			return;
 		}
 
 		const templateParams = {
-			from_name: `${firstName} ${lastName}`,
-			from_email: email,
-			message: message,
-			first_name: firstName,
-			last_name: lastName,
-			"g-recaptcha-response": token, // Include the reCAPTCHA token
+			from_name: `${formData.firstName} ${formData.lastName}`,
+			from_email: formData.email,
+			message: formData.message,
+			"g-recaptcha-response": token,
 		};
 
-		emailjs
-			.send(
+		try {
+			await emailjs.send(
 				"service_nczatmu",
 				"template_jdvl2xw",
 				templateParams,
 				"K3dpn1hBIlh71TATT",
-			)
-			.then(
-				() => {
-					setFormStatus("Your message has been sent successfully.");
-					setFirstName("");
-					setLastName("");
-					setEmail("");
-					setMessage("");
-					recaptchaRef.current?.reset(); // Reset reCAPTCHA after successful submission
-					setCaptchaError("");
-				},
-				(error) => {
-					setFormStatus(
-						"There was an error sending your message. Please try again later.",
-					);
-					console.error("EmailJS Error:", error);
-				},
-			)
-			.catch((error) => {
-				setCaptchaError("Failed to verify reCAPTCHA. Please try again.");
-				console.error("reCAPTCHA Error:", error);
-			});
-	};
-
-	const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-		if (/^[a-zA-Z]*$/.test(value)) {
-			setFirstName(value);
+			);
+			setFormStatus("Your message has been sent successfully.");
+			setFormData({ firstName: "", lastName: "", email: "", message: "" });
+			recaptchaRef.current?.reset();
+			setCaptchaError("");
+		} catch (error) {
+			console.error("EmailJS Error:", error);
+			setFormStatus(
+				"There was an error sending your message. Please try again later.",
+			);
 		}
-	};
-
-	const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-		if (/^[a-zA-Z]*$/.test(value)) {
-			setLastName(value);
-		}
-	};
-
-	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
-	};
-
-	const validateEmail = (email: string) => {
-		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return regex.test(email);
 	};
 
 	return (
 		<section className='contact-us-container'>
-			<h2>Contact Us</h2>
+			<h1>Contact Us</h1>
+			<p>
+				Have a question or feedback? Reach out to us and we'll get back to you
+				as soon as possible.
+			</p>
+
+			{/* Schema Markup for SEO */}
+			<script type='application/ld+json'>
+				{JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "ContactPage",
+					mainEntity: {
+						"@type": "Organization",
+						name: "Dollars & Life",
+						url: "https://www.dollarsandlife.com/contact",
+						contactPoint: {
+							"@type": "ContactPoint",
+							email: "support@dollarsandlife.com",
+							contactType: "customer service",
+						},
+					},
+				})}
+			</script>
+
 			<form onSubmit={handleSubmit} className='contact-form'>
 				<label>
-					<span className='visually-hidden'>First Name</span>
+					<span>First Name</span>
 					<input
 						type='text'
+						name='firstName'
 						placeholder='First Name'
-						value={firstName}
-						onChange={handleFirstNameChange}
+						value={formData.firstName}
+						onChange={handleChange}
 						required
 						aria-label='First Name'
 					/>
 				</label>
+
 				<label>
-					<span className='visually-hidden'>Last Name</span>
+					<span>Last Name</span>
 					<input
 						type='text'
+						name='lastName'
 						placeholder='Last Name'
-						value={lastName}
-						onChange={handleLastNameChange}
+						value={formData.lastName}
+						onChange={handleChange}
 						required
 						aria-label='Last Name'
 					/>
 				</label>
+
 				<label>
-					<span className='visually-hidden'>Email</span>
+					<span>Email</span>
 					<input
 						type='email'
+						name='email'
 						placeholder='Email'
-						value={email}
-						onChange={handleEmailChange}
+						value={formData.email}
+						onChange={handleChange}
 						required
 						aria-label='Email'
 					/>
 				</label>
+
 				<label>
-					<span className='visually-hidden'>Your message</span>
+					<span>Your Message</span>
 					<textarea
+						name='message'
 						placeholder='Your message'
-						value={message}
-						onChange={(e) => setMessage(e.target.value)}
+						value={formData.message}
+						onChange={handleChange}
 						required
 						aria-label='Your message'
 					/>
 				</label>
+
 				<ReCAPTCHA
 					sitekey='6Le2mjMqAAAAABzmZ0UJy5K6Gl5vw-CDG-mhon5L'
 					ref={recaptchaRef}
 				/>
 				{captchaError && <p className='error'>{captchaError}</p>}
+
 				<button type='submit' aria-label='Send Message'>
 					Send
 				</button>
+
 				{formStatus && (
 					<p className='form-status' aria-live='polite'>
 						{formStatus}
