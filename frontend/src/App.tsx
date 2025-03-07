@@ -90,7 +90,7 @@ const App: React.FC = () => {
 						/>
 						<Route path='/breaking-news' element={<BreakingNews />} />
 
-						{/* ✅ Fix: Ensure jsonFile is passed correctly */}
+						{/* Fix: Ensure jsonFile is passed correctly */}
 						<Route
 							path='/extra-income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}
