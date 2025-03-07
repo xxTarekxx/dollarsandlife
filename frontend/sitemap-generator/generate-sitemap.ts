@@ -1,6 +1,7 @@
 // ES module imports (no need for "import * as ...")
-import path from 'path';
-import fs from 'fs';
+import * as path from 'path';
+import * as fs from 'fs';
+
 import { SitemapStream, streamToPromise } from 'sitemap';
 
 // Define the base URL of your site
@@ -81,7 +82,7 @@ async function fetchDynamicRoutes(): Promise<{ url: string; changefreq: string; 
 }
 
 // Function to generate the sitemap
-export async function generateSitemap() {
+async function generateSitemap() {
   try {
     // Create a new SitemapStream instance
     const sitemap = new SitemapStream({ hostname: BASE_URL });
@@ -117,3 +118,4 @@ if (process.argv[1] === path.resolve(process.cwd(), 'dist/generate-sitemap.js'))
     console.error('Error during sitemap generation:', err);
   });
 }
+generateSitemap(); // Automatically execute the function when script runs
