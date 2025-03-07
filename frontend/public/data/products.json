@@ -1,23 +1,40 @@
 [
-
-  {
-    "id": "9",
-    "title": "Auto Face Tracking Selfie Stick Tripod for iPhone with Light,360 Rotation That Follows Your Movement,70' Phone Camera Tripod Stand with Remote for Content Creator Vlog Live Stream Video Recording",
-    "description": "360° Intelligent AI Face Tracking, Selfie Stick for iPhone with Remote Control, Tripod with Lights, 6-In-1 Shooting Mode Tripod for iPhone and Android.",
-    "affiliateLink": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
-    "imageUrl": "https://m.media-amazon.com/images/I/81bCNFfky-L._AC_SL1500_.jpg",
-    "discountPercentage": "",
-    "currentPrice": "$49.99"
-  },
-  {
-    "id": "1",
-    "title": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner Auto Diagnostic Scan Tool for iOS & Android, Bluetooth 4.0 Car Check Engine Light Code Reader",
-    "description": "CHECK ENGINE LIGHT DIAGNOSTICS When used with generic OBD II Apps, COMPATIBLE WITH IOS & ANDROID, ",
-    "affiliateLink": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl",
-    "imageUrl": "https://m.media-amazon.com/images/I/71TZk4RN-ML._AC_SL1500_.jpg",
-    "discountPercentage": "9%",
-    "currentPrice": "$31.99"
-  }
-
-
+	{
+		"id": "9",
+		"title": "Auto Face Tracking Selfie Stick Tripod for iPhone with Light - 360° AI Tracking & Remote Control",
+		"description": "Upgrade your content creation with a 360° AI-powered face tracking selfie stick and tripod for iPhone and Android. Perfect for vloggers, live streamers, and video creators.",
+		"affiliateLink": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
+		"imageUrl": "https://m.media-amazon.com/images/I/81bCNFfky-L._AC_SL1500_.jpg",
+		"imageAltText": "Auto Face Tracking Selfie Stick Tripod with Light for iPhone and Android",
+		"metaDescription": "Get a 360° AI face-tracking selfie stick tripod with remote control and LED lighting. Ideal for vloggers, live streamers, and content creators.",
+		"keywords": [
+			"360 AI tracking selfie stick",
+			"selfie stick tripod for iPhone",
+			"best vlogging tripod",
+			"tripod with remote control",
+			"live stream video recording stand"
+		],
+		"canonicalUrl": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
+		"discountPercentage": "",
+		"currentPrice": "$49.99"
+	},
+	{
+		"id": "1",
+		"title": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner - Auto Diagnostic Scan Tool for iOS & Android",
+		"description": "Diagnose and clear check engine light codes with this Veepeak OBDCheck BLE Bluetooth OBD II scanner. Compatible with iOS & Android for real-time vehicle monitoring.",
+		"affiliateLink": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl",
+		"imageUrl": "https://m.media-amazon.com/images/I/71TZk4RN-ML._AC_SL1500_.jpg",
+		"imageAltText": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner for iOS & Android",
+		"metaDescription": "Easily diagnose and clear check engine lights with the Veepeak OBDCheck BLE Bluetooth scanner. Works with iOS and Android for real-time vehicle insights.",
+		"keywords": [
+			"Bluetooth OBD II scanner",
+			"OBD check engine light tool",
+			"best car diagnostic scanner",
+			"iOS Android car scanner",
+			"Veepeak Bluetooth OBD scanner"
+		],
+		"discountPercentage": "9%",
+		"currentPrice": "$31.99",
+		"canonicalUrl": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl"
+	}
 ]

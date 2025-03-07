@@ -3,7 +3,7 @@
 		"id": "Money-Making-Apps-2025",
 		"title": "Top Apps That Can Make You Money in 2025: Earn Extra Income from Your Phone",
 		"author": "Dollars & Life",
-		"datePosted": "2025-03-20T10:00:00",
+		"datePosted": "2025-03-05T10:00:00",
 		"imageUrl": "/images/makemoneyapps/Top-Apps-That-Can-Make-You-Money.webp",
 		"imageAltText": "Top Apps That Can Make You Money in 2025 - Earn Extra Income",
 		"metaDescription": "Discover the top apps that can make you money in 2025. From surveys and freelancing to investing and selling, these apps help you earn extra income from your phone.",
@@ -94,11 +94,13 @@
 		"canonicalUrl": "https://www.dollarsandlife.com/money-making-apps-2025"
 	},
 	{
-		"id": "data-sharing",
+		"id": "data-sharing-apps-2024",
 		"title": "Top 5 Data-Sharing Apps to Earn Passive Income in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-09-08T08:00:00",
 		"imageUrl": "/images/makemoneyapps/sharing-app-money.webp",
+		"imageAltText": "Best Data-Sharing Apps to Earn Passive Income in 2024",
+		"metaDescription": "Explore the best data-sharing apps in 2024 that let you earn passive income by sharing unused internet bandwidth and anonymous data.",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -127,14 +129,24 @@
 				"subtitle": "Conclusion",
 				"text": "Data-sharing apps can be a great way to earn extra cash without much effort. If you're comfortable with sharing data, these apps offer a low-effort way to make passive income."
 			}
-		]
+		],
+		"keywords": [
+			"data-sharing apps 2024",
+			"passive income apps",
+			"earn money from internet sharing",
+			"Honeygain app",
+			"best survey apps for money"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/data-sharing-apps-2024"
 	},
 	{
-		"id": "savings-apps",
+		"id": "investment-savings-apps-2024",
 		"title": "Top 7 Investment and Savings Apps to Grow Your Wealth in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-09-15T08:00:00",
 		"imageUrl": "/images/makemoneyapps/savings-app-banner.svg",
+		"imageAltText": "Best Investment and Savings Apps to Grow Wealth in 2024",
+		"metaDescription": "Discover the top investment and savings apps in 2024 that help you grow your wealth with automated investing, cashback rewards, and stock trading.",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -165,14 +177,25 @@
 				"subtitle": "Conclusion",
 				"text": "Investment and savings apps provide a convenient way to start growing your wealth, whether through investing spare change, earning rewards, or taking advantage of limited-time offers like free stocks. Explore these apps to find the best fit for your financial goals."
 			}
-		]
+		],
+		"keywords": [
+			"investment apps 2024",
+			"savings apps",
+			"best apps to invest money",
+			"passive income apps",
+			"Webull vs Robinhood",
+			"Acorns investment app"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/investment-savings-apps-2024"
 	},
 	{
-		"id": "cashback-reward-apps",
+		"id": "cashback-reward-apps-2024",
 		"title": "Top 5 Cashback and Reward Apps to Make Money on Your Phone in 2024",
 		"author": "Dollars & Life",
 		"datePosted": "2024-09-01T08:00:00",
 		"imageUrl": "/images/makemoneyapps/cashback-apps.svg",
+		"imageAltText": "Best Cashback and Reward Apps to Earn Money in 2024",
+		"metaDescription": "Discover the best cashback and reward apps of 2024 that let you earn money while shopping online or in-store. Save more with rebates and special deals.",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -200,6 +223,14 @@
 				"subtitle": "Conclusion",
 				"text": "Cashback and reward apps are a great way to make money on purchases you already make. They offer an easy and straightforward way to save money, with little effort required."
 			}
-		]
+		],
+		"keywords": [
+			"cashback apps 2024",
+			"reward apps for money",
+			"best shopping cashback apps",
+			"earn money on purchases",
+			"Rakuten vs Ibotta"
+		],
+		"canonicalUrl": "https://www.dollarsandlife.com/cashback-reward-apps-2024"
 	}
 ]
