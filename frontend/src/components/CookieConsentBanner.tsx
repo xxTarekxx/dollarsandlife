@@ -65,16 +65,35 @@ const CookieConsentBanner: React.FC = () => {
 			window.dataLayer!.push(args);
 		}
 
-		if (!document.querySelector('script[src*="gtag/js?id=G-S7FWNHSD7P"]')) {
-			const script = document.createElement("script");
-			script.src = "https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P";
-			script.async = true;
-			script.onload = () => {
-				gtag("js", new Date());
-				gtag("config", "G-S7FWNHSD7P");
-			};
-			document.body.appendChild(script);
+		// Fetch internal IP from environment variables (avoid hardcoding!)
+		const internalIP = process.env.REACT_APP_INTERNAL_IP;
+
+		function getUserIP() {
+			return new Promise((resolve) => {
+				fetch("https://api64.ipify.org?format=json")
+					.then((response) => response.json())
+					.then((data) => resolve(data.ip))
+					.catch(() => resolve(null));
+			});
 		}
+
+		getUserIP().then((ip) => {
+			if (internalIP && ip === internalIP) {
+				console.log("GA4 blocked: Internal IP detected.");
+				return; // Do NOT load GA4 if IP is internal
+			}
+
+			if (!document.querySelector('script[src*="gtag/js?id=G-S7FWNHSD7P"]')) {
+				const script = document.createElement("script");
+				script.src = "https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P";
+				script.async = true;
+				script.onload = () => {
+					gtag("js", new Date());
+					gtag("config", "G-S7FWNHSD7P");
+				};
+				document.body.appendChild(script);
+			}
+		});
 	};
 
 	const loadGoogleAdSense = () => {
@@ -173,7 +192,7 @@ const CookieConsentBanner: React.FC = () => {
 
 				{/* Certification Label */}
 				<div className='privacy-certification'>
-					<p>✅ CCPA | CPRA | VCDPA | UCPA Certified Privacy Compliance</p>
+					<p>CCPA | CPRA | VCDPA | UCPA Certified Privacy Compliance</p>
 				</div>
 
 				{/* Buttons */}
