@@ -66,7 +66,7 @@ const CookieConsentBanner: React.FC = () => {
 		}
 
 		// Fetch internal IP from environment variables (avoid hardcoding!)
-		const internalIP = process.env.REACT_APP_INTERNAL_IP;
+		const internalIP = import.meta.env.VITE_INTERNAL_IP;
 
 		function getUserIP() {
 			return new Promise((resolve) => {
