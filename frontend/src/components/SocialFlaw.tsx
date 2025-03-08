@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet-async"; // ✅ SEO Optimization
+import { Helmet } from "react-helmet-async"; // SEO Optimization
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -10,7 +10,7 @@ import {
 	faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 
-// ✅ Styled Components
+// Styled Components
 const SocialContainer = styled.div`
 	width: 100%;
 	background: #eee;
@@ -61,7 +61,7 @@ const SocialFlaw: React.FC = () => {
 
 	return (
 		<>
-			{/* ✅ SEO Optimization */}
+			{/* SEO Optimization */}
 			<Helmet>
 				<title>Follow Us on Social Media - Dollars And Life</title>
 				<meta
@@ -74,11 +74,11 @@ const SocialFlaw: React.FC = () => {
 					content='Stay connected with Dollars And Life on YouTube, Facebook, Twitter, and Instagram for the latest updates on personal finance and earning strategies.'
 				/>
 				<meta property='og:url' content='https://www.dollarsandlife.com/' />
-				{/* ✅ Structured Data for Social Media Links */}
+				{/* Structured Data for Social Media Links */}
 				<script type='application/ld+json'>{JSON.stringify(schemaData)}</script>
 			</Helmet>
 
-			{/* ✅ Social Media Links */}
+			{/* Social Media Links */}
 			<SocialContainer>
 				<div className='social-container'>
 					<Youtube
