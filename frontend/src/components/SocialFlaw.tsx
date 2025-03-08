@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet-async"; // SEO Optimization
+import { Helmet } from "react-helmet-async"; // ✅ SEO Optimization
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -52,9 +52,9 @@ const SocialFlaw: React.FC = () => {
 		url: "https://www.dollarsandlife.com/",
 		logo: "https://www.dollarsandlife.com/path-to-logo.jpg",
 		sameAs: [
-			"https://www.youtube.com/c/dollarsandlife",
+			"https://www.youtube.com/@dollarsandlife",
 			"https://www.facebook.com/dollarsandlife",
-			"https://www.instagram.com/dollarsnlife/",
+			"https://www.instagram.com/dollars_and_life/",
 			"https://twitter.com/dollarsnlife",
 		],
 	};
@@ -82,7 +82,7 @@ const SocialFlaw: React.FC = () => {
 			<SocialContainer>
 				<div className='social-container'>
 					<Youtube
-						href='https://www.youtube.com/c/dollarsandlife'
+						href='https://www.youtube.com/@dollarsandlife'
 						className='youtube social'
 						target='_blank'
 						rel='noopener noreferrer'
@@ -110,7 +110,7 @@ const SocialFlaw: React.FC = () => {
 					</Facebook>
 
 					<Instagram
-						href='https://www.instagram.com/dollarsnlife/'
+						href='https://www.instagram.com/dollars_and_life/'
 						className='instagram social'
 						target='_blank'
 						rel='noopener noreferrer'

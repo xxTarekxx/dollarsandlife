@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
 				<div className='social-container'>
 					<div className='social-media youtube'>
 						<a
-							href='https://www.youtube.com/channel/UCIV08RQSLOnOCFMe7Kj5-iA'
+							href='https://www.youtube.com/@dollarsandlife'
 							target='_blank'
 							rel='noopener noreferrer'
 						>
@@ -83,7 +83,7 @@ const Footer: React.FC = () => {
 					</div>
 					<div className='social-media instagram'>
 						<a
-							href='https://www.instagram.com/dollarsnlife/'
+							href='https://www.instagram.com/dollars_and_life/'
 							target='_blank'
 							rel='noopener noreferrer'
 						>
