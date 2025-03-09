@@ -1,5 +1,4 @@
 /* === Global Styles for Dollars and Life Blog === */
-
 body {
   font-family: 'Source Serif Pro', serif;
   font-size: 18px;
@@ -20,7 +19,6 @@ h6 {
   font-family: 'Source Serif Pro', serif;
   color: #222;
 }
-
 
 h2 {
   font-size: 30px;
@@ -89,21 +87,80 @@ button.secondary:hover {
   padding: 20px 0;
 }
 
-/* === Responsive Design === */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 28px;
+/* === Blur Effect for Background When AdBlock Prompt is Active === */
+.app-container.blurred::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9998;
+}
+
+/* === AdBlock Warning Modal === */
+.adblock-warning {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  /* Ensure it appears above everything */
+  text-align: center;
+  max-width: 450px;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.adblock-warning h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.adblock-warning p {
+  font-size: 16px;
+  margin-bottom: 15px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.adblock-warning button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.adblock-warning button:hover {
+  background-color: #0056b3;
+}
+
+/* === Responsive Design for Small Screens === */
+@media (max-width: 600px) {
+  .adblock-warning {
+    width: 90%;
+    padding: 20px;
   }
 
-  h2 {
-    font-size: 24px;
+  .adblock-warning h2 {
+    font-size: 18px;
   }
 
-  h3 {
-    font-size: 20px;
+  .adblock-warning p {
+    font-size: 14px;
   }
 
-  p {
-    font-size: 16px;
+  .adblock-warning button {
+    font-size: 13px;
+    padding: 8px 12px;
   }
 }

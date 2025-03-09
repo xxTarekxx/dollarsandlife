@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Route,
 	BrowserRouter as Router,
 	Routes,
 	useLocation,
 } from "react-router-dom";
-import styled from "styled-components";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import "./App.css";
 import BlogPostContent from "./components/BlogPostContent";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
 import FinancialCalculators from "./components/calculators/FinancialCalculators";
 import ContactUs from "./components/ContactUs";
-import CookieConsentBanner from "./components/CookieConsentBanner";
+// import CookieConsentBanner from "./components/CookieConsentBanner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
@@ -24,25 +23,88 @@ import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
 import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import BreakingNews from "./pages/category/breakingnews/BreakingNews";
-
-const AppContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-`;
-
-const MainContent = styled.div`
-	flex: 1;
-`;
 
 const App: React.FC = () => {
 	const location = useLocation();
 	const canonicalUrl = `https://www.dollarsandlife.com${location.pathname}`;
 
+	// State for AdBlock detection
+	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
+
+	// Detect AdBlock and show the prompt
+	useEffect(() => {
+		console.log("Initializing AdBlock detection...");
+
+		setTimeout(() => {
+			// Skip AdBlock prompt if Google's Consent Management is active
+			const googleConsentPrompt = document.querySelector(".fc-consent-root");
+			if (googleConsentPrompt) {
+				console.log(
+					"Google Consent Message detected. Skipping custom AdBlock prompt.",
+				);
+				return;
+			}
+
+			// Create an ad script element
+			const adBlockTest = document.createElement("script");
+			adBlockTest.src =
+				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+			adBlockTest.type = "text/javascript";
+			adBlockTest.async = true;
+
+			adBlockTest.onerror = () => {
+				console.log("Ad blocker detected! Showing the prompt...");
+				setShowAdBlockPrompt(true);
+			};
+
+			document.body.appendChild(adBlockTest);
+		}, 2000); // Delay detection to allow page elements to load
+	}, []);
+
+	// Function to dismiss the AdBlock prompt and check again
+	const handleDismissAdBlockPrompt = () => {
+		console.log("User dismissed AdBlock prompt. Checking again...");
+
+		setShowAdBlockPrompt(false);
+
+		// Retest AdBlock after dismissal
+		setTimeout(() => {
+			const adBlockRetest = document.createElement("script");
+			adBlockRetest.src =
+				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+			adBlockRetest.type = "text/javascript";
+			adBlockRetest.async = true;
+
+			adBlockRetest.onerror = () => {
+				console.log("Ad blocker is still enabled!");
+				setShowAdBlockPrompt(true);
+			};
+
+			document.body.appendChild(adBlockRetest);
+		}, 3000); // Delay before checking again
+	};
+
 	return (
 		<HelmetProvider>
-			<AppContainer>
+			<div className={`app-container ${showAdBlockPrompt ? "blurred" : ""}`}>
+				{showAdBlockPrompt && (
+					<div className='adblock-warning'>
+						<h2>We Rely on Ads to Keep Our Content Free</h2>
+						<p>
+							It looks like you're using an ad blocker. Ads help keep our
+							content free and available for everyone.
+						</p>
+						<p>
+							<strong>
+								Please consider disabling your ad blocker to support us.
+							</strong>
+						</p>
+						<button onClick={handleDismissAdBlockPrompt}>I Understand</button>
+					</div>
+				)}
+
 				<Helmet>
 					<title>
 						Dollars And Life - Personal Finance, Extra Income & Savings
@@ -105,7 +167,7 @@ const App: React.FC = () => {
 
 				<Navbar />
 				{location.pathname !== "/" && <BreadcrumbWrapper />}
-				<MainContent>
+				<div className='main-content'>
 					<Routes>
 						<Route path='/' element={<HomePage />} />
 						<Route path='/extra-income' element={<ExtraIncome />} />
@@ -128,15 +190,11 @@ const App: React.FC = () => {
 							path='/my-story'
 							element={<BlogPostContent jsonFile='mystory.json' />}
 						/>
-						<Route path='/terms-of-service' element={<TermsOfService />} />
-						<Route path='/contact-us' element={<ContactUs />} />
 						<Route
 							path='/financial-calculators'
 							element={<FinancialCalculators />}
 						/>
 						<Route path='/breaking-news' element={<BreakingNews />} />
-
-						{/* Blog Post Pages with Dynamic JSON Files */}
 						<Route
 							path='/extra-income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}
@@ -153,11 +211,14 @@ const App: React.FC = () => {
 							path='/breaking-news/:id'
 							element={<BlogPostContent jsonFile='breakingnews.json' />}
 						/>
+						<Route path='/terms-of-service' element={<TermsOfService />} />
+						<Route path='/privacy-policy' element={<PrivacyPolicy />} />
+						<Route path='/contact-us' element={<ContactUs />} />
 					</Routes>
-				</MainContent>
+				</div>
 				<Footer />
-				<CookieConsentBanner />
-			</AppContainer>
+				{/* <CookieConsentBanner /> */}
+			</div>
 		</HelmetProvider>
 	);
 };
