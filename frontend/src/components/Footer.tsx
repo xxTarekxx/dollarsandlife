@@ -121,6 +121,10 @@ const Footer: React.FC = () => {
 						<a href='https://www.dollarsandlife.com/terms-of-service'>
 							Terms Of Service
 						</a>{" "}
+						and{" "}
+						<a href='https://www.dollarsandlife.com/privacy-policy'>
+							Privacy Policy
+						</a>{" "}
 						page.
 					</p>
 				</div>
