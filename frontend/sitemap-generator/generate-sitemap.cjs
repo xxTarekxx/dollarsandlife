@@ -1,169 +1,133 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
-    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
+
+const path = require("path");
+const fs = require("fs");
+const { SitemapStream, streamToPromise } = require("sitemap");
+
+const BASE_URL = "https://www.dollarsandlife.com";
+
+/**
+ * Extracts route paths from App.tsx by scanning for <Route path="..."> entries.
+ */
+function extractRoutesFromApp() {
+    const appFilePath = path.resolve(__dirname, "../src/App.tsx");
+    try {
+        const appFileContent = fs.readFileSync(appFilePath, "utf-8");
+        const routeRegex = /<Route\s+path=["']([^"']+)["']/g;
+        const routes = [];
+
+        let match;
+        while ((match = routeRegex.exec(appFileContent)) !== null) {
+            if (!routes.includes(match[1])) {
+                routes.push(match[1]);
             }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+        }
+
+        console.log(`✅ Extracted ${routes.length} routes from App.tsx`);
+        return routes;
+    } catch (err) {
+        console.error(`❌ Error reading App.tsx:`, err);
+        return [];
     }
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-// ES module imports (no need for "import * as ...")
-var path = require("path");
-var fs = require("fs");
-var sitemap_1 = require("sitemap");
-// Define the base URL of your site
-var BASE_URL = 'https://www.dollarsandlife.com';
-// Define your static routes
-var staticRoutes = [
-    { url: '/', changefreq: 'monthly', priority: 1.0 },
-    { url: '/extra-income', changefreq: 'monthly', priority: 0.8 },
-    { url: '/extra-income/freelancers', changefreq: 'monthly', priority: 0.8 },
-    { url: '/extra-income/Budget', changefreq: 'monthly', priority: 0.5 },
-    { url: '/extra-income/remote-jobs', changefreq: 'monthly', priority: 0.5 },
-    { url: '/extra-income/money-making-apps', changefreq: 'monthly', priority: 0.5 },
-    { url: '/shopping-Deals', changefreq: 'weekly', priority: 0.9 },
-    { url: '/start-a-blog', changefreq: 'monthly', priority: 0.2 },
-    { url: '/my-story', changefreq: 'yearly', priority: 0.1 },
-    { url: '/terms-of-service', changefreq: 'yearly', priority: 0.1 },
-    { url: '/contact-us', changefreq: 'yearly', priority: 0.1 },
-    { url: '/financial-calculators', changefreq: 'yearly', priority: 0.1 }
-];
-// Function to fetch dynamic routes from multiple JSON files
-function fetchDynamicRoutes() {
-    return __awaiter(this, void 0, void 0, function () {
-        var dynamicRoutes, jsonFiles, _loop_1, _i, jsonFiles_1, filePath;
-        return __generator(this, function (_a) {
-            dynamicRoutes = [];
-            jsonFiles = [
-                path.resolve(process.cwd(), '../public/data/remotejobs.json'),
-                path.resolve(process.cwd(), '../public/data/freelancejobs.json'),
-                path.resolve(process.cwd(), '../public/data/moneymakingapps.json'),
-                path.resolve(process.cwd(), '../public/data/budgetdata.json'),
-                path.resolve(process.cwd(), '../public/data/startablogdata.json'),
-                path.resolve(process.cwd(), '../public/data/mystory.json'),
-                path.resolve(process.cwd(), '../public/data/products.json'),
-                path.resolve(process.cwd(), '../public/data/breakingnews.json'),
-                path.resolve(__dirname, '/src/pages/PrivacyPolicy.tsx'),// ✅ Ensure Breaking News is added
-            ];
+}
 
-            _loop_1 = function (filePath) {
-                try {
-                    var fileContent = fs.readFileSync(filePath, 'utf-8');
-                    var jsonData = JSON.parse(fileContent);
-                    jsonData.forEach(function (post) {
-                        if (!post.id || !post.datePosted) {
-                            console.error("Invalid data in ".concat(filePath, ":"), post);
-                            return;
-                        }
-                        // Determine the URL base based on the file type
-                        const urlBase = filePath.includes('remotejobs')
-                            ? '/extra-income/remote-jobs'
-                            : filePath.includes('freelancejobs')
-                                ? '/extra-income/freelancers'
-                                : filePath.includes('moneymakingapps')
-                                    ? '/extra-income/money-making-apps'
-                                    : filePath.includes('budgetdata')
-                                        ? '/extra-income/Budget'
-                                        : filePath.includes('startablogdata')
-                                            ? '/start-a-blog'
-                                            : filePath.includes('mystory')
-                                                ? '/my-story'
-                                                : filePath.includes('breakingnews')  // ✅ Ensure Breaking News is correctly handled
-                                                    ? '/breaking-news'
-                                                    : '/products';
+/**
+ * Reads the public/data directory and extracts JSON filenames dynamically.
+ */
+function getJsonFiles() {
+    const dataDir = path.resolve(__dirname, "../public/data");
+    try {
+        const files = fs.readdirSync(dataDir)
+            .filter(file => file.endsWith(".json"))
+            .map(file => path.resolve(dataDir, file));
 
-                        // Add each entry in the JSON file to dynamic routes
-                        dynamicRoutes.push({
-                            url: "".concat(urlBase, "/").concat(post.id),
-                            changefreq: 'weekly',
-                            priority: 0.7,
-                            lastmod: post.datePosted || new Date().toISOString(), // Use provided date or current date
-                        });
-                    });
-                }
-                catch (err) {
-                    console.error("Error reading or parsing ".concat(filePath, ":"), err);
-                }
-            };
-            // Loop through each JSON file and read its contents
-            for (_i = 0, jsonFiles_1 = jsonFiles; _i < jsonFiles_1.length; _i++) {
-                filePath = jsonFiles_1[_i];
-                _loop_1(filePath);
+        console.log(`✅ Found ${files.length} JSON data files`);
+        return files;
+    } catch (err) {
+        console.error(`❌ Error reading data directory:`, err);
+        return [];
+    }
+}
+
+/**
+ * Fetches dynamic routes from JSON content inside public/data directory.
+ */
+async function fetchDynamicRoutes() {
+    const dynamicRoutes = [];
+    const jsonFiles = getJsonFiles(); // Get JSON files dynamically
+
+    for (const filePath of jsonFiles) {
+        try {
+            const fileContent = fs.readFileSync(filePath, "utf-8");
+            const jsonData = JSON.parse(fileContent);
+
+            // ✅ Ensure JSON is an array before processing
+            if (!Array.isArray(jsonData)) {
+                console.warn(`⚠️ Skipping non-array JSON file: ${filePath}`);
+                continue;
             }
-            return [2 /*return*/, dynamicRoutes];
+
+            jsonData.forEach(post => {
+                if (!post.id || !post.datePosted) {
+                    console.warn(`⚠️ Skipping invalid entry in ${filePath}:`, post);
+                    return;
+                }
+
+                // Generate URL based on filename
+                const filename = path.basename(filePath, ".json");
+                const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
+                    : filename.includes("freelancejobs") ? "/extra-income/freelancers"
+                        : filename.includes("moneymakingapps") ? "/extra-income/money-making-apps"
+                            : filename.includes("budgetdata") ? "/extra-income/budget"
+                                : filename.includes("startablogdata") ? "/start-a-blog"
+                                    : filename.includes("mystory") ? "/my-story"
+                                        : filename.includes("breakingnews") ? "/breaking-news"
+                                            : "/products";
+
+                dynamicRoutes.push({
+                    url: `${urlBase}/${post.id}`,
+                    changefreq: "daily",
+                    priority: 0.8,
+                    lastmod: post.datePosted || new Date().toISOString(),
+                });
+            });
+
+        } catch (err) {
+            console.error(`❌ Error reading ${filePath}:`, err);
+        }
+    }
+
+    return dynamicRoutes;
+}
+
+/**
+ * Generates the sitemap dynamically by including static, component-based, and JSON-based routes.
+ */
+async function generateSitemap() {
+    try {
+        const sitemap = new SitemapStream({ hostname: BASE_URL });
+        const sitemapPath = path.resolve(__dirname, "../public/sitemap.xml");
+        const writeStream = fs.createWriteStream(sitemapPath);
+
+        sitemap.pipe(writeStream);
+
+        // 1️⃣ Get static routes from App.tsx
+        const staticRoutes = extractRoutesFromApp();
+        staticRoutes.forEach(route => {
+            sitemap.write({ url: route, changefreq: "monthly", priority: 0.8 });
         });
-    });
+
+        // 2️⃣ Get dynamic routes from JSON files
+        const dynamicRoutes = await fetchDynamicRoutes();
+        dynamicRoutes.forEach(route => sitemap.write(route));
+
+        sitemap.end();
+        await streamToPromise(sitemap);
+        console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
+    } catch (err) {
+        console.error(`❌ Error generating sitemap:`, err);
+    }
 }
-// Function to generate the sitemap
-function generateSitemap() {
-    return __awaiter(this, void 0, void 0, function () {
-        var sitemap_2, sitemapPath, writeStream, dynamicRoutes, err_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    sitemap_2 = new sitemap_1.SitemapStream({ hostname: BASE_URL });
-                    sitemapPath = path.resolve(process.cwd(), '../public/sitemap.xml');
-                    writeStream = fs.createWriteStream(sitemapPath);
-                    // Pipe the sitemap stream to the file stream
-                    sitemap_2.pipe(writeStream);
-                    // Add static routes to the sitemap
-                    staticRoutes.forEach(function (route) { return sitemap_2.write(route); });
-                    return [4 /*yield*/, fetchDynamicRoutes()];
-                case 1:
-                    dynamicRoutes = _a.sent();
-                    dynamicRoutes.forEach(function (route) { return sitemap_2.write(route); });
-                    // End the sitemap stream
-                    sitemap_2.end();
-                    // Wait for the sitemap to fully write to the file
-                    return [4 /*yield*/, (0, sitemap_1.streamToPromise)(sitemap_2)];
-                case 2:
-                    // Wait for the sitemap to fully write to the file
-                    _a.sent();
-                    console.log('Sitemap generated successfully at:', sitemapPath);
-                    return [3 /*break*/, 4];
-                case 3:
-                    err_1 = _a.sent();
-                    console.error('Error generating sitemap:', err_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
-        });
-    });
-}
-// Run the sitemap generation if this script is run directly
-if (process.argv[1] === path.resolve(process.cwd(), 'dist/generate-sitemap.js')) {
-    generateSitemap().catch(function (err) {
-        console.error('Error during sitemap generation:', err);
-    });
-}
-generateSitemap(); // Automatically execute the function when script runs
+
+// Run sitemap generation automatically
+generateSitemap();
