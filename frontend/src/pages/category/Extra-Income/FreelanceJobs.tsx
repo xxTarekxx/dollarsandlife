@@ -78,7 +78,7 @@ const FreelanceJobs: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/freelancers'
+					href='https://www.dollarsandlife.com/extra-income/Freelancers'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({

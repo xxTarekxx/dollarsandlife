@@ -1,5 +1,5 @@
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
 import { SitemapStream, streamToPromise } from 'sitemap';
 
 const BASE_URL = 'https://www.dollarsandlife.com';
@@ -16,15 +16,15 @@ function extractRoutesFromApp(): string[] {
 
     let match;
     while ((match = routeRegex.exec(appFileContent)) !== null) {
-      if (!routes.includes(match[1])) {
-        routes.push(match[1]);
+      if (!routes.includes(match[1]) && !match[1].includes('*') && !match[1].includes(':')) {
+        routes.push(match[1]); //  Exclude dynamic routes
       }
     }
 
-    console.log(`✅ Extracted ${routes.length} routes from App.tsx`);
+    console.log(` Extracted ${routes.length} valid routes from App.tsx`);
     return routes;
   } catch (err) {
-    console.error(`❌ Error reading App.tsx:`, err);
+    console.error(` Error reading App.tsx:`, err);
     return [];
   }
 }
@@ -37,12 +37,13 @@ function getJsonFiles(): string[] {
   try {
     const files = fs.readdirSync(dataDir)
       .filter(file => file.endsWith('.json'))
-      .map(file => path.resolve(dataDir, file));
+      .map(file => path.resolve(dataDir, file))
+      .filter(file => !file.includes('products')); //  Remove products and my-story
 
-    console.log(`✅ Found ${files.length} JSON data files`);
+    console.log(` Found ${files.length} JSON data files`);
     return files;
   } catch (err) {
-    console.error(`❌ Error reading data directory:`, err);
+    console.error(` Error reading data directory:`, err);
     return [];
   }
 }
@@ -62,7 +63,6 @@ async function fetchDynamicRoutes(): Promise<{ url: string; changefreq: string; 
       jsonData.forEach((post: { id: string; datePosted: string }) => {
         if (!post.id || !post.datePosted) return;
 
-        // Generate URL based on filename
         const filename = path.basename(filePath, '.json');
         const urlBase = filename.includes('remotejobs') ? '/extra-income/remote-jobs'
           : filename.includes('freelancejobs') ? '/extra-income/freelancers'
@@ -70,17 +70,19 @@ async function fetchDynamicRoutes(): Promise<{ url: string; changefreq: string; 
           : filename.includes('budgetdata') ? '/extra-income/budget'
           : filename.includes('startablogdata') ? '/start-a-blog'
           : filename.includes('breakingnews') ? '/breaking-news'
-          : '/products';
+          : '';
 
-        dynamicRoutes.push({
-          url: `${urlBase}/${post.id}`,
-          changefreq: 'daily',
-          priority: 0.8,
-          lastmod: post.datePosted || new Date().toISOString(),
-        });
+        if (urlBase) {
+          dynamicRoutes.push({
+            url: `${urlBase}/${post.id}`,
+            changefreq: 'daily',
+            priority: 0.8,
+            lastmod: post.datePosted || new Date().toISOString(),
+          });
+        }
       });
     } catch (err) {
-      console.error(`❌ Error reading ${filePath}:`, err);
+      console.error(` Error reading ${filePath}:`, err);
     }
   }
 
@@ -88,7 +90,7 @@ async function fetchDynamicRoutes(): Promise<{ url: string; changefreq: string; 
 }
 
 /**
- * Generates the sitemap dynamically by including static, component-based, and JSON-based routes.
+ * Generates the sitemap dynamically by including static and JSON-based routes.
  */
 async function generateSitemap() {
   try {
@@ -98,21 +100,21 @@ async function generateSitemap() {
 
     sitemap.pipe(writeStream);
 
-    // 1️⃣ Get static routes from App.tsx
+    //  Extract static routes
     const staticRoutes = extractRoutesFromApp();
     staticRoutes.forEach(route => {
       sitemap.write({ url: route, changefreq: 'monthly', priority: 0.8 });
     });
 
-    // 2️⃣ Get dynamic routes from JSON files
+    //  Fetch valid dynamic routes
     const dynamicRoutes = await fetchDynamicRoutes();
     dynamicRoutes.forEach(route => sitemap.write(route));
 
     sitemap.end();
     await streamToPromise(sitemap);
-    console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
+    console.log(` Sitemap generated successfully at: ${sitemapPath}`);
   } catch (err) {
-    console.error(`❌ Error generating sitemap:`, err);
+    console.error(` Error generating sitemap:`, err);
   }
 }
 

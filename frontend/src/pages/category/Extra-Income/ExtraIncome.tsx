@@ -28,7 +28,7 @@ const ExtraIncome: React.FC = () => {
 			priority: true,
 		},
 		{
-			to: "/extra-income/Budget/",
+			to: "/extra-income/Budget",
 			ariaLabel: "Learn budgeting strategies",
 			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Budgeting and financial planning",

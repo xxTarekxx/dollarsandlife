@@ -155,6 +155,10 @@ const ShoppingDeals: React.FC = () => {
 					name='description'
 					content='Find the best deals and savings on top products. Shop discounts on tech, gadgets, and home essentials. Limited-time offers updated daily!'
 				/>
+				<link
+					rel='canonical'
+					href='https://www.dollarsandlife.com/shopping-deals'
+				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",

@@ -1,14 +1,14 @@
-import React from "react";
-import { Helmet } from "react-helmet-async"; // ✅ SEO Optimization
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
-	faYoutube,
 	faFacebook,
-	faTwitter,
 	faInstagram,
+	faTwitter,
+	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import { Helmet } from "react-helmet-async"; //  SEO Optimization
+import styled from "styled-components";
 
 // Styled Components
 const SocialContainer = styled.div`

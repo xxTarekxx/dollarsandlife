@@ -65,6 +65,10 @@ const StartABlog: React.FC = () => {
 					name='description'
 					content='Learn how to start a successful blog in 2025 with our step-by-step guide. Discover the best blogging platforms, tools, and strategies for monetization.'
 				/>
+				<link
+					rel='canonical'
+					href='https://www.dollarsandlife.com/Start-A-Blog'
+				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",

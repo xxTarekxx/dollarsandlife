@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
 
 	const linkBoxes = [
 		{
-			to: "/extra-income/",
+			to: "/extra-income",
 			ariaLabel: "Extra Income",
 			imgSrc: compressedExtraIncomeImg || ExtraIncomeImg,
 			altText: "Extra Income Menu link",
@@ -70,12 +70,13 @@ const HomePage: React.FC = () => {
 				<meta property='og:type' content='website' />
 
 				{/* Preload LCP (Largest Contentful Paint) image */}
-				<link
+				{/* <link
 					rel='preload'
 					as='image'
 					href={compressedStartAblogimg || StartAblogimg}
 					imageSrcSet={`${compressedStartAblogimg || StartAblogimg} 1x`}
-				/>
+				/> */}
+				<link rel='canonical' href='https://www.dollarsandlife.com' />
 			</Helmet>
 
 			{/* Structured Data (Schema.org) */}
