@@ -79,6 +79,10 @@ const Budget: React.FC = () => {
 					name='description'
 					content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
 				/>
+				<link
+					rel='canonical'
+					href='https://www.dollarsandlife.com/extra-income/Budget/'
+				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
@@ -90,7 +94,7 @@ const Budget: React.FC = () => {
 							image: post.imageUrl,
 							author: { "@type": "Person", name: post.author },
 							datePublished: post.datePosted,
-							url: `https://www.dollarsandlife.com/extra-income/budget/${post.id}`,
+							url: `https://www.dollarsandlife.com/extra-income/Budget/${post.id}`,
 						})),
 					})}
 				</script>
@@ -124,7 +128,7 @@ const Budget: React.FC = () => {
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
 											<Link
-												to={`/extra-income/budget/${post.id}`}
+												to={`/extra-income/Budget/${post.id}`}
 												aria-label={`Read more about ${post.title}`}
 											>
 												<BlogPostCard

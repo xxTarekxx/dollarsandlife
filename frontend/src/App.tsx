@@ -175,7 +175,7 @@ const App: React.FC = () => {
 							path='/extra-income/freelancers/*'
 							element={<FreelanceJobs />}
 						/>
-						<Route path='/extra-income/budget/*' element={<Budget />} />
+						<Route path='/extra-income/Budget/*' element={<Budget />} />
 						<Route
 							path='/extra-income/remote-jobs/*'
 							element={<RemoteOnlineJobs />}

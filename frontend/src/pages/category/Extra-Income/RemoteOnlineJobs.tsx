@@ -76,7 +76,7 @@ const RemoteOnlineJobs: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/remote-jobs'
+					href='https://www.dollarsandlife.com/extra-income/Remote-Jobs'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
