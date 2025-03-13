@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import "../../../components/AdComponent.css";
-import BlogPostCard from "../../../components/BlogPostCard";
 import "../../../components/BlogPostContent.css";
-import PaginationContainer from "../../../components/PaginationContainer";
 import "../Extra-Income/CommonStyles.css";
+import BlogPostCard from "../../../components/BlogPostCard";
+import PaginationContainer from "../../../components/PaginationContainer";
 
 interface BlogPost {
 	id: string;
@@ -20,17 +20,6 @@ interface BlogPost {
 	}[];
 }
 
-interface NewsArticle {
-	id: string;
-	title: string;
-	image_url?: string;
-	description: string;
-	source_id: string;
-	pubDate: string;
-	link: string;
-	category: string[];
-}
-
 declare global {
 	interface Window {
 		adsbygoogle: any;
@@ -38,128 +27,88 @@ declare global {
 }
 
 const BreakingNews: React.FC = () => {
-	const [jsonPosts, setJsonPosts] = useState<BlogPost[]>([]);
-	const [news, setNews] = useState<NewsArticle[]>([]);
+	const [localNews, setLocalNews] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 9;
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
+	const postsPerPage = 4; // Number of articles per page
 	const pageRef = useRef<HTMLDivElement>(null);
 
-	//  Set document title dynamically
-	useEffect(() => {
-		document.title = "Breaking News - Latest Financial and Economic Updates";
-	}, []);
+	// Fetch breaking news from JSON file
+	const fetched = useRef(false);
 
-	//  Fetch API news articles
 	useEffect(() => {
-		const fetchNews = async () => {
+		if (fetched.current) return; // Prevent second fetch
+		fetched.current = true;
+
+		const fetchLocalNews = async () => {
 			try {
-				setLoading(true);
-				const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
-				const BASE_URL = "https://newsdata.io/api/1/news";
-				const language = "en";
-
-				const businessRes = await fetch(
-					`${BASE_URL}?apikey=${API_KEY}&language=${language}&category=business`,
-				);
-				const healthRes = await fetch(
-					`${BASE_URL}?apikey=${API_KEY}&language=${language}&category=health`,
-				);
-
-				if (!businessRes.ok || !healthRes.ok) {
-					throw new Error(`API request failed.`);
+				const response = await fetch("/data/breakingnews.json");
+				if (!response.ok) {
+					throw new Error("Failed to load breaking news data.");
 				}
 
-				const businessData = await businessRes.json();
-				const healthData = await healthRes.json();
+				let data = await response.json();
+				console.log("Fetched Breaking News Data:", data);
 
-				const selectedArticles = [
-					...(businessData.results?.slice(0, 2) || []),
-					...(healthData.results?.slice(0, 2) || []),
-				];
-
-				if (!selectedArticles.length) {
-					throw new Error("No relevant news articles found.");
-				}
-
-				setNews(selectedArticles);
+				const newsArray = Array.isArray(data) ? data : [data];
+				setLocalNews(newsArray);
 			} catch (error) {
-				console.error("Error fetching news:", error);
-				setError("We Will Be Posting Breaking News Articles Soon.");
-			} finally {
-				setLoading(false);
+				console.error("Error fetching local news:", error);
 			}
 		};
 
-		fetchNews();
+		fetchLocalNews();
 	}, []);
 
-	// Use memoization to optimize pagination
-	const currentPosts = useMemo(() => {
-		return news.slice(
-			(currentPage - 1) * postsPerPage,
-			currentPage * postsPerPage,
-		);
-	}, [news, currentPage, postsPerPage]);
+	// Get the current page's news items
+	const indexOfLastPost = currentPage * postsPerPage;
+	const indexOfFirstPost = indexOfLastPost - postsPerPage;
+	const currentPosts = localNews.slice(indexOfFirstPost, indexOfLastPost);
 
 	return (
 		<div className='news-main-container' ref={pageRef}>
-			{/* SEO: Helmet for meta tags */}
 			<Helmet>
 				<title>Breaking News - Latest Financial and Economic Updates</title>
 				<meta
 					name='description'
 					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
 				/>
-				<meta
-					property='og:title'
-					content='Breaking News - Financial & Economic Updates'
-				/>
-				<meta
-					property='og:description'
-					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
-				/>
-				<meta
-					property='og:url'
-					content='https://www.dollarsandlife.com/breaking-news'
-				/>
-				<meta property='og:type' content='article' />
 			</Helmet>
-
-			{/*  Schema Markup for News Articles */}
-			<script type='application/ld+json'>
-				{JSON.stringify({
-					"@context": "https://schema.org",
-					"@type": "NewsArticle",
-					headline: "Breaking News - Latest Financial and Economic Updates",
-					author: { "@type": "Organization", name: "Dollars & Life" },
-					url: "https://www.dollarsandlife.com/breaking-news",
-					publisher: {
-						"@type": "Organization",
-						name: "Dollars & Life",
-						logo: {
-							"@type": "ImageObject",
-							url: "/images/favicon/favicon.webp",
-						},
-					},
-					datePublished: new Date().toISOString(),
-				})}
-			</script>
 
 			<h1 className='section-heading'>
 				<b>Breaking</b> <b>News</b>
 			</h1>
+			<div className='top-banner-container'>
+				<a
+					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
+					target='_blank'
+					rel='noopener noreferrer'
+					className='TopBanner'
+				>
+					<img
+						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
+						alt='Lyca Mobile Banner - Affordable International Calling'
+						className='TopBannerImage'
+						loading='eager'
+					/>
+				</a>
+			</div>
 
-			{/* Featured Blog Posts */}
+			{/* Local Breaking News (From JSON) */}
 			<div className='content-wrapper'>
-				{jsonPosts.map((post) => (
-					<Link key={post.id} to={`/post/${post.id}`}>
+				{currentPosts.map((post) => (
+					<Link
+						key={post.id}
+						to={`/breaking-news/${post.id}`}
+						style={{ textDecoration: "none" }}
+					>
 						<BlogPostCard
 							id={post.id}
 							title={post.title}
 							imageUrl={post.imageUrl}
-							content={post.content[0]?.text || ""}
+							content={
+								post.content[0]?.text?.split(". ").slice(0, 2).join(". ") +
+									"." || "No description available"
+							}
 							author={post.author}
 							datePosted={post.datePosted}
 						/>
@@ -167,67 +116,33 @@ const BreakingNews: React.FC = () => {
 				))}
 			</div>
 
-			{/* API News Articles */}
-			<div className='content-wrapper'>
-				{loading && <p>Loading news...</p>}
-				{error && <p className='error-text'>{error}</p>}
-				{!error &&
-					currentPosts.map((article, index) => (
-						<article
-							key={article.id || `news-${index}`}
-							className='news-row-container'
-						>
-							<Link to={article.link} target='_blank' rel='noopener noreferrer'>
-								<div className='card-container'>
-									<img
-										className='card-image'
-										src={article.image_url || "/images/Breaking-News.webp"}
-										alt={article.title}
-										loading='lazy'
-									/>
-									<div className='card-content'>
-										<header>
-											<h2 className='card-title'>{article.title}</h2>
-										</header>
-										<p className='card-text'>
-											{article.description || "No description available"}
-										</p>
-										<div>
-											<p className='card-author'>By {article.source_id}</p>
-											<time className='card-date' dateTime={article.pubDate}>
-												{new Date(article.pubDate).toLocaleDateString()}
-											</time>
-										</div>
-									</div>
-								</div>
-							</Link>
-
-							{/* AdSense Ad Placement */}
-							{index > 0 && index % 3 === 2 && (
-								<div className='postings-container' key={`ad-${index}`}>
-									<ins
-										className='adsbygoogle'
-										style={{
-											display: "block",
-											width: "300px",
-											height: "250px",
-										}}
-										data-ad-client='ca-pub-1079721341426198'
-										data-ad-slot='7197282987'
-										data-ad-format='auto'
-										data-full-width-responsive='true'
-									></ins>
-								</div>
-							)}
-						</article>
-					))}
-			</div>
-
+			{/* Pagination */}
 			<PaginationContainer
-				totalItems={news.length}
+				totalItems={localNews.length}
 				itemsPerPage={postsPerPage}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
+			/>
+
+			{/* Bottom Banner Ad */}
+			<div className='postings-container'>
+				<ins
+					className='adsbygoogle-banner'
+					style={{
+						display: "block",
+						width: "728px",
+						height: "90px",
+					}}
+					data-ad-client='ca-pub-1079721341426198'
+					data-ad-slot='6375155907'
+					data-ad-format='horizontal'
+					data-full-width-responsive='true'
+				></ins>
+			</div>
+			<script
+				dangerouslySetInnerHTML={{
+					__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+				}}
 			/>
 		</div>
 	);
