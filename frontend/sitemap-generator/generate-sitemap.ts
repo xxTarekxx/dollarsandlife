@@ -29,57 +29,61 @@ async function fetchDynamicRoutes(): Promise<{ url: string; changefreq: string; 
 
   // List of JSON files to read
   const jsonFiles = [
-    path.resolve(process.cwd(), 'public/data/remotejobs.json'),
-    path.resolve(process.cwd(), 'public/data/freelancejobs.json'),
-    path.resolve(process.cwd(), 'public/data/moneymakingapps.json'),
-    path.resolve(process.cwd(), 'public/data/budgetdata.json'),
-    path.resolve(process.cwd(), 'public/data/startablogdata.json'),
-    path.resolve(process.cwd(), 'public/data/mystory.json'),
-    path.resolve(process.cwd(), 'public/data/products.json'),
+    path.resolve(__dirname, '../public/data/remotejobs.json'),
+    path.resolve(__dirname, '../public/data/freelancejobs.json'),
+    path.resolve(__dirname, '../public/data/moneymakingapps.json'),
+    path.resolve(__dirname, '../public/data/budgetdata.json'),
+    path.resolve(__dirname, '../public/data/startablogdata.json'),
+    path.resolve(__dirname, '../public/data/mystory.json'),
+    path.resolve(__dirname, '../public/data/products.json'),
+    path.resolve(__dirname, '../public/data/breakingnews.json'),
+    path.resolve(__dirname, '/src/pages/PrivacyPolicy.tsx'), 
   ];
 
-  // Loop through each JSON file and read its contents
   for (const filePath of jsonFiles) {
     try {
+      console.log(`🔍 Reading file: ${filePath}`);
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const jsonData = JSON.parse(fileContent);
 
+      console.log(`✅ Loaded ${filePath}, total entries: ${jsonData.length}`);
+
       jsonData.forEach((post: { id: string; datePosted: string }) => {
         if (!post.id || !post.datePosted) {
-          console.error(`Invalid data in ${filePath}:`, post);
+          console.warn(`⚠️ Skipping invalid entry in ${filePath}:`, post);
           return;
         }
 
-        // Determine the URL base based on the file type
-        const urlBase = filePath.includes('remotejobs')
-          ? '/extra-income/remote-jobs'
-          : filePath.includes('freelancejobs')
-          ? '/extra-income/freelancers'
-          : filePath.includes('moneymakingapps')
-          ? '/extra-income/money-making-apps'
-          : filePath.includes('budgetdata')
-          ? '/extra-income/Budget'
-          : filePath.includes('startablogdata')
-          ? '/start-a-blog'
-          : filePath.includes('mystory')
-          ? '/my-story'
-          : '/products'; // Default URL base for products
+        // Map file paths to respective URL categories
+        const urlBase =
+          filePath.includes('remotejobs') ? '/extra-income/remote-jobs' :
+          filePath.includes('freelancejobs') ? '/extra-income/freelancers' :
+          filePath.includes('moneymakingapps') ? '/extra-income/money-making-apps' :
+          filePath.includes('budgetdata') ? '/extra-income/Budget' :
+          filePath.includes('startablogdata') ? '/start-a-blog' :
+          filePath.includes('mystory') ? '/my-story' :
+          filePath.includes('breakingnews') ? '/breaking-news' :
+          '/products'; // Default category
 
-        // Add each entry in the JSON file to dynamic routes
+        // Add entry to dynamic routes
         dynamicRoutes.push({
           url: `${urlBase}/${post.id}`,
-          changefreq: 'weekly',
-          priority: 0.7,
-          lastmod: post.datePosted || new Date().toISOString(), // Use provided date or current date
+          changefreq: 'daily',
+          priority: 0.8,
+          lastmod: post.datePosted || new Date().toISOString(),
         });
+
+        console.log(`✅ Added URL: ${urlBase}/${post.id}`);
       });
     } catch (err) {
-      console.error(`Error reading or parsing ${filePath}:`, err);
+      console.error(`❌ Error reading ${filePath}:`, err);
     }
   }
 
   return dynamicRoutes;
 }
+
+
 
 // Function to generate the sitemap
 async function generateSitemap() {
@@ -88,7 +92,8 @@ async function generateSitemap() {
     const sitemap = new SitemapStream({ hostname: BASE_URL });
 
     // Create a writable stream to output the sitemap to a file
-    const sitemapPath = path.resolve(process.cwd(), 'public/sitemap.xml');
+    const sitemapPath = path.resolve(process.cwd(), '../public/sitemap.xml');
+
     const writeStream = fs.createWriteStream(sitemapPath);
 
     // Pipe the sitemap stream to the file stream

@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
-    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -64,14 +64,17 @@ function fetchDynamicRoutes() {
         return __generator(this, function (_a) {
             dynamicRoutes = [];
             jsonFiles = [
-                path.resolve(process.cwd(), 'public/data/remotejobs.json'),
-                path.resolve(process.cwd(), 'public/data/freelancejobs.json'),
-                path.resolve(process.cwd(), 'public/data/moneymakingapps.json'),
-                path.resolve(process.cwd(), 'public/data/budgetdata.json'),
-                path.resolve(process.cwd(), 'public/data/startablogdata.json'),
-                path.resolve(process.cwd(), 'public/data/mystory.json'),
-                path.resolve(process.cwd(), 'public/data/products.json'),
+                path.resolve(process.cwd(), '../public/data/remotejobs.json'),
+                path.resolve(process.cwd(), '../public/data/freelancejobs.json'),
+                path.resolve(process.cwd(), '../public/data/moneymakingapps.json'),
+                path.resolve(process.cwd(), '../public/data/budgetdata.json'),
+                path.resolve(process.cwd(), '../public/data/startablogdata.json'),
+                path.resolve(process.cwd(), '../public/data/mystory.json'),
+                path.resolve(process.cwd(), '../public/data/products.json'),
+                path.resolve(process.cwd(), '../public/data/breakingnews.json'),
+                path.resolve(__dirname, '/src/pages/PrivacyPolicy.tsx'),// ✅ Ensure Breaking News is added
             ];
+
             _loop_1 = function (filePath) {
                 try {
                     var fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -82,7 +85,7 @@ function fetchDynamicRoutes() {
                             return;
                         }
                         // Determine the URL base based on the file type
-                        var urlBase = filePath.includes('remotejobs')
+                        const urlBase = filePath.includes('remotejobs')
                             ? '/extra-income/remote-jobs'
                             : filePath.includes('freelancejobs')
                                 ? '/extra-income/freelancers'
@@ -94,7 +97,10 @@ function fetchDynamicRoutes() {
                                             ? '/start-a-blog'
                                             : filePath.includes('mystory')
                                                 ? '/my-story'
-                                                : '/products'; // Default URL base for products
+                                                : filePath.includes('breakingnews')  // ✅ Ensure Breaking News is correctly handled
+                                                    ? '/breaking-news'
+                                                    : '/products';
+
                         // Add each entry in the JSON file to dynamic routes
                         dynamicRoutes.push({
                             url: "".concat(urlBase, "/").concat(post.id),
@@ -126,7 +132,7 @@ function generateSitemap() {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
                     sitemap_2 = new sitemap_1.SitemapStream({ hostname: BASE_URL });
-                    sitemapPath = path.resolve(process.cwd(), 'public/sitemap.xml');
+                    sitemapPath = path.resolve(process.cwd(), '../public/sitemap.xml');
                     writeStream = fs.createWriteStream(sitemapPath);
                     // Pipe the sitemap stream to the file stream
                     sitemap_2.pipe(writeStream);
