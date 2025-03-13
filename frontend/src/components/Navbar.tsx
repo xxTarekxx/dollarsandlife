@@ -49,12 +49,15 @@ const Navbar: React.FC = () => {
 					{ file: "products.json", route: "/shopping-deals" },
 					{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
 					{ file: "startablogdata.json", route: "/start-a-blog" },
+					{ file: "breakingnews.json", route: "/breaking-news" },
 				];
 
 				const allPosts: Post[] = [];
 
 				for (const fileInfo of files) {
-					const response = await fetch(`/data/${fileInfo.file}`);
+					const response = await fetch(
+						`/data/${fileInfo.file}?v=${Date.now()}`,
+					); // Cache-busting
 					if (!response.ok) {
 						console.warn(
 							`Failed to fetch ${fileInfo.file}: ${response.statusText}`,
@@ -70,6 +73,7 @@ const Navbar: React.FC = () => {
 					allPosts.push(...postsWithRoute);
 				}
 
+				console.log("Fetched posts:", allPosts); // Debugging
 				setPosts(allPosts);
 			} catch (error) {
 				console.error("Error fetching posts:", error);
@@ -88,6 +92,7 @@ const Navbar: React.FC = () => {
 					post.title.toLowerCase().includes(lowerCaseTerm) ||
 					post.id.toLowerCase().includes(lowerCaseTerm),
 			);
+			console.log("Filtered suggestions:", filteredSuggestions); // Debugging
 			setSuggestions(filteredSuggestions);
 		} else {
 			setSuggestions([]);
@@ -116,7 +121,7 @@ const Navbar: React.FC = () => {
 	// Handle search suggestion click
 	const handleSuggestionClick = (suggestion: Post) => {
 		const fullRoute = `${suggestion.route}/${suggestion.id}`;
-		console.log("Navigating to:", fullRoute);
+		console.log("Navigating to:", fullRoute); // Debugging
 		navigate(fullRoute);
 		setSearchTerm("");
 		setIsSearchOpen(false);
