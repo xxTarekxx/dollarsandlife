@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
 	Route,
 	BrowserRouter as Router,
 	Routes,
 	useLocation,
 } from "react-router-dom";
-import { HelmetProvider, Helmet } from "react-helmet-async";
 import "./App.css";
 import BlogPostContent from "./components/BlogPostContent";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
@@ -14,17 +14,17 @@ import ContactUs from "./components/ContactUs";
 // import CookieConsentBanner from "./components/CookieConsentBanner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import BreakingNews from "./pages/category/breakingnews/BreakingNews";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
 import Budget from "./pages/category/Extra-Income/Budget";
 import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreelanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
-import StartABlog from "./pages/category/start-a-blog/StartABlog";
+import StartABlog from "./pages/category/Start-A-Blog/StartABlog";
 import HomePage from "./pages/HomePage";
-import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import BreakingNews from "./pages/category/breakingnews/BreakingNews";
+import TermsOfService from "./pages/TermsOfService";
 
 const App: React.FC = () => {
 	const location = useLocation();
@@ -170,22 +170,22 @@ const App: React.FC = () => {
 				<div className='main-content'>
 					<Routes>
 						<Route path='/' element={<HomePage />} />
-						<Route path='/extra-income' element={<ExtraIncome />} />
+						<Route path='/Extra-Income' element={<ExtraIncome />} />
 						<Route
-							path='/extra-income/freelancers/*'
+							path='/Extra-Income/Freelancers/*'
 							element={<FreelanceJobs />}
 						/>
-						<Route path='/extra-income/Budget/*' element={<Budget />} />
+						<Route path='/Extra-Income/Budget/*' element={<Budget />} />
 						<Route
-							path='/extra-income/remote-jobs/*'
+							path='/Extra-Income/Remote-Jobs/*'
 							element={<RemoteOnlineJobs />}
 						/>
 						<Route
-							path='/extra-income/money-making-apps/*'
+							path='/Extra-Income/Money-Making-Apps/*'
 							element={<MoneyMakingApps />}
 						/>
-						<Route path='/shopping-deals' element={<ShoppingDeals />} />
-						<Route path='/start-a-blog/*' element={<StartABlog />} />
+						<Route path='/Shopping-Deals' element={<ShoppingDeals />} />
+						<Route path='/Start-A-Blog/*' element={<StartABlog />} />
 						<Route
 							path='/my-story'
 							element={<BlogPostContent jsonFile='mystory.json' />}
@@ -196,15 +196,15 @@ const App: React.FC = () => {
 						/>
 						<Route path='/breaking-news' element={<BreakingNews />} />
 						<Route
-							path='/extra-income/:id'
+							path='/Extra-Income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}
 						/>
 						<Route
-							path='/shopping-deals/:id'
+							path='/Shopping-Deals/:id'
 							element={<BlogPostContent jsonFile='products.json' />}
 						/>
 						<Route
-							path='/start-a-blog/:id'
+							path='/Start-A-Blog/:id'
 							element={<BlogPostContent jsonFile='startablogdata.json' />}
 						/>
 						<Route

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import "../../../components/AdComponent.css";
-import "../../../components/BlogPostContent.css";
-import "../Extra-Income/CommonStyles.css";
 import BlogPostCard from "../../../components/BlogPostCard";
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "../Extra-Income/CommonStyles.css";
 
 interface BlogPost {
 	id: string;

@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import "../../../components/AdComponent.css";
-import "../../../components/BlogPostContent.css";
-import "./CommonStyles.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "./CommonStyles.css";
 
 interface FreelanceJob {
 	id: string;
@@ -78,14 +78,14 @@ const FreelanceJobs: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/Freelancers'
+					href='https://www.dollarsandlife.com/Extra-Income/Freelancers'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
 						name: "Freelance Jobs & Opportunities",
-						url: "https://www.dollarsandlife.com/extra-income/freelancers",
+						url: "https://www.dollarsandlife.com/Extra-Income/Freelancers",
 						description:
 							"Discover top freelance jobs and online work opportunities. Explore remote work, side gigs, and contract jobs to increase your income.",
 						publisher: {
@@ -129,7 +129,7 @@ const FreelanceJobs: React.FC = () => {
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
-											<Link to={`/extra-income/freelancers/${post.id}`}>
+											<Link to={`/Extra-Income/Freelancers/${post.id}`}>
 												<BlogPostCard
 													id={post.id}
 													title={post.title}

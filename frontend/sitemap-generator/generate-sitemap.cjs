@@ -76,11 +76,11 @@ async function fetchDynamicRoutes() {
 
                 // Generate URL based on filename
                 const filename = path.basename(filePath, ".json");
-                const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
-                    : filename.includes("freelancejobs") ? "/extra-income/freelancers"
-                        : filename.includes("moneymakingapps") ? "/extra-income/money-making-apps"
-                            : filename.includes("budgetdata") ? "/extra-income/budget"
-                                : filename.includes("startablogdata") ? "/start-a-blog"
+                const urlBase = filename.includes("remotejobs") ? "/Extra-Income/Remote-Jobs"
+                    : filename.includes("freelancejobs") ? "/Extra-Income/Freelancers"
+                        : filename.includes("moneymakingapps") ? "/Extra-Income/Money-Making-Apps"
+                            : filename.includes("budgetdata") ? "/Extra-Income/budget"
+                                : filename.includes("startablogdata") ? "/Start-A-Blog"
                                     : filename.includes("breakingnews") ? "/breaking-news"
                                         : "";
 

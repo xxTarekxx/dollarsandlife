@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
 
 	const linkBoxes = [
 		{
-			to: "/extra-income",
+			to: "/Extra-Income",
 			ariaLabel: "Extra Income",
 			imgSrc: compressedExtraIncomeImg || ExtraIncomeImg,
 			altText: "Extra Income Menu link",
@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
 			priority: false, // Non-critical image
 		},
 		{
-			to: "/Shopping-deals",
+			to: "/Shopping-Deals",
 			ariaLabel: "Shopping Deals",
 			imgSrc: compressedAmazonPicksImg || AmazonPicksImg,
 			altText: "Shopping List Menu link",

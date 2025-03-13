@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import "../pages/category/Extra-Income/CommonStyles.css";
 import "./AdComponent.css";
 import "./BlogPostContent.css";
-import "../pages/category/Extra-Income/CommonStyles.css";
 import FiverrWidget from "./FiverrWidget";
 
 interface BlogPostContentProps {

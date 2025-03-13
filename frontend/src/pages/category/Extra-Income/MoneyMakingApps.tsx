@@ -79,7 +79,7 @@ const MoneyMakingApps: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/money-making-apps'
+					href='https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -92,7 +92,7 @@ const MoneyMakingApps: React.FC = () => {
 							image: post.imageUrl,
 							author: { "@type": "Person", name: post.author },
 							datePublished: post.datePosted,
-							url: `https://www.dollarsandlife.com/extra-income/money-making-apps/${post.id}`,
+							url: `https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps/${post.id}`,
 						})),
 					})}
 				</script>
@@ -123,7 +123,7 @@ const MoneyMakingApps: React.FC = () => {
 									currentPosts.map((post, i) => (
 										<React.Fragment key={post.id || `post-${i}`}>
 											<div className='row-container'>
-												<Link to={`/extra-income/money-making-apps/${post.id}`}>
+												<Link to={`/Extra-Income/Money-Making-Apps/${post.id}`}>
 													<BlogPostCard
 														id={post.id || `fallback-${i}`}
 														title={post.title || "Untitled"}
