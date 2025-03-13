@@ -69,7 +69,6 @@ async function fetchDynamicRoutes(): Promise<{ url: string; changefreq: string; 
           : filename.includes('moneymakingapps') ? '/extra-income/money-making-apps'
           : filename.includes('budgetdata') ? '/extra-income/budget'
           : filename.includes('startablogdata') ? '/start-a-blog'
-          : filename.includes('mystory') ? '/my-story'
           : filename.includes('breakingnews') ? '/breaking-news'
           : '/products';
 
