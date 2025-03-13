@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import "../../../components/AdComponent.css";
-import "../../../components/BlogPostContent.css";
-import "./CommonStyles.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "./CommonStyles.css";
 
 interface RemoteJob {
 	id: string;
@@ -76,14 +76,14 @@ const RemoteOnlineJobs: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/Remote-Jobs'
+					href='https://www.dollarsandlife.com/Extra-Income/Remote-Jobs'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
 						name: "Remote Online Jobs - Work from Home & Freelance Gigs",
-						url: "https://www.dollarsandlife.com/extra-income/remote-jobs",
+						url: "https://www.dollarsandlife.com/Extra-Income/Remote-Jobs",
 						description:
 							"Find the best remote jobs, freelance gigs, and online work opportunities. Work from home and earn a stable income in 2024.",
 						publisher: {
@@ -127,7 +127,7 @@ const RemoteOnlineJobs: React.FC = () => {
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
-											<Link to={`/extra-income/remote-jobs/${post.id}`}>
+											<Link to={`/Extra-Income/Remote-Jobs/${post.id}`}>
 												<BlogPostCard
 													id={post.id}
 													title={post.title}

@@ -14,9 +14,9 @@ interface Post {
 
 const menuItems = [
 	{ to: "/", text: "Home" },
-	{ to: "/extra-income", text: "Extra Income" },
-	{ to: "/shopping-deals", text: "Shopping Deals" },
-	{ to: "/start-a-blog", text: "Start A Blog" },
+	{ to: "/Extra-Income", text: "Extra Income" },
+	{ to: "/Shopping-Deals", text: "Shopping Deals" },
+	{ to: "/Start-A-Blog", text: "Start A Blog" },
 	{ to: "/breaking-news", text: "Breaking News" },
 	{ to: "/financial-calculators", text: "Calculators" },
 ];
@@ -40,15 +40,15 @@ const Navbar: React.FC = () => {
 		const fetchPosts = async () => {
 			try {
 				const files = [
-					{ file: "budgetdata.json", route: "/extra-income" },
-					{ file: "freelancejobs.json", route: "/extra-income/freelancers" },
+					{ file: "budgetdata.json", route: "/Extra-Income" },
+					{ file: "freelancejobs.json", route: "/Extra-Income/Freelancers" },
 					{
 						file: "moneymakingapps.json",
-						route: "/extra-income/money-making-apps",
+						route: "/Extra-Income/Money-Making-Apps",
 					},
-					{ file: "products.json", route: "/shopping-deals" },
-					{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
-					{ file: "startablogdata.json", route: "/start-a-blog" },
+					{ file: "products.json", route: "/Shopping-Deals" },
+					{ file: "remotejobs.json", route: "/Extra-Income/Remote-Jobs" },
+					{ file: "startablogdata.json", route: "/Start-A-Blog" },
 					{ file: "breakingnews.json", route: "/breaking-news" },
 				];
 

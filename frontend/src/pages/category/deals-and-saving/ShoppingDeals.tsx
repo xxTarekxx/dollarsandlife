@@ -157,7 +157,7 @@ const ShoppingDeals: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/shopping-deals'
+					href='https://www.dollarsandlife.com/Shopping-Deals'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({

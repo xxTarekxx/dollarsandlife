@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async"; // For SEO
 import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
-import "../Extra-Income/CommonStyles.css";
-import "../../../components/BlogPostContent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "../Extra-Income/CommonStyles.css";
 
 interface BlogPost {
 	id: string;
@@ -80,7 +80,7 @@ const StartABlog: React.FC = () => {
 							image: post.imageUrl,
 							author: { "@type": "Person", name: post.author },
 							datePublished: post.datePosted,
-							url: `https://www.dollarsandlife.com/start-a-blog/${post.id}`,
+							url: `https://www.dollarsandlife.com/Start-A-Blog/${post.id}`,
 						})),
 					})}
 				</script>
@@ -117,7 +117,7 @@ const StartABlog: React.FC = () => {
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
 											<Link
-												to={`/start-a-blog/${post.id}`}
+												to={`/Start-A-Blog/${post.id}`}
 												aria-label={`Read more about ${post.title}`}
 											>
 												<BlogPostCard

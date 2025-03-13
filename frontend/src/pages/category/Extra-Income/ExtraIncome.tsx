@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async"; // Correct way to modify <head>
+import { Link } from "react-router-dom";
 import useCompressedImage from "../../../components/compressed/useCompressedImage";
+import "./ExtraIncome.css";
 import Budgettingimg from "/images/icons/img-budgetting.webp";
 import FreeLancerimg from "/images/icons/img-freelancer.webp";
-import RemoteJobimg from "/images/icons/img-remotejobs.webp";
 import MoneyMakingAppsimg from "/images/icons/img-moneymakingapps.webp";
-import "./ExtraIncome.css";
+import RemoteJobimg from "/images/icons/img-remotejobs.webp";
 
 const ExtraIncome: React.FC = () => {
 	useEffect(() => {
@@ -20,7 +20,7 @@ const ExtraIncome: React.FC = () => {
 
 	const linkBoxes = [
 		{
-			to: "/extra-income/Freelancers",
+			to: "/Extra-Income/Freelancers",
 			ariaLabel: "Explore freelance opportunities",
 			imgSrc: compressedFreeLancerimg || FreeLancerimg,
 			altText: "Freelance job opportunities",
@@ -28,7 +28,7 @@ const ExtraIncome: React.FC = () => {
 			priority: true,
 		},
 		{
-			to: "/extra-income/Budget",
+			to: "/Extra-Income/Budget",
 			ariaLabel: "Learn budgeting strategies",
 			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Budgeting and financial planning",
@@ -36,7 +36,7 @@ const ExtraIncome: React.FC = () => {
 			priority: false,
 		},
 		{
-			to: "/extra-income/Remote-Jobs",
+			to: "/Extra-Income/Remote-Jobs",
 			ariaLabel: "Find remote job opportunities",
 			imgSrc: compressedRemoteJobimg || RemoteJobimg,
 			altText: "Remote jobs and online work",
@@ -44,7 +44,7 @@ const ExtraIncome: React.FC = () => {
 			priority: false,
 		},
 		{
-			to: "/extra-income/money-making-apps",
+			to: "/Extra-Income/Money-Making-Apps",
 			ariaLabel: "Earn money using apps",
 			imgSrc: compressedMoneyMakingAppsimg || MoneyMakingAppsimg,
 			altText: "Apps to earn money online",
@@ -64,14 +64,14 @@ const ExtraIncome: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income'
+					href='https://www.dollarsandlife.com/Extra-Income'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
 						name: "Extra Income Opportunities",
-						url: "https://www.dollarsandlife.com/extra-income",
+						url: "https://www.dollarsandlife.com/Extra-Income",
 						description:
 							"Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.",
 						publisher: {

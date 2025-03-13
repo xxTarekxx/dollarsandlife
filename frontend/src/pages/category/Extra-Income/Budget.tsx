@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async"; // For SEO
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import "../../../components/AdComponent.css";
-import "../../../components/BlogPostContent.css";
-import "./CommonStyles.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
+import "./CommonStyles.css";
 
 interface BlogPost {
 	id: string;
@@ -81,7 +81,7 @@ const Budget: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/Budget/'
+					href='https://www.dollarsandlife.com/Extra-Income/Budget/'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -94,7 +94,7 @@ const Budget: React.FC = () => {
 							image: post.imageUrl,
 							author: { "@type": "Person", name: post.author },
 							datePublished: post.datePosted,
-							url: `https://www.dollarsandlife.com/extra-income/Budget/${post.id}`,
+							url: `https://www.dollarsandlife.com/Extra-Income/Budget/${post.id}`,
 						})),
 					})}
 				</script>
@@ -128,7 +128,7 @@ const Budget: React.FC = () => {
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
 											<Link
-												to={`/extra-income/Budget/${post.id}`}
+												to={`/Extra-Income/Budget/${post.id}`}
 												aria-label={`Read more about ${post.title}`}
 											>
 												<BlogPostCard

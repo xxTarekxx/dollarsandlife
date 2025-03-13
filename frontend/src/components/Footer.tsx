@@ -14,15 +14,15 @@ const Footer: React.FC = () => {
 			header: "Discover",
 			links: [
 				{ to: "/financial-calculators", text: "Calculators" },
-				{ to: "/extra-income/money-making-apps", text: "Investment" },
-				{ to: "/extra-income/money-making-apps", text: "Passive Income Apps" },
+				{ to: "/Extra-Income/Money-Making-Apps", text: "Investment" },
+				{ to: "/Extra-Income/Money-Making-Apps", text: "Passive Income Apps" },
 			],
 		},
 		{
 			header: "Earning",
 			links: [
-				{ to: "/extra-income/Freelancers", text: "Freelancer Opportunities" },
-				{ to: "/extra-income/Budget/", text: "Budgeting" },
+				{ to: "/Extra-Income/Freelancers", text: "Freelancer Opportunities" },
+				{ to: "/Extra-Income/Budget/", text: "Budgeting" },
 				{ to: "/Shopping-Deals", text: "Deals & Saving" },
 				{ to: "/Start-A-Blog", text: "Start A Blog" },
 			],
