@@ -9,20 +9,24 @@ interface BreadcrumbProps {
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 	if (!paths || paths.length === 0) return null;
 
+	const structuredData = {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: paths.map((path, index) => ({
+			"@type": "ListItem",
+			position: index + 1,
+			item: {
+				"@id": `${window.location.origin}${path.url}`,
+				name: path.title || "Untitled", // ✅ Ensures "name" is always present
+			},
+		})),
+	};
+
 	return (
 		<nav aria-label='Breadcrumb Navigation'>
 			{/* JSON-LD Structured Data for SEO */}
 			<script type='application/ld+json'>
-				{JSON.stringify({
-					"@context": "https://schema.org",
-					"@type": "BreadcrumbList",
-					itemListElement: paths.map((path, index) => ({
-						"@type": "ListItem",
-						position: index + 1,
-						name: path.title,
-						item: `${window.location.origin}${path.url}`,
-					})),
-				})}
+				{JSON.stringify(structuredData)}
 			</script>
 
 			{/* Breadcrumb Navigation */}
@@ -45,7 +49,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 								itemProp='item'
 								aria-current={index === paths.length - 1 ? "page" : undefined}
 							>
-								<span itemProp='name'>{path.title}</span>
+								<span itemProp='name'>{path.title || "Untitled"}</span>
 							</Link>
 							<meta itemProp='position' content={(index + 1).toString()} />
 							{index < paths.length - 1 && (
