@@ -113,12 +113,12 @@
 }
 
 .read-more-button {
-    background-color: #0e68f0;
+    background-color: #0553c9;
     color: rgb(255, 255, 255);
     border: none;
     border-radius: 5px;
     padding: 8px 15px;
-    font-size: 0.805rem;
+    font-size: 0.875rem;
     margin-top: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -126,5 +126,5 @@
 }
 
 .read-more-button:hover {
-    background-color: #ffc000;
+    background-color: #854cc5;
 }
