@@ -17,7 +17,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 			position: index + 1,
 			item: {
 				"@id": `${window.location.origin}${path.url}`,
-				name: path.title || "Untitled", // ✅ Ensures "name" is always present
+				name: path.title || "Untitled", // Ensures "name" is always present
 			},
 		})),
 	};

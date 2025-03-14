@@ -25,6 +25,7 @@ import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import RssTicker from "./components/RssTicker";
 
 const App: React.FC = () => {
 	const location = useLocation();
@@ -166,6 +167,7 @@ const App: React.FC = () => {
 				</Helmet>
 
 				<Navbar />
+				<RssTicker />
 				{location.pathname !== "/" && <BreadcrumbWrapper />}
 				<div className='main-content'>
 					<Routes>
@@ -216,6 +218,7 @@ const App: React.FC = () => {
 						<Route path='/contact-us' element={<ContactUs />} />
 					</Routes>
 				</div>
+
 				<Footer />
 				{/* <CookieConsentBanner /> */}
 			</div>
