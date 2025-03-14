@@ -45,7 +45,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 					<h2 className='card-title'>{title}</h2>
 				</header>
 				<p className='card-text'>{content}</p>
-				<div>
+				<div className='author-date'>
 					<p className='card-author'>By {author}</p>
 					<time className='card-date' dateTime={datePosted}>
 						{formattedDate}
