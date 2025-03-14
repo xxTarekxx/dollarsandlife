@@ -1,0 +1,80 @@
+/* Modern Continuous Scrolling RSS Ticker */
+.rss-ticker {
+    width: 100%;
+    background: linear-gradient(90deg, #2a5298, #4c1e72);
+    /* Dark blue gradient */
+    color: white;
+    overflow: hidden;
+    /* padding: 10px 0; */
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    border-top: 2px solid #fff;
+    display: flex;
+    align-items: center;
+}
+
+/* Outer wrapper for smooth scrolling */
+.rss-ticker-wrapper {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Inner scrolling container */
+.rss-ticker-content {
+    display: flex;
+    white-space: nowrap;
+    animation: scrollTicker 60s linear infinite;
+    /* Continuous loop */
+}
+
+/* Duplicate content to create a seamless loop */
+.rss-ticker-content::after {
+    content: attr(data-content);
+    white-space: nowrap;
+    padding-left: 50px;
+    /* Adjust spacing */
+}
+
+/* Infinite scrolling animation */
+@keyframes scrollTicker {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Links inside the ticker */
+.rss-ticker-content a {
+    color: white;
+    text-decoration: none;
+    padding: 0 20px;
+    transition: all 0.3s ease-in-out;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Hover effect */
+.rss-ticker-content a:hover {
+    color: #ffcc00;
+    /* Gold color for contrast */
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .rss-ticker {
+        font-size: 14px;
+        padding: 2px 0;
+    }
+
+    .rss-ticker-content a {
+        padding: 0 10px;
+        font-size: 14px;
+    }
+}
