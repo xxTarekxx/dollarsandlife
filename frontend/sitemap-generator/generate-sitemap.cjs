@@ -23,10 +23,10 @@ function extractRoutesFromApp() {
             }
         }
 
-        console.log(` Extracted ${routes.length} valid routes from App.tsx`);
+        console.log(`✅ Extracted ${routes.length} valid routes from App.tsx`);
         return routes;
     } catch (err) {
-        console.error(` Error reading App.tsx:`, err);
+        console.error(`❌ Error reading App.tsx:`, err);
         return [];
     }
 }
@@ -42,10 +42,10 @@ function getJsonFiles() {
             .map(file => path.resolve(dataDir, file))
             .filter(file => !file.includes("products")); //  Remove products and my-story
 
-        console.log(` Found ${files.length} JSON data files`);
+        console.log(`✅ Found ${files.length} JSON data files`);
         return files;
     } catch (err) {
-        console.error(` Error reading data directory:`, err);
+        console.error(`❌ Error reading data directory:`, err);
         return [];
     }
 }
@@ -95,7 +95,7 @@ async function fetchDynamicRoutes() {
             });
 
         } catch (err) {
-            console.error(` Error reading ${filePath}:`, err);
+            console.error(`Error reading ${filePath}:`, err);
         }
     }
 
@@ -113,10 +113,14 @@ async function generateSitemap() {
 
         sitemap.pipe(writeStream);
 
-        //  Extract static routes
-        const staticRoutes = extractRoutesFromApp();
+        //  Extract static routes and add RSS feed
+        const staticRoutes = [
+            ...extractRoutesFromApp(),
+            "/rss-feed" // ✅ Add RSS feed route
+        ];
+
         staticRoutes.forEach(route => {
-            sitemap.write({ url: route, changefreq: "monthly", priority: 0.8 });
+            sitemap.write({ url: route, changefreq: "hourly", priority: 0.5 });
         });
 
         //  Fetch valid dynamic routes
@@ -125,9 +129,9 @@ async function generateSitemap() {
 
         sitemap.end();
         await streamToPromise(sitemap);
-        console.log(` Sitemap generated successfully at: ${sitemapPath}`);
+        console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
     } catch (err) {
-        console.error(` Error generating sitemap:`, err);
+        console.error(`❌ Error generating sitemap:`, err);
     }
 }
 
