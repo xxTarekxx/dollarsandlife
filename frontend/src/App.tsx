@@ -21,7 +21,7 @@ import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
 import FreelanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
 import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
 import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
-import StartABlog from "./pages/category/Start-A-Blog/StartABlog";
+import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -157,7 +157,7 @@ const App: React.FC = () => {
 								{
 									"@type": "ListItem",
 									position: 2,
-									name: location.pathname.replace("/", ""),
+									name: location.pathname.replace("/", "") || "Page", // Fallback to "Page" if empty
 									item: canonicalUrl,
 								},
 							],
