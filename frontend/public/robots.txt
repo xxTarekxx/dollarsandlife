@@ -1,3 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
+# Allow all crawlers to access the entire site
 User-agent: *
 Disallow:
+
+# Sitemap location for improved indexing
+Sitemap: https://www.dollarsandlife.com/sitemap.xml
