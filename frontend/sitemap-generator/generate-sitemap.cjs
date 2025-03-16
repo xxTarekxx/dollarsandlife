@@ -69,7 +69,7 @@ async function fetchDynamicRoutes() {
             }
 
             jsonData.forEach(post => {
-                if (!post.id || !post.datePosted) {
+                if (!post.id || !post.datePublished) {
                     console.warn(`⚠️ Skipping invalid entry in ${filePath}:`, post);
                     return;
                 }
@@ -89,7 +89,7 @@ async function fetchDynamicRoutes() {
                         url: `${urlBase}/${post.id}`,
                         changefreq: "daily",
                         priority: 0.8,
-                        lastmod: post.datePosted || new Date().toISOString(),
+                        lastmod: post.datePublished || new Date().toISOString(),
                     });
                 }
             });
