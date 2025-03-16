@@ -4,40 +4,53 @@ import "./BlogPostCard.css";
 interface BlogPostCardProps {
 	id: string;
 	title: string;
-	imageUrl: string;
+	image: {
+		url: string; // Image source URL
+		caption: string; // Image caption (for alt text)
+	};
 	content: string;
-	author: string;
-	datePosted: string;
+	author: {
+		name: string;
+	};
+	datePublished: string;
+	dateModified?: string; // Optional updated date
 	onClick?: () => void;
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	title,
-	imageUrl,
+	image,
 	content,
 	author,
-	datePosted,
+	datePublished,
+	dateModified,
 	onClick,
 }) => {
-	const formattedDate = new Date(datePosted).toLocaleDateString("en-US", {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	});
+	const formattedDatePosted = new Date(datePublished).toLocaleDateString(
+		"en-US",
+		{
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		},
+	);
+
+	const formattedArticleUpdated = dateModified
+		? new Date(dateModified).toLocaleDateString("en-US", {
+				year: "numeric",
+				month: "long",
+				day: "numeric",
+		  })
+		: null;
 
 	return (
 		<article className='card-container' onClick={onClick}>
-			{/* Optimize image loading with srcSet for responsiveness */}
 			<img
 				className='card-image'
-				src={imageUrl}
-				alt={title}
+				src={image.url} // Access the `url` of the image
+				alt={image.caption} // Access the `caption` for alt text
 				loading='lazy'
-				srcSet={`
-					${imageUrl} 1x,
-					${imageUrl.replace(".jpg", "@2x.jpg")} 2x
-				`}
-				width='320' // Adjust the width and height for layout stability
+				width='320'
 				height='240'
 			/>
 			<div className='card-content'>
@@ -45,19 +58,28 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 					<h2 className='card-title'>{title}</h2>
 				</header>
 				<p className='card-text'>{content}</p>
+
 				<div className='author-date'>
-					<p className='card-author'>By {author}</p>
-					<time className='card-date' dateTime={datePosted}>
-						{formattedDate}
-					</time>
-				</div>
-				<div>
-					<button
-						className='read-more-button'
-						aria-label={`Read more about ${title}`}
-					>
-						Read More
-					</button>
+					<p className='card-author'>By {author.name}</p>{" "}
+					{/* Access author name */}
+					<div className='date-group'>
+						<time className='card-date' dateTime={datePublished}>
+							Posted: {formattedDatePosted}
+						</time>
+						{formattedArticleUpdated && (
+							<time className='updated-date' dateTime={dateModified}>
+								Updated: {formattedArticleUpdated}
+							</time>
+						)}
+					</div>
+					<div>
+						<button
+							className='read-more-button'
+							aria-label={`Read more about ${title}`}
+						>
+							Read More
+						</button>
+					</div>
 				</div>
 			</div>
 		</article>

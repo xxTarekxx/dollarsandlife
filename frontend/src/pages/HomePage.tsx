@@ -70,12 +70,12 @@ const HomePage: React.FC = () => {
 				<meta property='og:type' content='website' />
 
 				{/* Preload LCP (Largest Contentful Paint) image */}
-				{/* <link
+				<link
 					rel='preload'
 					as='image'
 					href={compressedStartAblogimg || StartAblogimg}
 					imageSrcSet={`${compressedStartAblogimg || StartAblogimg} 1x`}
-				/> */}
+				/>
 				<link rel='canonical' href='https://www.dollarsandlife.com' />
 			</Helmet>
 

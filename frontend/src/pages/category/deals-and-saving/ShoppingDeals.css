@@ -19,7 +19,6 @@
     display: block;
 }
 
-
 @media (max-width: 600px) {
     .SectionHeading {
         padding-top: 0px;
@@ -123,7 +122,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    cursor: pointer;
+    /* cursor: pointer; */
     transition: transform 0.1s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
@@ -131,10 +130,16 @@
     justify-content: flex-start;
     margin: 10px;
     width: auto;
-    height: auto;
     max-width: 300px;
+    max-height: 640px;
+    /* Ensure the CardContainer has a max height */
     padding: 20px;
     position: relative;
+    /* Flexbox to manage content inside */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Ensures space between title, price, and button */
 }
 
 .CardContainer:hover {
@@ -144,7 +149,7 @@
 
 .CardImage {
     max-width: 100%;
-    height: auto;
+    height: 260px;
     object-fit: cover;
     object-position: center;
 }
@@ -160,13 +165,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    /* Ensure content starts at the top */
     flex-grow: 1;
     width: 100%;
+    overflow: hidden;
+    /* Ensures excess content doesn't spill out */
 }
 
 .CardTitle {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #333;
     font-weight: 700;
     text-align: center;
@@ -217,10 +225,8 @@
 }
 
 .BuyNowButton {
-    margin-top: 5px;
-    /* Adds small space between price and button */
+    margin-top: 10px;
     align-self: center;
-    /* Centers the button horizontally */
     padding: 10px 20px;
     background: #007bff;
     color: white;
@@ -228,8 +234,12 @@
     border-radius: 5px;
     text-align: center;
     transition: background 0.3s;
+    width: 100%;
+    max-width: 200px;
+    /* Set a maximum width for the button */
 }
 
 .BuyNowButton:hover {
+    color: white;
     background: #0056b3;
 }

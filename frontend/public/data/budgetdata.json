@@ -1,12 +1,32 @@
 [
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "AI-Driven-Budgeting-Tools-Guide",
-		"title": "The Ultimate Guide to AI-Driven Budgeting Tools in 2025 | Dollars & Life",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-05T04:43:11",
-		"imageUrl": "/images/budgetting/AI-Powered-Budgeting-banner.webp",
-		"imageAltText": "AI-Driven Budgeting Tools in 2025 - Futuristic Financial Dashboard",
-		"metaDescription": "Discover the best AI-driven budgeting tools in 2025. Learn how AI transforms personal finance with real-time tracking, automated savings, and personalized advice.",
+		"headline": "The Ultimate Guide to AI-Driven Budgeting Tools in 2025 | Dollars & Life",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"url": "https://www.dollarsandlife.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Extra-Income/Budget",
+		"datePublished": "2025-03-05T04:43:11",
+		"dateModified": "2025-03-05T04:43:11",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/budgetting/AI-Powered-Budgeting-banner.webp",
+			"caption": "AI-Driven Budgeting Tools in 2025 - Futuristic Financial Dashboard"
+		},
+		"description": "Discover the best AI-driven budgeting tools in 2025. Learn how AI transforms personal finance with real-time tracking, automated savings, and personalized advice.",
+
 		"content": [
 			{
 				"subtitle": "Introduction to AI-Driven Budgeting Tools",
@@ -79,13 +99,31 @@
 	},
 
 	{
+		"@context": "https://schema.org",
+		"@type": "NewsArticle",
 		"id": "Election-Financial-Impact",
-		"title": "How the Upcoming Election Could Affect You Financially",
-		"author": "Dollars & Life",
-		"datePosted": "2024-11-02T09:00:00",
-		"imageUrl": "/images/budgetting/no-tax-on-overtime.webp",
-		"imageAltText": "How the Upcoming Election Could Affect Your Finances",
-		"metaDescription": "Explore the financial impact of the upcoming election, including potential effects on taxes, job markets, investments, and the economy.",
+		"headline": "How the Upcoming Election Could Affect You Financially",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/Election-Financial-Impact",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.webp"
+			}
+		},
+		"datePublished": "2024-11-02T09:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/budgetting/no-tax-on-overtime.webp",
+			"caption": "How the Upcoming Election Could Affect Your Finances"
+		},
+		"description": "Explore the financial impact of the upcoming election, including potential effects on taxes, job markets, investments, and the economy.",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -172,12 +210,32 @@
 		"canonicalUrl": "https://www.dollarsandlife.com/Extra-Income/budget/Election-Financial-Impact"
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "recession-guide",
 		"title": "How to Navigate a Recession: Smart Financial Strategies",
-		"author": "Dollars & Life",
-		"datePosted": "2024-10-09T08:00:00",
-		"imageUrl": "/images/budgetting/recession-img.webp",
-		"metaDescription": "Learn how to manage finances, investments, and career moves during a recession. Discover recession-proof strategies to secure your financial future.",
+		"headline": "How to Navigate a Recession: Smart Financial Strategies",
+		"description": "Learn how to manage finances, investments, and career moves during a recession. Discover recession-proof strategies to secure your financial future.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/recession-guide",
+		"datePublished": "2024-10-09T08:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/budgetting/recession-img.webp",
+			"caption": "How to Navigate a Recession: Smart Financial Strategies"
+		},
 		"keywords": [
 			"how to survive a recession",
 			"recession financial tips",
@@ -246,13 +304,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "financial-saving-strategies",
 		"title": "Best Money-Saving Apps to Help You Save More in 2024",
-		"author": "Dollars & Life",
-		"datePosted": "2024-09-20T08:00:00",
-		"imageUrl": "/images/budgetting/budget-main-article-savings.svg",
-		"imageAltText": "Money-Saving Apps - A smartphone displaying various budgeting and savings apps",
-		"metaDescription": "Discover the best money-saving apps and strategies to help you save more in 2024. Learn how to automate savings, cut costs, and achieve your financial goals.",
+		"headline": "Best Money-Saving Apps to Help You Save More in 2024",
+		"description": "Discover the best money-saving apps and strategies to help you save more in 2024. Learn how to automate savings, cut costs, and achieve your financial goals.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/financial-saving-strategies",
+		"datePublished": "2024-09-20T08:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/budgetting/budget-main-article-savings.svg",
+			"caption": "Money-Saving Apps - A smartphone displaying various budgeting and savings apps"
+		},
 		"keywords": [
 			"money-saving apps",
 			"best budgeting apps",
@@ -345,13 +422,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "best-cashback-apps-and-credit-cards",
 		"title": "Top Cashback Apps and Credit Cards for Maximum Savings in 2024",
-		"author": "Dollars & Life",
-		"datePosted": "2024-09-18T08:00:00",
-		"imageUrl": "/images/budgetting/cashback-main-image.svg",
-		"imageAltText": "Best Cashback Apps and Credit Cards for 2024",
-		"metaDescription": "Maximize your savings with the top cashback apps and credit cards of 2024. Earn rewards on everyday purchases, groceries, and travel.",
+		"headline": "Top Cashback Apps and Credit Cards for Maximum Savings in 2024",
+		"description": "Maximize your savings with the top cashback apps and credit cards of 2024. Earn rewards on everyday purchases, groceries, and travel.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/best-cashback-apps-and-credit-cards",
+		"datePublished": "2024-09-18T08:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/budgetting/cashback-main-image.svg",
+			"caption": "Best Cashback Apps and Credit Cards for 2024"
+		},
 		"content": [
 			{
 				"subtitle": "Introduction",

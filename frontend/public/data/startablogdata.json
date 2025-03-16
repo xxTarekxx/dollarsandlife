@@ -1,12 +1,31 @@
 [
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "choose-your-niche",
 		"title": "Step 1: Choose Your Blogging Niche - Find Your Perfect Topic",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T10:00:00",
-		"imageUrl": "/images/startablog/blog-niche-banner.webp",
-		"imageAltText": "How to Choose Your Blogging Niche",
-		"metaDescription": "Discover how to choose the perfect blogging niche. Learn to identify your passion, analyze market demand, and evaluate monetization potential.",
+		"headline": "Step 1: Choose Your Blogging Niche - Find Your Perfect Topic",
+		"description": "Discover how to choose the perfect blogging niche. Learn to identify your passion, analyze market demand, and evaluate monetization potential.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/choose-your-niche",
+		"datePublished": "2025-03-06T10:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/blog-niche-banner.webp",
+			"caption": "How to Choose Your Blogging Niche"
+		},
 		"keywords": [
 			"blog niche ideas",
 			"best blogging niches 2025",
@@ -49,13 +68,32 @@
 	},
 
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "select-a-blogging-platform",
 		"title": "Step 2: Select the Best Blogging Platform for Your Needs",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T11:00:00",
-		"imageUrl": "/images/startablog/hosting-platform-main.webp",
-		"imageAltText": "Best Blogging Platforms Comparison",
-		"metaDescription": "Compare top blogging platforms like WordPress, Wix, and Blogger. Find the best platform for your needs and start your blog today.",
+		"headline": "Step 2: Select the Best Blogging Platform for Your Needs",
+		"description": "Compare top blogging platforms like WordPress, Wix, and Blogger. Find the best platform for your needs and start your blog today.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/select-a-blogging-platform",
+		"datePublished": "2025-03-06T11:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/hosting-platform-main.webp",
+			"caption": "Best Blogging Platforms Comparison"
+		},
 		"keywords": [
 			"best blogging platforms",
 			"WordPress vs Wix",
@@ -97,13 +135,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "get-domain-and-hosting",
 		"title": "Step 3: Get a Domain Name & Secure Hosting for Your Blog",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T12:00:00",
-		"imageUrl": "/images/startablog/domain-options.svg",
-		"imageAltText": "How to Buy a Domain Name and Hosting",
-		"metaDescription": "Learn how to choose and register a domain name, select the best hosting provider, and set up your blog with ease.",
+		"headline": "Step 3: Get a Domain Name & Secure Hosting for Your Blog",
+		"description": "Learn how to choose and register a domain name, select the best hosting provider, and set up your blog with ease.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/get-domain-and-hosting",
+		"datePublished": "2025-03-06T12:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/domain-options.svg",
+			"caption": "How to Buy a Domain Name and Hosting"
+		},
 		"keywords": [
 			"buy a domain name",
 			"best blog hosting 2025",
@@ -140,13 +197,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "install-wordpress-and-choose-a-theme",
 		"title": "Step 4: Install WordPress & Pick the Perfect Blog Theme",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T14:00:00",
-		"imageUrl": "/images/startablog/wordpress-banner.webp",
-		"imageAltText": "How to Install WordPress and Choose a Theme",
-		"metaDescription": "Step-by-step guide on installing WordPress, selecting a theme, and customizing your blog for a professional look.",
+		"headline": "Step 4: Install WordPress & Pick the Perfect Blog Theme",
+		"description": "Step-by-step guide on installing WordPress, selecting a theme, and customizing your blog for a professional look.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/install-wordpress-and-choose-a-theme",
+		"datePublished": "2025-03-06T14:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/wordpress-banner.webp",
+			"caption": "How to Install WordPress and Choose a Theme"
+		},
 		"keywords": [
 			"install WordPress blog",
 			"best WordPress themes",
@@ -212,13 +288,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "create-essential-pages",
 		"title": "Step 5: Create Essential Blog Pages for Credibility & SEO",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T15:00:00",
-		"imageUrl": "/images/startablog/webpage-options.webp",
-		"imageAltText": "Must-Have Pages for Your Blog",
-		"metaDescription": "Ensure your blog is complete by creating an About page, Contact page, Privacy Policy, and Disclaimer for credibility and legal compliance.",
+		"headline": "Step 5: Create Essential Blog Pages for Credibility & SEO",
+		"description": "Ensure your blog is complete by creating an About page, Contact page, Privacy Policy, and Disclaimer for credibility and legal compliance.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/create-essential-pages",
+		"datePublished": "2025-03-06T15:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/webpage-options.webp",
+			"caption": "Must-Have Pages for Your Blog"
+		},
 		"keywords": [
 			"essential blog pages",
 			"about page tips",
@@ -255,13 +350,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "start-creating-content",
 		"title": "Step 6: How to Create High-Quality Blog Content that Ranks",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T16:00:00",
-		"imageUrl": "/images/startablog/creating-content.svg",
-		"imageAltText": "How to Write High-Quality Blog Posts",
-		"metaDescription": "Learn to write engaging, SEO-friendly blog posts that attract traffic and keep readers engaged. Essential tips for successful blogging.",
+		"headline": "Step 6: How to Create High-Quality Blog Content that Ranks",
+		"description": "Learn to write engaging, SEO-friendly blog posts that attract traffic and keep readers engaged. Essential tips for successful blogging.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/start-creating-content",
+		"datePublished": "2025-03-06T16:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/creating-content.svg",
+			"caption": "How to Write High-Quality Blog Posts"
+		},
 		"keywords": [
 			"write high-quality blog content",
 			"SEO content writing tips",
@@ -318,13 +432,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "promote-your-blog",
 		"title": "Step 7: Promote Your Blog & Drive More Traffic in 2025",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T17:00:00",
-		"imageUrl": "/images/startablog/promote-blog.svg",
-		"imageAltText": "Best Ways to Promote Your Blog",
-		"metaDescription": "Boost your blog traffic with social media marketing, SEO, guest blogging, and email marketing. Learn effective blog promotion strategies.",
+		"headline": "Step 7: Promote Your Blog & Drive More Traffic in 2025",
+		"description": "Boost your blog traffic with social media marketing, SEO, guest blogging, and email marketing. Learn effective blog promotion strategies.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/promote-your-blog",
+		"datePublished": "2025-03-06T17:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/promote-blog.svg",
+			"caption": "Best Ways to Promote Your Blog"
+		},
 		"keywords": [
 			"how to promote a blog",
 			"best blog marketing strategies",
@@ -366,13 +499,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "monetize-your-blog",
 		"title": "Step 8: Monetize Your Blog & Start Making Money Online",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-06T18:00:00",
-		"imageUrl": "/images/startablog/monetize-blog.svg",
-		"imageAltText": "How to Monetize a Blog",
-		"metaDescription": "Discover the best ways to make money from your blog, including affiliate marketing, advertising, sponsored posts, and selling digital products.",
+		"headline": "Step 8: Monetize Your Blog & Start Making Money Online",
+		"description": "Discover the best ways to make money from your blog, including affiliate marketing, advertising, sponsored posts, and selling digital products.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/monetize-your-blog",
+		"datePublished": "2025-03-06T18:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/startablog/monetize-blog.svg",
+			"caption": "How to Monetize a Blog"
+		},
 		"keywords": [
 			"blog monetization strategies",
 			"how to make money blogging",

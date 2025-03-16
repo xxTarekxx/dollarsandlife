@@ -1,12 +1,31 @@
 [
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "real-estate-freelance-opportunity",
 		"title": "Real Estate Agent as a Freelance Opportunity: Your Path to Financial Freedom",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-15T01:00:00",
-		"imageUrl": "/images/freelancer/real-estate-freelance-banner.webp",
-		"imageAltText": "A freelance real estate agent helping clients achieve their dreams",
-		"metaDescription": "Discover how real estate can be your ticket to financial freedom. Learn how to get started, earn your license online with AceableAgent, and unlock a flexible, high-income career.",
+		"headline": "Real Estate Agent as a Freelance Opportunity: Your Path to Financial Freedom",
+		"description": "Discover how real estate can be your ticket to financial freedom. Learn how to get started, earn your license online with AceableAgent, and unlock a flexible, high-income career.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/real-estate-freelance-opportunity",
+		"datePublished": "2025-03-15T01:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/freelancer/real-estate-freelance-banner.webp",
+			"caption": "A freelance real estate agent helping clients achieve their dreams"
+		},
 		"keywords": [
 			"real estate freelance opportunity",
 			"real estate license online",
@@ -122,12 +141,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "Freelance-Web-App-Development-Guide",
 		"title": "How To Be A Successful Web Developer Freelancer In 2025",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-05T04:43:11",
-		"imageUrl": "/images/freelancer/web-developer-station.webp",
-		"metaDescription": "Learn how to build a thriving freelance career as a web developer in 2025. Discover high-demand skills, income potential, and strategies to secure consistent work.",
+		"headline": "How To Be A Successful Web Developer Freelancer In 2025",
+		"description": "Learn how to build a thriving freelance career as a web developer in 2025. Discover high-demand skills, income potential, and strategies to secure consistent work.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/Freelance-Web-App-Development-Guide",
+		"datePublished": "2025-03-05T04:43:11",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/freelancer/web-developer-station.webp",
+			"caption": "A web developer working at their station, showcasing freelance flexibility"
+		},
 		"keywords": [
 			"freelance web developer",
 			"web development jobs 2025",
@@ -184,12 +223,32 @@
 	},
 
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "Uber-Driving-Gig-Economy",
 		"title": "Comprehensive Guide to Earning with Uber as a Driver in the Gig Economy",
-		"author": "Dollars & Life",
-		"datePosted": "2024-09-15T04:43:11",
-		"imageUrl": "/images/freelancer/uber-driver-main.webp",
-		"metaDescription": "Explore how driving for Uber can be a profitable gig economy job. Learn about earnings, sign-up process, Uber services, and strategies to maximize income.",
+		"headline": "Comprehensive Guide to Earning with Uber as a Driver in the Gig Economy",
+		"description": "Explore how driving for Uber can be a profitable gig economy job. Learn about earnings, sign-up process, Uber services, and strategies to maximize income.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/Uber-Driving-Gig-Economy",
+		"datePublished": "2024-09-15T04:43:11",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/freelancer/uber-driver-main.webp",
+			"caption": "An Uber driver navigating the gig economy to maximize earnings"
+		},
 		"keywords": [
 			"Uber driver earnings 2024",
 			"how to make money with Uber",
@@ -298,12 +357,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "fiverr-seller",
 		"title": "The Ultimate Guide to Becoming a Top Fiverr Seller",
-		"author": "Dollars & Life",
-		"datePosted": "2024-09-10T08:00:00",
-		"imageUrl": "/images/freelancer/fiverr-logo.svg",
-		"metaDescription": "Learn how to become a successful Fiverr seller and maximize your freelance earnings. Get tips on creating gigs, pricing strategies, and client management.",
+		"headline": "The Ultimate Guide to Becoming a Top Fiverr Seller",
+		"description": "Learn how to become a successful Fiverr seller and maximize your freelance earnings. Get tips on creating gigs, pricing strategies, and client management.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/fiverr-seller",
+		"datePublished": "2024-09-10T08:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/freelancer/fiverr-logo.svg",
+			"caption": "The Fiverr logo representing freelance selling opportunities"
+		},
 		"keywords": [
 			"how to sell on Fiverr",
 			"Fiverr gig optimization",
@@ -407,12 +486,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Article",
 		"id": "DoorDash-Delivery-Gig",
 		"title": "Maximize Your Income: A Complete Guide to Driving for DoorDash",
-		"author": "Dollars & Life",
-		"datePosted": "2024-09-07T04:43:11",
-		"imageUrl": "/images/freelancer/doordash-logo-dasher.webp",
-		"metaDescription": "Find out how to make the most money as a DoorDash driver. Get insights on peak hours, delivery strategies, and how to maximize your earnings.",
+		"headline": "Maximize Your Income: A Complete Guide to Driving for DoorDash",
+		"description": "Find out how to make the most money as a DoorDash driver. Get insights on peak hours, delivery strategies, and how to maximize your earnings.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/DoorDash-Delivery-Gig",
+		"datePublished": "2024-09-07T04:43:11",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://www.dollarsandlife.com/images/freelancer/doordash-logo-dasher.webp",
+			"caption": "DoorDash logo representing gig economy delivery opportunities"
+		},
 		"keywords": [
 			"DoorDash driver pay",
 			"best times to drive for DoorDash",

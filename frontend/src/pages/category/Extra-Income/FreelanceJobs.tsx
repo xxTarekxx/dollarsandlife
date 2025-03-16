@@ -11,10 +11,11 @@ import "./CommonStyles.css";
 interface FreelanceJob {
 	id: string;
 	title: string;
-	imageUrl: string;
+	image: string;
 	content: { text: string }[];
 	author: string;
-	datePosted: string;
+	datePublished: string;
+	dateModified?: string;
 }
 
 const FreelanceJobs: React.FC = () => {
@@ -131,12 +132,13 @@ const FreelanceJobs: React.FC = () => {
 										<div className='row-container'>
 											<Link to={`/Extra-Income/Freelancers/${post.id}`}>
 												<BlogPostCard
-													id={post.id}
-													title={post.title}
-													imageUrl={post.imageUrl}
+													id={post.id || `fallback-${i}`}
+													title={post.title || "Untitled"}
+													image={post.image || ""}
 													content={getExcerpt(post.content)}
-													author={post.author}
-													datePosted={post.datePosted}
+													author={post.author || "Unknown"}
+													datePublished={post.datePublished || "N/A"}
+													dateModified={post.dateModified} // ✅ Add this
 												/>
 											</Link>
 										</div>

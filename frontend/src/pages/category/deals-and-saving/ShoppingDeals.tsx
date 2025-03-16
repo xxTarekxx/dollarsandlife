@@ -15,11 +15,14 @@ declare global {
 interface Product {
 	id: string;
 	title: string;
-	imageUrl: string;
+	image: {
+		url: string; // Update to access the `url` property
+		caption: string; // Use caption for alt text
+	};
 	description: string;
 	currentPrice: string;
 	discountPercentage?: string;
-	affiliateLink: string;
+	mainEntityOfPage: string;
 }
 
 interface ProductCardProps extends Product {}
@@ -27,19 +30,19 @@ interface ProductCardProps extends Product {}
 const ProductCard: React.FC<ProductCardProps> = ({
 	id,
 	title,
-	imageUrl,
+	image,
 	description,
 	currentPrice,
 	discountPercentage,
-	affiliateLink,
+	mainEntityOfPage, // this field is already used for the affiliate link
 }) => {
 	return (
 		<div className='CardContainer' data-id={id}>
 			<img
-				src={imageUrl}
-				alt={title}
+				src={image.url} // Access `image.url` for the product image
+				alt={image.caption} // Use `image.caption` for alt text
 				className='CardImage'
-				srcSet={`${imageUrl} 1x, ${imageUrl.replace(".webp", "@2x.webp")} 2x`}
+				srcSet={`${image.url} 1x, ${image.url.replace(".webp", "@2x.webp")} 2x`}
 				loading='lazy'
 			/>
 			<div className='CardContent'>
@@ -56,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 				)}
 				<p className='CardPrice'>Now: {currentPrice}</p>
 				<a
-					href={affiliateLink}
+					href={mainEntityOfPage} // This is the existing affiliate link
 					target='_blank'
 					rel='noopener noreferrer'
 					className='BuyNowButton'
@@ -167,14 +170,14 @@ const ShoppingDeals: React.FC = () => {
 							"@type": "Product",
 							position: index + 1,
 							name: product.title,
-							image: product.imageUrl,
+							image: product.image.url, // Use `image.url` for the image source
 							description: product.description,
 							offers: {
 								"@type": "Offer",
 								price: product.currentPrice.replace("$", ""),
 								priceCurrency: "USD",
 								availability: "https://schema.org/InStock",
-								url: product.affiliateLink,
+								url: product.mainEntityOfPage,
 							},
 						})),
 					})}
