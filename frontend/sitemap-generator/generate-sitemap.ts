@@ -21,7 +21,7 @@ function extractRoutesFromApp(): string[] {
             }
         }
 
-        console.log(`✅ Extracted ${routes.length} valid routes from App.tsx`);
+        console.log(` Extracted ${routes.length} valid routes from App.tsx`);
         return routes;
     } catch (err) {
         console.error(`❌ Error reading App.tsx:`, err);
@@ -43,16 +43,17 @@ async function generateSitemap() {
         //  Extract static routes and add RSS feed
         const staticRoutes = [
             ...extractRoutesFromApp(),
-            "/rss-feed" // ✅ Add RSS feed route
+            "/ads.txt",  // Ensure ads.txt is indexed
+            "/rss.xml"   // Direct RSS feed URL
         ];
 
         staticRoutes.forEach(route => {
-            sitemap.write({ url: route, changefreq: 'hourly', priority: 0.5 });
+            sitemap.write({ url: route, changefreq: "hourly", priority: 0.8 });
         });
 
         sitemap.end();
         await streamToPromise(sitemap);
-        console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
+        console.log(` Sitemap generated successfully at: ${sitemapPath}`);
     } catch (err) {
         console.error(`❌ Error generating sitemap:`, err);
     }
