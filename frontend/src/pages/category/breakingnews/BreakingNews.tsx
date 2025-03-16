@@ -11,13 +11,14 @@ interface BlogPost {
 	id: string;
 	title: string;
 	author: string;
-	datePosted: string;
-	imageUrl: string;
+	datePublished: string;
+	image: string;
 	content: {
 		subtitle?: string;
 		text?: string;
 		bulletPoints?: string[];
 	}[];
+	dateModified?: string;
 }
 
 declare global {
@@ -104,13 +105,14 @@ const BreakingNews: React.FC = () => {
 						<BlogPostCard
 							id={post.id}
 							title={post.title}
-							imageUrl={post.imageUrl}
+							image={post.image}
 							content={
 								post.content[0]?.text?.split(". ").slice(0, 2).join(". ") +
 									"." || "No description available"
 							}
 							author={post.author}
-							datePosted={post.datePosted}
+							datePublished={post.datePublished}
+							dateModified={post.dateModified}
 						/>
 					</Link>
 				))}

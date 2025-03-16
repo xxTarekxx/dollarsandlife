@@ -11,10 +11,11 @@ import "./CommonStyles.css";
 interface RemoteJob {
 	id: string;
 	title: string;
-	imageUrl: string;
+	image: string;
 	content: { text: string }[];
 	author: string;
-	datePosted: string;
+	datePublished: string;
+	dateModified?: string;
 }
 
 const RemoteOnlineJobs: React.FC = () => {
@@ -131,10 +132,11 @@ const RemoteOnlineJobs: React.FC = () => {
 												<BlogPostCard
 													id={post.id}
 													title={post.title}
-													imageUrl={post.imageUrl}
+													image={post.image}
 													content={getExcerpt(post.content)}
 													author={post.author}
-													datePosted={post.datePosted}
+													datePublished={post.datePublished}
+													dateModified={post.dateModified}
 												/>
 											</Link>
 										</div>

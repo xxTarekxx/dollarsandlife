@@ -11,10 +11,11 @@ import "./CommonStyles.css";
 interface MoneyMakingApp {
 	id: string;
 	title: string;
-	imageUrl: string;
+	image: string;
 	content?: { text: string }[]; // Optional to prevent undefined errors
 	author: string;
-	datePosted: string;
+	dateModified?: string;
+	datePublished: string;
 }
 
 const MoneyMakingApps: React.FC = () => {
@@ -89,9 +90,9 @@ const MoneyMakingApps: React.FC = () => {
 							"@type": "Article",
 							position: index + 1,
 							headline: post.title,
-							image: post.imageUrl,
+							image: post.image,
 							author: { "@type": "Person", name: post.author },
-							datePublished: post.datePosted,
+							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps/${post.id}`,
 						})),
 					})}
@@ -127,10 +128,11 @@ const MoneyMakingApps: React.FC = () => {
 													<BlogPostCard
 														id={post.id || `fallback-${i}`}
 														title={post.title || "Untitled"}
-														imageUrl={post.imageUrl || ""}
+														image={post.image || ""}
 														content={getExcerpt(post.content)}
 														author={post.author || "Unknown"}
-														datePosted={post.datePosted || "N/A"}
+														dateModified={post.dateModified}
+														datePublished={post.datePublished || "N/A"}
 													/>
 												</Link>
 											</div>

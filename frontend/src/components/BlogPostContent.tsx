@@ -13,7 +13,7 @@ interface PostContent {
 	subtitle?: string;
 	text?: string;
 	details?: string;
-	imageUrl?: string;
+	image?: string;
 	bulletPoints?: string[];
 	numberedPoints?: string[];
 	htmlContent?: string;
@@ -22,9 +22,15 @@ interface PostContent {
 interface BlogPost {
 	id: string;
 	title: string;
-	author: string;
-	datePosted: string;
-	imageUrl: string;
+	author: {
+		name: string; // Removed @type field
+	};
+	datePublished: string;
+	dateModified?: string;
+	image: {
+		url: string;
+		caption: string;
+	};
 	content: PostContent[];
 }
 
@@ -78,16 +84,17 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				<h1>{post.title}</h1>
 				<div className='image-box'>
 					<img
-						src={post.imageUrl}
-						alt={post.title}
+						src={post.image.url} // Use `url` for the image source
+						alt={post.image.caption} // Use `caption` for the alt text
 						className='main-image'
 						loading='lazy'
 					/>
 				</div>
 				<div className='author-date'>
-					<p className='author'>By: {post.author}</p>
+					<p className='author'>By: {post.author.name}</p>{" "}
+					{/* Use `author.name` */}
 					<p className='date'>
-						{new Date(post.datePosted).toLocaleDateString()}
+						{new Date(post.datePublished).toLocaleDateString()}
 					</p>
 				</div>
 				<div className='top-banner-container'>
@@ -112,22 +119,16 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 							{section.text && (
 								<p dangerouslySetInnerHTML={{ __html: section.text }} />
 							)}
-							{/* {section.text && (
-								<p
-									dangerouslySetInnerHTML={{ __html: section.text }}
-									style={{ border: "1px solid red" }} // Debugging: Add border to see rendered text
-								/>
-							)} */}
 							{section.details && (
 								<p
 									className='details'
 									dangerouslySetInnerHTML={{ __html: section.details }}
 								/>
 							)}
-							{section.imageUrl && (
+							{section.image && (
 								<img
-									src={section.imageUrl}
-									alt=''
+									src={section.image}
+									alt='Section image'
 									className='section-image'
 									loading='lazy'
 								/>

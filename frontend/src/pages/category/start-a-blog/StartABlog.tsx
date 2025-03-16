@@ -11,10 +11,10 @@ import "../Extra-Income/CommonStyles.css";
 interface BlogPost {
 	id: string;
 	title: string;
-	imageUrl: string;
+	image: string;
 	content: { text: string }[];
 	author: string;
-	datePosted: string;
+	datePublished: string;
 }
 
 declare global {
@@ -77,9 +77,9 @@ const StartABlog: React.FC = () => {
 							"@type": "Article",
 							position: index + 1,
 							headline: post.title,
-							image: post.imageUrl,
+							image: post.image,
 							author: { "@type": "Person", name: post.author },
-							datePublished: post.datePosted,
+							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/Start-A-Blog/${post.id}`,
 						})),
 					})}
@@ -123,10 +123,10 @@ const StartABlog: React.FC = () => {
 												<BlogPostCard
 													id={post.id}
 													title={post.title}
-													imageUrl={post.imageUrl}
+													image={post.image}
 													content={getExcerpt(post.content)}
 													author={post.author}
-													datePosted={post.datePosted}
+													datePublished={post.datePublished}
 												/>
 											</Link>
 										</div>

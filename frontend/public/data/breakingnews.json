@@ -1,12 +1,31 @@
 [
 	{
+		"@context": "https://schema.org",
+		"@type": "NewsArticle",
 		"id": "social-security-fairness-act-benefits",
 		"title": "In-Depth Guide to the Social Security Fairness Act Benefits in 2025: What Every Retiree Needs to Know",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-15T23:33:00",
-		"imageUrl": "/images/breakingnews/social-security-fairness-act.webp",
-		"imageAltText": "Public servants understanding Social Security Fairness Act benefits",
-		"metaDescription": "Dive deep into the Social Security Fairness Act benefits in 2025. Understand the repeal of WEP and GPO, who benefits, and how to optimize your retirement income.",
+		"headline": "In-Depth Guide to the Social Security Fairness Act Benefits in 2025",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"url": "https://www.dollarsandlife.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/logo.png"
+			}
+		},
+		"datePublished": "2025-03-15T23:33:00",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/social-security-fairness-act-benefits",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/breakingnews/social-security-fairness-act.webp",
+			"caption": "Public servants understanding Social Security Fairness Act benefits"
+		},
+		"description": "Dive deep into the Social Security Fairness Act benefits in 2025. Understand the repeal of WEP and GPO, who benefits, and how to optimize your retirement income.",
 		"keywords": [
 			"Social Security Fairness Act benefits",
 			"Social Security Fairness Act 2025",
@@ -107,13 +126,31 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "NewsArticle",
 		"id": "spacex-rescue-mission-astronauts-return",
-		"title": "SpaceX Rescue Mission: Astronauts Return Safely After Historic Launch",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-15T23:31:00",
-		"imageUrl": "/images/breakingnews/spacex-rescue-mission-banner.webp",
-		"imageAltText": "SpaceX Falcon 9 rocket launching with NASA astronauts onboard",
-		"metaDescription": "Witness the historic SpaceX rescue mission as astronauts return safely to Earth. Learn about the NASA-SpaceX collaboration, the Crew 10 launch, and how this mission impacts space exploration.",
+		"headline": "SpaceX Rescue Mission: Astronauts Return Safely After Historic Launch",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"url": "https://www.dollarsandlife.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/logo.png"
+			}
+		},
+		"datePublished": "2025-03-15T23:31:00",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/spacex-rescue-mission-astronauts-return",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/breakingnews/spacex-rescue-mission-banner.webp",
+			"caption": "SpaceX Falcon 9 rocket launching with NASA astronauts onboard"
+		},
+		"description": "Witness the historic SpaceX rescue mission as astronauts return safely to Earth. Learn about the NASA-SpaceX collaboration, the Crew 10 launch, and how this mission impacts space exploration.",
 		"keywords": [
 			"astronauts return",
 			"spacex rescue mission",
@@ -251,13 +288,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "NewsArticle",
 		"id": "lunar-eclipse-2025",
 		"title": "Lunar Eclipse 2025: Everything You Need to Know About the Blood Moon",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-14T12:20:00",
-		"imageUrl": "/images/breakingnews/lunar-eclipse-2025-banner.webp",
-		"imageAltText": "A blood moon during a total lunar eclipse",
-		"metaDescription": "Discover everything about the Lunar Eclipse 2025, including the Blood Moon, visibility, timing, and locations. Learn how to watch this celestial event and explore financial tips for planning your eclipse experience.",
+		"headline": "Lunar Eclipse 2025: Everything You Need to Know About the Blood Moon",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"url": "https://www.dollarsandlife.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/logo.png"
+			}
+		},
+		"datePublished": "2025-03-14T12:20:00",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/lunar-eclipse-2025",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/breakingnews/lunar-eclipse-2025-banner.webp",
+			"caption": "A blood moon during a total lunar eclipse"
+		},
+		"description": "Discover everything about the Lunar Eclipse 2025, including the Blood Moon, visibility, timing, and locations. Learn how to watch this celestial event and explore financial tips for planning your eclipse experience.",
 		"keywords": [
 			"lunar eclipse 2025",
 			"blood moon 2025",
@@ -478,13 +534,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "NewsArticle",
 		"id": "claremont-mckenna-shooting",
 		"title": "Claremont McKenna Shooting: What Happened, Latest Updates, and Key Details",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-14T12:00:00",
-		"imageUrl": "/images/breakingnews/claremont-mckenna-shooting-banner.webp",
-		"imageAltText": "Claremont McKenna College campus with emergency vehicles",
-		"metaDescription": "Learn about the Claremont McKenna shooting, including what happened, the latest updates, and how the Claremont Colleges community is responding. Stay informed with key details and resources.",
+		"headline": "Claremont McKenna Shooting: What Happened, Latest Updates, and Key Details",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"url": "https://www.dollarsandlife.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/logo.png"
+			}
+		},
+		"datePublished": "2025-03-14T12:00:00",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/claremont-mckenna-shooting",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/breakingnews/claremont-mckenna-shooting-banner.webp",
+			"caption": "Claremont McKenna College campus with emergency vehicles"
+		},
+		"description": "Learn about the Claremont McKenna shooting, including what happened, the latest updates, and how the Claremont Colleges community is responding. Stay informed with key details and resources.",
 		"keywords": [
 			"claremont mckenna",
 			"claremont mckenna college",
@@ -534,13 +609,32 @@
 		]
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "NewsArticle",
 		"id": "stimulus-check-2025-payment-dates",
 		"title": "Stimulus Check 2025 Payment Dates: Everything You Need to Know",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-12T09:30:00",
-		"imageUrl": "/images/breakingnews/stimulus-check-2025-banner.webp",
-		"imageAltText": "Stimulus Check 2025 - A calendar with payment dates highlighted",
-		"metaDescription": "Get the latest updates on Stimulus Check 2025 payment dates. Learn eligibility criteria, payment amounts, and how to track your stimulus payment.",
+		"headline": "Stimulus Check 2025 Payment Dates: Everything You Need to Know",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"url": "https://www.dollarsandlife.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/logo.png"
+			}
+		},
+		"datePublished": "2025-03-12T09:30:00",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/stimulus-check-2025-payment-dates",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/breakingnews/stimulus-check-2025-banner.webp",
+			"caption": "Stimulus Check 2025 - A calendar with payment dates highlighted"
+		},
+		"description": "Get the latest updates on Stimulus Check 2025 payment dates. Learn eligibility criteria, payment amounts, and how to track your stimulus payment.",
 		"content": [
 			{
 				"subtitle": "Introduction: What Are the Stimulus Check 2025 Payment Dates?",
@@ -594,11 +688,28 @@
 	{
 		"id": "spacex-latest-launch",
 		"title": "SpaceX Launch Recap: Everything You Need to Know About the Recent Rocket Launch",
-		"author": "Dollars & Life",
-		"datePosted": "2025-03-11T12:00:00",
-		"imageUrl": "/images/breakingnews/spacex-launch-today-banner.webp",
-		"imageAltText": "SpaceX Rocket Launch - A Falcon 9 lifting off from the launch pad",
-		"metaDescription": "Get a full recap of the latest SpaceX launch. Learn about the mission details, payload, and upcoming SpaceX launch schedule.",
+		"headline": "SpaceX Launch Recap: Everything You Need to Know About the Recent Rocket Launch",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"url": "https://www.dollarsandlife.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/logo.png"
+			}
+		},
+		"datePublished": "2025-03-11T12:00:00",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/spacex-latest-launch",
+		"image": {
+			"@type": "ImageObject",
+			"url": "/images/breakingnews/spacex-launch-today-banner.webp",
+			"caption": "SpaceX Rocket Launch - A Falcon 9 lifting off from the launch pad"
+		},
+		"description": "Get a full recap of the latest SpaceX launch. Learn about the mission details, payload, and upcoming SpaceX launch schedule.",
 		"content": [
 			{
 				"subtitle": "Introduction: SpaceX’s Latest Rocket Launch",

@@ -1,13 +1,31 @@
 [
 	{
+		"@context": "https://schema.org",
+		"@type": "Product",
 		"id": "2",
 		"title": "Auto Face Tracking Selfie Stick Tripod for iPhone with Light - 360° AI Tracking & Remote Control",
-		"description": "Upgrade your content creation with a 360° AI-powered face tracking selfie stick and tripod for iPhone and Android. Perfect for vloggers, live streamers, and video creators.",
-		"affiliateLink": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
-		"datePosted": "2025-03-06T12:00:00",
-		"imageUrl": "https://m.media-amazon.com/images/I/81bCNFfky-L._AC_SL1500_.jpg",
-		"imageAltText": "Auto Face Tracking Selfie Stick Tripod with Light for iPhone and Android",
-		"metaDescription": "Get a 360° AI face-tracking selfie stick tripod with remote control and LED lighting. Ideal for vloggers, live streamers, and content creators.",
+		"headline": "Auto Face Tracking Selfie Stick Tripod for iPhone with Light - 360° AI Tracking & Remote Control",
+		"description": "Get a 360° AI face-tracking selfie stick tripod with remote control and LED lighting. Ideal for vloggers, live streamers, and content creators.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
+		"datePublished": "2025-03-06T12:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/81bCNFfky-L._AC_SL1500_.jpg",
+			"caption": "Auto Face Tracking Selfie Stick Tripod with Light for iPhone and Android"
+		},
 		"keywords": [
 			"360 AI tracking selfie stick",
 			"selfie stick tripod for iPhone",
@@ -20,14 +38,32 @@
 		"currentPrice": "$49.99"
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "Product",
 		"id": "1",
 		"title": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner - Auto Diagnostic Scan Tool for iOS & Android",
-		"description": "Diagnose and clear check engine light codes with this Veepeak OBDCheck BLE Bluetooth OBD II scanner. Compatible with iOS & Android for real-time vehicle monitoring.",
-		"affiliateLink": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl",
-		"datePosted": "2025-03-06T12:00:00",
-		"imageUrl": "https://m.media-amazon.com/images/I/71TZk4RN-ML._AC_SL1500_.jpg",
-		"imageAltText": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner for iOS & Android",
-		"metaDescription": "Easily diagnose and clear check engine lights with the Veepeak OBDCheck BLE Bluetooth scanner. Works with iOS and Android for real-time vehicle insights.",
+		"headline": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner - Auto Diagnostic Scan Tool for iOS & Android",
+		"description": "Easily diagnose and clear check engine lights with the Veepeak OBDCheck BLE Bluetooth scanner. Works with iOS and Android for real-time vehicle insights.",
+		"author": {
+			"@type": "Organization",
+			"name": "Dollars & Life"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl",
+		"datePublished": "2025-03-06T12:00:00",
+		"dateModified": "",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/71TZk4RN-ML._AC_SL1500_.jpg",
+			"caption": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner for iOS & Android"
+		},
 		"keywords": [
 			"Bluetooth OBD II scanner",
 			"OBD check engine light tool",
