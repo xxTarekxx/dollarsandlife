@@ -12,7 +12,6 @@ const breadcrumbNameMap: { [key: string]: string } = {
 	"/Extra-Income/Money-Making-Apps": "Money Making Apps",
 	"/AmazonPicks": "Amazon Picks",
 	"/Start-A-Blog": "Start A Blog",
-	"/My-Story": "My Story",
 };
 
 const BreadcrumbWrapper: React.FC = () => {
