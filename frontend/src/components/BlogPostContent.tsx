@@ -112,6 +112,12 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 							{section.text && (
 								<p dangerouslySetInnerHTML={{ __html: section.text }} />
 							)}
+							{/* {section.text && (
+								<p
+									dangerouslySetInnerHTML={{ __html: section.text }}
+									style={{ border: "1px solid red" }} // Debugging: Add border to see rendered text
+								/>
+							)} */}
 							{section.details && (
 								<p
 									className='details'
