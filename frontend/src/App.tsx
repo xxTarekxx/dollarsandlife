@@ -189,10 +189,6 @@ const App: React.FC = () => {
 						<Route path='/Shopping-Deals' element={<ShoppingDeals />} />
 						<Route path='/Start-A-Blog/*' element={<StartABlog />} />
 						<Route
-							path='/my-story'
-							element={<BlogPostContent jsonFile='mystory.json' />}
-						/>
-						<Route
 							path='/financial-calculators'
 							element={<FinancialCalculators />}
 						/>
