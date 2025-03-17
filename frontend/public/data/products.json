@@ -3,7 +3,6 @@
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "2",
-		"title": "Auto Face Tracking Selfie Stick Tripod for iPhone with Light - 360° AI Tracking & Remote Control",
 		"headline": "Auto Face Tracking Selfie Stick Tripod for iPhone with Light - 360° AI Tracking & Remote Control",
 		"description": "Get a 360° AI face-tracking selfie stick tripod with remote control and LED lighting. Ideal for vloggers, live streamers, and content creators.",
 		"author": {
@@ -41,7 +40,6 @@
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "1",
-		"title": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner - Auto Diagnostic Scan Tool for iOS & Android",
 		"headline": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner - Auto Diagnostic Scan Tool for iOS & Android",
 		"description": "Easily diagnose and clear check engine lights with the Veepeak OBDCheck BLE Bluetooth scanner. Works with iOS and Android for real-time vehicle insights.",
 		"author": {

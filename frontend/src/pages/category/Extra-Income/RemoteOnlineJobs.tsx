@@ -10,7 +10,7 @@ import "./CommonStyles.css";
 
 interface RemoteJob {
 	id: string;
-	title: string;
+	headline: string;
 	image: {
 		url: string;
 		caption: string;
@@ -65,14 +65,14 @@ const RemoteOnlineJobs: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/Extra-Income/Remote-Jobs'
+					href='https://www.dollarsandlife.com/extra-income/remote-Jobs'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
 						name: "Remote Online Jobs - Work from Home & Freelance Gigs",
-						url: "https://www.dollarsandlife.com/Extra-Income/Remote-Jobs",
+						url: "https://www.dollarsandlife.com/extra-income/remote-Jobs",
 						description:
 							"Find the best remote jobs, freelance gigs, and online work opportunities. Work from home and earn a stable income in 2024.",
 						publisher: {
@@ -116,10 +116,10 @@ const RemoteOnlineJobs: React.FC = () => {
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
-											<Link to={`/Extra-Income/Remote-Jobs/${post.id}`}>
+											<Link to={`/extra-income/remote-Jobs/${post.id}`}>
 												<BlogPostCard
 													id={post.id}
-													title={post.title}
+													headline={post.headline}
 													image={post.image}
 													content={getExcerpt(post.content)}
 													author={post.author}

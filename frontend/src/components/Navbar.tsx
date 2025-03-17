@@ -14,9 +14,9 @@ interface Post {
 
 const menuItems = [
 	{ to: "/", text: "Home" },
-	{ to: "/Extra-Income", text: "Extra Income" },
-	{ to: "/Shopping-Deals", text: "Shopping Deals" },
-	{ to: "/Start-A-Blog", text: "Start A Blog" },
+	{ to: "/extra-income", text: "Extra Income" },
+	{ to: "/shopping-deals", text: "Shopping Deals" },
+	{ to: "/start-a-blog", text: "Start A Blog" },
 	{ to: "/breaking-news", text: "Breaking News" },
 	{ to: "/financial-calculators", text: "Calculators" },
 ];

@@ -14,6 +14,7 @@ import ContactUs from "./components/ContactUs";
 // import CookieConsentBanner from "./components/CookieConsentBanner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import RssTicker from "./components/RssTicker";
 import BreakingNews from "./pages/category/breakingnews/BreakingNews";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
 import Budget from "./pages/category/Extra-Income/Budget";
@@ -25,7 +26,6 @@ import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
-import RssTicker from "./components/RssTicker";
 
 const App: React.FC = () => {
 	const location = useLocation();
@@ -172,37 +172,37 @@ const App: React.FC = () => {
 				<div className='main-content'>
 					<Routes>
 						<Route path='/' element={<HomePage />} />
-						<Route path='/Extra-Income' element={<ExtraIncome />} />
+						<Route path='/extra-income' element={<ExtraIncome />} />
 						<Route
-							path='/Extra-Income/Freelancers/*'
+							path='/extra-income/freelancers/*'
 							element={<FreelanceJobs />}
 						/>
-						<Route path='/Extra-Income/Budget/*' element={<Budget />} />
+						<Route path='/extra-income/budget/*' element={<Budget />} />
 						<Route
-							path='/Extra-Income/Remote-Jobs/*'
+							path='/extra-income/remote-Jobs/*'
 							element={<RemoteOnlineJobs />}
 						/>
 						<Route
-							path='/Extra-Income/Money-Making-Apps/*'
+							path='/extra-income/money-making-apps/*'
 							element={<MoneyMakingApps />}
 						/>
-						<Route path='/Shopping-Deals' element={<ShoppingDeals />} />
-						<Route path='/Start-A-Blog/*' element={<StartABlog />} />
+						<Route path='/shopping-deals' element={<ShoppingDeals />} />
+						<Route path='/start-a-blog/*' element={<StartABlog />} />
 						<Route
 							path='/financial-calculators'
 							element={<FinancialCalculators />}
 						/>
 						<Route path='/breaking-news' element={<BreakingNews />} />
 						<Route
-							path='/Extra-Income/:id'
+							path='/extra-income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}
 						/>
 						<Route
-							path='/Shopping-Deals/:id'
+							path='/start-a-blog/:id'
 							element={<BlogPostContent jsonFile='products.json' />}
 						/>
 						<Route
-							path='/Start-A-Blog/:id'
+							path='/start-a-blog/:id'
 							element={<BlogPostContent jsonFile='startablogdata.json' />}
 						/>
 						<Route

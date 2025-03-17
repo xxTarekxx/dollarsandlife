@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "../../../components/AdComponent.css";
-import "../../../components/BlogPostContent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
+import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "../Extra-Income/CommonStyles.css";
+import "../extra-income/CommonStyles.css";
 
 // Define interface for blog post, adjusting for image object and author object
 interface BlogPost {
 	id: string;
-	title: string;
+	headline: string;
 	author: {
 		name: string; // Author is now an object with name
 	};
@@ -110,7 +110,7 @@ const BreakingNews: React.FC = () => {
 					>
 						<BlogPostCard
 							id={post.id}
-							title={post.title}
+							headline={post.headline}
 							image={post.image} // Pass the image object correctly
 							content={
 								post.content[0]?.text?.split(". ").slice(0, 2).join(". ") +

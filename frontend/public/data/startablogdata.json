@@ -3,7 +3,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "choose-your-niche",
-		"title": "Step 1: Choose Your Blogging Niche - Find Your Perfect Topic",
 		"headline": "Step 1: Choose Your Blogging Niche - Find Your Perfect Topic",
 		"description": "Discover how to choose the perfect blogging niche. Learn to identify your passion, analyze market demand, and evaluate monetization potential.",
 		"author": {
@@ -18,7 +17,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/choose-your-niche",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/choose-your-niche",
 		"datePublished": "2025-03-06T10:00:00",
 		"dateModified": "",
 		"image": {
@@ -33,7 +32,7 @@
 			"how to choose a blog niche",
 			"blog niche market analysis"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/choose-your-niche",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/choose-your-niche",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -71,7 +70,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "select-a-blogging-platform",
-		"title": "Step 2: Select the Best Blogging Platform for Your Needs",
 		"headline": "Step 2: Select the Best Blogging Platform for Your Needs",
 		"description": "Compare top blogging platforms like WordPress, Wix, and Blogger. Find the best platform for your needs and start your blog today.",
 		"author": {
@@ -86,7 +84,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/select-a-blogging-platform",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/select-a-blogging-platform",
 		"datePublished": "2025-03-06T11:00:00",
 		"dateModified": "",
 		"image": {
@@ -101,7 +99,7 @@
 			"top blog hosting sites",
 			"self-hosted blog options"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/select-a-blogging-platform",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/select-a-blogging-platform",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -138,7 +136,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "get-domain-and-hosting",
-		"title": "Step 3: Get a Domain Name & Secure Hosting for Your Blog",
 		"headline": "Step 3: Get a Domain Name & Secure Hosting for Your Blog",
 		"description": "Learn how to choose and register a domain name, select the best hosting provider, and set up your blog with ease.",
 		"author": {
@@ -153,7 +150,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/get-domain-and-hosting",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/get-domain-and-hosting",
 		"datePublished": "2025-03-06T12:00:00",
 		"dateModified": "",
 		"image": {
@@ -168,7 +165,7 @@
 			"domain registration tips",
 			"blog hosting comparison"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/get-domain-and-hosting",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/get-domain-and-hosting",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -200,7 +197,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "install-wordpress-and-choose-a-theme",
-		"title": "Step 4: Install WordPress & Pick the Perfect Blog Theme",
 		"headline": "Step 4: Install WordPress & Pick the Perfect Blog Theme",
 		"description": "Step-by-step guide on installing WordPress, selecting a theme, and customizing your blog for a professional look.",
 		"author": {
@@ -215,7 +211,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/install-wordpress-and-choose-a-theme",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/install-wordpress-and-choose-a-theme",
 		"datePublished": "2025-03-06T14:00:00",
 		"dateModified": "",
 		"image": {
@@ -230,7 +226,7 @@
 			"WordPress setup tutorial",
 			"blog customization tips"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/install-wordpress-and-choose-a-theme",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/install-wordpress-and-choose-a-theme",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -291,7 +287,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "create-essential-pages",
-		"title": "Step 5: Create Essential Blog Pages for Credibility & SEO",
 		"headline": "Step 5: Create Essential Blog Pages for Credibility & SEO",
 		"description": "Ensure your blog is complete by creating an About page, Contact page, Privacy Policy, and Disclaimer for credibility and legal compliance.",
 		"author": {
@@ -306,7 +301,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/create-essential-pages",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/create-essential-pages",
 		"datePublished": "2025-03-06T15:00:00",
 		"dateModified": "",
 		"image": {
@@ -321,7 +316,7 @@
 			"legal pages for blogs",
 			"disclaimer page guide"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/create-essential-pages",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/create-essential-pages",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -353,7 +348,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "start-creating-content",
-		"title": "Step 6: How to Create High-Quality Blog Content that Ranks",
 		"headline": "Step 6: How to Create High-Quality Blog Content that Ranks",
 		"description": "Learn to write engaging, SEO-friendly blog posts that attract traffic and keep readers engaged. Essential tips for successful blogging.",
 		"author": {
@@ -368,7 +362,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/start-creating-content",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/start-creating-content",
 		"datePublished": "2025-03-06T16:00:00",
 		"dateModified": "",
 		"image": {
@@ -383,7 +377,7 @@
 			"best blog writing strategies",
 			"content marketing for bloggers"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/start-creating-content",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/start-creating-content",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -435,7 +429,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "promote-your-blog",
-		"title": "Step 7: Promote Your Blog & Drive More Traffic in 2025",
 		"headline": "Step 7: Promote Your Blog & Drive More Traffic in 2025",
 		"description": "Boost your blog traffic with social media marketing, SEO, guest blogging, and email marketing. Learn effective blog promotion strategies.",
 		"author": {
@@ -450,7 +443,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/promote-your-blog",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/promote-your-blog",
 		"datePublished": "2025-03-06T17:00:00",
 		"dateModified": "",
 		"image": {
@@ -465,7 +458,7 @@
 			"email marketing for blogs",
 			"SEO blog promotion tips"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/promote-your-blog",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/promote-your-blog",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -502,7 +495,6 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "monetize-your-blog",
-		"title": "Step 8: Monetize Your Blog & Start Making Money Online",
 		"headline": "Step 8: Monetize Your Blog & Start Making Money Online",
 		"description": "Discover the best ways to make money from your blog, including affiliate marketing, advertising, sponsored posts, and selling digital products.",
 		"author": {
@@ -517,7 +509,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/Start-A-Blog/monetize-your-blog",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/start-a-blog/monetize-your-blog",
 		"datePublished": "2025-03-06T18:00:00",
 		"dateModified": "",
 		"image": {
@@ -532,7 +524,7 @@
 			"Google AdSense for blogs",
 			"sell digital products online"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/Start-A-Blog/monetize-your-blog",
+		"canonicalUrl": "https://www.dollarsandlife.com/start-a-blog/monetize-your-blog",
 		"content": [
 			{
 				"subtitle": "Introduction",
