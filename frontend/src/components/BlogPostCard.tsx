@@ -5,15 +5,15 @@ interface BlogPostCardProps {
 	id: string;
 	title: string;
 	image: {
-		url: string; // Image source URL
-		caption: string; // Image caption (for alt text)
+		url: string;
+		caption: string;
 	};
 	content: string;
 	author: {
 		name: string;
 	};
 	datePublished: string;
-	dateModified?: string; // Optional updated date
+	dateModified?: string;
 	onClick?: () => void;
 }
 

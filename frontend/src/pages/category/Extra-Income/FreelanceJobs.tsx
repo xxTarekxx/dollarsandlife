@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
@@ -11,9 +11,14 @@ import "./CommonStyles.css";
 interface FreelanceJob {
 	id: string;
 	title: string;
-	image: string;
+	image: {
+		url: string;
+		caption: string;
+	};
 	content: { text: string }[];
-	author: string;
+	author: {
+		name: string;
+	};
 	datePublished: string;
 	dateModified?: string;
 }
@@ -23,7 +28,6 @@ const FreelanceJobs: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
-	const location = useLocation();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -39,23 +43,6 @@ const FreelanceJobs: React.FC = () => {
 
 		fetchData();
 	}, []);
-
-	useEffect(() => {
-		const updateTitle = () => {
-			const pathSegments = location.pathname.split("/");
-			const postId = pathSegments[pathSegments.length - 1];
-			if (postId && postId !== "freelancers") {
-				const post = freelanceJobs.find((post) => post.id === postId);
-				if (post) {
-					document.title = post.title;
-				}
-			} else {
-				document.title = "Freelancers - Best Online Jobs & Gigs";
-			}
-		};
-
-		updateTitle();
-	}, [freelanceJobs, location.pathname]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
@@ -132,13 +119,13 @@ const FreelanceJobs: React.FC = () => {
 										<div className='row-container'>
 											<Link to={`/Extra-Income/Freelancers/${post.id}`}>
 												<BlogPostCard
-													id={post.id || `fallback-${i}`}
-													title={post.title || "Untitled"}
-													image={post.image || ""}
+													id={post.id}
+													title={post.title}
+													image={post.image}
 													content={getExcerpt(post.content)}
-													author={post.author || "Unknown"}
-													datePublished={post.datePublished || "N/A"}
-													dateModified={post.dateModified} // ✅ Add this
+													author={post.author}
+													datePublished={post.datePublished}
+													dateModified={post.dateModified}
 												/>
 											</Link>
 										</div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async"; // For SEO
+import { Helmet } from "react-helmet-async";
 import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
@@ -11,16 +11,16 @@ import "../Extra-Income/CommonStyles.css";
 interface BlogPost {
 	id: string;
 	title: string;
-	image: string;
+	image: {
+		url: string;
+		caption: string;
+	};
 	content: { text: string }[];
-	author: string;
+	author: {
+		name: string;
+	};
 	datePublished: string;
-}
-
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
+	dateModified?: string;
 }
 
 const StartABlog: React.FC = () => {
@@ -33,15 +33,14 @@ const StartABlog: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/startablogdata.json");
-				if (!response.ok)
-					throw new Error(`Failed to fetch data: ${response.statusText}`);
+				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: BlogPost[] = await response.json();
-				if (Array.isArray(data)) setBlogPosts(data);
-				else console.error("Invalid data format: Expected an array.");
+				setBlogPosts(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
 		};
+
 		fetchData();
 	}, []);
 
@@ -127,6 +126,7 @@ const StartABlog: React.FC = () => {
 													content={getExcerpt(post.content)}
 													author={post.author}
 													datePublished={post.datePublished}
+													dateModified={post.dateModified}
 												/>
 											</Link>
 										</div>

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
@@ -11,9 +11,14 @@ import "./CommonStyles.css";
 interface MoneyMakingApp {
 	id: string;
 	title: string;
-	image: string;
-	content?: { text: string }[]; // Optional to prevent undefined errors
-	author: string;
+	image: {
+		url: string;
+		caption: string;
+	};
+	content?: { text: string }[];
+	author: {
+		name: string;
+	};
 	dateModified?: string;
 	datePublished: string;
 }
@@ -22,8 +27,6 @@ const MoneyMakingApps: React.FC = () => {
 	const [apps, setApps] = useState<MoneyMakingApp[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const pageRef = useRef<HTMLDivElement>(null);
-	const location = useLocation();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -31,31 +34,15 @@ const MoneyMakingApps: React.FC = () => {
 				const response = await fetch("/data/moneymakingapps.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: MoneyMakingApp[] = await response.json();
-				setApps(data || []);
+				setApps(data);
 			} catch (error) {
 				console.error("Error fetching data:", error);
-				setApps([]);
 			}
 		};
+
 		fetchData();
 	}, []);
 
-	useEffect(() => {
-		const updateTitle = () => {
-			const pathSegments = location.pathname.split("/");
-			const postId = pathSegments[pathSegments.length - 1];
-
-			if (postId && postId !== "money-making-apps") {
-				const post = apps.find((post) => post.id === postId);
-				document.title = post ? post.title : "Money Making Apps";
-			} else {
-				document.title = "Money Making Apps";
-			}
-		};
-		updateTitle();
-	}, [apps, location.pathname]);
-
-	// Extract first 200 characters as excerpt
 	const getExcerpt = (content?: { text: string }[]): string => {
 		if (!content || content.length === 0) return "No content available.";
 		const firstSection = content[0]?.text || "";
@@ -70,7 +57,7 @@ const MoneyMakingApps: React.FC = () => {
 	);
 
 	return (
-		<div className='page-container' ref={pageRef}>
+		<div className='page-container'>
 			{/*  Add Helmet for SEO */}
 			<Helmet>
 				<title>Best Money Making Apps to Earn Extra Cash in 2025</title>
@@ -126,13 +113,13 @@ const MoneyMakingApps: React.FC = () => {
 											<div className='row-container'>
 												<Link to={`/Extra-Income/Money-Making-Apps/${post.id}`}>
 													<BlogPostCard
-														id={post.id || `fallback-${i}`}
-														title={post.title || "Untitled"}
-														image={post.image || ""}
+														id={post.id}
+														title={post.title}
+														image={post.image}
 														content={getExcerpt(post.content)}
-														author={post.author || "Unknown"}
+														author={post.author}
+														datePublished={post.datePublished}
 														dateModified={post.dateModified}
-														datePublished={post.datePublished || "N/A"}
 													/>
 												</Link>
 											</div>
