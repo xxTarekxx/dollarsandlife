@@ -62,7 +62,7 @@ async function fetchDynamicRoutes() {
             const fileContent = fs.readFileSync(filePath, "utf-8");
             const jsonData = JSON.parse(fileContent);
 
-            //  Ensure JSON is an array before processing
+            // Ensure JSON is an array before processing
             if (!Array.isArray(jsonData)) {
                 console.warn(`⚠️ Skipping non-array JSON file: ${filePath}`);
                 continue;
@@ -74,7 +74,7 @@ async function fetchDynamicRoutes() {
                     return;
                 }
 
-                // Generate URL based on filename
+                // Determine URL base from the file name
                 const filename = path.basename(filePath, ".json");
                 const urlBase = filename.includes("remotejobs") ? "/Extra-Income/Remote-Jobs"
                     : filename.includes("freelancejobs") ? "/Extra-Income/Freelancers"
@@ -85,12 +85,14 @@ async function fetchDynamicRoutes() {
                                         : "";
 
                 if (urlBase) {
-                    dynamicRoutes.push({
+                    const route = {
                         url: `${urlBase}/${post.id}`,
                         changefreq: "daily",
                         priority: 0.8,
-                        lastmod: post.datePublished || new Date().toISOString(),
-                    });
+                        // Use `dateModified` if available, otherwise fallback to `datePublished`
+                        lastmod: post.dateModified && post.dateModified.trim() !== "" ? post.dateModified : post.datePublished,
+                    };
+                    dynamicRoutes.push(route);
                 }
             });
 
@@ -113,19 +115,18 @@ async function generateSitemap() {
 
         sitemap.pipe(writeStream);
 
-        //  Extract static routes and add RSS feed
+        // Extract static routes and add RSS feed
         const staticRoutes = [
             ...extractRoutesFromApp(),
             "/ads.txt",  // ✅ Ensure ads.txt is indexed
             "/rss.xml"   // ✅ Direct RSS feed URL
         ];
 
-
         staticRoutes.forEach(route => {
             sitemap.write({ url: route, changefreq: "hourly", priority: 0.8 });
         });
 
-        //  Fetch valid dynamic routes
+        // Fetch valid dynamic routes
         const dynamicRoutes = await fetchDynamicRoutes();
         dynamicRoutes.forEach(route => sitemap.write(route));
 

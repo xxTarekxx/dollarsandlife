@@ -2,17 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "../../../components/AdComponent.css";
-import BlogPostCard from "../../../components/BlogPostCard";
 import "../../../components/BlogPostContent.css";
+import BlogPostCard from "../../../components/BlogPostCard";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "../Extra-Income/CommonStyles.css";
 
+// Define interface for blog post, adjusting for image object and author object
 interface BlogPost {
 	id: string;
 	title: string;
-	author: string;
+	author: {
+		name: string; // Author is now an object with name
+	};
 	datePublished: string;
-	image: string;
+	image: {
+		url: string;
+		caption: string;
+	};
 	content: {
 		subtitle?: string;
 		text?: string;
@@ -105,12 +111,12 @@ const BreakingNews: React.FC = () => {
 						<BlogPostCard
 							id={post.id}
 							title={post.title}
-							image={post.image}
+							image={post.image} // Pass the image object correctly
 							content={
 								post.content[0]?.text?.split(". ").slice(0, 2).join(". ") +
 									"." || "No description available"
 							}
-							author={post.author}
+							author={{ name: post.author.name }} // Fix: pass author as an object with 'name' key
 							datePublished={post.datePublished}
 							dateModified={post.dateModified}
 						/>

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
@@ -11,9 +11,14 @@ import "./CommonStyles.css";
 interface RemoteJob {
 	id: string;
 	title: string;
-	image: string;
+	image: {
+		url: string;
+		caption: string;
+	};
 	content: { text: string }[];
-	author: string;
+	author: {
+		name: string;
+	};
 	datePublished: string;
 	dateModified?: string;
 }
@@ -22,8 +27,6 @@ const RemoteOnlineJobs: React.FC = () => {
 	const [remoteJobs, setRemoteJobs] = useState<RemoteJob[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const pageRef = useRef<HTMLDivElement>(null);
-	const location = useLocation();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -36,24 +39,9 @@ const RemoteOnlineJobs: React.FC = () => {
 				console.error("Error fetching data:", error);
 			}
 		};
+
 		fetchData();
 	}, []);
-
-	useEffect(() => {
-		const updateTitle = () => {
-			const pathSegments = location.pathname.split("/");
-			const postId = pathSegments[pathSegments.length - 1];
-			if (postId && postId !== "remote-online-jobs") {
-				const post = remoteJobs.find((post) => post.id === postId);
-				if (post) {
-					document.title = post.title;
-				}
-			} else {
-				document.title = "Remote Online Jobs - Work from Home Opportunities";
-			}
-		};
-		updateTitle();
-	}, [remoteJobs, location.pathname]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
@@ -67,7 +55,7 @@ const RemoteOnlineJobs: React.FC = () => {
 	);
 
 	return (
-		<div className='page-container' ref={pageRef}>
+		<div className='page-container'>
 			{/* SEO Metadata with Helmet */}
 			<Helmet>
 				<title>Remote Online Jobs | Work from Home & Freelance Gigs</title>

@@ -54,7 +54,7 @@
 		"content": [
 			{
 				"subtitle": "Introduction: The Growing Movement for Social Security Fairness",
-				"text": "In 2025, the financial well-being of millions of public servants hangs in the balance as the <a href='https://www.congress.gov/bill/118th-congress/house-bill/82' target='_blank' rel='noopener noreferrer'>Social Security Fairness Act</a> gains unprecedented momentum. For decades, teachers, police officers, firefighters, and other public employees have been subjected to benefit reductions under two controversial provisions: the <strong>Windfall Elimination Provision (WEP)</strong> and the <strong>Government Pension Offset (GPO)</strong>. As bipartisan efforts intensify, the proposed repeal of WEP and GPO is shaping up to be one of the most significant retirement reforms of our time. This comprehensive guide breaks down everything you need to know, from historical context to real-world impact, and offers financial planning strategies to help you prepare."
+				"text": "In 2025, the financial well-being of millions of public servants hangs in the balance as the Social Security Fairness Act gains unprecedented momentum. For decades, teachers, police officers, firefighters, and other public employees have been subjected to benefit reductions under two controversial provisions: the <strong>Windfall Elimination Provision (WEP)</strong> and the <strong>Government Pension Offset (GPO)</strong>. As bipartisan efforts intensify, the proposed repeal of WEP and GPO is shaping up to be one of the most significant retirement reforms of our time. You can learn more about the <a href='https://www.congress.gov/bill/118th-congress/house-bill/82' target='_blank' rel='noopener noreferrer'>Social Security Fairness Act</a> and its implications. This comprehensive guide breaks down everything you need to know, from historical context to real-world impact, and offers financial planning strategies to help you prepare."
 			},
 			{
 				"subtitle": "The Origins of WEP and GPO: Why They Were Created",
@@ -129,6 +129,7 @@
 		"@context": "https://schema.org",
 		"@type": "NewsArticle",
 		"id": "spacex-rescue-mission-astronauts-return",
+		"title": "SpaceX Rescue Mission: Astronauts Safely Return to Earth After Historic Launch",
 		"headline": "SpaceX Rescue Mission: Astronauts Return Safely After Historic Launch",
 		"author": {
 			"@type": "Organization",

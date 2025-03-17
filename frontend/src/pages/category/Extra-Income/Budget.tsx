@@ -11,10 +11,16 @@ import "./CommonStyles.css";
 interface BlogPost {
 	id: string;
 	title: string;
-	image: string;
+	image: {
+		url: string;
+		caption: string;
+	};
 	content: { text: string }[];
-	author: string;
+	author: {
+		name: string;
+	};
 	datePublished: string;
+	dateModified?: string;
 }
 
 const Budget: React.FC = () => {
@@ -91,8 +97,8 @@ const Budget: React.FC = () => {
 							"@type": "Article",
 							position: index + 1,
 							headline: post.title,
-							image: post.image,
-							author: { "@type": "Person", name: post.author },
+							image: post.image.url,
+							author: { "@type": "Person", name: post.author.name },
 							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/Extra-Income/Budget/${post.id}`,
 						})),

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async"; // For SEO
+import { Helmet } from "react-helmet-async";
 import "../../../components/AdComponent.css";
 import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
@@ -16,13 +16,13 @@ interface Product {
 	id: string;
 	title: string;
 	image: {
-		url: string; // Update to access the `url` property
+		url: string; // Access the `url` property for the image
 		caption: string; // Use caption for alt text
 	};
 	description: string;
 	currentPrice: string;
 	discountPercentage?: string;
-	mainEntityOfPage: string;
+	mainEntityOfPage: string; // This field is already used for the affiliate link
 }
 
 interface ProductCardProps extends Product {}
@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	description,
 	currentPrice,
 	discountPercentage,
-	mainEntityOfPage, // this field is already used for the affiliate link
+	mainEntityOfPage, // This field is already used for the affiliate link
 }) => {
 	return (
 		<div className='CardContainer' data-id={id}>
