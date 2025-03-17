@@ -74,21 +74,23 @@ async function fetchDynamicRoutes() {
 
                 // Determine URL base from the file name
                 const filename = path.basename(filePath, '.json');
-                const urlBase = filename.includes('remotejobs') ? '/Extra-Income/Remote-Jobs'
-                    : filename.includes('freelancejobs') ? '/Extra-Income/Freelancers'
-                    : filename.includes('moneymakingapps') ? '/Extra-Income/Money-Making-Apps'
-                        : filename.includes('budgetdata') ? '/Extra-Income/budget'
-                            : filename.includes('startablogdata') ? '/Start-A-Blog'
+                const urlBase = filename.includes('remotejobs') ? '/extra-income/remote-Jobs'
+                    : filename.includes('freelancejobs') ? '/extra-income/freelancers'
+                    : filename.includes('moneymakingapps') ? '/extra-income/money-making-apps'
+                        : filename.includes('budgetdata') ? '/extra-income/budget'
+                            : filename.includes('startablogdata') ? '/start-a-blog'
                                 : filename.includes('breakingnews') ? '/breaking-news'
                                     : '';
 
                 if (urlBase) {
                     const route = {
                         url: `${urlBase}/${post.id}`,
-                        changefreq: 'daily',
+                        changefreq: "daily",
                         priority: 0.8,
                         // Use `dateModified` if available, otherwise fallback to `datePublished`
-                        lastmod: post.dateModified && post.dateModified.trim() !== '' ? post.dateModified : post.datePublished,
+                        lastmod: post.dateModified && post.dateModified.trim() !== ""
+                            ? post.dateModified // Use dateModified if available
+                            : post.datePublished, // Fallback to datePublished if dateModified doesn't exist
                     };
                     dynamicRoutes.push(route);
                 }
