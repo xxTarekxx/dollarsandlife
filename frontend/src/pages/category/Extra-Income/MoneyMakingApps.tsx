@@ -10,7 +10,7 @@ import "./CommonStyles.css";
 
 interface MoneyMakingApp {
 	id: string;
-	title: string;
+	headline: string;
 	image: {
 		url: string;
 		caption: string;
@@ -19,29 +19,33 @@ interface MoneyMakingApp {
 	author: {
 		name: string;
 	};
-	dateModified?: string;
 	datePublished: string;
+	dateModified?: string;
 }
 
 const MoneyMakingApps: React.FC = () => {
 	const [apps, setApps] = useState<MoneyMakingApp[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
+	const [isDataFetched, setIsDataFetched] = useState(false);
 
 	useEffect(() => {
+		if (isDataFetched) return;
+
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/moneymakingapps.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: MoneyMakingApp[] = await response.json();
 				setApps(data);
+				setIsDataFetched(true); // Data fetched
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
 		};
 
 		fetchData();
-	}, []);
+	}, [isDataFetched]);
 
 	const getExcerpt = (content?: { text: string }[]): string => {
 		if (!content || content.length === 0) return "No content available.";
@@ -55,7 +59,6 @@ const MoneyMakingApps: React.FC = () => {
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
-
 	return (
 		<div className='page-container'>
 			{/*  Add Helmet for SEO */}
@@ -67,7 +70,7 @@ const MoneyMakingApps: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps'
+					href='https://www.dollarsandlife.com/extra-income/money-making-apps'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -76,11 +79,11 @@ const MoneyMakingApps: React.FC = () => {
 						itemListElement: apps.map((post, index) => ({
 							"@type": "Article",
 							position: index + 1,
-							headline: post.title,
+							headline: post.headline,
 							image: post.image,
 							author: { "@type": "Person", name: post.author },
 							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps/${post.id}`,
+							url: `https://www.dollarsandlife.com/extra-income/money-making-apps/${post.id}`,
 						})),
 					})}
 				</script>
@@ -111,10 +114,10 @@ const MoneyMakingApps: React.FC = () => {
 									currentPosts.map((post, i) => (
 										<React.Fragment key={post.id || `post-${i}`}>
 											<div className='row-container'>
-												<Link to={`/Extra-Income/Money-Making-Apps/${post.id}`}>
+												<Link to={`/extra-income/money-making-apps/${post.id}`}>
 													<BlogPostCard
 														id={post.id}
-														title={post.title}
+														headline={post.headline}
 														image={post.image}
 														content={getExcerpt(post.content)}
 														author={post.author}

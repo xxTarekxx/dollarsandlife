@@ -20,7 +20,7 @@ const ExtraIncome: React.FC = () => {
 
 	const linkBoxes = [
 		{
-			to: "/Extra-Income/Freelancers",
+			to: "/extra-income/freelancers",
 			ariaLabel: "Explore freelance opportunities",
 			imgSrc: compressedFreeLancerimg || FreeLancerimg,
 			altText: "Freelance job opportunities",
@@ -28,7 +28,7 @@ const ExtraIncome: React.FC = () => {
 			priority: true,
 		},
 		{
-			to: "/Extra-Income/Budget",
+			to: "/extra-income/budget",
 			ariaLabel: "Learn budgeting strategies",
 			imgSrc: compressedBudgettingimg || Budgettingimg,
 			altText: "Budgeting and financial planning",
@@ -36,7 +36,7 @@ const ExtraIncome: React.FC = () => {
 			priority: false,
 		},
 		{
-			to: "/Extra-Income/Remote-Jobs",
+			to: "/extra-income/remote-Jobs",
 			ariaLabel: "Find remote job opportunities",
 			imgSrc: compressedRemoteJobimg || RemoteJobimg,
 			altText: "Remote jobs and online work",
@@ -44,7 +44,7 @@ const ExtraIncome: React.FC = () => {
 			priority: false,
 		},
 		{
-			to: "/Extra-Income/Money-Making-Apps",
+			to: "/extra-income/money-making-apps",
 			ariaLabel: "Earn money using apps",
 			imgSrc: compressedMoneyMakingAppsimg || MoneyMakingAppsimg,
 			altText: "Apps to earn money online",
@@ -64,14 +64,14 @@ const ExtraIncome: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/Extra-Income'
+					href='https://www.dollarsandlife.com/extra-income'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
 						name: "Extra Income Opportunities",
-						url: "https://www.dollarsandlife.com/Extra-Income",
+						url: "https://www.dollarsandlife.com/extra-income",
 						description:
 							"Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.",
 						publisher: {

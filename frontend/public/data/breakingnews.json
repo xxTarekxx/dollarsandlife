@@ -3,7 +3,6 @@
 		"@context": "https://schema.org",
 		"@type": "NewsArticle",
 		"id": "social-security-fairness-act-benefits",
-		"title": "In-Depth Guide to the Social Security Fairness Act Benefits in 2025: What Every Retiree Needs to Know",
 		"headline": "In-Depth Guide to the Social Security Fairness Act Benefits in 2025",
 		"author": {
 			"@type": "Organization",
@@ -95,12 +94,12 @@
 				"text": "Regardless of legislative progress, smart financial planning remains essential. Here are steps to secure your future:",
 				"bulletPoints": [
 					"<strong>Check Your Social Security Statement</strong>: Log into <a href='https://www.ssa.gov/myaccount/' target='_blank' rel='noopener noreferrer'>SSA.gov</a> to review your earnings record and WEP/GPO impact.",
-					"<strong>Budget Strategically</strong>: Create a plan that accounts for potential benefit increases. Use our <a href='https://www.dollarsandlife.com/Extra-Income/Budget' target='_blank' rel='noopener noreferrer'>budgeting tips</a> to get started.",
-					"<strong>Explore Freelance Income</strong>: Consider flexible freelance opportunities. Visit our <a href='https://www.dollarsandlife.com/Extra-Income/Freelancers' target='_blank' rel='noopener noreferrer'>freelancer guide</a>.",
-					"<strong>Remote Jobs for Seniors</strong>: Explore remote roles suited for retirees on our <a href='https://www.dollarsandlife.com/Extra-Income/Remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs page</a>.",
+					"<strong>Budget Strategically</strong>: Create a plan that accounts for potential benefit increases. Use our <a href='https://www.dollarsandlife.com/extra-income/budget' target='_blank' rel='noopener noreferrer'>budgeting tips</a> to get started.",
+					"<strong>Explore Freelance Income</strong>: Consider flexible freelance opportunities. Visit our <a href='https://www.dollarsandlife.com/extra-income/freelancers' target='_blank' rel='noopener noreferrer'>freelancer guide</a>.",
+					"<strong>Remote Jobs for Seniors</strong>: Explore remote roles suited for retirees on our <a href='https://www.dollarsandlife.com/extra-income/remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs page</a>.",
 					"<strong>Utilize Financial Calculators</strong>: Plan your retirement income with our <a href='https://www.dollarsandlife.com/financial-calculators' target='_blank' rel='noopener noreferrer'>financial calculators</a>.",
-					"<strong>Boost Earnings with Apps</strong>: Supplement your income using apps from our <a href='https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps guide</a>.",
-					"<strong>Start a Blog</strong>: Share your retirement journey and earn passive income. Learn more on our <a href='https://www.dollarsandlife.com/Start-A-Blog' target='_blank' rel='noopener noreferrer'>Start A Blog page</a>."
+					"<strong>Boost Earnings with Apps</strong>: Supplement your income using apps from our <a href='https://www.dollarsandlife.com/extra-income/money-making-apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps guide</a>.",
+					"<strong>Start a Blog</strong>: Share your retirement journey and earn passive income. Learn more on our <a href='https://www.dollarsandlife.com/start-a-blog' target='_blank' rel='noopener noreferrer'>Start A Blog page</a>."
 				]
 			},
 			{
@@ -111,11 +110,11 @@
 				"subtitle": "Explore More: Financial Freedom Tips and Guides",
 				"text": "Achieving financial freedom goes beyond Social Security reforms. Whether you're planning for retirement, starting a side hustle, or looking to earn extra income, Dollars & Life has the resources to help. Check out our guides and tools to take control of your financial future:",
 				"bulletPoints": [
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Freelancers' target='_blank' rel='noopener noreferrer'>Freelance Opportunities</a>: Learn how to thrive as a freelancer and build a flexible career with our comprehensive guide.",
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Budget' target='_blank' rel='noopener noreferrer'>Budgeting Tips</a>: Take control of your finances with practical strategies to manage your income and expenses effectively.",
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs</a>: Discover flexible work options that allow you to earn from anywhere in the world.",
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps</a>: Explore apps that can help you supplement your income and achieve your financial goals.",
-					"<a href='https://www.dollarsandlife.com/Start-A-Blog' target='_blank' rel='noopener noreferrer'>Start a Blog</a>: Share your expertise and earn passive income by creating your own blog with our step-by-step guide.",
+					"<a href='https://www.dollarsandlife.com/extra-income/freelancers' target='_blank' rel='noopener noreferrer'>Freelance Opportunities</a>: Learn how to thrive as a freelancer and build a flexible career with our comprehensive guide.",
+					"<a href='https://www.dollarsandlife.com/extra-income/budget' target='_blank' rel='noopener noreferrer'>Budgeting Tips</a>: Take control of your finances with practical strategies to manage your income and expenses effectively.",
+					"<a href='https://www.dollarsandlife.com/extra-income/remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs</a>: Discover flexible work options that allow you to earn from anywhere in the world.",
+					"<a href='https://www.dollarsandlife.com/extra-income/money-making-apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps</a>: Explore apps that can help you supplement your income and achieve your financial goals.",
+					"<a href='https://www.dollarsandlife.com/start-a-blog' target='_blank' rel='noopener noreferrer'>Start a Blog</a>: Share your expertise and earn passive income by creating your own blog with our step-by-step guide.",
 					"<a href='https://www.dollarsandlife.com/financial-calculators' target='_blank' rel='noopener noreferrer'>Financial Calculators</a>: Plan your finances with precision using our tools to calculate savings, investments, and more."
 				]
 			},
@@ -129,7 +128,6 @@
 		"@context": "https://schema.org",
 		"@type": "NewsArticle",
 		"id": "spacex-rescue-mission-astronauts-return",
-		"title": "SpaceX Rescue Mission: Astronauts Safely Return to Earth After Historic Launch",
 		"headline": "SpaceX Rescue Mission: Astronauts Return Safely After Historic Launch",
 		"author": {
 			"@type": "Organization",
@@ -274,11 +272,11 @@
 				"subtitle": "Explore More: Financial Freedom Tips and Guides",
 				"text": "While the SpaceX rescue mission inspires us to reach for the stars, achieving financial freedom is a goal closer to home. Whether you're looking to start a side hustle, manage your budget, or explore remote work opportunities, Dollars & Life has the resources to help you succeed. Check out our guides and tools to take control of your financial future:",
 				"bulletPoints": [
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Freelancers' target='_blank' rel='noopener noreferrer'>Freelance Opportunities</a>: Learn how to thrive as a freelancer and build a flexible career with our comprehensive guide.",
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Budget' target='_blank' rel='noopener noreferrer'>Budgeting Tips</a>: Take control of your finances with practical strategies to manage your income and expenses effectively.",
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs</a>: Discover flexible work options that allow you to earn from anywhere in the world.",
-					"<a href='https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps</a>: Explore apps that can help you supplement your income and achieve your financial goals.",
-					"<a href='https://www.dollarsandlife.com/Start-A-Blog' target='_blank' rel='noopener noreferrer'>Start a Blog</a>: Share your expertise and earn passive income by creating your own blog with our step-by-step guide.",
+					"<a href='https://www.dollarsandlife.com/extra-income/freelancers' target='_blank' rel='noopener noreferrer'>Freelance Opportunities</a>: Learn how to thrive as a freelancer and build a flexible career with our comprehensive guide.",
+					"<a href='https://www.dollarsandlife.com/extra-income/budget' target='_blank' rel='noopener noreferrer'>Budgeting Tips</a>: Take control of your finances with practical strategies to manage your income and expenses effectively.",
+					"<a href='https://www.dollarsandlife.com/extra-income/remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs</a>: Discover flexible work options that allow you to earn from anywhere in the world.",
+					"<a href='https://www.dollarsandlife.com/extra-income/money-making-apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps</a>: Explore apps that can help you supplement your income and achieve your financial goals.",
+					"<a href='https://www.dollarsandlife.com/start-a-blog' target='_blank' rel='noopener noreferrer'>Start a Blog</a>: Share your expertise and earn passive income by creating your own blog with our step-by-step guide.",
 					"<a href='https://www.dollarsandlife.com/financial-calculators' target='_blank' rel='noopener noreferrer'>Financial Calculators</a>: Plan your finances with precision using our tools to calculate savings, investments, and more."
 				]
 			},
@@ -292,7 +290,6 @@
 		"@context": "https://schema.org",
 		"@type": "NewsArticle",
 		"id": "lunar-eclipse-2025",
-		"title": "Lunar Eclipse 2025: Everything You Need to Know About the Blood Moon",
 		"headline": "Lunar Eclipse 2025: Everything You Need to Know About the Blood Moon",
 		"author": {
 			"@type": "Organization",
@@ -530,7 +527,7 @@
 			},
 			{
 				"subtitle": "Financial Tips for Planning Your Eclipse Experience",
-				"text": "Planning to travel to see the Lunar Eclipse 2025? Managing your finances is key to making the most of this celestial event. If you're looking for ways to earn extra income for your trip, consider exploring <a href='https://www.dollarsandlife.com/Extra-Income/Freelancers' target='_blank' rel='noopener noreferrer'>freelance opportunities</a>. For budgeting tips, visit our <a href='https://www.dollarsandlife.com/Extra-Income/Budget' target='_blank' rel='noopener noreferrer'>budgeting page</a>. If you're interested in remote work, check out our <a href='https://www.dollarsandlife.com/Extra-Income/Remote-Jobs' target='_blank' rel='noopener noreferrer'>remote jobs guide</a>. For those who want to earn extra income through apps, our <a href='https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps' target='_blank' rel='noopener noreferrer'>money-making apps guide</a> is a great resource. If you're passionate about astronomy and want to share your experience, consider starting a blog with our <a href='https://www.dollarsandlife.com/Start-A-Blog' target='_blank' rel='noopener noreferrer'>Start A Blog page</a>. For financial planning tools, explore our <a href='https://www.dollarsandlife.com/financial-calculators' target='_blank' rel='noopener noreferrer'>financial calculators</a> to make informed decisions."
+				"text": "Planning to travel to see the Lunar Eclipse 2025? Managing your finances is key to making the most of this celestial event. If you're looking for ways to earn extra income for your trip, consider exploring <a href='https://www.dollarsandlife.com/extra-income/freelancers' target='_blank' rel='noopener noreferrer'>freelance opportunities</a>. For budgeting tips, visit our <a href='https://www.dollarsandlife.com/extra-income/budget' target='_blank' rel='noopener noreferrer'>budgeting page</a>. If you're interested in remote work, check out our <a href='https://www.dollarsandlife.com/extra-income/remote-Jobs' target='_blank' rel='noopener noreferrer'>remote jobs guide</a>. For those who want to earn extra income through apps, our <a href='https://www.dollarsandlife.com/extra-income/money-making-apps' target='_blank' rel='noopener noreferrer'>money-making apps guide</a> is a great resource. If you're passionate about astronomy and want to share your experience, consider starting a blog with our <a href='https://www.dollarsandlife.com/start-a-blog' target='_blank' rel='noopener noreferrer'>Start A Blog page</a>. For financial planning tools, explore our <a href='https://www.dollarsandlife.com/financial-calculators' target='_blank' rel='noopener noreferrer'>financial calculators</a> to make informed decisions."
 			}
 		]
 	},
@@ -538,7 +535,6 @@
 		"@context": "https://schema.org",
 		"@type": "NewsArticle",
 		"id": "claremont-mckenna-shooting",
-		"title": "Claremont McKenna Shooting: What Happened, Latest Updates, and Key Details",
 		"headline": "Claremont McKenna Shooting: What Happened, Latest Updates, and Key Details",
 		"author": {
 			"@type": "Organization",
@@ -605,7 +601,7 @@
 			},
 			{
 				"subtitle": "Financial Stability During Uncertain Times",
-				"text": "In times of crisis, financial stability can provide a sense of security. If you're looking for ways to earn extra income, consider exploring <a href='https://www.dollarsandlife.com/Extra-Income/Freelancers' target='_blank' rel='noopener noreferrer'>freelance opportunities</a>. For those interested in managing their finances better, our <a href='https://www.dollarsandlife.com/Extra-Income/Budget' target='_blank' rel='noopener noreferrer'>budgeting tips</a> can help you stay on track. Additionally, if you're searching for remote work, check out our <a href='https://www.dollarsandlife.com/Extra-Income/Remote-Jobs' target='_blank' rel='noopener noreferrer'>remote jobs page</a>. For those who want to earn extra income through apps, our <a href='https://www.dollarsandlife.com/Extra-Income/Money-Making-Apps' target='_blank' rel='noopener noreferrer'>money-making apps guide</a> is a great resource. If you're interested in starting a blog to share your story or expertise, visit our <a href='https://www.dollarsandlife.com/Start-A-Blog' target='_blank' rel='noopener noreferrer'>Start A Blog page</a>. For financial planning tools, explore our <a href='https://www.dollarsandlife.com/financial-calculators' target='_blank' rel='noopener noreferrer'>financial calculators</a> to make informed decisions."
+				"text": "In times of crisis, financial stability can provide a sense of security. If you're looking for ways to earn extra income, consider exploring <a href='https://www.dollarsandlife.com/extra-income/freelancers' target='_blank' rel='noopener noreferrer'>freelance opportunities</a>. For those interested in managing their finances better, our <a href='https://www.dollarsandlife.com/extra-income/budget' target='_blank' rel='noopener noreferrer'>budgeting tips</a> can help you stay on track. Additionally, if you're searching for remote work, check out our <a href='https://www.dollarsandlife.com/extra-income/remote-Jobs' target='_blank' rel='noopener noreferrer'>remote jobs page</a>. For those who want to earn extra income through apps, our <a href='https://www.dollarsandlife.com/extra-income/money-making-apps' target='_blank' rel='noopener noreferrer'>money-making apps guide</a> is a great resource. If you're interested in starting a blog to share your story or expertise, visit our <a href='https://www.dollarsandlife.com/start-a-blog' target='_blank' rel='noopener noreferrer'>Start A Blog page</a>. For financial planning tools, explore our <a href='https://www.dollarsandlife.com/financial-calculators' target='_blank' rel='noopener noreferrer'>financial calculators</a> to make informed decisions."
 			}
 		]
 	},
@@ -613,7 +609,6 @@
 		"@context": "https://schema.org",
 		"@type": "NewsArticle",
 		"id": "stimulus-check-2025-payment-dates",
-		"title": "Stimulus Check 2025 Payment Dates: Everything You Need to Know",
 		"headline": "Stimulus Check 2025 Payment Dates: Everything You Need to Know",
 		"author": {
 			"@type": "Organization",
@@ -663,7 +658,7 @@
 			},
 			{
 				"subtitle": "Looking for Additional Financial Support?",
-				"text": "If you need extra income while waiting for your Stimulus Check 2025, there are several options to explore. For freelancer opportunities, visit our <a href='http://192.168.1.195:3000/Extra-Income/Freelancers' target='_blank' rel='noopener noreferrer'>Freelance Opportunity page</a>. If you’re looking for budgeting tips to manage your finances better, check out our <a href='https://www.dollarsandlife.com/breaking-news/Extra-Income/Budget/' target='_blank' rel='noopener noreferrer'>Budgeting page</a>. For those interested in remote jobs, visit our <a href='https://www.dollarsandlife.com/breaking-news/Extra-Income/Remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs page</a>. Additionally, if you want to earn a little extra income from apps, explore our <a href='https://www.dollarsandlife.com/breaking-news/Extra-Income/Money-Making-Apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps page</a>."
+				"text": "If you need extra income while waiting for your Stimulus Check 2025, there are several options to explore. For freelancer opportunities, visit our <a href='http://192.168.1.195:3000/extra-income/freelancers' target='_blank' rel='noopener noreferrer'>Freelance Opportunity page</a>. If you’re looking for budgeting tips to manage your finances better, check out our <a href='https://www.dollarsandlife.com/breaking-news/extra-income/budget/' target='_blank' rel='noopener noreferrer'>Budgeting page</a>. For those interested in remote jobs, visit our <a href='https://www.dollarsandlife.com/breaking-news/extra-income/remote-Jobs' target='_blank' rel='noopener noreferrer'>Remote Jobs page</a>. Additionally, if you want to earn a little extra income from apps, explore our <a href='https://www.dollarsandlife.com/breaking-news/extra-income/money-making-apps' target='_blank' rel='noopener noreferrer'>Money-Making Apps page</a>."
 			},
 			{
 				"subtitle": "Frequently Asked Questions About Stimulus Check 2025",
@@ -687,8 +682,9 @@
 		"canonicalUrl": "https://www.dollarsandlife.com/breaking-news/stimulus-check-2025-payment-dates"
 	},
 	{
+		"@context": "https://schema.org",
+		"@type": "NewsArticle",
 		"id": "spacex-latest-launch",
-		"title": "SpaceX Launch Recap: Everything You Need to Know About the Recent Rocket Launch",
 		"headline": "SpaceX Launch Recap: Everything You Need to Know About the Recent Rocket Launch",
 		"author": {
 			"@type": "Organization",

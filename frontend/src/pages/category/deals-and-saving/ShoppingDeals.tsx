@@ -14,7 +14,7 @@ declare global {
 // Define a type for the product data
 interface Product {
 	id: string;
-	title: string;
+	headline: string; // Change this to use headline
 	image: {
 		url: string; // Access the `url` property for the image
 		caption: string; // Use caption for alt text
@@ -29,7 +29,7 @@ interface ProductCardProps extends Product {}
 
 const ProductCard: React.FC<ProductCardProps> = ({
 	id,
-	title,
+	headline, // This is what we're using now to display the headline
 	image,
 	description,
 	currentPrice,
@@ -46,7 +46,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
 				loading='lazy'
 			/>
 			<div className='CardContent'>
-				<h3 className='CardTitle'>{title}</h3>
+				<h3 className='CardTitle'>{headline}</h3>{" "}
+				{/* Use headline instead of title */}
 				<p className='CardDescription'>
 					<span className='CardDescriptionText'>{description}</span>
 				</p>
@@ -63,7 +64,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					target='_blank'
 					rel='noopener noreferrer'
 					className='BuyNowButton'
-					aria-label={`Buy ${title} now`}
+					aria-label={`Buy ${headline} now`} // Use headline in aria-label
 				>
 					Buy Now
 				</a>
@@ -160,7 +161,7 @@ const ShoppingDeals: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/Shopping-Deals'
+					href='https://www.dollarsandlife.com/start-a-blog'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -169,7 +170,7 @@ const ShoppingDeals: React.FC = () => {
 						itemListElement: products.map((product, index) => ({
 							"@type": "Product",
 							position: index + 1,
-							name: product.title,
+							name: product.headline, // Change from title to headline
 							image: product.image.url, // Use `image.url` for the image source
 							description: product.description,
 							offers: {

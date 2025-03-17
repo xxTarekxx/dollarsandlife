@@ -3,7 +3,7 @@ import "./BlogPostCard.css";
 
 interface BlogPostCardProps {
 	id: string;
-	title: string;
+	headline: string;
 	image: {
 		url: string;
 		caption: string;
@@ -18,7 +18,7 @@ interface BlogPostCardProps {
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
-	title,
+	headline,
 	image,
 	content,
 	author,
@@ -55,7 +55,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 			/>
 			<div className='card-content'>
 				<header>
-					<h2 className='card-title'>{title}</h2>
+					<h2 className='card-title'>{headline}</h2>
 				</header>
 				<p className='card-text'>{content}</p>
 
@@ -75,7 +75,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 					<div>
 						<button
 							className='read-more-button'
-							aria-label={`Read more about ${title}`}
+							aria-label={`Read more about ${headline}`}
 						>
 							Read More
 						</button>

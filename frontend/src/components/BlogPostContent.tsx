@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import "../pages/category/Extra-Income/CommonStyles.css";
-import "./AdComponent.css";
+import React, { useEffect, useState, useRef, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import "./BlogPostContent.css";
 import FiverrWidget from "./FiverrWidget";
 
@@ -21,9 +19,9 @@ interface PostContent {
 
 interface BlogPost {
 	id: string;
-	title: string;
+	headline: string;
 	author: {
-		name: string; // Removed @type field
+		name: string;
 	};
 	datePublished: string;
 	dateModified?: string;
@@ -34,86 +32,77 @@ interface BlogPost {
 	content: PostContent[];
 }
 
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
-}
+const BlogPostContent: React.FC<BlogPostContentProps> = React.memo(
+	({ jsonFile }) => {
+		const { id: postId } = useParams<{ id: string }>();
+		const [post, setPost] = useState<BlogPost | null>(null);
+		const isFetching = useRef(false);
 
-const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
-	const { id: postId } = useParams<{ id: string }>();
-	const location = useLocation();
-	const [post, setPost] = useState<BlogPost | null>(null);
-	const [forceRender, setForceRender] = useState(0); // Used to force re-render
+		const fetchPost = useMemo(
+			() => async () => {
+				if (!postId || isFetching.current) return;
 
-	useEffect(() => {
-		const fetchPost = async () => {
-			try {
-				console.log(
-					`Fetching data from: /data/${jsonFile} for post ID: ${postId}`,
-				);
-				const response = await fetch(`/data/${jsonFile}`);
-				if (!response.ok) throw new Error("Failed to fetch post");
+				isFetching.current = true;
+				try {
+					const response = await fetch(`/data/${jsonFile}`);
+					if (!response.ok) throw new Error("Failed to fetch post");
 
-				const data: BlogPost[] = await response.json();
-				const postData = data.find((item) => item.id === postId);
-				if (!postData) throw new Error("Post not found");
+					const data: BlogPost[] = await response.json();
+					const postData = data.find((item) => item.id === postId);
+					if (!postData) throw new Error("Post not found");
 
-				console.log("Post Data:", postData);
-				setPost(postData);
+					setPost(postData);
+				} catch (error) {
+					console.error("Error fetching post:", error);
+				} finally {
+					isFetching.current = false;
+				}
+			},
+			[postId, jsonFile],
+		);
 
-				// Force re-render to ensure layout updates
-				setForceRender((prev) => prev + 1);
-			} catch (error) {
-				console.error("Error fetching post:", error);
-			}
-		};
+		useEffect(() => {
+			fetchPost();
+		}, [fetchPost]);
 
-		fetchPost();
-	}, [postId, jsonFile]);
+		if (!post) {
+			return <div>Loading...</div>;
+		}
 
-	if (!post) {
-		return <div>Loading...</div>;
-	}
-
-	console.log("Rendering BlogPostContent...", post.title);
-
-	return (
-		<div key={forceRender} className='page-container'>
-			<div className='blog-post-content'>
-				<h1>{post.title}</h1>
-				<div className='image-box'>
-					<img
-						src={post.image.url} // Use `url` for the image source
-						alt={post.image.caption} // Use `caption` for the alt text
-						className='main-image'
-						loading='lazy'
-					/>
-				</div>
-				<div className='author-date'>
-					<p className='author'>By: {post.author.name}</p>{" "}
-					{/* Use `author.name` */}
-					<p className='date'>
-						{new Date(post.datePublished).toLocaleDateString()}
-					</p>
-				</div>
-				<div className='top-banner-container'>
-					<a
-						href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-						target='_blank'
-						rel='noopener noreferrer'
-						className='TopBanner'
-					>
+		return (
+			<div className='page-container'>
+				<div className='blog-post-content'>
+					<h1>{post.headline}</h1>
+					<div className='image-box'>
 						<img
-							src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-							alt='Lyca Mobile Banner'
-							className='TopBannerImage'
+							src={post.image.url}
+							alt={post.image.caption}
+							className='main-image'
 							loading='lazy'
 						/>
-					</a>
-				</div>
-				{post.content && post.content.length > 0 ? (
-					post.content.map((section, index) => (
+					</div>
+					<div className='author-date'>
+						<p className='author'>By: {post.author.name}</p>
+						<p className='date'>
+							{new Date(post.datePublished).toLocaleDateString()}
+						</p>
+					</div>
+					<div className='top-banner-container'>
+						<a
+							href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
+							target='_blank'
+							rel='noopener noreferrer'
+							className='TopBanner'
+						>
+							<img
+								src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
+								alt='Lyca Mobile Banner'
+								className='TopBannerImage'
+								loading='lazy'
+							/>
+						</a>
+					</div>
+					{post.content.map((section, index) => (
 						<div key={index} className='content-section'>
 							{section.subtitle && <h2>{section.subtitle}</h2>}
 							{section.text && (
@@ -151,7 +140,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 								"How Your Profile Would Look on Fiverr As A Seller" && (
 								<FiverrWidget />
 							)}
-							{/* Insert ad after every 2nd section */}
 							{index % 2 === 1 && (
 								<div className='postings-container'>
 									<ins
@@ -160,8 +148,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 											display: "block",
 											width: "300px",
 											height: "250px",
-											minWidth: "300x",
-											minHeight: "250px",
 										}}
 										data-ad-client='ca-pub-1079721341426198'
 										data-ad-slot='7197282987'
@@ -177,13 +163,11 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 								</div>
 							)}
 						</div>
-					))
-				) : (
-					<div>No content available.</div>
-				)}
+					))}
+				</div>
 			</div>
-		</div>
-	);
-};
+		);
+	},
+);
 
 export default BlogPostContent;

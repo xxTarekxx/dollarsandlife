@@ -4,14 +4,14 @@ import Breadcrumb from "./Breadcrumb";
 
 const breadcrumbNameMap: { [key: string]: string } = {
 	"/": "Home",
-	"/Extra-Income": "Extra Income",
-	"/Extra-Income/Freelancers": "Freelancers",
-	"/Extra-Income/budgetting": "Budgeting",
-	"/Extra-Income/Remote-Jobs": "Remote Jobs",
-	"/Extra-Income/side-hustles": "Side Hustles",
-	"/Extra-Income/Money-Making-Apps": "Money Making Apps",
+	"/extra-income": "Extra Income",
+	"/extra-income/freelancers": "Freelancers",
+	"/extra-income/budgetting": "Budgeting",
+	"/extra-income/remote-Jobs": "Remote Jobs",
+	"/extra-income/side-hustles": "Side Hustles",
+	"/extra-income/money-making-apps": "Money Making Apps",
 	"/AmazonPicks": "Amazon Picks",
-	"/Start-A-Blog": "Start A Blog",
+	"/start-a-blog": "Start A Blog",
 };
 
 const BreadcrumbWrapper: React.FC = () => {

@@ -10,7 +10,7 @@ import "./CommonStyles.css";
 
 interface BlogPost {
 	id: string;
-	title: string;
+	headline: string;
 	image: {
 		url: string;
 		caption: string;
@@ -29,42 +29,28 @@ const Budget: React.FC = () => {
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
 	const location = useLocation();
+	const [isDataFetched, setIsDataFetched] = useState(false);
 
+	// Fetch data only once
 	useEffect(() => {
+		if (isDataFetched) return; // Prevent re-fetching the data
+
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/budgetdata.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: BlogPost[] = await response.json();
 				setBudgetPosts(data);
+				setIsDataFetched(true); // Data fetched
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
 		};
 
 		fetchData();
-	}, []);
+	}, [isDataFetched]); // Runs only once when the data isn't fetched
 
-	// Remove auto-scrolling
-	useEffect(() => {}, [currentPage]);
-
-	useEffect(() => {
-		const updateTitle = () => {
-			const pathSegments = location.pathname.split("/");
-			const postId = pathSegments[pathSegments.length - 1];
-			if (postId && postId !== "budget") {
-				const post = budgetPosts.find((post) => post.id === postId);
-				if (post) {
-					document.title = post.title;
-				}
-			} else {
-				document.title = "Budget Guides - Smart Financial Planning";
-			}
-		};
-
-		updateTitle();
-	}, [budgetPosts, location.pathname]);
-
+	// Function to get the excerpt of the first section of content
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
@@ -87,7 +73,7 @@ const Budget: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/Extra-Income/Budget/'
+					href='https://www.dollarsandlife.com/extra-income/budget/'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -96,11 +82,11 @@ const Budget: React.FC = () => {
 						itemListElement: budgetPosts.map((post, index) => ({
 							"@type": "Article",
 							position: index + 1,
-							headline: post.title,
+							headline: post.headline,
 							image: post.image.url,
 							author: { "@type": "Person", name: post.author.name },
 							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/Extra-Income/Budget/${post.id}`,
+							url: `https://www.dollarsandlife.com/extra-income/budget/${post.id}`,
 						})),
 					})}
 				</script>
@@ -134,12 +120,12 @@ const Budget: React.FC = () => {
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
 											<Link
-												to={`/Extra-Income/Budget/${post.id}`}
-												aria-label={`Read more about ${post.title}`}
+												to={`/extra-income/budget/${post.id}`}
+												aria-label={`Read more about ${post.headline}`}
 											>
 												<BlogPostCard
 													id={post.id}
-													title={post.title}
+													headline={post.headline}
 													image={post.image}
 													content={getExcerpt(post.content)}
 													author={post.author}

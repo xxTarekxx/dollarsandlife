@@ -10,7 +10,7 @@ import "./CommonStyles.css";
 
 interface FreelanceJob {
 	id: string;
-	title: string;
+	headline: string;
 	image: {
 		url: string;
 		caption: string;
@@ -27,22 +27,25 @@ const FreelanceJobs: React.FC = () => {
 	const [freelanceJobs, setFreelanceJobs] = useState<FreelanceJob[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const pageRef = useRef<HTMLDivElement>(null);
+	const [isDataFetched, setIsDataFetched] = useState(false);
 
 	useEffect(() => {
+		if (isDataFetched) return;
+
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/freelancejobs.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: FreelanceJob[] = await response.json();
 				setFreelanceJobs(data);
+				setIsDataFetched(true); // Data fetched
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
 		};
 
 		fetchData();
-	}, []);
+	}, [isDataFetched]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
@@ -56,7 +59,7 @@ const FreelanceJobs: React.FC = () => {
 	);
 
 	return (
-		<div className='page-container' ref={pageRef}>
+		<div className='page-container'>
 			{/* SEO Metadata with Helmet */}
 			<Helmet>
 				<title>Freelance Jobs & Opportunities | Earn Money Online</title>
@@ -66,14 +69,14 @@ const FreelanceJobs: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/Extra-Income/Freelancers'
+					href='https://www.dollarsandlife.com/extra-income/freelancers'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
 						name: "Freelance Jobs & Opportunities",
-						url: "https://www.dollarsandlife.com/Extra-Income/Freelancers",
+						url: "https://www.dollarsandlife.com/extra-income/freelancers",
 						description:
 							"Discover top freelance jobs and online work opportunities. Explore remote work, side gigs, and contract jobs to increase your income.",
 						publisher: {
@@ -117,10 +120,10 @@ const FreelanceJobs: React.FC = () => {
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
-											<Link to={`/Extra-Income/Freelancers/${post.id}`}>
+											<Link to={`/extra-income/freelancers/${post.id}`}>
 												<BlogPostCard
 													id={post.id}
-													title={post.title}
+													headline={post.headline}
 													image={post.image}
 													content={getExcerpt(post.content)}
 													author={post.author}

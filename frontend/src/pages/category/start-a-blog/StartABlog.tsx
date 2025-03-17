@@ -6,11 +6,11 @@ import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
 import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "../Extra-Income/CommonStyles.css";
+import "../extra-income/CommonStyles.css";
 
 interface BlogPost {
 	id: string;
-	title: string;
+	headline: string;
 	image: {
 		url: string;
 		caption: string;
@@ -66,7 +66,7 @@ const StartABlog: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/Start-A-Blog'
+					href='https://www.dollarsandlife.com/start-a-blog'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -75,11 +75,11 @@ const StartABlog: React.FC = () => {
 						itemListElement: blogPosts.map((post, index) => ({
 							"@type": "Article",
 							position: index + 1,
-							headline: post.title,
+							headline: post.headline,
 							image: post.image,
 							author: { "@type": "Person", name: post.author },
 							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/Start-A-Blog/${post.id}`,
+							url: `https://www.dollarsandlife.com/start-a-blog/${post.id}`,
 						})),
 					})}
 				</script>
@@ -116,12 +116,12 @@ const StartABlog: React.FC = () => {
 									<React.Fragment key={post.id}>
 										<div className='row-container'>
 											<Link
-												to={`/Start-A-Blog/${post.id}`}
-												aria-label={`Read more about ${post.title}`}
+												to={`/start-a-blog/${post.id}`}
+												aria-label={`Read more about ${post.headline}`}
 											>
 												<BlogPostCard
 													id={post.id}
-													title={post.title}
+													headline={post.headline}
 													image={post.image}
 													content={getExcerpt(post.content)}
 													author={post.author}

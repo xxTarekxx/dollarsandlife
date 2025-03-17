@@ -32,6 +32,7 @@ const Footer: React.FC = () => {
 			links: [
 				{ to: "/contact-us", text: "Contact Us" },
 				{ to: "/terms-of-service", text: "Terms Of Service" },
+				{ to: "/privacy-policy", text: "Privacy Policy" }, // Added Privacy Policy link here
 			],
 		},
 	];
@@ -102,7 +103,12 @@ const Footer: React.FC = () => {
 						<div className='column' key={index}>
 							<h3 className='header'>{column.header}</h3>
 							{column.links.map((link, linkIndex) => (
-								<Link key={linkIndex} to={link.to} className='footer-link'>
+								// Ensure that `link.to` is not undefined before rendering the Link component
+								<Link
+									key={linkIndex}
+									to={link.to || "#"} // Use "#" as a fallback in case `link.to` is undefined
+									className='footer-link'
+								>
 									{link.text}
 								</Link>
 							))}
@@ -133,7 +139,11 @@ const Footer: React.FC = () => {
 				<div className='copyright'>
 					© {currentYear} All Rights Reserved Texas Connect LLC <br />
 					Developed And Designed By
-					<a href='https://www.linkedin.com/in/tarek-ismael-96777578/'>
+					<a
+						href='https://www.linkedin.com/in/tarek-ismael-96777578/'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
 						{" "}
 						Tarek I.{" "}
 					</a>
