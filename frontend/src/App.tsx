@@ -179,7 +179,7 @@ const App: React.FC = () => {
 						/>
 						<Route path='/extra-income/budget/*' element={<Budget />} />
 						<Route
-							path='/extra-income/remote-Jobs/*'
+							path='/extra-income/remote-jobs/*'
 							element={<RemoteOnlineJobs />}
 						/>
 						<Route
