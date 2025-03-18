@@ -76,7 +76,7 @@ async function fetchDynamicRoutes() {
 
                 // Determine URL base from the file name
                 const filename = path.basename(filePath, ".json");
-                const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-Jobs"
+                const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
                     : filename.includes("freelancejobs") ? "/extra-income/freelancers"
                         : filename.includes("moneymakingapps") ? "/extra-income/money-making-apps"
                             : filename.includes("budgetdata") ? "/extra-income/budget"
@@ -89,7 +89,7 @@ async function fetchDynamicRoutes() {
 
                     const route = {
                         url: `${urlBase}/${post.id}`,
-                        changefreq: "daily",
+                        changefreq: "monthly",
                         priority: 0.8,
                         // Use `dateModified` if available, otherwise fallback to `datePublished`
                         lastmod: post.dateModified && post.dateModified.trim() !== ""
