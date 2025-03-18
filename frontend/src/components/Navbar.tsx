@@ -1,54 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef, memo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
-import SearchImg from "/images/favicon/searchicon.svg";
-import logo from "/images/website-logo.webp";
 
 interface Post {
 	id: string;
-	title: string;
-	route: string;
+	headline: string;
 	jsonFile: string;
+	route: string;
 }
 
-const menuItems = [
-	{ to: "/", text: "Home" },
-	{ to: "/extra-income", text: "Extra Income" },
-	{ to: "/shopping-deals", text: "Shopping Deals" },
-	{ to: "/start-a-blog", text: "Start A Blog" },
-	{ to: "/breaking-news", text: "Breaking News" },
-	{ to: "/financial-calculators", text: "Calculators" },
-];
+const NavBar: React.FC = () => {
+	const [menuOpen, setMenuOpen] = useState(false);
+	const [searchOpen, setSearchOpen] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [searchResults, setSearchResults] = useState<Post[]>([]);
+	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 
-const Navbar: React.FC = () => {
-	const [isOpen, setIsOpen] = useState(false);
-	const [isSearchOpen, setIsSearchOpen] = useState(false);
-	const [searchTerm, setSearchTerm] = useState("");
-	const [suggestions, setSuggestions] = useState<Post[]>([]);
-	const [posts, setPosts] = useState<Post[]>([]);
-	const location = useLocation();
+	const searchRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
 
-	// Scroll to top on route change
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, [location.pathname]);
+	// Toggle mobile menu
+	const toggleMenu = () => {
+		setMenuOpen(!menuOpen);
+	};
 
-	// Fetch posts from different JSON files
+	// Fetch posts from multiple JSON files
 	useEffect(() => {
 		const fetchPosts = async () => {
 			try {
 				const files = [
-					{ file: "budgetdata.json", route: "/Extra-Income" },
-					{ file: "freelancejobs.json", route: "/Extra-Income/Freelancers" },
+					{ file: "budgetdata.json", route: "/extra-income" },
+					{ file: "freelancejobs.json", route: "/extra-income/freelancers" },
 					{
 						file: "moneymakingapps.json",
-						route: "/Extra-Income/Money-Making-Apps",
+						route: "/extra-income/money-making-apps",
 					},
-					{ file: "products.json", route: "/Shopping-Deals" },
-					{ file: "remotejobs.json", route: "/Extra-Income/Remote-Jobs" },
-					{ file: "startablogdata.json", route: "/Start-A-Blog" },
+					{ file: "products.json", route: "/shopping-deals" },
+					{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
+					{ file: "startablogdata.json", route: "/start-a-blog" },
 					{ file: "breakingnews.json", route: "/breaking-news" },
 				];
 
@@ -73,8 +62,8 @@ const Navbar: React.FC = () => {
 					allPosts.push(...postsWithRoute);
 				}
 
-				console.log("Fetched posts:", allPosts); // Debugging
-				setPosts(allPosts);
+				console.log("Fetched posts:", allPosts);
+				setSearchResults(allPosts);
 			} catch (error) {
 				console.error("Error fetching posts:", error);
 			}
@@ -83,133 +72,130 @@ const Navbar: React.FC = () => {
 		fetchPosts();
 	}, []);
 
-	// Filter search suggestions
+	// Filter search results
 	useEffect(() => {
-		if (searchTerm.trim()) {
-			const lowerCaseTerm = searchTerm.toLowerCase();
-			const filteredSuggestions = posts.filter(
+		if (searchQuery.trim() !== "" && searchResults.length > 0) {
+			const filtered = searchResults.filter(
 				(post) =>
-					post.title.toLowerCase().includes(lowerCaseTerm) ||
-					post.id.toLowerCase().includes(lowerCaseTerm),
+					post &&
+					post.headline &&
+					post.headline.toLowerCase().includes(searchQuery.toLowerCase()),
 			);
-			console.log("Filtered suggestions:", filteredSuggestions); // Debugging
-			setSuggestions(filteredSuggestions);
+			setFilteredPosts(filtered);
 		} else {
-			setSuggestions([]);
+			setFilteredPosts([]);
 		}
-	}, [searchTerm, posts]);
+	}, [searchQuery, searchResults]);
 
-	// Handle menu navigation
-	const handleMenuItemClick = (
-		event: React.MouseEvent<HTMLAnchorElement>,
-		to: string,
-	) => {
-		event.stopPropagation();
-		setIsOpen(false);
-		if (location.pathname !== to) {
-			navigate(to);
+	// Close search bar on outside click
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				searchRef.current &&
+				!searchRef.current.contains(event.target as Node)
+			) {
+				setSearchOpen(false);
+				setSearchQuery("");
+				setFilteredPosts([]);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
+	// Navigate to selected post
+	const handlePostClick = (post: Post) => {
+		setSearchOpen(false);
+		setSearchQuery("");
+		setFilteredPosts([]);
+
+		if (post.jsonFile === "budgetdata.json") {
+			navigate(`/extra-income/${post.id}`);
+		} else if (post.jsonFile === "freelancejobs.json") {
+			navigate(`/extra-income/freelancers/${post.id}`);
+		} else if (post.jsonFile === "moneymakingapps.json") {
+			navigate(`/extra-income/money-making-apps/${post.id}`);
+		} else if (post.jsonFile === "remotejobs.json") {
+			navigate(`/extra-income/remote-jobs/${post.id}`);
+		} else if (post.jsonFile === "startablogdata.json") {
+			navigate(`/start-a-blog/${post.id}`);
+		} else if (post.jsonFile === "breakingnews.json") {
+			navigate(`/breaking-news/${post.id}`);
+		} else if (post.jsonFile === "products.json") {
+			navigate(`/shopping-deals/${post.id}`);
 		}
-	};
-
-	// Handle search input change
-	const handleSearchInputChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-	) => {
-		setSearchTerm(event.target.value);
-	};
-
-	// Handle search suggestion click
-	const handleSuggestionClick = (suggestion: Post) => {
-		const fullRoute = `${suggestion.route}/${suggestion.id}`;
-		console.log("Navigating to:", fullRoute); // Debugging
-		navigate(fullRoute);
-		setSearchTerm("");
-		setIsSearchOpen(false);
 	};
 
 	return (
-		<>
-			<Helmet>
-				<script type='application/ld+json'>
-					{JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "WebSite",
-						name: "Dollars And Life",
-						url: "https://www.dollarsandlife.com",
-						potentialAction: {
-							"@type": "SearchAction",
-							target: "https://www.dollarsandlife.com/search?q={search_term}",
-							"query-input": "required name=search_term",
-						},
-					})}
-				</script>
-			</Helmet>
+		<nav className='nav'>
+			<div className='logo'>
+				<Link to='/'>
+					<img
+						src='/images/website-logo.webp'
+						alt='Dollars and Life Logo'
+						className='logo'
+					/>
+				</Link>
+			</div>
 
-			<nav className='nav'>
+			<div className={`menu ${menuOpen ? "open" : "closed"}`}>
+				<Link to='/extra-income' className='menu-item'>
+					Extra Income
+				</Link>
+				<Link to='/shopping-deals' className='menu-item'>
+					Shopping Deals
+				</Link>
+				<Link to='/financial-calculators' className='menu-item'>
+					Financial Calculators
+				</Link>
+				<Link to='/breaking-news' className='menu-item'>
+					Breaking News
+				</Link>
+				<Link to='/start-a-blog' className='menu-item'>
+					Start A Blog
+				</Link>
+			</div>
+
+			<div className='search-icon' onClick={() => setSearchOpen(!searchOpen)}>
 				<img
-					className='logo'
-					src={logo}
-					alt='Dollars and Life Logo'
-					onClick={() => navigate("/")}
+					src='/images/favicon/searchicon.svg'
+					alt='Search'
+					className='search-icon-image'
 				/>
-				<div style={{ display: "flex", alignItems: "center" }}>
-					<div className='hamburger' onClick={() => setIsOpen(!isOpen)}>
-						<div />
-						<div />
-						<div />
-					</div>
-					<div className={`menu ${isOpen ? "open" : "closed"}`}>
-						{menuItems.map((item, index) => (
-							<Link
-								key={index}
-								className='menu-item'
-								to={item.to}
-								style={
-									location.pathname === item.to ? { color: "#008507" } : {}
-								}
-								onClick={(event) => handleMenuItemClick(event, item.to)}
-							>
-								{item.text}
-							</Link>
-						))}
-					</div>
-					<div
-						className='search-icon'
-						onClick={() => setIsSearchOpen(!isSearchOpen)}
-					>
-						<img
-							className='search-icon-image'
-							src={SearchImg}
-							alt='Search Icon'
-						/>
-					</div>
-				</div>
-			</nav>
+			</div>
 
-			{/* Search Bar */}
 			<div
-				className={`search-bar-container ${isSearchOpen ? "open" : "closed"}`}
+				ref={searchRef}
+				className={`search-bar-container ${searchOpen ? "open" : "closed"}`}
 			>
 				<input
-					className='search-bar'
 					type='text'
-					placeholder='Search...'
-					value={searchTerm}
-					onChange={handleSearchInputChange}
-					aria-label='Search for articles'
+					placeholder='Search posts...'
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+					className='search-bar'
 				/>
-				{suggestions.length > 0 && (
+
+				{filteredPosts.length > 0 && (
 					<ul className='suggestions-list'>
-						{suggestions.map((suggestion, index) => (
-							<li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-								{suggestion.title}
+						{filteredPosts.map((post) => (
+							<li key={post.id} onClick={() => handlePostClick(post)}>
+								{post.headline}
 							</li>
 						))}
 					</ul>
 				)}
 			</div>
-		</>
+
+			<div className='hamburger' onClick={toggleMenu}>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</nav>
 	);
 };
 
-export default React.memo(Navbar);
+export default memo(NavBar);
