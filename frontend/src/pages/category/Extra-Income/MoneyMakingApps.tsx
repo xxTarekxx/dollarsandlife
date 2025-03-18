@@ -23,6 +23,12 @@ interface MoneyMakingApp {
 	dateModified?: string;
 }
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const MoneyMakingApps: React.FC = () => {
 	const [apps, setApps] = useState<MoneyMakingApp[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -38,7 +44,7 @@ const MoneyMakingApps: React.FC = () => {
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: MoneyMakingApp[] = await response.json();
 				setApps(data);
-				setIsDataFetched(true); // Data fetched
+				setIsDataFetched(true);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
@@ -59,9 +65,10 @@ const MoneyMakingApps: React.FC = () => {
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
+
 	return (
 		<div className='page-container'>
-			{/*  Add Helmet for SEO */}
+			{/* SEO Metadata */}
 			<Helmet>
 				<title>Best Money Making Apps to Earn Extra Cash in 2025</title>
 				<meta
@@ -81,7 +88,7 @@ const MoneyMakingApps: React.FC = () => {
 							position: index + 1,
 							headline: post.headline,
 							image: post.image,
-							author: { "@type": "Person", name: post.author },
+							author: { "@type": "Organization", name: post.author.name },
 							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/extra-income/money-making-apps/${post.id}`,
 						})),
@@ -95,6 +102,8 @@ const MoneyMakingApps: React.FC = () => {
 					element={
 						<>
 							<h1>Money Making Apps</h1>
+
+							{/* Top Banner Ad */}
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -106,15 +115,21 @@ const MoneyMakingApps: React.FC = () => {
 										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
 										alt='Lyca Mobile Banner'
 										className='TopBannerImage'
+										loading='eager'
 									/>
 								</a>
 							</div>
+
+							{/* Posts */}
 							<div className='content-wrapper'>
 								{currentPosts.length > 0 ? (
 									currentPosts.map((post, i) => (
 										<React.Fragment key={post.id || `post-${i}`}>
 											<div className='row-container'>
-												<Link to={`/extra-income/money-making-apps/${post.id}`}>
+												<Link
+													to={`/extra-income/money-making-apps/${post.id}`}
+													style={{ textDecoration: "none" }}
+												>
 													<BlogPostCard
 														id={post.id}
 														headline={post.headline}
@@ -126,12 +141,59 @@ const MoneyMakingApps: React.FC = () => {
 													/>
 												</Link>
 											</div>
+
+											{/* AdSense ad after every two posts */}
+											{i > 0 && i % 2 === 1 && (
+												<div className='postings-container'>
+													<ins
+														className='adsbygoogle'
+														style={{
+															display: "block",
+															width: "300px",
+															height: "250px",
+														}}
+														data-ad-client='ca-pub-1079721341426198'
+														data-ad-slot='7197282987'
+														data-ad-format='auto'
+														data-full-width-responsive='true'
+													></ins>
+													<script
+														dangerouslySetInnerHTML={{
+															__html:
+																"(adsbygoogle = window.adsbygoogle || []).push({});",
+														}}
+													/>
+												</div>
+											)}
 										</React.Fragment>
 									))
 								) : (
 									<p>No money-making apps found.</p>
 								)}
 							</div>
+
+							{/* Bottom Banner Ad */}
+							<div className='postings-container'>
+								<ins
+									className='adsbygoogle-banner'
+									style={{
+										display: "block",
+										width: "728px",
+										height: "90px",
+									}}
+									data-ad-client='ca-pub-1079721341426198'
+									data-ad-slot='6375155907'
+									data-ad-format='horizontal'
+									data-full-width-responsive='true'
+								></ins>
+							</div>
+							<script
+								dangerouslySetInnerHTML={{
+									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+								}}
+							/>
+
+							{/* Pagination */}
 							<PaginationContainer
 								totalItems={apps.length}
 								itemsPerPage={postsPerPage}
@@ -141,6 +203,8 @@ const MoneyMakingApps: React.FC = () => {
 						</>
 					}
 				/>
+
+				{/* Detailed Blog Post */}
 				<Route
 					path=':id'
 					element={<BlogPostContent jsonFile='moneymakingapps.json' />}
