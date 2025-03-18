@@ -132,44 +132,64 @@ const NavBar: React.FC = () => {
 		<nav className='nav'>
 			<div className='logo'>
 				<Link to='/'>
+					<img src='/images/website-logo.webp' alt='Logo' className='logo' />
+				</Link>
+			</div>
+
+			<div className='nav-center'>
+				<div className={`menu ${menuOpen ? "open" : "closed"}`}>
+					{/* Menu Links */}
+					<Link
+						to='/extra-income'
+						className='menu-item'
+						onClick={() => setMenuOpen(false)}
+					>
+						Extra Income
+					</Link>
+					<Link
+						to='/shopping-deals'
+						className='menu-item'
+						onClick={() => setMenuOpen(false)}
+					>
+						Shopping Deals
+					</Link>
+					<Link
+						to='/start-a-blog'
+						className='menu-item'
+						onClick={() => setMenuOpen(false)}
+					>
+						Start A Blog
+					</Link>
+					<Link
+						to='/breaking-news'
+						className='menu-item'
+						onClick={() => setMenuOpen(false)}
+					>
+						Breaking News
+					</Link>
+					<Link
+						to='/financial-calculators'
+						className='menu-item'
+						onClick={() => setMenuOpen(false)}
+					>
+						Financial Calculators
+					</Link>
+				</div>
+
+				<div className='search-icon' onClick={() => setSearchOpen(!searchOpen)}>
 					<img
-						src='/images/website-logo.webp'
-						alt='Dollars and Life Logo'
-						className='logo'
+						src='/images/favicon/searchicon.svg'
+						alt='Search'
+						className='search-icon-image'
 					/>
-				</Link>
-			</div>
-
-			<div className={`menu ${menuOpen ? "open" : "closed"}`}>
-				<Link to='/extra-income' className='menu-item'>
-					Extra Income
-				</Link>
-				<Link to='/shopping-deals' className='menu-item'>
-					Shopping Deals
-				</Link>
-				<Link to='/financial-calculators' className='menu-item'>
-					Financial Calculators
-				</Link>
-				<Link to='/breaking-news' className='menu-item'>
-					Breaking News
-				</Link>
-				<Link to='/start-a-blog' className='menu-item'>
-					Start A Blog
-				</Link>
-			</div>
-
-			<div className='search-icon' onClick={() => setSearchOpen(!searchOpen)}>
-				<img
-					src='/images/favicon/searchicon.svg'
-					alt='Search'
-					className='search-icon-image'
-				/>
+				</div>
 			</div>
 
 			<div
 				ref={searchRef}
 				className={`search-bar-container ${searchOpen ? "open" : "closed"}`}
 			>
+				{/* Search Input */}
 				<input
 					type='text'
 					placeholder='Search posts...'
@@ -177,7 +197,6 @@ const NavBar: React.FC = () => {
 					onChange={(e) => setSearchQuery(e.target.value)}
 					className='search-bar'
 				/>
-
 				{filteredPosts.length > 0 && (
 					<ul className='suggestions-list'>
 						{filteredPosts.map((post) => (
