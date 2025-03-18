@@ -5,7 +5,7 @@ import useCompressedImage from "../components/compressed/useCompressedImage";
 import "./HomePage.css";
 
 import NextToPImage from "/images/favicon/down-arrow.svg";
-import AmazonPicksImg from "/images/icons/img-dealsandsavings.webp";
+import ShoppingDealsImg from "/images/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
 import StartAblogimg from "/images/icons/img-startablog.webp";
 
@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
 	// Optimize images using compression
 	const compressedExtraIncomeImg = useCompressedImage(ExtraIncomeImg);
 	const compressedStartAblogimg = useCompressedImage(StartAblogimg);
-	const compressedAmazonPicksImg = useCompressedImage(AmazonPicksImg);
+	const compressedShoppingDealsImg = useCompressedImage(ShoppingDealsImg);
 
 	const linkBoxes = [
 		{
@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
 		{
 			to: "/start-a-blog",
 			ariaLabel: "Shopping Deals",
-			imgSrc: compressedAmazonPicksImg || AmazonPicksImg,
+			imgSrc: compressedShoppingDealsImg || ShoppingDealsImg,
 			altText: "Shopping List Menu link",
 			captionText: "Shopping Deals",
 			width: 220,
@@ -120,21 +120,21 @@ const HomePage: React.FC = () => {
 			</div>
 
 			{/* Decorative images for section separation */}
-			<h2 className='landing-subtitle'>
+			<h2 className='pointers'>
 				<img
 					src={NextToPImage}
 					alt='Decorative arrow'
-					className='next-to-p-image'
+					className='pointers-img'
 				/>
 				<img
 					src={NextToPImage}
 					alt='Decorative arrow'
-					className='next-to-p-image'
+					className='pointers-img'
 				/>
 				<img
 					src={NextToPImage}
 					alt='Decorative arrow'
-					className='next-to-p-image'
+					className='pointers-img'
 				/>
 			</h2>
 
