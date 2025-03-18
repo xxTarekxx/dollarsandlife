@@ -7,12 +7,12 @@ import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "../extra-income/CommonStyles.css";
 
-// Define interface for blog post, adjusting for image object and author object
+// Define interface for blog post
 interface BlogPost {
 	id: string;
 	headline: string;
 	author: {
-		name: string; // Author is now an object with name
+		name: string;
 	};
 	datePublished: string;
 	image: {
@@ -36,26 +36,22 @@ declare global {
 const BreakingNews: React.FC = () => {
 	const [localNews, setLocalNews] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 4; // Number of articles per page
+	const postsPerPage = 4;
 	const pageRef = useRef<HTMLDivElement>(null);
 
 	// Fetch breaking news from JSON file
 	const fetched = useRef(false);
 
 	useEffect(() => {
-		if (fetched.current) return; // Prevent second fetch
+		if (fetched.current) return;
 		fetched.current = true;
 
 		const fetchLocalNews = async () => {
 			try {
 				const response = await fetch("/data/breakingnews.json");
-				if (!response.ok) {
-					throw new Error("Failed to load breaking news data.");
-				}
+				if (!response.ok) throw new Error("Failed to load breaking news data.");
 
-				let data = await response.json();
-				console.log("Fetched Breaking News Data:", data);
-
+				const data = await response.json();
 				const newsArray = Array.isArray(data) ? data : [data];
 				setLocalNews(newsArray);
 			} catch (error) {
@@ -84,6 +80,8 @@ const BreakingNews: React.FC = () => {
 			<h1 className='section-heading'>
 				<b>Breaking</b> <b>News</b>
 			</h1>
+
+			{/* Top Banner */}
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -100,27 +98,52 @@ const BreakingNews: React.FC = () => {
 				</a>
 			</div>
 
-			{/* Local Breaking News (From JSON) */}
+			{/* Local Breaking News */}
 			<div className='content-wrapper'>
-				{currentPosts.map((post) => (
-					<Link
-						key={post.id}
-						to={`/breaking-news/${post.id}`}
-						style={{ textDecoration: "none" }}
-					>
-						<BlogPostCard
-							id={post.id}
-							headline={post.headline}
-							image={post.image} // Pass the image object correctly
-							content={
-								post.content[0]?.text?.split(". ").slice(0, 2).join(". ") +
-									"." || "No description available"
-							}
-							author={{ name: post.author.name }} // Fix: pass author as an object with 'name' key
-							datePublished={post.datePublished}
-							dateModified={post.dateModified}
-						/>
-					</Link>
+				{currentPosts.map((post, index) => (
+					<React.Fragment key={post.id}>
+						<Link
+							to={`/breaking-news/${post.id}`}
+							style={{ textDecoration: "none" }}
+						>
+							<BlogPostCard
+								id={post.id}
+								headline={post.headline}
+								image={post.image}
+								content={
+									post.content[0]?.text?.split(". ").slice(0, 2).join(". ") +
+										"." || "No description available"
+								}
+								author={{ name: post.author.name }}
+								datePublished={post.datePublished}
+								dateModified={post.dateModified}
+							/>
+						</Link>
+
+						{/* Insert AdSense ad after every two posts */}
+						{index > 0 && index % 2 === 1 && (
+							<div className='postings-container'>
+								<ins
+									className='adsbygoogle'
+									style={{
+										display: "block",
+										width: "300px",
+										height: "250px",
+									}}
+									data-ad-client='ca-pub-1079721341426198'
+									data-ad-slot='7197282987'
+									data-ad-format='auto'
+									data-full-width-responsive='true'
+								></ins>
+								<script
+									dangerouslySetInnerHTML={{
+										__html:
+											"(adsbygoogle = window.adsbygoogle || []).push({});",
+									}}
+								/>
+							</div>
+						)}
+					</React.Fragment>
 				))}
 			</div>
 
@@ -132,7 +155,7 @@ const BreakingNews: React.FC = () => {
 				setCurrentPage={setCurrentPage}
 			/>
 
-			{/* Bottom Banner Ad */}
+			{/* Bottom Banner */}
 			<div className='postings-container'>
 				<ins
 					className='adsbygoogle-banner'
