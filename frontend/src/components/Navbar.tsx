@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, memo, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./NavBar.css";
 
 interface Post {
@@ -18,7 +18,7 @@ const NavBar: React.FC = () => {
 	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 	const searchRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
-	const menuRef = useRef<HTMLDivElement>(null);
+	const location = useLocation();
 
 	useEffect(() => {
 		const files = [
@@ -108,18 +108,14 @@ const NavBar: React.FC = () => {
 
 	return (
 		<nav className='nav'>
-			{/* Logo */}
 			<div className='logo'>
 				<Link to='/' aria-label='Home'>
 					<img src='/images/website-logo.webp' alt='Logo' className='logo' />
 				</Link>
 			</div>
 
-			{/* Search + Hamburger Container */}
 			<div className='right-controls'>
-				{/* Menu Links */}
 				<div
-					ref={menuRef}
 					className={`menu ${
 						menuOpen ? (isClosing ? "closing" : "open") : "closed"
 					}`}
@@ -134,7 +130,9 @@ const NavBar: React.FC = () => {
 						<Link
 							key={i}
 							to={link.to}
-							className={`menu-item ${menuOpen ? "animate" : ""}`}
+							className={`menu-item ${
+								location.pathname === link.to ? "active" : ""
+							}`}
 							onClick={(e) => {
 								e.preventDefault();
 								setIsClosing(true);
@@ -142,7 +140,7 @@ const NavBar: React.FC = () => {
 									setMenuOpen(false);
 									setIsClosing(false);
 									navigate(link.to);
-								}, 400); // Match animation timing
+								}, 400);
 							}}
 							style={{ animationDelay: `${i * 0.1}s` }}
 						>
@@ -151,15 +149,16 @@ const NavBar: React.FC = () => {
 					))}
 				</div>
 
-				<button
+				<div
 					className={`hamburger ${menuOpen ? "open" : ""}`}
 					onClick={() => setMenuOpen((prev) => !prev)}
+					role='button'
 					aria-label='Toggle menu'
 				>
 					<div></div>
 					<div></div>
 					<div></div>
-				</button>
+				</div>
 				<div
 					className='search-icon'
 					onClick={() => setSearchOpen((prev) => !prev)}
@@ -174,7 +173,6 @@ const NavBar: React.FC = () => {
 				</div>
 			</div>
 
-			{/* Search Bar */}
 			<div
 				ref={searchRef}
 				className={`search-bar-container ${searchOpen ? "open" : "closed"}`}
