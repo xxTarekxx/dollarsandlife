@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { Helmet } from "react-helmet-async"; // Correct way to modify <head>
+import React from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import useCompressedImage from "../../../components/compressed/useCompressedImage";
 import "./ExtraIncome.css";
 import Budgettingimg from "/images/icons/img-budgetting.webp";
 import FreeLancerimg from "/images/icons/img-freelancer.webp";
@@ -9,20 +8,11 @@ import MoneyMakingAppsimg from "/images/icons/img-moneymakingapps.webp";
 import RemoteJobimg from "/images/icons/img-remotejobs.webp";
 
 const ExtraIncome: React.FC = () => {
-	useEffect(() => {
-		document.title = "Extra Income Opportunities | Earn More Money";
-	}, []);
-
-	const compressedFreeLancerimg = useCompressedImage(FreeLancerimg);
-	const compressedRemoteJobimg = useCompressedImage(RemoteJobimg);
-	const compressedMoneyMakingAppsimg = useCompressedImage(MoneyMakingAppsimg);
-	const compressedBudgettingimg = useCompressedImage(Budgettingimg);
-
 	const linkBoxes = [
 		{
 			to: "/extra-income/freelancers",
 			ariaLabel: "Explore freelance opportunities",
-			imgSrc: compressedFreeLancerimg || FreeLancerimg,
+			imgSrc: FreeLancerimg,
 			altText: "Freelance job opportunities",
 			captionText: "Freelance Opportunities",
 			priority: true,
@@ -30,7 +20,7 @@ const ExtraIncome: React.FC = () => {
 		{
 			to: "/extra-income/budget",
 			ariaLabel: "Learn budgeting strategies",
-			imgSrc: compressedBudgettingimg || Budgettingimg,
+			imgSrc: Budgettingimg,
 			altText: "Budgeting and financial planning",
 			captionText: "Budgeting",
 			priority: false,
@@ -38,7 +28,7 @@ const ExtraIncome: React.FC = () => {
 		{
 			to: "/extra-income/remote-Jobs",
 			ariaLabel: "Find remote job opportunities",
-			imgSrc: compressedRemoteJobimg || RemoteJobimg,
+			imgSrc: RemoteJobimg,
 			altText: "Remote jobs and online work",
 			captionText: "Remote Jobs",
 			priority: false,
@@ -46,7 +36,7 @@ const ExtraIncome: React.FC = () => {
 		{
 			to: "/extra-income/money-making-apps",
 			ariaLabel: "Earn money using apps",
-			imgSrc: compressedMoneyMakingAppsimg || MoneyMakingAppsimg,
+			imgSrc: MoneyMakingAppsimg,
 			altText: "Apps to earn money online",
 			captionText: "Make Money On Apps",
 			priority: false,
@@ -55,7 +45,6 @@ const ExtraIncome: React.FC = () => {
 
 	return (
 		<>
-			{/* Correct SEO Metadata Using Helmet */}
 			<Helmet>
 				<title>Extra Income Opportunities | Earn More Money</title>
 				<meta
@@ -66,6 +55,21 @@ const ExtraIncome: React.FC = () => {
 					rel='canonical'
 					href='https://www.dollarsandlife.com/extra-income'
 				/>
+
+				{/* Preload only LCP image */}
+				{linkBoxes
+					.filter((link) => link.priority)
+					.map((link, i) => (
+						<link
+							key={i}
+							rel='preload'
+							as='image'
+							href={link.imgSrc}
+							type='image/webp'
+						/>
+					))}
+
+				{/* Structured Data */}
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
@@ -86,16 +90,8 @@ const ExtraIncome: React.FC = () => {
 				</script>
 			</Helmet>
 
-			{/* Main Content */}
 			<div>
 				<h1>Explore Extra Income Opportunities</h1>
-
-				{/* Preload critical LCP image */}
-				<link
-					rel='preload'
-					as='image'
-					href={compressedFreeLancerimg || FreeLancerimg}
-				/>
 
 				{/* Category Links */}
 				<div
@@ -112,13 +108,10 @@ const ExtraIncome: React.FC = () => {
 							<img
 								src={linkBox.imgSrc}
 								alt={linkBox.altText}
-								srcSet={`${linkBox.imgSrc} 1x, ${linkBox.imgSrc.replace(
-									".webp",
-									"@2x.webp",
-								)} 2x`}
 								loading={linkBox.priority ? "eager" : "lazy"}
 								width='220'
 								height='220'
+								{...(linkBox.priority ? { fetchpriority: "high" } : {})} // ✅ No warning
 							/>
 							<figcaption className='extraincome-figcaption'>
 								{linkBox.captionText}

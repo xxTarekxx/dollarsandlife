@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "../../../components/AdComponent.css";
@@ -36,9 +36,24 @@ const BreakingNews: React.FC = () => {
 	const [localNews, setLocalNews] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 4;
-	const pageRef = useRef<HTMLDivElement>(null);
 
-	// ✅ Push AdSense after ads script is loaded
+	// Fetch Breaking News
+	useEffect(() => {
+		const fetchNews = async () => {
+			try {
+				const response = await fetch("/data/breakingnews.json");
+				if (!response.ok) throw new Error("Failed to fetch news data");
+				const data = await response.json();
+				const newsArray = Array.isArray(data) ? data : [data];
+				setLocalNews(newsArray);
+			} catch (error) {
+				console.error("Error fetching breaking news:", error);
+			}
+		};
+		if (localNews.length === 0) fetchNews();
+	}, [localNews.length]);
+
+	// Push AdSense Ads
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -49,41 +64,23 @@ const BreakingNews: React.FC = () => {
 		}
 	}, []);
 
-	// Fetch breaking news from JSON file
-	const fetched = useRef(false);
-
-	useEffect(() => {
-		if (fetched.current) return;
-		fetched.current = true;
-
-		const fetchLocalNews = async () => {
-			try {
-				const response = await fetch("/data/breakingnews.json");
-				if (!response.ok) throw new Error("Failed to load breaking news data.");
-
-				const data = await response.json();
-				const newsArray = Array.isArray(data) ? data : [data];
-				setLocalNews(newsArray);
-			} catch (error) {
-				console.error("Error fetching local news:", error);
-			}
-		};
-
-		fetchLocalNews();
-	}, []);
-
-	// Get current posts
-	const indexOfLastPost = currentPage * postsPerPage;
-	const indexOfFirstPost = indexOfLastPost - postsPerPage;
-	const currentPosts = localNews.slice(indexOfFirstPost, indexOfLastPost);
+	const currentPosts = localNews.slice(
+		(currentPage - 1) * postsPerPage,
+		currentPage * postsPerPage,
+	);
 
 	return (
-		<div className='news-main-container' ref={pageRef}>
+		<div className='news-main-container'>
+			{/* SEO Metadata */}
 			<Helmet>
 				<title>Breaking News - Latest Financial and Economic Updates</title>
 				<meta
 					name='description'
 					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
+				/>
+				<link
+					rel='canonical'
+					href='https://www.dollarsandlife.com/breaking-news'
 				/>
 			</Helmet>
 
@@ -101,14 +98,17 @@ const BreakingNews: React.FC = () => {
 				>
 					<img
 						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-						alt='Lyca Mobile Banner - Affordable International Calling'
+						alt='Lyca Mobile Banner'
 						className='TopBannerImage'
 						loading='eager'
+						width='728'
+						height='90'
+						{...{ fetchpriority: "high" }}
 					/>
 				</a>
 			</div>
 
-			{/* Breaking News */}
+			{/* News Posts */}
 			<div className='content-wrapper'>
 				{currentPosts.map((post, index) => (
 					<React.Fragment key={post.id}>
@@ -130,7 +130,7 @@ const BreakingNews: React.FC = () => {
 							/>
 						</Link>
 
-						{/* In-content ad after every 2 posts */}
+						{/* Insert ad after every two posts */}
 						{index > 0 && index % 2 === 1 && (
 							<div className='postings-container'>
 								<ins
@@ -144,7 +144,7 @@ const BreakingNews: React.FC = () => {
 									data-ad-slot='7197282987'
 									data-ad-format='auto'
 									data-full-width-responsive='true'
-								/>
+								></ins>
 							</div>
 						)}
 					</React.Fragment>
@@ -172,7 +172,7 @@ const BreakingNews: React.FC = () => {
 					data-ad-slot='6375155907'
 					data-ad-format='horizontal'
 					data-full-width-responsive='true'
-				/>
+				></ins>
 			</div>
 		</div>
 	);

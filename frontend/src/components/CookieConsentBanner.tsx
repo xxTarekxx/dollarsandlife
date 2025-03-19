@@ -10,54 +10,53 @@ declare global {
 const CookieConsentBanner: React.FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [preferences, setPreferences] = useState({
-		essential: true, // Always enabled
+		essential: true,
 		analytics: false,
-		ads: false, // Controls Google AdSense
-		saleOfData: false, // User opts out of data sales (CCPA, CPRA)
+		ads: false,
+		saleOfData: false,
 	});
 
+	// Load saved preferences
 	useEffect(() => {
-		const storedConsent = localStorage.getItem("cookiePreferences");
-
-		if (!storedConsent) {
-			setIsVisible(true);
+		const storedPrefs = localStorage.getItem("cookiePreferences");
+		if (storedPrefs) {
+			const parsedPrefs = JSON.parse(storedPrefs);
+			setPreferences(parsedPrefs);
+			applyCookies(parsedPrefs);
 		} else {
-			const parsedPreferences = JSON.parse(storedConsent);
-			setPreferences(parsedPreferences);
-			applyCookies(parsedPreferences);
+			setIsVisible(true);
 		}
 	}, []);
 
-	const handleSavePreferences = () => {
-		localStorage.setItem("cookiePreferences", JSON.stringify(preferences));
-		setIsVisible(false);
-		applyCookies(preferences);
+	// Apply cookie preferences
+	const applyCookies = (prefs: typeof preferences) => {
+		if (prefs.analytics) loadGoogleAnalytics();
+		if (prefs.ads) loadGoogleAdSense();
+		if (!prefs.saleOfData) disableDataSale();
 	};
 
+	// Save preferences
+	const handleSavePreferences = () => {
+		localStorage.setItem("cookiePreferences", JSON.stringify(preferences));
+		applyCookies(preferences);
+		setIsVisible(false);
+	};
+
+	// Reject all preferences except essential
 	const handleRejectAll = () => {
-		const resetPreferences = {
+		const defaultPrefs = {
 			essential: true,
 			analytics: false,
 			ads: false,
-			saleOfData: false, // Default to opt-out
+			saleOfData: false,
 		};
-		localStorage.setItem("cookiePreferences", JSON.stringify(resetPreferences));
-		setPreferences(resetPreferences);
+		localStorage.setItem("cookiePreferences", JSON.stringify(defaultPrefs));
+		setPreferences(defaultPrefs);
+		applyCookies(defaultPrefs);
 		setIsVisible(false);
-		applyCookies(resetPreferences);
 	};
 
-	const applyCookies = (prefs: {
-		essential: boolean;
-		analytics: boolean;
-		ads: boolean;
-		saleOfData: boolean;
-	}) => {
-		if (prefs.analytics) loadGoogleAnalytics();
-		if (prefs.ads) loadGoogleAdSense();
-		if (!prefs.saleOfData) disableDataSale(); // Ensures compliance
-	};
-
+	// Load Google Analytics
 	const loadGoogleAnalytics = () => {
 		if (!window.dataLayer) window.dataLayer = [];
 
@@ -65,37 +64,32 @@ const CookieConsentBanner: React.FC = () => {
 			window.dataLayer!.push(args);
 		}
 
-		// Fetch internal IP from environment variables (avoid hardcoding!)
 		const internalIP = import.meta.env.VITE_INTERNAL_IP;
 
-		function getUserIP() {
-			return new Promise((resolve) => {
-				fetch("https://api64.ipify.org?format=json")
-					.then((response) => response.json())
-					.then((data) => resolve(data.ip))
-					.catch(() => resolve(null));
-			});
-		}
-
-		getUserIP().then((ip) => {
-			if (internalIP && ip === internalIP) {
-				console.log("GA4 blocked: Internal IP detected.");
-				return; // Do NOT load GA4 if IP is internal
-			}
-
-			if (!document.querySelector('script[src*="gtag/js?id=G-S7FWNHSD7P"]')) {
-				const script = document.createElement("script");
-				script.src = "https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P";
-				script.async = true;
-				script.onload = () => {
-					gtag("js", new Date());
-					gtag("config", "G-S7FWNHSD7P");
-				};
-				document.body.appendChild(script);
-			}
-		});
+		// Block GA on internal IPs
+		fetch("https://api64.ipify.org?format=json")
+			.then((res) => res.json())
+			.then((data) => {
+				if (internalIP && data.ip === internalIP) {
+					console.log("GA blocked: Internal IP detected");
+					return;
+				}
+				if (!document.querySelector('script[src*="gtag/js?id=G-S7FWNHSD7P"]')) {
+					const script = document.createElement("script");
+					script.src =
+						"https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P";
+					script.async = true;
+					script.onload = () => {
+						gtag("js", new Date());
+						gtag("config", "G-S7FWNHSD7P");
+					};
+					document.body.appendChild(script);
+				}
+			})
+			.catch(() => console.error("Failed to fetch user IP"));
 	};
 
+	// Load Google AdSense
 	const loadGoogleAdSense = () => {
 		if (!document.querySelector('script[src*="adsbygoogle.js"]')) {
 			const script = document.createElement("script");
@@ -107,16 +101,16 @@ const CookieConsentBanner: React.FC = () => {
 		}
 	};
 
-	// Disable the sale of user data (for CCPA, CPRA compliance)
+	// Disable sale of data (for CCPA compliance)
 	const disableDataSale = () => {
-		console.log("User has opted out of data sale. Compliance enforced.");
+		console.log("User opted out of data sale");
 	};
 
 	if (!isVisible) return null;
 
 	return (
 		<>
-			{/* JSON-LD Structured Data for SEO & Privacy Compliance */}
+			{/* Structured Data */}
 			<script type='application/ld+json'>
 				{JSON.stringify({
 					"@context": "https://schema.org",
@@ -131,22 +125,22 @@ const CookieConsentBanner: React.FC = () => {
 				})}
 			</script>
 
-			{/* Cookie Consent Banner */}
+			{/* Cookie Banner */}
 			<div
 				className='cookie-banner'
 				role='dialog'
 				aria-labelledby='cookie-banner-title'
 			>
 				<p id='cookie-banner-title'>
-					We use cookies to enhance your experience. Please select your cookie
-					preferences. For more details, visit our{" "}
-					<a href='/terms-of-service' target='_blank' rel='noopener noreferrer'>
+					We use cookies to enhance your experience. Please select your
+					preferences. See our{" "}
+					<a href='/privacy-policy' target='_blank' rel='noopener noreferrer'>
 						Privacy Policy
 					</a>
 					.
 				</p>
 
-				{/* Cookie Preference Options */}
+				{/* Preferences */}
 				<div className='cookie-options'>
 					<label>
 						<input type='checkbox' checked disabled />
@@ -157,10 +151,10 @@ const CookieConsentBanner: React.FC = () => {
 							type='checkbox'
 							checked={preferences.analytics}
 							onChange={() =>
-								setPreferences({
-									...preferences,
-									analytics: !preferences.analytics,
-								})
+								setPreferences((prev) => ({
+									...prev,
+									analytics: !prev.analytics,
+								}))
 							}
 						/>
 						Analytics Cookies (Google Analytics)
@@ -170,7 +164,10 @@ const CookieConsentBanner: React.FC = () => {
 							type='checkbox'
 							checked={preferences.ads}
 							onChange={() =>
-								setPreferences({ ...preferences, ads: !preferences.ads })
+								setPreferences((prev) => ({
+									...prev,
+									ads: !prev.ads,
+								}))
 							}
 						/>
 						Ads Cookies (Google AdSense)
@@ -180,17 +177,17 @@ const CookieConsentBanner: React.FC = () => {
 							type='checkbox'
 							checked={preferences.saleOfData}
 							onChange={() =>
-								setPreferences({
-									...preferences,
-									saleOfData: !preferences.saleOfData,
-								})
+								setPreferences((prev) => ({
+									...prev,
+									saleOfData: !prev.saleOfData,
+								}))
 							}
 						/>
 						Opt-Out of Sale of Personal Information (CCPA, CPRA Certified)
 					</label>
 				</div>
 
-				{/* Certification Label */}
+				{/* Certifications */}
 				<div className='privacy-certification'>
 					<p>CCPA | CPRA | VCDPA | UCPA Certified Privacy Compliance</p>
 				</div>

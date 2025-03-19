@@ -6,22 +6,24 @@ interface Article {
 	link: string;
 }
 
+const RSS_FEED_URL =
+	"https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=21324812";
+const REFRESH_INTERVAL = 3780000; // 1 hour 3 minutes
+
 const RssTicker: React.FC = () => {
 	const [articles, setArticles] = useState<Article[]>([]);
 	const API_KEY = import.meta.env.VITE_RSS2JSON_API_KEY;
-	const RSS_FEED_URL =
-		"https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=21324812";
-	const REFRESH_INTERVAL = 3780000; // 1 hour 3 minutes
 
-	// Memoized fetch function to ensure stable reference
+	// Fetch RSS Feed
 	const fetchRSS = useCallback(async () => {
-		try {
-			if (!API_KEY) {
-				console.error("Missing API Key: Check your .env file!");
-				return;
-			}
+		if (!API_KEY) {
+			console.error("❌ Missing API Key: Check your .env file!");
+			return;
+		}
 
+		try {
 			console.log("🔄 Fetching RSS Feed...");
+
 			const response = await fetch(
 				`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
 					RSS_FEED_URL,
@@ -31,30 +33,31 @@ const RssTicker: React.FC = () => {
 			if (!response.ok) throw new Error("Failed to fetch RSS data");
 
 			const data = await response.json();
-			if (data.status !== "ok") throw new Error(data.message);
 
-			setArticles(data.items); // Update state with articles
+			if (data.status !== "ok")
+				throw new Error(data.message || "RSS fetch error");
+
+			setArticles(data.items);
 			console.log("✅ RSS Feed Updated");
 		} catch (error) {
-			console.error("❌ Error fetching RSS feed:", error);
+			console.error("❌ RSS Feed Error:", error);
 		}
-	}, [API_KEY, RSS_FEED_URL]);
+	}, [API_KEY]);
 
-	// Effect for fetching RSS feed and managing interval
+	// Fetch on mount & set refresh interval
 	useEffect(() => {
-		fetchRSS(); // Initial fetch
+		fetchRSS();
 
 		const intervalId = setInterval(fetchRSS, REFRESH_INTERVAL);
 
-		// Cleanup on component unmount to avoid redundant intervals
 		return () => {
 			clearInterval(intervalId);
-			console.log("🛑 Interval cleared");
+			console.log("🛑 RSS Interval cleared");
 		};
-	}, [fetchRSS, REFRESH_INTERVAL]);
+	}, [fetchRSS]);
 
 	return (
-		<div className='rss-ticker'>
+		<div className='rss-ticker' aria-label='Latest Financial News Ticker'>
 			<div className='rss-ticker-content'>
 				{articles.length > 0 ? (
 					articles.map((article, index) => (
@@ -68,7 +71,7 @@ const RssTicker: React.FC = () => {
 						</a>
 					))
 				) : (
-					<p>Loading latest news...</p>
+					<p>Loading latest financial news...</p>
 				)}
 			</div>
 		</div>

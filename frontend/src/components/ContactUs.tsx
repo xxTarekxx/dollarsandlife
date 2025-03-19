@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import emailjs from "emailjs-com";
 import "./ContactUs.css";
@@ -14,29 +14,31 @@ const ContactUs: React.FC = () => {
 	const [captchaError, setCaptchaError] = useState("");
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-	// Scroll to top when the component mounts
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, []);
+	// Scroll to top on mount
+	useEffect(() => window.scrollTo(0, 0), []);
 
-	// Validate Email Format
+	// Email validation regex
 	const validateEmail = (email: string) =>
 		/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-	// Handle Input Change
+	// Handle input changes
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
 		const { name, value } = e.target;
-		if (name === "firstName" || name === "lastName") {
-			if (!/^[a-zA-Z]*$/.test(value)) return;
+		// Validate name fields (only letters)
+		if (
+			(name === "firstName" || name === "lastName") &&
+			!/^[a-zA-Z]*$/.test(value)
+		) {
+			return;
 		}
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
-	// Handle Form Submission
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault();
+	// Form submit handler
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
 
 		if (!validateEmail(formData.email)) {
 			setFormStatus("Please enter a valid email address.");
@@ -69,9 +71,7 @@ const ContactUs: React.FC = () => {
 			setCaptchaError("");
 		} catch (error) {
 			console.error("EmailJS Error:", error);
-			setFormStatus(
-				"There was an error sending your message. Please try again later.",
-			);
+			setFormStatus("Error sending message. Please try again later.");
 		}
 	};
 
@@ -79,11 +79,10 @@ const ContactUs: React.FC = () => {
 		<section className='contact-us-container'>
 			<h1>Contact Us</h1>
 			<p>
-				Have a question or feedback? Reach out to us and we'll get back to you
-				as soon as possible.
+				Have questions or feedback? Reach out, and we'll get back to you ASAP.
 			</p>
 
-			{/* Schema Markup for SEO */}
+			{/* Structured Data */}
 			<script type='application/ld+json'>
 				{JSON.stringify({
 					"@context": "https://schema.org",
@@ -95,7 +94,7 @@ const ContactUs: React.FC = () => {
 						contactPoint: {
 							"@type": "ContactPoint",
 							email: "support@dollarsandlife.com",
-							contactType: "customer service",
+							contactType: "Customer Service",
 						},
 					},
 				})}
@@ -107,8 +106,8 @@ const ContactUs: React.FC = () => {
 					<input
 						type='text'
 						name='firstName'
-						placeholder='First Name'
 						value={formData.firstName}
+						placeholder='First Name'
 						onChange={handleChange}
 						required
 						aria-label='First Name'
@@ -120,8 +119,8 @@ const ContactUs: React.FC = () => {
 					<input
 						type='text'
 						name='lastName'
-						placeholder='Last Name'
 						value={formData.lastName}
+						placeholder='Last Name'
 						onChange={handleChange}
 						required
 						aria-label='Last Name'
@@ -133,8 +132,8 @@ const ContactUs: React.FC = () => {
 					<input
 						type='email'
 						name='email'
-						placeholder='Email'
 						value={formData.email}
+						placeholder='Email'
 						onChange={handleChange}
 						required
 						aria-label='Email'
@@ -145,29 +144,28 @@ const ContactUs: React.FC = () => {
 					<span>Your Message</span>
 					<textarea
 						name='message'
-						placeholder='Your message'
 						value={formData.message}
+						placeholder='Your message'
 						onChange={handleChange}
 						required
 						aria-label='Your message'
 					/>
 				</label>
 
+				{/* Google reCAPTCHA */}
 				<ReCAPTCHA
 					sitekey='6Le2mjMqAAAAABzmZ0UJy5K6Gl5vw-CDG-mhon5L'
 					ref={recaptchaRef}
 				/>
 				{captchaError && <p className='error'>{captchaError}</p>}
 
+				{/* Submit Button */}
 				<button type='submit' aria-label='Send Message'>
 					Send
 				</button>
 
-				{formStatus && (
-					<p className='form-status' aria-live='polite'>
-						{formStatus}
-					</p>
-				)}
+				{/* Form Status */}
+				{formStatus && <p className='form-status'>{formStatus}</p>}
 			</form>
 		</section>
 	);

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async"; // For SEO
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
@@ -23,33 +23,33 @@ interface BlogPost {
 	dateModified?: string;
 }
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const Budget: React.FC = () => {
 	const [budgetPosts, setBudgetPosts] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const pageRef = useRef<HTMLDivElement>(null);
-	const location = useLocation();
-	const [isDataFetched, setIsDataFetched] = useState(false);
 
-	// Fetch data only once
+	// Fetch data once
 	useEffect(() => {
-		if (isDataFetched) return; // Prevent re-fetching the data
-
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/budgetdata.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: BlogPost[] = await response.json();
 				setBudgetPosts(data);
-				setIsDataFetched(true); // Data fetched
 			} catch (error) {
-				console.error("Error fetching data:", error);
+				console.error("Error fetching budget posts:", error);
 			}
 		};
+		if (budgetPosts.length === 0) fetchData();
+	}, [budgetPosts.length]);
 
-		fetchData();
-	}, [isDataFetched]); // Runs only once when the data isn't fetched
-
+	// Push AdSense ads
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -60,11 +60,6 @@ const Budget: React.FC = () => {
 		}
 	}, []);
 
-	useEffect(() => {
-		// your fetch logic
-	}, []);
-
-	// Function to get the excerpt of the first section of content
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
@@ -77,8 +72,8 @@ const Budget: React.FC = () => {
 	);
 
 	return (
-		<div className='page-container' ref={pageRef}>
-			{/* SEO Meta & Structured Data */}
+		<div className='page-container'>
+			{/* SEO Metadata */}
 			<Helmet>
 				<title>Budget Guides - Smart Financial Planning</title>
 				<meta
@@ -98,7 +93,7 @@ const Budget: React.FC = () => {
 							position: index + 1,
 							headline: post.headline,
 							image: post.image.url,
-							author: { "@type": "Person", name: post.author.name },
+							author: { "@type": "Organization", name: post.author.name },
 							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/extra-income/budget/${post.id}`,
 						})),
@@ -113,6 +108,7 @@ const Budget: React.FC = () => {
 						<>
 							<h1>Budget Guides</h1>
 
+							{/* Top Banner */}
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -125,10 +121,14 @@ const Budget: React.FC = () => {
 										alt='Lyca Mobile Banner'
 										className='TopBannerImage'
 										loading='eager'
+										width='728'
+										height='90'
+										{...{ fetchpriority: "high" }}
 									/>
 								</a>
 							</div>
 
+							{/* Blog Posts */}
 							<div className='content-wrapper'>
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
@@ -144,10 +144,12 @@ const Budget: React.FC = () => {
 													content={getExcerpt(post.content)}
 													author={post.author}
 													datePublished={post.datePublished}
+													dateModified={post.dateModified}
 												/>
 											</Link>
 										</div>
-										{/* Insert ad after every two posts */}
+
+										{/* Insert AdSense ad after every two posts */}
 										{i > 0 && i % 2 === 1 && (
 											<div className='postings-container'>
 												<ins
@@ -156,37 +158,35 @@ const Budget: React.FC = () => {
 														display: "block",
 														width: "300px",
 														height: "250px",
-														minWidth: "300px",
-														minHeight: "250px",
 													}}
 													data-ad-client='ca-pub-1079721341426198'
 													data-ad-slot='7197282987'
 													data-ad-format='auto'
 													data-full-width-responsive='true'
-												/>
+												></ins>
 											</div>
 										)}
 									</React.Fragment>
 								))}
 							</div>
 
+							{/* Bottom Banner Ad */}
 							<div className='postings-container'>
 								<ins
-									className='adsbygoogle'
+									className='adsbygoogle-banner'
 									style={{
 										display: "block",
 										width: "728px",
 										height: "90px",
-										minWidth: "728px",
-										minHeight: "90px",
 									}}
 									data-ad-client='ca-pub-1079721341426198'
 									data-ad-slot='6375155907'
 									data-ad-format='horizontal'
 									data-full-width-responsive='true'
-								/>
+								></ins>
 							</div>
 
+							{/* Pagination */}
 							<PaginationContainer
 								totalItems={budgetPosts.length}
 								itemsPerPage={postsPerPage}
