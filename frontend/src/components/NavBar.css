@@ -41,10 +41,12 @@
     color: black;
     font-weight: 500;
     transition: color 0.3s ease;
+    overflow: hidden;
 }
 
 .menu-item.animate {
     animation: fadeIn 0.4s ease forwards;
+    animation-delay: 0.3s;
 }
 
 .menu-item::after {
@@ -62,8 +64,22 @@
     color: #971ae1;
 }
 
-.menu-item:hover::after {
+.menu-item.active {
+    color: #971ae1;
+    text-decoration: underline;
+}
+
+.menu-item.active::after {
     width: 100%;
+}
+
+.menu-item:hover::after {
+    width: 0;
+}
+
+.menu-item.loading::after {
+    width: 100%;
+    transition: width 0.4s ease;
 }
 
 @media (max-width: 1076px) {
@@ -256,5 +272,17 @@
         top: calc(100% + 10px);
         max-height: 250px;
         font-size: 0.9rem;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
