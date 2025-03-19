@@ -11,12 +11,14 @@ interface Post {
 
 const NavBar: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
+	const [isClosing, setIsClosing] = useState(false);
 	const [searchOpen, setSearchOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchResults, setSearchResults] = useState<Post[]>([]);
 	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 	const searchRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
+	const menuRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const files = [
@@ -116,7 +118,12 @@ const NavBar: React.FC = () => {
 			{/* Search + Hamburger Container */}
 			<div className='right-controls'>
 				{/* Menu Links */}
-				<div className={`menu ${menuOpen ? "open" : "closed"}`}>
+				<div
+					ref={menuRef}
+					className={`menu ${
+						menuOpen ? (isClosing ? "closing" : "open") : "closed"
+					}`}
+				>
 					{[
 						{ to: "/extra-income", text: "Extra Income" },
 						{ to: "/shopping-deals", text: "Shopping Deals" },
@@ -127,8 +134,17 @@ const NavBar: React.FC = () => {
 						<Link
 							key={i}
 							to={link.to}
-							className='menu-item'
-							onClick={() => setMenuOpen(false)}
+							className={`menu-item ${menuOpen ? "animate" : ""}`}
+							onClick={(e) => {
+								e.preventDefault();
+								setIsClosing(true);
+								setTimeout(() => {
+									setMenuOpen(false);
+									setIsClosing(false);
+									navigate(link.to);
+								}, 400); // Match animation timing
+							}}
+							style={{ animationDelay: `${i * 0.1}s` }}
 						>
 							{link.text}
 						</Link>
@@ -136,7 +152,7 @@ const NavBar: React.FC = () => {
 				</div>
 
 				<div
-					className='hamburger'
+					className={`hamburger ${menuOpen ? "open" : ""}`}
 					onClick={() => setMenuOpen((prev) => !prev)}
 					aria-label='Toggle menu'
 				>
