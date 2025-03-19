@@ -50,6 +50,20 @@ const Budget: React.FC = () => {
 		fetchData();
 	}, [isDataFetched]); // Runs only once when the data isn't fetched
 
+	useEffect(() => {
+		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+			try {
+				window.adsbygoogle.push({});
+			} catch (e) {
+				console.error("Adsense Error:", e);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		// your fetch logic
+	}, []);
+
 	// Function to get the excerpt of the first section of content
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];

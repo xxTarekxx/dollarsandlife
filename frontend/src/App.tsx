@@ -31,15 +31,41 @@ const App: React.FC = () => {
 	const location = useLocation();
 	const canonicalUrl = `https://www.dollarsandlife.com${location.pathname}`;
 
-	// State for AdBlock detection
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
 
-	// Detect AdBlock and show the prompt
+	// ✅ Lazy load AdSense after user interaction
+	useEffect(() => {
+		const loadAdsense = () => {
+			if (document.querySelector('script[src*="adsbygoogle.js"]')) return;
+
+			const adScript = document.createElement("script");
+			adScript.src =
+				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+			adScript.async = true;
+			adScript.setAttribute("data-ad-client", "ca-pub-1079721341426198");
+			document.head.appendChild(adScript);
+		};
+
+		const handleInteraction = () => {
+			loadAdsense();
+			window.removeEventListener("scroll", handleInteraction);
+			window.removeEventListener("click", handleInteraction);
+		};
+
+		window.addEventListener("scroll", handleInteraction);
+		window.addEventListener("click", handleInteraction);
+
+		return () => {
+			window.removeEventListener("scroll", handleInteraction);
+			window.removeEventListener("click", handleInteraction);
+		};
+	}, []);
+
+	// AdBlock detection
 	useEffect(() => {
 		console.log("Initializing AdBlock detection...");
 
 		setTimeout(() => {
-			// Skip AdBlock prompt if Google's Consent Management is active
 			const googleConsentPrompt = document.querySelector(".fc-consent-root");
 			if (googleConsentPrompt) {
 				console.log(
@@ -48,7 +74,6 @@ const App: React.FC = () => {
 				return;
 			}
 
-			// Create an ad script element
 			const adBlockTest = document.createElement("script");
 			adBlockTest.src =
 				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
@@ -61,16 +86,14 @@ const App: React.FC = () => {
 			};
 
 			document.body.appendChild(adBlockTest);
-		}, 2000); // Delay detection to allow page elements to load
+		}, 2000);
 	}, []);
 
-	// Function to dismiss the AdBlock prompt and check again
 	const handleDismissAdBlockPrompt = () => {
 		console.log("User dismissed AdBlock prompt. Checking again...");
 
 		setShowAdBlockPrompt(false);
 
-		// Retest AdBlock after dismissal
 		setTimeout(() => {
 			const adBlockRetest = document.createElement("script");
 			adBlockRetest.src =
@@ -84,7 +107,7 @@ const App: React.FC = () => {
 			};
 
 			document.body.appendChild(adBlockRetest);
-		}, 3000); // Delay before checking again
+		}, 3000);
 	};
 
 	return (
@@ -142,7 +165,6 @@ const App: React.FC = () => {
 						property='twitter:image'
 						content='https://www.dollarsandlife.com/path-to-site-image.jpg'
 					/>
-
 					{/* Structured Data for Breadcrumbs */}
 					<script type='application/ld+json'>
 						{JSON.stringify({
@@ -158,7 +180,7 @@ const App: React.FC = () => {
 								{
 									"@type": "ListItem",
 									position: 2,
-									name: location.pathname.replace("/", "") || "Page", // Fallback to "Page" if empty
+									name: location.pathname.replace("/", "") || "Page",
 									item: canonicalUrl,
 								},
 							],
@@ -197,7 +219,6 @@ const App: React.FC = () => {
 							path='/extra-income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}
 						/>
-
 						<Route
 							path='/start-a-blog/:id'
 							element={<BlogPostContent jsonFile='startablogdata.json' />}

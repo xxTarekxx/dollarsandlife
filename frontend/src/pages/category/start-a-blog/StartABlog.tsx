@@ -44,6 +44,20 @@ const StartABlog: React.FC = () => {
 		fetchData();
 	}, []);
 
+	useEffect(() => {
+		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+			try {
+				window.adsbygoogle.push({});
+			} catch (e) {
+				console.error("Adsense Error:", e);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		// your fetch logic
+	}, []);
+
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";

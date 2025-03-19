@@ -53,6 +53,20 @@ const MoneyMakingApps: React.FC = () => {
 		fetchData();
 	}, [isDataFetched]);
 
+	useEffect(() => {
+		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+			try {
+				window.adsbygoogle.push({});
+			} catch (e) {
+				console.error("Adsense Error:", e);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		// your fetch logic
+	}, []);
+
 	const getExcerpt = (content?: { text: string }[]): string => {
 		if (!content || content.length === 0) return "No content available.";
 		const firstSection = content[0]?.text || "";
@@ -157,12 +171,6 @@ const MoneyMakingApps: React.FC = () => {
 														data-ad-format='auto'
 														data-full-width-responsive='true'
 													></ins>
-													<script
-														dangerouslySetInnerHTML={{
-															__html:
-																"(adsbygoogle = window.adsbygoogle || []).push({});",
-														}}
-													/>
 												</div>
 											)}
 										</React.Fragment>
@@ -187,11 +195,6 @@ const MoneyMakingApps: React.FC = () => {
 									data-full-width-responsive='true'
 								></ins>
 							</div>
-							<script
-								dangerouslySetInnerHTML={{
-									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
-								}}
-							/>
 
 							{/* Pagination */}
 							<PaginationContainer

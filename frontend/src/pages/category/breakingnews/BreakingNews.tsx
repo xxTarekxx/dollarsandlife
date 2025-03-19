@@ -7,7 +7,6 @@ import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "../extra-income/CommonStyles.css";
 
-// Define interface for blog post
 interface BlogPost {
 	id: string;
 	headline: string;
@@ -39,6 +38,17 @@ const BreakingNews: React.FC = () => {
 	const postsPerPage = 4;
 	const pageRef = useRef<HTMLDivElement>(null);
 
+	// ✅ Push AdSense after ads script is loaded
+	useEffect(() => {
+		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+			try {
+				window.adsbygoogle.push({});
+			} catch (e) {
+				console.error("Adsense Error:", e);
+			}
+		}
+	}, []);
+
 	// Fetch breaking news from JSON file
 	const fetched = useRef(false);
 
@@ -62,7 +72,7 @@ const BreakingNews: React.FC = () => {
 		fetchLocalNews();
 	}, []);
 
-	// Get the current page's news items
+	// Get current posts
 	const indexOfLastPost = currentPage * postsPerPage;
 	const indexOfFirstPost = indexOfLastPost - postsPerPage;
 	const currentPosts = localNews.slice(indexOfFirstPost, indexOfLastPost);
@@ -98,7 +108,7 @@ const BreakingNews: React.FC = () => {
 				</a>
 			</div>
 
-			{/* Local Breaking News */}
+			{/* Breaking News */}
 			<div className='content-wrapper'>
 				{currentPosts.map((post, index) => (
 					<React.Fragment key={post.id}>
@@ -120,7 +130,7 @@ const BreakingNews: React.FC = () => {
 							/>
 						</Link>
 
-						{/* Insert AdSense ad after every two posts */}
+						{/* In-content ad after every 2 posts */}
 						{index > 0 && index % 2 === 1 && (
 							<div className='postings-container'>
 								<ins
@@ -134,12 +144,6 @@ const BreakingNews: React.FC = () => {
 									data-ad-slot='7197282987'
 									data-ad-format='auto'
 									data-full-width-responsive='true'
-								></ins>
-								<script
-									dangerouslySetInnerHTML={{
-										__html:
-											"(adsbygoogle = window.adsbygoogle || []).push({});",
-									}}
 								/>
 							</div>
 						)}
@@ -168,13 +172,8 @@ const BreakingNews: React.FC = () => {
 					data-ad-slot='6375155907'
 					data-ad-format='horizontal'
 					data-full-width-responsive='true'
-				></ins>
+				/>
 			</div>
-			<script
-				dangerouslySetInnerHTML={{
-					__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
-				}}
-			/>
 		</div>
 	);
 };

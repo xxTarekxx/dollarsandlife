@@ -43,6 +43,20 @@ const RemoteOnlineJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
+	useEffect(() => {
+		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+			try {
+				window.adsbygoogle.push({});
+			} catch (e) {
+				console.error("Adsense Error:", e);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		// your fetch logic
+	}, []);
+
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
@@ -143,12 +157,6 @@ const RemoteOnlineJobs: React.FC = () => {
 													data-ad-format='auto'
 													data-full-width-responsive='true'
 												></ins>
-												<script
-													dangerouslySetInnerHTML={{
-														__html:
-															"(adsbygoogle = window.adsbygoogle || []).push({});",
-													}}
-												/>
 											</div>
 										)}
 									</React.Fragment>
@@ -178,11 +186,6 @@ const RemoteOnlineJobs: React.FC = () => {
 									data-full-width-responsive='true'
 								></ins>
 							</div>
-							<script
-								dangerouslySetInnerHTML={{
-									__html: "(adsbygoogle = window.adsbygoogle || []).push({});",
-								}}
-							/>
 						</>
 					}
 				/>
