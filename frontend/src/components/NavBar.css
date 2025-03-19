@@ -43,6 +43,10 @@
     transition: color 0.3s ease;
 }
 
+.menu-item.animate {
+    animation: fadeIn 0.4s ease forwards;
+}
+
 .menu-item::after {
     content: '';
     position: absolute;
@@ -114,14 +118,47 @@
     display: none;
     flex-direction: column;
     cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+    position: relative;
 }
 
 .hamburger div {
+    position: absolute;
     width: 25px;
-    height: 2px;
+    height: 3px;
     background: #000;
-    margin-bottom: 4px;
-    border-radius: 5px;
+    border-radius: 3px;
+    transition: all 0.4s ease;
+}
+
+.hamburger div:nth-child(1) {
+    top: 8px;
+}
+
+.hamburger div:nth-child(2) {
+    top: 14px;
+}
+
+.hamburger div:nth-child(3) {
+    top: 20px;
+}
+
+.hamburger.open div:nth-child(1) {
+    transform: rotate(45deg);
+    top: 14px;
+}
+
+.hamburger.open div:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open div:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 14px;
 }
 
 @media (max-width: 1076px) {
