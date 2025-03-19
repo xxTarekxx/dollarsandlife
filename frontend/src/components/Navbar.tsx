@@ -151,7 +151,7 @@ const NavBar: React.FC = () => {
 					))}
 				</div>
 
-				<div
+				<button
 					className={`hamburger ${menuOpen ? "open" : ""}`}
 					onClick={() => setMenuOpen((prev) => !prev)}
 					aria-label='Toggle menu'
@@ -159,7 +159,7 @@ const NavBar: React.FC = () => {
 					<div></div>
 					<div></div>
 					<div></div>
-				</div>
+				</button>
 				<div
 					className='search-icon'
 					onClick={() => setSearchOpen((prev) => !prev)}
