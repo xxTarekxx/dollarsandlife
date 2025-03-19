@@ -18,7 +18,6 @@ const NavBar: React.FC = () => {
 	const searchRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
 
-	// Fetch JSON files
 	useEffect(() => {
 		const files = [
 			{ file: "budgetdata.json", route: "/extra-income" },
@@ -35,7 +34,6 @@ const NavBar: React.FC = () => {
 
 		const fetchPosts = async () => {
 			const allPosts: Post[] = [];
-
 			for (const { file, route } of files) {
 				try {
 					const res = await fetch(`/data/${file}?v=${Date.now()}`);
@@ -57,7 +55,6 @@ const NavBar: React.FC = () => {
 		fetchPosts();
 	}, []);
 
-	// Filter search results
 	useEffect(() => {
 		if (searchQuery.trim() === "") {
 			setFilteredPosts([]);
@@ -69,7 +66,6 @@ const NavBar: React.FC = () => {
 		setFilteredPosts(filtered);
 	}, [searchQuery, searchResults]);
 
-	// Close search on outside click
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
@@ -85,7 +81,6 @@ const NavBar: React.FC = () => {
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
-	// Post click navigation
 	const handlePostClick = useCallback(
 		(post: Post) => {
 			setSearchOpen(false);
@@ -111,13 +106,16 @@ const NavBar: React.FC = () => {
 
 	return (
 		<nav className='nav'>
+			{/* Logo */}
 			<div className='logo'>
 				<Link to='/' aria-label='Home'>
 					<img src='/images/website-logo.webp' alt='Logo' className='logo' />
 				</Link>
 			</div>
 
-			<div className='nav-center'>
+			{/* Search + Hamburger Container */}
+			<div className='right-controls'>
+				{/* Menu Links */}
 				<div className={`menu ${menuOpen ? "open" : "closed"}`}>
 					{[
 						{ to: "/extra-income", text: "Extra Income" },
@@ -138,6 +136,15 @@ const NavBar: React.FC = () => {
 				</div>
 
 				<div
+					className='hamburger'
+					onClick={() => setMenuOpen((prev) => !prev)}
+					aria-label='Toggle menu'
+				>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<div
 					className='search-icon'
 					onClick={() => setSearchOpen((prev) => !prev)}
 					role='button'
@@ -151,6 +158,7 @@ const NavBar: React.FC = () => {
 				</div>
 			</div>
 
+			{/* Search Bar */}
 			<div
 				ref={searchRef}
 				className={`search-bar-container ${searchOpen ? "open" : "closed"}`}
@@ -172,16 +180,6 @@ const NavBar: React.FC = () => {
 						))}
 					</ul>
 				)}
-			</div>
-
-			<div
-				className='hamburger'
-				onClick={() => setMenuOpen((prev) => !prev)}
-				aria-label='Toggle menu'
-			>
-				<div></div>
-				<div></div>
-				<div></div>
 			</div>
 		</nav>
 	);
