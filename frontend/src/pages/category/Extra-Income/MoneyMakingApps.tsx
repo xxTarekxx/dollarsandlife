@@ -33,26 +33,24 @@ const MoneyMakingApps: React.FC = () => {
 	const [apps, setApps] = useState<MoneyMakingApp[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const [isDataFetched, setIsDataFetched] = useState(false);
 
+	// Fetch data only once
 	useEffect(() => {
-		if (isDataFetched) return;
-
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/moneymakingapps.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: MoneyMakingApp[] = await response.json();
 				setApps(data);
-				setIsDataFetched(true);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
 		};
 
-		fetchData();
-	}, [isDataFetched]);
+		if (apps.length === 0) fetchData();
+	}, [apps.length]);
 
+	// Push AdSense ads
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -61,10 +59,6 @@ const MoneyMakingApps: React.FC = () => {
 				console.error("Adsense Error:", e);
 			}
 		}
-	}, []);
-
-	useEffect(() => {
-		// your fetch logic
 	}, []);
 
 	const getExcerpt = (content?: { text: string }[]): string => {
@@ -130,6 +124,9 @@ const MoneyMakingApps: React.FC = () => {
 										alt='Lyca Mobile Banner'
 										className='TopBannerImage'
 										loading='eager'
+										width='728'
+										height='90'
+										{...{ fetchpriority: "high" }}
 									/>
 								</a>
 							</div>

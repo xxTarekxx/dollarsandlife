@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo } from "react";
+import React, { useState, useEffect, useRef, memo, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 
@@ -15,58 +15,43 @@ const NavBar: React.FC = () => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchResults, setSearchResults] = useState<Post[]>([]);
 	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
-
 	const searchRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
 
-	// Toggle mobile menu
-	const toggleMenu = () => {
-		setMenuOpen(!menuOpen);
-	};
-
-	// Fetch posts from multiple JSON files
+	// Fetch JSON files
 	useEffect(() => {
+		const files = [
+			{ file: "budgetdata.json", route: "/extra-income" },
+			{ file: "freelancejobs.json", route: "/extra-income/freelancers" },
+			{
+				file: "moneymakingapps.json",
+				route: "/extra-income/money-making-apps",
+			},
+			{ file: "products.json", route: "/shopping-deals" },
+			{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
+			{ file: "startablogdata.json", route: "/start-a-blog" },
+			{ file: "breakingnews.json", route: "/breaking-news" },
+		];
+
 		const fetchPosts = async () => {
-			try {
-				const files = [
-					{ file: "budgetdata.json", route: "/extra-income" },
-					{ file: "freelancejobs.json", route: "/extra-income/freelancers" },
-					{
-						file: "moneymakingapps.json",
-						route: "/extra-income/money-making-apps",
-					},
-					{ file: "products.json", route: "/shopping-deals" },
-					{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
-					{ file: "startablogdata.json", route: "/start-a-blog" },
-					{ file: "breakingnews.json", route: "/breaking-news" },
-				];
+			const allPosts: Post[] = [];
 
-				const allPosts: Post[] = [];
-
-				for (const fileInfo of files) {
-					const response = await fetch(
-						`/data/${fileInfo.file}?v=${Date.now()}`,
-					); // Cache-busting
-					if (!response.ok) {
-						console.warn(
-							`Failed to fetch ${fileInfo.file}: ${response.statusText}`,
-						);
-						continue;
-					}
-					const data: Post[] = await response.json();
+			for (const { file, route } of files) {
+				try {
+					const res = await fetch(`/data/${file}?v=${Date.now()}`);
+					if (!res.ok) continue;
+					const data: Post[] = await res.json();
 					const postsWithRoute = data.map((post) => ({
 						...post,
-						route: fileInfo.route,
-						jsonFile: fileInfo.file,
+						route,
+						jsonFile: file,
 					}));
 					allPosts.push(...postsWithRoute);
+				} catch (err) {
+					console.warn(`Error fetching ${file}`, err);
 				}
-
-				console.log("Fetched posts:", allPosts);
-				setSearchResults(allPosts);
-			} catch (error) {
-				console.error("Error fetching posts:", error);
 			}
+			setSearchResults(allPosts);
 		};
 
 		fetchPosts();
@@ -74,20 +59,17 @@ const NavBar: React.FC = () => {
 
 	// Filter search results
 	useEffect(() => {
-		if (searchQuery.trim() !== "" && searchResults.length > 0) {
-			const filtered = searchResults.filter(
-				(post) =>
-					post &&
-					post.headline &&
-					post.headline.toLowerCase().includes(searchQuery.toLowerCase()),
-			);
-			setFilteredPosts(filtered);
-		} else {
+		if (searchQuery.trim() === "") {
 			setFilteredPosts([]);
+			return;
 		}
+		const filtered = searchResults.filter((post) =>
+			post.headline.toLowerCase().includes(searchQuery.toLowerCase()),
+		);
+		setFilteredPosts(filtered);
 	}, [searchQuery, searchResults]);
 
-	// Close search bar on outside click
+	// Close search on outside click
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
@@ -100,86 +82,70 @@ const NavBar: React.FC = () => {
 			}
 		};
 		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
+		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, []);
 
-	// Navigate to selected post
-	const handlePostClick = (post: Post) => {
-		setSearchOpen(false);
-		setSearchQuery("");
-		setFilteredPosts([]);
+	// Post click navigation
+	const handlePostClick = useCallback(
+		(post: Post) => {
+			setSearchOpen(false);
+			setSearchQuery("");
+			setFilteredPosts([]);
 
-		if (post.jsonFile === "budgetdata.json") {
-			navigate(`/extra-income/${post.id}`);
-		} else if (post.jsonFile === "freelancejobs.json") {
-			navigate(`/extra-income/freelancers/${post.id}`);
-		} else if (post.jsonFile === "moneymakingapps.json") {
-			navigate(`/extra-income/money-making-apps/${post.id}`);
-		} else if (post.jsonFile === "remotejobs.json") {
-			navigate(`/extra-income/remote-jobs/${post.id}`);
-		} else if (post.jsonFile === "startablogdata.json") {
-			navigate(`/start-a-blog/${post.id}`);
-		} else if (post.jsonFile === "breakingnews.json") {
-			navigate(`/breaking-news/${post.id}`);
-		} else if (post.jsonFile === "products.json") {
-			navigate(`/shopping-deals/${post.id}`);
-		}
-	};
+			const postRouteMap: Record<string, string> = {
+				"budgetdata.json": `/extra-income/${post.id}`,
+				"freelancejobs.json": `/extra-income/freelancers/${post.id}`,
+				"moneymakingapps.json": `/extra-income/money-making-apps/${post.id}`,
+				"remotejobs.json": `/extra-income/remote-jobs/${post.id}`,
+				"startablogdata.json": `/start-a-blog/${post.id}`,
+				"breakingnews.json": `/breaking-news/${post.id}`,
+				"products.json": `/shopping-deals/${post.id}`,
+			};
+
+			if (postRouteMap[post.jsonFile]) {
+				navigate(postRouteMap[post.jsonFile]);
+			}
+		},
+		[navigate],
+	);
 
 	return (
 		<nav className='nav'>
 			<div className='logo'>
-				<Link to='/'>
+				<Link to='/' aria-label='Home'>
 					<img src='/images/website-logo.webp' alt='Logo' className='logo' />
 				</Link>
 			</div>
 
 			<div className='nav-center'>
 				<div className={`menu ${menuOpen ? "open" : "closed"}`}>
-					{/* Menu Links */}
-					<Link
-						to='/extra-income'
-						className='menu-item'
-						onClick={() => setMenuOpen(false)}
-					>
-						Extra Income
-					</Link>
-					<Link
-						to='/shopping-deals'
-						className='menu-item'
-						onClick={() => setMenuOpen(false)}
-					>
-						Shopping Deals
-					</Link>
-					<Link
-						to='/start-a-blog'
-						className='menu-item'
-						onClick={() => setMenuOpen(false)}
-					>
-						Start A Blog
-					</Link>
-					<Link
-						to='/breaking-news'
-						className='menu-item'
-						onClick={() => setMenuOpen(false)}
-					>
-						Breaking News
-					</Link>
-					<Link
-						to='/financial-calculators'
-						className='menu-item'
-						onClick={() => setMenuOpen(false)}
-					>
-						Financial Calculators
-					</Link>
+					{[
+						{ to: "/extra-income", text: "Extra Income" },
+						{ to: "/shopping-deals", text: "Shopping Deals" },
+						{ to: "/start-a-blog", text: "Start A Blog" },
+						{ to: "/breaking-news", text: "Breaking News" },
+						{ to: "/financial-calculators", text: "Financial Calculators" },
+					].map((link, i) => (
+						<Link
+							key={i}
+							to={link.to}
+							className='menu-item'
+							onClick={() => setMenuOpen(false)}
+						>
+							{link.text}
+						</Link>
+					))}
 				</div>
 
-				<div className='search-icon' onClick={() => setSearchOpen(!searchOpen)}>
+				<div
+					className='search-icon'
+					onClick={() => setSearchOpen((prev) => !prev)}
+					role='button'
+					aria-label='Toggle search'
+				>
 					<img
 						src='/images/favicon/searchicon.svg'
-						alt='Search'
+						alt='Search icon'
 						className='search-icon-image'
 					/>
 				</div>
@@ -189,13 +155,13 @@ const NavBar: React.FC = () => {
 				ref={searchRef}
 				className={`search-bar-container ${searchOpen ? "open" : "closed"}`}
 			>
-				{/* Search Input */}
 				<input
 					type='text'
 					placeholder='Search posts...'
 					value={searchQuery}
 					onChange={(e) => setSearchQuery(e.target.value)}
 					className='search-bar'
+					aria-label='Search posts'
 				/>
 				{filteredPosts.length > 0 && (
 					<ul className='suggestions-list'>
@@ -208,7 +174,11 @@ const NavBar: React.FC = () => {
 				)}
 			</div>
 
-			<div className='hamburger' onClick={toggleMenu}>
+			<div
+				className='hamburger'
+				onClick={() => setMenuOpen((prev) => !prev)}
+				aria-label='Toggle menu'
+			>
 				<div></div>
 				<div></div>
 				<div></div>

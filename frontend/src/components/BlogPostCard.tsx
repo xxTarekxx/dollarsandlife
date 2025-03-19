@@ -47,8 +47,8 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 		<article className='card-container' onClick={onClick}>
 			<img
 				className='card-image'
-				src={image.url} // Access the `url` of the image
-				alt={image.caption} // Access the `caption` for alt text
+				src={image.url || "/images/placeholder.webp"}
+				alt={image.caption || "Blog post image"}
 				loading='lazy'
 				width='320'
 				height='240'
@@ -57,11 +57,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 				<header>
 					<h2 className='card-title'>{headline}</h2>
 				</header>
+
 				<p className='card-text'>{content}</p>
 
 				<div className='author-date'>
-					<p className='card-author'>By {author.name}</p>{" "}
-					{/* Access author name */}
+					<p className='card-author'>By {author.name}</p>
 					<div className='date-group'>
 						<time className='card-date' dateTime={datePublished}>
 							Posted: {formattedDatePosted}
@@ -72,18 +72,19 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 							</time>
 						)}
 					</div>
-					<div>
-						<button
-							className='read-more-button'
-							aria-label={`Read more about ${headline}`}
-						>
-							Read More
-						</button>
-					</div>
+				</div>
+
+				<div className='read-more-container'>
+					<button
+						className='read-more-button'
+						aria-label={`Read more about ${headline}`}
+					>
+						Read More
+					</button>
 				</div>
 			</div>
 		</article>
 	);
 };
 
-export default BlogPostCard;
+export default React.memo(BlogPostCard);

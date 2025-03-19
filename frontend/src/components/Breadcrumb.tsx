@@ -17,50 +17,47 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 			position: index + 1,
 			item: {
 				"@id": `${window.location.origin}${path.url}`,
-				name: path.title || "Untitled", // Ensures "name" is always present
+				name: path.title || "Untitled",
 			},
 		})),
 	};
 
 	return (
-		<nav aria-label='Breadcrumb Navigation'>
+		<nav aria-label='Breadcrumb Navigation' className='breadcrumb-wrapper'>
 			{/* JSON-LD Structured Data for SEO */}
 			<script type='application/ld+json'>
 				{JSON.stringify(structuredData)}
 			</script>
 
-			{/* Breadcrumb Navigation */}
-			<div
-				className='breadcrumb-container'
+			<ol
+				className='breadcrumb-list'
 				itemScope
 				itemType='https://schema.org/BreadcrumbList'
 			>
-				<ol className='breadcrumb-list'>
-					{paths.map((path, index) => (
-						<li
-							key={index}
-							className='breadcrumb-item'
-							itemProp='itemListElement'
-							itemScope
-							itemType='https://schema.org/ListItem'
+				{paths.map((path, index) => (
+					<li
+						key={index}
+						className='breadcrumb-item'
+						itemProp='itemListElement'
+						itemScope
+						itemType='https://schema.org/ListItem'
+					>
+						<Link
+							to={path.url}
+							itemProp='item'
+							aria-current={index === paths.length - 1 ? "page" : undefined}
 						>
-							<Link
-								to={path.url}
-								itemProp='item'
-								aria-current={index === paths.length - 1 ? "page" : undefined}
-							>
-								<span itemProp='name'>{path.title || "Untitled"}</span>
-							</Link>
-							<meta itemProp='position' content={(index + 1).toString()} />
-							{index < paths.length - 1 && (
-								<span className='breadcrumb-separator'>››</span>
-							)}
-						</li>
-					))}
-				</ol>
-			</div>
+							<span itemProp='name'>{path.title || "Untitled"}</span>
+						</Link>
+						<meta itemProp='position' content={(index + 1).toString()} />
+						{index < paths.length - 1 && (
+							<span className='breadcrumb-separator'>››</span>
+						)}
+					</li>
+				))}
+			</ol>
 		</nav>
 	);
 };
 
-export default Breadcrumb;
+export default React.memo(Breadcrumb);

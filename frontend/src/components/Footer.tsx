@@ -9,36 +9,55 @@ import YoutubeIcon from "/images/favicon/youtube-icon.svg";
 const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();
 
-	const footerLinks = [
+	const footerColumns = [
 		{
-			header: "Discover",
+			title: "Discover",
 			links: [
 				{ to: "/financial-calculators", text: "Calculators" },
-				{ to: "/Extra-Income/Money-Making-Apps", text: "Investment" },
-				{ to: "/Extra-Income/Money-Making-Apps", text: "Passive Income Apps" },
+				{ to: "/extra-income/money-making-apps", text: "Investment" },
+				{ to: "/extra-income/money-making-apps", text: "Passive Income Apps" },
 			],
 		},
 		{
-			header: "Earning",
+			title: "Earning",
 			links: [
-				{ to: "/Extra-Income/Freelancers", text: "Freelancer Opportunities" },
-				{ to: "/Extra-Income/Budget/", text: "Budgeting" },
-				{ to: "/Shopping-Deals", text: "Deals & Saving" },
-				{ to: "/Start-A-Blog", text: "Start A Blog" },
+				{ to: "/extra-income/freelancers", text: "Freelancer Opportunities" },
+				{ to: "/extra-income/budget", text: "Budgeting" },
+				{ to: "/shopping-deals", text: "Deals & Saving" },
+				{ to: "/start-a-blog", text: "Start A Blog" },
 			],
 		},
 		{
-			header: "Get In Touch",
+			title: "Get In Touch",
 			links: [
 				{ to: "/contact-us", text: "Contact Us" },
 				{ to: "/terms-of-service", text: "Terms Of Service" },
-				{ to: "/privacy-policy", text: "Privacy Policy" }, // Added Privacy Policy link here
+				{ to: "/privacy-policy", text: "Privacy Policy" },
 			],
+		},
+	];
+
+	const socialLinks = [
+		{
+			href: "https://www.youtube.com/@dollarsandlife",
+			icon: YoutubeIcon,
+			alt: "YouTube",
+		},
+		{
+			href: "https://www.facebook.com/profile.php?id=61552256902083",
+			icon: FacebookIcon,
+			alt: "Facebook",
+		},
+		{
+			href: "https://www.instagram.com/dollars_and_life/",
+			icon: InstagramIcon,
+			alt: "Instagram",
 		},
 	];
 
 	return (
 		<>
+			{/* Structured Data */}
 			<Helmet>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -61,54 +80,30 @@ const Footer: React.FC = () => {
 				</script>
 			</Helmet>
 
-			<div className='footer-container'>
-				{/* Social Media Section */}
+			<footer className='footer-container'>
+				{/* Social Media */}
 				<div className='social-container'>
-					<div className='social-media youtube'>
+					{socialLinks.map(({ href, icon, alt }, idx) => (
 						<a
-							href='https://www.youtube.com/@dollarsandlife'
+							key={idx}
+							href={href}
 							target='_blank'
 							rel='noopener noreferrer'
+							className='social-media'
+							aria-label={alt}
 						>
-							<img src={YoutubeIcon} alt='YouTube' className='social-icon' />
+							<img src={icon} alt={alt} className='social-icon' />
 						</a>
-					</div>
-					<div className='social-media facebook'>
-						<a
-							href='https://www.facebook.com/profile.php?id=61552256902083'
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							<img src={FacebookIcon} alt='Facebook' className='social-icon' />
-						</a>
-					</div>
-					<div className='social-media instagram'>
-						<a
-							href='https://www.instagram.com/dollars_and_life/'
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							<img
-								src={InstagramIcon}
-								alt='Instagram'
-								className='social-icon'
-							/>
-						</a>
-					</div>
+					))}
 				</div>
 
-				{/* Main Footer Links */}
+				{/* Footer Columns */}
 				<div className='main-footer-container'>
-					{footerLinks.map((column, index) => (
-						<div className='column' key={index}>
-							<h3 className='header'>{column.header}</h3>
-							{column.links.map((link, linkIndex) => (
-								// Ensure that `link.to` is not undefined before rendering the Link component
-								<Link
-									key={linkIndex}
-									to={link.to || "#"} // Use "#" as a fallback in case `link.to` is undefined
-									className='footer-link'
-								>
+					{footerColumns.map((column, idx) => (
+						<div className='column' key={idx}>
+							<h3 className='header'>{column.title}</h3>
+							{column.links.map((link, linkIdx) => (
+								<Link key={linkIdx} to={link.to} className='footer-link'>
 									{link.text}
 								</Link>
 							))}
@@ -116,39 +111,32 @@ const Footer: React.FC = () => {
 					))}
 				</div>
 
-				{/* Disclaimer Statement */}
+				{/* Disclosure */}
 				<div className='disclosure-statment'>
 					<p>
 						This site contains affiliate links, and we may earn a commission if
 						you make a purchase. Some apps or services mentioned may collect and
 						share data for market research. We do not target ads based on
 						sensitive data, and all recommendations are intended for general
-						audiences only. Refer to{" "}
-						<a href='https://www.dollarsandlife.com/terms-of-service'>
-							Terms Of Service
-						</a>{" "}
-						and{" "}
-						<a href='https://www.dollarsandlife.com/privacy-policy'>
-							Privacy Policy
-						</a>{" "}
-						page.
+						audiences only. Refer to our{" "}
+						<Link to='/terms-of-service'>Terms Of Service</Link> and{" "}
+						<Link to='/privacy-policy'>Privacy Policy</Link> pages.
 					</p>
 				</div>
 
-				{/* Copyright & Developer Info */}
+				{/* Copyright */}
 				<div className='copyright'>
 					© {currentYear} All Rights Reserved Texas Connect LLC <br />
-					Developed And Designed By
+					Developed And Designed By{" "}
 					<a
 						href='https://www.linkedin.com/in/tarek-ismael-96777578/'
 						target='_blank'
 						rel='noopener noreferrer'
 					>
-						{" "}
-						Tarek I.{" "}
+						Tarek I.
 					</a>
 				</div>
-			</div>
+			</footer>
 		</>
 	);
 };

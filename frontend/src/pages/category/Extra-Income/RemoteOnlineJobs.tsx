@@ -8,6 +8,12 @@ import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 interface RemoteJob {
 	id: string;
 	headline: string;
@@ -28,6 +34,7 @@ const RemoteOnlineJobs: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 
+	// Fetch data
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -43,6 +50,7 @@ const RemoteOnlineJobs: React.FC = () => {
 		fetchData();
 	}, []);
 
+	// Trigger AdSense ads
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -51,12 +59,9 @@ const RemoteOnlineJobs: React.FC = () => {
 				console.error("Adsense Error:", e);
 			}
 		}
-	}, []);
+	}, [remoteJobs, currentPage]);
 
-	useEffect(() => {
-		// your fetch logic
-	}, []);
-
+	// Generate excerpt text
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
@@ -121,6 +126,9 @@ const RemoteOnlineJobs: React.FC = () => {
 										alt='Lyca Mobile Banner - Affordable International Calling'
 										className='TopBannerImage'
 										loading='eager'
+										width='728'
+										height='90'
+										{...{ fetchpriority: "high" }} // ✅ Correct way to avoid both TS + React warning
 									/>
 								</a>
 							</div>
@@ -142,6 +150,7 @@ const RemoteOnlineJobs: React.FC = () => {
 												/>
 											</Link>
 										</div>
+
 										{/* Insert AdSense ad after every two posts */}
 										{i > 0 && i % 2 === 1 && (
 											<div className='postings-container'>
@@ -151,12 +160,14 @@ const RemoteOnlineJobs: React.FC = () => {
 														display: "block",
 														width: "300px",
 														height: "250px",
+														minWidth: "300px",
+														minHeight: "250px",
 													}}
 													data-ad-client='ca-pub-1079721341426198'
 													data-ad-slot='7197282987'
 													data-ad-format='auto'
 													data-full-width-responsive='true'
-												></ins>
+												/>
 											</div>
 										)}
 									</React.Fragment>
@@ -179,12 +190,14 @@ const RemoteOnlineJobs: React.FC = () => {
 										display: "block",
 										width: "728px",
 										height: "90px",
+										minWidth: "300px",
+										minHeight: "90px",
 									}}
 									data-ad-client='ca-pub-1079721341426198'
 									data-ad-slot='6375155907'
 									data-ad-format='horizontal'
 									data-full-width-responsive='true'
-								></ins>
+								/>
 							</div>
 						</>
 					}

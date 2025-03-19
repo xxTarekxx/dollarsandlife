@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
@@ -23,30 +23,34 @@ interface FreelanceJob {
 	dateModified?: string;
 }
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const FreelanceJobs: React.FC = () => {
 	const [freelanceJobs, setFreelanceJobs] = useState<FreelanceJob[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const [isDataFetched, setIsDataFetched] = useState(false);
 
+	// Fetch data only once
 	useEffect(() => {
-		if (isDataFetched) return;
-
 		const fetchData = async () => {
 			try {
 				const response = await fetch("/data/freelancejobs.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: FreelanceJob[] = await response.json();
 				setFreelanceJobs(data);
-				setIsDataFetched(true); // Data fetched
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
 		};
 
-		fetchData();
-	}, [isDataFetched]);
+		if (freelanceJobs.length === 0) fetchData();
+	}, [freelanceJobs.length]);
 
+	// Push AdSense ads
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -55,10 +59,6 @@ const FreelanceJobs: React.FC = () => {
 				console.error("Adsense Error:", e);
 			}
 		}
-	}, []);
-
-	useEffect(() => {
-		// your fetch logic
 	}, []);
 
 	const getExcerpt = (content: { text: string }[]): string => {
@@ -74,7 +74,7 @@ const FreelanceJobs: React.FC = () => {
 
 	return (
 		<div className='page-container'>
-			{/* SEO Metadata with Helmet */}
+			{/* SEO Metadata */}
 			<Helmet>
 				<title>Freelance Jobs & Opportunities | Earn Money Online</title>
 				<meta
@@ -125,46 +125,56 @@ const FreelanceJobs: React.FC = () => {
 										alt='Lyca Mobile Banner - Affordable International Calling'
 										className='TopBannerImage'
 										loading='eager'
+										width='728'
+										height='90'
+										{...{ fetchpriority: "high" }}
 									/>
 								</a>
 							</div>
 
 							{/* Freelance Job Listings */}
 							<div className='content-wrapper'>
-								{currentPosts.map((post, i) => (
-									<React.Fragment key={post.id}>
-										<div className='row-container'>
-											<Link to={`/extra-income/freelancers/${post.id}`}>
-												<BlogPostCard
-													id={post.id}
-													headline={post.headline}
-													image={post.image}
-													content={getExcerpt(post.content)}
-													author={post.author}
-													datePublished={post.datePublished}
-													dateModified={post.dateModified}
-												/>
-											</Link>
-										</div>
-										{/* Insert AdSense ad after every two posts */}
-										{i > 0 && i % 2 === 1 && (
-											<div className='postings-container'>
-												<ins
-													className='adsbygoogle'
-													style={{
-														display: "block",
-														width: "300px",
-														height: "250px",
-													}}
-													data-ad-client='ca-pub-1079721341426198'
-													data-ad-slot='7197282987'
-													data-ad-format='auto'
-													data-full-width-responsive='true'
-												></ins>
+								{currentPosts.length > 0 ? (
+									currentPosts.map((post, i) => (
+										<React.Fragment key={post.id}>
+											<div className='row-container'>
+												<Link
+													to={`/extra-income/freelancers/${post.id}`}
+													style={{ textDecoration: "none" }}
+												>
+													<BlogPostCard
+														id={post.id}
+														headline={post.headline}
+														image={post.image}
+														content={getExcerpt(post.content)}
+														author={post.author}
+														datePublished={post.datePublished}
+														dateModified={post.dateModified}
+													/>
+												</Link>
 											</div>
-										)}
-									</React.Fragment>
-								))}
+											{/* Insert AdSense ad after every two posts */}
+											{i > 0 && i % 2 === 1 && (
+												<div className='postings-container'>
+													<ins
+														className='adsbygoogle'
+														style={{
+															display: "block",
+															width: "300px",
+															height: "250px",
+														}}
+														data-ad-client='ca-pub-1079721341426198'
+														data-ad-slot='7197282987'
+														data-ad-format='auto'
+														data-full-width-responsive='true'
+													></ins>
+												</div>
+											)}
+										</React.Fragment>
+									))
+								) : (
+									<p>No freelance jobs found.</p>
+								)}
 							</div>
 
 							{/* Bottom Banner Ad */}
