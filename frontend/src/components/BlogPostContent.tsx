@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import "./BlogPostContent.css";
-import FiverrWidget from "./FiverrWidget";
 
 interface BlogPostContentProps {
 	jsonFile: string;
@@ -32,11 +31,28 @@ interface BlogPost {
 	content: PostContent[];
 }
 
+declare global {
+	interface Window {
+		adsbygoogle: any;
+	}
+}
+
 const BlogPostContent: React.FC<BlogPostContentProps> = React.memo(
 	({ jsonFile }) => {
 		const { id: postId } = useParams<{ id: string }>();
 		const [post, setPost] = useState<BlogPost | null>(null);
 		const isFetching = useRef(false);
+
+		// ✅ Push AdSense ads after ads script is loaded
+		useEffect(() => {
+			if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+				try {
+					window.adsbygoogle.push({});
+				} catch (e) {
+					console.error("Adsense Error:", e);
+				}
+			}
+		}, []);
 
 		const fetchPost = useMemo(
 			() => async () => {
@@ -136,10 +152,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = React.memo(
 									))}
 								</ol>
 							)}
-							{section.subtitle ===
-								"How Your Profile Would Look on Fiverr As A Seller" && (
-								<FiverrWidget />
-							)}
+							{/* In-content Ad */}
 							{index % 2 === 1 && (
 								<div className='postings-container'>
 									<ins
@@ -153,12 +166,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = React.memo(
 										data-ad-slot='7197282987'
 										data-ad-format='auto'
 										data-full-width-responsive='true'
-									></ins>
-									<script
-										dangerouslySetInnerHTML={{
-											__html:
-												"(adsbygoogle = window.adsbygoogle || []).push({});",
-										}}
 									/>
 								</div>
 							)}

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Helmet } from "react-helmet-async"; // For SEO
+import { Helmet } from "react-helmet-async";
 import "../AdComponent.css";
 import "./FinancialCalculators.css";
 import { AutoLoanCalculator } from "./AutoLoanCalculator";
@@ -17,22 +17,15 @@ declare global {
 }
 
 const FinancialCalculators: React.FC = () => {
-	// Delay AdSense script execution to ensure ads render properly
+	// ✅ Push AdSense ads after adsbygoogle.js is loaded
 	useEffect(() => {
-		setTimeout(() => {
-			const adContainers = document.querySelectorAll(".postings-container");
-			let adsPushed = false;
-			adContainers.forEach((adContainer) => {
-				const container = adContainer as HTMLElement;
-				if (container.offsetWidth > 0 && container.offsetHeight > 0) {
-					if (!adsPushed) {
-						console.log("Pushing AdSense ads...");
-						(window.adsbygoogle = window.adsbygoogle || []).push({});
-						adsPushed = true;
-					}
-				}
-			});
-		}, 2000);
+		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+			try {
+				window.adsbygoogle.push({});
+			} catch (e) {
+				console.error("Adsense Error:", e);
+			}
+		}
 	}, []);
 
 	const calculators = [
@@ -117,17 +110,27 @@ const FinancialCalculators: React.FC = () => {
 									data-ad-slot='7197282987'
 									data-ad-format='auto'
 									data-full-width-responsive='true'
-								></ins>
-								<script
-									dangerouslySetInnerHTML={{
-										__html:
-											"(adsbygoogle = window.adsbygoogle || []).push({});",
-									}}
 								/>
 							</div>
 						)}
 					</React.Fragment>
 				))}
+			</div>
+
+			{/* Bottom Banner Ad */}
+			<div className='postings-container'>
+				<ins
+					className='adsbygoogle-banner'
+					style={{
+						display: "block",
+						width: "728px",
+						height: "90px",
+					}}
+					data-ad-client='ca-pub-1079721341426198'
+					data-ad-slot='6375155907'
+					data-ad-format='horizontal'
+					data-full-width-responsive='true'
+				/>
 			</div>
 		</div>
 	);
