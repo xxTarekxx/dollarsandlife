@@ -11,7 +11,6 @@ import BlogPostContent from "./components/BlogPostContent";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
 import FinancialCalculators from "./components/calculators/FinancialCalculators";
 import ContactUs from "./components/ContactUs";
-// import CookieConsentBanner from "./components/CookieConsentBanner";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import RssTicker from "./components/RssTicker";
@@ -26,6 +25,7 @@ import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import NotFoundPage from "./components/NotFoundPage";
 
 const App: React.FC = () => {
 	const location = useLocation();
@@ -33,7 +33,6 @@ const App: React.FC = () => {
 
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
 
-	// ✅ Lazy load AdSense after user interaction
 	useEffect(() => {
 		const loadAdsense = () => {
 			if (document.querySelector('script[src*="adsbygoogle.js"]')) return;
@@ -61,18 +60,10 @@ const App: React.FC = () => {
 		};
 	}, []);
 
-	// AdBlock detection
 	useEffect(() => {
-		console.log("Initializing AdBlock detection...");
-
 		setTimeout(() => {
 			const googleConsentPrompt = document.querySelector(".fc-consent-root");
-			if (googleConsentPrompt) {
-				console.log(
-					"Google Consent Message detected. Skipping custom AdBlock prompt.",
-				);
-				return;
-			}
+			if (googleConsentPrompt) return;
 
 			const adBlockTest = document.createElement("script");
 			adBlockTest.src =
@@ -81,7 +72,6 @@ const App: React.FC = () => {
 			adBlockTest.async = true;
 
 			adBlockTest.onerror = () => {
-				console.log("Ad blocker detected! Showing the prompt...");
 				setShowAdBlockPrompt(true);
 			};
 
@@ -90,8 +80,6 @@ const App: React.FC = () => {
 	}, []);
 
 	const handleDismissAdBlockPrompt = () => {
-		console.log("User dismissed AdBlock prompt. Checking again...");
-
 		setShowAdBlockPrompt(false);
 
 		setTimeout(() => {
@@ -102,7 +90,6 @@ const App: React.FC = () => {
 			adBlockRetest.async = true;
 
 			adBlockRetest.onerror = () => {
-				console.log("Ad blocker is still enabled!");
 				setShowAdBlockPrompt(true);
 			};
 
@@ -165,7 +152,6 @@ const App: React.FC = () => {
 						property='twitter:image'
 						content='https://www.dollarsandlife.com/path-to-site-image.jpg'
 					/>
-					{/* Structured Data for Breadcrumbs */}
 					<script type='application/ld+json'>
 						{JSON.stringify({
 							"@context": "https://schema.org",
@@ -230,11 +216,11 @@ const App: React.FC = () => {
 						<Route path='/terms-of-service' element={<TermsOfService />} />
 						<Route path='/privacy-policy' element={<PrivacyPolicy />} />
 						<Route path='/contact-us' element={<ContactUs />} />
+						<Route path='*' element={<NotFoundPage />} />
 					</Routes>
 				</div>
 
 				<Footer />
-				{/* <CookieConsentBanner /> */}
 			</div>
 		</HelmetProvider>
 	);
