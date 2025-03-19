@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "./HomePage.css";
 
-import NextToPImage from "/images/favicon/down-arrow.svg";
 import ShoppingDealsImg from "/images/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
 import StartAblogimg from "/images/icons/img-startablog.webp";
@@ -116,25 +115,6 @@ const HomePage: React.FC = () => {
 					/>
 				</a>
 			</div>
-
-			{/* Decorative arrows */}
-			<h2 className='pointers'>
-				<img
-					src={NextToPImage}
-					alt='Decorative arrow'
-					className='pointers-img'
-				/>
-				<img
-					src={NextToPImage}
-					alt='Decorative arrow'
-					className='pointers-img'
-				/>
-				<img
-					src={NextToPImage}
-					alt='Decorative arrow'
-					className='pointers-img'
-				/>
-			</h2>
 
 			{/* Main Links */}
 			<div className='home-main-links' aria-label='Main navigation links'>

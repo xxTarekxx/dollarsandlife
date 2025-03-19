@@ -13,83 +13,26 @@
     position: relative;
 }
 
-.nav-center {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-
-
-/* Responsive Navbar Padding */
-@media (max-width: 768px) {
-    .nav {
-        padding: 0 1em;
-    }
-}
-
-/* Logo Styling */
 .logo {
     height: 46px;
     width: 240px;
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    .logo {
-        padding-left: 0;
-    }
+/* Right Controls Container */
+.right-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-end;
 }
 
-/* Hamburger Menu Styling */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.hamburger div {
-    width: 25px;
-    height: 2px;
-    background: #000;
-    margin-bottom: 4px;
-    border-radius: 5px;
-}
-
-@media (max-width: 1076px) {
-    .hamburger {
-        display: flex;
-    }
-}
-
-/* Menu Items Styling */
+/* Menu Items */
 .menu {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
-
-@media (max-width: 1076px) {
-    .menu {
-        position: fixed;
-        top: 60px;
-        left: 0;
-        flex-direction: column;
-        width: 100%;
-        background: white;
-        z-index: 2;
-        /* Ensure the menu is above other content */
-    }
-
-    .menu.open {
-        display: flex;
-    }
-
-    .menu.closed {
-        display: none;
-    }
-}
-
 
 .menu-item {
     position: relative;
@@ -119,24 +62,80 @@
     width: 100%;
 }
 
+@media (max-width: 1076px) {
+    .menu {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        background: white;
+        z-index: 2;
+    }
+
+    .menu.open {
+        display: flex;
+    }
+
+    .menu.closed {
+        display: none;
+    }
+
+    .right-controls {
+        flex-direction: row-reverse;
+    }
+}
 
 @media (max-width: 768px) {
     .menu-item {
         width: 100%;
         padding: 1rem 0;
         text-align: center;
-        /* padding-right: 1rem; */
         font-size: 1.2rem;
         line-height: 6px;
     }
 }
 
-/* Search Bar Container Styling */
+/* Search Icon */
+.search-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon-image {
+    width: 25px;
+    height: 25px;
+}
+
+/* Hamburger Styling */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 2px;
+    background: #000;
+    margin-bottom: 4px;
+    border-radius: 5px;
+}
+
+@media (max-width: 1076px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
+/* Search Bar Container */
 .search-bar-container {
     position: fixed;
     top: 60px;
     right: 1rem;
-    width: 20%;
+    width: 360px;
     padding: 0 1rem;
     border-radius: 0 0 20px 20px;
     box-sizing: border-box;
@@ -148,28 +147,22 @@
     border: 1px solid #ddd;
 }
 
-/* Show Search Bar When Open */
 .search-bar-container.open {
     display: flex;
 }
 
-/* Hide Search Bar When Closed */
 .search-bar-container.closed {
     display: none;
 }
 
-/* Adjust Search Bar for Mobile */
 @media (max-width: 768px) {
     .search-bar-container {
         width: 90%;
-        /* Adjusted width for smaller screens */
         left: 5%;
-        /* Center the search bar on smaller screens */
         right: auto;
     }
 }
 
-/* Search Bar Styling */
 .search-bar {
     width: 100%;
     background: rgb(231, 218, 243);
@@ -182,37 +175,12 @@
     color: rgb(0, 0, 0);
 }
 
-/* Search Icon Styling */
-.search-icon {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin-left: 1rem;
-    margin-right: 0;
-}
-
-@media (max-width: 768px) {
-    .search-icon {
-        order: -1;
-        margin-left: 0;
-        margin-right: 1rem;
-    }
-}
-
-.search-icon-image {
-    width: 25px;
-    height: 25px;
-}
-
-/* Suggestions List Styling */
+/* Suggestions List */
 .suggestions-list {
     list-style: none;
     padding: 0;
     margin: 0;
     max-height: 300px;
-    /* Increased height to show more suggestions */
     overflow-y: auto;
     background-color: white;
     border: 1px solid #ddd;
@@ -223,12 +191,9 @@
     z-index: 3;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    /* Rounded corners for a smoother look */
     transition: all 0.2s ease-in-out;
-    /* Smooth transition for hover effect */
 }
 
-/* Individual Suggestion Item Styling */
 .suggestions-list li {
     padding: 0.8rem;
     cursor: pointer;
@@ -243,22 +208,16 @@
 .suggestions-list li:hover {
     background-color: #f9f9f9;
     color: #007bff;
-    /* Slight color change on hover */
     font-weight: bold;
-    /* Bold text on hover */
 }
 
-/* Responsive Suggestions for Mobile */
 @media (max-width: 768px) {
     .suggestions-list {
         width: 90%;
         left: 5%;
         right: auto;
         top: calc(100% + 10px);
-        /* Adjust positioning for better visibility */
         max-height: 250px;
-        /* Slightly smaller height for mobile */
         font-size: 0.9rem;
-        /* Smaller font size for mobile */
     }
 }
