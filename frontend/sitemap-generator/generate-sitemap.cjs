@@ -7,7 +7,8 @@ const { SitemapStream, streamToPromise } = require("sitemap");
 const BASE_URL = "https://www.dollarsandlife.com";
 
 /**
- * Extracts route paths from App.tsx by scanning for <Route path="..."> entries.
+ * Extracts static route paths from App.tsx by scanning for <Route path="..."> entries.
+ * Excludes wildcard (*) and dynamic parameter (:) routes.
  */
 function extractRoutesFromApp() {
     const appFilePath = path.resolve(__dirname, "../src/App.tsx");
@@ -19,11 +20,11 @@ function extractRoutesFromApp() {
         let match;
         while ((match = routeRegex.exec(appFileContent)) !== null) {
             if (!routes.includes(match[1]) && !match[1].includes('*') && !match[1].includes(':')) {
-                routes.push(match[1]); // Exclude wildcard and dynamic routes
+                routes.push(match[1]); // Static routes only
             }
         }
 
-        console.log(` Extracted ${routes.length} valid routes from App.tsx`);
+        console.log(`✅ Extracted ${routes.length} static routes from App.tsx`);
         return routes;
     } catch (err) {
         console.error(`❌ Error reading App.tsx:`, err);
@@ -32,18 +33,18 @@ function extractRoutesFromApp() {
 }
 
 /**
- * Reads the public/data directory and extracts JSON filenames dynamically.
+ * Reads the public/data directory and extracts valid JSON filenames dynamically.
  */
 function getJsonFiles() {
     const dataDir = path.resolve(__dirname, "../public/data");
     try {
         const files = fs.readdirSync(dataDir)
             .filter(file => file.endsWith(".json"))
-            .map(file => path.resolve(dataDir, file))
-            .filter(file => !file.includes("products")); // Remove products and my-story
+            // Exclude non-blog data files like products.json (used for product listings, not articles)
+            .filter(file => !file.includes("products"));
 
-        console.log(` Found ${files.length} JSON data files`);
-        return files;
+        console.log(`✅ Found ${files.length} JSON data files`);
+        return files.map(file => path.resolve(dataDir, file));
     } catch (err) {
         console.error(`❌ Error reading data directory:`, err);
         return [];
@@ -51,7 +52,7 @@ function getJsonFiles() {
 }
 
 /**
- * Fetches dynamic routes from JSON content inside public/data directory.
+ * Fetches dynamic blog post routes from JSON content inside public/data directory.
  */
 async function fetchDynamicRoutes() {
     const dynamicRoutes = [];
@@ -62,7 +63,7 @@ async function fetchDynamicRoutes() {
             const fileContent = fs.readFileSync(filePath, "utf-8");
             const jsonData = JSON.parse(fileContent);
 
-            // Ensure JSON is an array before processing
+            // Skip non-array JSON files
             if (!Array.isArray(jsonData)) {
                 console.warn(`⚠️ Skipping non-array JSON file: ${filePath}`);
                 continue;
@@ -74,7 +75,7 @@ async function fetchDynamicRoutes() {
                     return;
                 }
 
-                // Determine URL base from the file name
+                // Determine URL base path based on filename
                 const filename = path.basename(filePath, ".json");
                 const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
                     : filename.includes("freelancejobs") ? "/extra-income/freelancers"
@@ -91,17 +92,14 @@ async function fetchDynamicRoutes() {
                         url: `${urlBase}/${post.id}`,
                         changefreq: "monthly",
                         priority: 0.8,
-                        // Use `dateModified` if available, otherwise fallback to `datePublished`
-                        lastmod: post.dateModified && post.dateModified.trim() !== ""
-                            ? post.dateModified // Use dateModified if available
-                            : post.datePublished, // Fallback to datePublished if dateModified doesn't exist
+                        lastmod: lastmod,
                     };
                     dynamicRoutes.push(route);
                 }
             });
 
         } catch (err) {
-            console.error(`Error reading ${filePath}:`, err);
+            console.error(`❌ Error reading ${filePath}:`, err);
         }
     }
 
@@ -109,7 +107,7 @@ async function fetchDynamicRoutes() {
 }
 
 /**
- * Generates the sitemap dynamically by including static and JSON-based routes.
+ * Generates the sitemap dynamically by combining static and dynamic blog routes.
  */
 async function generateSitemap() {
     try {
@@ -119,28 +117,28 @@ async function generateSitemap() {
 
         sitemap.pipe(writeStream);
 
-        // Extract static routes and add RSS feed
+        // Extract static routes and add special files (ads.txt, rss.xml)
         const staticRoutes = [
             ...extractRoutesFromApp(),
-            "/ads.txt",  // ✅ Ensure ads.txt is indexed
-            "/rss.xml"   // ✅ Direct RSS feed URL
+            "/ads.txt",
+            "/rss.xml"
         ];
 
         staticRoutes.forEach(route => {
             sitemap.write({ url: route, changefreq: "hourly", priority: 0.8 });
         });
 
-        // Fetch valid dynamic routes
+        // Add dynamic blog post routes
         const dynamicRoutes = await fetchDynamicRoutes();
         dynamicRoutes.forEach(route => sitemap.write(route));
 
         sitemap.end();
         await streamToPromise(sitemap);
-        console.log(` Sitemap generated successfully at: ${sitemapPath}`);
+        console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
     } catch (err) {
         console.error(`❌ Error generating sitemap:`, err);
     }
 }
 
-// Run sitemap generation automatically
+// Run sitemap generation
 generateSitemap();

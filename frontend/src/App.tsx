@@ -197,10 +197,7 @@ const App: React.FC = () => {
 							path='/extra-income/:id'
 							element={<BlogPostContent jsonFile='budgetdata.json' />}
 						/>
-						<Route
-							path='/start-a-blog/:id'
-							element={<BlogPostContent jsonFile='products.json' />}
-						/>
+
 						<Route
 							path='/start-a-blog/:id'
 							element={<BlogPostContent jsonFile='startablogdata.json' />}
