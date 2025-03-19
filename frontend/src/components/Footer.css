@@ -92,7 +92,7 @@
     margin-bottom: 1rem;
     font-size: 1.05rem;
     text-align: center;
-    color: black;
+    color: rgb(214, 9, 9);
     font-weight: 600;
 }
 
@@ -124,7 +124,7 @@
     }
 
     a:hover {
-        color: #5f0cff;
+        color: #976af1;
         /* Slightly darker hover */
     }
 }
@@ -140,5 +140,30 @@
     .disclosure-statment {
         max-width: 80%;
         font-size: 12px;
+    }
+}
+
+.copyright {
+
+    text-align: center;
+    margin: 12px 0 auto;
+    max-width: 80%;
+    padding: 0.25rem;
+    background-color: #f5f5f5;
+    color: #1a1a1a;
+
+    p {
+        font-size: 14px;
+    }
+
+    a {
+        color: #1a0dab;
+        /* Google blue - accessible */
+        text-decoration: underline;
+    }
+
+    a:hover {
+        color: #976af1;
+        /* Slightly darker hover */
     }
 }
