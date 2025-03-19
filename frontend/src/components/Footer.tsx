@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
 				<div className='main-footer-container'>
 					{footerColumns.map((column, idx) => (
 						<div className='column' key={idx}>
-							<h3 className='header'>{column.title}</h3>
+							<h2 className='header'>{column.title}</h2>
 							{column.links.map((link, linkIdx) => (
 								<Link key={linkIdx} to={link.to} className='footer-link'>
 									{link.text}
