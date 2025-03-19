@@ -63,10 +63,6 @@ h1 {
     background-color: #ffffff;
 }
 
-.link-box:hover img {
-    animation: shakeAnimation 0.5s;
-    animation-iteration-count: 1;
-}
 
 .link-box:hover .extraincome-figcaption {
     color: #7600ff;
