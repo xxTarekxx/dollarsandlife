@@ -9,7 +9,7 @@
 
 .breadcrumb-list {
     list-style-type: none;
-    padding: 0;
+    padding: 0px 0px 0px 16px;
     margin: 0;
     display: flex;
     align-items: center;
