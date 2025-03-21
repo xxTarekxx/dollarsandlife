@@ -7,6 +7,7 @@ import {
 	useLocation,
 } from "react-router-dom";
 import "./App.css";
+import ScrollToTop from "./components/ScrollToTop";
 import BlogPostContent from "./components/BlogPostContent";
 import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
 import FinancialCalculators from "./components/calculators/FinancialCalculators";
@@ -238,6 +239,7 @@ const App: React.FC = () => {
 
 const WrappedApp: React.FC = () => (
 	<Router>
+		<ScrollToTop />
 		<App />
 	</Router>
 );
