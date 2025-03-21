@@ -1,5 +1,5 @@
 .card-container {
-    height: 340px;
+    height: 280px;
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -22,7 +22,7 @@
     .card-container {
         flex-direction: column;
         height: auto;
-        width: 95%;
+        width: 80%;
     }
 }
 
