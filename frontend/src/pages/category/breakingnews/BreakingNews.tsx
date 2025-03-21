@@ -69,6 +69,13 @@ const BreakingNews: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
+	useEffect(() => {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
+	}, [currentPage]);
+
 	return (
 		<div className='news-main-container'>
 			{/* SEO Metadata */}
