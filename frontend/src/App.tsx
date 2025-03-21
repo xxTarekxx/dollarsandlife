@@ -13,6 +13,7 @@ import FinancialCalculators from "./components/calculators/FinancialCalculators"
 import ContactUs from "./components/ContactUs";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import NotFoundPage from "./components/NotFoundPage";
 import RssTicker from "./components/RssTicker";
 import BreakingNews from "./pages/category/breakingnews/BreakingNews";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
@@ -25,7 +26,6 @@ import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import HomePage from "./pages/HomePage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
-import NotFoundPage from "./components/NotFoundPage";
 
 const App: React.FC = () => {
 	const location = useLocation();
