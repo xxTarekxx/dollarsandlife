@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./BlogPostContent.css";
 
 interface BlogPostContentProps {
@@ -34,36 +34,41 @@ declare global {
 
 const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
+	const navigate = useNavigate();
 	const [post, setPost] = useState<BlogPost | null>(null);
-	const adsInitialized = useRef(false); // NEW: track ad pushing
+	const adsInitialized = useRef(false);
 
-	// Fetch blog post
 	const fetchPost = useCallback(async () => {
 		if (!postId) return;
 		try {
 			const response = await fetch(`/data/${jsonFile}`);
 			if (!response.ok) throw new Error("Failed to fetch post");
 			const data: BlogPost[] = await response.json();
-			const selectedPost = data.find((item) => item.id === postId);
-			if (!selectedPost) throw new Error("Post not found");
+			const selectedPost = data.find(
+				(item) => item.id.toLowerCase() === postId.toLowerCase(),
+			);
+			if (!selectedPost) {
+				console.error("Post not found");
+				navigate("/404", { replace: true });
+				return;
+			}
 			setPost(selectedPost);
 		} catch (error) {
 			console.error("Error fetching post:", error);
+			navigate("/404", { replace: true });
 		}
-	}, [postId, jsonFile]);
+	}, [postId, jsonFile, navigate]);
 
-	// Fetch post on mount
 	useEffect(() => {
 		fetchPost();
 	}, [fetchPost]);
 
-	// Push AdSense ads ONCE when post is ready
 	useEffect(() => {
 		if (post && !adsInitialized.current) {
 			if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 				try {
 					window.adsbygoogle.push({});
-					adsInitialized.current = true; // Prevent re-pushing
+					adsInitialized.current = true;
 				} catch (e) {
 					console.error("AdSense Error:", e);
 				}
@@ -94,7 +99,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					</p>
 				</div>
 
-				{/* Top Banner Ad */}
 				<div className='top-banner-container'>
 					<a
 						href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -145,8 +149,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 								))}
 							</ol>
 						)}
-
-						{/* In-content Ad */}
 						{index % 2 === 1 && (
 							<div className='postings-container'>
 								<ins

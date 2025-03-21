@@ -20,7 +20,7 @@ function extractRoutesFromApp() {
         let match;
         while ((match = routeRegex.exec(appFileContent)) !== null) {
             if (!routes.includes(match[1]) && !match[1].includes('*') && !match[1].includes(':')) {
-                routes.push(match[1]); // Static routes only
+                routes.push(match[1].toLowerCase()); // ✅ Convert to lowercase
             }
         }
 
@@ -40,7 +40,6 @@ function getJsonFiles() {
     try {
         const files = fs.readdirSync(dataDir)
             .filter(file => file.endsWith(".json"))
-            // Exclude non-blog data files like products.json (used for product listings, not articles)
             .filter(file => !file.includes("products"));
 
         console.log(`✅ Found ${files.length} JSON data files`);
@@ -56,14 +55,13 @@ function getJsonFiles() {
  */
 async function fetchDynamicRoutes() {
     const dynamicRoutes = [];
-    const jsonFiles = getJsonFiles(); // Get JSON files dynamically
+    const jsonFiles = getJsonFiles();
 
     for (const filePath of jsonFiles) {
         try {
             const fileContent = fs.readFileSync(filePath, "utf-8");
             const jsonData = JSON.parse(fileContent);
 
-            // Skip non-array JSON files
             if (!Array.isArray(jsonData)) {
                 console.warn(`⚠️ Skipping non-array JSON file: ${filePath}`);
                 continue;
@@ -75,7 +73,6 @@ async function fetchDynamicRoutes() {
                     return;
                 }
 
-                // Determine URL base path based on filename
                 const filename = path.basename(filePath, ".json");
                 const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
                     : filename.includes("freelancejobs") ? "/extra-income/freelancers"
@@ -89,7 +86,7 @@ async function fetchDynamicRoutes() {
                     const lastmod = post.dateModified && post.dateModified.trim() !== "" ? post.dateModified : post.datePublished;
 
                     const route = {
-                        url: `${urlBase}/${post.id}`,
+                        url: `${urlBase}/${post.id}`.toLowerCase(), // ✅ Ensure lowercase URLs
                         changefreq: "monthly",
                         priority: 0.8,
                         lastmod: lastmod,
@@ -117,7 +114,6 @@ async function generateSitemap() {
 
         sitemap.pipe(writeStream);
 
-        // Extract static routes and add special files (ads.txt, rss.xml)
         const staticRoutes = [
             ...extractRoutesFromApp(),
             "/ads.txt",
@@ -125,10 +121,9 @@ async function generateSitemap() {
         ];
 
         staticRoutes.forEach(route => {
-            sitemap.write({ url: route, changefreq: "hourly", priority: 0.8 });
+            sitemap.write({ url: route.toLowerCase(), changefreq: "hourly", priority: 0.8 });
         });
 
-        // Add dynamic blog post routes
         const dynamicRoutes = await fetchDynamicRoutes();
         dynamicRoutes.forEach(route => sitemap.write(route));
 
@@ -140,5 +135,4 @@ async function generateSitemap() {
     }
 }
 
-// Run sitemap generation
 generateSitemap();

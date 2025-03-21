@@ -33,6 +33,16 @@ const App: React.FC = () => {
 
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
 
+	// Force lowercase full reload
+	useEffect(() => {
+		if (/[A-Z]/.test(location.pathname)) {
+			const lowerCaseUrl = location.pathname.toLowerCase();
+			if (location.pathname !== lowerCaseUrl) {
+				window.location.href = lowerCaseUrl;
+			}
+		}
+	}, [location.pathname]);
+
 	useEffect(() => {
 		const loadAdsense = () => {
 			if (document.querySelector('script[src*="adsbygoogle.js"]')) return;
