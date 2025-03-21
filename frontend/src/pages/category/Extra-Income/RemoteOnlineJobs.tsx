@@ -73,6 +73,13 @@ const RemoteOnlineJobs: React.FC = () => {
 		currentPage * postsPerPage,
 	);
 
+	useEffect(() => {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
+	}, [currentPage]);
+
 	return (
 		<div className='page-container'>
 			{/* SEO Metadata with Helmet */}
