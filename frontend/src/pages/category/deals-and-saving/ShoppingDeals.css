@@ -192,7 +192,10 @@
 
 .CardDescriptionText {
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 3;
+    /* WebKit-based browsers */
+    line-clamp: 3;
+    /* Standard property for compatibility */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

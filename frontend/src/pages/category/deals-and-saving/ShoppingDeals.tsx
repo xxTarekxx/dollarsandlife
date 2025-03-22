@@ -66,7 +66,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					className='BuyNowButton'
 					aria-label={`Buy ${headline} now`} // Use headline in aria-label
 				>
-					Buy Now
+					Take Me There
 				</a>
 			</div>
 		</div>
@@ -98,8 +98,13 @@ const ShoppingDeals: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// Remove auto-scrolling
-	useEffect(() => {}, [currentPage]);
+	// Scroll to top whenever the currentPage changes
+	useEffect(() => {
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth",
+		});
+	}, [currentPage]);
 
 	useEffect(() => {
 		setTimeout(() => {
