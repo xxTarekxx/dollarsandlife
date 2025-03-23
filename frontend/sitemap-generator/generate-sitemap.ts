@@ -24,7 +24,7 @@ function extractRoutesFromApp(): string[] {
         console.log(` Extracted ${routes.length} valid routes from App.tsx`);
         return routes;
     } catch (err) {
-        console.error(`❌ Error reading App.tsx:`, err);
+        console.error(` Error reading App.tsx:`, err);
         return [];
     }
 }
@@ -43,7 +43,7 @@ function getJsonFiles(): string[] {
         console.log(` Found ${files.length} JSON data files`);
         return files;
     } catch (err) {
-        console.error(`❌ Error reading data directory:`, err);
+        console.error(` Error reading data directory:`, err);
         return [];
     }
 }
@@ -134,7 +134,7 @@ async function generateSitemap() {
         await streamToPromise(sitemap);
         console.log(` Sitemap generated successfully at: ${sitemapPath}`);
     } catch (err) {
-        console.error(`❌ Error generating sitemap:`, err);
+        console.error(` Error generating sitemap:`, err);
     }
 }
 

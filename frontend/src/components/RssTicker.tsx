@@ -17,7 +17,7 @@ const RssTicker: React.FC = () => {
 	// Fetch RSS Feed
 	const fetchRSS = useCallback(async () => {
 		if (!API_KEY) {
-			console.error("❌ Missing API Key: Check your .env file!");
+			console.error(" Missing API Key: Check your .env file!");
 			return;
 		}
 
@@ -38,9 +38,9 @@ const RssTicker: React.FC = () => {
 				throw new Error(data.message || "RSS fetch error");
 
 			setArticles(data.items);
-			console.log("✅ RSS Feed Updated");
+			console.log(" RSS Feed Updated");
 		} catch (error) {
-			console.error("❌ RSS Feed Error:", error);
+			console.error(" RSS Feed Error:", error);
 		}
 	}, [API_KEY]);
 
