@@ -111,7 +111,7 @@ const ExtraIncome: React.FC = () => {
 								loading={linkBox.priority ? "eager" : "lazy"}
 								width='220'
 								height='220'
-								{...(linkBox.priority ? { fetchpriority: "high" } : {})} // ✅ No warning
+								{...(linkBox.priority ? { fetchpriority: "high" } : {})} //  No warning
 							/>
 							<figcaption className='extraincome-figcaption'>
 								{linkBox.captionText}

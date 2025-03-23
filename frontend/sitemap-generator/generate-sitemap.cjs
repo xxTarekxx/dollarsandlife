@@ -20,14 +20,14 @@ function extractRoutesFromApp() {
         let match;
         while ((match = routeRegex.exec(appFileContent)) !== null) {
             if (!routes.includes(match[1]) && !match[1].includes('*') && !match[1].includes(':')) {
-                routes.push(match[1].toLowerCase()); // ✅ Convert to lowercase
+                routes.push(match[1].toLowerCase()); //  Convert to lowercase
             }
         }
 
-        console.log(`✅ Extracted ${routes.length} static routes from App.tsx`);
+        console.log(` Extracted ${routes.length} static routes from App.tsx`);
         return routes;
     } catch (err) {
-        console.error(`❌ Error reading App.tsx:`, err);
+        console.error(` Error reading App.tsx:`, err);
         return [];
     }
 }
@@ -42,10 +42,10 @@ function getJsonFiles() {
             .filter(file => file.endsWith(".json"))
             .filter(file => !file.includes("products"));
 
-        console.log(`✅ Found ${files.length} JSON data files`);
+        console.log(` Found ${files.length} JSON data files`);
         return files.map(file => path.resolve(dataDir, file));
     } catch (err) {
-        console.error(`❌ Error reading data directory:`, err);
+        console.error(` Error reading data directory:`, err);
         return [];
     }
 }
@@ -83,10 +83,13 @@ async function fetchDynamicRoutes() {
                                         : "";
 
                 if (urlBase) {
-                    const lastmod = post.dateModified && post.dateModified.trim() !== "" ? post.dateModified : post.datePublished;
+                    const lastmod = post.dateModified && post.dateModified.trim() !== ""
+                        ? post.dateModified
+                        : post.datePublished;
+
 
                     const route = {
-                        url: `${urlBase}/${post.id}`.toLowerCase(), // ✅ Ensure lowercase URLs
+                        url: `${urlBase}/${post.id}`.toLowerCase(), //  Ensure lowercase URLs
                         changefreq: "monthly",
                         priority: 0.8,
                         lastmod: lastmod,
@@ -96,7 +99,7 @@ async function fetchDynamicRoutes() {
             });
 
         } catch (err) {
-            console.error(`❌ Error reading ${filePath}:`, err);
+            console.error(` Error reading ${filePath}:`, err);
         }
     }
 
@@ -129,9 +132,9 @@ async function generateSitemap() {
 
         sitemap.end();
         await streamToPromise(sitemap);
-        console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
+        console.log(` Sitemap generated successfully at: ${sitemapPath}`);
     } catch (err) {
-        console.error(`❌ Error generating sitemap:`, err);
+        console.error(` Error generating sitemap:`, err);
     }
 }
 

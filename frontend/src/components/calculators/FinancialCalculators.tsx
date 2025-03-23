@@ -17,7 +17,7 @@ declare global {
 }
 
 const FinancialCalculators: React.FC = () => {
-	// ✅ Push AdSense ads after adsbygoogle.js is loaded
+	//  Push AdSense ads after adsbygoogle.js is loaded
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {

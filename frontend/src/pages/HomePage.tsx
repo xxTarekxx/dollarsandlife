@@ -131,7 +131,7 @@ const HomePage: React.FC = () => {
 							width={linkBox.width}
 							height={linkBox.height}
 							loading={linkBox.priority ? "eager" : "lazy"}
-							{...(linkBox.priority ? { fetchpriority: "high" } : {})} // ✅ correct way
+							{...(linkBox.priority ? { fetchpriority: "high" } : {})} //  correct way
 						/>
 						<figcaption className='home-figcaption'>
 							{linkBox.captionText}

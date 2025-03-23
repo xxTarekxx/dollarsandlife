@@ -135,7 +135,7 @@ const RemoteOnlineJobs: React.FC = () => {
 										loading='eager'
 										width='728'
 										height='90'
-										{...{ fetchpriority: "high" }} // ✅ Correct way to avoid both TS + React warning
+										{...{ fetchpriority: "high" }} //  Correct way to avoid both TS + React warning
 									/>
 								</a>
 							</div>
