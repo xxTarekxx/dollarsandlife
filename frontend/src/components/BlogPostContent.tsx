@@ -1,9 +1,16 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import parse from "html-react-parser";
 import "./BlogPostContent.css";
 
 interface BlogPostContentProps {
 	jsonFile: string;
+}
+
+interface CaseStudy {
+	title: string;
+	content: string;
+	stats: string;
 }
 
 interface PostContent {
@@ -13,7 +20,17 @@ interface PostContent {
 	image?: string;
 	bulletPoints?: string[];
 	numberedPoints?: string[];
-	htmlContent?: string;
+	stats?: string;
+	expertQuote?: string;
+	caseStudy?: string | CaseStudy;
+	authorityLink?: string;
+	additionalInsights?: string;
+	personalTips?: string[] | string;
+	conclusion?: {
+		title: string;
+		text: string;
+		additionalInsights?: string;
+	};
 }
 
 interface BlogPost {
@@ -38,6 +55,10 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	const [post, setPost] = useState<BlogPost | null>(null);
 	const adsInitialized = useRef(false);
 
+	const parseString = (str: string | undefined): React.ReactNode => {
+		return typeof str === "string" ? parse(str) : null;
+	};
+
 	const fetchPost = useCallback(async () => {
 		if (!postId) return;
 		try {
@@ -47,11 +68,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			const selectedPost = data.find(
 				(item) => item.id.toLowerCase() === postId.toLowerCase(),
 			);
-			if (!selectedPost) {
-				console.error("Post not found");
-				navigate("/404", { replace: true });
-				return;
-			}
+			if (!selectedPost) return navigate("/404", { replace: true });
 			setPost(selectedPost);
 		} catch (error) {
 			console.error("Error fetching post:", error);
@@ -64,14 +81,12 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 	}, [fetchPost]);
 
 	useEffect(() => {
-		if (post && !adsInitialized.current) {
-			if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-				try {
-					window.adsbygoogle.push({});
-					adsInitialized.current = true;
-				} catch (e) {
-					console.error("AdSense Error:", e);
-				}
+		if (post && !adsInitialized.current && window.adsbygoogle) {
+			try {
+				window.adsbygoogle.push({});
+				adsInitialized.current = true;
+			} catch (e) {
+				console.error("AdSense Error:", e);
 			}
 		}
 	}, [post]);
@@ -118,14 +133,9 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				{post.content.map((section, index) => (
 					<div key={index} className='content-section'>
 						{section.subtitle && <h2>{section.subtitle}</h2>}
-						{section.text && (
-							<p dangerouslySetInnerHTML={{ __html: section.text }} />
-						)}
+						{section.text && <p>{parseString(section.text)}</p>}
 						{section.details && (
-							<p
-								className='details'
-								dangerouslySetInnerHTML={{ __html: section.details }}
-							/>
+							<p className='details'>{parseString(section.details)}</p>
 						)}
 						{section.image && (
 							<img
@@ -138,22 +148,85 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						{section.bulletPoints && (
 							<ul>
 								{section.bulletPoints.map((point, i) => (
-									<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+									<li key={i}>{parseString(point)}</li>
 								))}
 							</ul>
 						)}
 						{section.numberedPoints && (
 							<ol>
 								{section.numberedPoints.map((point, i) => (
-									<li key={i} dangerouslySetInnerHTML={{ __html: point }} />
+									<li key={i}>{parseString(point)}</li>
 								))}
 							</ol>
 						)}
+						{section.expertQuote && (
+							<p className='expert-quote'>{parseString(section.expertQuote)}</p>
+						)}
+
+						{section.caseStudy && (
+							<div className='case-study'>
+								{typeof section.caseStudy === "string" ? (
+									<p>{parseString(section.caseStudy)}</p>
+								) : (
+									<>
+										<h4>{section.caseStudy.title}</h4>
+										<p>{parseString(section.caseStudy.content)}</p>
+										<p className='stats'>
+											{parseString(section.caseStudy.stats)}
+										</p>
+									</>
+								)}
+							</div>
+						)}
+
+						{section.authorityLink && (
+							<div className='authority-link'>
+								{parseString(section.authorityLink)}
+							</div>
+						)}
+
+						{section.stats && (
+							<p className='stats'>{parseString(section.stats)}</p>
+						)}
+
+						{section.personalTips && (
+							<div className='personal-tips-section'>
+								<h3>Pro Tips</h3>
+								<ul>
+									{(Array.isArray(section.personalTips)
+										? section.personalTips
+										: [section.personalTips]
+									).map((tip, i) => (
+										<li key={i}>{parseString(tip)}</li>
+									))}
+								</ul>
+							</div>
+						)}
+
+						{section.conclusion && (
+							<div className='conclusion-section'>
+								<h3>{section.conclusion.title}</h3>
+								<p>{parseString(section.conclusion.text)}</p>
+								{section.conclusion.additionalInsights && (
+									<div className='additional-insights'>
+										{parseString(section.conclusion.additionalInsights)}
+									</div>
+								)}
+							</div>
+						)}
+
+						{!section.conclusion?.additionalInsights &&
+							section.additionalInsights && (
+								<div className='additional-insights'>
+									{parseString(section.additionalInsights)}
+								</div>
+							)}
+
 						{index % 2 === 1 && (
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle'
-									style={{ display: "block", width: "300px", height: "250px" }}
+									style={{ display: "block" }}
 									data-ad-client='ca-pub-1079721341426198'
 									data-ad-slot='7197282987'
 									data-ad-format='auto'
