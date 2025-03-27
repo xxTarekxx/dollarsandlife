@@ -20,10 +20,10 @@ interface PostContent {
 	image?: string;
 	bulletPoints?: string[];
 	numberedPoints?: string[];
-	stats?: string;
-	expertQuote?: string;
-	caseStudy?: string | CaseStudy;
-	authorityLink?: string;
+	stats?: string | string[];
+	expertQuotes?: string | string[];
+	caseStudies?: string | CaseStudy;
+	authorityLinks?: string | string[];
 	additionalInsights?: string;
 	personalTips?: string[] | string;
 	conclusion?: {
@@ -57,6 +57,31 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 
 	const parseString = (str: string | undefined): React.ReactNode => {
 		return typeof str === "string" ? parse(str) : null;
+	};
+
+	const renderArrayOrString = (
+		data: string | string[] | undefined | CaseStudy,
+		className: string,
+	) => {
+		if (!data) return null;
+
+		if (typeof data === "object" && "title" in data) {
+			// Handle CaseStudy type
+			return (
+				<div className={className}>
+					<h4>{data.title}</h4>
+					<p>{parseString(data.content)}</p>
+					{data.stats && <p className='stats'>{parseString(data.stats)}</p>}
+				</div>
+			);
+		}
+
+		const items = Array.isArray(data) ? data : [data];
+		return items.map((item, index) => (
+			<div key={index} className={className}>
+				{parseString(item)}
+			</div>
+		));
 	};
 
 	const fetchPost = useCallback(async () => {
@@ -159,34 +184,37 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 								))}
 							</ol>
 						)}
-						{section.expertQuote && (
-							<p className='expert-quote'>{parseString(section.expertQuote)}</p>
-						)}
 
-						{section.caseStudy && (
-							<div className='case-study'>
-								{typeof section.caseStudy === "string" ? (
-									<p>{parseString(section.caseStudy)}</p>
-								) : (
-									<>
-										<h4>{section.caseStudy.title}</h4>
-										<p>{parseString(section.caseStudy.content)}</p>
-										<p className='stats'>
-											{parseString(section.caseStudy.stats)}
-										</p>
-									</>
-								)}
-							</div>
-						)}
+						{/* Updated expertQuotes */}
+						{section.expertQuotes &&
+							Array.isArray(section.expertQuotes) &&
+							section.expertQuotes.map((quote, i) => (
+								<p key={i} className='expert-quote'>
+									{parseString(quote)}
+								</p>
+							))}
 
-						{section.authorityLink && (
-							<div className='authority-link'>
-								{parseString(section.authorityLink)}
+						{/* Updated caseStudies */}
+						{section.caseStudies &&
+							renderArrayOrString(section.caseStudies, "case-study")}
+
+						{/* Updated authorityLinks */}
+						{section.authorityLinks && (
+							<div className='authority-links'>
+								{Array.isArray(section.authorityLinks)
+									? section.authorityLinks.map((link, i) => (
+											<div key={i}>{parseString(link)}</div>
+									  ))
+									: parseString(section.authorityLinks)}
 							</div>
 						)}
 
 						{section.stats && (
-							<p className='stats'>{parseString(section.stats)}</p>
+							<p className='stats'>
+								{Array.isArray(section.stats)
+									? section.stats.join(" • ")
+									: parseString(section.stats)}
+							</p>
 						)}
 
 						{section.personalTips && (
