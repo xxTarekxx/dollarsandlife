@@ -9,6 +9,7 @@ import { MortgageCalculator } from "./MortgageCalculator";
 import { RetirementCalculator } from "./RetirementCalculator";
 import { SavingsCalculator } from "./SavingsCalculator";
 import { TaxCalculator } from "./TaxCalculator";
+import { NicheProfitCalculator } from "./NicheProfitCalculator";
 
 declare global {
 	interface Window {
@@ -29,6 +30,7 @@ const FinancialCalculators: React.FC = () => {
 	}, []);
 
 	const calculators = [
+		<NicheProfitCalculator />,
 		<RetirementCalculator />,
 		<MortgageCalculator />,
 		<CreditCardCalculator />,
