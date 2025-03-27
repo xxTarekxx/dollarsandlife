@@ -200,7 +200,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 
 						{/* Updated authorityLinks */}
 						{section.authorityLinks && (
-							<div className='authority-links'>
+							<div className='authority-link'>
 								{Array.isArray(section.authorityLinks)
 									? section.authorityLinks.map((link, i) => (
 											<div key={i}>{parseString(link)}</div>
