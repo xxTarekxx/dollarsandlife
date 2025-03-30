@@ -166,7 +166,7 @@ const ShoppingDeals: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/start-a-blog'
+					href='https://www.dollarsandlife.com/shopping-deals'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({

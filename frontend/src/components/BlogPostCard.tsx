@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./BlogPostCard.css";
 
 interface BlogPostCardProps {
@@ -15,6 +15,7 @@ interface BlogPostCardProps {
 	datePublished: string;
 	dateModified?: string;
 	onClick?: () => void;
+	canonicalUrl?: string; // Add canonicalUrl prop
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
@@ -25,6 +26,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	datePublished,
 	dateModified,
 	onClick,
+	canonicalUrl, // Destructure canonicalUrl
 }) => {
 	const formattedDatePosted = new Date(datePublished).toLocaleDateString(
 		"en-US",
@@ -42,6 +44,18 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 				day: "numeric",
 		  })
 		: null;
+
+	useEffect(() => {
+		if (canonicalUrl) {
+			const link =
+				document.querySelector('link[rel="canonical"]') ||
+				document.createElement("link");
+			link.setAttribute("rel", "canonical");
+			link.setAttribute("href", canonicalUrl);
+
+			document.head.appendChild(link);
+		}
+	}, [canonicalUrl]);
 
 	return (
 		<article className='card-container' onClick={onClick}>
