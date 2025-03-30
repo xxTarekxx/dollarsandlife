@@ -3,8 +3,9 @@
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "11",
-		"headline": "Anua Heartleaf Silky Moisture Mild Sunscreen, Broad Spectrum SPF 50+ with Moisturizing Formula, Lightweight Korean Sunscreen, Natural finish, Vegan, Korean skin care 50ml / 1.69 fl. oz.",
-		"description": "BROAD SPECTRUM SPF 50+: Korean sunscreen provides non-greasy UVA/UVB protection, shielding skin from damage for daily sun care. GENTLE YET EFFECTIVE INGREDIENTS: Infused with Heartleaf Extract and Hyaluronic Acid, this lightweight, hydrating formula applies smoothly and leaves skin dewy while helping support skin’s moisture balance. Perfect for those seeking a calming, moisturizing SPF solution. DEWY & NATURAL FINISH: The creamy white formula applies seamlessly, leaving a natural, transparent finish that blends into the skin without residue. CLINICALLY TESTED: Vegan and fragrance-free, this sunscreen is suitable for normal skin. It is a gentle solution without harmful ingredients. [HOW TO USE]: Apply after serum and moisturizer as your last skincare step. Non-stinging, easy to wash off, with lasting comfort.",
+		"headline": "Anua Heartleaf Sunscreen SPF 50+: Dewy, Vegan",
+		"shortName": "Anua SPF 50 Sunscreen",
+		"description": "Experience Anua's lightweight, vegan sunscreen. Infused with heartleaf extract, it provides SPF 50+ broad-spectrum UVA/UVB protection while delivering essential moisture. Achieve a dewy, non-greasy finish with this fragrance-free formula, perfect for sensitive skin. Enjoy reliable K-beauty sun protection that nourishes and protects.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -18,69 +19,71 @@
 			}
 		},
 		"mainEntityOfPage": "https://amzn.to/4bKfxgY",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/61Yl6P0roSL._SL1500_.jpg",
-			"caption": "Anua Heartleaf Silky Moisture Mild Sunscreen SPF 50+"
+			"caption": "Anua Heartleaf Sunscreen SPF 50+ - Korean Skincare"
 		},
 		"keywords": [
-			"Korean sunscreen SPF 50+",
-			"Heartleaf extract sunscreen",
-			"moisturizing sunscreen",
-			"vegan sunscreen",
-			"dewy finish sunscreen",
-			"fragrance-free sunscreen"
+			"Anua heartleaf sunscreen",
+			"SPF 50 vegan sunscreen",
+			"Korean dewy sunscreen",
+			"sensitive skin sunscreen",
+			"K-beauty sun protection"
 		],
 		"canonicalUrl": "https://amzn.to/4bKfxgY",
+		"currentPrice": "$18.00",
 		"discountPercentage": "",
-		"currentPrice": "$18.00"
+		"offers": {
+			"@type": "Offer",
+			"price": "18.00",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Anua"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "10",
-		"headline": "Supergoop! Unseen Sunscreen - SPF 40 - Invisible, Broad Spectrum Face Sunscreen + Makeup-Gripping Primer - Weightless, Scentless, Oil Free - For All Skin Types & Skin Tones - 1.7 fl oz",
-		"description": "GAME-CHANGING SUNSCREEN: Our most popular SPF, Unseen Sunscreen is a totally invisible, weightless, scentless formula that provides oil-free sunscreen protection for all skin types, tones, & lifestyles. COMPREHENSIVE PROTECTION: This feel-good, antioxidant-rich facial sunscreen helps filter blue light (skin-damaging light emitted from your phone, computer, & tablet), UVA, UVB & IRA rays. A SUPER-POWERED PRIMER: The unique oil-free formula glides onto skin, providing shine control & leaving a velvety, makeup-gripping finish. Apply generously and evenly as the last step in your skincare routine and before makeup. NOURISH & PROTECT SKIN: Our oxybenzone- & octinoxate-free everyday sunscreen includes clean, powerful ingredients like soothing frankincense & hydrating meadowfoam seed that nourish & protect your skin. GREAT FOR GUYS: This beard-friendly, broad spectrum sunscreen’s clear texture truly feels like nothing.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
+		"headline": "Supergoop Unseen SPF 40 Primer: Invisible, Oil-Free",
+		"shortName": "Supergoop SPF 40 Primer",
+		"currentPrice": "$38.00",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "38.00",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/41CvvVK"
 		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
+		"keywords": [
+			"Supergoop unseen sunscreen",
+			"SPF 40 makeup primer",
+			"invisible facial sunscreen",
+			"oil-free sun protection",
+			"blue light SPF primer"
+		],
+		"description": "Achieve a flawless base with Supergoop Unseen Sunscreen. This weightless, invisible primer provides SPF 40 broad-spectrum protection against UVA/UVB and blue light. Its oil-free, fragrance-free formula is perfect for all skin types, ensuring a smooth, protected canvas for your makeup.",
+		"brand": {
+			"@type": "Brand",
+			"name": "Supergoop"
 		},
-		"mainEntityOfPage": "https://amzn.to/41CvvVK",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/71mmvSmpqDL._SL1500_.jpg",
-			"caption": "Supergoop! Unseen Sunscreen SPF 40"
+			"caption": "Clear SPF 40 Primer - Weightless Protection"
 		},
-		"keywords": [
-			"unseen sunscreen SPF 40",
-			"oil-free sunscreen",
-			"broad spectrum sunscreen",
-			"makeup-gripping primer",
-			"sunscreen for all skin types",
-			"blue light protection sunscreen"
-		],
-		"canonicalUrl": "https://amzn.to/41CvvVK",
-		"discountPercentage": "",
-		"currentPrice": "$38.00"
+		"mainEntityOfPage": "https://amzn.to/41CvvVK"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "9",
-		"headline": "Coutgo Womens Raffia Slide Sandals Chunky Block Heeled Square Open Toe Metal Chain Slip on Mules Dressy Shoes",
-		"description": "Heeled Sandals: Featuring a square open toe, trendy braided raffia upper, and a stable 2.17\" low block heel, making these dressy sandals both fashionable and comfortable. Chic Metal Chain: These women's slide sandals feature distinctive gleaming gold-tone interlocking metal links on the vamp, making them perfect for both casual outings and dressy occasions. Stable & Comfy: Backless slip-on mules style, easy to take on and off. Soft insole and chunky heel absorbs pressure during long standing and walking. Occasions: These summer raffia sandals are perfect for showing your charm and elegance at the beach, vacation, holiday, shopping, parties, weddings, proms, dates, and more. Match: This backless mules sandals for women is a must-have fashion item and looks great with slacks, jeans, shorts, skirts, dresses, or any outfit.",
+		"headline": "Coutgo Raffia Slide Sandals: Chunky Heel, Metal Chain",
+		"description": "Step into style with Coutgo Raffia Slide Sandals. Featuring a trendy braided raffia upper and a stable chunky heel, these sandals blend fashion and comfort. The chic metal chain detail adds a touch of elegance, making them perfect for both casual and dressy occasions. Enjoy all-day comfort with the soft insole and easy slip-on design. Ideal for summer outings, vacations, and special events.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -103,22 +106,33 @@
 		},
 		"keywords": [
 			"raffia slide sandals",
-			"chunky block heeled sandals",
-			"square open toe mules",
+			"chunky heel sandals",
+			"open toe mules",
 			"metal chain sandals",
-			"women's dressy sandals",
-			"summer sandals for women"
+			"women's dress sandals",
+			"summer sandals"
 		],
 		"canonicalUrl": "https://amzn.to/4kDoKM9",
 		"discountPercentage": "",
-		"currentPrice": "$49.99"
+		"currentPrice": "$49.99",
+		"brand": {
+			"@type": "Brand",
+			"name": "Coutgo"
+		},
+		"offers": {
+			"@type": "Offer",
+			"price": "49.99",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/4kDoKM9"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "8",
-		"headline": "CUSHIONAIRE Women's Weston Woven Mary Jane Flat +Memory Foam, Wide Widths Available",
-		"description": "Breathable Woven Upper crafted with a breathable, handwoven design that brings a unique, artisanal charm to your wardrobe. Adjustable Braided Strap features a braided ankle strap with an adjustable buckle for a secure and customized fit. All-Day Comfort with a soft, cushioned insole with memory foam molds to your foot, providing personalized support and long-lasting comfort. Flexible Lightweight Sole designed to promote natural movement, ensuring comfort and flexibility with every step. Versatile Design perfect for casual outings, vacations, or everyday wear, adding a touch of style to any outfit.",
+		"headline": "Cushionaire Mary Jane Flats: Weston Woven, Memory Foam",
+		"description": "Experience comfort and style with Cushionaire Weston Woven Mary Jane Flats. Featuring a breathable woven upper and an adjustable braided strap, these flats offer a secure and personalized fit. The memory foam insole provides all-day comfort, while the flexible, lightweight sole ensures natural movement. Perfect for casual outings, vacations, and everyday wear, these flats add a touch of artisanal charm to any outfit.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -140,23 +154,34 @@
 			"caption": "CUSHIONAIRE Women's Weston Woven Mary Jane Flat"
 		},
 		"keywords": [
-			"women's woven flats",
-			"Mary Jane shoes with memory foam",
-			"comfortable flats for women",
-			"breathable flats for casual wear",
-			"adjustable strap flats",
-			"lightweight flats for women"
+			"Cushionaire flats",
+			"woven Mary Jane flats",
+			"memory foam flats",
+			"women's casual flats",
+			"adjustable strap shoes",
+			"lightweight women's shoes"
 		],
 		"canonicalUrl": "https://amzn.to/4kJ5cpC",
 		"discountPercentage": "",
-		"currentPrice": "$49.99"
+		"currentPrice": "$49.99",
+		"brand": {
+			"@type": "Brand",
+			"name": "Cushionaire"
+		},
+		"offers": {
+			"@type": "Offer",
+			"price": "49.99",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/4kJ5cpC"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "7",
-		"headline": "Yuoos 5PCS Gold Seashell Rings for Women Beach Surfer Starfish 18k Gold Dainty Seashell Wave Stacking Rings Summer Jewelry for Women Girl",
-		"description": "Adjustable Size: Our Gold Seashell Rings for Women come with an adjustable opening, allowing you to easily find the perfect fit for your finger. No need to worry about sizing issues, as you can customize it to your preference. Quality: This is a starfish seashell ring made of 18k gold plated silver plated with stainless steel, which is nickel free, ensuring durability and long-lasting shine. Style: Inspired by the beach, surfer vibes, and starfish, these rings feature delicate seashell and wave designs, adding a touch of summer charm to any outfit. Perfect Gift: Whether it's for yourself or a loved one, these rings make a thoughtful gift for women and girls who appreciate unique and fashionable jewelry. Excellent After-sales Service: We value customer satisfaction and offer exceptional after-sales service. If you have any concerns or questions about our Gold Seashell Rings, please don't hesitate to contact us.",
+		"headline": "Yuoos Gold Seashell Rings: 5PCS, Beach & Wave Design",
+		"description": "Adorn your fingers with the Yuoos Gold Seashell Rings. This set of 5 adjustable rings features a delicate beach-inspired design, including starfish and wave motifs. Crafted with 18k gold-plated stainless steel, these rings offer durability and a lasting shine. Perfect for summer, these rings add a touch of elegance to any outfit and make a thoughtful gift for women and girls who appreciate unique jewelry.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -178,23 +203,34 @@
 			"caption": "Yuoos 5PCS Gold Seashell Rings for Women"
 		},
 		"keywords": [
-			"gold seashell rings",
-			"stacking rings for women",
-			"beach jewelry",
-			"surfer starfish rings",
-			"18k gold plated jewelry",
-			"summer jewelry for women"
+			"Yuoos seashell rings",
+			"gold stacking rings",
+			"beach themed jewelry",
+			"starfish wave rings",
+			"18k gold plated rings",
+			"summer rings for women"
 		],
 		"canonicalUrl": "https://amzn.to/4bNEGay",
 		"discountPercentage": "",
-		"currentPrice": "$13.99"
+		"currentPrice": "$13.99",
+		"brand": {
+			"@type": "Brand",
+			"name": "Yuoos"
+		},
+		"offers": {
+			"@type": "Offer",
+			"price": "13.99",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/4bNEGay"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "6",
-		"headline": "ANRABESS Women 2 Piece Outfits Babydoll Linen Short Sets Square Neck Puffed Sleeve Backless Tops Beach 2025 Summer Clothes",
-		"description": "Fit Type - Loose. Material - 100% Rayon. Stretch: Non, Thickness: Medium, Softness: Medium. Washing - Machine wash cold gently with like colors. Do not bleach or iron. Features - Women's summer 2 piece outfits, square neck, puffed sleeves, tie-back, ruched bust, side pockets. This women's trendy short set is perfect for daily wear, beach, casual, vacation, and travel.",
+		"headline": "ANRABESS Linen Short Set: Babydoll, Puffed Sleeve, 2-Piece",
+		"description": "Elevate your summer wardrobe with the ANRABESS 2-piece linen short set. This babydoll-style outfit features a square neck, puffed sleeves, and a backless design, perfect for beach days or casual outings. Made from 100% rayon, this set offers a loose, comfortable fit with a medium thickness and softness. Machine washable for easy care, it's ideal for vacations, travel, and everyday wear.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -216,23 +252,34 @@
 			"caption": "ANRABESS Women 2 Piece Outfits Babydoll Linen Short Sets"
 		},
 		"keywords": [
-			"women's summer outfits",
-			"2 piece babydoll outfits",
-			"beach short sets",
-			"puffed sleeve backless tops",
-			"summer vacation clothes",
-			"linen short sets for women"
+			"ANRABESS short set",
+			"linen babydoll outfit",
+			"summer 2-piece set",
+			"puffed sleeve short set",
+			"beach vacation outfit",
+			"women's rayon set"
 		],
 		"canonicalUrl": "https://amzn.to/4iogqhN",
 		"discountPercentage": "",
-		"currentPrice": "$19.99"
+		"currentPrice": "$19.99",
+		"brand": {
+			"@type": "Brand",
+			"name": "ANRABESS"
+		},
+		"offers": {
+			"@type": "Offer",
+			"price": "19.99",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/4iogqhN"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "5",
-		"headline": "Food Dispenser 2L | Kitchen Organizers and Storage | Food Containers & Cereal Dispenser for Pantry Organization And Storage Container | Cereal, Rice, Flour, Snack (Bamboo, 1)",
-		"description": "Versatile Kitchen Organizers and Storage: Ideal for organizing cereals, rice, flour, and snacks with this 3L capacity bamboo food dispenser. Airtight Pantry Organizers and Storage: Keep your pantry items fresh with our food storage containers with lids, designed for easy access and maximum freshness. Durable and Eco-Friendly: Made from high-quality bamboo, food-grade PVC, and magnets, our cereal dispenser is both sustainable and long-lasting. Multi-Functional Storage Containers: Use it as a rice dispenser, cereal dispensers, or for general kitchen storage to keep your pantry neat and tidy. Efficient Kitchen Organization: Maximize your kitchen space with our sleek and compact food storage containers, perfect for small kitchen organization and pantry storage.",
+		"headline": "Bamboo Food Dispenser: 2L, Kitchen & Pantry Storage",
+		"description": "Organize your kitchen with this 2L bamboo food dispenser. Perfect for cereals, rice, flour, and snacks, it offers airtight storage to keep your pantry items fresh. Made from durable, eco-friendly bamboo and food-grade PVC, this dispenser is a sustainable choice for your home. Its multi-functional design maximizes space, making it ideal for small kitchens and efficient pantry organization.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -254,23 +301,30 @@
 			"caption": "Bamboo Food Dispenser for Kitchen Organization"
 		},
 		"keywords": [
-			"kitchen storage container",
 			"bamboo food dispenser",
+			"kitchen storage container",
 			"cereal dispenser",
-			"pantry storage container",
+			"pantry storage",
 			"airtight food storage",
-			"eco-friendly kitchen organizer"
+			"eco-friendly kitchen"
 		],
 		"canonicalUrl": "https://amzn.to/4ilDdLa",
 		"discountPercentage": "-8%",
-		"currentPrice": "$27.45"
+		"currentPrice": "$27.45",
+		"offers": {
+			"@type": "Offer",
+			"price": "27.45",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/4ilDdLa"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "4",
-		"headline": "Easter Baskets for Kids, Large Bunny Personalized Easter Basket Empty with Handle, Basket Name Tags, Woven Rope Baby Easter Egg Baskets for Babies, Girls, Boys, Toddler, Infant, Easter Gifts",
-		"description": "BUNNY EASTER BASKETS: Our easter basket essentials offer playful bunny designs, and each baby Easter basket comes with detachable bunny ears and a DIY bunny shape Easter basket name tag. Kids can write their names on the tags, creating a festive atmosphere and allowing them to fully experience the unique of Easter. DETACHABLE BUNNY EARS: The kids Easter basket with detachable bunny ears not only increases the Easter festive atmosphere but also allows kids to continue using the basket after Easter, adding practicality and fun. PERSONALIZED EASTER BASKET NANE TAGS: Each empty baby girl boy Easter basket offers playful personalized bunny designs. The bunny name tag allows writing the child's name, making each child feel special and valued with their unique Easter basket. MULTI-FUNCTIONAL USE: Our Easter baskets for girls boys are designed to be large spaces, accommodating a large number of Easter eggs, candies, and other gifts. SOFT COTTON ROPE MATERIAL: The hand woven cotton rope material gives the toddler Easter basket a natural texture and a warm touch. PERFECT EASTER GIFTS: This baby girl boy bunny Easter basket is the perfect gift for girls, boys, toddler, babies. Whether it's for Easter, birthdays, or other special occasions, it will bring surprise and joy to children.",
+		"headline": "Personalized Bunny Easter Basket: Woven Rope, Name Tag",
+		"description": "Make Easter special with this personalized bunny Easter basket. Featuring detachable bunny ears and a DIY name tag, kids can add their unique touch. The large woven cotton rope basket is perfect for holding Easter eggs, candies, and gifts. Soft and durable, it’s an ideal Easter gift for babies, toddlers, girls, and boys, adding a festive and personal touch to their holiday.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -292,23 +346,30 @@
 			"caption": "Easter Bunny Personalized Basket for Kids"
 		},
 		"keywords": [
-			"personalized Easter basket",
-			"detachable bunny ears basket",
-			"kids Easter basket",
-			"woven cotton rope Easter basket",
-			"baby Easter basket with name tag",
-			"Easter gift basket for kids"
+			"personalized easter basket",
+			"bunny easter basket",
+			"woven rope basket",
+			"kids easter basket",
+			"easter gift basket",
+			"name tag easter basket"
 		],
 		"canonicalUrl": "https://amzn.to/4hw05X5",
 		"discountPercentage": "",
-		"currentPrice": "$19.99"
+		"currentPrice": "$19.99",
+		"offers": {
+			"@type": "Offer",
+			"price": "19.99",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/4hw05X5"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "3",
-		"headline": "Saltair - Shimmering Body Oil - Santal Bloom Scent - Shimmering Moisturizer - 4.0 Fl Oz",
-		"description": "SUNKISSED GLOW: Our shimmering body oil is formulated with a skin-loving blend of oils including fermented saururus, kukui, cacay and squalane, along with a biomimetic blend of plant actives that absorb easily to soften skin, with added golden pearl pigments provide a sunkissed glow. SANTAL BLOOM SCENT: Rich aroma that is creamy, spicy and woody. Key Notes include Delicate Rose. Jasmine petals. Creamy sandalwood. LIGHTWEIGHT RADIANT MOISTURE: Our Body Oil is a lightweight way to keep your skin moisturized each day, and is easy to layer with your favorite Saltair product if you need a little bit of extra moisture on dry days. MADE FOR ALL SKIN TYPES: Developed for all skin types and suitable for daily use. Helps nourish and improve the overall skin appearance. Lightweight, creamy and leaves skin feeling moisturized and silky, never greasy. GOOD FOR SKIN. GOOD FOR THE WORLD: All Saltair products are Cruelty Free, Vegan, Paraben Free and Gluten Free. We are a brand built on care, and like our motto says, we truly believe every body is welcome here.",
+		"headline": "Saltair Shimmering Body Oil: Santal Bloom, 4.0 Fl Oz",
+		"description": "Achieve a sunkissed glow with Saltair’s Shimmering Body Oil. Infused with skin-loving oils like fermented saururus, kukui, and squalane, this lightweight oil provides radiant moisture and a subtle shimmer. The Santal Bloom scent, with notes of rose, jasmine, and sandalwood, offers a creamy, spicy aroma. Suitable for all skin types, this vegan and cruelty-free formula leaves your skin feeling silky and moisturized.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -330,22 +391,30 @@
 			"caption": "Saltair Shimmering Body Oil - Santal Bloom Scent - 4.0 Fl Oz"
 		},
 		"keywords": [
+			"Saltair body oil",
 			"shimmering body oil",
-			"santal bloom scent moisturizer",
-			"lightweight body oil",
-			"vegan cruelty-free body moisturizer",
-			"Saltair body oil for all skin types"
+			"santal bloom oil",
+			"vegan body oil",
+			"cruelty-free moisturizer",
+			"lightweight body oil"
 		],
 		"canonicalUrl": "https://amzn.to/41NEZ0v",
 		"discountPercentage": "",
-		"currentPrice": "$24.00"
+		"currentPrice": "$24.00",
+		"offers": {
+			"@type": "Offer",
+			"price": "24.00",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://amzn.to/41NEZ0v"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "2",
-		"headline": "Auto Face Tracking Selfie Stick Tripod for iPhone with Light - 360° AI Tracking & Remote Control",
-		"description": "Get a 360° AI face-tracking selfie stick tripod with remote control and LED lighting. Ideal for vloggers, live streamers, and content creators.",
+		"headline": "Auto Face Tracking Selfie Stick: 360° AI, Light, Remote",
+		"description": "Capture perfect moments with this auto face tracking selfie stick tripod. Featuring 360° AI tracking, LED lighting, and a remote control, it’s ideal for iPhone users and content creators. Enjoy smooth, hands-free recording for vlogs, live streams, and more.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -367,22 +436,29 @@
 			"caption": "Auto Face Tracking Selfie Stick Tripod with Light for iPhone and Android"
 		},
 		"keywords": [
-			"360 AI tracking selfie stick",
-			"selfie stick tripod for iPhone",
-			"best vlogging tripod",
-			"tripod with remote control",
-			"live stream video recording stand"
+			"AI tracking selfie stick",
+			"iPhone selfie tripod",
+			"vlogging tripod",
+			"remote control tripod",
+			"live stream stand"
 		],
 		"canonicalUrl": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
 		"discountPercentage": "",
-		"currentPrice": "$49.99"
+		"currentPrice": "$49.99",
+		"offers": {
+			"@type": "Offer",
+			"price": "49.99",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl"
+		}
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "1",
-		"headline": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner - Auto Diagnostic Scan Tool for iOS & Android",
-		"description": "Easily diagnose and clear check engine lights with the Veepeak OBDCheck BLE Bluetooth scanner. Works with iOS and Android for real-time vehicle insights.",
+		"headline": "Veepeak Bluetooth OBD II Scanner: iOS & Android Diagnostic",
+		"description": "Diagnose and clear check engine lights with the Veepeak OBDCheck BLE Bluetooth scanner. This auto diagnostic tool is compatible with iOS and Android, providing real-time vehicle insights. Easily monitor your car's health and performance.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -404,14 +480,21 @@
 			"caption": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner for iOS & Android"
 		},
 		"keywords": [
-			"Bluetooth OBD II scanner",
-			"OBD check engine light tool",
-			"best car diagnostic scanner",
-			"iOS Android car scanner",
-			"Veepeak Bluetooth OBD scanner"
+			"Veepeak OBD scanner",
+			"Bluetooth OBD scanner",
+			"check engine light tool",
+			"car diagnostic scanner",
+			"iOS Android OBD tool"
 		],
 		"discountPercentage": "9%",
 		"currentPrice": "$31.99",
-		"canonicalUrl": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl"
+		"canonicalUrl": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl",
+		"offers": {
+			"@type": "Offer",
+			"price": "31.99",
+			"priceCurrency": "USD",
+			"availability": "https://schema.org/InStock",
+			"url": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl"
+		}
 	}
 ]
