@@ -6,10 +6,6 @@ const { SitemapStream, streamToPromise } = require("sitemap");
 
 const BASE_URL = "https://www.dollarsandlife.com";
 
-/**
- * Extracts static route paths from App.tsx by scanning for <Route path="..."> entries.
- * Excludes wildcard (*) and dynamic parameter (:) routes.
- */
 function extractRoutesFromApp() {
     const appFilePath = path.resolve(__dirname, "../src/App.tsx");
     try {
@@ -19,8 +15,8 @@ function extractRoutesFromApp() {
 
         let match;
         while ((match = routeRegex.exec(appFileContent)) !== null) {
-            if (!routes.includes(match[1]) && !match[1].includes('*') && !match[1].includes(':')) {
-                routes.push(match[1].toLowerCase()); //  Convert to lowercase
+            if (!routes.includes(match[1]) && !match[1].includes("*") && !match[1].includes(":")) {
+                routes.push(match[1].toLowerCase());
             }
         }
 
@@ -32,9 +28,6 @@ function extractRoutesFromApp() {
     }
 }
 
-/**
- * Reads the public/data directory and extracts valid JSON filenames dynamically.
- */
 function getJsonFiles() {
     const dataDir = path.resolve(__dirname, "../public/data");
     try {
@@ -50,9 +43,6 @@ function getJsonFiles() {
     }
 }
 
-/**
- * Fetches dynamic blog post routes from JSON content inside public/data directory.
- */
 async function fetchDynamicRoutes() {
     const dynamicRoutes = [];
     const jsonFiles = getJsonFiles();
@@ -83,16 +73,23 @@ async function fetchDynamicRoutes() {
                                         : "";
 
                 if (urlBase) {
-                    const lastmod = post.dateModified && post.dateModified.trim() !== ""
+                    const rawDate = post.dateModified && post.dateModified.trim() !== ""
                         ? post.dateModified
                         : post.datePublished;
 
+                    if (!rawDate || isNaN(new Date(rawDate).getTime())) {
+                        console.warn(`⚠️ Invalid date in file: ${filePath}`);
+                        console.warn(`   Post ID: ${post.id}`);
+                        console.warn(`   datePublished: ${post.datePublished}`);
+                        console.warn(`   dateModified: ${post.dateModified}`);
+                        return;
+                    }
 
                     const route = {
-                        url: `${urlBase}/${post.id}`.toLowerCase(), //  Ensure lowercase URLs
+                        url: `${urlBase}/${post.id}`.toLowerCase(),
                         changefreq: "monthly",
                         priority: 0.8,
-                        lastmod: lastmod,
+                        lastmod: new Date(rawDate).toISOString(),
                     };
                     dynamicRoutes.push(route);
                 }
@@ -106,9 +103,6 @@ async function fetchDynamicRoutes() {
     return dynamicRoutes;
 }
 
-/**
- * Generates the sitemap dynamically by combining static and dynamic blog routes.
- */
 async function generateSitemap() {
     try {
         const sitemap = new SitemapStream({ hostname: BASE_URL });
