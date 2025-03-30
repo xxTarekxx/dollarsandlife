@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
+import { Helmet } from "react-helmet-async";
 import "./BlogPostContent.css";
 
 interface BlogPostContentProps {
@@ -40,6 +41,7 @@ interface BlogPost {
 	dateModified?: string;
 	image: { url: string; caption: string };
 	content: PostContent[];
+	canonicalUrl?: string;
 }
 
 declare global {
@@ -65,7 +67,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		if (!data) return null;
 
 		if (typeof data === "object" && "title" in data) {
-			// Handle CaseStudy type
 			return (
 				<div className={className}>
 					<h4>{data.title}</h4>
@@ -115,10 +116,26 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		}
 	}, [post]);
 
+	useEffect(() => {
+		if (post) {
+			const canonical = post.canonicalUrl;
+			if (canonical) {
+				const link =
+					document.querySelector('link[rel="canonical"]') ||
+					document.createElement("link");
+				link.setAttribute("rel", "canonical");
+				link.setAttribute("href", canonical);
+
+				document.head.appendChild(link);
+			}
+		}
+	}, [post]);
+
 	if (!post) return <div>Loading...</div>;
 
 	return (
 		<div className='page-container'>
+			<Helmet>{/* Canonical tag will be added via useEffect */}</Helmet>
 			<div className='blog-post-content'>
 				<h1>{post.headline}</h1>
 
@@ -178,7 +195,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 							</ul>
 						)}
 
-						{/* Updated expertQuotes */}
 						{section.expertQuotes &&
 							Array.isArray(section.expertQuotes) &&
 							section.expertQuotes.map((quote, i) => (
@@ -187,11 +203,9 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 								</p>
 							))}
 
-						{/* Updated caseStudies */}
 						{section.caseStudies &&
 							renderArrayOrString(section.caseStudies, "case-study")}
 
-						{/* Updated authorityLinks */}
 						{section.authorityLinks && (
 							<div className='authority-link'>
 								{Array.isArray(section.authorityLinks)

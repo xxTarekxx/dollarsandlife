@@ -37,7 +37,6 @@ const BreakingNews: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 4;
 
-	// Fetch Breaking News
 	useEffect(() => {
 		const fetchNews = async () => {
 			try {
@@ -53,7 +52,6 @@ const BreakingNews: React.FC = () => {
 		if (localNews.length === 0) fetchNews();
 	}, [localNews.length]);
 
-	// Push AdSense Ads
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -78,7 +76,6 @@ const BreakingNews: React.FC = () => {
 
 	return (
 		<div className='news-main-container'>
-			{/* SEO Metadata */}
 			<Helmet>
 				<title>Breaking News - Latest Financial and Economic Updates</title>
 				<meta
@@ -95,7 +92,6 @@ const BreakingNews: React.FC = () => {
 				<b>Breaking</b> <b>News</b>
 			</h1>
 
-			{/* Top Banner */}
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -115,7 +111,6 @@ const BreakingNews: React.FC = () => {
 				</a>
 			</div>
 
-			{/* News Posts */}
 			<div className='content-wrapper'>
 				{currentPosts.map((post, index) => (
 					<React.Fragment key={post.id}>
@@ -137,7 +132,6 @@ const BreakingNews: React.FC = () => {
 							/>
 						</Link>
 
-						{/* Insert ad after every two posts */}
 						{index > 0 && index % 2 === 1 && (
 							<div className='postings-container'>
 								<ins
@@ -158,7 +152,6 @@ const BreakingNews: React.FC = () => {
 				))}
 			</div>
 
-			{/* Pagination */}
 			<PaginationContainer
 				totalItems={localNews.length}
 				itemsPerPage={postsPerPage}
@@ -166,7 +159,6 @@ const BreakingNews: React.FC = () => {
 				setCurrentPage={setCurrentPage}
 			/>
 
-			{/* Bottom Banner */}
 			<div className='postings-container'>
 				<ins
 					className='adsbygoogle-banner'
