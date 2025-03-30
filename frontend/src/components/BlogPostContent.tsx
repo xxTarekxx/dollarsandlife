@@ -19,7 +19,6 @@ interface PostContent {
 	details?: string;
 	image?: string;
 	bulletPoints?: string[];
-	numberedPoints?: string[];
 	stats?: string | string[];
 	expertQuotes?: string | string[];
 	caseStudies?: string | CaseStudy;
@@ -158,7 +157,8 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 				{post.content.map((section, index) => (
 					<div key={index} className='content-section'>
 						{section.subtitle && <h2>{section.subtitle}</h2>}
-						{section.text && <p>{parseString(section.text)}</p>}
+						{section.text && <>{parseString(section.text)}</>}
+
 						{section.details && (
 							<p className='details'>{parseString(section.details)}</p>
 						)}
@@ -176,13 +176,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 									<li key={i}>{parseString(point)}</li>
 								))}
 							</ul>
-						)}
-						{section.numberedPoints && (
-							<ol>
-								{section.numberedPoints.map((point, i) => (
-									<li key={i}>{parseString(point)}</li>
-								))}
-							</ol>
 						)}
 
 						{/* Updated expertQuotes */}
@@ -210,11 +203,13 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						)}
 
 						{section.stats && (
-							<p className='stats'>
+							<div className='stats'>
 								{Array.isArray(section.stats)
-									? section.stats.join(" • ")
+									? section.stats.map((item, i) => (
+											<div key={i}>{parseString(item)}</div>
+									  ))
 									: parseString(section.stats)}
-							</p>
+							</div>
 						)}
 
 						{section.personalTips && (
