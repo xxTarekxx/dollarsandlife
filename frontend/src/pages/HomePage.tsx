@@ -6,8 +6,6 @@ import "./HomePage.css";
 import ShoppingDealsImg from "/images/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
 import StartAblogimg from "/images/icons/img-startablog.webp";
-import "../pages/category/Extra-Income/CommonStyles.css";
-import "../components/AdComponent.css";
 
 const HomePage: React.FC = () => {
 	const linkBoxes = [
@@ -16,46 +14,51 @@ const HomePage: React.FC = () => {
 			ariaLabel: "Extra Income",
 			imgSrc: ExtraIncomeImg,
 			altText: "Extra Income Menu link",
-			captionText: "Extra Income",
+			captionText: "Boost Your Income",
 			width: 220,
 			height: 220,
 			priority: false,
+			keywords: "side hustle, remote jobs, passive income",
 		},
 		{
 			to: "/shopping-deals",
 			ariaLabel: "Shopping Deals",
 			imgSrc: ShoppingDealsImg,
 			altText: "Shopping Deals Menu link",
-			captionText: "Shopping Deals",
+			captionText: "Smart Shopping",
 			width: 220,
 			height: 220,
 			priority: false,
+			keywords: "discount deals, save money shopping, best deals",
 		},
 		{
 			to: "/start-a-blog",
 			ariaLabel: "Start A Blog",
 			imgSrc: StartAblogimg,
 			altText: "Start A Blog Guide link",
-			captionText: "Start A Blog",
+			captionText: "Start Your Blog",
 			width: 220,
 			height: 220,
-			priority: true, // LCP image
+			priority: true,
+			keywords: "start a blog, blogging tips, make money blogging",
 		},
 	];
 
 	return (
 		<div className='main-container'>
-			{/* SEO Metadata */}
 			<Helmet>
-				<title>Home - Dollars And Life: Personal Finance Tips</title>
+				<title>Dollars And Life: Personal Finance & Blogging Tips</title>
 				<meta
 					name='description'
-					content='Discover personal finance tips, how to earn extra income, shopping deals, and how to start a blog at Dollars And Life.'
+					content='Learn personal finance, discover extra income opportunities, find shopping deals, and start your own blog. Expert advice for a better financial life.'
 				/>
-				<meta property='og:title' content='Home - Dollars And Life' />
+				<meta
+					property='og:title'
+					content='Dollars And Life: Personal Finance & Blogging'
+				/>
 				<meta
 					property='og:description'
-					content='Discover personal finance tips, how to earn extra income, shopping deals, and how to start a blog at Dollars And Life.'
+					content='Expert tips on personal finance, earning extra income, finding shopping deals, and starting a blog. Your guide to financial success.'
 				/>
 				<meta
 					property='og:image'
@@ -65,7 +68,6 @@ const HomePage: React.FC = () => {
 				<meta property='og:type' content='website' />
 				<link rel='canonical' href='https://www.dollarsandlife.com' />
 
-				{/* Preload key navigation images */}
 				{linkBoxes
 					.filter((link) => link.priority)
 					.map((link, i) => (
@@ -78,14 +80,13 @@ const HomePage: React.FC = () => {
 						/>
 					))}
 
-				{/* Structured Data */}
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
-						name: "Home - Dollars And Life",
+						name: "Dollars And Life: Personal Finance & Blogging",
 						description:
-							"Discover personal finance tips, how to earn extra income, shopping deals, and how to start a blog at Dollars And Life.",
+							"Expert tips on personal finance, earning extra income, finding shopping deals, and starting a blog. Your guide to financial success.",
 						url: "https://www.dollarsandlife.com/",
 						publisher: {
 							"@type": "Organization",
@@ -99,9 +100,16 @@ const HomePage: React.FC = () => {
 				</script>
 			</Helmet>
 
-			<h1>Your Life Changes Here</h1>
+			<section className='intro-section'>
+				<h1>Unlock Your Financial Potential</h1>
+				<p className='intro-text'>
+					Welcome to Dollars And Life, your trusted resource for navigating the
+					world of personal finance and online entrepreneurship. We provide
+					expert advice on earning extra income, finding smart shopping deals,
+					and guiding you through the process of starting your own blog.
+				</p>
+			</section>
 
-			{/* Top Banner Ad */}
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -118,7 +126,6 @@ const HomePage: React.FC = () => {
 				</a>
 			</div>
 
-			{/* Main Links */}
 			<div className='home-main-links' aria-label='Main navigation links'>
 				{linkBoxes.map((linkBox, index) => (
 					<Link
@@ -133,11 +140,12 @@ const HomePage: React.FC = () => {
 							width={linkBox.width}
 							height={linkBox.height}
 							loading={linkBox.priority ? "eager" : "lazy"}
-							{...(linkBox.priority ? { fetchpriority: "high" } : {})} //  correct way
+							{...(linkBox.priority ? { fetchpriority: "high" } : {})}
 						/>
 						<figcaption className='home-figcaption'>
 							{linkBox.captionText}
 						</figcaption>
+						<div className='keywords-display'>{linkBox.keywords}</div>
 					</Link>
 				))}
 			</div>
