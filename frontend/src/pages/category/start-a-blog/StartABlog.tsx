@@ -4,7 +4,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
+// import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "../extra-income/CommonStyles.css";
 
@@ -104,7 +104,7 @@ const StartABlog: React.FC = () => {
 					path='/'
 					element={
 						<>
-							<h1 className='title-heading'>
+							<h1>
 								How to Start a Successful Blog <br /> in 2025 Step-by-Step Guide
 								for Beginners
 							</h1>

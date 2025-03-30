@@ -143,8 +143,9 @@ const MoneyMakingApps: React.FC = () => {
 								{currentPosts.length > 0 ? (
 									currentPosts.map((post, i) => (
 										<React.Fragment key={post.id || `post-${i}`}>
-											<div className='row-container'>
+											<div>
 												<Link
+													className='row-container'
 													to={`/extra-income/money-making-apps/${post.id}`}
 													style={{ textDecoration: "none" }}
 												>

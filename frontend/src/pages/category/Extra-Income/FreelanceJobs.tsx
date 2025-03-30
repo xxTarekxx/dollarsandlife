@@ -4,7 +4,6 @@ import { Link, Route, Routes } from "react-router-dom";
 import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
@@ -34,7 +33,6 @@ const FreelanceJobs: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 
-	// Fetch data only once
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -50,7 +48,6 @@ const FreelanceJobs: React.FC = () => {
 		if (freelanceJobs.length === 0) fetchData();
 	}, [freelanceJobs.length]);
 
-	// Push AdSense ads
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -81,7 +78,6 @@ const FreelanceJobs: React.FC = () => {
 
 	return (
 		<div className='page-container'>
-			{/* SEO Metadata */}
 			<Helmet>
 				<title>Freelance Jobs & Opportunities | Earn Money Online</title>
 				<meta
@@ -119,7 +115,6 @@ const FreelanceJobs: React.FC = () => {
 						<>
 							<h1>Freelancers Opportunities</h1>
 
-							{/* Ad Banner */}
 							<div className='top-banner-container'>
 								<a
 									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -139,52 +134,46 @@ const FreelanceJobs: React.FC = () => {
 								</a>
 							</div>
 
-							{/* Freelance Job Listings */}
 							<div className='content-wrapper'>
-								{currentPosts.length > 0 ? (
-									currentPosts.map((post, i) => (
-										<React.Fragment key={post.id}>
-											<div className='row-container'>
-												<Link
-													to={`/extra-income/freelancers/${post.id}`}
-													style={{ textDecoration: "none" }}
-												>
-													<BlogPostCard
-														id={post.id}
-														headline={post.headline}
-														image={post.image}
-														content={getExcerpt(post.content)}
-														author={post.author}
-														datePublished={post.datePublished}
-														dateModified={post.dateModified}
-													/>
-												</Link>
+								{currentPosts.map((post, i) => (
+									<React.Fragment key={post.id}>
+										<div className='row-container'>
+											<Link
+												to={`/extra-income/freelancers/${post.id}`}
+												aria-label={`Read more about ${post.headline}`}
+											>
+												<BlogPostCard
+													id={post.id}
+													headline={post.headline}
+													image={post.image}
+													content={getExcerpt(post.content)}
+													author={post.author}
+													datePublished={post.datePublished}
+													dateModified={post.dateModified}
+												/>
+											</Link>
+										</div>
+
+										{i > 0 && i % 2 === 1 && (
+											<div className='postings-container'>
+												<ins
+													className='adsbygoogle'
+													style={{
+														display: "block",
+														width: "300px",
+														height: "250px",
+													}}
+													data-ad-client='ca-pub-1079721341426198'
+													data-ad-slot='7197282987'
+													data-ad-format='auto'
+													data-full-width-responsive='true'
+												></ins>
 											</div>
-											{/* Insert AdSense ad after every two posts */}
-											{i > 0 && i % 2 === 1 && (
-												<div className='postings-container'>
-													<ins
-														className='adsbygoogle'
-														style={{
-															display: "block",
-															width: "300px",
-															height: "250px",
-														}}
-														data-ad-client='ca-pub-1079721341426198'
-														data-ad-slot='7197282987'
-														data-ad-format='auto'
-														data-full-width-responsive='true'
-													></ins>
-												</div>
-											)}
-										</React.Fragment>
-									))
-								) : (
-									<p>No freelance jobs found.</p>
-								)}
+										)}
+									</React.Fragment>
+								))}
 							</div>
 
-							{/* Bottom Banner Ad */}
 							<div className='postings-container'>
 								<ins
 									className='adsbygoogle-banner'
@@ -200,7 +189,6 @@ const FreelanceJobs: React.FC = () => {
 								></ins>
 							</div>
 
-							{/* Pagination */}
 							<PaginationContainer
 								totalItems={freelanceJobs.length}
 								itemsPerPage={postsPerPage}

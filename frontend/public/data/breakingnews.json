@@ -496,7 +496,7 @@
 		},
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://www.dollarsandlife.com/images/breakingnews/stimulus-check-2025-banner.webp",
+			"url": "/images/breakingnews/stimulus-check-2025-banner.webp",
 			"caption": "Stimulus Check 2025: Calendar with key payment dates clearly marked"
 		},
 		"description": "Stay updated with the official Stimulus Check 2025 payment schedule. Find detailed information on eligibility criteria, exact payment amounts, direct deposit dates, and learn how to easily track your payment status through IRS resources.",

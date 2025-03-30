@@ -6,6 +6,8 @@ import "./HomePage.css";
 import ShoppingDealsImg from "/images/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
 import StartAblogimg from "/images/icons/img-startablog.webp";
+import "../pages/category/Extra-Income/CommonStyles.css";
+import "../components/AdComponent.css";
 
 const HomePage: React.FC = () => {
 	const linkBoxes = [
@@ -42,7 +44,7 @@ const HomePage: React.FC = () => {
 	];
 
 	return (
-		<div className='home-container'>
+		<div className='main-container'>
 			{/* SEO Metadata */}
 			<Helmet>
 				<title>Home - Dollars And Life: Personal Finance Tips</title>

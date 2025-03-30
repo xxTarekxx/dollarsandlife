@@ -2,28 +2,22 @@
 .blog-post-content {
     background-color: transparent;
     max-width: 1080px;
-    padding: 20px;
+    /* padding: 20px; */
     box-sizing: border-box;
     font-family: 'Playfair Display', serif;
     color: #353535;
     line-height: 1.8;
+    overflow-x: auto;
+
+    @media (max-width: 480px) {
+
+        max-width: 100%;
+        overflow-x: hidden;
+
+    }
 }
 
-/* Typography */
-.blog-post-content h1 {
-    font-size: 1.6em;
-    margin-bottom: 0.5em;
-    color: #6000ce;
-    text-align: center;
-    line-height: 1.2;
-}
 
-.blog-post-content h2 {
-    font-size: 1.6em;
-    margin: 0;
-    color: #000;
-    line-height: 1.3;
-}
 
 .blog-post-content h3 {
     font-size: 1.3em;
@@ -63,17 +57,30 @@
 .blog-post-content .main-image {
     display: block;
     margin: 15px auto;
-    width: 100%;
-    height: auto;
+    width: 480px;
+    height: 360px;
+    /* height: auto; */
     object-fit: cover;
     border-radius: 6%;
     box-sizing: border-box;
+
+    @media (max-width: 500px) {
+        width: 320px;
+        height: 200px;
+    }
+
 }
 
-.blog-post-content .main-image {
-    width: 480px;
+
+
+
+
+
+
+/* .blog-post-content .main-image {
+
     max-width: 100%;
-}
+} */
 
 /* Lists */
 .blog-post-content ul,
@@ -103,7 +110,7 @@
 
 /* Author and Date */
 .blog-post-content .author-date {
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: #000;
     margin-bottom: 0;
     display: flex;
@@ -112,11 +119,17 @@
 
 .blog-post-content .author {
     font-weight: bold;
+    margin-bottom: 0;
 }
 
-.blog-post-content .date {
+.blog-post-content .published-updated-date,
+.updated-date {
     font-style: italic;
+    margin-top: 0;
+    margin-bottom: 0;
 }
+
+
 
 /* Sections */
 .blog-post-content .content-section {
@@ -200,6 +213,7 @@
     justify-content: center;
     position: relative;
     text-align: center;
+    margin: 12px auto;
 }
 
 .blog-post-content .TopBanner {
@@ -221,18 +235,11 @@
         max-width: 98%;
     }
 
-    .blog-post-content h1 {
-        font-size: 1.2em;
-    }
-
-    .blog-post-content h2 {
-        font-size: 1.2em;
-    }
-
     .blog-post-content p,
     .blog-post-content li {
         font-size: 1em;
         margin: 0.7em 0;
+        overflow-wrap: break-word;
     }
 
     .blog-post-content .author-date {

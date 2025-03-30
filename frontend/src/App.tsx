@@ -127,7 +127,7 @@ const App: React.FC = () => {
 				<Navbar />
 				<RssTicker />
 				{location.pathname !== "/" && <BreadcrumbWrapper />}
-				<div className='main-content'>
+				<div>
 					<Routes>
 						<Route path='/' element={<HomePage />} />
 						<Route path='/extra-income' element={<ExtraIncome />} />

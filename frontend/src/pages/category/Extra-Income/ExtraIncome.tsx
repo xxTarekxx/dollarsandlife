@@ -90,7 +90,7 @@ const ExtraIncome: React.FC = () => {
 				</script>
 			</Helmet>
 
-			<div>
+			<div className='page-container'>
 				<h1>Explore Extra Income Opportunities</h1>
 
 				{/* Category Links */}
