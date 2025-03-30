@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import "../../../components/AdComponent.css";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
 
@@ -11,60 +9,62 @@ declare global {
 	}
 }
 
-// Define a type for the product data
 interface Product {
 	id: string;
-	headline: string; // Change this to use headline
+	headline: string;
 	image: {
-		url: string; // Access the `url` property for the image
-		caption: string; // Use caption for alt text
+		url: string;
+		caption: string;
 	};
 	description: string;
 	currentPrice: string;
 	discountPercentage?: string;
-	mainEntityOfPage: string; // This field is already used for the affiliate link
+	mainEntityOfPage: string;
 }
 
 interface ProductCardProps extends Product {}
 
 const ProductCard: React.FC<ProductCardProps> = ({
 	id,
-	headline, // This is what we're using now to display the headline
+	headline,
 	image,
 	description,
 	currentPrice,
 	discountPercentage,
-	mainEntityOfPage, // This field is already used for the affiliate link
+	mainEntityOfPage,
 }) => {
 	return (
-		<div className='CardContainer' data-id={id}>
+		<div className='product-card' data-id={id}>
 			<img
-				src={image.url} // Access `image.url` for the product image
-				alt={image.caption} // Use `image.caption` for alt text
-				className='CardImage'
+				src={image.url}
+				alt={image.caption}
+				className='product-image'
 				srcSet={`${image.url} 1x, ${image.url.replace(".webp", "@2x.webp")} 2x`}
 				loading='lazy'
 			/>
-			<div className='CardContent'>
-				<h3 className='CardTitle'>{headline}</h3>{" "}
-				{/* Use headline instead of title */}
-				<p className='CardDescription'>
-					<span className='CardDescriptionText'>{description}</span>
+			<div className='product-details'>
+				<h2 className='product-title'>{headline}</h2>
+				<p className='product-description'>
+					<span className='description-text'>{description}</span>
 				</p>
-				{discountPercentage && (
-					<p className='CardPrice'>
-						<span className='DiscountPercentage'>
+				{discountPercentage ? (
+					<p className='product-price'>
+						<span className='current-price'>Now: {currentPrice} </span>
+						<span className='discount-percentage'>
 							Discount: {discountPercentage}
 						</span>
 					</p>
+				) : (
+					<p className='product-price'>
+						<span className='current-price'> Now: {currentPrice}</span>
+					</p>
 				)}
-				<p className='CardPrice'>Now: {currentPrice}</p>
 				<a
-					href={mainEntityOfPage} // This is the existing affiliate link
+					href={mainEntityOfPage}
 					target='_blank'
 					rel='noopener noreferrer'
-					className='BuyNowButton'
-					aria-label={`Buy ${headline} now`} // Use headline in aria-label
+					className='buy-now-button'
+					aria-label={`Buy ${headline} now`}
 				>
 					Take Me There
 				</a>
@@ -98,7 +98,6 @@ const ShoppingDeals: React.FC = () => {
 		fetchData();
 	}, []);
 
-	// Scroll to top whenever the currentPage changes
 	useEffect(() => {
 		window.scrollTo({
 			top: 0,
@@ -140,7 +139,7 @@ const ShoppingDeals: React.FC = () => {
 
 		items.push(
 			<React.Fragment key={i}>
-				<div className='ProductsGrid'>{rowItems}</div>
+				<div className='products-grid'>{rowItems}</div>
 				<div className='postings-container'>
 					<ins
 						className='adsbygoogle'
@@ -156,8 +155,7 @@ const ShoppingDeals: React.FC = () => {
 	}
 
 	return (
-		<div className='PageContainer' ref={pageRef}>
-			{/* SEO Meta & Structured Data */}
+		<div className='page-container' ref={pageRef}>
 			<Helmet>
 				<title>Deals and Savings - Best Shopping Discounts</title>
 				<meta
@@ -175,8 +173,8 @@ const ShoppingDeals: React.FC = () => {
 						itemListElement: products.map((product, index) => ({
 							"@type": "Product",
 							position: index + 1,
-							name: product.headline, // Change from title to headline
-							image: product.image.url, // Use `image.url` for the image source
+							name: product.headline,
+							image: product.image.url,
 							description: product.description,
 							offers: {
 								"@type": "Offer",
@@ -190,19 +188,19 @@ const ShoppingDeals: React.FC = () => {
 				</script>
 			</Helmet>
 
-			<h1>Deals and Savings</h1>
+			<h1 className='page-title'>Deals and Savings</h1>
 
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
 					target='_blank'
 					rel='noopener noreferrer'
-					className='TopBanner'
+					className='top-banner'
 				>
 					<img
 						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
 						alt='Lyca Mobile Banner'
-						className='TopBannerImage'
+						className='top-banner-image'
 						loading='eager'
 					/>
 				</a>
