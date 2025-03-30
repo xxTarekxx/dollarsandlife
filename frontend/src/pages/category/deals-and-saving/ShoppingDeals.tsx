@@ -49,10 +49,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 				</p>
 				{discountPercentage ? (
 					<p className='product-price'>
-						<span className='current-price'>Now: {currentPrice} </span>
 						<span className='discount-percentage'>
 							Discount: {discountPercentage}
 						</span>
+						<span className='current-price'> Now: {currentPrice} </span>
 					</p>
 				) : (
 					<p className='product-price'>
@@ -155,7 +155,7 @@ const ShoppingDeals: React.FC = () => {
 	}
 
 	return (
-		<div className='page-container' ref={pageRef}>
+		<div className='shopping-page-container' ref={pageRef}>
 			<Helmet>
 				<title>Deals and Savings - Best Shopping Discounts</title>
 				<meta

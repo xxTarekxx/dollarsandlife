@@ -16,13 +16,14 @@ html {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding: 0 1rem;
+	/* padding: 0 0.5rem; */
 	flex: 1;
 	/* Ensure this container takes up available space */
 
 	@media (max-width: 768px) {
 		padding-left: 2px;
 		padding-right: 2px;
+		/* padding: 0 0.5rem; */
 	}
 }
 
@@ -40,7 +41,10 @@ html {
 	max-width: 800px;
 	align-items: center;
 	margin-bottom: 20px;
+
 }
+
+
 
 .title-heading {
 	word-wrap: break-word;

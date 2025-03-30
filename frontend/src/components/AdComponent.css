@@ -130,15 +130,6 @@
     }
 }
 
-.row-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 800px;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
 .postings-bottom-container img {
     display: flex;
     flex-direction: column;

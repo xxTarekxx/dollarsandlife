@@ -22,7 +22,7 @@
 		"dateModified": "2025-03-22T01:20:00",
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://www.dollarsandlife.com/images/freelancer/real-estate-freelance-banner.webp",
+			"url": "/images/freelancer/real-estate-freelance-banner.webp",
 			"caption": "Freelance real estate agent guiding clients toward homeownership success"
 		},
 		"keywords": [
@@ -215,7 +215,7 @@
 		"dateModified": "2025-03-22T01:05:11",
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://www.dollarsandlife.com/images/freelancer/web-developer-station.webp",
+			"url": "/images/freelancer/web-developer-station.webp",
 			"caption": "A web developer working at their station, showcasing freelance flexibility"
 		},
 		"keywords": [
@@ -340,7 +340,7 @@
 		"dateModified": "2025-03-22T00:40:11",
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://www.dollarsandlife.com/images/freelancer/uber-driver-main.webp",
+			"url": "/images/freelancer/uber-driver-main.webp",
 			"caption": "Smartphone mounted in an Uber driver's car showing navigation and ride details during peak hours"
 		},
 		"keywords": [
@@ -557,7 +557,7 @@
 		"dateModified": "2025-03-22T02:00:00",
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://www.dollarsandlife.com/images/freelancer/fiverr-logo.svg",
+			"url": "/images/freelancer/fiverr-logo.svg",
 			"caption": "Fiverr seller dashboard showing successful gig analytics"
 		},
 		"keywords": [
@@ -774,7 +774,7 @@
 		"dateModified": "2025-03-22T02:30:00",
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://www.dollarsandlife.com/images/freelancer/doordash-logo-dasher.webp",
+			"url": "/images/freelancer/doordash-logo-dasher.webp",
 			"caption": "DoorDash logo representing gig economy delivery opportunities"
 		},
 		"keywords": [

@@ -144,8 +144,11 @@ const RemoteOnlineJobs: React.FC = () => {
 							<div className='content-wrapper'>
 								{currentPosts.map((post, i) => (
 									<React.Fragment key={post.id}>
-										<div className='row-container'>
-											<Link to={`/extra-income/remote-Jobs/${post.id}`}>
+										<div>
+											<Link
+												className='row-container'
+												to={`/extra-income/remote-Jobs/${post.id}`}
+											>
 												<BlogPostCard
 													id={post.id}
 													headline={post.headline}

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
 import { Helmet } from "react-helmet-async";
 import "./BlogPostContent.css";
+import "../pages/category/Extra-Income/ExtraIncome.css";
 
 interface BlogPostContentProps {
 	jsonFile: string;
@@ -138,7 +139,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 			<Helmet>{/* Canonical tag will be added via useEffect */}</Helmet>
 			<div className='blog-post-content'>
 				<h1>{post.headline}</h1>
-
 				<div className='image-box'>
 					<img
 						src={post.image.url}
@@ -147,14 +147,14 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 						loading='lazy'
 					/>
 				</div>
-
 				<div className='author-date'>
 					<p className='author'>By: {post.author.name}</p>
-					<p className='date'>
-						{new Date(post.datePublished).toLocaleDateString()}
+					<p className='published-updated-date'>
+						Published: {new Date(post.datePublished).toLocaleDateString()}
+						{post.dateModified &&
+							` | Updated: ${new Date(post.dateModified).toLocaleDateString()}`}
 					</p>
 				</div>
-
 				<div className='top-banner-container'>
 					<a
 						href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
