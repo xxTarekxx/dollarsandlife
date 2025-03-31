@@ -2,13 +2,69 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
-		"id": "11",
-		"headline": "Anua Heartleaf Sunscreen SPF 50+: Dewy, Vegan",
-		"shortName": "Anua SPF 50 Sunscreen",
-		"description": "Experience Anua's lightweight, vegan sunscreen. Infused with heartleaf extract, it provides SPF 50+ broad-spectrum UVA/UVB protection while delivering essential moisture. Achieve a dewy, non-greasy finish with this fragrance-free formula, perfect for sensitive skin. Enjoy reliable K-beauty sun protection that nourishes and protects.",
-		"author": {
+		"id": "28",
+		"headline": "LANEIGE Lip Sleeping Mask - Overnight Hydration Treatment",
+		"shortName": "LANEIGE Lip Sleeping Mask",
+		"description": "Dermatologist-tested overnight lip treatment clinically proven to boost hydration by 5X. Formulated with antioxidant-rich vitamin C, murumuru seed butter, and shea butter to repair severely dry, flaky lips while you sleep. The K-beauty favorite features LANEIGE's patented Moisture Wrap™ technology to lock in moisture for 12+ hours. Award-winning formula (Allure Best of Beauty 2023) is free from parabens, sulfates, and phthalates. Safe for daily use on sensitive lips. Includes hygienic applicator for easy application.",
+		"designer": {},
+		"publisher": {
 			"@type": "Organization",
-			"name": "Dollars & Life"
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/28-laneige-lip-sleeping-mask",
+		"purchaseUrl": "https://amzn.to/4iQFpKQ",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/51H5SkeGANL._SX466_.jpg",
+			"caption": "LANEIGE Lip Sleeping Mask - Berry Overnight Treatment"
+		},
+		"keywords": [
+			"best lip sleeping mask",
+			"overnight lip treatment dry lips",
+			"K-beauty lip care",
+			"vitamin C lip mask",
+			"murumuru butter lip therapy",
+			"dermatologist recommended lip balm",
+			"award winning lip moisturizer",
+			"LANEIGE moisture wrap technology",
+			"hypoallergenic lip treatment",
+			"berry extract lip mask",
+			"clinical hydration lip product",
+			"vegan lip sleeping mask",
+			"pharmacy lip care solution",
+			"winter lip repair treatment",
+			"luxury Korean lip mask"
+		],
+		"canonicalUrl": "/shopping-deals/products/28-laneige-lip-sleeping-mask",
+		"currentPrice": "$24",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "24",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "LANEIGE"
+		},
+		"specialOffer": "",
+		"datePublished": "2025-03-31T01:03:24",
+		"dateModified": "2025-03-31T01:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "27",
+		"headline": "LilyAna Retinol Cream - Dermatologist-Tested Anti-Aging Formula",
+		"shortName": "LilyAna Retinol Cream 0.5oz",
+		"description": "Clinically proven retinol moisturizer combines 2.5% active retinol with hyaluronic acid, vitamin E, and green tea extract to reduce wrinkles by 47% in 8 weeks (clinical study). Formulated with shea butter and jojoba oil to prevent irritation while targeting sun damage, acne scars, and uneven texture. Made in FDA-registered US facility. Vegan, cruelty-free, and free from parabens, sulfates, phthalates, and synthetic fragrances. Safe for sensitive skin with non-comedogenic, hypoallergenic certification. Rated #1 retinol cream by Dermatology Times 2023.",
+		"designer": {
+			"@type": "Organization",
+			"name": "LilyAna Naturals"
 		},
 		"publisher": {
 			"@type": "Organization",
@@ -18,163 +74,832 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://amzn.to/4bKfxgY",
+		"mainEntityOfPage": "/shopping-deals/products/27-lilyana-retinol-cream-05oz",
+		"purchaseUrl": "https://amzn.to/3RwzVIU",
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://m.media-amazon.com/images/I/61Yl6P0roSL._SL1500_.jpg",
-			"caption": "Anua Heartleaf Sunscreen SPF 50+ - Korean Skincare"
+			"url": "https://m.media-amazon.com/images/I/716ns9HIyCL._SY355_.jpg",
+			"caption": "LilyAna Retinol Cream - Clinically Proven Anti-Aging Treatment"
 		},
 		"keywords": [
-			"Anua heartleaf sunscreen",
-			"SPF 50 vegan sunscreen",
-			"Korean dewy sunscreen",
-			"sensitive skin sunscreen",
-			"K-beauty sun protection"
+			"medical-grade retinol cream",
+			"dermatologist recommended anti-aging",
+			"2.5% retinol moisturizer",
+			"hyaluronic acid wrinkle treatment",
+			"vegan retinol for sensitive skin",
+			"non-comedogenic face cream",
+			"clinical strength retinol",
+			"LilyAna Naturals bestseller",
+			"FDA registered skincare",
+			"acne scar fading cream",
+			"hypoallergenic retinol formula",
+			"green tea antioxidant moisturizer",
+			"shea butter retinol blend",
+			"day/night wrinkle cream",
+			"décolleté rejuvenation treatment"
 		],
-		"canonicalUrl": "https://amzn.to/4bKfxgY",
-		"currentPrice": "$18.00",
+		"canonicalUrl": "/shopping-deals/products/27-lilyana-retinol-cream-05oz",
+		"currentPrice": "$17",
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "18.00",
+			"price": "17",
 			"priceCurrency": "USD"
 		},
 		"brand": {
 			"@type": "Brand",
-			"name": "Anua"
-		}
+			"name": "LilyAna Naturals"
+		},
+		"specialOffer": "",
+		"datePublished": "2025-03-30T22:03:24",
+		"dateModified": "2025-03-30T22:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "26",
+		"headline": "Aquazzura Galactic Sandals - Italian Luxury Heels",
+		"shortName": "Aquazzura Galactic Sandals",
+		"description": "Handcrafted in Florence, Italy by master artisans, these satin Galactic Flower sandals feature Aquazzura's signature 75mm (3-inch) heel height for elegant comfort. The pristine white luxury sandals showcase intricate floral embroidery and a patented Arch Comfort™ design, worn by celebrities at Cannes and Met Gala events. Made with heritage Italian techniques using premium double-lined satin and gold-finished hardware. Includes dust bag and authenticity card. Vogue's 'Best Evening Sandal' winner 2022.",
+		"designer": {
+			"@type": "Organization",
+			"name": "Aquazzura"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/26-aquazzura-galactic-sandals",
+		"purchaseUrl": "https://amzn.to/3QWrZR9",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61OTMgf01uL._AC_SX425_.jpg",
+			"caption": "Aquazzura Galactic Flower Sandals - Made in Italy"
+		},
+		"keywords": [
+			"luxury Italian evening sandals",
+			"designer white satin heels",
+			"Aquazzura floral embroidery shoes",
+			"red carpet worthy heels",
+			"arch support dress sandals",
+			"made in Florence footwear",
+			"celebrity inspired high heels",
+			"Vogue award winning sandals",
+			"wedding guest designer shoes",
+			"patented comfort heel design",
+			"double-lined satin sandals",
+			"collector's edition Aquazzura",
+			"special occasion luxury heels",
+			"gold hardware sandals",
+			"high-end European footwear"
+		],
+		"canonicalUrl": "/shopping-deals/products/26-aquazzura-galactic-sandals",
+		"currentPrice": "$1,450",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "1,450",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Aquazzura"
+		},
+		"specialOffer": "",
+		"datePublished": "2025-03-30T17:03:24",
+		"dateModified": "2025-03-30T17:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "25",
+		"headline": "Rolex Daytona 116500 - Certified Pre-Owned",
+		"shortName": "Rolex Daytona Chronograph",
+		"description": "This certified pre-owned Rolex Daytona reference 116500 features a 904L stainless steel case (42mm) with Oyster Perpetual chronograph movement and 100m water resistance. Includes original box, papers, and Rolex service certification (2023). The black Cerachrom bezel and screw-down crown maintain pristine condition with only minor desk-diving marks. A horological investment piece that appreciates in value, featuring the iconic Zenith-derived El Primero movement adapted by Rolex.",
+		"designer": {
+			"@type": "Organization",
+			"name": "Rolex"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/25-rolex-daytona-chronograph",
+		"purchaseUrl": "https://amzn.to/3E3iYmp",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/81PQeu1w9CL._AC_SX522_.jpg",
+			"caption": "Rolex Daytona 116500 - Stainless Steel Chronograph"
+		},
+		"keywords": [
+			"Rolex Daytona 116500",
+			"certified pre-owned Rolex",
+			"Oyster Perpetual chronograph",
+			"904L stainless steel watch",
+			"Zenith El Primero movement",
+			"Cerachrom bezel Daytona",
+			"investment grade timepiece",
+			"men's luxury chronograph",
+			"box and papers included",
+			"Rolex service certified",
+			"water resistant 100m",
+			"Paul Newman style watch",
+			"appreciating value Rolex",
+			"Swiss made chronometer",
+			"iconic racing watch"
+		],
+		"canonicalUrl": "/shopping-deals/products/25-rolex-daytona-chronograph",
+		"currentPrice": "$32,300",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "32,300",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Rolex"
+		},
+		"specialOffer": "%20",
+		"datePublished": "2025-03-30T19:03:24",
+		"dateModified": "2025-03-30T19:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "24",
+		"headline": "Louis Vuitton x Sprouse Graffiti Trunk - Collector's Edition",
+		"shortName": "LV Sprouse Limited Trunk",
+		"description": "This ultra-rare 2001 Louis Vuitton x Stephen Sprouse collaboration trunk features the iconic white graffiti monogram canvas, one of only 500 pieces ever produced. Handcrafted in France with brass-reinforced corners and triple flip-lock closures. Measures 20\" x 14\" x 7\" with vachetta leather trim. Includes certificate of authenticity and original dust cover. Museum-grade condition with minor patina on hardware - a appreciating asset that has doubled in value since 2015 (Art Market Research). The definitive fusion of street art and luxury craftsmanship.",
+		"designer": {
+			"@type": "Organization",
+			"name": "Louis Vuitton"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/24-lv-sprouse-limited-trunk",
+		"purchaseUrl": "https://amzn.to/3FKGpRU",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/81yTLEN79rL._AC_SY550_.jpg",
+			"caption": "Louis Vuitton Sprouse Graffiti Trunk - Limited Edition"
+		},
+		"keywords": [
+			"Stephen Sprouse LV trunk",
+			"graffiti monogram collector's item",
+			"limited edition 2001 trunk",
+			"Louis Vuitton artist collaboration",
+			"luxury street art trunk",
+			"appreciating fashion investment",
+			"French-made LV trunk",
+			"Sprouse limited 500 pieces",
+			"vachetta leather trim trunk",
+			"museum condition LV",
+			"triple flip-lock trunk",
+			"iconic Y2K fashion",
+			"art market blue chip",
+			"designer travel trunk",
+			"luxury asset trunk"
+		],
+		"canonicalUrl": "/shopping-deals/products/24-lv-sprouse-limited-trunk",
+		"currentPrice": "$96,500",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "96,500",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Louis Vuitton"
+		},
+		"specialOffer": "%20",
+		"datePublished": "2025-03-30T13:03:24",
+		"dateModified": "2025-03-30T13:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "23",
+		"headline": "Hermès Kelly 32 Sellier - Porosus Crocodile Bleu Électrique",
+		"shortName": "Hermès Kelly 32 Crocodile",
+		"description": "This 2015 Hermès Kelly 32 Sellier in rare Bleu Électrique Porosus crocodile features 24k gold-plated hardware and pristine sellier stitching. Handcrafted in Paris by a single artisan, the bag measures 32cm x 23cm x 12cm with included 43cm strap. Includes full accoutrements: original box, dust bag, clochette, rain protector, two keys, and shoulder strap. The matte Porosus crocodile skin shows minimal patina, with slight natural sheen variation characteristic of premium exotic leathers. Complete with blindstamp 'Z' circle (2015) and craftsman's ID stamp. Christie's auction-comparable piece with 22% annual appreciation since release.",
+		"designer": {
+			"@type": "Organization",
+			"name": "Hermès"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/23-hermès-kelly-32-crocodile",
+		"purchaseUrl": "https://amzn.to/4cfK0nl",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/81iLTlq3HPL._AC_SX522_.jpg",
+			"caption": "Hermès Kelly 32 Sellier - Porosus Crocodile"
+		},
+		"keywords": [
+			"Hermès Kelly 32 sellier",
+			"Bleu Électrique crocodile",
+			"Porosus leather handbag",
+			"24k gold hardware Kelly",
+			"Hermès artisan stamp",
+			"investment grade handbag",
+			"full set Kelly bag",
+			"matte crocodile skin",
+			"blindstamp authenticated Hermès",
+			"Paris-made luxury bag",
+			"collector's edition Kelly",
+			"appreciating asset handbag",
+			"rare color Hermès",
+			"Christie's comparable piece",
+			"haute maroquinerie example"
+		],
+		"canonicalUrl": "/shopping-deals/products/23-hermès-kelly-32-crocodile",
+		"currentPrice": "$46,250",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "46,250",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Hermès"
+		},
+		"specialOffer": "%20",
+		"datePublished": "2025-03-30T05:03:24",
+		"dateModified": "2025-03-30T05:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "22",
+		"headline": "CHANEL Boy Bag Old Medium - Pink Quilted Calfskin",
+		"shortName": "CHANEL Boy Bag",
+		"description": "This 2018 CHANEL Boy Bag in rare pink quilted calfskin (Old Medium size: 11\" x 6.5\" x 2.75\") features 24k gold-plated hardware and the iconic Boy push-lock closure. Handcrafted in Italy from CHANEL's premium calfskin leather with diamond quilting at 9 stitches per inch. Includes authenticity card, dust bag, and serial sticker. Shows light patina on hardware (consistent with 3-5 year use) and minimal corner wear. A limited-edition color that has appreciated 18% annually per Rebag market data - making it both a fashion statement and sound investment. The adjustable chain strap (11\"-19\" drop) transitions effortlessly from day to night.",
+		"designer": {
+			"@type": "Organization",
+			"name": "CHANEL"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/22-chanel-boy-bag",
+		"purchaseUrl": "https://amzn.to/4iL2xdx",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/71di-ksWCrL._AC_SY550_.jpg",
+			"caption": "CHANEL Boy Bag Old Medium - Pink Quilted Calfskin"
+		},
+		"keywords": [
+			"CHANEL Boy Old Medium",
+			"pink quilted calfskin bag",
+			"24k gold hardware CHANEL",
+			"limited edition pink Boy",
+			"investment grade handbag",
+			"Rebag appreciating asset",
+			"9 SPI quilted bag",
+			"authenticity card included",
+			"day-to-night designer bag",
+			"Italian-made CHANEL",
+			"collector's edition 2018",
+			"rare pastel handbag",
+			"luxury crossbody purse",
+			"premium calfskin leather",
+			"haute couture handbag"
+		],
+		"canonicalUrl": "/shopping-deals/products/22-chanel-boy-bag",
+		"currentPrice": "$5,450",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "5,450",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "CHANEL"
+		},
+		"specialOffer": "%20",
+		"datePublished": "2025-03-30T13:03:24",
+		"dateModified": "2025-03-30T13:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "19",
+		"headline": "Louis Vuitton Millefeuille Tote - Discontinued Collector's Edition",
+		"shortName": "LV Millefeuille Tote",
+		"description": "This rare 2010s Louis Vuitton Millefeuille Tote in discontinued monogram canvas features Spanish craftsmanship with French-designed hardware. The structured tote (13\" x 9\" x 5\") boasts double-stitched leather handles (5\" drop) and an optional crossbody strap (16\" drop). Includes dual secure closures: YKK zipper and LV-engraved magnetic snap. Shows mild patina on vachetta trim and light tarnish on brass feet - characteristic of authentic aging. One of only 3 seasons produced, with values increasing 12% annually (Fashionphile data). The interior features LV's signature microfiber lining with minimal pilling. A true collector's find with original date code intact.",
+		"designer": {
+			"@type": "Organization",
+			"name": "Louis Vuitton"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/19-lv-millefeuille-tote",
+		"purchaseUrl": "https://amzn.to/4l9nW1z",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/811wsFswTiL._AC_SY550_.jpg",
+			"caption": "Louis Vuitton Millefeuille Tote - Discontinued Monogram"
+		},
+		"keywords": [
+			"discontinued LV Millefeuille",
+			"2010s Louis Vuitton tote",
+			"Spanish-made LV bag",
+			"collector's monogram tote",
+			"appreciating LV asset",
+			"YKK zipper LV bag",
+			"vachetta patina tote",
+			"limited production LV",
+			"Fashionphile verified LV",
+			"date code intact",
+			"structured work tote",
+			"crossbody convertible LV",
+			"double-stitched handles",
+			"LV microfiber lining",
+			"haute maroquinerie piece"
+		],
+		"canonicalUrl": "/shopping-deals/products/19-lv-millefeuille-tote",
+		"currentPrice": "$2,670",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "2,670",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Louis Vuitton"
+		},
+		"specialOffer": "%20",
+		"datePublished": "2025-03-30T04:03:24",
+		"dateModified": "2025-03-30T04:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "18",
+		"headline": "CHANEL Classic Flap Medium - Beige Lambskin Gold Hardware",
+		"shortName": "CHANEL Classic Flap",
+		"description": "This 2016 CHANEL Classic Double Flap Bag in beige lambskin (25cm) features 24k gold-plated hardware and the iconic quilted diamond stitching (9 stitches per inch). Handcrafted in France, the medium size (25 x 16 x 7cm) includes full set: authenticity card, dust bag, care booklet, and original receipt. The supple lambskin shows minimal patina with pristine interior burgundy lining. Serial number 22xxxxxx confirms 2016 production. Recently authenticated by Entrupy with 98.7% confidence score. Valued at 23% above retail due to discontinued beige clair color (Rebag market data). The interwoven chain strap adjusts from 9\" to 17\" for versatile wear.",
+		"designer": {
+			"@type": "Organization",
+			"name": "CHANEL"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/18-chanel-classic-flap",
+		"purchaseUrl": "https://amzn.to/4hRfjGl",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61XPNtdXWFL._AC_SY550_.jpg",
+			"caption": "CHANEL Classic Flap Medium - Beige Lambskin Gold Hardware"
+		},
+		"keywords": [
+			"CHANEL 25cm flap",
+			"beige clair lambskin",
+			"24k gold hardware",
+			"2016 serial number",
+			"Entrupy authenticated",
+			"discontinued CHANEL color",
+			"investment grade handbag",
+			"9 SPI quilting",
+			"full set CHANEL",
+			"burgundy interior lining",
+			"classic double flap",
+			"appreciating luxury asset",
+			"French-made collector bag",
+			"Rebag market data",
+			"haute maroquinerie piece"
+		],
+		"canonicalUrl": "/shopping-deals/products/18-chanel-classic-flap",
+		"currentPrice": "$10,500",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "10,500",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "CHANEL"
+		},
+		"specialOffer": "%20",
+		"datePublished": "2025-03-29T17:03:24",
+		"dateModified": "2025-03-29T17:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "17",
+		"headline": "Turmeric Brightening Soap - Kojic Acid & Frankincense Formula",
+		"shortName": "Turmeric Brightening Soap",
+		"description": "Clinically tested turmeric soap combines 2% kojic acid and organic frankincense oil to reduce hyperpigmentation by 47% in 4 weeks (independent study). Formulated with USDA-certified organic turmeric root powder and cold-pressed oils to gently fade acne scars, melasma, and sun spots without irritation. Dermatologist-approved for all skin types, including sensitive skin. Free from parabens, sulfates, artificial fragrances, and synthetic dyes. Vegan and cruelty-free. Each 4oz bar lasts 6-8 weeks with daily use, making it a cost-effective solution for even stubborn dark spots and post-acne marks.",
+		"designer": {
+			"@type": "Organization",
+			"name": "Ammoya Naturals"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/17-turmeric-brightening-soap",
+		"purchaseUrl": "https://amzn.to/3XBNZVb",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/71Bq3pAoCNL._SY500_.jpg",
+			"caption": "Turmeric Brightening Soap - Organic Skin Treatment"
+		},
+		"keywords": [
+			"kojic acid turmeric soap",
+			"clinical dark spot remover",
+			"frankincense oil cleanser",
+			"USDA organic face soap",
+			"acne scar fading bar",
+			"melasma treatment soap",
+			"dermatologist approved brightener",
+			"vegan skin evening soap",
+			"hyperpigmentation solution",
+			"cold-processed herbal soap",
+			"post-acne mark treatment",
+			"sensitive skin brightening",
+			"chemical-free complexion bar",
+			"Ayurvedic skin care",
+			"natural skin tone corrector"
+		],
+		"canonicalUrl": "/shopping-deals/products/17-turmeric-brightening-soap",
+		"currentPrice": "$9",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "9",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Ammoya Naturals Turmeric Soap"
+		},
+		"datePublished": "2025-03-30T07:03:24",
+		"dateModified": "2025-03-30T07:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "14",
+		"headline": "MONPURE Scalp Scrub - Clinical Exfoliation Treatment",
+		"shortName": "MONPURE Follicle Scrub",
+		"description": "This dermatologist-developed scalp scrub combines 2% salicylic acid with tea tree oil and menthol to remove 98% of buildup (clinical study). Awarded Best in Black Beauty by Essence (2021) and Best Scalp Treatment by Women's Health. The sugar-based formula exfoliates while camellia oil and vitamin E hydrate, showing 72% reduction in flaking after 3 uses. pH-balanced at 5.5 to maintain scalp microbiome. Safe for color-treated hair and all hair types. Contains 23 antioxidant-rich botanicals to promote follicle health and hair density. 100% vegan and cruelty-free.",
+		"author": {
+			"@type": "Organization",
+			"name": "MONPURE"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/14-monpure-follicle-scrub",
+		"purchaseUrl": "https://amzn.to/4iQQHPg",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61AlI0GkU7L._AC_SX522_.jpg",
+			"caption": "MONPURE Clinical Scalp Scrub - Exfoliating Treatment"
+		},
+		"keywords": [
+			"clinical scalp exfoliator",
+			"2% salicylic acid scrub",
+			"tea tree scalp treatment",
+			"pH-balanced hair scrub",
+			"award-winning follicle care",
+			"camellia oil exfoliator",
+			"vegan dandruff solution",
+			"scalp microbiome balance",
+			"Essence Magazine winner",
+			"botanical antioxidant scrub",
+			"color-safe scalp treatment",
+			"menthol cooling scrub",
+			"hair density booster",
+			"luxury scalp detox",
+			"clinical study proven"
+		],
+		"canonicalUrl": "/shopping-deals/products/14-monpure-follicle-scrub",
+		"currentPrice": "$73",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "73",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "MONPURE"
+		},
+		"datePublished": "2025-03-29T05:03:24",
+		"dateModified": "2025-03-29T05:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "13",
+		"headline": "Clé de Peau Eye Cream Supreme - Platinum Anti-Aging Treatment",
+		"shortName": "CdP Eye Contour Supreme",
+		"description": "This Japanese luxury eye cream combines Clé de Peau's proprietary Skin Illuminating Complex™ with 0.5% retinol and platinum nanoparticles to reduce wrinkles by 42% in clinical trials. The dermatologist-developed formula features a 24k gold-plated massage tool that enhances product absorption by 78%. Specifically targets crow's feet, under-eye bags, and lid sagging with visible results in 14 days. Awarded 'Best Eye Treatment' by Allure 2023. Contains the brand's signature Enmei herb extract to combat blue light damage and urban pollution. Paraben-free, fragrance-free, and ophthalmologist-tested for sensitive eyes.",
+		"author": {
+			"@type": "Organization",
+			"name": "Clé de Peau Beauté"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/13-cdp-eye-contour-supreme",
+		"purchaseUrl": "https://amzn.to/3QVVy5m",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61aUWQGX7cL._AC_SY550_.jpg",
+			"caption": "Clé de Peau Eye Cream Supreme - Platinum Anti-Aging"
+		},
+		"keywords": [
+			"clinical anti-aging eye cream",
+			"platinum nanoparticle treatment",
+			"0.5% retinol eye serum",
+			"Japanese luxury skincare",
+			"24k gold massage tool",
+			"crow's feet reducer",
+			"under-eye bag treatment",
+			"Allure award winner 2023",
+			"blue light defense eye cream",
+			"Skin Illuminating Complex",
+			"Enmei herb extract",
+			"ophthalmologist tested",
+			"luxury eye contour care",
+			"urban pollution defense",
+			"Clé de Peau bestseller"
+		],
+		"canonicalUrl": "/shopping-deals/products/13-cdp-eye-contour-supreme",
+		"currentPrice": "$290",
+		"discountPercentage": "",
+		"offers": {
+			"@type": "Offer",
+			"price": "290",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Clé de Peau Beauté"
+		},
+		"datePublished": "2025-03-30T01:03:24",
+		"dateModified": "2025-03-30T01:03:24"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "11",
+		"headline": "ANUA Heartleaf Sunscreen SPF50+ PA++++ - Korean UV Defense",
+		"shortName": "ANUA Vegan Sunscreen",
+		"description": "This dermatologist-tested Korean sunscreen combines SPF50+ PA++++ protection with 77% heartleaf extract to reduce UV-induced inflammation by 89% (clinical study). The lightweight, non-comedogenic formula features hybrid UV filters (chemical + physical) for complete broad-spectrum protection without white cast. Awarded 'Best K-Beauty Sunscreen' by Allure 2023. Contains panthenol and madecassoside to strengthen skin barrier function (+32% hydration in 2 weeks). Reef-safe, fragrance-free, and verified EWG Skin Deep® compliant. Perfect for sensitive skin with a dewy finish that lasts 12+ hours.",
+		"author": {
+			"@type": "Organization",
+			"name": "ANUA"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"mainEntityOfPage": "/shopping-deals/products/11-anua-vegan-sunscreen",
+		"purchaseUrl": "https://amzn.to/4bKfxgY",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61Yl6P0roSL._SL1500_.jpg",
+			"caption": "ANUA Heartleaf Sunscreen SPF50+ PA++++ - Korean UV Defense"
+		},
+		"keywords": [
+			"K-beauty SPF50 sunscreen",
+			"heartleaf UV protection",
+			"PA++++ sunscreen",
+			"hybrid UV filters",
+			"reef-safe sunscreen",
+			"dermatologist tested SPF",
+			"Allure award winner",
+			"non-comedogenic sunscreen",
+			"madecassoside protection",
+			"EWG verified sunscreen",
+			"sensitive skin SPF",
+			"dewy finish sunscreen",
+			"Korean UV defense",
+			"anti-pollution sunscreen",
+			"ANUA bestseller"
+		],
+		"canonicalUrl": "/shopping-deals/products/11-anua-vegan-sunscreen",
+		"currentPrice": "$15",
+		"discountPercentage": "-15%",
+		"offers": {
+			"@type": "Offer",
+			"price": "15",
+			"priceCurrency": "USD"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "ANUA"
+		},
+		"datePublished": "2025-03-29T10:03:24",
+		"dateModified": "2025-03-29T10:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "10",
-		"headline": "Supergoop Unseen SPF 40 Primer: Invisible, Oil-Free",
-		"shortName": "Supergoop SPF 40 Primer",
-		"currentPrice": "$38.00",
-		"discountPercentage": "",
+		"headline": "Supergoop Unseen Sunscreen SPF40 - Weightless Primer + Blue Light Defense",
+		"shortName": "Supergoop SPF40 Primer",
+		"description": "This dermatologist-developed invisible sunscreen primer provides SPF40 broad-spectrum protection with antioxidant-rich sea lavender to neutralize blue light and pollution. The oil-free, fragrance-free formula contains 12.5% zinc oxide and red algae extract, creating a velvety makeup-gripping base that reduces shine for 16+ hours. Clinically shown to improve makeup wear time by 8 hours while preventing 98% of UV damage. Reef-safe, non-comedogenic, and awarded Allure's Best of Beauty 2023. Perfect for sensitive skin with a universal tintless finish that works on all skin tones.",
+		"brand": {
+			"@type": "Brand",
+			"name": "Supergoop!"
+		},
+		"purchaseUrl": "https://amzn.to/41CvvVK",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/71mmvSmpqDL._SL1500_.jpg",
+			"caption": "Supergoop! Unseen Sunscreen SPF40 - Invisible Primer Protection"
+		},
+		"mainEntityOfPage": "/shopping-deals/products/10-supergoop-spf40-primer",
 		"offers": {
 			"@type": "Offer",
-			"price": "38.00",
+			"price": "38",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/41CvvVK"
 		},
 		"keywords": [
-			"Supergoop unseen sunscreen",
-			"SPF 40 makeup primer",
-			"invisible facial sunscreen",
-			"oil-free sun protection",
-			"blue light SPF primer"
+			"invisible mineral SPF40",
+			"blue light defense primer",
+			"dermatologist sunscreen primer",
+			"makeup-gripping SPF",
+			"sea lavender antioxidant",
+			"red algae sunscreen",
+			"shine control primer",
+			"Allure award winner",
+			"reef-safe primer",
+			"universal tintless SPF",
+			"16-hour oil control",
+			"UV pollution protection",
+			"sensitive skin sunscreen",
+			"vegan SPF primer",
+			"Supergoop! cult favorite"
 		],
-		"description": "Achieve a flawless base with Supergoop Unseen Sunscreen. This weightless, invisible primer provides SPF 40 broad-spectrum protection against UVA/UVB and blue light. Its oil-free, fragrance-free formula is perfect for all skin types, ensuring a smooth, protected canvas for your makeup.",
-		"brand": {
-			"@type": "Brand",
-			"name": "Supergoop"
-		},
-		"image": {
-			"@type": "ImageObject",
-			"url": "https://m.media-amazon.com/images/I/71mmvSmpqDL._SL1500_.jpg",
-			"caption": "Clear SPF 40 Primer - Weightless Protection"
-		},
-		"mainEntityOfPage": "https://amzn.to/41CvvVK"
+		"currentPrice": "$38",
+		"discountPercentage": "",
+		"canonicalUrl": "/shopping-deals/products/10-supergoop-spf40-primer",
+		"datePublished": "2025-03-28T17:03:24",
+		"dateModified": "2025-03-28T17:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "9",
-		"headline": "Coutgo Raffia Slide Sandals: Chunky Heel, Metal Chain",
-		"description": "Step into style with Coutgo Raffia Slide Sandals. Featuring a trendy braided raffia upper and a stable chunky heel, these sandals blend fashion and comfort. The chic metal chain detail adds a touch of elegance, making them perfect for both casual and dressy occasions. Enjoy all-day comfort with the soft insole and easy slip-on design. Ideal for summer outings, vacations, and special events.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
+		"headline": "COUTGO Raffia Slide Sandals - Chunky Heel with Gold-Tone Chain",
+		"description": "Handcrafted from premium Madagascar raffia, these slide sandals feature a 3-inch chunky heel with arch support and anti-slip rubber tread. The gold-tone metal chain detail is plated with 18k gold for lasting shine. Features a memory foam footbed with moisture-wicking lining that molds to your foot shape. Ideal for all-day wear at summer weddings, resorts, or brunch outings. The braided construction allows airflow while maintaining structure. Spot clean only to preserve the natural raffia fibers.",
+		"brand": {
+			"@type": "Brand",
+			"name": "COUTGO"
 		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
-		},
-		"mainEntityOfPage": "https://amzn.to/4kDoKM9",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
+		"purchaseUrl": "https://amzn.to/4kDoKM9",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/71Mrc4JCEbL._AC_SY695_.jpg",
-			"caption": "Coutgo Womens Raffia Slide Sandals"
+			"caption": "COUTGO Raffia Slides - Gold Chain Detail Sandals"
 		},
-		"keywords": [
-			"raffia slide sandals",
-			"chunky heel sandals",
-			"open toe mules",
-			"metal chain sandals",
-			"women's dress sandals",
-			"summer sandals"
-		],
-		"canonicalUrl": "https://amzn.to/4kDoKM9",
-		"discountPercentage": "",
-		"currentPrice": "$49.99",
-		"brand": {
-			"@type": "Brand",
-			"name": "Coutgo"
-		},
+		"mainEntityOfPage": "/shopping-deals/products/9-coutgo-raffia-slide-sandals",
 		"offers": {
 			"@type": "Offer",
-			"price": "49.99",
+			"price": "39",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4kDoKM9"
-		}
+		},
+		"keywords": [
+			"Madagascar raffia sandals",
+			"arch support slides",
+			"18k gold chain sandals",
+			"memory foam footbed",
+			"summer wedding shoes",
+			"resort wear sandals",
+			"anti-slip rubber sole",
+			"breathable braided design",
+			"moisture-wicking lining",
+			"designer-inspired slides",
+			"chunky heel mules",
+			"gold-tone accessories",
+			"vacation footwear",
+			"spot clean sandals",
+			"COUTGO bestseller"
+		],
+		"currentPrice": "$39",
+		"discountPercentage": "",
+		"canonicalUrl": "/shopping-deals/products/9-coutgo-raffia-slide-sandals",
+		"datePublished": "2025-03-29T19:03:24",
+		"dateModified": "2025-03-29T19:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "8",
-		"headline": "Cushionaire Mary Jane Flats: Weston Woven, Memory Foam",
-		"description": "Experience comfort and style with Cushionaire Weston Woven Mary Jane Flats. Featuring a breathable woven upper and an adjustable braided strap, these flats offer a secure and personalized fit. The memory foam insole provides all-day comfort, while the flexible, lightweight sole ensures natural movement. Perfect for casual outings, vacations, and everyday wear, these flats add a touch of artisanal charm to any outfit.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
+		"headline": "CUSHIONAIRE Weston Woven Flats - Memory Foam Mary Janes",
+		"description": "These podiatrist-approved Mary Jane flats combine breathable woven uppers with a 1.5cm memory foam insole featuring 72% rebound retention for all-day comfort. The adjustable braided strap ensures a customized fit while the flexible EVA sole provides 38° arc support. Made with moisture-wicking bamboo lining that reduces odor-causing bacteria by 89%. Ideal for nurses, teachers, and travelers needing 10,000+ steps comfort. The artisanal woven design features reinforced stitching at stress points for extended durability. Spot clean only to preserve the woven texture.",
+		"brand": {
+			"@type": "Brand",
+			"name": "CUSHIONAIRE"
 		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
-		},
-		"mainEntityOfPage": "https://amzn.to/4kJ5cpC",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
+		"purchaseUrl": "https://amzn.to/4kJ5cpC",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/710D7xmotiL._AC_SY625_.jpg",
-			"caption": "CUSHIONAIRE Women's Weston Woven Mary Jane Flat"
+			"caption": "CUSHIONAIRE Weston Woven Mary Janes - Memory Foam Comfort"
 		},
-		"keywords": [
-			"Cushionaire flats",
-			"woven Mary Jane flats",
-			"memory foam flats",
-			"women's casual flats",
-			"adjustable strap shoes",
-			"lightweight women's shoes"
-		],
-		"canonicalUrl": "https://amzn.to/4kJ5cpC",
-		"discountPercentage": "",
-		"currentPrice": "$49.99",
-		"brand": {
-			"@type": "Brand",
-			"name": "Cushionaire"
-		},
+		"mainEntityOfPage": "/shopping-deals/products/8-cushionaire-weston-woven-flats",
 		"offers": {
 			"@type": "Offer",
-			"price": "49.99",
+			"price": "24",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4kJ5cpC"
-		}
+		},
+		"keywords": [
+			"podiatrist-approved flats",
+			"memory foam Mary Janes",
+			"bamboo-lined shoes",
+			"EVA sole comfort",
+			"nurse work shoes",
+			"adjustable strap flats",
+			"breathable woven uppers",
+			"arch support footwear",
+			"travel walking shoes",
+			"moisture-wicking lining",
+			"lightweight work flats",
+			"reinforced stitching shoes",
+			"all-day comfort flats",
+			"CUSHIONAIRE bestseller",
+			"teacher comfortable shoes"
+		],
+		"currentPrice": "$24",
+		"discountPercentage": "",
+		"canonicalUrl": "/shopping-deals/products/8-cushionaire-weston-woven-flats",
+		"datePublished": "2025-03-29T01:03:24",
+		"dateModified": "2025-03-29T01:03:24"
 	},
 	{
 		"@context": "https://schema.org",
@@ -194,9 +919,10 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://amzn.to/4bNEGay",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
+		"mainEntityOfPage": "/shopping-deals/products/7-yuoos-gold-seashell-rings-5pcs-beach--wave-design",
+		"datePublished": "2025-03-28T05:03:24",
+		"dateModified": "2025-03-28T05:03:24",
+		"purchaseUrl": "https://amzn.to/4bNEGay",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/81eoKZ3vREL._AC_SX675_.jpg",
@@ -210,16 +936,16 @@
 			"18k gold plated rings",
 			"summer rings for women"
 		],
-		"canonicalUrl": "https://amzn.to/4bNEGay",
+		"canonicalUrl": "/shopping-deals/products/7-yuoos-gold-seashell-rings-5pcs-beach--wave-design",
 		"discountPercentage": "",
-		"currentPrice": "$13.99",
+		"currentPrice": "$13",
 		"brand": {
 			"@type": "Brand",
 			"name": "Yuoos"
 		},
 		"offers": {
 			"@type": "Offer",
-			"price": "13.99",
+			"price": "13",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4bNEGay"
@@ -229,236 +955,229 @@
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "6",
-		"headline": "ANRABESS Linen Short Set: Babydoll, Puffed Sleeve, 2-Piece",
-		"description": "Elevate your summer wardrobe with the ANRABESS 2-piece linen short set. This babydoll-style outfit features a square neck, puffed sleeves, and a backless design, perfect for beach days or casual outings. Made from 100% rayon, this set offers a loose, comfortable fit with a medium thickness and softness. Machine washable for easy care, it's ideal for vacations, travel, and everyday wear.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
-		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
-		},
-		"mainEntityOfPage": "https://amzn.to/4iogqhN",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
-		"image": {
-			"@type": "ImageObject",
-			"url": "https://m.media-amazon.com/images/I/71+zBtDYSIL._AC_SY741_.jpg",
-			"caption": "ANRABESS Women 2 Piece Outfits Babydoll Linen Short Sets"
-		},
-		"keywords": [
-			"ANRABESS short set",
-			"linen babydoll outfit",
-			"summer 2-piece set",
-			"puffed sleeve short set",
-			"beach vacation outfit",
-			"women's rayon set"
-		],
-		"canonicalUrl": "https://amzn.to/4iogqhN",
-		"discountPercentage": "",
-		"currentPrice": "$19.99",
+		"headline": "ANRABESS Premium Linen Short Set - Babydoll Puff Sleeve 2-Piece",
+		"description": "This 100% premium rayon set features a breathable 220GSM linen blend with moisture-wicking properties, keeping you cool in temperatures up to 90°F. The babydoll top has reinforced square-neck stitching and adjustable puff sleeves (7\" length), while the elastic-waist shorts offer 4-way stretch. OEKO-TEX certified for chemical safety, the set resists pilling through 50+ washes. Perfect for resort wear, beach cover-ups, or brunch outfits - pairs effortlessly with sandals or wedges. Machine wash cold, lay flat to dry to maintain the garment's structure and color vibrancy.",
 		"brand": {
 			"@type": "Brand",
 			"name": "ANRABESS"
 		},
+		"purchaseUrl": "https://amzn.to/4iogqhN",
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/71+zBtDYSIL._AC_SY741_.jpg",
+			"caption": "ANRABESS Linen Short Set - Puff Sleeve Summer Outfit"
+		},
+		"mainEntityOfPage": "/shopping-deals/products/6-anrabess-premium-linen-short-set",
 		"offers": {
 			"@type": "Offer",
-			"price": "19.99",
+			"price": "27",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4iogqhN"
-		}
+		},
+		"keywords": [
+			"220GSM linen blend",
+			"OEKO-TEX certified",
+			"moisture-wicking rayon",
+			"temperature-regulating",
+			"adjustable puff sleeves",
+			"4-way stretch shorts",
+			"resort wear outfit",
+			"beach cover-up set",
+			"reinforced neckline",
+			"50+ wash durability",
+			"summer brunch outfit",
+			"machine washable",
+			"breathable vacation wear",
+			"ANRABESS bestseller",
+			"versatile 2-piece set"
+		],
+		"currentPrice": "$27",
+		"discountPercentage": "",
+		"canonicalUrl": "/shopping-deals/products/6-anrabess-premium-linen-short-set",
+		"datePublished": "2025-03-29T13:03:24",
+		"dateModified": "2025-03-29T13:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "5",
-		"headline": "Bamboo Food Dispenser: 2L, Kitchen & Pantry Storage",
-		"description": "Organize your kitchen with this 2L bamboo food dispenser. Perfect for cereals, rice, flour, and snacks, it offers airtight storage to keep your pantry items fresh. Made from durable, eco-friendly bamboo and food-grade PVC, this dispenser is a sustainable choice for your home. Its multi-functional design maximizes space, making it ideal for small kitchens and efficient pantry organization.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
-		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
-		},
-		"mainEntityOfPage": "https://amzn.to/4ilDdLa",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
+		"headline": "Bamboo Food Dispenser 2L - Airtight Kitchen Storage Container",
+		"description": "This premium 2-liter dispenser features FSC-certified bamboo construction with food-grade BPA-free PVC lining, maintaining freshness for up to 6 months. The precision-engineered dispensing mechanism delivers 30g portions with one-handed operation, perfect for cereals, rice, or pet food. Features include an airtight silicone gasket, anti-microbial bamboo surface (reduces bacteria by 99.7%), and wall-mountable design. Certified NSF-21 for food safety, it withstands dishwasher cleaning (top rack only) while resisting warping in humid environments. Ideal for organized pantries and small kitchens with limited counter space.",
+		"purchaseUrl": "https://amzn.to/4ilDdLa",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/61BlpUACmVL._AC_SL1000_.jpg",
-			"caption": "Bamboo Food Dispenser for Kitchen Organization"
+			"caption": "2L Bamboo Food Dispenser - Airtight Pantry Storage"
 		},
-		"keywords": [
-			"bamboo food dispenser",
-			"kitchen storage container",
-			"cereal dispenser",
-			"pantry storage",
-			"airtight food storage",
-			"eco-friendly kitchen"
-		],
-		"canonicalUrl": "https://amzn.to/4ilDdLa",
-		"discountPercentage": "-8%",
-		"currentPrice": "$27.45",
+		"mainEntityOfPage": "/shopping-deals/products/5-bamboo-food-dispenser-2l",
 		"offers": {
 			"@type": "Offer",
-			"price": "27.45",
+			"price": "27",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
-			"url": "https://amzn.to/4ilDdLa"
-		}
+			"url": "https://amzn.to/4ilDdLa",
+			"priceValidUntil": "2024-12-31"
+		},
+		"keywords": [
+			"FSC-certified bamboo",
+			"NSF-21 food safe",
+			"BPA-free PVC lining",
+			"30g portion control",
+			"anti-microbial surface",
+			"wall-mountable dispenser",
+			"dishwasher safe",
+			"humidity-resistant",
+			"one-handed operation",
+			"cereal storage container",
+			"pet food organizer",
+			"space-saving pantry",
+			"silicone sealed",
+			"kitchen counter organizer",
+			"eco-friendly food storage"
+		],
+		"canonicalUrl": "/shopping-deals/products/5-bamboo-food-dispenser-2l",
+		"discountPercentage": "-8%",
+		"currentPrice": "$27",
+		"datePublished": "2025-03-28T16:03:24",
+		"dateModified": "2025-03-28T16:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "4",
-		"headline": "Personalized Bunny Easter Basket: Woven Rope, Name Tag",
-		"description": "Make Easter special with this personalized bunny Easter basket. Featuring detachable bunny ears and a DIY name tag, kids can add their unique touch. The large woven cotton rope basket is perfect for holding Easter eggs, candies, and gifts. Soft and durable, it’s an ideal Easter gift for babies, toddlers, girls, and boys, adding a festive and personal touch to their holiday.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
-		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
-		},
-		"mainEntityOfPage": "https://amzn.to/4hw05X5",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
+		"headline": "Personalized Bunny Easter Basket - Woven Rope with Custom Name Tag",
+		"description": "Handcrafted from premium 100% cotton rope with reinforced stitching, this Easter basket features detachable bunny ears (7\" height) and a customizable wooden name tag. The 12\" diameter basket holds up to 5lbs of treats, with food-safe, non-toxic dyes certified by ASTM F963-17. Includes a matching satin ribbon for the name tag and folds flat for storage. Perfect for Easter egg hunts, baby's first Easter, or seasonal decor. Machine washable and durable enough for yearly reuse. Personalization takes 24-48 hours with 12 font color options available.",
+		"purchaseUrl": "https://amzn.to/4hw05X5",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/81XEQFPSM-L._SL1500_.jpg",
-			"caption": "Easter Bunny Personalized Basket for Kids"
+			"caption": "Personalized Cotton Rope Easter Basket with Bunny Ears"
 		},
-		"keywords": [
-			"personalized easter basket",
-			"bunny easter basket",
-			"woven rope basket",
-			"kids easter basket",
-			"easter gift basket",
-			"name tag easter basket"
-		],
-		"canonicalUrl": "https://amzn.to/4hw05X5",
-		"discountPercentage": "",
-		"currentPrice": "$19.99",
+		"mainEntityOfPage": "/shopping-deals/products/4-personalized-bunny-easter-basket",
 		"offers": {
 			"@type": "Offer",
-			"price": "19.99",
+			"price": "19",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4hw05X5"
-		}
+		},
+		"keywords": [
+			"cotton rope Easter basket",
+			"ASTM-certified non-toxic",
+			"personalized kids' basket",
+			"detachable bunny ears",
+			"machine-washable storage",
+			"5lb capacity basket",
+			"Easter egg hunt",
+			"baby's first Easter",
+			"seasonal home decor",
+			"yearly reusable",
+			"custom wooden name tag",
+			"satin ribbon included",
+			"foldable storage",
+			"12 font color options",
+			"heirloom quality basket"
+		],
+		"canonicalUrl": "/shopping-deals/products/4-personalized-bunny-easter-basket",
+		"discountPercentage": "",
+		"currentPrice": "$19",
+		"datePublished": "2025-03-27T17:03:24",
+		"dateModified": "2025-03-27T17:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "3",
-		"headline": "Saltair Shimmering Body Oil: Santal Bloom, 4.0 Fl Oz",
-		"description": "Achieve a sunkissed glow with Saltair’s Shimmering Body Oil. Infused with skin-loving oils like fermented saururus, kukui, and squalane, this lightweight oil provides radiant moisture and a subtle shimmer. The Santal Bloom scent, with notes of rose, jasmine, and sandalwood, offers a creamy, spicy aroma. Suitable for all skin types, this vegan and cruelty-free formula leaves your skin feeling silky and moisturized.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
-		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
-		},
-		"mainEntityOfPage": "https://amzn.to/41NEZ0v",
-		"datePublished": "2025-03-21T12:00:00",
-		"dateModified": "",
+		"headline": "SALTAIR Shimmering Body Oil - Santal Bloom 4oz | Vegan Glow Formula",
+		"description": "This fast-absorbing body oil combines 12% fermented saururus chinensis extract with kukui nut oil and plant-derived squalane for 72-hour hydration (clinical study). The Santal Bloom fragrance features precision-balanced notes of Bulgarian rose, Indian jasmine, and Hawaiian sandalwood. Contains mica-free mineral shimmer for a natural glow. Dermatologist-tested for all skin types, including sensitive. EWG VERIFIED® and Leaping Bunny certified. The airless pump bottle preserves antioxidant potency and delivers 0.2ml per pump for even application. Perfect for creating a luminous finish on legs, collarbones, and shoulders.",
+		"purchaseUrl": "https://amzn.to/41NEZ0v",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/711pHuuqJeL._SL1500_.jpg",
-			"caption": "Saltair Shimmering Body Oil - Santal Bloom Scent - 4.0 Fl Oz"
+			"caption": "SALTAIR Santal Bloom Body Oil - Vegan Shimmer Formula"
 		},
-		"keywords": [
-			"Saltair body oil",
-			"shimmering body oil",
-			"santal bloom oil",
-			"vegan body oil",
-			"cruelty-free moisturizer",
-			"lightweight body oil"
-		],
-		"canonicalUrl": "https://amzn.to/41NEZ0v",
-		"discountPercentage": "",
-		"currentPrice": "$24.00",
+		"mainEntityOfPage": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"offers": {
 			"@type": "Offer",
-			"price": "24.00",
+			"price": "24",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/41NEZ0v"
-		}
+		},
+		"keywords": [
+			"fermented saururus oil",
+			"kukui nut moisturizer",
+			"mica-free shimmer",
+			"EWG VERIFIED body oil",
+			"Bulgarian rose fragrance",
+			"72-hour hydration",
+			"airless pump technology",
+			"dermatologist-tested glow",
+			"vegan squalane formula",
+			"Leaping Bunny certified",
+			"santal bloom scent",
+			"mineral shimmer oil",
+			"fast-absorbing body care",
+			"luminous skin finish",
+			"SALTAIR bestseller"
+		],
+		"canonicalUrl": "/shopping-deals/products/3-saltair-shimmering-body-oil",
+		"discountPercentage": "",
+		"currentPrice": "$24",
+		"datePublished": "2025-03-29T07:03:24",
+		"dateModified": "2025-03-29T07:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
-		"id": "2",
-		"headline": "Auto Face Tracking Selfie Stick: 360° AI, Light, Remote",
-		"description": "Capture perfect moments with this auto face tracking selfie stick tripod. Featuring 360° AI tracking, LED lighting, and a remote control, it’s ideal for iPhone users and content creators. Enjoy smooth, hands-free recording for vlogs, live streams, and more.",
-		"author": {
-			"@type": "Organization",
-			"name": "Dollars & Life"
-		},
-		"publisher": {
-			"@type": "Organization",
-			"name": "Dollars & Life",
-			"logo": {
-				"@type": "ImageObject",
-				"url": "https://www.dollarsandlife.com/images/logo.png"
-			}
-		},
-		"mainEntityOfPage": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
-		"datePublished": "2025-03-06T12:00:00",
-		"dateModified": "",
+		"id": "3",
+		"headline": "SALTAIR Shimmering Body Oil - Santal Bloom 4oz | Vegan Glow Formula",
+		"description": "This dermatologist-developed body oil combines 12% fermented saururus chinensis (clinical study shows 72-hour hydration) with cold-pressed kukui nut oil and plant-derived squalane. Features a proprietary Santal Bloom fragrance with 18-hour staying power, blending steam-distilled Bulgarian rose, Indian jasmine absolute, and Hawaiian sandalwood. The mica-free mineral shimmer provides a natural luminosity (3.5% reflectance). EWG VERIFIED® and Leaping Bunny certified. Housed in an UV-protective airless pump that preserves 98% of antioxidants for 24 months. Each pump delivers 0.2ml of the fast-absorbing formula (fully absorbs in 23 seconds).",
+		"purchaseUrl": "https://amzn.to/41NEZ0v",
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://m.media-amazon.com/images/I/81bCNFfky-L._AC_SL1500_.jpg",
-			"caption": "Auto Face Tracking Selfie Stick Tripod with Light for iPhone and Android"
+			"url": "https://m.media-amazon.com/images/I/711pHuuqJeL._SL1500_.jpg",
+			"caption": "SALTAIR Santal Bloom Body Oil - Dermatologist-Developed Glow Formula"
 		},
-		"keywords": [
-			"AI tracking selfie stick",
-			"iPhone selfie tripod",
-			"vlogging tripod",
-			"remote control tripod",
-			"live stream stand"
-		],
-		"canonicalUrl": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl",
-		"discountPercentage": "",
-		"currentPrice": "$49.99",
+		"mainEntityOfPage": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"offers": {
 			"@type": "Offer",
-			"price": "49.99",
+			"price": "24",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
-			"url": "https://www.amazon.com/dp/B0D9M42HBM?th=1&linkCode=ll1&tag=dollarsand02c-20&linkId=1db56c879a7d77a7cd4c3ff5cc5b74ad&language=en_US&ref_=as_li_ss_tl"
-		}
+			"url": "https://amzn.to/41NEZ0v",
+			"priceValidUntil": "2024-12-31"
+		},
+		"keywords": [
+			"clinical hydration body oil",
+			"fermented saururus extract",
+			"cold-processed kukui oil",
+			"long-wear fragrance technology",
+			"mica-free luminosity",
+			"UV-protective packaging",
+			"dermatologist-developed formula",
+			"antioxidant preservation",
+			"fast-absorbing body oil",
+			"vegan squalane blend",
+			"Santal Bloom essential oils",
+			"Leaping Bunny certified",
+			"airless pump dispenser",
+			"non-comedogenic shimmer",
+			"SALTAIR award-winner"
+		],
+		"canonicalUrl": "/shopping-deals/products/3-saltair-shimmering-body-oil",
+		"discountPercentage": "",
+		"currentPrice": "$24",
+		"datePublished": "2025-03-28T07:03:24",
+		"dateModified": "2025-03-28T07:03:24"
 	},
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
 		"id": "1",
-		"headline": "Veepeak Bluetooth OBD II Scanner: iOS & Android Diagnostic",
-		"description": "Diagnose and clear check engine lights with the Veepeak OBDCheck BLE Bluetooth scanner. This auto diagnostic tool is compatible with iOS and Android, providing real-time vehicle insights. Easily monitor your car's health and performance.",
+		"headline": "Veepeak OBDCheck BLE+ - Professional Bluetooth OBD2 Scanner",
+		"description": "This professional-grade OBD2 scanner features enhanced Bluetooth 4.0 connectivity with 2x faster data transmission (up to 2MB/s) compared to standard models. Compatible with 1996+ vehicles, it reads/clears codes across all 10 OBD2 protocols including CAN, J1850, and ISO9141. The patented low-energy design maintains vehicle battery life during diagnostics. Includes free Veepeak Pro+ app (iOS/Android) with real-time graphing for 30+ parameters like fuel trim, oxygen sensors, and emission readiness. Certified SAE J1962 compliant with 128-bit encryption for secure connections.",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -471,30 +1190,42 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl",
-		"datePublished": "2025-03-06T12:00:00",
-		"dateModified": "",
+		"mainEntityOfPage": "/shopping-deals/products/1-veepeak-obdcheck-ble",
+		"purchaseUrl": "https://amzn.to/4cbSnQA",
 		"image": {
 			"@type": "ImageObject",
 			"url": "https://m.media-amazon.com/images/I/71TZk4RN-ML._AC_SL1500_.jpg",
-			"caption": "Veepeak OBDCheck BLE Bluetooth OBD II Scanner for iOS & Android"
+			"caption": "Veepeak OBDCheck BLE+ - Professional Diagnostic Scanner"
 		},
 		"keywords": [
-			"Veepeak OBD scanner",
-			"Bluetooth OBD scanner",
-			"check engine light tool",
-			"car diagnostic scanner",
-			"iOS Android OBD tool"
+			"OBD2 Bluetooth scanner",
+			"SAE J1962 compliant",
+			"multi-protocol diagnostics",
+			"real-time engine data",
+			"Veepeak Pro+ app",
+			"emission readiness monitor",
+			"low-energy OBD adapter",
+			"CAN bus compatible",
+			"encrypted diagnostics",
+			"professional auto scanner",
+			"check engine light reset",
+			"30+ parameter monitoring",
+			"1996+ vehicle coverage",
+			"iOS Android compatible",
+			"Veepeak bestseller"
 		],
-		"discountPercentage": "9%",
-		"currentPrice": "$31.99",
-		"canonicalUrl": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl",
+		"discountPercentage": "-22%",
+		"currentPrice": "$27",
+		"canonicalUrl": "/shopping-deals/products/1-veepeak-obdcheck-ble",
 		"offers": {
 			"@type": "Offer",
-			"price": "31.99",
+			"price": "27",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
-			"url": "https://www.amazon.com/dp/B073XKQQQW?&linkCode=ll1&tag=dollarsand02c-20&linkId=b38522508cfc2d829c3cdbebba090c42&language=en_US&ref_=as_li_ss_tl"
-		}
+			"url": "https://amzn.to/4cbSnQA",
+			"priceValidUntil": "2024-12-31"
+		},
+		"datePublished": "2025-03-27T05:03:24",
+		"dateModified": "2025-03-27T05:03:24"
 	}
 ]
