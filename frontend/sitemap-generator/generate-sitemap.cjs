@@ -32,8 +32,7 @@ function getJsonFiles() {
     const dataDir = path.resolve(__dirname, "../public/data");
     try {
         const files = fs.readdirSync(dataDir)
-            .filter(file => file.endsWith(".json"))
-            .filter(file => !file.includes("products"));
+            .filter(file => file.endsWith(".json"));
 
         console.log(` Found ${files.length} JSON data files`);
         return files.map(file => path.resolve(dataDir, file));
@@ -57,41 +56,63 @@ async function fetchDynamicRoutes() {
                 continue;
             }
 
-            jsonData.forEach(post => {
-                if (!post.id || !post.datePublished) {
-                    console.warn(`⚠️ Skipping invalid entry in ${filePath}:`, post);
-                    return;
-                }
+            const filename = path.basename(filePath, ".json");
 
-                const filename = path.basename(filePath, ".json");
-                const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
-                    : filename.includes("freelancejobs") ? "/extra-income/freelancers"
-                        : filename.includes("moneymakingapps") ? "/extra-income/money-making-apps"
-                            : filename.includes("budgetdata") ? "/extra-income/budget"
-                                : filename.includes("startablogdata") ? "/start-a-blog"
-                                    : filename.includes("breakingnews") ? "/breaking-news"
-                                        : "";
-
-                if (urlBase) {
-                    const rawDate = post.dateModified && post.dateModified.trim() !== ""
-                        ? post.dateModified
-                        : post.datePublished;
-
-                    if (!rawDate || isNaN(new Date(rawDate).getTime())) {
-                        console.warn(`⚠️ Invalid date in file: ${filePath}`);
-                        console.warn(`   Post ID: ${post.id}`);
-                        console.warn(`   datePublished: ${post.datePublished}`);
-                        console.warn(`   dateModified: ${post.dateModified}`);
+            jsonData.forEach(item => {
+                // Handle products.json differently
+                if (filename === "products") {
+                    if (!item.id || !item.mainEntityOfPage) {
+                        console.warn(`⚠️ Skipping invalid product:`, item);
                         return;
                     }
 
+                    const rawDate = item.dateModified && item.dateModified.trim() !== ""
+                        ? item.dateModified
+                        : item.datePublished || new Date().toISOString();
+
                     const route = {
-                        url: `${urlBase}/${post.id}`.toLowerCase(),
-                        changefreq: "monthly",
-                        priority: 0.8,
+                        url: item.mainEntityOfPage.toLowerCase(),
+                        changefreq: "weekly",
+                        priority: 0.9,
                         lastmod: new Date(rawDate).toISOString(),
                     };
                     dynamicRoutes.push(route);
+                } else {
+                    // Original logic for other JSON files
+                    if (!item.id || !item.datePublished) {
+                        console.warn(`⚠️ Skipping invalid entry in ${filePath}:`, item);
+                        return;
+                    }
+
+                    const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
+                        : filename.includes("freelancejobs") ? "/extra-income/freelancers"
+                            : filename.includes("moneymakingapps") ? "/extra-income/money-making-apps"
+                                : filename.includes("budgetdata") ? "/extra-income/budget"
+                                    : filename.includes("startablogdata") ? "/start-a-blog"
+                                        : filename.includes("breakingnews") ? "/breaking-news"
+                                            : "";
+
+                    if (urlBase) {
+                        const rawDate = item.dateModified && item.dateModified.trim() !== ""
+                            ? item.dateModified
+                            : item.datePublished;
+
+                        if (!rawDate || isNaN(new Date(rawDate).getTime())) {
+                            console.warn(`⚠️ Invalid date in file: ${filePath}`);
+                            console.warn(`   Post ID: ${item.id}`);
+                            console.warn(`   datePublished: ${item.datePublished}`);
+                            console.warn(`   dateModified: ${item.dateModified}`);
+                            return;
+                        }
+
+                        const route = {
+                            url: `${urlBase}/${item.id}`.toLowerCase(),
+                            changefreq: "monthly",
+                            priority: 0.8,
+                            lastmod: new Date(rawDate).toISOString(),
+                        };
+                        dynamicRoutes.push(route);
+                    }
                 }
             });
 

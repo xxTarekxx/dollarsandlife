@@ -1,0 +1,251 @@
+/* ProductDetails.css */
+
+/* Main container - centers everything vertically and horizontally */
+.product-details-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Loading and error states */
+.product-details-loading,
+.product-details-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid #1a936f;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.product-details-error {
+    color: #e63946;
+}
+
+/* Product card layout */
+.product-details-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Product image section */
+.product-image-wrapper {
+    position: relative;
+    /* padding: 2rem; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    height: 100%;
+}
+
+.product-image {
+    /* border-bottom: #0d7a5a solid 60px;
+    border-top: #0d7a5a solid 60px; */
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: #e63946;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Product info section */
+.product-info {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.product-header h1 {
+    font-size: 2rem;
+    margin: 0;
+    color: #6000ce;
+    flex: 1;
+}
+
+.brand-name {
+    color: #6c757d;
+    font-size: 1.1rem;
+    text-align: right;
+    margin-left: 1rem;
+    align-self: flex-end;
+}
+
+.price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0 0 0;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.current-price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1a936f;
+}
+
+.discount-percentage {
+    color: #e63946;
+    font-weight: bold;
+}
+
+.product-description {
+    line-height: 1.8;
+    color: #495057;
+    margin: 2rem 0;
+}
+
+/* Action buttons */
+.action-buttons-container {
+    margin-top: auto;
+    padding-top: 1.5rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.purchase-button {
+    background: #1a936f;
+    color: white;
+    padding: 0.8rem 0rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.2s;
+    flex: 1;
+    border: none;
+    cursor: pointer;
+
+    @media (max-width: 992px) {
+        padding-top: 1.5rem;
+    }
+
+}
+
+.purchase-button:hover {
+    background: #0d7a5a;
+}
+
+.back-button {
+    background: #f8f9fa;
+    color: #2b2d42;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background: #e9ecef;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .product-image-wrapper {
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-details-card {
+        grid-template-columns: 1fr;
+    }
+
+    .product-header {
+        flex-direction: column;
+    }
+
+    .brand-name {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        align-self: flex-start;
+    }
+
+    .product-image-wrapper {
+        min-height: 300px;
+        padding: 1.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-details-container {
+        padding: 1rem 0;
+    }
+
+    .product-info {
+        padding: 1.5rem;
+    }
+
+    .product-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .current-price {
+        font-size: 1.5rem;
+    }
+}

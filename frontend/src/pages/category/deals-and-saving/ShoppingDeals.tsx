@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
 
@@ -20,6 +21,7 @@ interface Product {
 	currentPrice: string;
 	discountPercentage?: string;
 	mainEntityOfPage: string;
+	specialOffer?: string;
 }
 
 interface ProductCardProps extends Product {}
@@ -32,7 +34,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	currentPrice,
 	discountPercentage,
 	mainEntityOfPage,
+	specialOffer,
 }) => {
+	const navigate = useNavigate();
+
+	const handleViewDetails = () => {
+		const slug = `${id}-${headline
+			.toLowerCase()
+			.replace(/[^\w\s-]/g, "") // Remove special chars
+			.replace(/\s+/g, "-") // Replace spaces with -
+			.replace(/-+/g, "-")}`; // Collapse multiple hyphens
+
+		navigate(`/shopping-deals/products/${slug}`);
+	};
 	return (
 		<div className='product-card' data-id={id}>
 			<img
@@ -47,27 +61,39 @@ const ProductCard: React.FC<ProductCardProps> = ({
 				<p className='product-description'>
 					<span className='description-text'>{description}</span>
 				</p>
-				{discountPercentage ? (
-					<p className='product-price'>
+				<div className='product-price'>
+					{specialOffer && specialOffer.trim() !== "" && (
+						<p className='special-offer'>
+							Get {specialOffer} Extra Discount When You Sign Up With Prime
+							<a href='https://amzn.to/427UDnt'> Click Here To Try It Free </a>
+							for 30 days
+						</p>
+					)}
+					{discountPercentage && discountPercentage.trim() !== "" && (
 						<span className='discount-percentage'>
 							Discount: {discountPercentage}
 						</span>
-						<span className='current-price'> Now: {currentPrice} </span>
-					</p>
-				) : (
-					<p className='product-price'>
-						<span className='current-price'> Now: {currentPrice}</span>
-					</p>
-				)}
-				<a
-					href={mainEntityOfPage}
-					target='_blank'
-					rel='noopener noreferrer'
-					className='buy-now-button'
-					aria-label={`Buy ${headline} now`}
-				>
-					Take Me There
-				</a>
+					)}
+					<span className='current-price'> Now: {currentPrice} </span>
+				</div>
+				<div className='product-actions'>
+					{/* <a
+						href={mainEntityOfPage}
+						target='_blank'
+						rel='noopener noreferrer'
+						className='buy-now-button'
+						aria-label={`Buy ${headline} now`}
+					>
+						Take Me There
+					</a> */}
+					<button
+						onClick={handleViewDetails}
+						className='view-details-button'
+						aria-label={`View details for ${headline}`}
+					>
+						View Details
+					</button>
+				</div>
 			</div>
 		</div>
 	);
@@ -106,7 +132,7 @@ const ShoppingDeals: React.FC = () => {
 	}, [currentPage]);
 
 	useEffect(() => {
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			const adContainers = document.querySelectorAll(".postings-container");
 			let adsPushed = false;
 			adContainers.forEach((adContainer) => {
@@ -122,6 +148,8 @@ const ShoppingDeals: React.FC = () => {
 				}
 			});
 		}, 2000);
+
+		return () => clearTimeout(timer);
 	}, []);
 
 	const currentPosts = products.slice(

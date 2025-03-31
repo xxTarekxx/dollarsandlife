@@ -27,6 +27,7 @@ import Budget from "./pages/category/Extra-Income/Budget";
 import StartABlog from "./pages/category/start-a-blog/StartABlog";
 import BreakingNews from "./pages/category/breakingnews/BreakingNews";
 import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
+import ProductDetails from "./pages/category/deals-and-saving/ProductDetails";
 
 const App: React.FC = () => {
 	const location = useLocation();
@@ -145,6 +146,11 @@ const App: React.FC = () => {
 						/>
 						<Route path='/extra-income/budget/*' element={<Budget />} />
 						<Route path='/shopping-deals' element={<ShoppingDeals />} />
+						<Route
+							path='/shopping-deals/products/:productSlug'
+							element={<ProductDetails />}
+						/>
+
 						<Route path='/start-a-blog/*' element={<StartABlog />} />
 						<Route
 							path='/financial-calculators'
