@@ -249,3 +249,25 @@
         font-size: 1.5rem;
     }
 }
+
+.shopping-page-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.html-content ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.html-content li {
+    margin-bottom: 5px;
+}
+
+.html-content h3 {
+    margin: 15px 0 10px 0;
+}
+
+.html-content p {
+    margin: 10px 0;
+}

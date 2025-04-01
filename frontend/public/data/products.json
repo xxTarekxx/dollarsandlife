@@ -2,6 +2,159 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
+		"id": "2",
+		"headline": "CNP Honey Lip Butter - Overnight Hydration Mask",
+		"shortName": "CNP Propolis Lip Butter",
+		"description": "<h3>CNP Propolis Lipcerin – 12-Hour Moisturizing Lip Treatment ✨</h3><div class='spacer'></div><p>Experience professional lip care with our propolis-enriched formula that works as both daily hydrator and intensive overnight treatment.</p><div class='spacer'></div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🌿 Propolis & Honey Complex - Powered by 20% propolis extract and New Zealand Manuka honey for deep nourishment</div><div class='feature-item'>💧 12-Hour Hydration - Clinically proven to maintain moisture all day and night</div><div class='feature-item'>🔄 Hygienic Dial System - Airless twist-up container keeps product fresh and mess-free</div><div class='feature-item'>🌸 Delicate Floral Scent - Features natural geranium fragrance that gently fades</div><div class='feature-item'>⚕️ Dermatologist Tested - Hypoallergenic formula safe for sensitive lips</div></div><div class='feature-list'><div class='feature-section'>Perfect for:</div><div class='feature-item'>Daily lip conditioning</div><div class='feature-item'>Overnight lip therapy</div><div class='feature-item'>Makeup prep and finishing</div><div class='feature-item'>Cold weather protection</div></div>",
+		"dateModified": "2025-03-31T19:46:03",
+		"mainEntityOfPage": "/shopping-deals/products/2-cnp-honey-lip-butter",
+		"canonicalUrl": "/shopping-deals/products/2-cnp-honey-lip-butter",
+		"purchaseUrl": "https://amzn.to/3XGwVgO",
+		"currentPrice": "$11.99",
+		"discountPercentage": "-33%",
+		"designer": {
+			"@type": "Organization",
+			"name": "CNP"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61GFR1WAc9L._SY355_.jpg",
+			"caption": "CNP Honey Lip Butter - Overnight Hydration Treatment"
+		},
+		"keywords": [
+			"Korean lip mask",
+			"overnight lip treatment",
+			"propolis lip balm",
+			"hydrating lip butter",
+			"Manuka honey lip care",
+			"hypoallergenic lip mask",
+			"CNP skincare",
+			"winter lip repair"
+		],
+		"offers": {
+			"@type": "Offer",
+			"price": "$11.99",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3XGwVgO",
+			"availability": "https://schema.org/InStock"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "CNP"
+		},
+		"specialOffer": ""
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "12",
+		"headline": "Toppik Hair Fibers - Instant Volume for Thinning Hair",
+		"shortName": "Toppik Hair Building Fibers",
+		"description": "Natural-looking hair fibers that instantly conceal thinning areas. Water-resistant formula blends seamlessly with existing hair. Available in 9 shades for men and women.",
+		"datePublished": "2025-03-31T19:48:23",
+		"dateModified": "2025-03-31T19:48:23",
+		"mainEntityOfPage": "/shopping-deals/products/12-toppik-hair-building-fibers",
+		"canonicalUrl": "/shopping-deals/products/12-toppik-hair-building-fibers",
+		"purchaseUrl": "https://amzn.to/43Artjs",
+		"currentPrice": "$14.97",
+		"discountPercentage": "-40%",
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/619FpXZGJ+L._SX466_.jpg",
+			"caption": "Toppik Hair Fibers - Instant Volume Solution"
+		},
+		"keywords": [
+			"hair thickening fibers",
+			"conceal thinning hair",
+			"Toppik hair products",
+			"instant hair volume",
+			"water-resistant hair fibers",
+			"hair loss solution",
+			"natural-looking coverage",
+			"men's hair thickening"
+		],
+		"offers": {
+			"@type": "Offer",
+			"price": "$14.97",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/43Artjs",
+			"availability": "https://schema.org/InStock"
+		},
+		"specialOffer": ""
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "16",
+		"headline": "LilyAna Retinol Cream - Anti-Aging Face Moisturizer",
+		"shortName": "LilyAna Retinol Cream",
+		"description": "Dermatologist-tested retinol cream with hyaluronic acid and natural botanicals. Reduces wrinkles, hydrates skin, and improves texture. Vegan, cruelty-free, and made in USA.",
+		"datePublished": "2025-03-31T19:52:10",
+		"dateModified": "2025-03-31T19:52:10",
+		"mainEntityOfPage": "/shopping-deals/products/16-lilyana-retinol-cream",
+		"canonicalUrl": "/shopping-deals/products/16-lilyana-retinol-cream",
+		"purchaseUrl": "https://amzn.to/3QZiMro",
+		"currentPrice": "$17.99",
+		"discountPercentage": "-40%",
+		"designer": {
+			"@type": "Organization",
+			"name": "LilyAna Naturals"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/91DFVfXViML._SY355_.jpg",
+			"caption": "LilyAna Retinol Cream - Anti-Aging Moisturizer"
+		},
+		"keywords": [
+			"retinol face cream",
+			"anti-aging moisturizer",
+			"wrinkle reduction cream",
+			"hyaluronic acid moisturizer",
+			"vegan skincare",
+			"cruelty-free retinol",
+			"US-made skincare",
+			"sensitive skin moisturizer"
+		],
+		"offers": {
+			"@type": "Offer",
+			"price": "$17.99",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3QZiMro",
+			"availability": "https://schema.org/InStock"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "LilyAna Naturals"
+		},
+		"specialOffer": ""
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
 		"id": "21",
 		"headline": "Mongoose Argus ST Fat Tire Mountain Bike - 20\"-26\" Wheels, Disc Brakes, 7-16 Speeds",
 		"shortName": "Mongoose Argus ST Fat Tire Mountain Bike",

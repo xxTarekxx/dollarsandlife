@@ -20,7 +20,78 @@ interface Product {
 		name: string;
 	};
 	purchaseUrl: string;
+	offers?: {
+		availability?: string;
+		price?: string;
+	};
+	specialOffer?: string;
 }
+
+// Custom HTML parser component
+const SafeHTMLRenderer: React.FC<{ html: string }> = ({ html }) => {
+	const parseHTML = (htmlString: string) => {
+		const elements: JSX.Element[] = [];
+		let remaining = htmlString;
+
+		while (remaining.length > 0) {
+			// Match different HTML patterns
+			const h3Match = remaining.match(/<h3>(.*?)<\/h3>/);
+			const ulMatch = remaining.match(/<ul>(.*?)<\/ul>/s);
+			const liMatch = remaining.match(/<li>(.*?)<\/li>/);
+			const pMatch = remaining.match(/<p>(.*?)<\/p>/);
+			const strongMatch = remaining.match(/<strong>(.*?)<\/strong>/);
+
+			if (h3Match) {
+				elements.push(<h3 key={`h3-${elements.length}`}>{h3Match[1]}</h3>);
+				remaining = remaining.slice(h3Match[0].length);
+			} else if (ulMatch) {
+				const listItems = ulMatch[1].split(/<li>(.*?)<\/li>/).filter(Boolean);
+				elements.push(
+					<ul key={`ul-${elements.length}`}>
+						{listItems.map((item, i) => (
+							<li key={`li-${i}`}>{item}</li>
+						))}
+					</ul>,
+				);
+				remaining = remaining.slice(ulMatch[0].length);
+			} else if (liMatch) {
+				elements.push(<li key={`li-${elements.length}`}>{liMatch[1]}</li>);
+				remaining = remaining.slice(liMatch[0].length);
+			} else if (pMatch) {
+				elements.push(<p key={`p-${elements.length}`}>{pMatch[1]}</p>);
+				remaining = remaining.slice(pMatch[0].length);
+			} else if (strongMatch) {
+				elements.push(
+					<strong key={`strong-${elements.length}`}>{strongMatch[1]}</strong>,
+				);
+				remaining = remaining.slice(strongMatch[0].length);
+			} else {
+				// Handle plain text
+				const text = remaining.split(/<[^>]+>/)[0];
+				if (text) {
+					elements.push(
+						<React.Fragment key={`text-${elements.length}`}>
+							{text}
+						</React.Fragment>,
+					);
+					remaining = remaining.slice(text.length);
+				} else {
+					// Skip unmatched tags
+					const tagMatch = remaining.match(/<[^>]+>/);
+					if (tagMatch) {
+						remaining = remaining.slice(tagMatch[0].length);
+					} else {
+						break;
+					}
+				}
+			}
+		}
+
+		return elements;
+	};
+
+	return <div>{parseHTML(html)}</div>;
+};
 
 const ProductDetails: React.FC = () => {
 	const { productSlug } = useParams<{ productSlug: string }>();
@@ -30,32 +101,25 @@ const ProductDetails: React.FC = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		let isMounted = true; // Flag to prevent state updates after unmount
+		let isMounted = true;
 
 		const fetchProductDetails = async () => {
 			try {
-				// Debug: Log the incoming productSlug
-				console.log("Fetching product for slug:", productSlug);
-
-				// Validate productSlug format first
 				if (!productSlug || !/^\d+-/.test(productSlug)) {
 					throw new Error("Invalid product URL format");
 				}
 
-				// Extract ID from "28-laneige-lip-sleeping-mask"
 				const productId = productSlug.split("-")[0];
-				console.log("Extracted product ID:", productId);
-
 				const response = await fetch("/data/products.json");
+
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
 				}
 
 				const products: Product[] = await response.json();
-
 				const foundProduct = products.find((p: Product) => p.id === productId);
 
-				if (!isMounted) return; // Don't update if component unmounted
+				if (!isMounted) return;
 
 				if (!foundProduct) {
 					throw new Error(`Product with ID ${productId} not found`);
@@ -68,7 +132,6 @@ const ProductDetails: React.FC = () => {
 				if (!isMounted) return;
 
 				setError(err instanceof Error ? err.message : "Failed to load product");
-				// Redirect with replace to prevent back navigation to broken URL
 				navigate("/shopping-deals", { replace: true });
 			} finally {
 				if (isMounted) {
@@ -77,15 +140,13 @@ const ProductDetails: React.FC = () => {
 			}
 		};
 
-		// Reset states when starting new fetch
 		setLoading(true);
 		setError(null);
 		setProduct(null);
-
 		fetchProductDetails();
 
 		return () => {
-			isMounted = false; // Cleanup function
+			isMounted = false;
 		};
 	}, [productSlug, navigate]);
 
@@ -109,13 +170,19 @@ const ProductDetails: React.FC = () => {
 
 	if (!product) return null;
 
+	const isInStock = product.offers?.availability?.includes("InStock");
+	const stockStatus = isInStock ? "In Stock" : "Out Of Stock";
+	const stockClass = isInStock ? "in-stock" : "out-of-stock";
+
 	return (
 		<div className='product-details-container'>
 			<Helmet>
 				<title>{product.headline} | Shopping Deals</title>
 				<meta
 					name='description'
-					content={product.description.substring(0, 160)}
+					content={product.description
+						.replace(/<[^>]+>/g, "")
+						.substring(0, 160)}
 				/>
 				{product.keywords && (
 					<meta name='keywords' content={product.keywords.join(", ")} />
@@ -143,25 +210,49 @@ const ProductDetails: React.FC = () => {
 					</div>
 
 					<div className='product-description'>
-						<p>{product.description}</p>
-					</div>
-					<div className='price-section'>
-						<span className='current-price'>{product.currentPrice}</span>
-						{product.brand && (
-							<span className='brand-name'> by {product.brand.name}</span>
+						<SafeHTMLRenderer html={product.description} />
+						{product.specialOffer && product.specialOffer.trim() !== "" && (
+							<p className='special-offer'>
+								Get {product.specialOffer} Discount With Amazon Prime
+								<a
+									href='https://amzn.to/427UDnt'
+									target='_blank'
+									rel='noopener noreferrer'
+								>
+									Try It Free!
+								</a>
+								for 30 days
+							</p>
 						)}
 					</div>
+
+					<div className='price-section'>
+						<div className='price-stock-group'>
+							<span className='current-price'>{product.currentPrice}</span>
+							<span className={`stock-status ${stockClass}`}>
+								{stockStatus}
+							</span>
+						</div>
+						{product.brand && (
+							<p className='brand-name'> by {product.brand.name}</p>
+						)}
+					</div>
+
 					<div className='action-buttons'>
-						<a
-							href={product.purchaseUrl}
-							target='_blank'
-							rel='noopener noreferrer'
-							className='purchase-button'
-						>
-							Buy Now
-						</a>
+						{isInStock ? (
+							<a
+								href={product.purchaseUrl}
+								target='_blank'
+								rel='noopener noreferrer'
+								className='purchase-button'
+							>
+								Buy Now
+							</a>
+						) : (
+							<button className='notify-button'>Notify When Available</button>
+						)}
 						<button
-							onClick={() => window.open("/shopping-deals", "_blank")}
+							onClick={() => navigate("/shopping-deals")}
 							className='back-button'
 						>
 							Back to Deals
