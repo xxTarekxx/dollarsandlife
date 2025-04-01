@@ -115,7 +115,14 @@ const ShoppingDeals: React.FC = () => {
 				const response = await fetch("/data/products.json");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const products: Product[] = await response.json();
-				setProducts(products);
+
+				// Remove duplicates by ID
+				const uniqueProducts = products.filter(
+					(product, index, self) =>
+						index === self.findIndex((p) => p.id === product.id),
+				);
+
+				setProducts(uniqueProducts);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			}
