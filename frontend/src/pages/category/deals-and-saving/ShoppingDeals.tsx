@@ -41,12 +41,26 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	const handleViewDetails = () => {
 		const slug = `${id}-${headline
 			.toLowerCase()
-			.replace(/[^\w\s-]/g, "") // Remove special chars
-			.replace(/\s+/g, "-") // Replace spaces with -
-			.replace(/-+/g, "-")}`; // Collapse multiple hyphens
+			.replace(/[^\w\s-]/g, "")
+			.replace(/\s+/g, "-")
+			.replace(/-+/g, "-")}`;
 
 		navigate(`/shopping-deals/products/${slug}`);
 	};
+
+	const parseDescription = (html: string) => {
+		const tempDiv = document.createElement("div");
+		tempDiv.innerHTML = html;
+
+		const pTags = Array.from(tempDiv.querySelectorAll("p")).map((p, index) => (
+			<p key={index} className='modern-p'>
+				{p.textContent}
+			</p>
+		));
+
+		return pTags;
+	};
+
 	return (
 		<div className='product-card' data-id={id}>
 			<img
@@ -58,9 +72,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 			/>
 			<div className='product-details'>
 				<h2 className='product-title'>{headline}</h2>
-				<p className='product-description'>
-					<span className='description-text'>{description}</span>
-				</p>
+				<div className='product-description'>
+					{parseDescription(description)}
+				</div>
 				<div className='product-price'>
 					{specialOffer && specialOffer.trim() !== "" && (
 						<p className='special-offer'>
@@ -77,21 +91,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					<span className='current-price'> Now: {currentPrice} </span>
 				</div>
 				<div className='product-actions'>
-					{/* <a
-						href={mainEntityOfPage}
-						target='_blank'
-						rel='noopener noreferrer'
-						className='buy-now-button'
-						aria-label={`Buy ${headline} now`}
-					>
-						Take Me There
-					</a> */}
 					<button
 						onClick={handleViewDetails}
 						className='view-details-button'
 						aria-label={`View details for ${headline}`}
 					>
-						View Details
+						More Details
 					</button>
 				</div>
 			</div>
@@ -116,7 +121,6 @@ const ShoppingDeals: React.FC = () => {
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const products: Product[] = await response.json();
 
-				// Remove duplicates by ID
 				const uniqueProducts = products.filter(
 					(product, index, self) =>
 						index === self.findIndex((p) => p.id === product.id),
