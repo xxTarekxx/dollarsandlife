@@ -42,63 +42,62 @@ const App: React.FC = () => {
 		}
 	}, [location.pathname]);
 
-	// Load Google AdSense on user interaction
-	useEffect(() => {
-		const loadAdsense = () => {
-			if (!document.querySelector('script[src*="adsbygoogle.js"]')) {
-				const adScript = document.createElement("script");
-				adScript.src =
-					"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-				adScript.async = true;
-				adScript.setAttribute("data-ad-client", "ca-pub-1079721341426198");
-				document.head.appendChild(adScript);
-			}
-		};
-
-		const handleInteraction = () => {
-			loadAdsense();
-			window.removeEventListener("scroll", handleInteraction);
-			window.removeEventListener("click", handleInteraction);
-		};
-
-		window.addEventListener("scroll", handleInteraction);
-		window.addEventListener("click", handleInteraction);
-
-		return () => {
-			window.removeEventListener("scroll", handleInteraction);
-			window.removeEventListener("click", handleInteraction);
-		};
-	}, []);
-
 	// Handle AdBlock prompt and retesting
-	useEffect(() => {
-		setTimeout(() => {
-			const adBlockTest = document.createElement("script");
-			adBlockTest.src =
-				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-			adBlockTest.type = "text/javascript";
-			adBlockTest.async = true;
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		const adBlockTest = document.createElement("script");
+	// 		adBlockTest.src =
+	// 			"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+	// 		adBlockTest.type = "text/javascript";
+	// 		adBlockTest.async = true;
 
-			adBlockTest.onerror = () => setShowAdBlockPrompt(true);
+	// 		adBlockTest.onerror = () => setShowAdBlockPrompt(true);
 
-			document.body.appendChild(adBlockTest);
-		}, 2000);
-	}, []);
+	// 		document.body.appendChild(adBlockTest);
+	// 	}, 2000);
+	// }, []);
+
+	// const handleDismissAdBlockPrompt = () => {
+	// 	setShowAdBlockPrompt(false);
+	// 	setTimeout(() => {
+	// 		const adBlockRetest = document.createElement("script");
+	// 		adBlockRetest.src =
+	// 			"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+	// 		adBlockRetest.type = "text/javascript";
+	// 		adBlockRetest.async = true;
+
+	// 		adBlockRetest.onerror = () => setShowAdBlockPrompt(true);
+
+	// 		document.body.appendChild(adBlockRetest);
+	// 	}, 3000);
+	// };
 
 	const handleDismissAdBlockPrompt = () => {
 		setShowAdBlockPrompt(false);
-		setTimeout(() => {
-			const adBlockRetest = document.createElement("script");
-			adBlockRetest.src =
-				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-			adBlockRetest.type = "text/javascript";
-			adBlockRetest.async = true;
-
-			adBlockRetest.onerror = () => setShowAdBlockPrompt(true);
-
-			document.body.appendChild(adBlockRetest);
-		}, 3000);
 	};
+
+	useEffect(() => {
+		const checkAdBlock = () => {
+			try {
+				const testAd = document.createElement("div");
+				testAd.innerHTML = "&nbsp;";
+				testAd.className = "adsbox";
+				document.body.appendChild(testAd);
+
+				const isAdBlocked = testAd.offsetHeight === 0;
+
+				document.body.removeChild(testAd);
+
+				if (isAdBlocked) {
+					setShowAdBlockPrompt(true);
+				}
+			} catch (e) {
+				setShowAdBlockPrompt(true);
+			}
+		};
+
+		checkAdBlock();
+	}, []);
 
 	return (
 		<HelmetProvider>
