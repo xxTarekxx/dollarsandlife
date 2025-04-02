@@ -6,92 +6,15 @@ import "./ProductDetails.css";
 interface Product {
 	id: string;
 	headline: string;
-	shortName?: string;
-	image: {
-		url: string;
-		caption: string;
-	};
+	image: { url: string; caption: string };
 	description: string;
 	currentPrice: string;
 	discountPercentage?: string;
-	mainEntityOfPage: string;
-	keywords?: string[];
-	brand?: {
-		name: string;
-	};
+	brand?: { name: string };
 	purchaseUrl: string;
-	offers?: {
-		availability?: string;
-		price?: string;
-	};
+	offers?: { availability?: string };
 	specialOffer?: string;
 }
-
-// Custom HTML parser component
-const SafeHTMLRenderer: React.FC<{ html: string }> = ({ html }) => {
-	const parseHTML = (htmlString: string) => {
-		const elements: JSX.Element[] = [];
-		let remaining = htmlString;
-
-		while (remaining.length > 0) {
-			// Match different HTML patterns
-			const h3Match = remaining.match(/<h3>(.*?)<\/h3>/);
-			const ulMatch = remaining.match(/<ul>(.*?)<\/ul>/s);
-			const liMatch = remaining.match(/<li>(.*?)<\/li>/);
-			const pMatch = remaining.match(/<p>(.*?)<\/p>/);
-			const strongMatch = remaining.match(/<strong>(.*?)<\/strong>/);
-
-			if (h3Match) {
-				elements.push(<h3 key={`h3-${elements.length}`}>{h3Match[1]}</h3>);
-				remaining = remaining.slice(h3Match[0].length);
-			} else if (ulMatch) {
-				const listItems = ulMatch[1].split(/<li>(.*?)<\/li>/).filter(Boolean);
-				elements.push(
-					<ul key={`ul-${elements.length}`}>
-						{listItems.map((item, i) => (
-							<li key={`li-${i}`}>{item}</li>
-						))}
-					</ul>,
-				);
-				remaining = remaining.slice(ulMatch[0].length);
-			} else if (liMatch) {
-				elements.push(<li key={`li-${elements.length}`}>{liMatch[1]}</li>);
-				remaining = remaining.slice(liMatch[0].length);
-			} else if (pMatch) {
-				elements.push(<p key={`p-${elements.length}`}>{pMatch[1]}</p>);
-				remaining = remaining.slice(pMatch[0].length);
-			} else if (strongMatch) {
-				elements.push(
-					<strong key={`strong-${elements.length}`}>{strongMatch[1]}</strong>,
-				);
-				remaining = remaining.slice(strongMatch[0].length);
-			} else {
-				// Handle plain text
-				const text = remaining.split(/<[^>]+>/)[0];
-				if (text) {
-					elements.push(
-						<React.Fragment key={`text-${elements.length}`}>
-							{text}
-						</React.Fragment>,
-					);
-					remaining = remaining.slice(text.length);
-				} else {
-					// Skip unmatched tags
-					const tagMatch = remaining.match(/<[^>]+>/);
-					if (tagMatch) {
-						remaining = remaining.slice(tagMatch[0].length);
-					} else {
-						break;
-					}
-				}
-			}
-		}
-
-		return elements;
-	};
-
-	return <div>{parseHTML(html)}</div>;
-};
 
 const ProductDetails: React.FC = () => {
 	const { productSlug } = useParams<{ productSlug: string }>();
@@ -104,6 +27,9 @@ const ProductDetails: React.FC = () => {
 		let isMounted = true;
 
 		const fetchProductDetails = async () => {
+			setLoading(true);
+			setError(null);
+
 			try {
 				if (!productSlug || !/^\d+-/.test(productSlug)) {
 					throw new Error("Invalid product URL format");
@@ -119,20 +45,21 @@ const ProductDetails: React.FC = () => {
 				const products: Product[] = await response.json();
 				const foundProduct = products.find((p: Product) => p.id === productId);
 
-				if (!isMounted) return;
-
-				if (!foundProduct) {
-					throw new Error(`Product with ID ${productId} not found`);
+				if (isMounted) {
+					if (!foundProduct) {
+						setError(`Product with ID ${productId} not found`);
+						navigate("/shopping-deals", { replace: true });
+					} else {
+						setProduct(foundProduct);
+					}
 				}
-
-				setProduct(foundProduct);
-				setError(null);
 			} catch (err) {
-				console.error("Error fetching product:", err);
-				if (!isMounted) return;
-
-				setError(err instanceof Error ? err.message : "Failed to load product");
-				navigate("/shopping-deals", { replace: true });
+				if (isMounted) {
+					setError(
+						err instanceof Error ? err.message : "Failed to load product",
+					);
+					navigate("/shopping-deals", { replace: true });
+				}
 			} finally {
 				if (isMounted) {
 					setLoading(false);
@@ -140,9 +67,6 @@ const ProductDetails: React.FC = () => {
 			}
 		};
 
-		setLoading(true);
-		setError(null);
-		setProduct(null);
 		fetchProductDetails();
 
 		return () => {
@@ -174,6 +98,51 @@ const ProductDetails: React.FC = () => {
 	const stockStatus = isInStock ? "In Stock" : "Out Of Stock";
 	const stockClass = isInStock ? "in-stock" : "out-of-stock";
 
+	const parseDescription = (html: string) => {
+		const elements: React.ReactNode[] = [];
+		const tempDiv = document.createElement("div");
+		tempDiv.innerHTML = html;
+
+		Array.from(tempDiv.childNodes).forEach((node) => {
+			if (node.nodeType === Node.ELEMENT_NODE) {
+				const element = node as HTMLElement;
+				if (element.tagName === "H3") {
+					elements.push(
+						<h3 key={elements.length} className='modern-h3'>
+							{element.textContent}
+						</h3>,
+					);
+				} else if (element.tagName === "P") {
+					elements.push(
+						<p key={elements.length} className='modern-p'>
+							{element.textContent}
+						</p>,
+					);
+				} else if (element.classList.contains("feature-list")) {
+					Array.from(element.childNodes).forEach((featureNode) => {
+						if (featureNode.nodeType === Node.ELEMENT_NODE) {
+							const featureElement = featureNode as HTMLElement;
+							if (featureElement.classList.contains("feature-section")) {
+								elements.push(
+									<div key={elements.length} className='modern-feature-section'>
+										{featureElement.textContent}
+									</div>,
+								);
+							} else if (featureElement.classList.contains("feature-item")) {
+								elements.push(
+									<div key={elements.length} className='modern-feature-item'>
+										{featureElement.textContent}
+									</div>,
+								);
+							}
+						}
+					});
+				}
+			}
+		});
+		return elements;
+	};
+
 	return (
 		<div className='product-details-container'>
 			<Helmet>
@@ -184,9 +153,6 @@ const ProductDetails: React.FC = () => {
 						.replace(/<[^>]+>/g, "")
 						.substring(0, 160)}
 				/>
-				{product.keywords && (
-					<meta name='keywords' content={product.keywords.join(", ")} />
-				)}
 			</Helmet>
 
 			<article className='product-details-card'>
@@ -210,7 +176,7 @@ const ProductDetails: React.FC = () => {
 					</div>
 
 					<div className='product-description'>
-						<SafeHTMLRenderer html={product.description} />
+						{parseDescription(product.description)}
 						{product.specialOffer && product.specialOffer.trim() !== "" && (
 							<p className='special-offer'>
 								Get {product.specialOffer} Discount With Amazon Prime
@@ -220,7 +186,7 @@ const ProductDetails: React.FC = () => {
 									rel='noopener noreferrer'
 								>
 									Try It Free!
-								</a>
+								</a>{" "}
 								for 30 days
 							</p>
 						)}
@@ -234,7 +200,7 @@ const ProductDetails: React.FC = () => {
 							</span>
 						</div>
 						{product.brand && (
-							<p className='brand-name'> by {product.brand.name}</p>
+							<p className='brand-name'>by {product.brand.name}</p>
 						)}
 					</div>
 

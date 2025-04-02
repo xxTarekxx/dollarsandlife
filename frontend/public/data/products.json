@@ -5,8 +5,9 @@
 		"id": "2",
 		"headline": "CNP Honey Lip Butter - Overnight Hydration Mask",
 		"shortName": "CNP Propolis Lip Butter",
-		"description": "<h3>CNP Propolis Lipcerin – 12-Hour Moisturizing Lip Treatment ✨</h3><div class='spacer'></div><p>Experience professional lip care with our propolis-enriched formula that works as both daily hydrator and intensive overnight treatment.</p><div class='spacer'></div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🌿 Propolis & Honey Complex - Powered by 20% propolis extract and New Zealand Manuka honey for deep nourishment</div><div class='feature-item'>💧 12-Hour Hydration - Clinically proven to maintain moisture all day and night</div><div class='feature-item'>🔄 Hygienic Dial System - Airless twist-up container keeps product fresh and mess-free</div><div class='feature-item'>🌸 Delicate Floral Scent - Features natural geranium fragrance that gently fades</div><div class='feature-item'>⚕️ Dermatologist Tested - Hypoallergenic formula safe for sensitive lips</div></div><div class='feature-list'><div class='feature-section'>Perfect for:</div><div class='feature-item'>Daily lip conditioning</div><div class='feature-item'>Overnight lip therapy</div><div class='feature-item'>Makeup prep and finishing</div><div class='feature-item'>Cold weather protection</div></div>",
-		"dateModified": "2025-03-31T19:46:03",
+
+		"description": "<h3>CNP Propolis Lipcerin: 12-Hour Lip Hydration ✨</h3><div class='spacer'></div><p>Professional lip care. Propolis and honey hydrate day and night.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🌿 Propolis & Honey - Deep nourishment from natural extracts.</div><div class='feature-item'>💧 12-Hour Moisture - Clinically proven hydration.</div><div class='feature-item'>🔄 Hygienic Dial - Fresh, mess-free application.</div><div class='feature-item'>🌸 Floral Scent - Gentle, natural fragrance.</div><div class='feature-item'>⚕️ Dermatologist Tested - Safe for sensitive lips.</div></div><div class='feature-list'><div class='feature-section'>Perfect for:</div><div class='feature-item'>Daily Conditioning</div><div class='feature-item'>Overnight Therapy</div><div class='feature-item'>Makeup Prep</div><div class='feature-item'>Cold Protection</div></div>",
+
 		"mainEntityOfPage": "/shopping-deals/products/2-cnp-honey-lip-butter",
 		"canonicalUrl": "/shopping-deals/products/2-cnp-honey-lip-butter",
 		"purchaseUrl": "https://amzn.to/3XGwVgO",
@@ -58,7 +59,8 @@
 		"id": "12",
 		"headline": "Toppik Hair Fibers - Instant Volume for Thinning Hair",
 		"shortName": "Toppik Hair Building Fibers",
-		"description": "Natural-looking hair fibers that instantly conceal thinning areas. Water-resistant formula blends seamlessly with existing hair. Available in 9 shades for men and women.",
+
+		"description": "<h3>Hair Density Fibers: Instant Fullness ✨</h3><div class='spacer'></div><p>Thickening fibers for natural, confident hair. Seamless blend, tested hold.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>💧 Water-Resistant - Strong hold, tested for reliability.</div><div class='feature-item'>🌿 Natural Blend - Undetectable with existing hair.</div><div class='feature-item'>🌟 Volume & Texture - Youthful, fuller look.</div><div class='feature-item'>✅ Stylist Trusted - Precise, reliable results.</div><div class='feature-item'>🎨 9 Shade Range - For all hair types.</div></div><div class='feature-list'><div class='feature-section'>Why Choose Us:</div><div class='feature-item'>Confidence Boost - Easy, desired look.</div><div class='feature-item'>Personalized Fit - Tailored for you.</div></div>",
 		"datePublished": "2025-03-31T19:48:23",
 		"dateModified": "2025-03-31T19:48:23",
 		"mainEntityOfPage": "/shopping-deals/products/12-toppik-hair-building-fibers",
@@ -96,6 +98,10 @@
 			"url": "https://amzn.to/43Artjs",
 			"availability": "https://schema.org/InStock"
 		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Toppik"
+		},
 		"specialOffer": ""
 	},
 	{
@@ -104,7 +110,8 @@
 		"id": "16",
 		"headline": "LilyAna Retinol Cream - Anti-Aging Face Moisturizer",
 		"shortName": "LilyAna Retinol Cream",
-		"description": "Dermatologist-tested retinol cream with hyaluronic acid and natural botanicals. Reduces wrinkles, hydrates skin, and improves texture. Vegan, cruelty-free, and made in USA.",
+
+		"description": "<h3>Retinol Cream: Natural Youth Boost 🌿</h3><div class='spacer'></div><p>Dermatologist retinol for smooth, hydrated skin. Science meets botanicals.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>🔬 Safe & Effective - Proven dermatologist formula.</div><div class='feature-item'>💧 Deep Hydration - Lasting moisture with hyaluronic acid.</div><div class='feature-item'>🌱 Plant Powered - Natural botanicals for healthy skin.</div><div class='feature-item'>✨ Line Reduction - Youthful skin, fewer wrinkles.</div><div class='feature-item'>🔄 Smooth Texture - Refined pores, even tone.</div><div class='feature-item'>🇺🇸 Premium Quality - Made in the USA.</div><div class='feature-item'>🐰 Ethical Care - Vegan, cruelty-free choice.</div></div><div class='feature-list'><div class='feature-section'>Why Choose This Cream?</div><div class='feature-item'>Daily Gentle - Effective for sensitive skin.</div><div class='feature-item'>Long Term Gain - Consistent use, lasting results.</div><div class='feature-item'>Luxury Experience - Works and feels fantastic.</div></div>",
 		"datePublished": "2025-03-31T19:52:10",
 		"dateModified": "2025-03-31T19:52:10",
 		"mainEntityOfPage": "/shopping-deals/products/16-lilyana-retinol-cream",
@@ -158,7 +165,8 @@
 		"id": "21",
 		"headline": "Mongoose Argus ST Fat Tire Mountain Bike - 20\"-26\" Wheels, Disc Brakes, 7-16 Speeds",
 		"shortName": "Mongoose Argus ST Fat Tire Mountain Bike",
-		"description": "Get the best deals on Mongoose Argus ST & Trail fat tire mountain bikes for men and women. This adult mountain bike features 20-26 inch wheels, mechanical disc brakes, and 7 or 16-speed options. Perfect for trail riding with knobby tires that provide excellent traction in sand and snow. Shop our mountain bicycle sale for this high-quality MTB at competitive prices. Ideal for riders looking to buy mountain bikes online with XL and medium size options available.",
+
+		"description": "<h3>Mongoose Fat Tire Bikes: Trail & ST Deals! 🚵‍♂️</h3><div class='spacer'></div><p>Men's & women's Mongoose fat tire bikes. Trail-ready with disc brakes, 7/16 speeds. Sand & snow traction.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🚲 Fat Tire Design - Excellent sand & snow traction.</div><div class='feature-item'>🛑 Disc Brakes - Reliable stopping power.</div><div class='feature-item'>⚙️ 7/16 Speeds - Versatile trail riding options.</div><div class='feature-item'>📏 20-26 Inch Wheels - Adult MTB sizes.</div><div class='feature-item'>👫 Unisex Models - For men and women.</div></div><div class='feature-list'><div class='feature-section'>Why Buy Here?</div><div class='feature-item'>💰 Best Deals - Competitive MTB sale prices.</div><div class='feature-item'>📦 Online Options - Buy mountain bikes easily online.</div><div class='feature-item'>📐 XL/Medium Sizes - Perfect fit for all riders.</div></div>",
 		"datePublished": "2025-03-31T03:49:32",
 		"dateModified": "2025-03-31T03:49:32",
 		"mainEntityOfPage": "/shopping-deals/products/21-mongoose-argus-st-trail-fat-tire-mountain-bike",
@@ -220,7 +228,8 @@
 		"id": "28",
 		"headline": "LANEIGE Lip Sleeping Mask - Overnight Hydration Treatment",
 		"shortName": "LANEIGE Lip Sleeping Mask",
-		"description": "Dermatologist-tested overnight lip treatment clinically proven to boost hydration by 5X. Formulated with antioxidant-rich vitamin C, murumuru seed butter, and shea butter to repair severely dry, flaky lips while you sleep. The K-beauty favorite features LANEIGE's patented Moisture Wrap™ technology to lock in moisture for 12+ hours. Award-winning formula (Allure Best of Beauty 2023) is free from parabens, sulfates, and phthalates. Safe for daily use on sensitive lips. Includes hygienic applicator for easy application.",
+
+		"description": "<h3>LANEIGE Lip Mask: 5X Hydration Overnight 💋</h3><div class='spacer'></div><p>Hydrating lip mask. Vitamin C, shea butter repair dry lips. 12+ hour moisture lock.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>💧 5X Hydration - Clinically proven overnight boost.</div><div class='feature-item'>🍊 Vitamin C Rich - Antioxidant repair for dry lips.</div><div class='feature-item'>🧈 Shea & Murumuru - Deep moisture, repairs flakes.</div><div class='feature-item'>🔒 12+ Hour Lock - Patented Moisture Wrap™ tech.</div><div class='feature-item'>🏆 Award Winning - Allure Best of Beauty 2023.</div><div class='feature-item'>🌿 Clean Formula - Paraben, sulfate, phthalate-free.</div><div class='feature-item'>✅ Sensitive Safe - Gentle for daily use.</div><div class='feature-item'>✨ Easy Apply - Hygienic applicator included.</div></div>",
 		"designer": {},
 		"publisher": {
 			"@type": "Organization",
@@ -257,10 +266,13 @@
 		"canonicalUrl": "/shopping-deals/products/28-laneige-lip-sleeping-mask",
 		"currentPrice": "$24",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
 			"price": "24",
-			"priceCurrency": "USD"
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4iQFpKQ",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -276,7 +288,8 @@
 		"id": "27",
 		"headline": "LilyAna Retinol Cream - Dermatologist-Tested Anti-Aging Formula",
 		"shortName": "LilyAna Retinol Cream 0.5oz",
-		"description": "Clinically proven retinol moisturizer combines 2.5% active retinol with hyaluronic acid, vitamin E, and green tea extract to reduce wrinkles by 47% in 8 weeks (clinical study). Formulated with shea butter and jojoba oil to prevent irritation while targeting sun damage, acne scars, and uneven texture. Made in FDA-registered US facility. Vegan, cruelty-free, and free from parabens, sulfates, phthalates, and synthetic fragrances. Safe for sensitive skin with non-comedogenic, hypoallergenic certification. Rated #1 retinol cream by Dermatology Times 2023.",
+
+		"description": "<h3>Retinol Moisturizer: 47% Wrinkle Reduction 🌿</h3><div class='spacer'></div><p>Retinol, hyaluronic acid, and botanicals reduce wrinkles. Gentle, hydrating, and vegan.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>📉 47% Wrinkle Reduction - Clinically proven in 8 weeks.</div><div class='feature-item'>💧 Hydrating Formula - Hyaluronic acid, shea, jojoba.</div><div class='feature-item'>🌱 Botanical Rich - Green tea, vitamin E for skin health.</div><div class='feature-item'>🛡️ Irritation Free - Gentle, targets sun damage, scars.</div><div class='feature-item'>🇺🇸 US Made - FDA-registered facility quality.</div><div class='feature-item'>🐰 Vegan & Clean - Paraben, sulfate, fragrance-free.</div><div class='feature-item'>✅ Sensitive Safe - Non-comedogenic, hypoallergenic.</div><div class='feature-item'>🏆 #1 Rated - Dermatology Times 2023.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "LilyAna Naturals"
@@ -316,10 +329,13 @@
 		"canonicalUrl": "/shopping-deals/products/27-lilyana-retinol-cream-05oz",
 		"currentPrice": "$17",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
 			"price": "17",
-			"priceCurrency": "USD"
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3RwzVIU",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -335,7 +351,8 @@
 		"id": "26",
 		"headline": "Aquazzura Galactic Sandals - Italian Luxury Heels",
 		"shortName": "Aquazzura Galactic Sandals",
-		"description": "Handcrafted in Florence, Italy by master artisans, these satin Galactic Flower sandals feature Aquazzura's signature 75mm (3-inch) heel height for elegant comfort. The pristine white luxury sandals showcase intricate floral embroidery and a patented Arch Comfort™ design, worn by celebrities at Cannes and Met Gala events. Made with heritage Italian techniques using premium double-lined satin and gold-finished hardware. Includes dust bag and authenticity card. Vogue's 'Best Evening Sandal' winner 2022.",
+
+		"description": "<h3>Aquazzura Sandals: Italian Floral Elegance 🌸</h3><div class='spacer'></div><p>Florence-crafted satin sandals. 75mm heel, floral detail, Arch Comfort™. Celeb favorite.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>Italian Craft - Handcrafted in Florence by artisans.</div><div class='feature-item'>👠 Elegant Heel - 75mm (3-inch) for comfort & style.</div><div class='feature-item'>🌺 Floral Detail - Intricate embroidery, luxury design.</div><div class='feature-item'>👣 Arch Comfort™ - Patented comfort, celebrity choice.</div><div class='feature-item'>🌟 Premium Satin - Double-lined, gold hardware.</div><div class='feature-item'>🏆 Vogue Winner - 'Best Evening Sandal' 2022.</div><div class='feature-item'>📦 Includes Extras - Dust bag, authenticity card.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "Aquazzura"
@@ -375,10 +392,13 @@
 		"canonicalUrl": "/shopping-deals/products/26-aquazzura-galactic-sandals",
 		"currentPrice": "$1,450",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
-			"price": "1,450",
-			"priceCurrency": "USD"
+			"price": "1450",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3QWrZR9",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -394,7 +414,8 @@
 		"id": "25",
 		"headline": "Rolex Daytona 116500 - Certified Pre-Owned",
 		"shortName": "Rolex Daytona Chronograph",
-		"description": "This certified pre-owned Rolex Daytona reference 116500 features a 904L stainless steel case (42mm) with Oyster Perpetual chronograph movement and 100m water resistance. Includes original box, papers, and Rolex service certification (2023). The black Cerachrom bezel and screw-down crown maintain pristine condition with only minor desk-diving marks. A horological investment piece that appreciates in value, featuring the iconic Zenith-derived El Primero movement adapted by Rolex.",
+
+		"description": "<h3>Rolex Daytona 116500: Certified Pre-Owned ⌚</h3><div class='spacer'></div><p>42mm steel Rolex Daytona. Oyster chrono, 100m water resist. Box, papers, 2023 service.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>⚙️ Oyster Chrono - Precise, Zenith-derived movement.</div><div class='feature-item'>💧 100m Water Resist - Durable, everyday wear.</div><div class='feature-item'>⚫ Cerachrom Bezel - Pristine, scratch-resistant.</div><div class='feature-item'>📦 Full Set - Box, papers, service cert.</div><div class='feature-item'>🛡️ 904L Steel - Robust, premium build.</div><div class='feature-item'>📈 Investment Piece - Appreciating horological value.</div><div class='feature-item'>📏 42mm Case - Iconic, comfortable size.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "Rolex"
@@ -434,10 +455,13 @@
 		"canonicalUrl": "/shopping-deals/products/25-rolex-daytona-chronograph",
 		"currentPrice": "$32,300",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
-			"price": "32,300",
-			"priceCurrency": "USD"
+			"price": "32300",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3E3iYmp",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -453,7 +477,8 @@
 		"id": "24",
 		"headline": "Louis Vuitton x Sprouse Graffiti Trunk - Collector's Edition",
 		"shortName": "LV Sprouse Limited Trunk",
-		"description": "This ultra-rare 2001 Louis Vuitton x Stephen Sprouse collaboration trunk features the iconic white graffiti monogram canvas, one of only 500 pieces ever produced. Handcrafted in France with brass-reinforced corners and triple flip-lock closures. Measures 20\" x 14\" x 7\" with vachetta leather trim. Includes certificate of authenticity and original dust cover. Museum-grade condition with minor patina on hardware - a appreciating asset that has doubled in value since 2015 (Art Market Research). The definitive fusion of street art and luxury craftsmanship.",
+
+		"description": "<h3>LV x Sprouse Trunk: Rare Graffiti Art 🎨</h3><div class='spacer'></div><p>2001 LV x Sprouse trunk. White graffiti canvas, 500 made. Brass corners, triple locks.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>💎 Ultra-Rare - Only 500 pieces, collector's item.</div><div class='feature-item'>🎨 Graffiti Canvas - Iconic Stephen Sprouse design.</div><div class='feature-item'>🇫🇷 French Crafted - Handcrafted in France.</div><div class='feature-item'>🔒 Triple Lock - Brass-reinforced, secure.</div><div class='feature-item'>📏 20\" x 14\" x 7\" - Perfect display size.</div><div class='feature-item'>📜 Authenticity Included - Certificate & dust cover.</div><div class='feature-item'>📈 Investment Asset - Value doubled since 2015.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "Louis Vuitton"
@@ -493,10 +518,13 @@
 		"canonicalUrl": "/shopping-deals/products/24-lv-sprouse-limited-trunk",
 		"currentPrice": "$96,500",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
-			"price": "96,500",
-			"priceCurrency": "USD"
+			"price": "96500",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3FKGpRU",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -512,7 +540,8 @@
 		"id": "23",
 		"headline": "Hermès Kelly 32 Sellier - Porosus Crocodile Bleu Électrique",
 		"shortName": "Hermès Kelly 32 Crocodile",
-		"description": "This 2015 Hermès Kelly 32 Sellier in rare Bleu Électrique Porosus crocodile features 24k gold-plated hardware and pristine sellier stitching. Handcrafted in Paris by a single artisan, the bag measures 32cm x 23cm x 12cm with included 43cm strap. Includes full accoutrements: original box, dust bag, clochette, rain protector, two keys, and shoulder strap. The matte Porosus crocodile skin shows minimal patina, with slight natural sheen variation characteristic of premium exotic leathers. Complete with blindstamp 'Z' circle (2015) and craftsman's ID stamp. Christie's auction-comparable piece with 22% annual appreciation since release.",
+
+		"description": "<h3>Hermès Kelly 32: Rare Bleu Croc 👜</h3><div class='spacer'></div><p>2015 Hermès Kelly 32. Bleu Électrique Porosus, 24k gold. Full set, minimal patina.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🐊 Rare Porosus - Bleu Électrique crocodile skin.</div><div class='feature-item'>🥇 24k Gold Hardware - Luxurious, pristine.</div><div class='feature-item'>🇫🇷 Paris Crafted - Handcrafted by single artisan.</div><div class='feature-item'>📏 32cm Size - Classic Kelly dimensions.</div><div class='feature-item'>📦 Full Accoutrements - Box, dust bag, keys, strap.</div><div class='feature-item'>✨ Minimal Patina - Excellent, near-new condition.</div><div class='feature-item'>📈 Investment Grade - 22% annual appreciation.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "Hermès"
@@ -554,8 +583,10 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "46,250",
-			"priceCurrency": "USD"
+			"price": "46250",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4cfK0nl",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -571,7 +602,8 @@
 		"id": "22",
 		"headline": "CHANEL Boy Bag Old Medium - Pink Quilted Calfskin",
 		"shortName": "CHANEL Boy Bag",
-		"description": "This 2018 CHANEL Boy Bag in rare pink quilted calfskin (Old Medium size: 11\" x 6.5\" x 2.75\") features 24k gold-plated hardware and the iconic Boy push-lock closure. Handcrafted in Italy from CHANEL's premium calfskin leather with diamond quilting at 9 stitches per inch. Includes authenticity card, dust bag, and serial sticker. Shows light patina on hardware (consistent with 3-5 year use) and minimal corner wear. A limited-edition color that has appreciated 18% annually per Rebag market data - making it both a fashion statement and sound investment. The adjustable chain strap (11\"-19\" drop) transitions effortlessly from day to night.",
+
+		"description": "<h3>CHANEL Boy Bag: Rare Pink Quilt 💖</h3><div class='spacer'></div><p>2018 CHANEL Boy Bag, pink calfskin. 24k gold, iconic lock. Light wear, investment piece.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>💖 Rare Pink - Unique quilted calfskin color.</div><div class='feature-item'>🥇 24k Gold Hardware - Luxurious, iconic style.</div><div class='feature-item'>🇮🇹 Italian Craft - Handcrafted premium leather.</div><div class='feature-item'>📏 Old Medium Size - 11\" x 6.5\" x 2.75\" dimensions.</div><div class='feature-item'>🔒 Boy Push-Lock - Signature CHANEL closure.</div><div class='feature-item'>📜 Authenticity Set - Card, dust bag, serial.</div><div class='feature-item'>📈 Investment Worth - 18% annual appreciation.</div><div class='feature-item'>⛓️ Adjustable Strap - Day to night versatility.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "CHANEL"
@@ -611,10 +643,13 @@
 		"canonicalUrl": "/shopping-deals/products/22-chanel-boy-bag",
 		"currentPrice": "$5,450",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
-			"price": "5,450",
-			"priceCurrency": "USD"
+			"price": "5450",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4iL2xdx",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -630,7 +665,8 @@
 		"id": "19",
 		"headline": "Louis Vuitton Millefeuille Tote - Discontinued Collector's Edition",
 		"shortName": "LV Millefeuille Tote",
-		"description": "This rare 2010s Louis Vuitton Millefeuille Tote in discontinued monogram canvas features Spanish craftsmanship with French-designed hardware. The structured tote (13\" x 9\" x 5\") boasts double-stitched leather handles (5\" drop) and an optional crossbody strap (16\" drop). Includes dual secure closures: YKK zipper and LV-engraved magnetic snap. Shows mild patina on vachetta trim and light tarnish on brass feet - characteristic of authentic aging. One of only 3 seasons produced, with values increasing 12% annually (Fashionphile data). The interior features LV's signature microfiber lining with minimal pilling. A true collector's find with original date code intact.",
+
+		"description": "<h3>LV Millefeuille Tote: Rare Monogram 👜</h3><div class='spacer'></div><p>2010s LV Millefeuille Tote, monogram canvas. Spanish craft, French hardware. Mild patina.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>💎 Rare Tote - Discontinued monogram canvas.</div><div class='feature-item'>🇪🇸 Spanish Craft - French-designed hardware.</div><div class='feature-item'>📏 13\" x 9\" x 5\" - Structured, versatile size.</div><div class='feature-item'>🖐️ Dual Handles - 5\" drop, plus crossbody strap.</div><div class='feature-item'>🔒 Dual Closure - YKK zip & LV magnetic snap.</div><div class='feature-item'>📜 Authenticity - Original date code intact.</div><div class='feature-item'>📈 Value Growth - 12% annual appreciation.</div><div class='feature-item'>✨ Microfiber Lining - Minimal pilling, premium feel.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "Louis Vuitton"
@@ -672,8 +708,10 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "2,670",
-			"priceCurrency": "USD"
+			"price": "2670",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4l9nW1z",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -689,7 +727,8 @@
 		"id": "18",
 		"headline": "CHANEL Classic Flap Medium - Beige Lambskin Gold Hardware",
 		"shortName": "CHANEL Classic Flap",
-		"description": "This 2016 CHANEL Classic Double Flap Bag in beige lambskin (25cm) features 24k gold-plated hardware and the iconic quilted diamond stitching (9 stitches per inch). Handcrafted in France, the medium size (25 x 16 x 7cm) includes full set: authenticity card, dust bag, care booklet, and original receipt. The supple lambskin shows minimal patina with pristine interior burgundy lining. Serial number 22xxxxxx confirms 2016 production. Recently authenticated by Entrupy with 98.7% confidence score. Valued at 23% above retail due to discontinued beige clair color (Rebag market data). The interwoven chain strap adjusts from 9\" to 17\" for versatile wear.",
+
+		"description": "<h3>CHANEL Classic Flap: Beige Lambskin 👜</h3><div class='spacer'></div><p>2016 CHANEL Classic Flap. Beige lambskin, 24k gold. Full set, minimal patina. Authenticated.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🐑 Beige Lambskin - Classic, soft leather.</div><div class='feature-item'>🥇 24k Gold Hardware - Luxurious, iconic style.</div><div class='feature-item'>🇫🇷 French Crafted - Handcrafted in France.</div><div class='feature-item'>📏 25cm Size - Medium, versatile dimensions.</div><div class='feature-item'>💎 Quilted Stitching - Iconic diamond pattern.</div><div class='feature-item'>📜 Full Authenticity - Card, receipt, Entrupy verified.</div><div class='feature-item'>📈 Retail Plus - 23% above retail value.</div><div class='feature-item'>⛓️ Adjustable Strap - Chain, versatile drop.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "CHANEL"
@@ -729,10 +768,13 @@
 		"canonicalUrl": "/shopping-deals/products/18-chanel-classic-flap",
 		"currentPrice": "$10,500",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
-			"price": "10,500",
-			"priceCurrency": "USD"
+			"price": "10500",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4hRfjGl",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -748,7 +790,8 @@
 		"id": "17",
 		"headline": "Turmeric Brightening Soap - Kojic Acid & Frankincense Formula",
 		"shortName": "Turmeric Brightening Soap",
-		"description": "Clinically tested turmeric soap combines 2% kojic acid and organic frankincense oil to reduce hyperpigmentation by 47% in 4 weeks (independent study). Formulated with USDA-certified organic turmeric root powder and cold-pressed oils to gently fade acne scars, melasma, and sun spots without irritation. Dermatologist-approved for all skin types, including sensitive skin. Free from parabens, sulfates, artificial fragrances, and synthetic dyes. Vegan and cruelty-free. Each 4oz bar lasts 6-8 weeks with daily use, making it a cost-effective solution for even stubborn dark spots and post-acne marks.",
+
+		"description": "<h3>Turmeric Soap: Fades Spots, Brightens Skin 🌿</h3><div class='spacer'></div><p>Turmeric, kojic acid, frankincense. Reduces spots 47% in 4 weeks. Gentle, vegan, lasts 6-8 weeks.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>📉 47% Spot Reduction - Clinically proven in 4 weeks.</div><div class='feature-item'>💛 Turmeric & Kojic - Fades scars, melasma, sun spots.</div><div class='feature-item'>🌱 Organic Oils - Gentle, non-irritating formula.</div><div class='feature-item'>🛡️ Dermatologist Approved - Safe for all skin types.</div><div class='feature-item'>🌿 Clean Formula - Paraben, sulfate, dye-free.</div><div class='feature-item'>🐰 Vegan & Cruelty-Free - Ethical skincare.</div><div class='feature-item'>⏳ Long Lasting - 4oz bar, 6-8 weeks use.</div><div class='feature-item'>💰 Cost Effective - Solution for dark spots.</div></div>",
 		"designer": {
 			"@type": "Organization",
 			"name": "Ammoya Naturals"
@@ -788,10 +831,13 @@
 		"canonicalUrl": "/shopping-deals/products/17-turmeric-brightening-soap",
 		"currentPrice": "$9",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
 			"price": "9",
-			"priceCurrency": "USD"
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3XBNZVb",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -806,7 +852,8 @@
 		"id": "14",
 		"headline": "MONPURE Scalp Scrub - Clinical Exfoliation Treatment",
 		"shortName": "MONPURE Follicle Scrub",
-		"description": "This dermatologist-developed scalp scrub combines 2% salicylic acid with tea tree oil and menthol to remove 98% of buildup (clinical study). Awarded Best in Black Beauty by Essence (2021) and Best Scalp Treatment by Women's Health. The sugar-based formula exfoliates while camellia oil and vitamin E hydrate, showing 72% reduction in flaking after 3 uses. pH-balanced at 5.5 to maintain scalp microbiome. Safe for color-treated hair and all hair types. Contains 23 antioxidant-rich botanicals to promote follicle health and hair density. 100% vegan and cruelty-free.",
+
+		"description": "<h3>Scalp Scrub: Clear & Healthy Hair 🌿</h3><div class='spacer'></div><p>Salicylic acid, tea tree, menthol scrub. 98% buildup removal. Vegan, pH balanced, color-safe.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>✨ 98% Buildup Removal - Clinically proven results.</div><div class='feature-item'>🏆 Award Winning - Essence & Women's Health picks.</div><div class='feature-item'>🌱 Exfoliate & Hydrate - Sugar scrub with camellia oil.</div><div class='feature-item'>💧 72% Flake Reduction - Visible results in 3 uses.</div><div class='feature-item'>⚖️ pH Balanced - Maintains scalp health.</div><div class='feature-item'>🌈 Color Safe - Suitable for all hair types.</div><div class='feature-item'>🌿 23 Botanicals - Antioxidant-rich, promotes density.</div><div class='feature-item'>🐰 Vegan & Cruelty-Free - Ethical hair care.</div></div>",
 		"author": {
 			"@type": "Organization",
 			"name": "MONPURE"
@@ -849,7 +896,9 @@
 		"offers": {
 			"@type": "Offer",
 			"price": "73",
-			"priceCurrency": "USD"
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4iQQHPg",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -864,7 +913,8 @@
 		"id": "13",
 		"headline": "Clé de Peau Eye Cream Supreme - Platinum Anti-Aging Treatment",
 		"shortName": "CdP Eye Contour Supreme",
-		"description": "This Japanese luxury eye cream combines Clé de Peau's proprietary Skin Illuminating Complex™ with 0.5% retinol and platinum nanoparticles to reduce wrinkles by 42% in clinical trials. The dermatologist-developed formula features a 24k gold-plated massage tool that enhances product absorption by 78%. Specifically targets crow's feet, under-eye bags, and lid sagging with visible results in 14 days. Awarded 'Best Eye Treatment' by Allure 2023. Contains the brand's signature Enmei herb extract to combat blue light damage and urban pollution. Paraben-free, fragrance-free, and ophthalmologist-tested for sensitive eyes.",
+
+		"description": "<h3>Luxury Eye Cream: Wrinkle Reduction 🌟</h3><div class='spacer'></div><p>Japanese eye cream with retinol, platinum. Reduces wrinkles 42%. Gold massage tool, visible results in 14 days.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>📉 42% Wrinkle Reduction - Clinically proven results.</div><div class='feature-item'>✨ Skin Illuminating - Proprietary complex, retinol, platinum.</div><div class='feature-item'>🥇 Gold Massage Tool - Enhances 78% absorption.</div><div class='feature-item'>👁️ Targets Eye Issues - Crow's feet, bags, sagging.</div><div class='feature-item'>⏱️ 14 Day Results - Visible improvements quickly.</div><div class='feature-item'>🏆 Award Winner - Allure 'Best Eye Treatment' 2023.</div><div class='feature-item'>🌿 Enmei Herb - Fights blue light, pollution.</div><div class='feature-item'>✅ Sensitive Safe - Paraben, fragrance-free, eye tested.</div></div>",
 		"author": {
 			"@type": "Organization",
 			"name": "Clé de Peau Beauté"
@@ -904,10 +954,13 @@
 		"canonicalUrl": "/shopping-deals/products/13-cdp-eye-contour-supreme",
 		"currentPrice": "$290",
 		"discountPercentage": "",
+
 		"offers": {
 			"@type": "Offer",
 			"price": "290",
-			"priceCurrency": "USD"
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3QVVy5m",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -922,7 +975,8 @@
 		"id": "11",
 		"headline": "ANUA Heartleaf Sunscreen SPF50+ PA++++ - Korean UV Defense",
 		"shortName": "ANUA Vegan Sunscreen",
-		"description": "This dermatologist-tested Korean sunscreen combines SPF50+ PA++++ protection with 77% heartleaf extract to reduce UV-induced inflammation by 89% (clinical study). The lightweight, non-comedogenic formula features hybrid UV filters (chemical + physical) for complete broad-spectrum protection without white cast. Awarded 'Best K-Beauty Sunscreen' by Allure 2023. Contains panthenol and madecassoside to strengthen skin barrier function (+32% hydration in 2 weeks). Reef-safe, fragrance-free, and verified EWG Skin Deep® compliant. Perfect for sensitive skin with a dewy finish that lasts 12+ hours.",
+
+		"description": "<h3>Korean Sunscreen: SPF50+, Heartleaf ☀️</h3><div class='spacer'></div><p>SPF50+ PA++++ sunscreen with heartleaf. Reduces UV inflammation 89%. Dewy, reef-safe, 12+ hour wear.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>☀️ SPF50+ PA++++ - Broad-spectrum UV protection.</div><div class='feature-item'>🌿 77% Heartleaf - 89% inflammation reduction.</div><div class='feature-item'>💧 Dewy Finish - Lightweight, non-comedogenic.</div><div class='feature-item'>🏆 Best K-Beauty - Allure award winner 2023.</div><div class='feature-item'>🛡️ Barrier Boost - Panthenol, madecassoside for hydration.</div><div class='feature-item'>🌊 Reef Safe - Environmentally friendly formula.</div><div class='feature-item'>✅ Sensitive Skin - Fragrance-free, EWG compliant.</div><div class='feature-item'>⏳ 12+ Hour Wear - Long-lasting protection.</div></div>",
 		"author": {
 			"@type": "Organization",
 			"name": "ANUA"
@@ -962,10 +1016,13 @@
 		"canonicalUrl": "/shopping-deals/products/11-anua-vegan-sunscreen",
 		"currentPrice": "$15",
 		"discountPercentage": "-15%",
+
 		"offers": {
 			"@type": "Offer",
 			"price": "15",
-			"priceCurrency": "USD"
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4bKfxgY",
+			"availability": "https://schema.org/InStock"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -980,7 +1037,8 @@
 		"id": "10",
 		"headline": "Supergoop Unseen Sunscreen SPF40 - Weightless Primer + Blue Light Defense",
 		"shortName": "Supergoop SPF40 Primer",
-		"description": "This dermatologist-developed invisible sunscreen primer provides SPF40 broad-spectrum protection with antioxidant-rich sea lavender to neutralize blue light and pollution. The oil-free, fragrance-free formula contains 12.5% zinc oxide and red algae extract, creating a velvety makeup-gripping base that reduces shine for 16+ hours. Clinically shown to improve makeup wear time by 8 hours while preventing 98% of UV damage. Reef-safe, non-comedogenic, and awarded Allure's Best of Beauty 2023. Perfect for sensitive skin with a universal tintless finish that works on all skin tones.",
+
+		"description": "<h3>Invisible Primer: SPF40, Blue Light Shield 🛡️</h3><div class='spacer'></div><p>SPF40 sunscreen primer with sea lavender. Oil-free, shine control, 16+ hour wear. Makeup grip.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>☀️ SPF40 Protection - Broad-spectrum, invisible finish.</div><div class='feature-item'>🛡️ Blue Light Shield - Sea lavender, antioxidant rich.</div><div class='feature-item'>✨ Makeup Grip - Velvety base, extends wear 8 hours.</div><div class='feature-item'>⏳ 16+ Hour Wear - Shine control, long lasting.</div><div class='feature-item'>🌿 Zinc & Algae - Reef-safe, non-comedogenic.</div><div class='feature-item'>🏆 Allure Winner - Best of Beauty 2023.</div><div class='feature-item'>✅ Sensitive Skin - Fragrance-free, gentle formula.</div><div class='feature-item'>🎨 Universal Tint - Works on all skin tones.</div></div>",
 		"brand": {
 			"@type": "Brand",
 			"name": "Supergoop!"
@@ -1027,7 +1085,8 @@
 		"@type": "Product",
 		"id": "9",
 		"headline": "COUTGO Raffia Slide Sandals - Chunky Heel with Gold-Tone Chain",
-		"description": "Handcrafted from premium Madagascar raffia, these slide sandals feature a 3-inch chunky heel with arch support and anti-slip rubber tread. The gold-tone metal chain detail is plated with 18k gold for lasting shine. Features a memory foam footbed with moisture-wicking lining that molds to your foot shape. Ideal for all-day wear at summer weddings, resorts, or brunch outings. The braided construction allows airflow while maintaining structure. Spot clean only to preserve the natural raffia fibers.",
+
+		"description": "<h3>Invisible Primer: SPF40, Blue Light Shield 🛡️</h3><div class='spacer'></div><p>SPF40 sunscreen primer with sea lavender. Oil-free, shine control, 16+ hour wear. Makeup grip.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>☀️ SPF40 Protection - Broad-spectrum, invisible finish.</div><div class='feature-item'>🛡️ Blue Light Shield - Sea lavender, antioxidant rich.</div><div class='feature-item'>✨ Makeup Grip - Velvety base, extends wear 8 hours.</div><div class='feature-item'>⏳ 16+ Hour Wear - Shine control, long lasting.</div><div class='feature-item'>🌿 Zinc & Algae - Reef-safe, non-comedogenic.</div><div class='feature-item'>🏆 Allure Winner - Best of Beauty 2023.</div><div class='feature-item'>✅ Sensitive Skin - Fragrance-free, gentle formula.</div><div class='feature-item'>🎨 Universal Tint - Works on all skin tones.</div></div>",
 		"brand": {
 			"@type": "Brand",
 			"name": "COUTGO"
@@ -1074,7 +1133,8 @@
 		"@type": "Product",
 		"id": "8",
 		"headline": "CUSHIONAIRE Weston Woven Flats - Memory Foam Mary Janes",
-		"description": "These podiatrist-approved Mary Jane flats combine breathable woven uppers with a 1.5cm memory foam insole featuring 72% rebound retention for all-day comfort. The adjustable braided strap ensures a customized fit while the flexible EVA sole provides 38° arc support. Made with moisture-wicking bamboo lining that reduces odor-causing bacteria by 89%. Ideal for nurses, teachers, and travelers needing 10,000+ steps comfort. The artisanal woven design features reinforced stitching at stress points for extended durability. Spot clean only to preserve the woven texture.",
+
+		"description": "<h3>Mary Jane Flats: Comfort & Support 🚶‍♀️</h3><div class='spacer'></div><p>Podiatrist-approved Mary Janes. Memory foam, woven uppers, adjustable strap. Odor control, durable design.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>👣 Podiatrist Approved - All-day comfort & support.</div><div class='feature-item'>☁️ Memory Foam Insole - 72% rebound, cushioned step.</div><div class='feature-item'>🧵 Woven Uppers - Breathable, artisanal design.</div><div class='feature-item'>🪢 Adjustable Strap - Customized, secure fit.</div><div class='feature-item'>👟 Flexible EVA Sole - 38° arc support.</div><div class='feature-item'>🎋 Bamboo Lining - 89% odor reduction, moisture wicking.</div><div class='feature-item'>💪 Durable Build - Reinforced stitching, long lasting.</div><div class='feature-item'>🧼 Easy Care - Spot clean to maintain texture.</div></div>",
 		"brand": {
 			"@type": "Brand",
 			"name": "CUSHIONAIRE"
@@ -1121,7 +1181,8 @@
 		"@type": "Product",
 		"id": "7",
 		"headline": "Yuoos Gold Seashell Rings: 5PCS, Beach & Wave Design",
-		"description": "Adorn your fingers with the Yuoos Gold Seashell Rings. This set of 5 adjustable rings features a delicate beach-inspired design, including starfish and wave motifs. Crafted with 18k gold-plated stainless steel, these rings offer durability and a lasting shine. Perfect for summer, these rings add a touch of elegance to any outfit and make a thoughtful gift for women and girls who appreciate unique jewelry.",
+
+		"description": "<h3>Seashell Rings: 18k Gold Beach Set 🐚</h3><div class='spacer'></div><p>5 adjustable seashell rings. 18k gold-plated, starfish & wave designs. Summer elegance, durable shine.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>💍 5 Ring Set - Adjustable, beach-inspired designs.</div><div class='feature-item'>🌟 18k Gold Plated - Lasting shine, premium look.</div><div class='feature-item'>🌊 Seashell Motifs - Starfish, wave, ocean themes.</div><div class='feature-item'>💪 Durable Steel - Crafted for lasting wear.</div><div class='feature-item'>☀️ Summer Style - Perfect for beach outings & gifts.</div><div class='feature-item'>🎁 Ideal Gift - Thoughtful for women & girls.</div></div>",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
@@ -1171,7 +1232,8 @@
 		"@type": "Product",
 		"id": "6",
 		"headline": "ANRABESS Premium Linen Short Set - Babydoll Puff Sleeve 2-Piece",
-		"description": "This 100% premium rayon set features a breathable 220GSM linen blend with moisture-wicking properties, keeping you cool in temperatures up to 90°F. The babydoll top has reinforced square-neck stitching and adjustable puff sleeves (7\" length), while the elastic-waist shorts offer 4-way stretch. OEKO-TEX certified for chemical safety, the set resists pilling through 50+ washes. Perfect for resort wear, beach cover-ups, or brunch outfits - pairs effortlessly with sandals or wedges. Machine wash cold, lay flat to dry to maintain the garment's structure and color vibrancy.",
+
+		"description": "<h3>Rayon Set: Breathable Linen Blend ☀️</h3><div class='spacer'></div><p>100% rayon set. Cool 90°F, moisture-wicking. Puff sleeves, elastic shorts. OEKO-TEX, pill-resistant.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>🌿 Premium Rayon - Breathable 220GSM linen blend.</div><div class='feature-item'>🌡️ Cool Comfort - Moisture-wicking, up to 90°F.</div><div class='feature-item'>👚 Babydoll Top - Square neck, puff sleeves.</div><div class='feature-item'>👖 Elastic Shorts - 4-way stretch, comfy fit.</div><div class='feature-item'>✅ OEKO-TEX Certified - Chemical safety assured.</div><div class='feature-item'>💪 Durable Fabric - Pill-resistant, 50+ washes.</div><div class='feature-item'>🏖️ Versatile Wear - Resort, beach, brunch style.</div><div class='feature-item'>🧺 Easy Care - Machine wash, lay flat dry.</div></div>",
 		"brand": {
 			"@type": "Brand",
 			"name": "ANRABESS"
@@ -1218,7 +1280,8 @@
 		"@type": "Product",
 		"id": "5",
 		"headline": "Bamboo Food Dispenser 2L - Airtight Kitchen Storage Container",
-		"description": "This premium 2-liter dispenser features FSC-certified bamboo construction with food-grade BPA-free PVC lining, maintaining freshness for up to 6 months. The precision-engineered dispensing mechanism delivers 30g portions with one-handed operation, perfect for cereals, rice, or pet food. Features include an airtight silicone gasket, anti-microbial bamboo surface (reduces bacteria by 99.7%), and wall-mountable design. Certified NSF-21 for food safety, it withstands dishwasher cleaning (top rack only) while resisting warping in humid environments. Ideal for organized pantries and small kitchens with limited counter space.",
+
+		"description": "<h3>Bamboo Dispenser: Fresh Food, Easy Pour 🌾</h3><div class='spacer'></div><p>2L bamboo dispenser. 6-month fresh, 30g portions. Airtight, anti-microbial, wall-mount. NSF-21, dishwasher safe.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>🌿 Bamboo Build - FSC-certified, eco-friendly.</div><div class='feature-item'>⏳ 6-Month Fresh - Food-grade, BPA-free lining.</div><div class='feature-item'>⚖️ 30g Portions - Precision, one-handed dispense.</div><div class='feature-item'>🔒 Airtight Seal - Silicone gasket, keeps food fresh.</div><div class='feature-item'>🛡️ Anti-Microbial - 99.7% bacteria reduction.</div><div class='feature-item'>🛠️ Wall Mountable - Saves counter space.</div><div class='feature-item'>✅ NSF-21 Certified - Food safety guaranteed.</div><div class='feature-item'>🧼 Dishwasher Safe - Top rack, easy clean.</div></div>",
 		"purchaseUrl": "https://amzn.to/4ilDdLa",
 		"image": {
 			"@type": "ImageObject",
@@ -1262,7 +1325,8 @@
 		"@type": "Product",
 		"id": "4",
 		"headline": "Personalized Bunny Easter Basket - Woven Rope with Custom Name Tag",
-		"description": "Handcrafted from premium 100% cotton rope with reinforced stitching, this Easter basket features detachable bunny ears (7\" height) and a customizable wooden name tag. The 12\" diameter basket holds up to 5lbs of treats, with food-safe, non-toxic dyes certified by ASTM F963-17. Includes a matching satin ribbon for the name tag and folds flat for storage. Perfect for Easter egg hunts, baby's first Easter, or seasonal decor. Machine washable and durable enough for yearly reuse. Personalization takes 24-48 hours with 12 font color options available.",
+
+		"description": "<h3>Easter Basket: Cotton Rope, Bunny Ears 🐰</h3><div class='spacer'></div><p>Cotton rope Easter basket. Bunny ears, name tag. 5lb capacity, food-safe dyes. Machine washable.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>🧶 Cotton Rope - Premium, reinforced stitching.</div><div class='feature-item'>🐰 Bunny Ears - Detachable, 7\" height.</div><div class='feature-item'>🏷️ Name Tag - Customizable wooden tag.</div><div class='feature-item'>🧺 12\" Diameter - Holds up to 5lbs of treats.</div><div class='feature-item'>✅ Food Safe - Non-toxic, ASTM certified dyes.</div><div class='feature-item'>🎀 Satin Ribbon - Matching tag accessory.</div><div class='feature-item'>📦 Flat Storage - Easy, space-saving design.</div><div class='feature-item'>🧺 Machine Washable - Durable, reusable.</div></div>",
 		"purchaseUrl": "https://amzn.to/4hw05X5",
 		"image": {
 			"@type": "ImageObject",
@@ -1305,7 +1369,8 @@
 		"@type": "Product",
 		"id": "3",
 		"headline": "SALTAIR Shimmering Body Oil - Santal Bloom 4oz | Vegan Glow Formula",
-		"description": "This fast-absorbing body oil combines 12% fermented saururus chinensis extract with kukui nut oil and plant-derived squalane for 72-hour hydration (clinical study). The Santal Bloom fragrance features precision-balanced notes of Bulgarian rose, Indian jasmine, and Hawaiian sandalwood. Contains mica-free mineral shimmer for a natural glow. Dermatologist-tested for all skin types, including sensitive. EWG VERIFIED® and Leaping Bunny certified. The airless pump bottle preserves antioxidant potency and delivers 0.2ml per pump for even application. Perfect for creating a luminous finish on legs, collarbones, and shoulders.",
+
+		"description": "<h3>Body Oil: 72-Hour Hydration, Shimmer 🌟</h3><div class='spacer'></div><p>Fermented saururus, kukui, squalane oil. 72-hour moisture, Santal Bloom scent. Natural shimmer, airless pump.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>💧 72-Hour Hydration - Clinically proven moisture.</div><div class='feature-item'>🌿 Natural Oils - Saururus, kukui, plant squalane.</div><div class='feature-item'>🌸 Santal Bloom - Rose, jasmine, sandalwood scent.</div><div class='feature-item'>✨ Natural Shimmer - Mica-free mineral glow.</div><div class='feature-item'>🛡️ Sensitive Safe - Dermatologist-tested, gentle.</div><div class='feature-item'>✅ EWG & Bunny - Certified clean, cruelty-free.</div><div class='feature-item'>🧴 Airless Pump - Preserves potency, even dispense.</div><div class='feature-item'>💫 Luminous Finish - Perfect for body glow.</div></div>",
 		"purchaseUrl": "https://amzn.to/41NEZ0v",
 		"image": {
 			"@type": "ImageObject",
@@ -1392,7 +1457,8 @@
 		"@type": "Product",
 		"id": "1",
 		"headline": "Veepeak OBDCheck BLE+ - Professional Bluetooth OBD2 Scanner",
-		"description": "This professional-grade OBD2 scanner features enhanced Bluetooth 4.0 connectivity with 2x faster data transmission (up to 2MB/s) compared to standard models. Compatible with 1996+ vehicles, it reads/clears codes across all 10 OBD2 protocols including CAN, J1850, and ISO9141. The patented low-energy design maintains vehicle battery life during diagnostics. Includes free Veepeak Pro+ app (iOS/Android) with real-time graphing for 30+ parameters like fuel trim, oxygen sensors, and emission readiness. Certified SAE J1962 compliant with 128-bit encryption for secure connections.",
+
+		"description": "<h3>OBD2 Scanner: Fast Bluetooth, Pro Tools 🚗</h3><div class='spacer'></div><p>Pro OBD2 scanner, Bluetooth 4.0. Fast data, all protocols, low energy. Free Pro+ app, secure connection.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>⚡ Fast Bluetooth - 2x faster data, up to 2MB/s.</div><div class='feature-item'>🚗 Wide Compatibility - 1996+ vehicles, 10 OBD2 protocols.</div><div class='feature-item'>🔋 Low Energy - Patented design, saves battery.</div><div class='feature-item'>📲 Free Pro+ App - Real-time graphing, 30+ parameters.</div><div class='feature-item'>🔒 Secure Connect - 128-bit encryption, SAE J1962.</div><div class='feature-item'>🔧 Pro Diagnostics - Reads/clears codes, emission ready.</div></div>",
 		"author": {
 			"@type": "Organization",
 			"name": "Dollars & Life"
