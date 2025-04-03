@@ -109,6 +109,7 @@ const ShoppingDeals: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 	const pageRef = useRef<HTMLDivElement>(null);
+	const adContainersRef = useRef<React.RefObject<HTMLDivElement>[]>([]);
 
 	useEffect(() => {
 		document.title = "Deals and Savings - Best Shopping Discounts";
@@ -144,20 +145,18 @@ const ShoppingDeals: React.FC = () => {
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			const adContainers = document.querySelectorAll(".postings-container");
-			let adsPushed = false;
-			adContainers.forEach((adContainer) => {
-				if (
-					(adContainer as HTMLElement).offsetWidth > 0 &&
-					(adContainer as HTMLElement).offsetHeight > 0
-				) {
-					if (!adsPushed) {
-						console.log("Pushing AdSense ads...");
+			if (adContainersRef.current) {
+				adContainersRef.current.forEach((adContainer) => {
+					if (
+						adContainer.current &&
+						adContainer.current.offsetWidth > 0 &&
+						adContainer.current.offsetHeight > 0 &&
+						window.innerWidth < 600
+					) {
 						(window.adsbygoogle = window.adsbygoogle || []).push({});
-						adsPushed = true;
 					}
-				}
-			});
+				});
+			}
 		}, 2000);
 
 		return () => clearTimeout(timer);
@@ -171,27 +170,61 @@ const ShoppingDeals: React.FC = () => {
 	const items: JSX.Element[] = [];
 	const numColumns = window.innerWidth > 600 ? 3 : 1;
 
+	if (adContainersRef.current.length === 0) {
+		for (let i = 0; i < Math.ceil(currentPosts.length / numColumns); i++) {
+			adContainersRef.current.push(React.createRef<HTMLDivElement>());
+		}
+	}
+
 	for (let i = 0; i < currentPosts.length; i += numColumns) {
-		const rowItems = currentPosts
+		const rowItems: JSX.Element[] = currentPosts
 			.slice(i, i + numColumns)
 			.map((product) => <ProductCard key={product.id} {...product} />);
 
+		const refIndex = Math.floor(i / numColumns);
 		items.push(
 			<React.Fragment key={i}>
 				<div className='products-grid'>{rowItems}</div>
-				<div className='postings-container'>
+				<div
+					className='postings-container'
+					ref={adContainersRef.current[refIndex]}
+				>
 					<ins
 						className='adsbygoogle'
-						style={{ display: "block", width: "300px", height: "250px" }}
 						data-ad-client='ca-pub-1079721341426198'
-						data-ad-slot='7197282987'
-						data-ad-format='rectangle'
+						data-ad-slot='6375155907'
+						data-ad-format='auto'
 						data-full-width-responsive='true'
 					/>
 				</div>
 			</React.Fragment>,
 		);
 	}
+
+	// for (let i = 0; i < currentPosts.length; i += numColumns) {
+	// 	const rowItems: JSX.Element[] = currentPosts
+	// 		.slice(i, i + numColumns)
+	// 		.map((product) => <ProductCard key={product.id} {...product} />);
+
+	// 	const refIndex = Math.floor(i / numColumns);
+	// 	items.push(
+	// 		<React.Fragment key={i}>
+	// 			<div className='products-grid'>{rowItems}</div>
+	// 			<div
+	// 				className='postings-container'
+	// 				ref={adContainersRef.current[refIndex]}
+	// 			>
+	// 				<ins
+	// 					className='adsbygoogle'
+	// 					style={{ display: "block", width: "300px", height: "250px" }}
+	// 					data-ad-client='ca-pub-1079721341426198'
+	// 					data-ad-slot='7197282987'
+	// 					data-ad-format='square'
+	// 				/>
+	// 			</div>
+	// 		</React.Fragment>,
+	// 	);
+	// }
 
 	return (
 		<div className='shopping-page-container' ref={pageRef}>
@@ -254,16 +287,20 @@ const ShoppingDeals: React.FC = () => {
 				setCurrentPage={setCurrentPage}
 			/>
 
-			<div className='postings-container'>
-				<ins
-					className='adsbygoogle'
-					style={{ display: "block", width: "728px", height: "90px" }}
-					data-ad-client='ca-pub-1079721341426198'
-					data-ad-slot='6375155907'
-					data-ad-format='horizontal'
-					data-full-width-responsive='true'
-				/>
-			</div>
+			{/* <div className='shopping-page-container' ref={pageRef}>
+				... (your Helmet and other content)
+				{items}
+				... (your PaginationContainer and other content)
+				<div className='postings-container'>
+					<ins
+						className='adsbygoogle'
+						style={{ display: "block", width: "300px", height: "250px" }}
+						data-ad-client='ca-pub-1079721341426198'
+						data-ad-slot='7197282987'
+						data-ad-format='square'
+					/>
+				</div>
+			</div> */}
 		</div>
 	);
 };
