@@ -1,10 +1,23 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import emailjs from "emailjs-com";
 import "./ContactUs.css";
 
+const LazyReCAPTCHA = React.lazy(() => import("react-google-recaptcha"));
+
+interface FormData {
+	firstName: string;
+	lastName: string;
+	email: string;
+	message: string;
+}
+
 const ContactUs: React.FC = () => {
-	const [formData, setFormData] = useState({
+	const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+	const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+	const userId = process.env.REACT_APP_EMAILJS_USER_ID;
+	const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+
+	const [formData, setFormData] = useState<FormData>({
 		firstName: "",
 		lastName: "",
 		email: "",
@@ -12,160 +25,227 @@ const ContactUs: React.FC = () => {
 	});
 	const [formStatus, setFormStatus] = useState("");
 	const [captchaError, setCaptchaError] = useState("");
-	const recaptchaRef = useRef<ReCAPTCHA>(null);
+	const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const recaptchaRef = useRef<any>(null);
 
-	// Scroll to top on mount
-	useEffect(() => window.scrollTo(0, 0), []);
+	useEffect(() => {
+		console.log(
+			"process.env.REACT_APP_RECAPTCHA_SITE_KEY:",
+			process.env.REACT_APP_RECAPTCHA_SITE_KEY,
+		);
+		console.log("recaptchaSiteKey:", recaptchaSiteKey);
 
-	// Email validation regex
-	const validateEmail = (email: string) =>
-		/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+		if (!recaptchaSiteKey) {
+			console.error("reCAPTCHA site key not configured");
+			return;
+		}
 
-	// Handle input changes
+		const script = document.createElement("script");
+		script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
+		script.async = true;
+		script.defer = true;
+		script.onload = () => {
+			console.log("reCAPTCHA script loaded successfully!");
+			console.log("isRecaptchaLoaded:", isRecaptchaLoaded);
+			setIsRecaptchaLoaded(true);
+		};
+		script.onerror = () => {
+			console.error("Failed to load reCAPTCHA");
+			setFormStatus(
+				"Security verification failed to load. Please refresh the page.",
+			);
+		};
+		document.body.appendChild(script);
+
+		return () => {
+			document.body.removeChild(script);
+		};
+	}, [recaptchaSiteKey]);
+
+	const sanitizeInput = (input: string): string => {
+		// Only sanitize if the input has changed.
+		if (
+			input.includes("<") ||
+			input.includes(">") ||
+			input.includes("on") ||
+			input.includes("javascript:")
+		) {
+			return input
+				.replace(/<[^>]*>?/gm, "")
+				.replace(/on\w+="[^"]*"/g, "")
+				.replace(/javascript:[^"]*/g, "")
+				.trim();
+		}
+		return input; // Don't sanitize if no harmful characters are present
+	};
+
+	const validateEmail = (email: string): boolean => {
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+	};
+
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
 		const { name, value } = e.target;
-		// Validate name fields (only letters)
-		if (
-			(name === "firstName" || name === "lastName") &&
-			!/^[a-zA-Z]*$/.test(value)
-		) {
-			return;
-		}
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		const sanitizedValue = sanitizeInput(value);
+		setFormData((prev) => ({ ...prev, [name]: sanitizedValue }));
 	};
 
-	// Form submit handler
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setIsSubmitting(true);
+		setFormStatus("");
+		setCaptchaError("");
 
 		if (!validateEmail(formData.email)) {
 			setFormStatus("Please enter a valid email address.");
+			setIsSubmitting(false);
 			return;
 		}
 
 		const token = recaptchaRef.current?.getValue();
 		if (!token) {
 			setCaptchaError("Please verify that you are not a robot.");
+			setIsSubmitting(false);
 			return;
 		}
 
-		const templateParams = {
-			from_name: `${formData.firstName} ${formData.lastName}`,
-			from_email: formData.email,
-			message: formData.message,
-			"g-recaptcha-response": token,
-		};
-
 		try {
+			if (!serviceId || !templateId || !userId) {
+				throw new Error("Email service not properly configured");
+			}
+
 			await emailjs.send(
-				"service_nczatmu",
-				"template_jdvl2xw",
-				templateParams,
-				"K3dpn1hBIlh71TATT",
+				serviceId,
+				templateId,
+				{
+					from_name: `${formData.firstName} ${formData.lastName}`,
+					from_email: formData.email,
+					message: formData.message,
+					"g-recaptcha-response": token,
+				},
+				userId,
 			);
-			setFormStatus("Your message has been sent successfully.");
+
+			setFormStatus("Your message has been sent successfully!");
 			setFormData({ firstName: "", lastName: "", email: "", message: "" });
 			recaptchaRef.current?.reset();
-			setCaptchaError("");
 		} catch (error) {
-			console.error("EmailJS Error:", error);
-			setFormStatus("Error sending message. Please try again later.");
+			console.error("Failed to send message:", error);
+			setFormStatus("Failed to send message. Please try again later.");
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
 	return (
 		<section className='contact-us-container'>
 			<h1>Contact Us</h1>
-			<p>
-				Have questions or feedback? Reach out, and we'll get back to you ASAP.
-			</p>
+			<p>Have questions or feedback? Reach out and we'll respond promptly.</p>
 
-			{/* Structured Data */}
-			<script type='application/ld+json'>
-				{JSON.stringify({
-					"@context": "https://schema.org",
-					"@type": "ContactPage",
-					mainEntity: {
-						"@type": "Organization",
-						name: "Dollars & Life",
-						url: "https://www.dollarsandlife.com/contact",
-						contactPoint: {
-							"@type": "ContactPoint",
-							email: "support@dollarsandlife.com",
-							contactType: "Customer Service",
-						},
-					},
-				})}
-			</script>
+			<form onSubmit={handleSubmit} className='contact-form' noValidate>
+				<div className='form-group'>
+					<label htmlFor='firstName'>
+						First Name *
+						<input
+							id='firstName'
+							type='text'
+							name='firstName'
+							value={formData.firstName}
+							onChange={handleChange}
+							required
+							aria-required='true'
+							pattern='[A-Za-z\s\-]+'
+							title='Only letters, spaces, and hyphens allowed'
+							maxLength={50}
+						/>
+					</label>
+				</div>
 
-			<form onSubmit={handleSubmit} className='contact-form'>
-				<label>
-					<span>First Name</span>
-					<input
-						type='text'
-						name='firstName'
-						value={formData.firstName}
-						placeholder='First Name'
-						onChange={handleChange}
-						required
-						aria-label='First Name'
-					/>
-				</label>
+				<div className='form-group'>
+					<label htmlFor='lastName'>
+						Last Name *
+						<input
+							id='lastName'
+							type='text'
+							name='lastName'
+							value={formData.lastName}
+							onChange={handleChange}
+							required
+							aria-required='true'
+							pattern='[A-Za-z\s\-]+'
+							title='Only letters, spaces, and hyphens allowed'
+							maxLength={50}
+						/>
+					</label>
+				</div>
 
-				<label>
-					<span>Last Name</span>
-					<input
-						type='text'
-						name='lastName'
-						value={formData.lastName}
-						placeholder='Last Name'
-						onChange={handleChange}
-						required
-						aria-label='Last Name'
-					/>
-				</label>
+				<div className='form-group'>
+					<label htmlFor='email'>
+						Email *
+						<input
+							id='email'
+							type='email'
+							name='email'
+							value={formData.email}
+							onChange={handleChange}
+							required
+							aria-required='true'
+							maxLength={100}
+						/>
+					</label>
+				</div>
 
-				<label>
-					<span>Email</span>
-					<input
-						type='email'
-						name='email'
-						value={formData.email}
-						placeholder='Email'
-						onChange={handleChange}
-						required
-						aria-label='Email'
-					/>
-				</label>
+				<div className='form-group'>
+					<label htmlFor='message'>
+						Message *
+						<textarea
+							id='message'
+							name='message'
+							value={formData.message}
+							onChange={handleChange}
+							required
+							aria-required='true'
+							rows={5}
+							maxLength={1000}
+						/>
+					</label>
+				</div>
 
-				<label>
-					<span>Your Message</span>
-					<textarea
-						name='message'
-						value={formData.message}
-						placeholder='Your message'
-						onChange={handleChange}
-						required
-						aria-label='Your message'
-					/>
-				</label>
+				{recaptchaSiteKey && isRecaptchaLoaded && (
+					<Suspense
+						fallback={
+							<div className='recaptcha-loading'>Loading verification...</div>
+						}
+					>
+						<LazyReCAPTCHA
+							sitekey={recaptchaSiteKey}
+							ref={recaptchaRef}
+							className='recaptcha'
+						/>
+					</Suspense>
+				)}
+				{captchaError && <p className='error-message'>{captchaError}</p>}
 
-				{/* Google reCAPTCHA */}
-				<ReCAPTCHA
-					sitekey='6Le2mjMqAAAAABzmZ0UJy5K6Gl5vw-CDG-mhon5L'
-					ref={recaptchaRef}
-				/>
-				{captchaError && <p className='error'>{captchaError}</p>}
-
-				{/* Submit Button */}
-				<button type='submit' aria-label='Send Message'>
-					Send
+				<button
+					type='submit'
+					className='submit-button'
+					aria-label='Send message'
+					disabled={isSubmitting || !recaptchaSiteKey || !isRecaptchaLoaded}
+				>
+					{isSubmitting ? "Sending..." : "Send Message"}
 				</button>
 
-				{/* Form Status */}
-				{formStatus && <p className='form-status'>{formStatus}</p>}
+				{formStatus && (
+					<p
+						className={`form-status ${
+							formStatus.includes("success") ? "success" : "error"
+						}`}
+					>
+						{formStatus}
+					</p>
+				)}
 			</form>
 		</section>
 	);

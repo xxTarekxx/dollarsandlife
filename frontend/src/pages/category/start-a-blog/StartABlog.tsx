@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, Route, Routes } from "react-router-dom";
-import "../../../components/AdComponent.css";
+// import "../../../components/AdComponent.css";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
 // import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "../extra-income/CommonStyles.css";
+import "../../../components/BlogPostContent.css";
 
 interface BlogPost {
 	id: string;

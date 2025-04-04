@@ -2,9 +2,9 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "./Footer.css";
-import FacebookIcon from "/images/favicon/facebook-icon.svg";
-import InstagramIcon from "/images/favicon/instagram-icon.svg";
-import YoutubeIcon from "/images/favicon/youtube-icon.svg";
+import FacebookIcon from "../../public/images/favicon/facebook-icon.svg";
+import InstagramIcon from "../../public/images/favicon/instagram-icon.svg";
+import YoutubeIcon from "../../public/images/favicon/youtube-icon.svg";
 
 const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();

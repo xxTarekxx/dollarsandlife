@@ -8,10 +8,7 @@
     box-sizing: border-box;
 }
 
-/* Top banner container */
-.TopBannerImage {
-    border-radius: 5px;
-}
+
 
 /* Container for individual calculator rows */
 .calculator-row {
@@ -39,12 +36,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-/* Calculator Heading */
-.calculator h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
 }
 
 /* Form Layout */

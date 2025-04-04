@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"; // Import Link
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
 
@@ -36,16 +36,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	mainEntityOfPage,
 	specialOffer,
 }) => {
-	const navigate = useNavigate();
-
-	const handleViewDetails = () => {
-		const slug = `${id}-${headline
+	const generateProductSlug = () => {
+		return `${id}-${headline
 			.toLowerCase()
 			.replace(/[^\w\s-]/g, "")
 			.replace(/\s+/g, "-")
 			.replace(/-+/g, "-")}`;
-
-		navigate(`/shopping-deals/products/${slug}`);
 	};
 
 	const parseDescription = (html: string) => {
@@ -91,13 +87,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					<span className='current-price'> Now: {currentPrice} </span>
 				</div>
 				<div className='product-actions'>
-					<button
-						onClick={handleViewDetails}
+					<Link
+						to={`/shopping-deals/products/${generateProductSlug()}`}
 						className='view-details-button'
 						aria-label={`View details for ${headline}`}
 					>
 						More Details
-					</button>
+					</Link>
 				</div>
 			</div>
 		</div>
@@ -201,31 +197,6 @@ const ShoppingDeals: React.FC = () => {
 		);
 	}
 
-	// for (let i = 0; i < currentPosts.length; i += numColumns) {
-	// 	const rowItems: JSX.Element[] = currentPosts
-	// 		.slice(i, i + numColumns)
-	// 		.map((product) => <ProductCard key={product.id} {...product} />);
-
-	// 	const refIndex = Math.floor(i / numColumns);
-	// 	items.push(
-	// 		<React.Fragment key={i}>
-	// 			<div className='products-grid'>{rowItems}</div>
-	// 			<div
-	// 				className='postings-container'
-	// 				ref={adContainersRef.current[refIndex]}
-	// 			>
-	// 				<ins
-	// 					className='adsbygoogle'
-	// 					style={{ display: "block", width: "300px", height: "250px" }}
-	// 					data-ad-client='ca-pub-1079721341426198'
-	// 					data-ad-slot='7197282987'
-	// 					data-ad-format='square'
-	// 				/>
-	// 			</div>
-	// 		</React.Fragment>,
-	// 	);
-	// }
-
 	return (
 		<div className='shopping-page-container' ref={pageRef}>
 			<Helmet>
@@ -286,21 +257,6 @@ const ShoppingDeals: React.FC = () => {
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
-
-			{/* <div className='shopping-page-container' ref={pageRef}>
-				... (your Helmet and other content)
-				{items}
-				... (your PaginationContainer and other content)
-				<div className='postings-container'>
-					<ins
-						className='adsbygoogle'
-						style={{ display: "block", width: "300px", height: "250px" }}
-						data-ad-client='ca-pub-1079721341426198'
-						data-ad-slot='7197282987'
-						data-ad-format='square'
-					/>
-				</div>
-			</div> */}
 		</div>
 	);
 };

@@ -3,12 +3,26 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "./HomePage.css";
 
-import ShoppingDealsImg from "/images/icons/img-dealsandsavings.webp";
-import ExtraIncomeImg from "/images/icons/img-extraincome.webp";
-import StartAblogimg from "/images/icons/img-startablog.webp";
+// Import images directly, if using Webpack's file-loader or similar
+import ShoppingDealsImg from "../../public/images/icons/img-dealsandsavings.webp";
+import ExtraIncomeImg from "../../public/images/icons/img-extraincome.webp";
+import StartAblogimg from "../../public/images/icons/img-startablog.webp";
+
+// Define the LinkBox interface for type safety
+interface LinkBoxData {
+	to: string;
+	ariaLabel: string;
+	imgSrc: string;
+	altText: string;
+	captionText: string;
+	width: number;
+	height: number;
+	priority: boolean;
+	keywords: string;
+}
 
 const HomePage: React.FC = () => {
-	const linkBoxes = [
+	const linkBoxes: LinkBoxData[] = [
 		{
 			to: "/extra-income",
 			ariaLabel: "Extra Income",

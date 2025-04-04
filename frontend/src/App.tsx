@@ -1,76 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState, useMemo } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
-	BrowserRouter as Router,
 	Route,
+	BrowserRouter as Router,
 	Routes,
 	useLocation,
 } from "react-router-dom";
 import "./App.css";
-import ScrollToTop from "./components/ScrollToTop";
+import Loading from "./components/Loading";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import BreadcrumbWrapper from "./components/BreadcrumbWrapper";
-import BlogPostContent from "./components/BlogPostContent";
 import NotFoundPage from "./components/NotFoundPage";
-import FinancialCalculators from "./components/calculators/FinancialCalculators";
-import ContactUs from "./components/ContactUs";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
 import RssTicker from "./components/RssTicker";
-import HomePage from "./pages/HomePage";
-import ExtraIncome from "./pages/category/Extra-Income/ExtraIncome";
-import FreelanceJobs from "./pages/category/Extra-Income/FreelanceJobs";
-import RemoteOnlineJobs from "./pages/category/Extra-Income/RemoteOnlineJobs";
-import MoneyMakingApps from "./pages/category/Extra-Income/MoneyMakingApps";
-import Budget from "./pages/category/Extra-Income/Budget";
-import StartABlog from "./pages/category/start-a-blog/StartABlog";
-import BreakingNews from "./pages/category/breakingnews/BreakingNews";
-import ShoppingDeals from "./pages/category/deals-and-saving/ShoppingDeals";
-import ProductDetails from "./pages/category/deals-and-saving/ProductDetails";
+import ScrollToTop from "./components/ScrollToTop";
+
+// Lazy load route components
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ExtraIncome = lazy(
+	() => import("./pages/category/extra-income/ExtraIncome"),
+);
+const FreelanceJobs = lazy(
+	() => import("./pages/category/extra-income/FreelanceJobs"),
+);
+const RemoteOnlineJobs = lazy(
+	() => import("./pages/category/extra-income/RemoteOnlineJobs"),
+);
+const MoneyMakingApps = lazy(
+	() => import("./pages/category/extra-income/MoneyMakingApps"),
+);
+const Budget = lazy(() => import("./pages/category/extra-income/Budget"));
+const StartABlog = lazy(
+	() => import("./pages/category/start-a-blog/StartABlog"),
+);
+const BreakingNews = lazy(
+	() => import("./pages/category/breakingnews/BreakingNews"),
+);
+const ShoppingDeals = lazy(
+	() => import("./pages/category/deals-and-saving/ShoppingDeals"),
+);
+const ProductDetails = lazy(
+	() => import("./pages/category/deals-and-saving/ProductDetails"),
+);
+const FinancialCalculators = lazy(
+	() => import("./components/calculators/FinancialCalculators"),
+);
+const ContactUs = lazy(() => import("./components/ContactUs"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const BlogPostContent = lazy(() => import("./components/BlogPostContent"));
+const BreadcrumbWrapper = lazy(() => import("./components/BreadcrumbWrapper"));
+const Footer = lazy(() => import("./components/Footer"));
 
 const App: React.FC = () => {
 	const location = useLocation();
-	const canonicalUrl = `https://www.dollarsandlife.com${location.pathname}`;
+	const canonicalUrl = useMemo(
+		() => `https://www.dollarsandlife.com${location.pathname}`,
+		[location.pathname],
+	);
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
 
-	// Enforce lowercase URLs without triggering page reload
 	useEffect(() => {
 		const lowerCaseUrl = location.pathname.toLowerCase();
 		if (location.pathname !== lowerCaseUrl) {
 			window.history.replaceState({}, document.title, lowerCaseUrl);
 		}
 	}, [location.pathname]);
-
-	// Handle AdBlock prompt and retesting
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		const adBlockTest = document.createElement("script");
-	// 		adBlockTest.src =
-	// 			"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-	// 		adBlockTest.type = "text/javascript";
-	// 		adBlockTest.async = true;
-
-	// 		adBlockTest.onerror = () => setShowAdBlockPrompt(true);
-
-	// 		document.body.appendChild(adBlockTest);
-	// 	}, 2000);
-	// }, []);
-
-	// const handleDismissAdBlockPrompt = () => {
-	// 	setShowAdBlockPrompt(false);
-	// 	setTimeout(() => {
-	// 		const adBlockRetest = document.createElement("script");
-	// 		adBlockRetest.src =
-	// 			"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-	// 		adBlockRetest.type = "text/javascript";
-	// 		adBlockRetest.async = true;
-
-	// 		adBlockRetest.onerror = () => setShowAdBlockPrompt(true);
-
-	// 		document.body.appendChild(adBlockRetest);
-	// 	}, 3000);
-	// };
 
 	const handleDismissAdBlockPrompt = () => {
 		setShowAdBlockPrompt(false);
@@ -126,55 +119,62 @@ const App: React.FC = () => {
 
 				<Navbar />
 				<RssTicker />
-				{location.pathname !== "/" && <BreadcrumbWrapper />}
+				{location.pathname !== "/" && (
+					<Suspense fallback={<Loading />}>
+						<BreadcrumbWrapper />
+					</Suspense>
+				)}
 				<div>
-					<Routes>
-						<Route path='/' element={<HomePage />} />
-						<Route path='/extra-income' element={<ExtraIncome />} />
-						<Route
-							path='/extra-income/freelancers/*'
-							element={<FreelanceJobs />}
-						/>
-						<Route
-							path='/extra-income/remote-jobs/*'
-							element={<RemoteOnlineJobs />}
-						/>
-						<Route
-							path='/extra-income/money-making-apps/*'
-							element={<MoneyMakingApps />}
-						/>
-						<Route path='/extra-income/budget/*' element={<Budget />} />
-						<Route path='/shopping-deals' element={<ShoppingDeals />} />
-						<Route
-							path='/shopping-deals/products/:productSlug'
-							element={<ProductDetails />}
-						/>
-
-						<Route path='/start-a-blog/*' element={<StartABlog />} />
-						<Route
-							path='/financial-calculators'
-							element={<FinancialCalculators />}
-						/>
-						<Route path='/breaking-news' element={<BreakingNews />} />
-						<Route path='/terms-of-service' element={<TermsOfService />} />
-						<Route path='/privacy-policy' element={<PrivacyPolicy />} />
-						<Route path='/contact-us' element={<ContactUs />} />
-						<Route
-							path='/extra-income/:id'
-							element={<BlogPostContent jsonFile='budgetdata.json' />}
-						/>
-						<Route
-							path='/start-a-blog/:id'
-							element={<BlogPostContent jsonFile='startablogdata.json' />}
-						/>
-						<Route
-							path='/breaking-news/:id'
-							element={<BlogPostContent jsonFile='breakingnews.json' />}
-						/>
-						<Route path='*' element={<NotFoundPage />} />
-					</Routes>
+					<Suspense fallback={<Loading />}>
+						<Routes>
+							<Route path='/' element={<HomePage />} />
+							<Route path='/extra-income' element={<ExtraIncome />} />
+							<Route
+								path='/extra-income/freelancers/*'
+								element={<FreelanceJobs />}
+							/>
+							<Route
+								path='/extra-income/remote-jobs/*'
+								element={<RemoteOnlineJobs />}
+							/>
+							<Route
+								path='/extra-income/money-making-apps/*'
+								element={<MoneyMakingApps />}
+							/>
+							<Route path='/extra-income/budget/*' element={<Budget />} />
+							<Route path='/shopping-deals' element={<ShoppingDeals />} />
+							<Route
+								path='/shopping-deals/products/:productSlug'
+								element={<ProductDetails />}
+							/>
+							<Route path='/start-a-blog/*' element={<StartABlog />} />
+							<Route
+								path='/financial-calculators'
+								element={<FinancialCalculators />}
+							/>
+							<Route path='/breaking-news' element={<BreakingNews />} />
+							<Route path='/terms-of-service' element={<TermsOfService />} />
+							<Route path='/privacy-policy' element={<PrivacyPolicy />} />
+							<Route path='/contact-us' element={<ContactUs />} />
+							<Route
+								path='/extra-income/:id'
+								element={<BlogPostContent jsonFile='budgetdata.json' />}
+							/>
+							<Route
+								path='/start-a-blog/:id'
+								element={<BlogPostContent jsonFile='startablogdata.json' />}
+							/>
+							<Route
+								path='/breaking-news/:id'
+								element={<BlogPostContent jsonFile='breakingnews.json' />}
+							/>
+							<Route path='*' element={<NotFoundPage />} />
+						</Routes>
+					</Suspense>
 				</div>
-				<Footer />
+				<Suspense fallback={<Loading />}>
+					<Footer />
+				</Suspense>
 			</div>
 		</HelmetProvider>
 	);

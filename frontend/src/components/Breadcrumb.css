@@ -37,6 +37,11 @@
     text-decoration: none;
     color: #7212e0;
     transition: color 0.3s;
+    font-size: 0.8rem;
+
+    @media (max-width: 768px) {
+        font-size: 0.5rem;
+    }
 }
 
 .breadcrumb-item a:hover {
