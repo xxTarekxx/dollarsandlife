@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./RssTicker.css";
 
 interface Article {
@@ -12,12 +12,12 @@ const REFRESH_INTERVAL = 3780000; // 1 hour 3 minutes
 
 const RssTicker: React.FC = () => {
 	const [articles, setArticles] = useState<Article[]>([]);
-	const API_KEY = import.meta.env.VITE_RSS2JSON_API_KEY;
+	const API_KEY = process.env.REACT_APP_RSS2JSON_API_KEY; // Corrected line
 
 	// Fetch RSS Feed
 	const fetchRSS = useCallback(async () => {
 		if (!API_KEY) {
-			console.error(" Missing API Key: Check your .env file!");
+			console.error("Missing API Key: Check your .env file!");
 			return;
 		}
 
@@ -38,9 +38,9 @@ const RssTicker: React.FC = () => {
 				throw new Error(data.message || "RSS fetch error");
 
 			setArticles(data.items);
-			console.log(" RSS Feed Updated");
+			console.log("RSS Feed Updated");
 		} catch (error) {
-			console.error(" RSS Feed Error:", error);
+			console.error("RSS Feed Error:", error);
 		}
 	}, [API_KEY]);
 

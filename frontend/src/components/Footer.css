@@ -16,6 +16,7 @@
     width: 100%;
 }
 
+
 /* Social Links */
 .social-link {
     margin: 0 1rem;
@@ -89,11 +90,16 @@
 
 /* Headers */
 .header {
-    margin-bottom: 0.3rem;
+    margin-top: 0.4rem;
     font-size: 1.05rem;
     text-align: center;
     color: rgb(0, 0, 0);
     font-weight: 600;
+
+}
+
+h2 {
+    margin-bottom: 0;
 }
 
 /* Copyright */

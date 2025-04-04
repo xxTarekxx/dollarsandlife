@@ -36,23 +36,6 @@
     }
 }
 
-.terms-of-service-content h2,
-.privacy-policy-content h2 {
-    font-size: 1.6em;
-    margin-bottom: 0.5em;
-    color: #000000;
-    line-height: 1.3;
-    text-align: center;
-}
-
-@media (max-width: 768px) {
-
-    .terms-of-service-content h2,
-    .privacy-policy-content h2 {
-        font-size: 1.4em;
-        margin-bottom: 0.4em;
-    }
-}
 
 .terms-of-service-content h3,
 .privacy-policy-content h3 {

@@ -15,12 +15,6 @@
     text-align: center;
 }
 
-.top-banner-container {
-    width: 100%;
-    max-width: 728px;
-    margin-bottom: 20px;
-}
-
 .top-banner {
     display: block;
     width: 100%;
@@ -34,10 +28,16 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+h2 {
+    text-align: center;
+    ;
+}
+
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    margin-top: 1rem;
     margin-bottom: 2rem;
     justify-items: center;
     width: 100%;
@@ -130,10 +130,16 @@
     max-width: 200px;
 }
 
-.view-details-button {
+.product-actions .view-details-button {
+    display: inline-block;
+    padding: 12px 25px;
     background-color: #007bff;
     color: white;
-    cursor: pointer;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    width: 100%;
+    max-width: 200px;
 }
 
 .buy-now-button:hover {

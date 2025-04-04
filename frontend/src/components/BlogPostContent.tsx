@@ -1,9 +1,16 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import parse from "html-react-parser";
+import React, {
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+	useMemo,
+	memo,
+} from "react";
 import { Helmet } from "react-helmet-async";
+import { useNavigate, useParams } from "react-router-dom";
 import "./BlogPostContent.css";
-import "../pages/category/Extra-Income/ExtraIncome.css";
+import "../pages/category/extra-income/CommonStyles.css";
 
 interface BlogPostContentProps {
 	jsonFile: string;
@@ -51,39 +58,42 @@ declare global {
 	}
 }
 
-const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
+const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 	const [post, setPost] = useState<BlogPost | null>(null);
 	const adsInitialized = useRef(false);
 
-	const parseString = (str: string | undefined): React.ReactNode => {
-		return typeof str === "string" ? parse(str) : null;
-	};
+	const parseString = useCallback(
+		(str: string | undefined): React.ReactNode => {
+			return typeof str === "string" ? parse(str) : null;
+		},
+		[],
+	);
 
-	const renderArrayOrString = (
-		data: string | string[] | undefined | CaseStudy,
-		className: string,
-	) => {
-		if (!data) return null;
+	const renderArrayOrString = useCallback(
+		(data: string | string[] | undefined | CaseStudy, className: string) => {
+			if (!data) return null;
 
-		if (typeof data === "object" && "title" in data) {
-			return (
-				<div className={className}>
-					<h4>{data.title}</h4>
-					<p>{parseString(data.content)}</p>
-					{data.stats && <p className='stats'>{parseString(data.stats)}</p>}
+			if (typeof data === "object" && "title" in data) {
+				return (
+					<div className={className}>
+						<h4>{data.title}</h4>
+						<p>{parseString(data.content)}</p>
+						{data.stats && <p className='stats'>{parseString(data.stats)}</p>}
+					</div>
+				);
+			}
+
+			const items = Array.isArray(data) ? data : [data];
+			return items.map((item, index) => (
+				<div key={index} className={className}>
+					{parseString(item)}
 				</div>
-			);
-		}
-
-		const items = Array.isArray(data) ? data : [data];
-		return items.map((item, index) => (
-			<div key={index} className={className}>
-				{parseString(item)}
-			</div>
-		));
-	};
+			));
+		},
+		[parseString],
+	);
 
 	const fetchPost = useCallback(async () => {
 		if (!postId) return;
@@ -132,11 +142,10 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 		}
 	}, [post]);
 
-	if (!post) return <div>Loading...</div>;
+	const postContentMemo = useMemo(() => {
+		if (!post) return null;
 
-	return (
-		<div className='page-container'>
-			<Helmet>{/* Canonical tag will be added via useEffect */}</Helmet>
+		return (
 			<div className='blog-post-content'>
 				<h1>{post.headline}</h1>
 				<div className='image-box'>
@@ -274,8 +283,17 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({ jsonFile }) => {
 					</div>
 				))}
 			</div>
+		);
+	}, [post, parseString, renderArrayOrString]);
+
+	if (!post) return <div>Loading...</div>;
+
+	return (
+		<div className='page-container'>
+			<Helmet>{/* Canonical tag will be added via useEffect */}</Helmet>
+			{postContentMemo}
 		</div>
 	);
-};
+});
 
-export default React.memo(BlogPostContent);
+export default BlogPostContent;

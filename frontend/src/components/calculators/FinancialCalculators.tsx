@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { Helmet } from "react-helmet-async";
-import "../AdComponent.css";
 import "./FinancialCalculators.css";
 import { AutoLoanCalculator } from "./AutoLoanCalculator";
 import { CreditCardCalculator } from "./CreditCardCalculator";
@@ -17,8 +16,7 @@ declare global {
 	}
 }
 
-const FinancialCalculators: React.FC = () => {
-	//  Push AdSense ads after adsbygoogle.js is loaded
+const FinancialCalculators: React.FC = memo(() => {
 	useEffect(() => {
 		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
 			try {
@@ -30,19 +28,18 @@ const FinancialCalculators: React.FC = () => {
 	}, []);
 
 	const calculators = [
-		<NicheProfitCalculator />,
-		<RetirementCalculator />,
-		<MortgageCalculator />,
-		<CreditCardCalculator />,
-		<AutoLoanCalculator />,
-		<SavingsCalculator />,
-		<LoanPaymentCalculator />,
-		<TaxCalculator />,
+		<NicheProfitCalculator key='niche' />,
+		<RetirementCalculator key='retirement' />,
+		<MortgageCalculator key='mortgage' />,
+		<CreditCardCalculator key='creditcard' />,
+		<AutoLoanCalculator key='autoloan' />,
+		<SavingsCalculator key='savings' />,
+		<LoanPaymentCalculator key='loanpayment' />,
+		<TaxCalculator key='tax' />,
 	];
 
 	return (
 		<div className='financial-calculators-container'>
-			{/* SEO Metadata with Helmet */}
 			<Helmet>
 				<title>Financial Calculators - Plan & Manage Your Money</title>
 				<meta
@@ -75,7 +72,6 @@ const FinancialCalculators: React.FC = () => {
 
 			<h1>Financial Calculators</h1>
 
-			{/* Top Banner Ad */}
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -92,13 +88,10 @@ const FinancialCalculators: React.FC = () => {
 				</a>
 			</div>
 
-			{/* Financial Calculators List */}
 			<div className='content-wrapper'>
 				{calculators.map((CalculatorComponent, i) => (
 					<React.Fragment key={i}>
 						<div className='calculator-row'>{CalculatorComponent}</div>
-
-						{/* Insert an AdSense ad after every two calculators */}
 						{i > 0 && i % 2 === 1 && (
 							<div className='postings-container'>
 								<ins
@@ -119,7 +112,6 @@ const FinancialCalculators: React.FC = () => {
 				))}
 			</div>
 
-			{/* Bottom Banner Ad */}
 			<div className='postings-container'>
 				<ins
 					className='adsbygoogle-banner'
@@ -136,6 +128,6 @@ const FinancialCalculators: React.FC = () => {
 			</div>
 		</div>
 	);
-};
+});
 
 export default FinancialCalculators;

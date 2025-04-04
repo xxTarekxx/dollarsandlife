@@ -31,8 +31,6 @@ const CookieConsentBanner: React.FC = () => {
 	// Apply cookie preferences
 	const applyCookies = (prefs: typeof preferences) => {
 		if (prefs.analytics) loadGoogleAnalytics();
-		if (prefs.ads) loadGoogleAdSense();
-		if (!prefs.saleOfData) disableDataSale();
 	};
 
 	// Save preferences
@@ -64,7 +62,7 @@ const CookieConsentBanner: React.FC = () => {
 			window.dataLayer!.push(args);
 		}
 
-		const internalIP = import.meta.env.VITE_INTERNAL_IP;
+		const internalIP = import.meta.env.REACT_APP_INTERNAL_IP;
 
 		// Block GA on internal IPs
 		fetch("https://api64.ipify.org?format=json")
@@ -90,23 +88,23 @@ const CookieConsentBanner: React.FC = () => {
 	};
 
 	// Load Google AdSense
-	const loadGoogleAdSense = () => {
-		if (!document.querySelector('script[src*="adsbygoogle.js"]')) {
-			const script = document.createElement("script");
-			script.src =
-				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-			script.async = true;
-			script.setAttribute("data-ad-client", "ca-pub-1079721341426198");
-			document.body.appendChild(script);
-		}
-	};
+	// const loadGoogleAdSense = () => {
+	// 	if (!document.querySelector('script[src*="adsbygoogle.js"]')) {
+	// 		const script = document.createElement("script");
+	// 		script.src =
+	// 			"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+	// 		script.async = true;
+	// 		script.setAttribute("data-ad-client", "ca-pub-1079721341426198");
+	// 		document.body.appendChild(script);
+	// 	}
+	// };
 
 	// Disable sale of data (for CCPA compliance)
-	const disableDataSale = () => {
-		console.log("User opted out of data sale");
-	};
+	// const disableDataSale = () => {
+	// 	console.log("User opted out of data sale");
+	// };
 
-	if (!isVisible) return null;
+	// if (!isVisible) return null;
 
 	return (
 		<>

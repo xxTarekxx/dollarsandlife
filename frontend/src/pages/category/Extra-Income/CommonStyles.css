@@ -1,6 +1,7 @@
 /* Ensure scrollbar is always visible to prevent navbar shifting */
 html {
 	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 /* Container for the entire page content to push footer to bottom */
