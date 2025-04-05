@@ -121,6 +121,8 @@ const StartABlog: React.FC = () => {
 										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
 										alt='Lyca Mobile Banner'
 										className='TopBannerImage'
+										width='730px'
+										height='90px'
 										loading='eager'
 									/>
 								</a>

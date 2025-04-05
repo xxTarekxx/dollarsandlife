@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useRef, Suspense } from "react";
-// REMOVED: import emailjs from "emailjs-com";
+import React, {
+	useState,
+	useEffect,
+	useRef,
+	Suspense,
+	lazy,
+	useCallback,
+} from "react";
 import "./ContactUs.css";
 
-// ReCAPTCHA is already correctly lazy-loaded
-const LazyReCAPTCHA = React.lazy(() => import("react-google-recaptcha"));
+// Lazy load ReCAPTCHA component
+const LazyReCAPTCHA = lazy(() => import("react-google-recaptcha"));
 
 interface FormData {
 	firstName: string;
@@ -26,30 +32,30 @@ const ContactUs: React.FC = () => {
 	});
 	const [formStatus, setFormStatus] = useState("");
 	const [captchaError, setCaptchaError] = useState("");
-	const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
+	const [isRecaptchaScriptLoaded, setIsRecaptchaScriptLoaded] = useState(false); // Renamed for clarity
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const recaptchaRef = useRef<any>(null);
 
-	// This useEffect handles loading the reCAPTCHA script itself, separate from the component import
+	// Effect to load the reCAPTCHA API script when this component mounts
 	useEffect(() => {
 		if (!recaptchaSiteKey) {
 			console.error("reCAPTCHA site key not configured");
 			return;
 		}
 
-		// Check if the script already exists to avoid duplicates on HMR or remounts
+		// Check if script is already loaded by another instance perhaps
 		if (document.querySelector(`script[src*="recaptcha/api.js"]`)) {
-			setIsRecaptchaLoaded(true); // Assume it's loaded or will load
+			setIsRecaptchaScriptLoaded(true);
 			return;
 		}
 
 		const script = document.createElement("script");
-		script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
+		// Use standard v2 api.js load, as LazyReCAPTCHA is likely v2
+		script.src = `https://www.google.com/recaptcha/api.js`;
 		script.async = true;
 		script.defer = true;
 		script.onload = () => {
-			// Note: state might not be updated immediately here
-			setIsRecaptchaLoaded(true);
+			setIsRecaptchaScriptLoaded(true);
 		};
 		script.onerror = () => {
 			console.error("Failed to load reCAPTCHA");
@@ -59,49 +65,47 @@ const ContactUs: React.FC = () => {
 		};
 		document.body.appendChild(script);
 
+		// Cleanup function to remove script if component unmounts
 		return () => {
-			// Cleanup the script when the component unmounts
 			const existingScript = document.querySelector(
 				`script[src*="recaptcha/api.js"]`,
 			);
 			if (existingScript && document.body.contains(existingScript)) {
 				document.body.removeChild(existingScript);
 			}
-			// Optionally reset the state if needed when unmounting
-			// setIsRecaptchaLoaded(false);
+			setIsRecaptchaScriptLoaded(false); // Reset state on unmount
 		};
-	}, [recaptchaSiteKey]); // Dependency array includes recaptchaSiteKey
+	}, [recaptchaSiteKey]);
 
-	const sanitizeInput = (input: string): string => {
-		// Basic sanitization (consider a more robust library if needed)
+	const sanitizeInput = useCallback((input: string): string => {
+		// Basic sanitization
 		if (
 			input.includes("<") ||
 			input.includes(">") ||
-			input.includes("on") || // simplistic check for event handlers
+			input.includes("on") ||
 			input.includes("javascript:")
 		) {
 			return input
-				.replace(/<[^>]*>?/gm, "") // Remove HTML tags
-				.replace(/on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "") // Remove on... attributes
-				.replace(/javascript:[^"']*/gi, "") // Remove javascript: links
+				.replace(/<[^>]*>?/gm, "")
+				.replace(/on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
+				.replace(/javascript:[^"']*/gi, "")
 				.trim();
 		}
-		return input; // Return original if no suspicious patterns found
-	};
+		return input;
+	}, []);
 
 	const validateEmail = (email: string): boolean => {
-		// Standard email regex
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 	};
 
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => {
-		const { name, value } = e.target;
-		// Sanitize on change to prevent storing potentially harmful input
-		const sanitizedValue = sanitizeInput(value);
-		setFormData((prev) => ({ ...prev, [name]: sanitizedValue }));
-	};
+	const handleChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+			const { name, value } = e.target;
+			const sanitizedValue = sanitizeInput(value);
+			setFormData((prev) => ({ ...prev, [name]: sanitizedValue }));
+		},
+		[sanitizeInput], // Include sanitizeInput if its definition could change (it doesn't here, but good practice)
+	);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -129,18 +133,17 @@ const ContactUs: React.FC = () => {
 				);
 			}
 
-			// --- DYNAMIC IMPORT ADDED HERE ---
+			// Dynamically import emailjs ONLY when submitting
 			const emailjsModule = await import("emailjs-com");
-			const emailjs = emailjsModule.default; // Access the default export
-			// --- END DYNAMIC IMPORT ---
+			const emailjs = emailjsModule.default;
 
 			await emailjs.send(
 				serviceId,
 				templateId,
 				{
-					from_name: `${formData.firstName} ${formData.lastName}`, // Sanitize names if needed
-					from_email: formData.email, // Already validated
-					message: formData.message, // Already sanitized on change
+					from_name: `${formData.firstName} ${formData.lastName}`,
+					from_email: formData.email,
+					message: formData.message,
 					"g-recaptcha-response": token,
 				},
 				userId,
@@ -148,7 +151,7 @@ const ContactUs: React.FC = () => {
 
 			setFormStatus("Your message has been sent successfully!");
 			setFormData({ firstName: "", lastName: "", email: "", message: "" });
-			recaptchaRef.current?.reset(); // Reset reCAPTCHA after successful send
+			recaptchaRef.current?.reset();
 		} catch (error) {
 			console.error("Failed to send message:", error);
 			setFormStatus(
@@ -176,7 +179,7 @@ const ContactUs: React.FC = () => {
 							onChange={handleChange}
 							required
 							aria-required='true'
-							pattern='^[A-Za-z\s\-]+$' // Use ^ and $ for stricter pattern matching
+							pattern='^[A-Za-z\s\-]+$'
 							title='Only letters, spaces, and hyphens allowed'
 							maxLength={50}
 						/>
@@ -233,18 +236,19 @@ const ContactUs: React.FC = () => {
 					</label>
 				</div>
 
-				{/* Conditionally render Suspense and LazyReCAPTCHA */}
+				{/* Render reCAPTCHA only if key exists */}
 				{recaptchaSiteKey ? (
 					<Suspense
 						fallback={
 							<div className='recaptcha-loading'>Loading verification...</div>
 						}
 					>
-						{isRecaptchaLoaded ? (
+						{/* Render the component only when the API script has loaded */}
+						{isRecaptchaScriptLoaded ? (
 							<LazyReCAPTCHA
 								sitekey={recaptchaSiteKey}
 								ref={recaptchaRef}
-								onChange={() => setCaptchaError("")} // Clear error when user interacts
+								onChange={() => setCaptchaError("")}
 								onErrored={() =>
 									setCaptchaError("reCAPTCHA verification failed.")
 								}
@@ -256,8 +260,6 @@ const ContactUs: React.FC = () => {
 								className='recaptcha'
 							/>
 						) : (
-							// Optional: Show something if script is loading but component isn't ready yet
-							// This might overlap with Suspense fallback depending on timing
 							<div className='recaptcha-loading'>
 								Initializing verification...
 							</div>
@@ -272,8 +274,9 @@ const ContactUs: React.FC = () => {
 					type='submit'
 					className='submit-button'
 					aria-label='Send message'
-					// Disable button if submitting, or if reCAPTCHA isn't configured or loaded
-					disabled={isSubmitting || !recaptchaSiteKey || !isRecaptchaLoaded}
+					disabled={
+						isSubmitting || !recaptchaSiteKey || !isRecaptchaScriptLoaded
+					}
 				>
 					{isSubmitting ? "Sending..." : "Send Message"}
 				</button>
@@ -283,7 +286,7 @@ const ContactUs: React.FC = () => {
 						className={`form-status ${
 							formStatus.includes("success") ? "success" : "error"
 						}`}
-						role='alert' // Improve accessibility for status messages
+						role='alert'
 					>
 						{formStatus}
 					</p>

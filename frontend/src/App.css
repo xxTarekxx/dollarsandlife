@@ -228,14 +228,18 @@ button.secondary:hover {
 }
 
 .TopBannerImage {
-  margin-top: 6px;
+  /* margin-top: 6px; */
   margin-bottom: 0px;
-  width: 100%;
+
+
   border-radius: 0.75rem;
-  /* 12px */
   max-width: 50rem;
-  /* 800px */
   height: auto;
+
+  @media (max-width: 30rem) {
+    width: 360px;
+    height: 55px;
+  }
 }
 
 @media (max-width: 37.5rem) {
@@ -276,6 +280,7 @@ button.secondary:hover {
 }
 
 @media (max-width: 30rem) {
+
 
   /* 480px */
   h1 {

@@ -132,9 +132,9 @@ const RemoteOnlineJobs: React.FC = () => {
 										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
 										alt='Lyca Mobile Banner - Affordable International Calling'
 										className='TopBannerImage'
+										width='730px'
+										height='90px'
 										loading='eager'
-										width='728'
-										height='90'
 										{...{ fetchpriority: "high" }} //  Correct way to avoid both TS + React warning
 									/>
 								</a>

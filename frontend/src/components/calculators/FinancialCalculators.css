@@ -38,6 +38,10 @@
     justify-content: space-between;
 }
 
+.calculator h2 {
+    text-align: center;
+}
+
 /* Form Layout */
 .calculator form {
     display: flex;

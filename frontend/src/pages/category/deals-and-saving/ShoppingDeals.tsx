@@ -238,12 +238,14 @@ const ShoppingDeals: React.FC = () => {
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
 					target='_blank'
 					rel='noopener noreferrer'
-					className='top-banner'
+					className='TopBanner'
 				>
 					<img
 						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
 						alt='Lyca Mobile Banner'
-						className='top-banner-image'
+						className='TopBannerImage'
+						width='730px'
+						height='90px'
 						loading='eager'
 					/>
 				</a>
