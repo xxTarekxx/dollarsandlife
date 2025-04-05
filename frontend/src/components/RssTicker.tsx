@@ -22,8 +22,6 @@ const RssTicker: React.FC = () => {
 		}
 
 		try {
-			console.log("🔄 Fetching RSS Feed...");
-
 			const response = await fetch(
 				`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
 					RSS_FEED_URL,
@@ -38,7 +36,6 @@ const RssTicker: React.FC = () => {
 				throw new Error(data.message || "RSS fetch error");
 
 			setArticles(data.items);
-			console.log("RSS Feed Updated");
 		} catch (error) {
 			console.error("RSS Feed Error:", error);
 		}
@@ -52,7 +49,6 @@ const RssTicker: React.FC = () => {
 
 		return () => {
 			clearInterval(intervalId);
-			console.log("🛑 RSS Interval cleared");
 		};
 	}, [fetchRSS]);
 

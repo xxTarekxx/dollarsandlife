@@ -1,120 +1,109 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+	memo,
+	useCallback, // Keep useCallback import, but we won't wrap closeMenuAndNavigate
+	useState,
+	Suspense,
+	lazy,
+	useEffect,
+} from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 
-interface Post {
-	id: string;
-	headline: string;
-	jsonFile: string;
-	route: string;
-}
+// Lazily import the SearchFeature component
+const SearchFeature = lazy(() => import("./SearchFeature"));
+
+// Define the breakpoint constant
+const MOBILE_BREAKPOINT = 1076;
 
 const NavBar: React.FC = () => {
+	// State for menu and search visibility
 	const [menuOpen, setMenuOpen] = useState(false);
-	const [isClosing, setIsClosing] = useState(false);
+	const [isClosing, setIsClosing] = useState(false); // For menu animation
 	const [searchOpen, setSearchOpen] = useState(false);
-	const [searchQuery, setSearchQuery] = useState("");
-	const [searchResults, setSearchResults] = useState<Post[]>([]);
-	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
-	const searchRef = useRef<HTMLDivElement>(null);
+
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	useEffect(() => {
-		const files = [
-			{ file: "budgetdata.json", route: "/extra-income" },
-			{ file: "freelancejobs.json", route: "/extra-income/freelancers" },
-			{
-				file: "moneymakingapps.json",
-				route: "/extra-income/money-making-apps",
-			},
-			{ file: "products.json", route: "/shopping-deals" },
-			{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
-			{ file: "startablogdata.json", route: "/start-a-blog" },
-			{ file: "breakingnews.json", route: "/breaking-news" },
-		];
+	// --- Handlers ---
 
-		const fetchPosts = async () => {
-			const allPosts: Post[] = [];
-			for (const { file, route } of files) {
-				try {
-					const res = await fetch(`/data/${file}?v=${Date.now()}`);
-					if (!res.ok) continue;
-					const data: Post[] = await res.json();
-					const postsWithRoute = data.map((post) => ({
-						...post,
-						route,
-						jsonFile: file,
-					}));
-					allPosts.push(...postsWithRoute);
-				} catch (err) {
-					console.warn(`Error fetching ${file}`, err);
-				}
+	// Toggle Search
+	const handleSearchInteraction = () => {
+		setSearchOpen((prev) => !prev);
+		if (!searchOpen) {
+			if (menuOpen) {
+				setIsClosing(true);
+				setTimeout(() => {
+					setMenuOpen(false);
+					setIsClosing(false);
+				}, 400);
 			}
-			setSearchResults(allPosts);
-		};
-
-		fetchPosts();
-	}, []);
-
-	useEffect(() => {
-		if (searchQuery.trim() === "") {
-			setFilteredPosts([]);
-			return;
 		}
-		const filtered = searchResults.filter((post) =>
-			post.headline.toLowerCase().includes(searchQuery.toLowerCase()),
-		);
-		setFilteredPosts(filtered);
-	}, [searchQuery, searchResults]);
+	};
 
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				searchRef.current &&
-				!searchRef.current.contains(event.target as Node)
-			) {
-				setSearchOpen(false);
-				setSearchQuery("");
-				setFilteredPosts([]);
-			}
-		};
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => document.removeEventListener("mousedown", handleClickOutside);
+	// Close Search (Callback for SearchFeature)
+	const handleCloseSearch = useCallback(() => {
+		setSearchOpen(false);
 	}, []);
 
-	const handlePostClick = useCallback(
-		(post: Post) => {
-			setSearchOpen(false);
-			setSearchQuery("");
-			setFilteredPosts([]);
+	// Close Menu & Navigate (Viewport Aware - NO useCallback here)
+	const closeMenuAndNavigate = (to: string) => {
+		// Check viewport width dynamically on click
+		const isMobile = window.matchMedia(
+			`(max-width: ${MOBILE_BREAKPOINT}px)`,
+		).matches;
 
-			const postRouteMap: Record<string, string> = {
-				"budgetdata.json": `/extra-income/${post.id}`,
-				"freelancejobs.json": `/extra-income/freelancers/${post.id}`,
-				"moneymakingapps.json": `/extra-income/money-making-apps/${post.id}`,
-				"remotejobs.json": `/extra-income/remote-jobs/${post.id}`,
-				"startablogdata.json": `/start-a-blog/${post.id}`,
-				"breakingnews.json": `/breaking-news/${post.id}`,
-				"products.json": `/shopping-deals/${post.id}`,
-			};
-
-			if (postRouteMap[post.jsonFile]) {
-				navigate(postRouteMap[post.jsonFile]);
+		if (isMobile) {
+			// Mobile logic: requires menu to be open and not closing
+			if (menuOpen && !isClosing) {
+				setIsClosing(true);
+				const timer = setTimeout(() => {
+					setMenuOpen(false);
+					setIsClosing(false);
+					navigate(to);
+				}, 400);
+			} else {
+				console.log(
+					"[Mobile] Navigation prevented: menuOpen=",
+					menuOpen,
+					"isClosing=",
+					isClosing,
+				);
 			}
-		},
-		[navigate],
-	);
+		} else {
+			navigate(to);
+		}
+	};
+
+	// Toggle Mobile Menu (for Hamburger)
+	const toggleMobileMenu = () => {
+		if (isClosing) return;
+
+		if (menuOpen) {
+			setIsClosing(true);
+			setTimeout(() => {
+				setMenuOpen(false);
+				setIsClosing(false);
+			}, 400);
+		} else {
+			setMenuOpen(true);
+			if (searchOpen) {
+				setSearchOpen(false);
+			}
+		}
+	};
 
 	return (
 		<nav className='nav'>
+			{/* Logo */}
 			<div className='logo'>
 				<Link to='/' aria-label='Home'>
 					<img src='/images/website-logo.webp' alt='Logo' className='logo' />
 				</Link>
 			</div>
 
+			{/* Right-side controls */}
 			<div className='right-controls'>
+				{/* Mobile/Desktop Menu */}
 				<div
 					className={`menu ${
 						menuOpen ? (isClosing ? "closing" : "open") : "closed"
@@ -131,16 +120,11 @@ const NavBar: React.FC = () => {
 							key={i}
 							to={link.to}
 							className={`menu-item ${
-								location.pathname === link.to ? "active" : ""
+								location.pathname.startsWith(link.to) ? "active" : ""
 							}`}
 							onClick={(e) => {
-								e.preventDefault();
-								setIsClosing(true);
-								setTimeout(() => {
-									setMenuOpen(false);
-									setIsClosing(false);
-									navigate(link.to);
-								}, 400);
+								e.preventDefault(); // Prevent default link navigation
+								closeMenuAndNavigate(link.to); // Call viewport-aware function
 							}}
 							style={{ animationDelay: `${i * 0.1}s` }}
 						>
@@ -149,19 +133,23 @@ const NavBar: React.FC = () => {
 					))}
 				</div>
 
+				{/* Hamburger Icon */}
 				<div
 					className={`hamburger ${menuOpen ? "open" : ""}`}
-					onClick={() => setMenuOpen((prev) => !prev)}
+					onClick={toggleMobileMenu}
 					role='button'
 					aria-label='Toggle menu'
+					aria-expanded={menuOpen}
 				>
 					<div></div>
 					<div></div>
 					<div></div>
 				</div>
+
+				{/* Search Icon */}
 				<div
 					className='search-icon'
-					onClick={() => setSearchOpen((prev) => !prev)}
+					onClick={handleSearchInteraction}
 					role='button'
 					aria-label='Toggle search'
 				>
@@ -173,28 +161,21 @@ const NavBar: React.FC = () => {
 				</div>
 			</div>
 
-			<div
-				ref={searchRef}
-				className={`search-bar-container ${searchOpen ? "open" : "closed"}`}
-			>
-				<input
-					type='text'
-					placeholder='Search posts...'
-					value={searchQuery}
-					onChange={(e) => setSearchQuery(e.target.value)}
-					className='search-bar'
-					aria-label='Search posts'
-				/>
-				{filteredPosts.length > 0 && (
-					<ul className='suggestions-list'>
-						{filteredPosts.map((post) => (
-							<li key={post.id} onClick={() => handlePostClick(post)}>
-								{post.headline}
-							</li>
-						))}
-					</ul>
-				)}
-			</div>
+			{/* Lazy Search Feature */}
+			{searchOpen && (
+				<Suspense
+					fallback={
+						<div
+							className='search-bar-container open'
+							style={{ minHeight: "40px", zIndex: 5 }}
+						>
+							<div className='search-loading'>Loading Search...</div>
+						</div>
+					}
+				>
+					<SearchFeature isOpen={searchOpen} onClose={handleCloseSearch} />
+				</Suspense>
+			)}
 		</nav>
 	);
 };

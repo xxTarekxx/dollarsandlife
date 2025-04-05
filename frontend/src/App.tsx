@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import Loading from "./components/Loading";
-import Navbar from "./components/Navbar";
+import NavBar from "./components/NavBar";
 import NotFoundPage from "./components/NotFoundPage";
 import RssTicker from "./components/RssTicker";
 import ScrollToTop from "./components/ScrollToTop";
@@ -117,7 +117,7 @@ const App: React.FC = () => {
 					/>
 				</Helmet>
 
-				<Navbar />
+				<NavBar />
 				<RssTicker />
 				{location.pathname !== "/" && (
 					<Suspense fallback={<Loading />}>
