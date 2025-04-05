@@ -20,7 +20,7 @@ function extractRoutesFromApp() {
             }
         }
 
-        console.log(` Extracted ${routes.length} static routes from App.tsx`);
+
         return routes;
     } catch (err) {
         console.error(` Error reading App.tsx:`, err);
@@ -34,7 +34,7 @@ function getJsonFiles() {
         const files = fs.readdirSync(dataDir)
             .filter(file => file.endsWith(".json"));
 
-        console.log(` Found ${files.length} JSON data files`);
+
         return files.map(file => path.resolve(dataDir, file));
     } catch (err) {
         console.error(` Error reading data directory:`, err);
@@ -147,7 +147,7 @@ async function generateSitemap() {
 
         sitemap.end();
         await streamToPromise(sitemap);
-        console.log(` Sitemap generated successfully at: ${sitemapPath}`);
+
     } catch (err) {
         console.error(` Error generating sitemap:`, err);
     }
