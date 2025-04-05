@@ -97,7 +97,13 @@ const NavBar: React.FC = () => {
 			{/* Logo */}
 			<div className='logo'>
 				<Link to='/' aria-label='Home'>
-					<img src='/images/website-logo.webp' alt='Logo' className='logo' />
+					<img
+						src='/images/website-logo.webp'
+						alt='Logo'
+						className='logo'
+						width='240'
+						height='46'
+					/>
 				</Link>
 			</div>
 

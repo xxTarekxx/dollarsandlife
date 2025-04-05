@@ -1,4 +1,11 @@
-import React, { lazy, Suspense, useEffect, useState, useMemo } from "react";
+import React, {
+	lazy,
+	Suspense,
+	useEffect,
+	useState,
+	useMemo,
+	useCallback,
+} from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
 	Route,
@@ -10,10 +17,11 @@ import "./App.css";
 import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
 import NotFoundPage from "./components/NotFoundPage";
-import RssTicker from "./components/RssTicker";
+// Removed direct import: import RssTicker from "./components/RssTicker";
 import ScrollToTop from "./components/ScrollToTop";
 
-// Lazy load route components
+// Lazy load route components & RssTicker
+const RssTicker = lazy(() => import("./components/RssTicker"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ExtraIncome = lazy(
 	() => import("./pages/category/extra-income/ExtraIncome"),
@@ -58,6 +66,7 @@ const App: React.FC = () => {
 	);
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
 
+	// Force lowercase URLs
 	useEffect(() => {
 		const lowerCaseUrl = location.pathname.toLowerCase();
 		if (location.pathname !== lowerCaseUrl) {
@@ -65,31 +74,42 @@ const App: React.FC = () => {
 		}
 	}, [location.pathname]);
 
-	const handleDismissAdBlockPrompt = () => {
-		setShowAdBlockPrompt(false);
-	};
-
+	// AdBlock Detection (Basic)
 	useEffect(() => {
 		const checkAdBlock = () => {
+			let isAdBlocked = false;
+			const testAd = document.createElement("div");
+			testAd.innerHTML = " ";
+			testAd.className = "adsbox";
+			testAd.style.cssText =
+				"position:absolute; height:1px; width:1px; opacity:0.01; left:-10px;";
+
 			try {
-				const testAd = document.createElement("div");
-				testAd.innerHTML = "&nbsp;";
-				testAd.className = "adsbox";
 				document.body.appendChild(testAd);
-
-				const isAdBlocked = testAd.offsetHeight === 0;
-
-				document.body.removeChild(testAd);
-
-				if (isAdBlocked) {
-					setShowAdBlockPrompt(true);
-				}
+				setTimeout(() => {
+					if (testAd.offsetHeight === 0) {
+						isAdBlocked = true;
+					}
+					if (document.body.contains(testAd)) {
+						document.body.removeChild(testAd);
+					}
+					if (isAdBlocked) {
+						setShowAdBlockPrompt(true);
+					}
+				}, 100);
 			} catch (e) {
 				setShowAdBlockPrompt(true);
+				if (document.body.contains(testAd)) {
+					document.body.removeChild(testAd);
+				}
 			}
 		};
+		const timer = setTimeout(checkAdBlock, 1500);
+		return () => clearTimeout(timer);
+	}, []);
 
-		checkAdBlock();
+	const handleDismissAdBlockPrompt = useCallback(() => {
+		setShowAdBlockPrompt(false);
 	}, []);
 
 	return (
@@ -100,7 +120,8 @@ const App: React.FC = () => {
 						<h2>We Rely on Ads to Keep Our Content Free</h2>
 						<p>
 							It looks like you're using an ad blocker. Ads help keep our
-							content free and available for everyone.
+							content free and available for everyone. Please consider pausing
+							it for our site.
 						</p>
 						<button onClick={handleDismissAdBlockPrompt}>I Understand</button>
 					</div>
@@ -117,14 +138,31 @@ const App: React.FC = () => {
 					/>
 				</Helmet>
 
-				<NavBar />
-				<RssTicker />
+				<header>
+					<NavBar />
+				</header>
+
+				<aside>
+					<Suspense
+						fallback={
+							<div
+								className='rss-ticker-placeholder'
+								style={{ height: "30px", width: "100%", background: "#f0f0f0" }}
+								aria-label='Loading news ticker'
+							></div>
+						}
+					>
+						<RssTicker />
+					</Suspense>
+				</aside>
+
 				{location.pathname !== "/" && (
-					<Suspense fallback={<Loading />}>
+					<Suspense fallback={<div style={{ minHeight: "20px" }} />}>
 						<BreadcrumbWrapper />
 					</Suspense>
 				)}
-				<div>
+
+				<main>
 					<Suspense fallback={<Loading />}>
 						<Routes>
 							<Route path='/' element={<HomePage />} />
@@ -171,15 +209,19 @@ const App: React.FC = () => {
 							<Route path='*' element={<NotFoundPage />} />
 						</Routes>
 					</Suspense>
-				</div>
-				<Suspense fallback={<Loading />}>
-					<Footer />
-				</Suspense>
+				</main>
+
+				<footer>
+					<Suspense fallback={<div style={{ minHeight: "50px" }} />}>
+						<Footer />
+					</Suspense>
+				</footer>
 			</div>
 		</HelmetProvider>
 	);
 };
 
+// Wrapper component to provide Router context
 const WrappedApp: React.FC = () => (
 	<Router>
 		<ScrollToTop />
