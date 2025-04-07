@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom"; // Import Link
+import { Link } from "react-router-dom";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
 
@@ -13,20 +13,20 @@ declare global {
 interface Product {
 	id: string;
 	headline: string;
-	image: {
-		url: string;
-		caption: string;
-	};
+	image: { url: string; caption: string };
 	description: string;
 	currentPrice: string;
 	discountPercentage?: string;
 	mainEntityOfPage: string;
 	specialOffer?: string;
+	aggregateRating?: {
+		"@type": "AggregateRating";
+		ratingValue: string;
+		reviewCount: string;
+	};
 }
 
-interface ProductCardProps extends Product {}
-
-const ProductCard: React.FC<ProductCardProps> = ({
+const ProductCard: React.FC<Product> = ({
 	id,
 	headline,
 	image,
@@ -35,26 +35,48 @@ const ProductCard: React.FC<ProductCardProps> = ({
 	discountPercentage,
 	mainEntityOfPage,
 	specialOffer,
+	aggregateRating,
 }) => {
-	const generateProductSlug = () => {
-		return `${id}-${headline
-			.toLowerCase()
-			.replace(/[^\w\s-]/g, "")
-			.replace(/\s+/g, "-")
-			.replace(/-+/g, "-")}`;
-	};
+	const productSlug = `${id}-${headline
+		.toLowerCase()
+		.replace(/[^\w\s-]/g, "")
+		.replace(/\s+/g, "-")
+		.replace(/-+/g, "-")}`;
 
-	const parseDescription = (html: string) => {
-		const tempDiv = document.createElement("div");
-		tempDiv.innerHTML = html;
-
-		const pTags = Array.from(tempDiv.querySelectorAll("p")).map((p, index) => (
+	const parsedDescription = description
+		.split("<p>")
+		.filter((part) => part.includes("</p>"))
+		.map((part, index) => (
 			<p key={index} className='modern-p'>
-				{p.textContent}
+				{part.replace(/<\/?[^>]+(>|$)/g, "")}
 			</p>
 		));
 
-		return pTags;
+	const renderStars = (rating: string) => {
+		const starCount = parseFloat(rating);
+		if (isNaN(starCount)) return null;
+
+		const stars = Array.from({ length: 5 }, (_, i) => {
+			if (starCount >= i + 1)
+				return (
+					<span key={i} className='star filled'>
+						&#9733;
+					</span>
+				);
+			if (starCount >= i + 0.5 && starCount < i + 1)
+				return (
+					<span key={i} className='star half'>
+						&#9733;
+					</span>
+				);
+			return (
+				<span key={i} className='star'>
+					&#9733;
+				</span>
+			);
+		});
+
+		return stars;
 	};
 
 	return (
@@ -63,38 +85,43 @@ const ProductCard: React.FC<ProductCardProps> = ({
 				src={image.url}
 				alt={image.caption}
 				className='product-image'
-				srcSet={`${image.url} 1x, ${image.url.replace(".webp", "@2x.webp")} 2x`}
 				loading='lazy'
 			/>
 			<div className='product-details'>
 				<h2 className='product-title'>{headline}</h2>
-				<div className='product-description'>
-					{parseDescription(description)}
-				</div>
+				<div className='product-description'>{parsedDescription}</div>
 				<div className='product-price'>
-					{specialOffer && specialOffer.trim() !== "" && (
-						<p className='special-offer'>
-							Get {specialOffer} Extra Discount When You Sign Up With Prime
-							<a href='https://amzn.to/427UDnt'> Click Here To Try It Free </a>
-							for 30 days
-						</p>
+					{specialOffer && (
+						<p className='special-offer'>{`Get ${specialOffer} Extra Discount. Click Here To Try Prime Free.`}</p>
 					)}
-					{discountPercentage && discountPercentage.trim() !== "" && (
-						<span className='discount-percentage'>
-							Discount: {discountPercentage}
-						</span>
+					{discountPercentage && (
+						<span className='discount-percentage'>{`Discount: ${discountPercentage}`}</span>
 					)}
-					<span className='current-price'> Now: {currentPrice} </span>
+					<span className='current-price'>{`Now: ${currentPrice}`}</span>
 				</div>
+				{aggregateRating && (
+					<div className='product-rating'>
+						<span className='rating-stars'>
+							{renderStars(aggregateRating.ratingValue)}
+							<span className='rating-value'>
+								{" "}
+								({aggregateRating.ratingValue})
+							</span>
+						</span>
+						<span className='review-count'>
+							({aggregateRating.reviewCount} reviews)
+						</span>
+					</div>
+				)}
 				<div className='product-actions'>
 					<Link
-						to={`/shopping-deals/products/${generateProductSlug()}`}
+						to={`/shopping-deals/products/${productSlug}`}
 						className='view-details-button'
 						aria-label={`View details for ${headline}`}
 					>
 						More Details
 					</Link>
-				</div>
+				</div>{" "}
 			</div>
 		</div>
 	);
@@ -104,87 +131,62 @@ const ShoppingDeals: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const pageRef = useRef<HTMLDivElement>(null);
 	const adContainersRef = useRef<React.RefObject<HTMLDivElement>[]>([]);
 
 	useEffect(() => {
 		document.title = "Deals and Savings - Best Shopping Discounts";
-	}, []);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await fetch("/data/products.json");
-				if (!response.ok) throw new Error("Failed to fetch data");
-				const products: Product[] = await response.json();
-
-				const uniqueProducts = products.filter(
-					(product, index, self) =>
-						index === self.findIndex((p) => p.id === product.id),
-				);
-
-				setProducts(uniqueProducts);
-			} catch (error) {
-				console.error("Error fetching data:", error);
-			}
-		};
-
-		fetchData();
-	}, []);
-
-	useEffect(() => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		fetch("/data/products.json")
+			.then((res) => res.json())
+			.then((data: Product[]) =>
+				setProducts(
+					data.filter((p, i, a) => a.findIndex((t) => t.id === p.id) === i),
+				),
+			)
+			.catch((err) => console.error("Error fetching products:", err));
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			if (adContainersRef.current) {
-				adContainersRef.current.forEach((adContainer) => {
-					if (
-						adContainer.current &&
-						adContainer.current.offsetWidth > 0 &&
-						adContainer.current.offsetHeight > 0 &&
-						window.innerWidth < 600
-					) {
-						(window.adsbygoogle = window.adsbygoogle || []).push({});
-					}
-				});
-			}
+			adContainersRef.current?.forEach((ref) => {
+				if (
+					ref.current &&
+					ref.current.offsetWidth > 0 &&
+					ref.current.offsetHeight > 0 &&
+					window.innerWidth < 600
+				) {
+					(window.adsbygoogle = window.adsbygoogle || []).push({});
+				}
+			});
 		}, 2000);
-
 		return () => clearTimeout(timer);
 	}, []);
 
-	const currentPosts = products.slice(
+	const currentProducts = products.slice(
 		(currentPage - 1) * postsPerPage,
 		currentPage * postsPerPage,
 	);
-
-	const items: JSX.Element[] = [];
 	const numColumns = window.innerWidth > 600 ? 3 : 1;
 
 	if (adContainersRef.current.length === 0) {
-		for (let i = 0; i < Math.ceil(currentPosts.length / numColumns); i++) {
-			adContainersRef.current.push(React.createRef<HTMLDivElement>());
-		}
+		adContainersRef.current = Array.from(
+			{ length: Math.ceil(currentProducts.length / numColumns) },
+			() => React.createRef<HTMLDivElement>(),
+		);
 	}
 
-	for (let i = 0; i < currentPosts.length; i += numColumns) {
-		const rowItems: JSX.Element[] = currentPosts
-			.slice(i, i + numColumns)
-			.map((product) => <ProductCard key={product.id} {...product} />);
-
-		const refIndex = Math.floor(i / numColumns);
-		items.push(
+	const productGrid = Array.from(
+		{ length: Math.ceil(currentProducts.length / numColumns) },
+		(_, i) => (
 			<React.Fragment key={i}>
-				<div className='products-grid'>{rowItems}</div>
-				<div
-					className='postings-container'
-					ref={adContainersRef.current[refIndex]}
-				>
+				<div className='products-grid'>
+					{currentProducts
+						.slice(i * numColumns, (i + 1) * numColumns)
+						.map((product) => (
+							<ProductCard key={product.id} {...product} />
+						))}
+				</div>
+				<div className='postings-container' ref={adContainersRef.current[i]}>
 					<ins
 						className='adsbygoogle'
 						data-ad-client='ca-pub-1079721341426198'
@@ -193,17 +195,17 @@ const ShoppingDeals: React.FC = () => {
 						data-full-width-responsive='true'
 					/>
 				</div>
-			</React.Fragment>,
-		);
-	}
+			</React.Fragment>
+		),
+	);
 
 	return (
-		<div className='shopping-page-container' ref={pageRef}>
+		<div className='shopping-page-container'>
 			<Helmet>
 				<title>Deals and Savings - Best Shopping Discounts</title>
 				<meta
 					name='description'
-					content='Find the best deals and savings on top products. Shop discounts on tech, gadgets, and home essentials. Limited-time offers updated daily!'
+					content='Find the best deals and savings on top products.'
 				/>
 				<link
 					rel='canonical'
@@ -213,26 +215,24 @@ const ShoppingDeals: React.FC = () => {
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "ItemList",
-						itemListElement: products.map((product, index) => ({
+						itemListElement: products.map((p, i) => ({
 							"@type": "Product",
-							position: index + 1,
-							name: product.headline,
-							image: product.image.url,
-							description: product.description,
+							position: i + 1,
+							name: p.headline,
+							image: p.image.url,
+							description: p.description,
 							offers: {
 								"@type": "Offer",
-								price: product.currentPrice.replace("$", ""),
+								price: p.currentPrice.replace("$", ""),
 								priceCurrency: "USD",
 								availability: "https://schema.org/InStock",
-								url: product.mainEntityOfPage,
+								url: p.mainEntityOfPage,
 							},
 						})),
 					})}
 				</script>
 			</Helmet>
-
 			<h1 className='page-title'>Deals and Savings</h1>
-
 			<div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -250,9 +250,7 @@ const ShoppingDeals: React.FC = () => {
 					/>
 				</a>
 			</div>
-
-			{items}
-
+			{productGrid}
 			<PaginationContainer
 				totalItems={products.length}
 				itemsPerPage={postsPerPage}

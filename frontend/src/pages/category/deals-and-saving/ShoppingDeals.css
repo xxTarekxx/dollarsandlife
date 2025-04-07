@@ -202,12 +202,49 @@ h2 {
     clear: both;
 }
 
+.product-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    /* margin-bottom: 10px; */
+    font-size: 1rem;
+    color: #555;
+}
+
+.rating-stars {
+    color: #ffc107;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.star {
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.star.filled {
+    color: #ffc107;
+}
+
+.star.half {
+    color: #ffc107;
+}
+
+.rating-value {
+    font-size: 1rem;
+    color: #777;
+    margin-left: 3px;
+}
+
+.review-count {
+    color: #777;
+}
+
+
 @media (max-width: 600px) {
     .products-grid {
         grid-template-columns: 1fr;
     }
-
-
-
-
 }
