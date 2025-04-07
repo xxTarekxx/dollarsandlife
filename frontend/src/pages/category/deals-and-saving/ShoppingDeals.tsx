@@ -46,6 +46,7 @@ const ProductCard: React.FC<Product> = ({
 	const parsedDescription = description
 		.split("<p>")
 		.filter((part) => part.includes("</p>"))
+		.slice(0, 4) // Corrected line: slice before mapping to <p> elements
 		.map((part, index) => (
 			<p key={index} className='modern-p'>
 				{part.replace(/<\/?[^>]+(>|$)/g, "")}
@@ -95,22 +96,26 @@ const ProductCard: React.FC<Product> = ({
 						<p className='special-offer'>{`Get ${specialOffer} Extra Discount. Click Here To Try Prime Free.`}</p>
 					)}
 					{discountPercentage && (
-						<span className='discount-percentage'>{`Discount: ${discountPercentage}`}</span>
+						<span className='discount-percentage'>{`Discount: ${discountPercentage} `}</span>
 					)}
 					<span className='current-price'>{`Now: ${currentPrice}`}</span>
 				</div>
 				{aggregateRating && (
 					<div className='product-rating'>
-						<span className='rating-stars'>
-							{renderStars(aggregateRating.ratingValue)}
-							<span className='rating-value'>
-								{" "}
-								({aggregateRating.ratingValue})
+						{aggregateRating.ratingValue && (
+							<span className='rating-stars'>
+								{renderStars(aggregateRating.ratingValue)}
+								<span className='rating-value'>
+									{" "}
+									({aggregateRating.ratingValue})
+								</span>
 							</span>
-						</span>
-						<span className='review-count'>
-							({aggregateRating.reviewCount} reviews)
-						</span>
+						)}
+						{aggregateRating.reviewCount && (
+							<span className='review-count'>
+								({aggregateRating.reviewCount} reviews)
+							</span>
+						)}
 					</div>
 				)}
 				<div className='product-actions'>
@@ -121,7 +126,7 @@ const ProductCard: React.FC<Product> = ({
 					>
 						More Details
 					</Link>
-				</div>{" "}
+				</div>
 			</div>
 		</div>
 	);

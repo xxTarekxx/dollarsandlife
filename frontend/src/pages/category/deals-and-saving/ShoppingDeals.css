@@ -122,13 +122,14 @@ h2 {
 }
 
 .product-price .current-price {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: bold;
     color: #1a936f;
 }
 
 
 .discount-percentage {
+    font-size: 1rem;
     color: #e74c3c;
     margin: 0px;
 }
