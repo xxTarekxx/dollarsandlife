@@ -1,6 +1,7 @@
+import React from "react"; // Added to potentially fix "React is not defined" error
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import "./NotFoundPage.css";
+import "./NotFoundPage.css"; // Ensure this CSS file exists and is correctly imported
 
 const NotFoundPage: React.FC = () => {
 	return (
