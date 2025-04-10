@@ -10,6 +10,10 @@
     margin: 0 auto;
 }
 
+h2 {
+    text-align: center;
+}
+
 @media (max-width: 768px) {
 
     .terms-of-service-content,

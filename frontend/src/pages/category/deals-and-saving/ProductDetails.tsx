@@ -14,6 +14,11 @@ interface Product {
 	purchaseUrl: string;
 	offers?: { availability?: string };
 	specialOffer?: string;
+	aggregateRating?: {
+		"@type": "AggregateRating";
+		ratingValue: string;
+		reviewCount: string;
+	};
 }
 
 const ProductDetails: React.FC = () => {
@@ -143,6 +148,33 @@ const ProductDetails: React.FC = () => {
 		return elements;
 	};
 
+	const renderStars = (rating: string) => {
+		const starCount = parseFloat(rating);
+		if (isNaN(starCount)) return null;
+
+		const stars = Array.from({ length: 5 }, (_, i) => {
+			if (starCount >= i + 1)
+				return (
+					<span key={i} className='star filled'>
+						&#9733;
+					</span>
+				);
+			if (starCount >= i + 0.5 && starCount < i + 1)
+				return (
+					<span key={i} className='star half'>
+						&#9733;
+					</span>
+				);
+			return (
+				<span key={i} className='star'>
+					&#9733;
+				</span>
+			);
+		});
+
+		return stars;
+	};
+
 	return (
 		<div className='product-details-container'>
 			<Helmet>
@@ -199,11 +231,29 @@ const ProductDetails: React.FC = () => {
 								{stockStatus}
 							</span>
 						</div>
+
 						{product.brand && (
 							<p className='brand-name'>by {product.brand.name}</p>
 						)}
 					</div>
-
+					{product.aggregateRating && (
+						<div className='product-rating'>
+							{product.aggregateRating.ratingValue && (
+								<span className='rating-stars'>
+									{renderStars(product.aggregateRating.ratingValue)}
+									<span className='rating-value'>
+										{" "}
+										({product.aggregateRating.ratingValue})
+									</span>
+								</span>
+							)}
+							{product.aggregateRating.reviewCount && (
+								<span className='review-count'>
+									({product.aggregateRating.reviewCount} reviews)
+								</span>
+							)}
+						</div>
+					)}
 					<div className='action-buttons'>
 						{isInStock ? (
 							<a
@@ -215,7 +265,7 @@ const ProductDetails: React.FC = () => {
 								Buy Now
 							</a>
 						) : (
-							<button className='notify-button'>Notify When Available</button>
+							<button className='notify-button'>Out Of Stock</button>
 						)}
 						<button
 							onClick={() => navigate("/shopping-deals")}
