@@ -1,439 +1,378 @@
-.product-details-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+/* ProductDetails.css - Corresponds to ProductDetails.tsx using pdf- classes */
+
+/* --- Container --- */
+.pdf-container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* Common system fonts */
 }
 
-/* ============ Loading & Error States ============ */
-.product-details-loading,
-.product-details-error {
+/* --- Loading / Error States --- */
+.pdf-status-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 300px;
+    min-height: 50vh;
     text-align: center;
     padding: 2rem;
 }
 
-.loading-spinner {
+.pdf-spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
     border-radius: 50%;
-    border-top: 4px solid #1a936f;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1.5rem;
+    border-top-color: #3498db;
+    width: 35px;
+    height: 35px;
+    animation: pdf-spin 1s linear infinite;
+    margin-bottom: 1rem;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
+@keyframes pdf-spin {
+    to {
         transform: rotate(360deg);
     }
 }
 
-.product-details-error {
-    color: #e63946;
-    background-color: rgba(230, 57, 70, 0.05);
-    border-radius: 8px;
+.pdf-error h2 {
+    color: #e74c3c;
+    margin-bottom: 0.5rem;
 }
 
-/* ============ Product Card Layout ============ */
-.product-details-card {
+.pdf-error p {
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.pdf-error .pdf-button-back {
+    margin-top: 1rem;
+}
+
+/* Ensure button style applies */
+
+/* --- Card Layout --- */
+.pdf-card {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    grid-template-columns: 1fr;
+    /* Default 1 column */
+    gap: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
     overflow: hidden;
-    width: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.product-details-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+@media (min-width: 768px) {
+    .pdf-card {
+        grid-template-columns: 2fr 3fr;
+        gap: 2rem;
+    }
 }
 
-/* ============ Image Section ============ */
-.product-image-wrapper {
+/* --- Image Section --- */
+.pdf-image-section {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #ffffff;
-    min-height: 400px;
-    /* padding: 2rem; */
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    min-height: 300px;
+    /* Add border for separation on larger screens if needed */
+    /* @media (min-width: 768px) { border-right: 1px solid #eee; } */
 }
 
-.product-image {
-    width: 100%;
-    height: 100%;
+.pdf-image {
+    display: block;
+    max-width: 100%;
     max-height: 400px;
+    height: auto;
     object-fit: contain;
-    transition: transform 0.3s ease;
 }
 
-.product-image:hover {
-    transform: scale(1.02);
-}
-
-.discount-badge {
+.pdf-discount-badge {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: #e63946;
+    top: 1rem;
+    left: 1rem;
+    background-color: #e74c3c;
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
     font-weight: bold;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ============ Product Info Section ============ */
-.product-info {
-    padding: 2.5rem 2rem;
+/* --- Info Section --- */
+.pdf-info-section {
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
 }
 
-.product-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+@media (min-width: 768px) {
+    .pdf-info-section {
+        padding: 2rem;
+    }
+}
+
+/* --- Header --- */
+.pdf-header {
     margin-bottom: 1rem;
-}
-
-.product-header h1 {
-    font-size: 2rem;
-    margin: 0;
-    color: #6000ce;
-    line-height: 1.3;
-    flex: 1;
-}
-
-.brand-name {
-    color: #6c757d;
-    font-size: 1.1rem;
-    text-align: right;
-    margin-left: 1rem;
-    align-self: flex-end;
-}
-
-.product-description {
-    line-height: 1.8;
-    color: #495057;
-    margin: 1rem 0 1.5rem 0;
-}
-
-/* ============ Price & Stock Section ============ */
-.price-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 1rem 0;
-    padding: 1.25rem 0;
-    border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
 }
 
-.price-stock-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.pdf-header h1 {
+    font-size: 1.7rem;
+    margin: 0 0 0.25rem 0;
+    color: #333;
+    line-height: 1.3;
 }
 
-.price-brand-container {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.current-price {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #1a936f;
-}
-
-.stock-status {
+.pdf-brand {
     font-size: 0.95rem;
-    font-weight: 600;
-    padding: 0.35rem 0.75rem;
-    border-radius: 20px;
+    color: #666;
+    display: block;
 }
 
-.stock-status.in-stock {
-    color: #28a745;
-    background-color: rgba(40, 167, 69, 0.12);
-}
-
-.stock-status.out-of-stock {
-    color: #dc3545;
-    background-color: rgba(220, 53, 69, 0.12);
-}
-
-.brand-name {
-    color: #6c757d;
-    font-size: 1.1rem;
-    text-align: right;
-}
-
-/* ============ Special Offer Section ============ */
-.special-offer {
-    background-color: #fff8e1;
-    padding: 1rem;
-    border-radius: 8px;
-    margin: 1.5rem 0;
+/* --- Description (Targets elements rendered by parser) --- */
+.pdf-description {
+    margin: 1rem 0 1.5rem 0;
+    color: #444;
+    line-height: 1.65;
     font-size: 0.95rem;
-    line-height: 1.6;
-    border-left: 4px solid #ffc107;
-    animation: fadeIn 0.5s ease;
-
-    @media (max-width: 480px) {
-
-        font-size: 0.9rem;
-        padding: 0.8rem;
-
-    }
-
+    flex-grow: 1;
+    /* Allows section to expand */
+    overflow-wrap: break-word;
 }
 
-.special-offer a {
-    color: #0066c0;
-    text-decoration: underline;
+.pdf-description h3 {
+    font-size: 1.25rem;
     font-weight: 600;
-    margin: 0 4px;
-    transition: color 0.2s;
-}
-
-.special-offer a:hover {
-    color: #004b8d;
-    text-decoration: none;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(5px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ============ Action Buttons ============ */
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-top: auto;
-}
-
-.purchase-button {
-    background: #1a936f;
-    color: white;
-    padding: 0.9rem 0;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    text-align: center;
-    transition: all 0.3s ease;
-    flex: 1;
-    border: none;
-    cursor: pointer;
-}
-
-.purchase-button:hover {
-    background: #0d7a5a;
-    transform: translateY(-1px);
-}
-
-.notify-button {
-    background: #6c757d;
-    color: white;
-    padding: 0.9rem 0;
-    border-radius: 6px;
-    font-weight: bold;
-    text-align: center;
-    transition: all 0.3s ease;
-    flex: 1;
-    border: none;
-    cursor: pointer;
-}
-
-.notify-button:hover {
-    background: #5a6268;
-    transform: translateY(-1px);
-}
-
-.back-button {
-    background: #f8f9fa;
-    color: #2b2d42;
-    padding: 0.9rem 0;
-    border-radius: 6px;
-    border: 1px solid #dee2e6;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    flex: 1;
-    text-align: center;
-}
-
-.back-button:hover {
-    background: #e9ecef;
-    transform: translateY(-1px);
-}
-
-/* ============ Responsive Design ============ */
-@media (max-width: 992px) {
-    .product-image-wrapper {
-        min-height: 350px;
-        padding: 1.5rem;
-    }
-
-    .product-info {
-        padding: 2rem 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .product-details-card {
-        grid-template-columns: 1fr;
-    }
-
-    .product-header {
-        flex-direction: column;
-    }
-
-    .brand-name {
-        text-align: left;
-        margin-left: 0;
-        margin-top: 0.5rem;
-        align-self: flex-start;
-        justify-content: flex-start;
-    }
-
-    .price-section {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-    }
-
-    .price-stock-group {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .price-brand-container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .current-price {
-        order: 1;
-    }
-
-    .stock-status {
-        position: static;
-        transform: none;
-        margin: 0.5rem 0;
-        align-self: center;
-        order: 2;
-    }
-
-    .brand-name {
-        text-align: left;
-        margin-top: 0rem;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
-    .product-details-container {
-        padding: 1rem 0.5rem;
-    }
-
-    .product-info {
-        padding: 1.5rem 1rem;
-    }
-
-    .product-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .current-price {
-        font-size: 1.4rem;
-    }
-
-}
-
-/* ... (rest of the CSS) */
-
-.modern-description-container {
-    font-size: 1rem;
-    line-height: 1.7;
+    margin: 1.5rem 0 0.7rem 0;
     color: #333;
 }
 
-.modern-h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
+.pdf-description h3:first-child {
+    margin-top: 0;
+}
+
+.pdf-description p {
     margin-bottom: 0.8rem;
-    color: #2c3e50;
 }
 
-.modern-ul {
-    list-style-type: disc;
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.modern-li {
-    margin-bottom: 0.5rem;
-}
-
-.modern-p {
-    margin-bottom: 1rem;
-}
-
-.modern-strong {
+.pdf-description strong {
+    display: block;
     font-weight: 600;
-    color: #1e88e5;
+    font-size: 1.05em;
+    margin: 1.5rem 0 0.7rem 0;
+    color: #222;
 }
 
-.modern-feature-list {
-    margin-bottom: 1rem;
+.pdf-description ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
 }
 
-.modern-feature-section {
+.pdf-description li {
+    margin-bottom: 0.5rem;
+    padding-left: 0;
+}
+
+.pdf-description br {
+    display: block;
+    content: "";
+    margin-top: 0.8rem;
+}
+
+.pdf-description a {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+.pdf-description a:hover {
+    color: #2980b9;
+}
+
+/* --- Price & Stock --- */
+.pdf-price-stock-section {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+}
+
+.pdf-price {
+    font-size: 1.8rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    color: #27ae60;
 }
 
-.modern-feature-items {
-    list-style-type: disc;
-    margin-left: 1.5rem;
+.pdf-stock-status {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+/* Match class names used in component state */
+.pdf-stock-in-stock {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+}
+
+.pdf-stock-out-of-stock {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
+/* --- Rating --- */
+.pdf-rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    /* Space between star group and text */
     margin-bottom: 1rem;
+    color: #777;
+    font-size: 0.9rem;
 }
 
-.modern-feature-item {
-    margin-bottom: 0.5rem;
+.pdf-star {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1px;
+    color: #ccc;
+    /* Default empty star color */
+    position: relative;
+    /* Needed for potential pseudo-elements if using advanced half-star */
 }
 
-/* ... (rest of the CSS) */
+.pdf-star {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1px;
+    color: #ccc;
+    /* Default empty */
+}
+
+.pdf-star-filled {
+    color: #f39c12;
+    /* Gold/Yellow */
+}
+
+.pdf-star-half {
+    display: inline-block;
+    position: relative;
+    /* Needed for the pseudo-element */
+    color: #ccc;
+    /* Background color (empty part) */
+}
+
+.pdf-star-half::before {
+    content: '★';
+    /* The star character */
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    /* Fill half the width */
+    overflow: hidden;
+    color: #f39c12;
+    /* Filled color */
+}
+
+/* Simple half star */
+.pdf-star-empty {
+    color: #ccc;
+}
+
+.pdf-rating-value {
+    font-weight: bold;
+    color: #555;
+    margin-left: 0.35rem;
+    /* More space after stars */
+}
+
+.pdf-review-count {
+    color: #777;
+    margin-left: 0.35rem;
+}
+
+/* --- Special Offer --- */
+.pdf-special-offer {
+    font-size: 0.9rem;
+    background-color: #eaf5ff;
+    padding: 0.7rem 1rem;
+    border-left: 3px solid #3498db;
+    margin: 1rem 0;
+}
+
+/* --- Actions --- */
+.pdf-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+}
+
+@media (min-width: 500px) {
+    .pdf-actions {
+        flex-direction: row;
+    }
+}
+
+.pdf-button {
+    padding: 0.7rem 1rem;
+    border-radius: 5px;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    flex-grow: 1;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.pdf-button:hover {
+    transform: translateY(-1px);
+}
+
+.pdf-button:active {
+    transform: translateY(0px);
+}
+
+.pdf-button-buy {
+    background-color: #27ae60;
+    color: white;
+}
+
+.pdf-button-buy:hover {
+    background-color: #229954;
+}
+
+.pdf-button-oos {
+    background-color: #95a5a6;
+    color: #ecf0f1;
+    cursor: not-allowed;
+}
+
+.pdf-button-back {
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #ccc;
+}
+
+.pdf-button-back:hover {
+    background-color: #e5e5e5;
+}
