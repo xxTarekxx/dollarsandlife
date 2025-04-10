@@ -13,14 +13,13 @@ import {
 	Routes,
 	useLocation,
 } from "react-router-dom";
-import "./App.css";
+import "./App.css"; // Keep this global App CSS import
 import Loading from "./components/Loading";
 import NavBar from "./components/NavBar";
 import NotFoundPage from "./components/NotFoundPage";
-// Removed direct import: import RssTicker from "./components/RssTicker";
 import ScrollToTop from "./components/ScrollToTop";
 
-// Lazy load route components & RssTicker
+// Lazy load components
 const RssTicker = lazy(() => import("./components/RssTicker"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ExtraIncome = lazy(
@@ -46,6 +45,7 @@ const ShoppingDeals = lazy(
 	() => import("./pages/category/deals-and-saving/ShoppingDeals"),
 );
 const ProductDetails = lazy(
+	// Lazy loading ProductDetails component
 	() => import("./pages/category/deals-and-saving/ProductDetails"),
 );
 const FinancialCalculators = lazy(
@@ -57,6 +57,8 @@ const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const BlogPostContent = lazy(() => import("./components/BlogPostContent"));
 const BreadcrumbWrapper = lazy(() => import("./components/BreadcrumbWrapper"));
 const Footer = lazy(() => import("./components/Footer"));
+
+// REMOVED: import './ProductDetails.css'; // THIS LINE WAS INCORRECT HERE
 
 const App: React.FC = () => {
 	const location = useLocation();
@@ -74,7 +76,7 @@ const App: React.FC = () => {
 		}
 	}, [location.pathname]);
 
-	// AdBlock Detection (Basic)
+	// Basic AdBlock Detection
 	useEffect(() => {
 		const checkAdBlock = () => {
 			let isAdBlocked = false;
@@ -119,9 +121,8 @@ const App: React.FC = () => {
 					<div className='adblock-warning'>
 						<h2>We Rely on Ads to Keep Our Content Free</h2>
 						<p>
-							It looks like you're using an ad blocker. Ads help keep our
-							content free and available for everyone. Please consider pausing
-							it for our site.
+							It looks like you're using an ad blocker. Please consider pausing
+							it for our site to support us.
 						</p>
 						<button onClick={handleDismissAdBlockPrompt}>I Understand</button>
 					</div>
@@ -134,7 +135,7 @@ const App: React.FC = () => {
 					<link rel='canonical' href={canonicalUrl} />
 					<meta
 						name='description'
-						content='Dollars And Life is a personal finance blog offering expert advice on earning extra income, budgeting, and finding the best money-saving deals.'
+						content='Dollars And Life offers advice on extra income, budgeting, and saving deals.'
 					/>
 				</Helmet>
 
@@ -147,9 +148,8 @@ const App: React.FC = () => {
 						fallback={
 							<div
 								className='rss-ticker-placeholder'
-								style={{ height: "30px", width: "100%", background: "#f0f0f0" }}
-								aria-label='Loading news ticker'
-							></div>
+								style={{ height: "30px", width: "100%" }}
+							/>
 						}
 					>
 						<RssTicker />
@@ -221,7 +221,6 @@ const App: React.FC = () => {
 	);
 };
 
-// Wrapper component to provide Router context
 const WrappedApp: React.FC = () => (
 	<Router>
 		<ScrollToTop />

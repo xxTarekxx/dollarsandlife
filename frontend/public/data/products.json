@@ -85,7 +85,7 @@
 		},
 		"designer": {
 			"@type": "Organization",
-			"name": "Visit the Mongoose Store"
+			"name": "Mongoose"
 		},
 		"publisher": {
 			"@type": "Organization",
@@ -481,12 +481,7 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T05:03:24",
-		"dateModified": "2025-04-05T20:20:07Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:20:07Z"
 	},
 	{
 		"@context": "https://schema.org",
@@ -716,12 +711,7 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T17:03:24",
-		"dateModified": "2025-04-05T20:21:04Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:21:04Z"
 	},
 
 	{
@@ -785,12 +775,7 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T13:03:24",
-		"dateModified": "2025-04-05T20:21:29Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:21:29Z"
 	},
 	{
 		"@context": "https://schema.org",
@@ -852,12 +837,7 @@
 			"name": "Clé de Peau Beauté"
 		},
 		"datePublished": "2025-03-30T01:03:24",
-		"dateModified": "2025-04-05T20:21:41Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:21:41Z"
 	},
 	{
 		"@context": "https://schema.org",
@@ -920,12 +900,7 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T04:03:24",
-		"dateModified": "2025-04-05T20:21:54Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:21:54Z"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1164,12 +1139,7 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T19:03:24",
-		"dateModified": "2025-04-05T20:22:48Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:22:48Z"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1231,12 +1201,7 @@
 			"name": "MONPURE"
 		},
 		"datePublished": "2025-03-29T05:03:24",
-		"dateModified": "2025-04-05T20:22:59Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:22:59Z"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1299,12 +1264,7 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T13:03:24",
-		"dateModified": "2025-04-05T20:23:12Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:23:12Z"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1522,10 +1482,10 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "",
+			"price": "0",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4hRfjGl",
-			"availability": "Price not found",
+			"availability": "https://schema.org/OutOfStock",
 			"hasMerchantReturnPolicy": "Not Found",
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
@@ -1535,11 +1495,6 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-29T17:03:24",
-		"dateModified": "2025-04-05T20:24:03Z",
-		"aggregateRating": {
-			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
-		}
+		"dateModified": "2025-04-05T20:24:03Z"
 	}
 ]
