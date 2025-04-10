@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import parse from "html-react-parser"; // Use the parser
+
+// Import the corresponding CSS file
 import "./ProductDetails.css";
 
+// --- Interface for Product Data ---
 interface Product {
 	id: string;
 	headline: string;
 	image: { url: string; caption: string };
-	description: string;
+	description: string; // HTML string from JSON
 	currentPrice: string;
 	discountPercentage?: string;
 	brand?: { name: string };
@@ -15,261 +19,284 @@ interface Product {
 	offers?: { availability?: string };
 	specialOffer?: string;
 	aggregateRating?: {
-		"@type": "AggregateRating";
 		ratingValue: string;
 		reviewCount: string;
 	};
+	// Add any other fields from your JSON structure if needed
 }
 
+// --- The Component ---
 const ProductDetails: React.FC = () => {
+	// Using the original name
 	const { productSlug } = useParams<{ productSlug: string }>();
 	const [product, setProduct] = useState<Product | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
 
+	// --- Log Mount/Update ---
+	useEffect(() => {
+		console.log(
+			`[ProductDetails MOUNT/REMOUNT] Triggered for slug: ${
+				productSlug ?? "undefined"
+			}`,
+		);
+		return () => {
+			console.log(
+				`%c[ProductDetails UNMOUNT] Cleaning up for slug: ${
+					productSlug ?? "undefined"
+				}`,
+				"color: red; font-weight: bold;",
+			);
+		};
+	}, [productSlug]);
+
+	// --- Effect for Data Fetching ---
 	useEffect(() => {
 		let isMounted = true;
+		console.log(`[Effect - Fetch] START for slug: ${productSlug}`);
 
-		const fetchProductDetails = async () => {
-			setLoading(true);
-			setError(null);
+		if (!productSlug) {
+			console.error("[Effect - Fetch] Error: No product slug provided.");
+			setError("Invalid product URL.");
+			setLoading(false);
+			setProduct(null); // Clear product if slug is missing
+			return;
+		}
 
+		// Reset state for the new product load
+		setLoading(true);
+		setError(null);
+		setProduct(null); // Explicitly clear previous product
+
+		const fetchProduct = async () => {
 			try {
-				if (!productSlug || !/^\d+-/.test(productSlug)) {
-					throw new Error("Invalid product URL format");
-				}
-
+				if (!/^\d+-/.test(productSlug))
+					throw new Error("Invalid product URL format.");
 				const productId = productSlug.split("-")[0];
-				const response = await fetch("/data/products.json");
+				console.log(`[Effect - Fetch] Fetching JSON for ID: ${productId}`);
 
-				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
-				}
+				const response = await fetch("/data/products.json"); // Ensure this path is correct
+				if (!response.ok)
+					throw new Error(`HTTP error! Status: ${response.status}`);
 
-				const products: Product[] = await response.json();
-				const foundProduct = products.find((p: Product) => p.id === productId);
+				const allProducts: Product[] = await response.json();
+				const foundProduct = allProducts.find((p) => p.id === productId);
 
 				if (isMounted) {
-					if (!foundProduct) {
-						setError(`Product with ID ${productId} not found`);
-						navigate("/shopping-deals", { replace: true });
-					} else {
+					if (foundProduct) {
+						console.log(
+							`[Effect - Fetch] Success: Product ${productId} found. Setting state.`,
+						);
 						setProduct(foundProduct);
+						setError(null);
+					} else {
+						console.error(
+							`[Effect - Fetch] Error: Product ${productId} not found in JSON.`,
+						);
+						setError(`Product not found (ID: ${productId}).`);
 					}
+				} else {
+					console.log(
+						`[Effect - Fetch] Aborted: Component unmounted before fetch completed for ${productId}.`,
+					);
 				}
 			} catch (err) {
+				console.error("[Effect - Fetch] Error:", err);
 				if (isMounted) {
 					setError(
-						err instanceof Error ? err.message : "Failed to load product",
+						err instanceof Error
+							? err.message
+							: "An unknown fetch error occurred.",
 					);
-					navigate("/shopping-deals", { replace: true });
 				}
 			} finally {
 				if (isMounted) {
+					console.log(
+						`[Effect - Fetch] FINALLY: Setting loading=false for ${productSlug}.`,
+					);
 					setLoading(false);
 				}
 			}
 		};
 
-		fetchProductDetails();
+		fetchProduct();
+		window.scrollTo({ top: 0, behavior: "smooth" });
 
 		return () => {
+			console.log(`[Effect - Fetch] CLEANUP running for ${productSlug}.`);
 			isMounted = false;
 		};
 	}, [productSlug, navigate]);
 
+	// --- Render States ---
 	if (loading) {
+		console.log(`[Render] LOADING state for slug: ${productSlug}`);
 		return (
-			<div className='product-details-loading'>
-				<div className='loading-spinner'></div>
-				<p>Loading product details...</p>
+			<div className='pdf-status-container pdf-loading'>
+				{" "}
+				{/* Using pdf- classes */}
+				<div className='pdf-spinner'></div>
+				<p>Loading Product...</p>
 			</div>
 		);
 	}
 
 	if (error) {
+		console.log(
+			`[Render] ERROR state for slug: ${productSlug}, Error: ${error}`,
+		);
 		return (
-			<div className='product-details-error'>
+			<div className='pdf-status-container pdf-error'>
+				<h2>Error Loading Product</h2>
 				<p>{error}</p>
-				<p>Redirecting back to shopping deals...</p>
+				<button
+					onClick={() => navigate("/shopping-deals")}
+					className='pdf-button pdf-button-back'
+				>
+					Back to Deals
+				</button>
 			</div>
 		);
 	}
 
-	if (!product) return null;
+	if (!product) {
+		console.log(`[Render] NO PRODUCT state for slug: ${productSlug}`);
+		return (
+			<div className='pdf-status-container pdf-error'>
+				<h2>Product Not Available</h2>
+				<p>The requested product data could not be displayed.</p>
+				<button
+					onClick={() => navigate("/shopping-deals")}
+					className='pdf-button pdf-button-back'
+				>
+					Back to Deals
+				</button>
+			</div>
+		);
+	}
 
-	const isInStock = product.offers?.availability?.includes("InStock");
-	const stockStatus = isInStock ? "In Stock" : "Out Of Stock";
-	const stockClass = isInStock ? "in-stock" : "out-of-stock";
+	// --- If loading=false and product exists, render details ---
+	console.log(`[Render] SUCCESS state for product: ${product.id}`);
 
-	const parseDescription = (html: string) => {
-		const elements: React.ReactNode[] = [];
-		const tempDiv = document.createElement("div");
-		tempDiv.innerHTML = html;
+	// --- Prepare derived data ---
+	const isInStock = product.offers?.availability?.includes("InStock") ?? false;
+	const stockStatusText = isInStock ? "In Stock" : "Out Of Stock";
+	const stockStatusClass = isInStock ? "in-stock" : "out-of-stock"; // Keep class name consistent if needed elsewhere
+	const metaDesc =
+		product.description
+			?.replace(/<[^>]+>/g, "")
+			.replace(/\s+/g, " ")
+			.trim()
+			.substring(0, 160) ?? "";
 
-		Array.from(tempDiv.childNodes).forEach((node) => {
-			if (node.nodeType === Node.ELEMENT_NODE) {
-				const element = node as HTMLElement;
-				if (element.tagName === "H3") {
-					elements.push(
-						<h3 key={elements.length} className='modern-h3'>
-							{element.textContent}
-						</h3>,
-					);
-				} else if (element.tagName === "P") {
-					elements.push(
-						<p key={elements.length} className='modern-p'>
-							{element.textContent}
-						</p>,
-					);
-				} else if (element.classList.contains("feature-list")) {
-					Array.from(element.childNodes).forEach((featureNode) => {
-						if (featureNode.nodeType === Node.ELEMENT_NODE) {
-							const featureElement = featureNode as HTMLElement;
-							if (featureElement.classList.contains("feature-section")) {
-								elements.push(
-									<div key={elements.length} className='modern-feature-section'>
-										{featureElement.textContent}
-									</div>,
-								);
-							} else if (featureElement.classList.contains("feature-item")) {
-								elements.push(
-									<div key={elements.length} className='modern-feature-item'>
-										{featureElement.textContent}
-									</div>,
-								);
-							}
-						}
-					});
-				}
-			}
-		});
-		return elements;
-	};
-
-	const renderStars = (rating: string) => {
-		const starCount = parseFloat(rating);
-		if (isNaN(starCount)) return null;
-
-		const stars = Array.from({ length: 5 }, (_, i) => {
-			if (starCount >= i + 1)
-				return (
-					<span key={i} className='star filled'>
-						&#9733;
-					</span>
-				);
-			if (starCount >= i + 0.5 && starCount < i + 1)
-				return (
-					<span key={i} className='star half'>
-						&#9733;
-					</span>
-				);
+	// --- Star rendering logic ---
+	const renderStars = (ratingValue: string | undefined): React.ReactNode => {
+		if (!ratingValue) return null;
+		const rating = parseFloat(ratingValue);
+		if (isNaN(rating)) return null;
+		return Array.from({ length: 5 }, (_, i) => {
+			// This logic correctly determines filled/half/empty
+			const starType =
+				rating >= i + 1 ? "filled" : rating >= i + 0.5 ? "half" : "empty";
 			return (
-				<span key={i} className='star'>
-					&#9733;
+				<span key={i} className={`pdf-star pdf-star-${starType}`}>
+					★
 				</span>
 			);
 		});
-
-		return stars;
 	};
 
 	return (
-		<div className='product-details-container'>
+		// Using pdf- prefixed classes
+		<div className='pdf-container'>
 			<Helmet>
-				<title>{product.headline} | Shopping Deals</title>
-				<meta
-					name='description'
-					content={product.description
-						.replace(/<[^>]+>/g, "")
-						.substring(0, 160)}
-				/>
+				<title>{`${product.headline} | Shopping Deals`}</title>
+				<meta name='description' content={metaDesc} />
 			</Helmet>
 
-			<article className='product-details-card'>
-				<div className='product-image-wrapper'>
+			<article className='pdf-card'>
+				{/* Image Column */}
+				<div className='pdf-image-section'>
 					<img
 						src={product.image.url}
-						alt={product.image.caption}
-						className='product-image'
+						alt={product.image.caption || product.headline}
+						className='pdf-image'
 						loading='eager'
 					/>
 					{product.discountPercentage && (
-						<span className='discount-badge'>
+						<span className='pdf-discount-badge'>
 							{product.discountPercentage} OFF
 						</span>
 					)}
 				</div>
 
-				<div className='product-info'>
-					<div className='product-header'>
+				{/* Info Column */}
+				<div className='pdf-info-section'>
+					{/* Header */}
+					<header className='pdf-header'>
 						<h1>{product.headline}</h1>
-					</div>
-
-					<div className='product-description'>
-						{parseDescription(product.description)}
-						{product.specialOffer && product.specialOffer.trim() !== "" && (
-							<p className='special-offer'>
-								Get {product.specialOffer} Discount With Amazon Prime
-								<a
-									href='https://amzn.to/427UDnt'
-									target='_blank'
-									rel='noopener noreferrer'
-								>
-									Try It Free!
-								</a>{" "}
-								for 30 days
-							</p>
-						)}
-					</div>
-
-					<div className='price-section'>
-						<div className='price-stock-group'>
-							<span className='current-price'>{product.currentPrice}</span>
-							<span className={`stock-status ${stockClass}`}>
-								{stockStatus}
-							</span>
-						</div>
-
 						{product.brand && (
-							<p className='brand-name'>by {product.brand.name}</p>
+							<span className='pdf-brand'>by {product.brand.name}</span>
 						)}
+					</header>
+
+					{/* Description (Parsed HTML) */}
+					<div className='pdf-description'>{parse(product.description)}</div>
+
+					{/* Price & Stock */}
+					<div className='pdf-price-stock-section'>
+						<span className='pdf-price'>{product.currentPrice}</span>
+						<span className={`pdf-stock-status pdf-stock-${stockStatusClass}`}>
+							{" "}
+							{/* pdf-stock-in-stock / pdf-stock-out-of-stock */}
+							{stockStatusText}
+						</span>
 					</div>
+
+					{/* Rating */}
 					{product.aggregateRating && (
-						<div className='product-rating'>
+						<div className='pdf-rating'>
+							<span className='pdf-stars'>
+								{renderStars(product.aggregateRating.ratingValue)}
+							</span>
 							{product.aggregateRating.ratingValue && (
-								<span className='rating-stars'>
-									{renderStars(product.aggregateRating.ratingValue)}
-									<span className='rating-value'>
-										{" "}
-										({product.aggregateRating.ratingValue})
-									</span>
+								<span className='pdf-rating-value'>
+									({product.aggregateRating.ratingValue})
 								</span>
 							)}
 							{product.aggregateRating.reviewCount && (
-								<span className='review-count'>
-									({product.aggregateRating.reviewCount} reviews)
+								<span className='pdf-review-count'>
+									{product.aggregateRating.reviewCount} reviews
 								</span>
 							)}
 						</div>
 					)}
-					<div className='action-buttons'>
+
+					{/* Optional Special Offer */}
+					{product.specialOffer && (
+						<p className='pdf-special-offer'>{product.specialOffer}</p>
+					)}
+
+					{/* Action Buttons */}
+					<div className='pdf-actions'>
 						{isInStock ? (
 							<a
 								href={product.purchaseUrl}
 								target='_blank'
 								rel='noopener noreferrer'
-								className='purchase-button'
+								className='pdf-button pdf-button-buy'
 							>
 								Buy Now
 							</a>
 						) : (
-							<button className='notify-button'>Out Of Stock</button>
+							<button className='pdf-button pdf-button-oos' disabled>
+								Out Of Stock
+							</button>
 						)}
 						<button
 							onClick={() => navigate("/shopping-deals")}
-							className='back-button'
+							className='pdf-button pdf-button-back'
 						>
 							Back to Deals
 						</button>
@@ -280,4 +307,4 @@ const ProductDetails: React.FC = () => {
 	);
 };
 
-export default ProductDetails;
+export default ProductDetails; // Export with the original name
