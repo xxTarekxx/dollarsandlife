@@ -155,6 +155,8 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 						alt={post.image.caption}
 						className='main-image'
 						loading='lazy'
+						width='450px'
+						height='354px'
 					/>
 				</div>
 				<div className='author-date'>

@@ -78,7 +78,7 @@
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     min-height: 300px;
     /* Add border for separation on larger screens if needed */
     /* @media (min-width: 768px) { border-right: 1px solid #eee; } */
