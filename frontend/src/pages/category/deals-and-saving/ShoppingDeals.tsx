@@ -150,7 +150,7 @@ const ShoppingDeals: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 9;
+	const postsPerPage = 12;
 	// const adContainersRef = useRef<(HTMLDivElement | null)[]>([]); // Keep if ad logic is complex
 
 	// Effect to Fetch Products

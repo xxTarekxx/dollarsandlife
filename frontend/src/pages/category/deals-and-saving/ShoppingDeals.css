@@ -126,7 +126,7 @@
     font-size: 1.1rem;
     /* Slightly smaller */
     font-weight: 600;
-    color: #333;
+    color: #6000ce;
     margin: 0 0 8px 0;
     line-height: 1.3;
     font-family: inherit;
@@ -138,6 +138,8 @@
     -webkit-line-clamp: 2;
     /* Limit to 2 lines */
     -webkit-box-orient: vertical;
+
+
 }
 
 .sd-product-title a {
