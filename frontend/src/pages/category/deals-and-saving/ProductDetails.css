@@ -106,7 +106,7 @@
 
 /* --- Info Section --- */
 .pdf-info-section {
-    padding: 1.5rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
 
@@ -115,11 +115,11 @@
 
 
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
     .pdf-info-section {
         padding: 2rem;
     }
-}
+} */
 
 /* --- Header --- */
 .pdf-header {
@@ -169,7 +169,15 @@
 .pdf-description strong {
     display: block;
     font-weight: 600;
-    font-size: 1.05em;
+    font-size: 1.10em;
+    /* margin: 1.5rem 0 0.7rem 0; */
+    color: #000000;
+}
+
+.feature-section {
+    display: block;
+    font-weight: 600;
+    font-size: 1.10em;
     /* margin: 1.5rem 0 0.7rem 0; */
     color: #000000;
 }
