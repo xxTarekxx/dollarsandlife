@@ -10,7 +10,7 @@ declare global {
 	}
 }
 
-// Interface for Product Data (Matches JSON structure)
+// Interface for Product Data
 interface Product {
 	id: string;
 	headline: string;
@@ -47,7 +47,7 @@ interface Product {
 	canonicalUrl?: string;
 }
 
-// --- Product Card Sub-Component ---
+// Product Card Sub-Component
 const ProductCard: React.FC<Product> = ({
 	id,
 	headline,
@@ -64,7 +64,6 @@ const ProductCard: React.FC<Product> = ({
 		.replace(/\s+/g, "-")
 		.replace(/-+/g, "-")}`;
 
-	// Simple text snippet for card description
 	const descriptionSnippet =
 		description
 			?.replace(/<[^>]+>/g, "")
@@ -72,7 +71,6 @@ const ProductCard: React.FC<Product> = ({
 			.trim()
 			.substring(0, 150) + (description?.length > 150 ? "..." : "");
 
-	// Star rendering function (matches ProductDetails logic)
 	const renderStars = (ratingValue: string | undefined): React.ReactNode => {
 		if (!ratingValue) return null;
 		const rating = parseFloat(ratingValue);
@@ -144,14 +142,13 @@ const ProductCard: React.FC<Product> = ({
 	);
 };
 
-// --- Main ShoppingDeals Component ---
+// Main ShoppingDeals Component
 const ShoppingDeals: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 12;
-	// const adContainersRef = useRef<(HTMLDivElement | null)[]>([]); // Keep if ad logic is complex
+	const postsPerPage = 12; // Adjusted to 12 for better grid fill on desktop
 
 	// Effect to Fetch Products
 	useEffect(() => {
@@ -176,21 +173,30 @@ const ShoppingDeals: React.FC = () => {
 			.finally(() => {
 				setLoading(false);
 			});
-	}, [currentPage]);
+	}, []); // Fetch only once on initial mount
 
-	// Ad loading effect (optional, can be removed if not needed or simplified)
-	// useEffect(() => {
-	//     // Simplified ad logic placeholder
-	// }, [products]);
+	// Effect to Scroll Top on Page Change
+	useEffect(() => {
+		// Check if it's not the initial mount before scrolling
+		// This prevents scrolling on first load if currentPage starts at 1
+		// You could remove this check if scrolling on first load is okay.
+		const isInitialMount = currentPage === 1; // Simple check, might need refinement based on initial state logic
+		if (!isInitialMount) {
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth",
+			});
+		}
+	}, [currentPage]); // Runs only when currentPage changes
 
-	// Prepare Products for Display using useMemo
+	// Prepare Products for Display
 	const currentProducts = useMemo(() => {
 		const startIndex = (currentPage - 1) * postsPerPage;
 		const endIndex = startIndex + postsPerPage;
 		return products.slice(startIndex, endIndex);
 	}, [products, currentPage, postsPerPage]);
 
-	// Generate Schema.org JSON-LD using useMemo
+	// Generate Schema.org JSON-LD
 	const schemaData = useMemo(
 		() => ({
 			"@context": "https://schema.org",
@@ -236,7 +242,7 @@ const ShoppingDeals: React.FC = () => {
 		[products],
 	);
 
-	// Render the Component UI
+	// Render UI
 	return (
 		<div className='sd-page-container'>
 			<Helmet>
@@ -253,8 +259,6 @@ const ShoppingDeals: React.FC = () => {
 			</Helmet>
 
 			<h1 className='sd-page-title'>Deals and Savings</h1>
-			{/* Banner can be added here if needed */}
-			{/* <div className='sd-top-banner-container'> ... banner ... </div> */}
 
 			{loading && <div className='sd-loading-indicator'>Loading Deals...</div>}
 			{error && <div className='sd-error-indicator'>Error: {error}</div>}
@@ -275,7 +279,7 @@ const ShoppingDeals: React.FC = () => {
 					totalItems={products.length}
 					itemsPerPage={postsPerPage}
 					currentPage={currentPage}
-					setCurrentPage={setCurrentPage}
+					setCurrentPage={setCurrentPage} // This triggers the state change and the scroll effect
 				/>
 			)}
 		</div>
