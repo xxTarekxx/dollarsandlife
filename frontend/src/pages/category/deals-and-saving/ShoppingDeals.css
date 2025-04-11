@@ -302,7 +302,8 @@
 }
 
 .sd-view-details-button:hover {
-    background-color: #0056b3;
+    background-color: #6000ce;
+    color: white;
     /* Darker blue */
     transform: translateY(-1px);
 }
