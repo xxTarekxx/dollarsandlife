@@ -1,258 +1,327 @@
-.shopping-page-container {
+/* ShoppingDeals.css - Rewritten with sd- prefix */
+
+.sd-page-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
+    /* Center content horizontally */
+    padding: 20px 15px;
+    /* Consistent padding */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* background-color: #f4f4f4; */
+    max-width: 1400px;
+    /* Limit overall page width */
+    margin: 0 auto;
+    /* Center page container */
+    box-sizing: border-box;
 }
 
-.page-title {
-    font-size: 2.5rem;
+.sd-page-title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    /* Responsive font size */
     color: #6000ce;
-    margin-bottom: 20px;
+    /* Theme purple */
+    margin-bottom: 1.5rem;
     text-align: center;
+    font-family: 'Playfair Display', serif;
+    /* Match heading font */
 }
 
-.top-banner {
-    display: block;
+/* --- Optional Banner --- */
+.sd-top-banner-container {
     width: 100%;
+    max-width: 728px;
+    /* Example max width */
+    margin: 0 auto 2rem auto;
+    /* Center banner */
 }
 
-.top-banner-image {
+.sd-top-banner-container img {
+    /* Basic responsive banner image */
+    display: block;
     width: 100%;
     height: auto;
-    display: block;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+/* --- Loading / Error Indicators --- */
+.sd-loading-indicator,
+.sd-error-indicator,
+.sd-no-products {
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: #555;
     text-align: center;
-    ;
+    min-height: 100px;
 }
 
-.products-grid {
+.sd-error-indicator {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* --- Products Grid --- */
+.sd-products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    justify-items: center;
+    /* More flexible columns: min 300px, max 1fr */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    /* Slightly reduced gap */
     width: 100%;
-    max-width: 1200px;
+    max-width: 1300px;
+    /* Max width for the grid itself */
+    margin: 1rem 0 2rem 0;
+    /* Vertical margins */
 }
 
-.product-card {
+/* --- Product Card --- */
+.sd-product-card {
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    /* Slightly less rounded */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Softer shadow */
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.3s;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
+    /* No fixed max-width, let the grid handle sizing */
+}
+
+.sd-product-card:hover {
+    transform: translateY(-5px);
+    /* Slightly more lift */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Image */
+.sd-product-image {
+    display: block;
     width: 100%;
-    max-width: 320px;
-
-    @media (max-width: 600px) {
-        max-width: 100%;
-        width: 95%;
-    }
+    aspect-ratio: 1 / 1;
+    /* Force square aspect ratio */
+    object-fit: contain;
+    /* Use contain to show whole image */
+    background-color: #f9f9f9;
+    /* Background if image is transparent/smaller */
+    border-bottom: 1px solid #eee;
+    /* Separator */
+    padding: 10px;
+    /* Small padding within image area */
+    box-sizing: border-box;
 }
 
-
-.product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+/* Card Details Container */
+.sd-product-details {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Allows details to fill card height */
+    text-align: left;
+    /* Align text left */
 }
 
-
-
-.product-image {
-    width: 100%;
-    height: auto;
-    /* margin: auto; */
-
-    border-radius: 8px;
-
-    @media (max-width: 600px) {
-        max-width: 280px;
-        max-height: 320px;
-    }
-
-}
-
-.product-details {
-    width: 100%;
-    text-align: center;
-}
-
-.product-title {
-    font-size: 1.2rem;
-    color: #6000ce;
-    margin-bottom: 10px;
-}
-
-.product-description {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 15px;
-    line-height: 1.6;
-    display: -webkit-box;
-    line-clamp: 6;
-    -webkit-line-clamp: 6;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-height: calc(1.6em * 6);
-}
-
-.description-text {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 8px;
-}
-
-.product-price {
+/* Card Title */
+.sd-product-title {
     font-size: 1.1rem;
+    /* Slightly smaller */
+    font-weight: 600;
     color: #333;
-    margin-bottom: 4px;
-    margin-top: 0px;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+    font-family: inherit;
+    /* Use card font */
+    /* Prevent long titles breaking layout */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
 }
 
-.product-price .current-price {
-    font-size: 1.4rem;
+.sd-product-title a {
+    color: inherit;
+    /* Inherit color from h2 */
+    text-decoration: none;
+}
+
+.sd-product-title a:hover {
+    color: #6000ce;
+    /* Theme purple on hover */
+    text-decoration: underline;
+}
+
+
+/* Card Description Snippet */
+.sd-product-description-snippet {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    /* Limit lines for snippet */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    flex-grow: 1;
+    /* Push price/rating/button down */
+}
+
+/* Card Price Section */
+.sd-product-price-section {
+    margin: 8px 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    /* Allow wrapping */
+}
+
+.sd-current-price {
+    font-size: 1.3rem;
     font-weight: bold;
     color: #1a936f;
+    /* Theme green */
 }
 
-
-.discount-percentage {
-    font-size: 1rem;
+.sd-discount-percentage {
+    font-size: 0.8rem;
     color: #e74c3c;
-    margin: 0px;
+    /* Red */
+    background-color: rgba(231, 76, 60, 0.1);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
 }
 
-.special-offer {
+.sd-special-offer-badge {
+    font-size: 0.8rem;
+    color: #c85a04;
+    /* Orange/brown */
     background-color: #fff8e1;
-    padding: 1rem;
-    border-radius: 8px;
-    margin: 1.5rem 0;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    border-left: 4px solid #ffc107;
-    animation: fadeIn 0.5s ease;
-
-    @media (max-width: 480px) {
-
-        font-size: 0.9rem;
-        padding: 0.8rem;
-
-    }
-
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    border: 1px solid #ffecc1;
 }
 
-.special-offer a {
-    color: #0066c0;
-    text-decoration: underline;
-    font-weight: 600;
-    margin: 0 4px;
-    transition: color 0.2s;
+
+/* Card Rating Section (Matches ProductDetails styles) */
+.sd-product-rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0 0 12px 0;
+    /* Consistent bottom margin */
+    color: #777;
+    font-size: 0.85rem;
+    /* Slightly smaller */
 }
 
-.special-offer a:hover {
-    color: #004b8d;
-    text-decoration: none;
-}
-
-.buy-now-button {
+.sd-stars {
+    font-size: 1rem;
+    /* Star size on card */
+    line-height: 1;
     display: inline-block;
-    padding: 12px 25px;
+    white-space: nowrap;
+}
+
+.sd-star {
+    /* Base empty */
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1px;
+    color: #ccc;
+    position: relative;
+}
+
+.sd-star-filled {
+    color: #f39c12;
+}
+
+.sd-star-half {
+    display: inline-block;
+    position: relative;
+    color: #ccc;
+}
+
+.sd-star-half::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #f39c12;
+}
+
+.sd-star-empty {
+    color: #ccc;
+}
+
+.sd-rating-value {
+    font-weight: bold;
+    color: #555;
+    margin-left: 3px;
+}
+
+/* .sd-review-count { color: #777; margin-left: 3px; } */
+
+
+/* Card Action Button */
+.sd-product-actions {
+    margin-top: auto;
+    /* Push button to bottom */
+    padding-top: 12px;
+    /* Space above button */
+    border-top: 1px solid #f0f0f0;
+    /* Subtle separator */
+}
+
+.sd-view-details-button {
+    display: block;
+    /* Make button full width */
+    padding: 8px 15px;
+    /* Button padding */
     background-color: #007bff;
+    /* Blue */
     color: white;
     text-decoration: none;
-    border-radius: 6px;
-    transition: background-color 0.3s;
-    width: 100%;
-    max-width: 200px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
-.product-actions .view-details-button {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: background-color 0.3s;
-    width: 100%;
-    max-width: 200px;
-}
-
-.buy-now-button:hover {
+.sd-view-details-button:hover {
     background-color: #0056b3;
-    color: white;
+    /* Darker blue */
+    transform: translateY(-1px);
 }
 
-.postings-container {
+/* --- Ad Container (Basic Styling) --- */
+.sd-ad-container {
     display: flex;
     justify-content: center;
     width: 100%;
     margin: 2rem 0;
-    clear: both;
+    min-height: 90px;
+    /* Ensure space for ad */
 }
 
-.product-rating {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    /* margin-bottom: 10px; */
-    font-size: 1rem;
-    color: #555;
-}
-
-.rating-stars {
-    color: #ffc107;
-    display: flex;
-    align-items: center;
-    gap: 2px;
-}
-
-.star {
-    font-size: 1rem;
-    color: #ddd;
-}
-
-.star.filled {
-    color: #ffc107;
-}
-
-.star.half {
-    color: #ffc107;
-}
-
-.rating-value {
-    font-size: 1rem;
-    color: #777;
-    margin-left: 3px;
-}
-
-.review-count {
-    color: #777;
-}
-
-
-@media (max-width: 600px) {
-    .products-grid {
-        grid-template-columns: 1fr;
+/* --- Responsive Grid --- */
+@media (max-width: 650px) {
+    .sd-products-grid {
+        /* Switch to 1 column on smaller screens if auto-fill isn't enough */
+        /* grid-template-columns: 1fr; */
     }
+
+    /* Adjust card details padding if needed */
+    /* .sd-product-details { padding: 10px; } */
 }

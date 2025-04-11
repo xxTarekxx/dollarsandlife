@@ -19,7 +19,7 @@ import NavBar from "./components/NavBar"; // Assuming path is correct
 import NotFoundPage from "./components/NotFoundPage"; // Assuming path is correct
 import ScrollToTop from "./components/ScrollToTop"; // Assuming path is correct
 
-// Lazy load components (verify paths are correct for your structure)
+// Lazy load components (VERIFY THESE PATHS MATCH YOUR PROJECT STRUCTURE)
 const RssTicker = lazy(() => import("./components/RssTicker"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ExtraIncome = lazy(
@@ -44,9 +44,9 @@ const BreakingNews = lazy(
 const ShoppingDeals = lazy(
 	() => import("./pages/category/deals-and-saving/ShoppingDeals"),
 );
-// --- Use the original component name with the new code ---
+// --- Ensure this points to the corrected ProductDetails.tsx ---
 const ProductDetails = lazy(
-	() => import("./pages/category/deals-and-saving/ProductDetails"), // Points to the rewritten ProductDetails.tsx
+	() => import("./pages/category/deals-and-saving/ProductDetails"),
 );
 // --- End ---
 const FinancialCalculators = lazy(
@@ -153,24 +153,60 @@ const AppContent: React.FC = () => {
 				)}
 				<main>
 					<Suspense fallback={<Loading />}>
+						{/* --- RESTORED ALL ROUTES --- */}
 						<Routes>
 							<Route path='/' element={<HomePage />} />
 							<Route path='/extra-income' element={<ExtraIncome />} />
-							{/* ... other routes ... */}
+							<Route
+								path='/extra-income/freelancers/*'
+								element={<FreelanceJobs />}
+							/>
+							<Route
+								path='/extra-income/remote-jobs/*'
+								element={<RemoteOnlineJobs />}
+							/>
+							<Route
+								path='/extra-income/money-making-apps/*'
+								element={<MoneyMakingApps />}
+							/>
+							<Route path='/extra-income/budget/*' element={<Budget />} />
 							<Route path='/shopping-deals' element={<ShoppingDeals />} />
 
 							{/* --- Product Details Route with Key --- */}
 							<Route
 								path='/shopping-deals/products/:productSlug'
-								// Use key={location.pathname} with the imported ProductDetails
 								element={<ProductDetails key={location.pathname} />}
 							/>
 							{/* --- End --- */}
 
 							<Route path='/start-a-blog/*' element={<StartABlog />} />
-							{/* ... other routes ... */}
+							<Route
+								path='/financial-calculators'
+								element={<FinancialCalculators />}
+							/>
+							<Route path='/breaking-news' element={<BreakingNews />} />
+							<Route path='/terms-of-service' element={<TermsOfService />} />
+							<Route path='/privacy-policy' element={<PrivacyPolicy />} />
+							<Route path='/contact-us' element={<ContactUs />} />
+
+							{/* Dynamic blog post routes */}
+							<Route
+								path='/extra-income/:id'
+								element={<BlogPostContent jsonFile='budgetdata.json' />}
+							/>
+							<Route
+								path='/start-a-blog/:id'
+								element={<BlogPostContent jsonFile='startablogdata.json' />}
+							/>
+							<Route
+								path='/breaking-news/:id'
+								element={<BlogPostContent jsonFile='breakingnews.json' />}
+							/>
+
+							{/* Catch-all 404 Route */}
 							<Route path='*' element={<NotFoundPage />} />
 						</Routes>
+						{/* --- END RESTORED ROUTES --- */}
 					</Suspense>
 				</main>
 				<footer>
@@ -183,6 +219,7 @@ const AppContent: React.FC = () => {
 	);
 };
 
+// Top-level component setting up Router and ScrollToTop
 const WrappedApp: React.FC = () => (
 	<Router>
 		<ScrollToTop />
