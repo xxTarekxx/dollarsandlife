@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import PaginationContainer from "../../../components/PaginationContainer";
+import PaginationContainer from "../../../components/PaginationContainer"; // Verify path
 import "./ShoppingDeals.css";
 
 declare global {
@@ -10,6 +10,7 @@ declare global {
 	}
 }
 
+// Interface for Product Data (Matches JSON structure)
 interface Product {
 	id: string;
 	headline: string;
@@ -18,14 +19,35 @@ interface Product {
 	currentPrice: string;
 	discountPercentage?: string;
 	mainEntityOfPage: string;
+	purchaseUrl: string;
 	specialOffer?: string;
+	offers?: {
+		"@type"?: "Offer";
+		price?: string;
+		priceCurrency?: string;
+		url?: string;
+		availability?: string;
+		hasMerchantReturnPolicy?: string;
+		shippingDetails?: string;
+	};
+	brand?: {
+		"@type"?: "Brand";
+		name: string;
+	};
 	aggregateRating?: {
 		"@type": "AggregateRating";
 		ratingValue: string;
 		reviewCount: string;
 	};
+	datePublished?: string;
+	dateModified?: string;
+	keywords?: string[];
+	designer?: object;
+	publisher?: object;
+	canonicalUrl?: string;
 }
 
+// --- Product Card Sub-Component ---
 const ProductCard: React.FC<Product> = ({
 	id,
 	headline,
@@ -33,7 +55,6 @@ const ProductCard: React.FC<Product> = ({
 	description,
 	currentPrice,
 	discountPercentage,
-	mainEntityOfPage,
 	specialOffer,
 	aggregateRating,
 }) => {
@@ -43,88 +64,79 @@ const ProductCard: React.FC<Product> = ({
 		.replace(/\s+/g, "-")
 		.replace(/-+/g, "-")}`;
 
-	const parsedDescription = description
-		.split("<p>")
-		.filter((part) => part.includes("</p>"))
-		.slice(0, 4)
-		.map((part, index) => (
-			<p key={index} className='modern-p'>
-				{part.replace(/<\/?[^>]+(>|$)/g, "")}
-			</p>
-		));
+	// Simple text snippet for card description
+	const descriptionSnippet =
+		description
+			?.replace(/<[^>]+>/g, "")
+			.replace(/\s+/g, " ")
+			.trim()
+			.substring(0, 150) + (description?.length > 150 ? "..." : "");
 
-	const renderStars = (rating: string) => {
-		const starCount = parseFloat(rating);
-		if (isNaN(starCount)) return null;
-
-		const stars = Array.from({ length: 5 }, (_, i) => {
-			if (starCount >= i + 1)
-				return (
-					<span key={i} className='star filled'>
-						&#9733;
-					</span>
-				);
-			if (starCount >= i + 0.5 && starCount < i + 1)
-				return (
-					<span key={i} className='star half'>
-						&#9733;
-					</span>
-				);
+	// Star rendering function (matches ProductDetails logic)
+	const renderStars = (ratingValue: string | undefined): React.ReactNode => {
+		if (!ratingValue) return null;
+		const rating = parseFloat(ratingValue);
+		if (isNaN(rating)) return null;
+		return Array.from({ length: 5 }, (_, i) => {
+			const starType =
+				rating >= i + 1 ? "filled" : rating >= i + 0.5 ? "half" : "empty";
 			return (
-				<span key={i} className='star'>
-					&#9733;
+				<span key={i} className={`sd-star sd-star-${starType}`}>
+					★
 				</span>
 			);
 		});
-
-		return stars;
 	};
 
 	return (
-		<div className='product-card' data-id={id}>
-			<img
-				src={image.url}
-				alt={image.caption}
-				className='product-image'
-				loading='lazy'
-			/>
-			<div className='product-details'>
-				<h2 className='product-title'>{headline}</h2>
-				<div className='product-description'>{parsedDescription}</div>
-				<div className='product-price'>
-					{specialOffer && (
-						<p className='special-offer'>{`Get ${specialOffer} Extra Discount. Click Here To Try Prime Free.`}</p>
-					)}
+		<div className='sd-product-card' data-id={id}>
+			<Link
+				to={`/shopping-deals/products/${productSlug}`}
+				aria-label={`View details for ${headline}`}
+			>
+				<img
+					src={image.url}
+					alt={image.caption || headline}
+					className='sd-product-image'
+					loading='lazy'
+				/>
+			</Link>
+			<div className='sd-product-details'>
+				<h2 className='sd-product-title'>
+					<Link to={`/shopping-deals/products/${productSlug}`}>{headline}</Link>
+				</h2>
+				<p className='sd-product-description-snippet'>{descriptionSnippet}</p>
+				<div className='sd-product-price-section'>
 					{discountPercentage && (
-						<span className='discount-percentage'>{`Discount: ${discountPercentage}`}</span>
+						<span className='sd-discount-percentage'>
+							{discountPercentage}% OFF
+						</span>
 					)}
-					<span className='current-price'>{`Now: ${currentPrice}`}</span>
+					<span className='sd-current-price'>{currentPrice}</span>
 				</div>
+				{specialOffer && (
+					<p className='sd-special-offer-badge'>{specialOffer}</p>
+				)}
 				{aggregateRating && (
-					<div className='product-rating'>
+					<div className='sd-product-rating'>
 						{aggregateRating.ratingValue && (
-							<span className='rating-stars'>
+							<span className='sd-stars'>
 								{renderStars(aggregateRating.ratingValue)}
-								<span className='rating-value'>
-									{" "}
-									({aggregateRating.ratingValue})
-								</span>
 							</span>
 						)}
-						{aggregateRating.reviewCount && (
-							<span className='review-count'>
-								({aggregateRating.reviewCount} reviews)
+						{aggregateRating.ratingValue && (
+							<span className='sd-rating-value'>
+								({aggregateRating.ratingValue})
 							</span>
 						)}
 					</div>
 				)}
-				<div className='product-actions'>
+				<div className='sd-product-actions'>
 					<Link
 						to={`/shopping-deals/products/${productSlug}`}
-						className='view-details-button'
-						aria-label={`View details for ${headline}`}
+						className='sd-view-details-button'
 					>
-						More Details
+						View Details
 					</Link>
 				</div>
 			</div>
@@ -132,80 +144,101 @@ const ProductCard: React.FC<Product> = ({
 	);
 };
 
+// --- Main ShoppingDeals Component ---
 const ShoppingDeals: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<string | null>(null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const adContainersRef = useRef<React.RefObject<HTMLDivElement>[]>([]);
+	// const adContainersRef = useRef<(HTMLDivElement | null)[]>([]); // Keep if ad logic is complex
 
+	// Effect to Fetch Products
 	useEffect(() => {
+		setLoading(true);
+		setError(null);
 		document.title = "Deals and Savings - Best Shopping Discounts";
+
 		fetch("/data/products.json")
-			.then((res) => res.json())
-			.then((data: Product[]) =>
-				setProducts(
-					data.filter((p, i, a) => a.findIndex((t) => t.id === p.id) === i),
-				),
-			)
-			.catch((err) => console.error("Error fetching products:", err));
-		window.scrollTo({ top: 0, behavior: "smooth" });
+			.then((res) => {
+				if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+				return res.json();
+			})
+			.then((data: Product[]) => {
+				const uniqueProducts = data.filter(
+					(p, i, a) => a.findIndex((t) => t.id === p.id) === i,
+				);
+				setProducts(uniqueProducts);
+			})
+			.catch((err) => {
+				setError(err instanceof Error ? err.message : "Failed to load deals.");
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	}, [currentPage]);
 
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			adContainersRef.current?.forEach((ref) => {
-				if (
-					ref.current &&
-					ref.current.offsetWidth > 0 &&
-					ref.current.offsetHeight > 0 &&
-					window.innerWidth < 600
-				) {
-					(window.adsbygoogle = window.adsbygoogle || []).push({});
-				}
-			});
-		}, 2000);
-		return () => clearTimeout(timer);
-	}, []);
+	// Ad loading effect (optional, can be removed if not needed or simplified)
+	// useEffect(() => {
+	//     // Simplified ad logic placeholder
+	// }, [products]);
 
-	const currentProducts = products.slice(
-		(currentPage - 1) * postsPerPage,
-		currentPage * postsPerPage,
+	// Prepare Products for Display using useMemo
+	const currentProducts = useMemo(() => {
+		const startIndex = (currentPage - 1) * postsPerPage;
+		const endIndex = startIndex + postsPerPage;
+		return products.slice(startIndex, endIndex);
+	}, [products, currentPage, postsPerPage]);
+
+	// Generate Schema.org JSON-LD using useMemo
+	const schemaData = useMemo(
+		() => ({
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			name: "Shopping Deals",
+			description: "Current deals and savings on various products.",
+			url: "https://www.dollarsandlife.com/shopping-deals",
+			itemListElement: products.map((p: Product, i: number) => ({
+				"@type": "ListItem",
+				position: i + 1,
+				item: {
+					"@type": "Product",
+					name: p.headline,
+					image: p.image.url,
+					description:
+						p.description
+							?.replace(/<[^>]+>/g, "")
+							.replace(/\s+/g, " ")
+							.trim()
+							.substring(0, 250) + "...",
+					url: p.mainEntityOfPage
+						? `https://www.dollarsandlife.com${p.mainEntityOfPage}`
+						: undefined,
+					offers: {
+						"@type": "Offer",
+						price: p.currentPrice?.replace(/[^0-9.]/g, ""),
+						priceCurrency: "USD",
+						availability:
+							p.offers?.availability ?? "https://schema.org/InStock",
+						url: p.purchaseUrl,
+					},
+					...(p.brand && { brand: { "@type": "Brand", name: p.brand.name } }),
+					...(p.aggregateRating && {
+						aggregateRating: {
+							"@type": "AggregateRating",
+							ratingValue: p.aggregateRating.ratingValue,
+							reviewCount: p.aggregateRating.reviewCount,
+						},
+					}),
+				},
+			})),
+		}),
+		[products],
 	);
-	const numColumns = window.innerWidth > 600 ? 3 : 1;
 
-	if (adContainersRef.current.length === 0) {
-		adContainersRef.current = Array.from(
-			{ length: Math.ceil(currentProducts.length / numColumns) },
-			() => React.createRef<HTMLDivElement>(),
-		);
-	}
-
-	const productGrid = Array.from(
-		{ length: Math.ceil(currentProducts.length / numColumns) },
-		(_, i) => (
-			<React.Fragment key={i}>
-				<div className='products-grid'>
-					{currentProducts
-						.slice(i * numColumns, (i + 1) * numColumns)
-						.map((product) => (
-							<ProductCard key={product.id} {...product} />
-						))}
-				</div>
-				<div className='postings-container' ref={adContainersRef.current[i]}>
-					<ins
-						className='adsbygoogle'
-						data-ad-client='ca-pub-1079721341426198'
-						data-ad-slot='6375155907'
-						data-ad-format='auto'
-						data-full-width-responsive='true'
-					/>
-				</div>
-			</React.Fragment>
-		),
-	);
-
+	// Render the Component UI
 	return (
-		<div className='shopping-page-container'>
+		<div className='sd-page-container'>
 			<Helmet>
 				<title>Deals and Savings - Best Shopping Discounts</title>
 				<meta
@@ -216,52 +249,35 @@ const ShoppingDeals: React.FC = () => {
 					rel='canonical'
 					href='https://www.dollarsandlife.com/shopping-deals'
 				/>
-				<script type='application/ld+json'>
-					{JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ItemList",
-						itemListElement: products.map((p, i) => ({
-							"@type": "Product",
-							position: i + 1,
-							name: p.headline,
-							image: p.image.url,
-							description: p.description,
-							offers: {
-								"@type": "Offer",
-								price: p.currentPrice.replace("$", ""),
-								priceCurrency: "USD",
-								availability: "https://schema.org/InStock",
-								url: p.mainEntityOfPage,
-							},
-						})),
-					})}
-				</script>
+				<script type='application/ld+json'>{JSON.stringify(schemaData)}</script>
 			</Helmet>
-			<h1 className='page-title'>Deals and Savings</h1>
-			<div className='top-banner-container'>
-				<a
-					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-					target='_blank'
-					rel='noopener noreferrer'
-					className='TopBanner'
-				>
-					<img
-						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-						alt='Lyca Mobile Banner'
-						className='TopBannerImage'
-						width='730px'
-						height='90px'
-						loading='eager'
-					/>
-				</a>
-			</div>
-			{productGrid}
-			<PaginationContainer
-				totalItems={products.length}
-				itemsPerPage={postsPerPage}
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-			/>
+
+			<h1 className='sd-page-title'>Deals and Savings</h1>
+			{/* Banner can be added here if needed */}
+			{/* <div className='sd-top-banner-container'> ... banner ... </div> */}
+
+			{loading && <div className='sd-loading-indicator'>Loading Deals...</div>}
+			{error && <div className='sd-error-indicator'>Error: {error}</div>}
+
+			{!loading && !error && currentProducts.length > 0 && (
+				<div className='sd-products-grid'>
+					{currentProducts.map((product: Product) => (
+						<ProductCard key={product.id} {...product} />
+					))}
+				</div>
+			)}
+			{!loading && !error && currentProducts.length === 0 && (
+				<div className='sd-no-products'>No deals available at the moment.</div>
+			)}
+
+			{products.length > postsPerPage && (
+				<PaginationContainer
+					totalItems={products.length}
+					itemsPerPage={postsPerPage}
+					currentPage={currentPage}
+					setCurrentPage={setCurrentPage}
+				/>
+			)}
 		</div>
 	);
 };
