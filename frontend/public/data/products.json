@@ -57,7 +57,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40347"
+			"reviewCount": "40359"
 		}
 	},
 	{
@@ -251,7 +251,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2531"
+			"reviewCount": "2554"
 		}
 	},
 	{
@@ -305,7 +305,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.0",
-			"reviewCount": "30"
+			"reviewCount": "31"
 		}
 	},
 	{
@@ -360,7 +360,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16740"
+			"reviewCount": "16766"
 		}
 	},
 	{
@@ -417,7 +417,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "32"
+			"reviewCount": "33"
 		}
 	},
 	{
@@ -481,7 +481,12 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T05:03:24",
-		"dateModified": "2025-04-05T20:20:07Z"
+		"dateModified": "2025-04-05T20:20:07Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
 	{
 		"@context": "https://schema.org",
@@ -542,8 +547,8 @@
 		"dateModified": "2025-04-05T20:20:20Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.6",
-			"reviewCount": "21154"
+			"ratingValue": "4.5",
+			"reviewCount": "21174"
 		}
 	},
 	{
@@ -565,7 +570,7 @@
 		"mainEntityOfPage": "/shopping-deals/products/8-cushionaire-weston-woven-flats",
 		"offers": {
 			"@type": "Offer",
-			"price": "49.99",
+			"price": "54.99",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4kJ5cpC",
@@ -589,15 +594,15 @@
 			"CUSHIONAIRE bestseller",
 			"teacher comfortable shoes"
 		],
-		"currentPrice": "$49.99",
+		"currentPrice": "$54.99",
 		"discountPercentage": "",
 		"canonicalUrl": "/shopping-deals/products/8-cushionaire-weston-woven-flats",
 		"datePublished": "2025-03-29T01:03:24",
 		"dateModified": "2025-04-05T20:20:39Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.2",
-			"reviewCount": "82"
+			"ratingValue": "4.1",
+			"reviewCount": "89"
 		}
 	},
 	{
@@ -615,11 +620,11 @@
 		"mainEntityOfPage": "/shopping-deals/products/4-personalized-bunny-easter-basket",
 		"offers": {
 			"@type": "Offer",
-			"price": "19.99",
+			"price": "",
 			"priceCurrency": "USD",
-			"availability": "https://schema.org/InStock",
+			"availability": "https://schema.org/OutOfStock",
 			"url": "https://amzn.to/4hw05X5",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": " Amazon Prime and Free Returns",
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -641,13 +646,13 @@
 		],
 		"canonicalUrl": "/shopping-deals/products/4-personalized-bunny-easter-basket",
 		"discountPercentage": "",
-		"currentPrice": "$19.99",
+		"currentPrice": "",
 		"datePublished": "2025-03-27T17:03:24",
 		"dateModified": "2025-04-05T20:20:51Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.3",
-			"reviewCount": "16"
+			"ratingValue": "",
+			"reviewCount": ""
 		}
 	},
 	{
@@ -711,9 +716,13 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T17:03:24",
-		"dateModified": "2025-04-05T20:21:04Z"
+		"dateModified": "2025-04-05T20:21:04Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
-
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
@@ -775,7 +784,12 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T13:03:24",
-		"dateModified": "2025-04-05T20:21:29Z"
+		"dateModified": "2025-04-05T20:21:29Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
 	{
 		"@context": "https://schema.org",
@@ -837,7 +851,12 @@
 			"name": "Clé de Peau Beauté"
 		},
 		"datePublished": "2025-03-30T01:03:24",
-		"dateModified": "2025-04-05T20:21:41Z"
+		"dateModified": "2025-04-05T20:21:41Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
 	{
 		"@context": "https://schema.org",
@@ -900,7 +919,12 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T04:03:24",
-		"dateModified": "2025-04-05T20:21:54Z"
+		"dateModified": "2025-04-05T20:21:54Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
 	{
 		"@context": "https://schema.org",
@@ -953,7 +977,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.9",
-			"reviewCount": "32"
+			"reviewCount": "33"
 		}
 	},
 	{
@@ -1010,7 +1034,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "6368"
+			"reviewCount": "6377"
 		}
 	},
 	{
@@ -1075,7 +1099,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "48458"
+			"reviewCount": "48515"
 		}
 	},
 	{
@@ -1139,7 +1163,12 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T19:03:24",
-		"dateModified": "2025-04-05T20:22:48Z"
+		"dateModified": "2025-04-05T20:22:48Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
 	{
 		"@context": "https://schema.org",
@@ -1201,7 +1230,12 @@
 			"name": "MONPURE"
 		},
 		"datePublished": "2025-03-29T05:03:24",
-		"dateModified": "2025-04-05T20:22:59Z"
+		"dateModified": "2025-04-05T20:22:59Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
 	{
 		"@context": "https://schema.org",
@@ -1264,7 +1298,12 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-30T13:03:24",
-		"dateModified": "2025-04-05T20:23:12Z"
+		"dateModified": "2025-04-05T20:23:12Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	},
 	{
 		"@context": "https://schema.org",
@@ -1330,7 +1369,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "132"
+			"reviewCount": "145"
 		}
 	},
 	{
@@ -1348,9 +1387,9 @@
 		"mainEntityOfPage": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"offers": {
 			"@type": "Offer",
-			"price": "24.00",
+			"price": "",
 			"priceCurrency": "USD",
-			"availability": "https://schema.org/InStock",
+			"availability": "https://schema.org/OutOfStock",
 			"url": "https://amzn.to/41NEZ0v",
 			"hasMerchantReturnPolicy": "Policy Found, No Text",
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
@@ -1374,13 +1413,13 @@
 		],
 		"canonicalUrl": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"discountPercentage": "",
-		"currentPrice": "$24.00",
+		"currentPrice": "",
 		"datePublished": "2025-03-29T07:03:24",
 		"dateModified": "2025-04-05T20:23:31Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.4",
-			"reviewCount": "84"
+			"ratingValue": "",
+			"reviewCount": ""
 		}
 	},
 	{
@@ -1431,7 +1470,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "72"
+			"reviewCount": "75"
 		}
 	},
 	{
@@ -1482,7 +1521,7 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "0",
+			"price": "",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4hRfjGl",
 			"availability": "https://schema.org/OutOfStock",
@@ -1495,6 +1534,11 @@
 		},
 		"specialOffer": "",
 		"datePublished": "2025-03-29T17:03:24",
-		"dateModified": "2025-04-05T20:24:03Z"
+		"dateModified": "2025-04-05T20:24:03Z",
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "",
+			"reviewCount": ""
+		}
 	}
 ]
