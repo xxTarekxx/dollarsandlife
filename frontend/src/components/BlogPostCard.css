@@ -22,7 +22,7 @@
     .card-container {
         flex-direction: column;
         height: auto;
-        width: 85%;
+        width: 90%;
     }
 }
 
@@ -73,12 +73,12 @@
 .card-text {
     font-size: 0.9rem;
     color: #555;
-    line-height: 1.6;
+    line-height: 1.5;
     margin-top: 0;
     margin-bottom: 0.8rem;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

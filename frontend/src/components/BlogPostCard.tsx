@@ -15,7 +15,7 @@ interface BlogPostCardProps {
 	datePublished: string;
 	dateModified?: string;
 	onClick?: () => void;
-	canonicalUrl?: string; // Add canonicalUrl prop
+	canonicalUrl?: string;
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
@@ -26,15 +26,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	datePublished,
 	dateModified,
 	onClick,
-	canonicalUrl, // Destructure canonicalUrl
+	canonicalUrl,
 }) => {
 	const formattedDatePosted = new Date(datePublished).toLocaleDateString(
 		"en-US",
-		{
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-		},
+		{ year: "numeric", month: "long", day: "numeric" },
 	);
 
 	const formattedArticleUpdated = dateModified
@@ -52,7 +48,6 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 				document.createElement("link");
 			link.setAttribute("rel", "canonical");
 			link.setAttribute("href", canonicalUrl);
-
 			document.head.appendChild(link);
 		}
 	}, [canonicalUrl]);
@@ -72,7 +67,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 					<h2 className='card-title'>{headline}</h2>
 				</header>
 
-				<p className='card-text'>{content}</p>
+				{/* Use dangerouslySetInnerHTML to render HTML content */}
+				<p
+					className='card-text'
+					dangerouslySetInnerHTML={{ __html: content }}
+				/>
 
 				<div className='author-date'>
 					<p className='card-author'>By {author.name}</p>
@@ -80,11 +79,12 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 						<time className='card-date' dateTime={datePublished}>
 							Posted: {formattedDatePosted}
 						</time>
-						{formattedArticleUpdated && (
-							<time className='updated-date' dateTime={dateModified}>
-								Updated: {formattedArticleUpdated}
-							</time>
-						)}
+						{formattedArticleUpdated &&
+							dateModified && ( // Ensure dateModified exists for dateTime
+								<time className='updated-date' dateTime={dateModified}>
+									Updated: {formattedArticleUpdated}
+								</time>
+							)}
 					</div>
 				</div>
 
