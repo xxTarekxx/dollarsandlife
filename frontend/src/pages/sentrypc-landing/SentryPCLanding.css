@@ -1,0 +1,243 @@
+/* SentryPCLanding.css */
+
+.sentrypc-container {
+    font-family: 'Montserrat', sans-serif;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #1a1a1a;
+    background-color: #faf3d6;
+}
+
+.pricing-table {
+    margin-bottom: 3rem;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pricing-table h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #6000ce;
+    font-weight: 700;
+}
+
+.pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.pricing {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.plan-card {
+    background: linear-gradient(145deg, #ffffff, #f1f1f1);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e1e1e1;
+}
+
+.plan-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+}
+
+.plan-card h3 {
+    font-size: 1.6rem;
+    color: #0d47a1;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    color: #333;
+    text-align: center;
+    background-color: #e3f2fd;
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.plan-card ul {
+    padding-left: 0;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #444;
+    list-style: none;
+}
+
+.plan-card ul li {
+
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.plan-card ul li::before {
+    content: "✔";
+    position: relative;
+    left: 0;
+    color: #43a047;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.card-cta-button {
+    margin-top: auto;
+    align-self: center;
+    background-color: #0d47a1;
+    color: white;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(13, 71, 161, 0.25);
+}
+
+.card-cta-button:hover {
+    background-color: #08306b;
+    transform: scale(1.05);
+    color: white;
+}
+
+.hero {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+
+.trust-badges {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #4caf50;
+}
+
+section {
+    margin-bottom: 3rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+}
+
+section h2 {
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+    color: #6000ce;
+}
+
+ul li::before {
+    content: '✔';
+    color: #4caf50;
+}
+
+.faq {
+    margin-bottom: 20px;
+}
+
+.faq li {
+    margin-bottom: 1rem;
+}
+
+.final-cta {
+    text-align: center;
+    background: #bbdefb;
+}
+
+.final-cta h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.features {
+    margin-bottom: 20px;
+}
+
+.features ul {
+    text-align: center;
+    list-style: none;
+    padding-left: 0;
+}
+
+.features ul li {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.features ul li::before {
+    content: "✔";
+    position: relative;
+    left: 0;
+    color: #43a047;
+    font-weight: bold;
+}
+
+.ideal-for {
+    margin-bottom: 20px;
+}
+
+.ideal-for ul {
+    list-style: none;
+    text-align: center;
+    padding-left: 0;
+}
+
+.ideal-for ul li {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.ideal-for ul li::before {
+    content: "✔";
+    position: relative;
+    left: 0;
+    color: #43a047;
+    font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .cta-button {
+        width: 100%;
+        align-self: center;
+    }
+
+    section {
+        padding: 1.5rem;
+    }
+}
