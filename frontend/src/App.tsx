@@ -18,6 +18,9 @@ import Loading from "./components/Loading"; // Assuming path is correct
 import NavBar from "./components/NavBar"; // Assuming path is correct
 import NotFoundPage from "./components/NotFoundPage"; // Assuming path is correct
 import ScrollToTop from "./components/ScrollToTop"; // Assuming path is correct
+const SentryPCLanding = lazy(
+	() => import("./pages/sentrypc-landing/SentryPCLanding"),
+);
 
 // Lazy load components (VERIFY THESE PATHS MATCH YOUR PROJECT STRUCTURE)
 const RssTicker = lazy(() => import("./components/RssTicker"));
@@ -201,6 +204,10 @@ const AppContent: React.FC = () => {
 							<Route
 								path='/breaking-news/:id'
 								element={<BlogPostContent jsonFile='breakingnews.json' />}
+							/>
+							<Route
+								path='/sentry-pc-employee-monitoring-systems'
+								element={<SentryPCLanding />}
 							/>
 
 							{/* Catch-all 404 Route */}
