@@ -6,6 +6,7 @@ interface Plan {
 	price: string;
 	features: string[];
 	cta: string;
+	isBestSeller?: boolean;
 }
 
 const SentryPCLanding: React.FC = () => {
@@ -30,6 +31,7 @@ const SentryPCLanding: React.FC = () => {
 				"Cost-effective per user",
 			],
 			cta: "Get Business Standard",
+			isBestSeller: true,
 		},
 		{
 			name: "Business Pro",
@@ -88,38 +90,23 @@ const SentryPCLanding: React.FC = () => {
 					improvement, and safeguard your business from internal threats—all
 					within a unified, intuitive cloud platform.
 				</p>
-				<a
-					href='https://sentrypc.7eer.net/c/5513478/200614/3022'
-					className='card-cta-button'
-				>
-					Start Your Free Trial of SentryPC
-				</a>
 				<div className='trust-badges'>
-					<span>
-						<span role='img' aria-label='eye'>
-							👁️
-						</span>{" "}
-						Discreet Monitoring
-					</span>
-					<span>
-						<span role='img' aria-label='remote'>
-							🌐
-						</span>{" "}
-						Remote Secure Access
-					</span>
-					<span>
-						<span role='img' aria-label='bell'>
-							🔔
-						</span>{" "}
-						Instant Activity Alerts
-					</span>
+					<span>👁️ Discreet Monitoring</span>
+					<span>🌐 Remote Secure Access</span>
+					<span>🔔 Instant Activity Alerts</span>
 				</div>
 			</section>
 			<section className='pricing-table'>
 				<h2>Flexible Plans Designed for Your Business Growth</h2>
 				<div className='pricing-cards'>
 					{pricingPlans.map((plan, index) => (
-						<div className='plan-card' key={index}>
+						<div
+							className={`plan-card ${plan.isBestSeller ? "best-seller" : ""}`}
+							key={index}
+						>
+							{plan.isBestSeller && (
+								<span className='best-seller-badge'>Best Seller</span>
+							)}
 							<h3>{plan.name}</h3>
 							<p className='price'>{plan.price}</p>
 							<ul>
