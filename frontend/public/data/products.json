@@ -2,6 +2,126 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
+		"id": "28",
+		"headline": "PQRQP Wireless Lavalier Mic for iPhone, Android & USB-C 📱🎤 – 3-in-1 Plug & Record",
+		"shortName": "PQRQP 3 in 1 Wireless Lavalier Microphones for iPhone, iPad, Android, Camera",
+		"description": "<h3>Wireless Sound, Zero Complications 🔊</h3><p>Upgrade your audio for vlogs, livestreams, interviews, and mobile content creation. The PQRQP 3-in-1 wireless lavalier mic system is compatible with all major devices and offers crystal-clear sound with built-in noise reduction and long battery life.</p><strong>Key Features:</strong><ul><li>📡 Universal Wireless System – Stable connection up to 65 feet with dual mic support for multi-person recording.</li><li>🔌 Full Compatibility – Works with iPhone (incl. iPhone 15), Android, iPad, laptops, cameras, and more—no adapters needed.</li><li>🔇 Smart Noise Cancellation – Built-in chip and sponge filter eliminate background noise for clear recordings anywhere.</li><li>🔋 Rechargeable Battery – 7+ hours of use, plus charging support while recording via Type-C cable.</li><li>⚡ Easy Auto Connect – Plug and play with lightning, USB-C, or 3.5mm ports. No Bluetooth, apps, or pairing headaches.</li><li>🎛️ Mode Switching – Use buttons to switch between phone, speaker, and camera recording modes for optimal clarity.</li></ul><p>Perfect for mobile creators, online educators, YouTubers, and TikTok influencers looking to level up their audio without complicated gear.</p>",
+		"datePublished": "2025-04-12T14:30:35Z",
+		"dateModified": "2025-04-12T14:30:35Z",
+		"mainEntityOfPage": "/shopping-deals/products/28-pqrqp-3-in-1-wireless-lavalier-microphones-for-iphone-ipad-android-camera",
+		"canonicalUrl": "/shopping-deals/products/28-pqrqp-3-in-1-wireless-lavalier-microphones-for-iphone-ipad-android-camera",
+		"purchaseUrl": "https://amzn.to/3Yxb77F",
+		"currentPrice": "$29.99",
+		"discountPercentage": "25%",
+		"designer": {
+			"@type": "Organization",
+			"name": "PQRQP"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61b957vEehL._AC_SL1500_.jpg",
+			"caption": "PQRQP Wireless Lavalier Microphone Set for iPhone, Android, USB-C"
+		},
+		"keywords": [
+			"wireless microphone for iphone and android",
+			"clip-on mic for mobile content",
+			"lapel mic plug and play",
+			"noise cancelling lavalier mic",
+			"usb-c microphone for video recording",
+			"portable mic for tiktok and youtube",
+			"dual mic for interviews and vlogs",
+			"3 in 1 mini microphone wireless",
+			"best mic for reels and streaming",
+			"plug and record microphone set"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3Yxb77F",
+			"availability": "https://schema.org/InStock",
+			"price": "29.99"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "PQRQP"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.3",
+			"reviewCount": "1912"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "27",
+		"headline": "FORTEM Ortho Relief Back & Seat Cushion – Tailbone & Sciatica Support 💺",
+		"shortName": "FORTEM Ergonomic Back & Seat Support Set",
+		"description": "<h3>Posture Cushion Set: Everyday Spine Comfort 💡</h3><p>Experience full-body relief while sitting with this memory foam cushion duo, crafted for your lower back and tailbone. Whether working at a desk, driving, or gaming, this orthopedic set supports healthy posture and minimizes pressure points.</p><strong>Key Benefits:</strong><ul><li>🪑 Orthopedic Design – Helps align posture and reduce tailbone stress.</li><li>🧠 Pure Memory Foam – Contours to your body for premium comfort and support.</li><li>🧼 Washable Covers – Breathable mesh, easy to remove and machine-washable.</li><li>🚗 Versatile Use – Ideal for car seats, office chairs, wheelchairs, and travel.</li><li>✅ 1-Year Warranty – Backed by FORTEM's satisfaction promise.</li></ul><strong>Why Choose This Cushion Set?</strong><ul><li>Daily Relief – For sciatica, tailbone, and lower back pain.</li><li>Improved Posture – Encourages proper spine alignment.</li><li>Comfort on the Go – Lightweight, compact, and reliable.</li></ul>",
+		"datePublished": "2025-04-12T13:49:35Z",
+		"dateModified": "2025-04-12T13:49:35Z",
+		"mainEntityOfPage": "/shopping-deals/products/27-fortem-ergonomic-seat-lumbar-set",
+		"canonicalUrl": "/shopping-deals/products/27-fortem-ergonomic-seat-lumbar-set",
+		"purchaseUrl": "https://amzn.to/3EvGwAu",
+		"currentPrice": "$29.99",
+		"discountPercentage": "33%",
+		"designer": {
+			"@type": "Organization",
+			"name": "FORTEM"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/81TbOWf+sPL._AC_SX569_.jpg",
+			"caption": "FORTEM Memory Foam Back & Seat Cushion Set"
+		},
+		"keywords": [
+			"tailbone support cushion",
+			"sciatica pillow for long sitting",
+			"back support for home office",
+			"ergonomic car seat pillow",
+			"lumbar relief cushion",
+			"portable orthopedic cushion",
+			"desk posture seat pad",
+			"pain relief sitting cushion",
+			"memory foam back support",
+			"washable posture cushion"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3EvGwAu",
+			"availability": "https://schema.org/InStock",
+			"price": "29.99"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "FORTEM"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.3",
+			"reviewCount": "26327"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
 		"id": "16",
 		"headline": "LilyAna Retinol Cream - Anti-Aging Face Moisturizer",
 		"shortName": "LilyAna Retinol Cream",
@@ -11,11 +131,11 @@
 		"mainEntityOfPage": "/shopping-deals/products/16-lilyana-retinol-cream",
 		"canonicalUrl": "/shopping-deals/products/16-lilyana-retinol-cream",
 		"purchaseUrl": "https://amzn.to/3QZiMro",
-		"currentPrice": "$17.99",
-		"discountPercentage": "40%",
+		"currentPrice": "$22.49",
+		"discountPercentage": "25%",
 		"offers": {
 			"@type": "Offer",
-			"price": "17.99",
+			"price": "22.49",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3QZiMro",
 			"availability": "https://schema.org/InStock",
@@ -57,7 +177,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40359"
+			"reviewCount": "40364"
 		}
 	},
 	{
@@ -251,7 +371,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2554"
+			"reviewCount": "2476"
 		}
 	},
 	{
@@ -304,8 +424,8 @@
 		"dateModified": "2025-04-05T20:19:25Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.0",
-			"reviewCount": "31"
+			"ratingValue": "4.1",
+			"reviewCount": "32"
 		}
 	},
 	{
@@ -360,7 +480,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16766"
+			"reviewCount": "16771"
 		}
 	},
 	{
@@ -530,12 +650,12 @@
 			"iOS Android compatible",
 			"Veepeak bestseller"
 		],
-		"discountPercentage": "9%",
-		"currentPrice": "$31.95",
+		"discountPercentage": "22%",
+		"currentPrice": "$27.16",
 		"canonicalUrl": "/shopping-deals/products/1-veepeak-obdcheck-ble",
 		"offers": {
 			"@type": "Offer",
-			"price": "31.95",
+			"price": "27.16",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4cbSnQA",
@@ -548,7 +668,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21174"
+			"reviewCount": "21197"
 		}
 	},
 	{
@@ -601,8 +721,8 @@
 		"dateModified": "2025-04-05T20:20:39Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.1",
-			"reviewCount": "89"
+			"ratingValue": "4.0",
+			"reviewCount": "97"
 		}
 	},
 	{
@@ -622,7 +742,7 @@
 			"@type": "Offer",
 			"price": "",
 			"priceCurrency": "USD",
-			"availability": "https://schema.org/OutOfStock",
+			"availability": "Price not found",
 			"url": "https://amzn.to/4hw05X5",
 			"hasMerchantReturnPolicy": " Amazon Prime and Free Returns",
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
@@ -970,14 +1090,14 @@
 			"versatile 2-piece set"
 		],
 		"currentPrice": "$19.99",
-		"discountPercentage": "",
+		"discountPercentage": "41%",
 		"canonicalUrl": "/shopping-deals/products/6-anrabess-premium-linen-short-set",
 		"datePublished": "2025-03-29T13:03:24",
 		"dateModified": "2025-04-05T20:22:14Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "3.9",
-			"reviewCount": "33"
+			"ratingValue": "3.7",
+			"reviewCount": "35"
 		}
 	},
 	{
@@ -1034,7 +1154,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "6377"
+			"reviewCount": "6384"
 		}
 	},
 	{
@@ -1099,7 +1219,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "48515"
+			"reviewCount": "48559"
 		}
 	},
 	{
@@ -1369,7 +1489,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "145"
+			"reviewCount": "150"
 		}
 	},
 	{
