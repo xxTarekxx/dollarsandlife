@@ -1,5 +1,6 @@
 import React from "react";
 import "./SentryPCLanding.css";
+import { Helmet } from "react-helmet-async";
 
 interface Plan {
 	name: string;
@@ -80,6 +81,10 @@ const SentryPCLanding: React.FC = () => {
 
 	return (
 		<div className='sentrypc-container'>
+			<Helmet>
+				<title>SentryPC Employee Monitoring Software</title>
+				<meta name='robots' content='noindex' />
+			</Helmet>
 			<section className='hero'>
 				<h1>
 					Unlock Peak Productivity & Security with Effortless Employee
