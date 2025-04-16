@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import parse from "html-react-parser"; // Use the parser
-import "./ProductDetails.css"; // Ensure CSS is imported
+import parse from "html-react-parser";
+import "./ProductDetails.css";
 
-// Interface for Product Data (Matches JSON structure)
 interface Product {
 	id: string;
 	headline: string;
@@ -22,75 +21,50 @@ interface Product {
 	};
 }
 
-// The Component
 const ProductDetails: React.FC = () => {
 	const { productSlug } = useParams<{ productSlug: string }>();
 	const [product, setProduct] = useState<Product | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | null>(null);
-	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
+	const [notFound, setNotFound] = useState(false);
 
-	// Effect for Data Fetching
 	useEffect(() => {
 		let isMounted = true;
 
-		if (!productSlug) {
-			setError("Invalid product URL.");
-			setLoading(false);
-			setProduct(null);
+		if (!productSlug || !/^\d+-/.test(productSlug)) {
+			setNotFound(true);
 			return;
 		}
 
-		setLoading(true);
-		setError(null);
-		setProduct(null); // Clear previous product on new fetch
+		const productId = productSlug.split("-")[0];
 
 		const fetchProduct = async () => {
 			try {
-				if (!/^\d+-/.test(productSlug))
-					throw new Error("Invalid product URL format.");
-				const productId = productSlug.split("-")[0];
-
 				const response = await fetch("/data/products.json");
-				if (!response.ok)
-					throw new Error(`HTTP error! Status: ${response.status}`);
-
-				const allProducts: Product[] = await response.json();
-				const foundProduct = allProducts.find((p) => p.id === productId);
-
+				if (!response.ok) throw new Error("Failed to fetch product data");
+				const products: Product[] = await response.json();
+				const found = products.find((p) => p.id === productId);
 				if (isMounted) {
-					if (foundProduct) {
-						setProduct(foundProduct);
-						setError(null);
+					if (found) {
+						setProduct(found);
+						setNotFound(false);
 					} else {
-						setError(`Product not found (ID: ${productId}).`);
+						setNotFound(true);
 					}
 				}
-			} catch (err) {
-				if (isMounted) {
-					setError(
-						err instanceof Error
-							? err.message
-							: "An unknown fetch error occurred.",
-					);
-				}
+			} catch {
+				if (isMounted) setNotFound(true);
 			} finally {
-				if (isMounted) {
-					setLoading(false);
-				}
+				if (isMounted) setLoading(false);
 			}
 		};
 
 		fetchProduct();
 		window.scrollTo({ top: 0, behavior: "smooth" });
-
-		// Cleanup function
 		return () => {
 			isMounted = false;
 		};
-	}, [productSlug, navigate]);
+	}, [productSlug]);
 
-	// --- Render States ---
 	if (loading) {
 		return (
 			<div className='pdf-status-container pdf-loading'>
@@ -100,37 +74,12 @@ const ProductDetails: React.FC = () => {
 		);
 	}
 
-	if (error) {
-		return (
-			<div className='pdf-status-container pdf-error'>
-				<h2>Error Loading Product</h2>
-				<p>{error}</p>
-				<button
-					onClick={() => navigate("/shopping-deals")}
-					className='pdf-button pdf-button-back'
-				>
-					Back to Deals
-				</button>
-			</div>
-		);
+	if (notFound) {
+		return <Navigate to='/404' replace />;
 	}
 
-	if (!product) {
-		return (
-			<div className='pdf-status-container pdf-error'>
-				<h2>Product Not Available</h2>
-				<p>The requested product data could not be displayed.</p>
-				<button
-					onClick={() => navigate("/shopping-deals")}
-					className='pdf-button pdf-button-back'
-				>
-					Back to Deals
-				</button>
-			</div>
-		);
-	}
+	if (!product) return null;
 
-	// --- Prepare derived data ---
 	const isInStock = product.offers?.availability?.includes("InStock") ?? false;
 	const stockStatusText = isInStock ? "In Stock" : "Out Of Stock";
 	const stockStatusClass = isInStock ? "in-stock" : "out-of-stock";
@@ -141,7 +90,6 @@ const ProductDetails: React.FC = () => {
 			.trim()
 			.substring(0, 160) ?? "";
 
-	// --- Star rendering logic ---
 	const renderStars = (ratingValue: string | undefined): React.ReactNode => {
 		if (!ratingValue) return null;
 		const rating = parseFloat(ratingValue);
@@ -157,7 +105,6 @@ const ProductDetails: React.FC = () => {
 		});
 	};
 
-	// --- Render Product Details ---
 	return (
 		<div className='pdf-container'>
 			<Helmet>
@@ -166,7 +113,6 @@ const ProductDetails: React.FC = () => {
 			</Helmet>
 
 			<article className='pdf-card'>
-				{/* Image Column */}
 				<div className='pdf-image-section'>
 					<img
 						src={product.image.url}
@@ -181,9 +127,7 @@ const ProductDetails: React.FC = () => {
 					)}
 				</div>
 
-				{/* Info Column */}
 				<div className='pdf-info-section'>
-					{/* Header */}
 					<header className='pdf-header'>
 						<h1>{product.headline}</h1>
 						{product.brand && (
@@ -191,10 +135,8 @@ const ProductDetails: React.FC = () => {
 						)}
 					</header>
 
-					{/* Description (Parsed HTML) */}
 					<div className='pdf-description'>{parse(product.description)}</div>
 
-					{/* Price & Stock */}
 					<div className='pdf-price-stock-section'>
 						<span className='pdf-price'>{product.currentPrice}</span>
 						<span className={`pdf-stock-status pdf-stock-${stockStatusClass}`}>
@@ -202,7 +144,6 @@ const ProductDetails: React.FC = () => {
 						</span>
 					</div>
 
-					{/* Rating */}
 					{product.aggregateRating && (
 						<div className='pdf-rating'>
 							<span className='pdf-stars'>
@@ -221,12 +162,10 @@ const ProductDetails: React.FC = () => {
 						</div>
 					)}
 
-					{/* Optional Special Offer */}
 					{product.specialOffer && (
 						<p className='pdf-special-offer'>{product.specialOffer}</p>
 					)}
 
-					{/* Action Buttons */}
 					<div className='pdf-actions'>
 						{isInStock ? (
 							<a
@@ -243,7 +182,7 @@ const ProductDetails: React.FC = () => {
 							</button>
 						)}
 						<button
-							onClick={() => navigate("/shopping-deals")}
+							onClick={() => window.history.back()}
 							className='pdf-button pdf-button-back'
 						>
 							Back to Deals
