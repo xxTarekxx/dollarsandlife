@@ -4,7 +4,7 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #f7f9fb;
+    background-color: #faf3d6;
     /* Light grey background */
     color: #333;
     /* Dark grey text */
@@ -18,7 +18,7 @@ body {
     /* Slightly narrower for better readability */
     margin: auto;
     padding: 30px;
-    background-color: #fff;
+    background-color: #fdfcf5;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 }
@@ -285,14 +285,60 @@ section:last-child {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .intro h1 {
-        font-size: 2.2rem;
+    .hero h1 {
+        font-size: 1.65rem;
+    }
+
+    .intro h2 {
+        font-size: 1.5rem;
+    }
+
+    .features h2 {
+        font-size: 1.5rem;
     }
 
 
 
+    .pricing-table h2 {
+        font-size: 1.5rem;
+        margin-top: 0px;
+        padding-top: 0px;
+        margin-bottom: 16px;
+
+    }
+
+    .ideal-for h2 {
+        font-size: 1.5rem;
+    }
+
+    .pricing h2 {
+        font-size: 1.5rem;
+    }
+
+    .faq h2 {
+        font-size: 1.5rem;
+    }
+
+    .final-cta h2 {
+        font-size: 1.5rem;
+    }
+
+    .pricing-table {
+
+        padding-top: 24px;
+
+    }
+
     .pricing-cards {
         grid-template-columns: 1fr;
+    }
+
+    .plan-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .price {
+        font-size: 1.1rem;
     }
 
     .features ul,
@@ -309,9 +355,6 @@ section:last-child {
         margin: auto;
     }
 
-    .final-cta h2 {
-        font-size: 1.8rem;
-    }
 }
 
 /* Desktop-specific adjustment for the last row of Features section */
