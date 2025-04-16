@@ -60,6 +60,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const BlogPostContent = lazy(() => import("./components/BlogPostContent"));
 const BreadcrumbWrapper = lazy(() => import("./components/BreadcrumbWrapper"));
+const ReturnPolicy = lazy(() => import("./pages/returnpolicy/ReturnPolicy"));
 const Footer = lazy(() => import("./components/Footer"));
 
 // Component using hooks (like useLocation)
@@ -209,6 +210,7 @@ const AppContent: React.FC = () => {
 								path='/sentry-pc-employee-monitoring-systems'
 								element={<SentryPCLanding />}
 							/>
+							<Route path='/return-policy' element={<ReturnPolicy />} />
 
 							{/* Catch-all 404 Route */}
 							<Route path='*' element={<NotFoundPage />} />

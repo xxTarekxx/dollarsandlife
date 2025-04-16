@@ -57,6 +57,7 @@ const ProductCard: React.FC<Product> = ({
 	discountPercentage,
 	specialOffer,
 	aggregateRating,
+	canonicalUrl,
 }) => {
 	const productSlug = `${id}-${headline
 		.toLowerCase()
@@ -89,7 +90,7 @@ const ProductCard: React.FC<Product> = ({
 	return (
 		<div className='sd-product-card' data-id={id}>
 			<Link
-				to={`/shopping-deals/products/${productSlug}`}
+				to={canonicalUrl || "#"}
 				aria-label={`View details for ${headline}`}
 			>
 				<img
@@ -101,7 +102,7 @@ const ProductCard: React.FC<Product> = ({
 			</Link>
 			<div className='sd-product-details'>
 				<h2 className='sd-product-title'>
-					<Link to={`/shopping-deals/products/${productSlug}`}>{headline}</Link>
+					<Link to={canonicalUrl || "#"}>{headline}</Link>
 				</h2>
 				<p className='sd-product-description-snippet'>{descriptionSnippet}</p>
 				<div className='sd-product-price-section'>
@@ -143,10 +144,7 @@ const ProductCard: React.FC<Product> = ({
 				{/* --- End Rating Section --- */}
 
 				<div className='sd-product-actions'>
-					<Link
-						to={`/shopping-deals/products/${productSlug}`}
-						className='sd-view-details-button'
-					>
+					<Link to={canonicalUrl || "#"} className='sd-view-details-button'>
 						View Details
 					</Link>
 				</div>

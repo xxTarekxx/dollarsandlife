@@ -47,6 +47,11 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3Yxb77F",
 			"availability": "https://schema.org/InStock",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
+			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
 			"price": "29.99"
 		},
 		"brand": {
@@ -62,14 +67,14 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
-		"id": "27",
+		"id": "29",
 		"headline": "FORTEM Ortho Relief Back & Seat Cushion – Tailbone & Sciatica Support 💺",
 		"shortName": "FORTEM Ergonomic Back & Seat Support Set",
 		"description": "<h3>Posture Cushion Set: Everyday Spine Comfort 💡</h3><p>Experience full-body relief while sitting with this memory foam cushion duo, crafted for your lower back and tailbone. Whether working at a desk, driving, or gaming, this orthopedic set supports healthy posture and minimizes pressure points.</p><strong>Key Benefits:</strong><ul><li>🪑 Orthopedic Design – Helps align posture and reduce tailbone stress.</li><li>🧠 Pure Memory Foam – Contours to your body for premium comfort and support.</li><li>🧼 Washable Covers – Breathable mesh, easy to remove and machine-washable.</li><li>🚗 Versatile Use – Ideal for car seats, office chairs, wheelchairs, and travel.</li><li>✅ 1-Year Warranty – Backed by FORTEM's satisfaction promise.</li></ul><strong>Why Choose This Cushion Set?</strong><ul><li>Daily Relief – For sciatica, tailbone, and lower back pain.</li><li>Improved Posture – Encourages proper spine alignment.</li><li>Comfort on the Go – Lightweight, compact, and reliable.</li></ul>",
 		"datePublished": "2025-04-12T13:49:35Z",
 		"dateModified": "2025-04-12T13:49:35Z",
-		"mainEntityOfPage": "/shopping-deals/products/27-fortem-ergonomic-seat-lumbar-set",
-		"canonicalUrl": "/shopping-deals/products/27-fortem-ergonomic-seat-lumbar-set",
+		"mainEntityOfPage": "/shopping-deals/products/29-fortem-ergonomic-seat-lumbar-set",
+		"canonicalUrl": "/shopping-deals/products/29-fortem-ergonomic-seat-lumbar-set",
 		"purchaseUrl": "https://amzn.to/3EvGwAu",
 		"currentPrice": "$29.99",
 		"discountPercentage": "33%",
@@ -107,6 +112,11 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3EvGwAu",
 			"availability": "https://schema.org/InStock",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
+			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
 			"price": "29.99"
 		},
 		"brand": {
@@ -139,7 +149,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3QZiMro",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"designer": {
@@ -200,7 +213,10 @@
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/3FJmYZK",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"designer": {
@@ -299,7 +315,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3XBNZVb",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Not Found",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -359,7 +378,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3XGwVgO",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -397,7 +419,10 @@
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4kDoKM9",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -452,7 +477,10 @@
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/41CvvVK",
-			"hasMerchantReturnPolicy": "Not Found",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -531,7 +559,10 @@
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4bNEGay",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"aggregateRating": {
@@ -588,11 +619,14 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "46,250",
+			"price": "46250",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4cfK0nl",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -660,7 +694,10 @@
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4cbSnQA",
 			"priceValidUntil": "2024-12-31",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"datePublished": "2025-03-27T05:03:24",
@@ -694,7 +731,10 @@
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4kJ5cpC",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -740,11 +780,14 @@
 		"mainEntityOfPage": "/shopping-deals/products/4-personalized-bunny-easter-basket",
 		"offers": {
 			"@type": "Offer",
-			"price": "",
+			"price": "0",
 			"priceCurrency": "USD",
-			"availability": "Price not found",
+			"availability": "https://schema.org/OutOfStock",
 			"url": "https://amzn.to/4hw05X5",
-			"hasMerchantReturnPolicy": " Amazon Prime and Free Returns",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -823,11 +866,14 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "1,450",
+			"price": "1450",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3QWrZR9",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -891,11 +937,14 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "96,500",
+			"price": "96500",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3FKGpRU",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -963,7 +1012,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3QVVy5m",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1026,11 +1078,14 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "2,670",
+			"price": "2670",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4l9nW1z",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1062,14 +1117,17 @@
 			"url": "https://m.media-amazon.com/images/I/71+zBtDYSIL._AC_SY741_.jpg",
 			"caption": "ANRABESS Linen Short Set - Puff Sleeve Summer Outfit"
 		},
-		"mainEntityOfPage": "/shopping-deals/products/6-anrabess-premium-linen-short-set",
+		"mainEntityOfPage": "/shopping-deals/products/6-anrabess-premium-linen-short-set-babydoll-puff-sleeve-2-piece",
 		"offers": {
 			"@type": "Offer",
 			"price": "19.99",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4iogqhN",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -1091,7 +1149,7 @@
 		],
 		"currentPrice": "$19.99",
 		"discountPercentage": "41%",
-		"canonicalUrl": "/shopping-deals/products/6-anrabess-premium-linen-short-set",
+		"canonicalUrl": "/shopping-deals/products/6-anrabess-premium-linen-short-set-babydoll-puff-sleeve-2-piece",
 		"datePublished": "2025-03-29T13:03:24",
 		"dateModified": "2025-04-05T20:22:14Z",
 		"aggregateRating": {
@@ -1143,7 +1201,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/43Artjs",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1160,7 +1221,7 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
-		"id": "28",
+		"id": "30",
 		"headline": "LANEIGE Lip Sleeping Mask - Overnight Hydration Treatment",
 		"shortName": "LANEIGE Lip Sleeping Mask",
 		"description": "<h3>LANEIGE Lip Mask: 5X Hydration Overnight 💋</h3><div class='spacer'></div><p>Hydrating lip mask. Vitamin C, shea butter repair dry lips. 12+ hour moisture lock.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Benefits:</div><div class='feature-item'>💧 5X Hydration - Clinically proven overnight boost.</div><div class='feature-item'>🍊 Vitamin C Rich - Antioxidant repair for dry lips.</div><div class='feature-item'>🧈 Shea & Murumuru - Deep moisture, repairs flakes.</div><div class='feature-item'>🔒 12+ Hour Lock - Patented Moisture Wrap™ tech.</div><div class='feature-item'>🏆 Award Winning - Allure Best of Beauty 2023.</div><div class='feature-item'>🌿 Clean Formula - Paraben, sulfate, phthalate-free.</div><div class='feature-item'>✅ Sensitive Safe - Gentle for daily use.</div><div class='feature-item'>✨ Easy Apply - Hygienic applicator included.</div></div>",
@@ -1173,7 +1234,7 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "/shopping-deals/products/28-laneige-lip-sleeping-mask",
+		"mainEntityOfPage": "/shopping-deals/products/30-laneige-lip-sleeping-mask",
 		"purchaseUrl": "https://amzn.to/4iQFpKQ",
 		"image": {
 			"@type": "ImageObject",
@@ -1197,7 +1258,7 @@
 			"winter lip repair treatment",
 			"luxury Korean lip mask"
 		],
-		"canonicalUrl": "/shopping-deals/products/28-laneige-lip-sleeping-mask",
+		"canonicalUrl": "/shopping-deals/products/30-laneige-lip-sleeping-mask",
 		"currentPrice": "$24.00",
 		"discountPercentage": "",
 		"offers": {
@@ -1206,7 +1267,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4iQFpKQ",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1270,11 +1334,14 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "32,300",
+			"price": "32300",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3E3iYmp",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1342,7 +1409,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4iQQHPg",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1405,11 +1475,14 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "5,450",
+			"price": "5450",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4iL2xdx",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1477,7 +1550,10 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4bKfxgY",
 			"availability": "https://schema.org/InStock",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
@@ -1511,7 +1587,10 @@
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/41NEZ0v",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -1562,7 +1641,10 @@
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4ilDdLa",
 			"priceValidUntil": "2024-12-31",
-			"hasMerchantReturnPolicy": "Policy Found, No Text",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"keywords": [
@@ -1641,11 +1723,14 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "",
+			"price": "0",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4hRfjGl",
 			"availability": "https://schema.org/OutOfStock",
-			"hasMerchantReturnPolicy": "Not Found",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
 		},
 		"brand": {
