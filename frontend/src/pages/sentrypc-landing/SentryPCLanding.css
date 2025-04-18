@@ -4,7 +4,7 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #faf3d6;
+    background-color: #fffcee;
     /* Light grey background */
     color: #333;
     /* Dark grey text */
@@ -18,7 +18,7 @@ body {
     /* Slightly narrower for better readability */
     margin: auto;
     padding: 30px;
-    background-color: #fdfcf5;
+    background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 }
@@ -57,6 +57,10 @@ section:last-child {
     color: #2c3e50;
     /* Dark blue heading */
     margin-bottom: 15px;
+}
+
+.intro h2 {
+    color: #3498db;
 }
 
 .intro p {
@@ -178,6 +182,11 @@ section:last-child {
 .card-cta-button:hover {
     background-color: #2980b9;
     transform: scale(1.02);
+    color: #ffc38e;
+}
+
+.pricing h2 {
+    color: #3498db;
 }
 
 /* Best Seller Badge */
@@ -227,6 +236,11 @@ section:last-child {
     gap: 10px;
     text-align: center;
     /* Corrected typo to 'center' */
+}
+
+
+.compare h2 {
+    color: #3498db;
 }
 
 /* FAQ Section */
@@ -283,8 +297,32 @@ section:last-child {
     width: auto;
 }
 
+.sentrypc-logo-wrapper {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+
+
+}
+
+.sentrypc-logo-img {
+    max-width: 400px;
+    height: auto;
+
+
+    @media (max-width: 768px) {
+        max-width: 220px;
+    }
+
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+    html {
+        overflow-x: hidden;
+    }
+
+
     .hero h1 {
         font-size: 1.65rem;
     }
@@ -294,6 +332,10 @@ section:last-child {
     }
 
     .features h2 {
+        font-size: 1.5rem;
+    }
+
+    .compare h2 {
         font-size: 1.5rem;
     }
 
@@ -378,6 +420,9 @@ section:last-child {
         /* Let the content determine the width */
     }
 }
+
+
+
 
 /* Desktop-specific adjustment for the last row of Ideal For section */
 @media (min-width: 769px) {

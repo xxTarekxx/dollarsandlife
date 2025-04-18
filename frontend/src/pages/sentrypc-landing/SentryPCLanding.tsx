@@ -1,6 +1,7 @@
 import React from "react";
 import "./SentryPCLanding.css";
 import { Helmet } from "react-helmet-async";
+import SentryLogo from "../../../public/images/sentrypc/sentrypc-logo.webp";
 
 interface Plan {
 	name: string;
@@ -36,7 +37,7 @@ const SentryPCLanding: React.FC = () => {
 				"Cost-effective per user",
 				"$29.90 per license",
 			],
-			cta: "Get Business Standard",
+			cta: "Get Business 50",
 			isBestSeller: true,
 		},
 		{
@@ -48,7 +49,7 @@ const SentryPCLanding: React.FC = () => {
 				"1,000 Screenshot History",
 				"$24.95 per license",
 			],
-			cta: "Scale with Business Pro",
+			cta: "Scale with Business 100",
 		},
 		{
 			name: "Business 250",
@@ -60,7 +61,7 @@ const SentryPCLanding: React.FC = () => {
 				"Volume licensing savings",
 				"$19.98 per license",
 			],
-			cta: "Optimize with Enterprise",
+			cta: "Optimize with Business 250",
 		},
 		{
 			name: "Business 500",
@@ -72,7 +73,7 @@ const SentryPCLanding: React.FC = () => {
 				"Significant per-user discount",
 				"$14.99 per license",
 			],
-			cta: "Unlock Premium Features",
+			cta: "Grow With Business 500",
 		},
 		{
 			name: "Business 1000",
@@ -84,7 +85,7 @@ const SentryPCLanding: React.FC = () => {
 				"Best value for large teams",
 				"$9.99 per license",
 			],
-			cta: "Choose Business Elite",
+			cta: "Choose Business 1000",
 		},
 	];
 
@@ -113,6 +114,13 @@ const SentryPCLanding: React.FC = () => {
 			</section>
 
 			<section className='pricing-table'>
+				<section className='sentrypc-logo-wrapper'>
+					<img
+						src={SentryLogo}
+						alt='SentryPC Logo'
+						className='sentrypc-logo-img'
+					/>
+				</section>
 				<h2>Flexible Plans Designed for Your Business Growth</h2>
 				<div className='pricing-cards'>
 					{pricingPlans.map((plan, index) => (
@@ -171,6 +179,32 @@ const SentryPCLanding: React.FC = () => {
 					<li>💾 Easily Download Usage Archives for Compliance</li>
 					<li>🔄 Enjoy Free Updates to Keep Your Monitoring Ahead</li>
 				</ul>
+			</section>
+
+			<section className='compare'>
+				<h2>Why SentryPC is a Smarter Alternative to Teramind & Controlio</h2>
+				<p>
+					Looking for powerful employee monitoring software without the steep
+					price tag or complexity? <strong>SentryPC</strong> delivers all the
+					core features of top tools like <strong>Teramind</strong> and{" "}
+					<strong>Controlio</strong>—such as activity tracking, screen capture,
+					and app blocking—at a fraction of the cost.
+				</p>
+				<ul>
+					<li>Flat-rate pricing with no hidden fees or per-user add-ons</li>
+					<li>
+						Quick setup and a cloud-based dashboard you can access from anywhere
+					</li>
+					<li>
+						Lower annual cost compared to feature-equivalent Teramind or
+						Controlio plans
+					</li>
+				</ul>
+				<p>
+					Whether you're switching from another platform or starting fresh,
+					SentryPC offers the flexibility and affordability your team
+					needs—without sacrificing functionality.
+				</p>
 			</section>
 
 			<section className='ideal-for'>
@@ -233,6 +267,15 @@ const SentryPCLanding: React.FC = () => {
 				>
 					Begin Your SentryPC Journey Today
 				</a>
+			</section>
+
+			<section className='affiliate-disclaimer'>
+				<p className='disclaimer-text'>
+					<strong>Disclosure:</strong> We are an affiliate partner of SentryPC.
+					If you make a purchase through the links on this page, we may earn a
+					commission—at no extra cost to you. This helps us keep our content
+					free and unbiased.
+				</p>
 			</section>
 		</div>
 	);
