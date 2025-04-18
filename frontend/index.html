@@ -42,7 +42,6 @@
     }
   </script>
 
-
   <!-- Social Media Links -->
   <link rel="me" href="https://www.instagram.com/dollarsnlife/" />
   <link rel="me" href="https://www.facebook.com/profile.php?id=61552256902083" />
@@ -59,33 +58,31 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 
-
-
-  <!-- Google reCAPTCHA v2 -->
-  <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
-
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079721341426198"
     crossorigin="anonymous"></script>
 
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16613104907"></script>
+  <!-- Google tag (gtag.js) for GA4 + Ads -->
+  <!-- Google tag (gtag.js) for GA4 and Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
+    // Google Analytics
+    gtag('config', 'G-S7FWNHSD7P');
+
+    // Google Ads
     gtag('config', 'AW-16613104907');
   </script>
+
+
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-
   <div id="root"></div>
-
-  <!-- Vite React App Entry Script -->
 </body>
 
 </html>
