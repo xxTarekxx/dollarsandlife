@@ -82,6 +82,7 @@ module.exports = (env, argv) => {
                 openAnalyzer: false,
             }),
             new webpack.DefinePlugin({
+                'process.env.REACT_APP_INTERNAL_IP_PREFIX': JSON.stringify(process.env.REACT_APP_INTERNAL_IP_PREFIX),
                 'process.env.REACT_APP_EMAILJS_SERVICE_ID': JSON.stringify(process.env.REACT_APP_EMAILJS_SERVICE_ID),
                 'process.env.REACT_APP_EMAILJS_TEMPLATE_ID': JSON.stringify(process.env.REACT_APP_EMAILJS_TEMPLATE_ID),
                 'process.env.REACT_APP_EMAILJS_USER_ID': JSON.stringify(process.env.REACT_APP_EMAILJS_USER_ID),

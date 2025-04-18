@@ -9,20 +9,19 @@ import React, {
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
 	Route,
-	BrowserRouter as Router, // Keep Router at the top level wrapper
+	BrowserRouter as Router,
 	Routes,
-	useLocation, // Import useLocation
+	useLocation,
 } from "react-router-dom";
-import "./App.css"; // Keep this global App CSS import
-import Loading from "./components/Loading"; // Assuming path is correct
-import NavBar from "./components/NavBar"; // Assuming path is correct
-import NotFoundPage from "./components/NotFoundPage"; // Assuming path is correct
-import ScrollToTop from "./components/ScrollToTop"; // Assuming path is correct
+import "./App.css";
+import Loading from "./components/Loading";
+import NavBar from "./components/NavBar";
+import NotFoundPage from "./components/NotFoundPage";
+import ScrollToTop from "./components/ScrollToTop";
+
 const SentryPCLanding = lazy(
 	() => import("./pages/sentrypc-landing/SentryPCLanding"),
 );
-
-// Lazy load components (VERIFY THESE PATHS MATCH YOUR PROJECT STRUCTURE)
 const RssTicker = lazy(() => import("./components/RssTicker"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ExtraIncome = lazy(
@@ -47,11 +46,9 @@ const BreakingNews = lazy(
 const ShoppingDeals = lazy(
 	() => import("./pages/category/deals-and-saving/ShoppingDeals"),
 );
-// --- Ensure this points to the corrected ProductDetails.tsx ---
 const ProductDetails = lazy(
 	() => import("./pages/category/deals-and-saving/ProductDetails"),
 );
-// --- End ---
 const FinancialCalculators = lazy(
 	() => import("./components/calculators/FinancialCalculators"),
 );
@@ -63,16 +60,20 @@ const BreadcrumbWrapper = lazy(() => import("./components/BreadcrumbWrapper"));
 const ReturnPolicy = lazy(() => import("./pages/returnpolicy/ReturnPolicy"));
 const Footer = lazy(() => import("./components/Footer"));
 
-// Component using hooks (like useLocation)
+declare global {
+	interface Window {
+		gtag?: (...args: any[]) => void;
+	}
+}
+
 const AppContent: React.FC = () => {
-	const location = useLocation(); // Get location object
+	const location = useLocation();
 	const canonicalUrl = useMemo(
 		() => `https://www.dollarsandlife.com${location.pathname.toLowerCase()}`,
 		[location.pathname],
 	);
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
 
-	// Effect to enforce lowercase URLs
 	useEffect(() => {
 		const currentPath = location.pathname;
 		const lowerCasePath = currentPath.toLowerCase();
@@ -81,12 +82,11 @@ const AppContent: React.FC = () => {
 		}
 	}, [location.pathname]);
 
-	// Effect for basic AdBlock Detection (keep or remove/refine as desired)
 	useEffect(() => {
 		const checkAdBlock = () => {
 			let isAdBlocked = false;
 			const testAd = document.createElement("div");
-			testAd.innerHTML = " ";
+			testAd.innerHTML = "\u00A0";
 			testAd.className = "adsbox";
 			testAd.style.cssText =
 				"position:absolute; height:1px; width:1px; top:-1px; left:-1px; opacity:0.01; pointer-events:none;";
@@ -110,6 +110,42 @@ const AppContent: React.FC = () => {
 		};
 		const timer = setTimeout(checkAdBlock, 2000);
 		return () => clearTimeout(timer);
+	}, []);
+
+	useEffect(() => {
+		const internalPrefixes = (process.env.REACT_APP_INTERNAL_IP_PREFIX || "")
+			.split(",")
+			.map((p) => p.trim());
+
+		console.log("ENV INTERNAL IP Prefixes:", internalPrefixes);
+
+		fetch("https://api64.ipify.org?format=json")
+			.then((res) => res.json())
+			.then((data) => {
+				const userIP = data.ip;
+				const normalizeIP = (ip: string) => ip.replace(/[^a-zA-Z0-9:.]/g, "");
+
+				const isInternal = internalPrefixes.some((prefix) => {
+					return normalizeIP(userIP).startsWith(normalizeIP(prefix));
+				});
+
+				console.log("Your IP is:", userIP);
+				console.log("Tracking allowed:", !isInternal);
+
+				if (typeof window.gtag === "function") {
+					window.gtag("config", "G-S7FWNHSD7P", {
+						send_page_view: !isInternal,
+						...(isInternal ? { traffic_type: "internal_traffic" } : {}),
+					});
+					window.gtag("config", "AW-16613104907");
+				}
+			})
+			.catch(() => {
+				if (typeof window.gtag === "function") {
+					window.gtag("config", "G-S7FWNHSD7P");
+					window.gtag("config", "AW-16613104907");
+				}
+			});
 	}, []);
 
 	const handleDismissAdBlockPrompt = useCallback(() => {
@@ -157,7 +193,6 @@ const AppContent: React.FC = () => {
 				)}
 				<main>
 					<Suspense fallback={<Loading />}>
-						{/* --- RESTORED ALL ROUTES --- */}
 						<Routes>
 							<Route path='/' element={<HomePage />} />
 							<Route path='/extra-income' element={<ExtraIncome />} />
@@ -175,14 +210,10 @@ const AppContent: React.FC = () => {
 							/>
 							<Route path='/extra-income/budget/*' element={<Budget />} />
 							<Route path='/shopping-deals' element={<ShoppingDeals />} />
-
-							{/* --- Product Details Route with Key --- */}
 							<Route
 								path='/shopping-deals/products/:productSlug'
 								element={<ProductDetails key={location.pathname} />}
 							/>
-							{/* --- End --- */}
-
 							<Route path='/start-a-blog/*' element={<StartABlog />} />
 							<Route
 								path='/financial-calculators'
@@ -192,8 +223,6 @@ const AppContent: React.FC = () => {
 							<Route path='/terms-of-service' element={<TermsOfService />} />
 							<Route path='/privacy-policy' element={<PrivacyPolicy />} />
 							<Route path='/contact-us' element={<ContactUs />} />
-
-							{/* Dynamic blog post routes */}
 							<Route
 								path='/extra-income/:id'
 								element={<BlogPostContent jsonFile='budgetdata.json' />}
@@ -211,11 +240,8 @@ const AppContent: React.FC = () => {
 								element={<SentryPCLanding />}
 							/>
 							<Route path='/return-policy' element={<ReturnPolicy />} />
-
-							{/* Catch-all 404 Route */}
 							<Route path='*' element={<NotFoundPage />} />
 						</Routes>
-						{/* --- END RESTORED ROUTES --- */}
 					</Suspense>
 				</main>
 				<footer>
@@ -228,7 +254,6 @@ const AppContent: React.FC = () => {
 	);
 };
 
-// Top-level component setting up Router and ScrollToTop
 const WrappedApp: React.FC = () => (
 	<Router>
 		<ScrollToTop />
