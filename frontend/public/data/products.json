@@ -61,7 +61,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1882"
+			"reviewCount": "1861"
 		}
 	},
 	{
@@ -76,8 +76,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/29-fortem-ergonomic-seat-lumbar-set",
 		"canonicalUrl": "/shopping-deals/products/29-fortem-ergonomic-seat-lumbar-set",
 		"purchaseUrl": "https://amzn.to/3EvGwAu",
-		"currentPrice": "$29.99",
-		"discountPercentage": "33%",
+		"currentPrice": "$37.99",
+		"discountPercentage": "16%",
 		"designer": {
 			"@type": "Organization",
 			"name": "FORTEM"
@@ -117,7 +117,7 @@
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
-			"price": "29.99"
+			"price": "37.99"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -126,7 +126,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26343"
+			"reviewCount": "26375"
 		}
 	},
 	{
@@ -190,7 +190,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40365"
+			"reviewCount": "40382"
 		}
 	},
 	{
@@ -393,7 +393,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2484"
+			"reviewCount": "2617"
 		}
 	},
 	{
@@ -450,7 +450,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.1",
-			"reviewCount": "34"
+			"reviewCount": "35"
 		}
 	},
 	{
@@ -508,7 +508,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16778"
+			"reviewCount": "16791"
 		}
 	},
 	{
@@ -568,7 +568,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "33"
+			"reviewCount": "36"
 		}
 	},
 	{
@@ -705,7 +705,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21202"
+			"reviewCount": "21222"
 		}
 	},
 	{
@@ -761,8 +761,8 @@
 		"dateModified": "2025-04-05T20:20:39Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.0",
-			"reviewCount": "99"
+			"ratingValue": "3.9",
+			"reviewCount": "109"
 		}
 	},
 	{
@@ -780,9 +780,9 @@
 		"mainEntityOfPage": "/shopping-deals/products/4-personalized-bunny-easter-basket",
 		"offers": {
 			"@type": "Offer",
-			"price": "0",
+			"price": "18.99",
 			"priceCurrency": "USD",
-			"availability": "https://schema.org/OutOfStock",
+			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4hw05X5",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
@@ -808,14 +808,14 @@
 			"heirloom quality basket"
 		],
 		"canonicalUrl": "/shopping-deals/products/4-personalized-bunny-easter-basket",
-		"discountPercentage": "",
-		"currentPrice": "",
+		"discountPercentage": "5%",
+		"currentPrice": "$18.99",
 		"datePublished": "2025-03-27T17:03:24",
 		"dateModified": "2025-04-05T20:20:51Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
+			"ratingValue": "4.3",
+			"reviewCount": "17"
 		}
 	},
 	{
@@ -1155,7 +1155,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "34"
+			"reviewCount": "32"
 		}
 	},
 	{
@@ -1214,8 +1214,8 @@
 		"specialOffer": "",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.3",
-			"reviewCount": "6384"
+			"ratingValue": "4.2",
+			"reviewCount": "67639"
 		}
 	},
 	{
@@ -1283,7 +1283,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "48578"
+			"reviewCount": "48637"
 		}
 	},
 	{
@@ -1565,7 +1565,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "152"
+			"reviewCount": "158"
 		}
 	},
 	{
@@ -1583,9 +1583,9 @@
 		"mainEntityOfPage": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"offers": {
 			"@type": "Offer",
-			"price": "24.00",
+			"price": "",
 			"priceCurrency": "USD",
-			"availability": "https://schema.org/InStock",
+			"availability": "https://schema.org/OutOfStock",
 			"url": "https://amzn.to/41NEZ0v",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
@@ -1612,13 +1612,13 @@
 		],
 		"canonicalUrl": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"discountPercentage": "",
-		"currentPrice": "$24.00",
+		"currentPrice": "",
 		"datePublished": "2025-03-29T07:03:24",
 		"dateModified": "2025-04-05T20:23:31Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.4",
-			"reviewCount": "95"
+			"ratingValue": "",
+			"reviewCount": ""
 		}
 	},
 	{
@@ -1636,7 +1636,7 @@
 		"mainEntityOfPage": "/shopping-deals/products/5-bamboo-food-dispenser-2l",
 		"offers": {
 			"@type": "Offer",
-			"price": "27.45",
+			"price": "29.95",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4ilDdLa",
@@ -1665,14 +1665,14 @@
 			"eco-friendly food storage"
 		],
 		"canonicalUrl": "/shopping-deals/products/5-bamboo-food-dispenser-2l",
-		"discountPercentage": "8%",
-		"currentPrice": "$27.45",
+		"discountPercentage": "",
+		"currentPrice": "$29.95",
 		"datePublished": "2025-03-28T16:03:24",
 		"dateModified": "2025-04-05T20:23:43Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "75"
+			"reviewCount": "77"
 		}
 	},
 	{
@@ -1723,7 +1723,7 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "0",
+			"price": "",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4hRfjGl",
 			"availability": "https://schema.org/OutOfStock",
