@@ -1,14 +1,14 @@
 import React from "react";
-import "./SentryPCLanding.css";
+import "./SentryPCLanding.css"; // Ensure CSS is imported
 import { Helmet } from "react-helmet-async";
-import SentryLogo from "../../../public/images/sentrypc/sentrypc-logo.webp";
+import SentryLogo from "../../../public/images/sentrypc/sentrypc-logo.webp"; // Adjust path if needed
 
 interface Plan {
 	name: string;
 	price: string;
 	features: string[];
 	cta: string;
-	isBestSeller?: boolean;
+	isBestSeller?: boolean; // Kept in interface, but not used for className anymore
 }
 
 const SentryPCLanding: React.FC = () => {
@@ -38,7 +38,7 @@ const SentryPCLanding: React.FC = () => {
 				"$29.90 per license",
 			],
 			cta: "Get Business 50",
-			isBestSeller: true,
+			isBestSeller: true, // Data remains, but not used for styling
 		},
 		{
 			name: "Business 100",
@@ -96,6 +96,7 @@ const SentryPCLanding: React.FC = () => {
 				<meta name='robots' content='noindex' />
 			</Helmet>
 
+			{/* --- START: UNCHANGED SECTION --- */}
 			<section className='hero'>
 				<h1>
 					Unlock Peak Productivity & Security with Effortless Employee
@@ -112,8 +113,11 @@ const SentryPCLanding: React.FC = () => {
 					<span>🔔 Instant Activity Alerts</span>
 				</div>
 			</section>
+			{/* --- END: UNCHANGED SECTION --- */}
 
+			{/* --- START: MODIFIED PRICING SECTION --- */}
 			<section className='pricing-table'>
+				{/* Logo wrapper is part of the original structure */}
 				<section className='sentrypc-logo-wrapper'>
 					<img
 						src={SentryLogo}
@@ -124,33 +128,53 @@ const SentryPCLanding: React.FC = () => {
 				<h2>Flexible Plans Designed for Your Business Growth</h2>
 				<div className='pricing-cards'>
 					{pricingPlans.map((plan, index) => (
-						<div
-							className={`plan-card ${plan.isBestSeller ? "best-seller" : ""}`}
-							key={index}
-						>
-							{plan.isBestSeller && (
-								<span className='best-seller-badge'>Best Seller</span>
-							)}
-							<h3>{plan.name}</h3>
-							<p className='price'>{plan.price}</p>
-							<ul>
-								{plan.features.map((feature, idx) => (
-									<li key={idx}>{feature}</li>
+						// *** REPLACED OLD .plan-card STRUCTURE WITH NEW .card STRUCTURE ***
+						<div key={index} className='card'>
+							<div className='card__border'></div>
+							<div className='card_title__container'>
+								<h3 className='card_title'>{plan.name}</h3>
+								{/* Use card_paragraph for price, consistent with new design */}
+								<p className='card_paragraph'>{plan.price}</p>
+							</div>
+							<hr className='line' />
+							<ul className='card__list'>
+								{plan.features.map((feature, featureIndex) => (
+									<li key={featureIndex} className='card__list_item'>
+										<div className='check'>
+											<svg
+												className='check_svg'
+												viewBox='0 0 16 16'
+												fill='currentColor'
+												xmlns='http://www.w3.org/2000/svg'
+											>
+												<path
+													fillRule='evenodd'
+													clipRule='evenodd'
+													d='M13.4142 4.58579C13.8047 4.97631 13.8047 5.60948 13.4142 6L7.41421 12C7.02369 12.3905 6.39052 12.3905 6 12L2.58579 8.58579C2.19526 8.19526 2.19526 7.56209 2.58579 7.17157C2.97631 6.78105 3.60948 6.78105 4 7.17157L6.70711 9.87868L12 4.58579C12.3905 4.19526 13.0237 4.19526 13.4142 4.58579Z'
+												/>
+											</svg>
+										</div>
+										<span className='list_text'>{feature}</span>
+									</li>
 								))}
 							</ul>
+							{/* Use new button class and correct link */}
 							<a
 								href={trackingLink}
 								target='_blank'
 								rel='noopener noreferrer'
-								className='card-cta-button'
+								className='button'
 							>
 								{plan.cta}
 							</a>
 						</div>
+						// *** END OF REPLACEMENT ***
 					))}
 				</div>
 			</section>
+			{/* --- END: MODIFIED PRICING SECTION --- */}
 
+			{/* --- START: UNCHANGED SECTIONS --- */}
 			<section className='intro'>
 				<h2>
 					SentryPC: Your All-in-One Solution for Enhanced Team Performance &
@@ -230,7 +254,7 @@ const SentryPCLanding: React.FC = () => {
 					href={trackingLink}
 					target='_blank'
 					rel='noopener noreferrer'
-					className='card-cta-button'
+					className='card-cta-button' // This button remains styled by .card-cta-button
 				>
 					Explore Plans & Start Monitoring Today →
 				</a>
@@ -263,7 +287,7 @@ const SentryPCLanding: React.FC = () => {
 					href={trackingLink}
 					target='_blank'
 					rel='noopener noreferrer'
-					className='card-cta-button'
+					className='card-cta-button' // This button remains styled by .card-cta-button
 				>
 					Begin Your SentryPC Journey Today
 				</a>
@@ -277,6 +301,7 @@ const SentryPCLanding: React.FC = () => {
 					free and unbiased.
 				</p>
 			</section>
+			{/* --- END: UNCHANGED SECTIONS --- */}
 		</div>
 	);
 };
