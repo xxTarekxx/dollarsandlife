@@ -5,17 +5,15 @@
 body {
     font-family: 'Open Sans', sans-serif;
     background-color: #fffcee;
-    /* Light grey background */
     color: #333;
-    /* Dark grey text */
     line-height: 1.6;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 
 .sentrypc-container {
     max-width: 1100px;
-    /* Slightly narrower for better readability */
     margin: auto;
     padding: 30px;
     background-color: #ffffff;
@@ -55,7 +53,6 @@ section:last-child {
     font-size: 2.75rem;
     font-weight: 700;
     color: #2c3e50;
-    /* Dark blue heading */
     margin-bottom: 15px;
 }
 
@@ -73,97 +70,190 @@ section:last-child {
     margin-top: 20px;
     font-size: 1rem;
     color: #27ae60;
-    /* Green for trust */
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 15px;
 }
 
 .trust-badges span {
     background-color: #e8f5e9;
     color: #27ae60;
-    padding: 0px 12px;
+    padding: 5px 12px;
     border-radius: 6px;
 }
 
-/* Pricing Table */
+.pricing-table {
+    padding-top: 24px;
+}
+
 .pricing-table h2 {
     font-family: 'Roboto', sans-serif;
     text-align: center;
     font-size: 1.8rem;
     color: #3498db;
-    /* Blue accent */
     margin-bottom: 35px;
     font-weight: 700;
 }
 
 .pricing-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
+    justify-content: center;
 }
 
-.plan-card {
-    background-color: #fff;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+/* --- Card Styles --- */
+.card {
+    --white: hsl(0, 0%, 100%);
+    --paragraph: hsl(0, 0%, 83%);
+    --line: hsl(240, 9%, 17%);
+    --primary: hsl(266, 92%, 58%);
+
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid #e0e0e0;
+    gap: 1rem;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+
+    background-color: #101117;
+    /* Using HEX */
+    background-image: radial-gradient(at 88% 40%, #101117 0px, transparent 85%),
+        radial-gradient(at 49% 30%, #101117 0px, transparent 85%),
+        radial-gradient(at 14% 26%, #101117 0px, transparent 85%),
+        radial-gradient(at 0% 64%, hsla(263, 93%, 56%, 1) 0px, transparent 85%),
+        radial-gradient(at 41% 94%, hsla(284, 100%, 84%, 1) 0px, transparent 85%),
+        radial-gradient(at 100% 99%, hsla(306, 100%, 57%, 1) 0px, transparent 85%);
+
+    border-radius: 1rem;
+    box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
+    color: var(--white);
+    box-sizing: border-box;
+    overflow: hidden;
+    /* Still useful to contain potential overflow */
+}
+
+.card .card__border {
+    /* This provides the subtle static border gradient */
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
+    /* Behind content */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    background-image: linear-gradient(0deg, hsl(0, 0%, 100%) -50%, hsl(0, 0%, 40%) 100%);
+    border-radius: 1rem;
+}
+
+/* REMOVED .card .card__border::before - It was only for the animation */
+
+/* REMOVED @keyframes rotate */
+
+.card>*:not(.card__border) {
     position: relative;
-    /* For absolute positioning of the badge */
+    z-index: 2;
+    /* Ensure content is above the static border */
 }
 
-.plan-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-
-.plan-card h3 {
-    font-size: 1.8rem;
-    color: #e67e22;
-    margin-bottom: 10px;
+.card .card_title__container {
     text-align: center;
-    font-weight: 600;
 }
 
-.price {
-    font-family: 'Roboto', sans-serif;
+.card .card_title__container .card_title {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: #333;
-    text-align: center;
-    padding: 12px 0;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    background-color: #e7f3ff;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 0 0.25rem 0;
 }
 
-.plan-card ul {
-    padding: 0;
-    list-style: none;
-    margin-bottom: 25px;
-}
-
-.plan-card ul li {
+.card .card_title__container .card_paragraph {
+    margin-top: 0.25rem;
     font-size: 1rem;
-    color: #555;
-    margin-bottom: 8px;
+    color: var(--paragraph);
+    margin-bottom: 0;
+}
+
+.card .line {
+    width: 100%;
+    height: 1px;
+    background-color: var(--line);
+    border: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card .card__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.card .card__list .card__list_item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.75rem;
 }
 
-.plan-card ul li::before {
-    content: '✔';
-    color: #27ae60;
-    font-weight: bold;
-    font-size: 1.1rem;
+.card .card__list .card__list_item .check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: var(--primary);
+    border-radius: 50%;
 }
 
+.card .card__list .card__list_item .check .check_svg {
+    width: 0.85rem;
+    height: 0.85rem;
+    fill: #101117;
+    /* Using Hex */
+}
+
+.card .card__list .card__list_item .list_text {
+    font-size: 0.9rem;
+    color: var(--white);
+    line-height: 1.4;
+}
+
+.card .button {
+    cursor: pointer;
+    display: block;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    background-image: linear-gradient(0deg, rgba(94, 58, 238, 1) 0%, rgba(197, 107, 240, 1) 100%);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+    text-align: center;
+    text-decoration: none;
+    border: 0;
+    border-radius: 9999px;
+    box-shadow: inset 0 -2px 25px -4px var(--white);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: auto;
+}
+
+.card .button:hover {
+    transform: scale(1.03);
+    box-shadow: inset 0 -2px 25px -4px var(--white), 0 4px 15px rgba(197, 107, 240, 0.4);
+}
+
+/* --- End Card Styles --- */
+
+/* Original button style for non-pricing card buttons */
 .card-cta-button {
     width: 80%;
     margin: auto;
@@ -189,26 +279,10 @@ section:last-child {
     color: #3498db;
 }
 
-/* Best Seller Badge */
-.best-seller-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: #ffc107;
-    /* Yellow color for emphasis */
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    z-index: 1;
-    /* Ensure it's above other content */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Features Section */
+/* Other Sections */
 .features h2,
-.ideal-for h2 {
+.ideal-for h2,
+.compare h2 {
     font-family: 'Roboto', sans-serif;
     font-size: 1.8rem;
     color: #3498db;
@@ -221,6 +295,7 @@ section:last-child {
 .ideal-for ul {
     list-style: none;
     padding: 0;
+    margin: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
@@ -233,17 +308,11 @@ section:last-child {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     text-align: center;
-    /* Corrected typo to 'center' */
 }
 
-
-.compare h2 {
-    color: #3498db;
-}
-
-/* FAQ Section */
 .faq h2 {
     font-family: 'Roboto', sans-serif;
     font-size: 1.8rem;
@@ -256,6 +325,7 @@ section:last-child {
 .faq ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .faq li {
@@ -275,7 +345,6 @@ section:last-child {
     font-weight: 600;
 }
 
-/* Final CTA */
 .final-cta {
     text-align: center;
     padding: 50px 20px;
@@ -299,187 +368,120 @@ section:last-child {
 
 .sentrypc-logo-wrapper {
     text-align: center;
-    margin: 0;
+    margin: 0 0 20px 0;
     padding: 0;
-
-
 }
 
 .sentrypc-logo-img {
     max-width: 400px;
     height: auto;
-
-
-    @media (max-width: 768px) {
-        max-width: 220px;
-    }
-
 }
 
-/* Responsive Design */
+.affiliate-disclaimer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.disclaimer-text {
+    font-size: 0.85rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-    html {
-        overflow-x: hidden;
-    }
-
-
     .hero h1 {
         font-size: 1.65rem;
+    }
+
+    .intro h1 {
+        font-size: 2rem;
     }
 
     .intro h2 {
         font-size: 1.5rem;
     }
 
-    .features h2 {
-        font-size: 1.5rem;
-    }
-
-    .compare h2 {
-        font-size: 1.5rem;
-    }
-
-
-
-    .pricing-table h2 {
-        font-size: 1.5rem;
-        margin-top: 0px;
-        padding-top: 0px;
-        margin-bottom: 16px;
-
-    }
-
-    .ideal-for h2 {
-        font-size: 1.5rem;
-    }
-
-    .pricing h2 {
-        font-size: 1.5rem;
-    }
-
-    .faq h2 {
-        font-size: 1.5rem;
-    }
-
+    .features h2,
+    .ideal-for h2,
+    .compare h2,
+    .pricing-table h2,
+    .faq h2,
     .final-cta h2 {
         font-size: 1.5rem;
     }
 
-    .pricing-table {
-
-        padding-top: 24px;
-
+    .pricing-table h2 {
+        margin-top: 0px;
+        padding-top: 0px;
+        margin-bottom: 25px;
     }
 
     .pricing-cards {
         grid-template-columns: 1fr;
-    }
-
-    .plan-card h3 {
-        font-size: 1.3rem;
-    }
-
-    .price {
-        font-size: 1.1rem;
+        gap: 25px;
     }
 
     .features ul,
     .ideal-for ul {
         grid-template-columns: 1fr;
+        gap: 10px;
     }
 
-    /* .features ul li {
-        font-size: 12px;
-    } */
+    .features ul li,
+    .ideal-for ul li {
+        justify-content: flex-start;
+        text-align: left;
+    }
 
     .card-cta-button {
-        width: 80%;
-        margin: auto;
+        width: 90%;
     }
 
+    .final-cta .card-cta-button {
+        width: auto;
+    }
+
+    .sentrypc-logo-img {
+        max-width: 220px;
+    }
 }
 
-/* Desktop-specific adjustment for the last row of Features section */
 @media (min-width: 769px) {
     .features ul {
         display: flex;
         justify-content: center;
-        /* Center the items horizontally */
         flex-wrap: wrap;
-        /* Allow items to wrap to the next line */
-        gap: 15px;
-        /* Spacing between items */
+        gap: 20px;
         width: 100%;
-        /* Take full width of the container */
     }
 
     .features ul li {
         text-align: center;
-        /* Center text within each item */
         width: auto;
-        /* Let the content determine the width */
+        flex-grow: 1;
+        max-width: 30%;
+        justify-content: center;
     }
-}
 
-
-
-
-/* Desktop-specific adjustment for the last row of Ideal For section */
-@media (min-width: 769px) {
     .ideal-for ul {
         display: flex;
-        justify-content: flex-start;
-        /* Reset to start */
+        justify-content: center;
         flex-wrap: wrap;
-        gap: 15px;
-        width: fit-content;
-        /* Make ul only as wide as its content (initially) */
-        margin: 0 auto;
-        /* Center the ul itself */
+        gap: 20px;
+        width: 100%;
+        padding: 0 5%;
+        box-sizing: border-box;
     }
 
     .ideal-for ul li {
-        text-align: left;
         width: auto;
-        /* Let content determine width initially */
-    }
-
-    /* Force the first three items to be on one line and control their width */
-    .ideal-for ul li:nth-child(1),
-    .ideal-for ul li:nth-child(2),
-    .ideal-for ul li:nth-child(3) {
-        width: auto;
-        /* Adjust based on actual content width if needed */
-        margin-right: 15px;
-        /* Add spacing between them */
-    }
-
-    /* Remove margin from the last item in the first row */
-    .ideal-for ul li:nth-child(3) {
-        margin-right: 0;
-    }
-
-    /* Center the last one or two items */
-    .ideal-for ul li:last-child:first-child,
-    .ideal-for ul li:nth-last-child(-n+2):first-child {
-        width: 100%;
-        display: flex;
+        text-align: center;
+        flex-basis: calc(33.333% - 20px);
+        flex-grow: 0;
         justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .ideal-for ul li:nth-last-child(2) {
-        width: auto;
-    }
-
-    .ideal-for ul li:last-child {
-        width: auto;
-    }
-
-    /* Center the ul again to center the first row */
-    .ideal-for ul {
-        justify-content: center;
-        /* Center the row of items */
     }
 }
