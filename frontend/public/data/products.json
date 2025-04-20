@@ -126,7 +126,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26375"
+			"reviewCount": "26376"
 		}
 	},
 	{
@@ -508,7 +508,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16791"
+			"reviewCount": "16790"
 		}
 	},
 	{
@@ -705,7 +705,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21222"
+			"reviewCount": "21223"
 		}
 	},
 	{
@@ -1617,8 +1617,8 @@
 		"dateModified": "2025-04-05T20:23:31Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "",
-			"reviewCount": ""
+			"ratingValue": "4.4",
+			"reviewCount": "102"
 		}
 	},
 	{
@@ -1636,7 +1636,7 @@
 		"mainEntityOfPage": "/shopping-deals/products/5-bamboo-food-dispenser-2l",
 		"offers": {
 			"@type": "Offer",
-			"price": "29.95",
+			"price": "26.95",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4ilDdLa",
@@ -1665,14 +1665,14 @@
 			"eco-friendly food storage"
 		],
 		"canonicalUrl": "/shopping-deals/products/5-bamboo-food-dispenser-2l",
-		"discountPercentage": "",
-		"currentPrice": "$29.95",
+		"discountPercentage": "10%",
+		"currentPrice": "$26.95",
 		"datePublished": "2025-03-28T16:03:24",
 		"dateModified": "2025-04-05T20:23:43Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "77"
+			"reviewCount": "78"
 		}
 	},
 	{
