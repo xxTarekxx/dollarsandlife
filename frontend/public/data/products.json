@@ -11,8 +11,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/28-pqrqp-3-in-1-wireless-lavalier-microphones-for-iphone-ipad-android-camera",
 		"canonicalUrl": "/shopping-deals/products/28-pqrqp-3-in-1-wireless-lavalier-microphones-for-iphone-ipad-android-camera",
 		"purchaseUrl": "https://amzn.to/3Yxb77F",
-		"currentPrice": "$29.99",
-		"discountPercentage": "25%",
+		"currentPrice": "$24.99",
+		"discountPercentage": "38%",
 		"designer": {
 			"@type": "Organization",
 			"name": "PQRQP"
@@ -52,7 +52,7 @@
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
-			"price": "29.99"
+			"price": "24.99"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -61,7 +61,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1861"
+			"reviewCount": "1863"
 		}
 	},
 	{
@@ -76,8 +76,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/29-fortem-ergonomic-seat-lumbar-set",
 		"canonicalUrl": "/shopping-deals/products/29-fortem-ergonomic-seat-lumbar-set",
 		"purchaseUrl": "https://amzn.to/3EvGwAu",
-		"currentPrice": "$37.99",
-		"discountPercentage": "16%",
+		"currentPrice": "$34.99",
+		"discountPercentage": "22%",
 		"designer": {
 			"@type": "Organization",
 			"name": "FORTEM"
@@ -117,7 +117,7 @@
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
 			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
-			"price": "37.99"
+			"price": "34.99"
 		},
 		"brand": {
 			"@type": "Brand",
@@ -126,7 +126,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26376"
+			"reviewCount": "26384"
 		}
 	},
 	{
@@ -190,7 +190,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40382"
+			"reviewCount": "40385"
 		}
 	},
 	{
@@ -393,7 +393,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2617"
+			"reviewCount": "2631"
 		}
 	},
 	{
@@ -449,8 +449,8 @@
 		"dateModified": "2025-04-05T20:19:25Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.1",
-			"reviewCount": "35"
+			"ratingValue": "4.2",
+			"reviewCount": "37"
 		}
 	},
 	{
@@ -508,7 +508,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16790"
+			"reviewCount": "16791"
 		}
 	},
 	{
@@ -705,7 +705,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21223"
+			"reviewCount": "21228"
 		}
 	},
 	{
@@ -761,8 +761,8 @@
 		"dateModified": "2025-04-05T20:20:39Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "3.9",
-			"reviewCount": "109"
+			"ratingValue": "3.8",
+			"reviewCount": "112"
 		}
 	},
 	{
@@ -933,14 +933,14 @@
 			"luxury asset trunk"
 		],
 		"canonicalUrl": "/shopping-deals/products/24-lv-sprouse-limited-trunk",
-		"currentPrice": "$96,500",
+		"currentPrice": "",
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "96500",
+			"price": "",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3FKGpRU",
-			"availability": "https://schema.org/InStock",
+			"availability": "https://schema.org/OutOfStock",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
@@ -1148,7 +1148,7 @@
 			"versatile 2-piece set"
 		],
 		"currentPrice": "$19.99",
-		"discountPercentage": "41%",
+		"discountPercentage": "",
 		"canonicalUrl": "/shopping-deals/products/6-anrabess-premium-linen-short-set-babydoll-puff-sleeve-2-piece",
 		"datePublished": "2025-03-29T13:03:24",
 		"dateModified": "2025-04-05T20:22:14Z",
@@ -1215,7 +1215,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67639"
+			"reviewCount": "67673"
 		}
 	},
 	{
@@ -1283,7 +1283,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "48637"
+			"reviewCount": "48660"
 		}
 	},
 	{
@@ -1565,7 +1565,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "158"
+			"reviewCount": "161"
 		}
 	},
 	{
@@ -1618,7 +1618,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "102"
+			"reviewCount": "103"
 		}
 	},
 	{
@@ -1672,7 +1672,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "78"
+			"reviewCount": "79"
 		}
 	},
 	{
