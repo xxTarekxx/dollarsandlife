@@ -189,6 +189,14 @@
     /* Theme green */
 }
 
+.sd-unavailable-price {
+    font-size: 0.8rem;
+    color: #c0392b;
+    /* deep red */
+    font-style: italic;
+    font-weight: 500;
+}
+
 .sd-discount-percentage {
     font-size: 0.8rem;
     color: #e74c3c;
