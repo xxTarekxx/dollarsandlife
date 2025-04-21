@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Route, Routes } from "react-router-dom";
-import "../../../components/AdComponent.css";
+import { Route, Routes } from "react-router-dom";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
 
@@ -23,18 +21,11 @@ interface MoneyMakingApp {
 	dateModified?: string;
 }
 
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
-}
-
 const MoneyMakingApps: React.FC = () => {
 	const [apps, setApps] = useState<MoneyMakingApp[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 
-	// Fetch data only once
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -50,22 +41,11 @@ const MoneyMakingApps: React.FC = () => {
 		if (apps.length === 0) fetchData();
 	}, [apps.length]);
 
-	// Push AdSense ads
-	useEffect(() => {
-		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-			try {
-				window.adsbygoogle.push({});
-			} catch (e) {
-				console.error("Adsense Error:", e);
-			}
-		}
-	}, []);
-
 	const getExcerpt = (content?: { text: string }[]): string => {
-		if (!content || content.length === 0) return "No content available.";
+		if (!content || content.length === 0) return "";
 		const firstSection = content[0]?.text || "";
-		return firstSection.length > 200
-			? `${firstSection.substring(0, 200)}...`
+		return firstSection.length > 120
+			? `${firstSection.substring(0, 120)}...`
 			: firstSection;
 	};
 
@@ -75,15 +55,11 @@ const MoneyMakingApps: React.FC = () => {
 	);
 
 	useEffect(() => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
 	return (
 		<div className='page-container'>
-			{/* SEO Metadata */}
 			<Helmet>
 				<title>Best Money Making Apps to Earn Extra Cash in 2025</title>
 				<meta
@@ -118,90 +94,27 @@ const MoneyMakingApps: React.FC = () => {
 						<>
 							<h1>Money Making Apps</h1>
 
-							{/* Top Banner Ad */}
-							<div className='top-banner-container'>
-								<a
-									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-									target='_blank'
-									rel='noopener noreferrer'
-									className='TopBanner'
-								>
-									<img
-										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-										alt='Lyca Mobile Banner'
-										className='TopBannerImage'
-										width='730px'
-										height='90px'
-										loading='eager'
-										{...{ fetchpriority: "high" }}
-									/>
-								</a>
-							</div>
-
-							{/* Posts */}
 							<div className='content-wrapper'>
 								{currentPosts.length > 0 ? (
-									currentPosts.map((post, i) => (
-										<React.Fragment key={post.id || `post-${i}`}>
-											<div>
-												<Link
-													className='row-container'
-													to={`/extra-income/money-making-apps/${post.id}`}
-													style={{ textDecoration: "none" }}
-												>
-													<BlogPostCard
-														id={post.id}
-														headline={post.headline}
-														image={post.image}
-														content={getExcerpt(post.content)}
-														author={post.author}
-														datePublished={post.datePublished}
-														dateModified={post.dateModified}
-													/>
-												</Link>
-											</div>
-
-											{/* AdSense ad after every two posts */}
-											{i > 0 && i % 2 === 1 && (
-												<div className='postings-container'>
-													<ins
-														className='adsbygoogle'
-														style={{
-															display: "block",
-															width: "300px",
-															height: "250px",
-														}}
-														data-ad-client='ca-pub-1079721341426198'
-														data-ad-slot='7197282987'
-														data-ad-format='auto'
-														data-full-width-responsive='true'
-													></ins>
-												</div>
-											)}
-										</React.Fragment>
+									currentPosts.map((post) => (
+										<BlogPostCard
+											key={post.id}
+											id={post.id}
+											headline={post.headline}
+											image={post.image}
+											content={getExcerpt(post.content)}
+											author={post.author}
+											datePublished={post.datePublished}
+											dateModified={post.dateModified}
+											canonicalUrl={`https://www.dollarsandlife.com/extra-income/money-making-apps/${post.id}`}
+											linkTo={`/extra-income/money-making-apps/${post.id}`}
+										/>
 									))
 								) : (
 									<p>No money-making apps found.</p>
 								)}
 							</div>
 
-							{/* Bottom Banner Ad */}
-							<div className='postings-container'>
-								<ins
-									className='adsbygoogle-banner'
-									style={{
-										display: "block",
-										width: "728px",
-										height: "90px",
-									}}
-									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='6375155907'
-									data-ad-format='horizontal'
-									data-full-width-responsive='true'
-								></ins>
-							</div>
-
-							{/* Pagination */}
 							<PaginationContainer
 								totalItems={apps.length}
 								itemsPerPage={postsPerPage}
@@ -211,8 +124,6 @@ const MoneyMakingApps: React.FC = () => {
 						</>
 					}
 				/>
-
-				{/* Detailed Blog Post */}
 				<Route
 					path=':id'
 					element={<BlogPostContent jsonFile='moneymakingapps.json' />}

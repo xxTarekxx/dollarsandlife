@@ -53,17 +53,10 @@ interface BlogPost {
 	canonicalUrl?: string;
 }
 
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
-}
-
 const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 	const { id: postId } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 	const [post, setPost] = useState<BlogPost | null>(null);
-	const adsInitialized = useRef(false);
 
 	const parseString = useCallback(
 		(str: string | undefined): React.ReactNode => {
@@ -116,17 +109,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 	useEffect(() => {
 		fetchPost();
 	}, [fetchPost]);
-
-	useEffect(() => {
-		if (post && !adsInitialized.current && window.adsbygoogle) {
-			try {
-				window.adsbygoogle.push({});
-				adsInitialized.current = true;
-			} catch (e) {
-				console.error("AdSense Error:", e);
-			}
-		}
-	}, [post]);
 
 	useEffect(() => {
 		if (post) {
@@ -272,19 +254,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 									{parseString(section.additionalInsights)}
 								</div>
 							)}
-
-						{index % 2 === 1 && (
-							<div className='postings-container'>
-								<ins
-									className='adsbygoogle'
-									style={{ display: "block" }}
-									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='7197282987'
-									data-ad-format='auto'
-									data-full-width-responsive='true'
-								/>
-							</div>
-						)}
 					</div>
 				))}
 			</div>

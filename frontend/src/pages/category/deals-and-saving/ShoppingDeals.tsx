@@ -1,14 +1,10 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import PaginationContainer from "../../../components/PaginationContainer"; // Verify path
 import "./ShoppingDeals.css";
 
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
-}
+// Removed declare global block for window.adsbygoogle
 
 // Interface for Product Data
 interface Product {
@@ -126,33 +122,25 @@ const ProductCard: React.FC<Product> = ({
 				{specialOffer && (
 					<p className='sd-special-offer-badge'>{specialOffer}</p>
 				)}
-
-				{/* --- Rating Section --- */}
 				{aggregateRating && (
 					<div className='sd-product-rating'>
-						{/* Stars */}
 						{aggregateRating.ratingValue && (
 							<span className='sd-stars'>
 								{renderStars(aggregateRating.ratingValue)}
 							</span>
 						)}
-						{/* Numeric Value */}
 						{aggregateRating.ratingValue && (
 							<span className='sd-rating-value'>
 								({aggregateRating.ratingValue})
 							</span>
 						)}
-						{/* --- FIX: Add Review Count --- */}
 						{aggregateRating.reviewCount && (
 							<span className='sd-review-count'>
 								({aggregateRating.reviewCount} Amazon reviews)
 							</span>
 						)}
-						{/* --- End Fix --- */}
 					</div>
 				)}
-				{/* --- End Rating Section --- */}
-
 				<div className='sd-product-actions'>
 					<Link to={canonicalUrl || "#"} className='sd-view-details-button'>
 						View Details
@@ -163,7 +151,7 @@ const ProductCard: React.FC<Product> = ({
 	);
 };
 
-// Main ShoppingDeals Component (No changes needed below this line for this specific fix)
+// Main ShoppingDeals Component
 const ShoppingDeals: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -171,7 +159,6 @@ const ShoppingDeals: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 12;
 
-	// Effect to Fetch Products
 	useEffect(() => {
 		setLoading(true);
 		setError(null);
@@ -193,9 +180,8 @@ const ShoppingDeals: React.FC = () => {
 			.finally(() => {
 				setLoading(false);
 			});
-	}, []); // Fetch only once
+	}, []);
 
-	// Effect to Scroll Top on Page Change
 	useEffect(() => {
 		const isInitialMount = currentPage === 1;
 		if (!isInitialMount) {
@@ -203,14 +189,12 @@ const ShoppingDeals: React.FC = () => {
 		}
 	}, [currentPage]);
 
-	// Prepare Products for Display
 	const currentProducts = useMemo(() => {
 		const startIndex = (currentPage - 1) * postsPerPage;
 		const endIndex = startIndex + postsPerPage;
 		return products.slice(startIndex, endIndex);
 	}, [products, currentPage, postsPerPage]);
 
-	// Generate Schema.org JSON-LD
 	const schemaData = useMemo(
 		() => ({
 			"@context": "https://schema.org",
@@ -229,7 +213,6 @@ const ShoppingDeals: React.FC = () => {
 		[products],
 	);
 
-	// Render UI
 	return (
 		<div className='sd-page-container'>
 			<Helmet>
@@ -265,6 +248,7 @@ const ShoppingDeals: React.FC = () => {
 					setCurrentPage={setCurrentPage}
 				/>
 			)}
+			{/* Removed any potential ad containers or logic */}
 		</div>
 	);
 };

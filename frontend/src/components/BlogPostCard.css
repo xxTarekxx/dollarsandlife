@@ -1,135 +1,115 @@
+/* BlogPostCard.css - Works with Flex layout container */
+@import url(https://fonts.googleapis.com/css?family=Lato:400,600,700);
+
 .card-container {
-    height: 280px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    max-width: 100%;
+    margin-bottom: 0px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    color: #ffffff;
+    font-family: "Lato", Arial, sans-serif;
+    font-size: 16px;
     overflow: hidden;
+    position: relative;
+    text-align: left;
+    background-color: #ffffff;
+    border-radius: 4px;
     display: flex;
-    flex-direction: row;
-    max-width: 720px;
+    flex-direction: column;
+    height: auto;
+    box-sizing: border-box;
+}
+
+
+
+.card-container * {
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+.card-image-wrapper {
+    position: relative;
     width: 100%;
-    margin: 20px auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-family: 'Inter', sans-serif;
-}
-
-.card-container:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-@media (max-width: 500px) {
-    .card-container {
-        flex-direction: column;
-        height: auto;
-        width: 90%;
-    }
 }
 
 .card-image {
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
     display: block;
+    border-radius: 0;
 }
 
-@media (max-width: 500px) {
-    .card-image {
-        width: 100%;
-        height: 200px;
-    }
-}
+
 
 .card-content {
+    padding: 25px 20px;
+    background: linear-gradient(90deg, #700877 0%, #ff2759 100%);
+    color: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    /* This might affect available space */
-    padding: 1rem;
-    width: 50%;
-    box-sizing: border-box;
-    overflow: hidden;
-    /* Add overflow hidden to the content container */
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    text-align: center;
 }
 
-@media (max-width: 500px) {
-    .card-content {
-        width: 100%;
-    }
+.card-date-float {
+    background-color: #fff;
+    border-radius: 50%;
+    color: #700877;
+    font-size: 18px;
+    font-weight: 700;
+    min-height: 48px;
+    min-width: 48px;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+    transform: translateY(50%);
+    text-align: center;
+    text-transform: uppercase;
+    z-index: 2;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.card-date-float span {
+    display: block;
+    line-height: 14px;
+}
+
+.card-date-float .month {
+    font-size: 11px;
 }
 
 .card-title {
-    font-size: 1.2rem;
     font-weight: 700;
-    color: #6000ce;
-    margin: 0 0 0.5rem 0;
-    overflow-wrap: break-word;
-    text-align: left;
+    letter-spacing: -0.4px;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+    font-size: 1.25em;
+    height: auto;
+
 }
 
 .card-text {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.45;
-    /* Slightly adjust line-height */
-    margin-top: auto;
-    margin-bottom: 0.6rem;
-    padding-bottom: 6px;
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
-    /* Standard property - keep commented if -webkit works */
-    -webkit-box-orient: vertical;
+    font-size: 0.8em;
+    color: #ffffff;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-break: break-word;
-    /* Explicitly set max-height based on adjusted line-height and lines */
-    max-height: calc(0.9rem * 1.45 * 5);
-    /* font-size * line-height * lines */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
 }
 
-.author-date {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    /* Ensure this section doesn't take up excessive space if content is short */
-    margin-top: auto;
+.card-container:hover .card-image {
+    transform: scale(1.05);
 }
 
-.card-author {
-    font-size: 0.85rem;
-    color: #777;
-    margin: 0;
-}
-
-.date-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-date,
-.updated-date {
-    font-size: 0.75rem;
-    color: #aaa;
-    margin: 0;
-}
-
-.updated-date {
-    color: #555;
-}
-
-.read-more-button {
-    background-color: #6a0dad;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 8px 16px;
-    font-size: 0.8rem;
-    /* margin-top: 0.5rem; remove fixed margin, let flexbox handle spacing */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    align-self: flex-start;
-}
-
-.read-more-button:hover {
-    background-color: #854cc5;
+@media (max-width: 600px) {
+    .card-container {
+        width: 100%;
+        max-width: 360px;
+        margin: auto;
+    }
 }
