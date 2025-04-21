@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import "../../../components/AdComponent.css";
+import { Route, Routes } from "react-router-dom";
 import BlogPostCard from "../../../components/BlogPostCard";
-import "../../../components/BlogPostContent.css";
+import BlogPostContent from "../../../components/BlogPostContent";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "../extra-income/CommonStyles.css";
 
@@ -26,16 +25,10 @@ interface BlogPost {
 	dateModified?: string;
 }
 
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
-}
-
 const BreakingNews: React.FC = () => {
 	const [localNews, setLocalNews] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 4;
+	const postsPerPage = 9;
 
 	useEffect(() => {
 		const fetchNews = async () => {
@@ -52,15 +45,12 @@ const BreakingNews: React.FC = () => {
 		if (localNews.length === 0) fetchNews();
 	}, [localNews.length]);
 
-	useEffect(() => {
-		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-			try {
-				window.adsbygoogle.push({});
-			} catch (e) {
-				console.error("Adsense Error:", e);
-			}
-		}
-	}, []);
+	const getExcerpt = (content: { text?: string }[]): string => {
+		const firstText = content.find((item) => item.text)?.text || "";
+		return firstText.length > 120
+			? `${firstText.substring(0, 120)}...`
+			: firstText || "No description available";
+	};
 
 	const currentPosts = localNews.slice(
 		(currentPage - 1) * postsPerPage,
@@ -68,14 +58,11 @@ const BreakingNews: React.FC = () => {
 	);
 
 	useEffect(() => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
 	return (
-		<div className='news-main-container'>
+		<div className='page-container'>
 			<Helmet>
 				<title>Breaking News - Latest Financial and Economic Updates</title>
 				<meta
@@ -88,67 +75,24 @@ const BreakingNews: React.FC = () => {
 				/>
 			</Helmet>
 
-			<h1 className='section-heading'>
-				<b>Breaking</b> <b>News</b>
+			<h1 className='title-heading'>
+				<strong>Breaking</strong> News
 			</h1>
 
-			<div className='top-banner-container'>
-				<a
-					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-					target='_blank'
-					rel='noopener noreferrer'
-					className='TopBanner'
-				>
-					<img
-						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-						alt='Lyca Mobile Banner'
-						className='TopBannerImage'
-						width='730px'
-						height='90px'
-						loading='eager'
-						{...{ fetchpriority: "high" }}
-					/>
-				</a>
-			</div>
-
 			<div className='content-wrapper'>
-				{currentPosts.map((post, index) => (
-					<React.Fragment key={post.id}>
-						<Link
-							to={`/breaking-news/${post.id}`}
-							style={{ textDecoration: "none" }}
-						>
-							<BlogPostCard
-								id={post.id}
-								headline={post.headline}
-								image={post.image}
-								content={
-									post.content[0]?.text?.split(". ").slice(0, 2).join(". ") +
-										"." || "No description available"
-								}
-								author={{ name: post.author.name }}
-								datePublished={post.datePublished}
-								dateModified={post.dateModified}
-							/>
-						</Link>
-
-						{index > 0 && index % 2 === 1 && (
-							<div className='postings-container'>
-								<ins
-									className='adsbygoogle'
-									style={{
-										display: "block",
-										width: "300px",
-										height: "250px",
-									}}
-									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='7197282987'
-									data-ad-format='auto'
-									data-full-width-responsive='true'
-								></ins>
-							</div>
-						)}
-					</React.Fragment>
+				{currentPosts.map((post) => (
+					<BlogPostCard
+						key={post.id}
+						id={post.id}
+						headline={post.headline}
+						image={post.image}
+						content={getExcerpt(post.content)}
+						author={{ name: post.author.name }}
+						datePublished={post.datePublished}
+						dateModified={post.dateModified}
+						canonicalUrl={`https://www.dollarsandlife.com/breaking-news/${post.id}`}
+						linkTo={`/breaking-news/${post.id}`}
+					/>
 				))}
 			</div>
 
@@ -158,21 +102,6 @@ const BreakingNews: React.FC = () => {
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 			/>
-
-			<div className='postings-container'>
-				<ins
-					className='adsbygoogle-banner'
-					style={{
-						display: "block",
-						width: "728px",
-						height: "90px",
-					}}
-					data-ad-client='ca-pub-1079721341426198'
-					data-ad-slot='6375155907'
-					data-ad-format='horizontal'
-					data-full-width-responsive='true'
-				></ins>
-			</div>
 		</div>
 	);
 };

@@ -124,7 +124,7 @@ const HomePage: React.FC = () => {
 				</p>
 			</section>
 
-			<div className='top-banner-container'>
+			{/* <div className='top-banner-container'>
 				<a
 					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
 					target='_blank'
@@ -140,7 +140,7 @@ const HomePage: React.FC = () => {
 						loading='eager'
 					/>
 				</a>
-			</div>
+			</div> */}
 
 			<div className='home-main-links' aria-label='Main navigation links'>
 				{linkBoxes.map((linkBox, index) => (

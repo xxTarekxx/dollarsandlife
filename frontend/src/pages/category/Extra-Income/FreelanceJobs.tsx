@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Route, Routes } from "react-router-dom";
-import "../../../components/AdComponent.css";
+import { Route, Routes } from "react-router-dom";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
 import PaginationContainer from "../../../components/PaginationContainer";
@@ -20,12 +19,6 @@ interface FreelanceJob {
 	};
 	datePublished: string;
 	dateModified?: string;
-}
-
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
 }
 
 const FreelanceJobs: React.FC = () => {
@@ -48,20 +41,10 @@ const FreelanceJobs: React.FC = () => {
 		if (freelanceJobs.length === 0) fetchData();
 	}, [freelanceJobs.length]);
 
-	useEffect(() => {
-		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-			try {
-				window.adsbygoogle.push({});
-			} catch (e) {
-				console.error("Adsense Error:", e);
-			}
-		}
-	}, []);
-
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
-		return excerpt.length > 200 ? `${excerpt.substring(0, 200)}...` : excerpt;
+		return excerpt.length > 120 ? `${excerpt.substring(0, 120)}...` : excerpt;
 	};
 
 	const currentPosts = freelanceJobs.slice(
@@ -114,79 +97,21 @@ const FreelanceJobs: React.FC = () => {
 					element={
 						<>
 							<h1>Freelancers Opportunities</h1>
-
-							<div className='top-banner-container'>
-								<a
-									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-									target='_blank'
-									rel='noopener noreferrer'
-									className='TopBanner'
-								>
-									<img
-										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-										alt='Lyca Mobile Banner - Affordable International Calling'
-										className='TopBannerImage'
-										width='730px'
-										height='90px'
-										loading='eager'
-										{...{ fetchpriority: "high" }}
-									/>
-								</a>
-							</div>
-
 							<div className='content-wrapper'>
-								{currentPosts.map((post, i) => (
-									<React.Fragment key={post.id}>
-										<div className='row-container'>
-											<Link
-												to={`/extra-income/freelancers/${post.id}`}
-												aria-label={`Read more about ${post.headline}`}
-											>
-												<BlogPostCard
-													id={post.id}
-													headline={post.headline}
-													image={post.image}
-													content={getExcerpt(post.content)}
-													author={post.author}
-													datePublished={post.datePublished}
-													dateModified={post.dateModified}
-												/>
-											</Link>
-										</div>
-
-										{i > 0 && i % 2 === 1 && (
-											<div className='postings-container'>
-												<ins
-													className='adsbygoogle'
-													style={{
-														display: "block",
-														width: "300px",
-														height: "250px",
-													}}
-													data-ad-client='ca-pub-1079721341426198'
-													data-ad-slot='7197282987'
-													data-ad-format='auto'
-													data-full-width-responsive='true'
-												></ins>
-											</div>
-										)}
-									</React.Fragment>
+								{currentPosts.map((post) => (
+									<BlogPostCard
+										key={post.id}
+										id={post.id}
+										headline={post.headline}
+										image={post.image}
+										content={getExcerpt(post.content)}
+										author={post.author}
+										datePublished={post.datePublished}
+										dateModified={post.dateModified}
+										canonicalUrl={`https://www.dollarsandlife.com/extra-income/freelancers/${post.id}`}
+										linkTo={`/extra-income/freelancers/${post.id}`}
+									/>
 								))}
-							</div>
-
-							<div className='postings-container'>
-								<ins
-									className='adsbygoogle-banner'
-									style={{
-										display: "block",
-										width: "728px",
-										height: "90px",
-									}}
-									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='6375155907'
-									data-ad-format='horizontal'
-									data-full-width-responsive='true'
-								></ins>
 							</div>
 
 							<PaginationContainer

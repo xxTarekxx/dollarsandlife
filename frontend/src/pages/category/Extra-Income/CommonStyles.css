@@ -1,56 +1,41 @@
-/* Ensure scrollbar is always visible to prevent navbar shifting */
+/* CommonStyles.css - Flex layout version for centered 3-card rows */
+
 html {
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
 
-/* Container for the entire page content to push footer to bottom */
 .page-content {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 }
 
-
 .page-container {
+	width: 100%;
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 0 24px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	/* padding: 0 0.5rem; */
 	flex: 1;
-	/* Ensure this container takes up available space */
-
-	@media (max-width: 768px) {
-		padding-left: 2px;
-		padding-right: 2px;
-		/* padding: 0 0.5rem; */
-	}
+	box-sizing: border-box;
 }
 
+/* Flex container for cards */
 .content-wrapper {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 24px;
 	width: 100%;
+	box-sizing: border-box;
+	margin-top: 20px;
 }
 
-.row-container {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	max-width: 800px;
-	align-items: center;
-	margin-bottom: 20px;
-
-}
-
-
-
+/* Responsive title */
 .title-heading {
 	word-wrap: break-word;
-	white-space: normal;
-	overflow-wrap: break-word;
 	text-align: center;
 	max-width: 100%;
 	font-size: 1.8rem;
@@ -62,36 +47,22 @@ html {
 	.title-heading {
 		width: 100%;
 		font-size: 1.4em;
-		margin-bottom: 0rem;
-		padding-left: 20px;
-		padding-right: 20px;
+		padding: 0 20px;
 	}
 }
 
+.row-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 800px;
+	align-items: center;
+	margin-bottom: 20px;
+}
 
-/* Keyframes for shake animation */
-@keyframes shake-animation {
-	0% {
-		transform: translateX(0);
-	}
 
-	10% {
-		transform: translateX(-10px);
-	}
-
-	20% {
-		transform: translateX(10px);
-	}
-
-	30% {
-		transform: translateX(-10px);
-	}
-
-	40% {
-		transform: translateX(10px);
-	}
-
-	50% {
-		transform: translateX(0);
+@media (max-width: 480px) {
+	.page-container {
+		padding: 10px;
 	}
 }

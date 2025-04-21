@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Route, Routes } from "react-router-dom";
-import "../../../components/AdComponent.css";
+import { Route, Routes } from "react-router-dom";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
-import "../../../components/BlogPostContent.css";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "./CommonStyles.css";
-
-declare global {
-	interface Window {
-		adsbygoogle: any;
-	}
-}
 
 interface RemoteJob {
 	id: string;
@@ -34,7 +26,6 @@ const RemoteOnlineJobs: React.FC = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 
-	// Fetch data
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -47,25 +38,13 @@ const RemoteOnlineJobs: React.FC = () => {
 			}
 		};
 
-		fetchData();
-	}, []);
+		if (remoteJobs.length === 0) fetchData();
+	}, [remoteJobs.length]);
 
-	// Trigger AdSense ads
-	useEffect(() => {
-		if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-			try {
-				window.adsbygoogle.push({});
-			} catch (e) {
-				console.error("Adsense Error:", e);
-			}
-		}
-	}, [remoteJobs, currentPage]);
-
-	// Generate excerpt text
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
-		return excerpt.length > 200 ? `${excerpt.substring(0, 200)}...` : excerpt;
+		return excerpt.length > 120 ? `${excerpt.substring(0, 120)}...` : excerpt;
 	};
 
 	const currentPosts = remoteJobs.slice(
@@ -74,15 +53,11 @@ const RemoteOnlineJobs: React.FC = () => {
 	);
 
 	useEffect(() => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
 	return (
 		<div className='page-container'>
-			{/* SEO Metadata with Helmet */}
 			<Helmet>
 				<title>Remote Online Jobs | Work from Home & Freelance Gigs</title>
 				<meta
@@ -120,95 +95,29 @@ const RemoteOnlineJobs: React.FC = () => {
 						<>
 							<h1>Remote Online Jobs</h1>
 
-							{/* Ad Banner */}
-							<div className='top-banner-container'>
-								<a
-									href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-									target='_blank'
-									rel='noopener noreferrer'
-									className='TopBanner'
-								>
-									<img
-										src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-										alt='Lyca Mobile Banner - Affordable International Calling'
-										className='TopBannerImage'
-										width='730px'
-										height='90px'
-										loading='eager'
-										{...{ fetchpriority: "high" }} //  Correct way to avoid both TS + React warning
-									/>
-								</a>
-							</div>
-
-							{/* Remote Jobs Listings */}
 							<div className='content-wrapper'>
-								{currentPosts.map((post, i) => (
-									<React.Fragment key={post.id}>
-										<div>
-											<Link
-												className='row-container'
-												to={`/extra-income/remote-Jobs/${post.id}`}
-											>
-												<BlogPostCard
-													id={post.id}
-													headline={post.headline}
-													image={post.image}
-													content={getExcerpt(post.content)}
-													author={post.author}
-													datePublished={post.datePublished}
-													dateModified={post.dateModified}
-												/>
-											</Link>
-										</div>
-
-										{/* Insert AdSense ad after every two posts */}
-										{i > 0 && i % 2 === 1 && (
-											<div className='postings-container'>
-												<ins
-													className='adsbygoogle'
-													style={{
-														display: "block",
-														width: "300px",
-														height: "250px",
-														minWidth: "300px",
-														minHeight: "250px",
-													}}
-													data-ad-client='ca-pub-1079721341426198'
-													data-ad-slot='7197282987'
-													data-ad-format='auto'
-													data-full-width-responsive='true'
-												/>
-											</div>
-										)}
-									</React.Fragment>
+								{currentPosts.map((post) => (
+									<BlogPostCard
+										key={post.id}
+										id={post.id}
+										headline={post.headline}
+										image={post.image}
+										content={getExcerpt(post.content)}
+										author={post.author}
+										datePublished={post.datePublished}
+										dateModified={post.dateModified}
+										canonicalUrl={`https://www.dollarsandlife.com/extra-income/remote-Jobs/${post.id}`}
+										linkTo={`/extra-income/remote-Jobs/${post.id}`}
+									/>
 								))}
 							</div>
 
-							{/* Pagination */}
 							<PaginationContainer
 								totalItems={remoteJobs.length}
 								itemsPerPage={postsPerPage}
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-
-							{/* Bottom Banner Ad */}
-							<div className='postings-container'>
-								<ins
-									className='adsbygoogle-banner'
-									style={{
-										display: "block",
-										width: "728px",
-										height: "90px",
-										minWidth: "300px",
-										minHeight: "90px",
-									}}
-									data-ad-client='ca-pub-1079721341426198'
-									data-ad-slot='6375155907'
-									data-ad-format='horizontal'
-									data-full-width-responsive='true'
-								/>
-							</div>
 						</>
 					}
 				/>

@@ -61,7 +61,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1863"
+			"reviewCount": "1865"
 		}
 	},
 	{
@@ -126,7 +126,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26384"
+			"reviewCount": "26392"
 		}
 	},
 	{
@@ -190,7 +190,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40385"
+			"reviewCount": "40386"
 		}
 	},
 	{
@@ -260,7 +260,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "589"
+			"reviewCount": "590"
 		}
 	},
 	{
@@ -393,7 +393,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2631"
+			"reviewCount": "2641"
 		}
 	},
 	{
@@ -508,7 +508,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16791"
+			"reviewCount": "16795"
 		}
 	},
 	{
@@ -567,8 +567,8 @@
 		},
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.2",
-			"reviewCount": "36"
+			"ratingValue": "4.1",
+			"reviewCount": "37"
 		}
 	},
 	{
@@ -684,12 +684,12 @@
 			"iOS Android compatible",
 			"Veepeak bestseller"
 		],
-		"discountPercentage": "22%",
-		"currentPrice": "$27.16",
+		"discountPercentage": "9%",
+		"currentPrice": "$31.95",
 		"canonicalUrl": "/shopping-deals/products/1-veepeak-obdcheck-ble",
 		"offers": {
 			"@type": "Offer",
-			"price": "27.16",
+			"price": "31.95",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4cbSnQA",
@@ -705,7 +705,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21228"
+			"reviewCount": "21232"
 		}
 	},
 	{
@@ -762,7 +762,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "112"
+			"reviewCount": "117"
 		}
 	},
 	{
@@ -814,8 +814,8 @@
 		"dateModified": "2025-04-05T20:20:51Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.3",
-			"reviewCount": "17"
+			"ratingValue": "4.1",
+			"reviewCount": "18"
 		}
 	},
 	{
@@ -933,14 +933,14 @@
 			"luxury asset trunk"
 		],
 		"canonicalUrl": "/shopping-deals/products/24-lv-sprouse-limited-trunk",
-		"currentPrice": "",
+		"currentPrice": "$96,500",
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "",
+			"price": "96500",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3FKGpRU",
-			"availability": "https://schema.org/OutOfStock",
+			"availability": "https://schema.org/InStock",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
@@ -1215,7 +1215,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67673"
+			"reviewCount": "67693"
 		}
 	},
 	{
@@ -1283,7 +1283,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "48660"
+			"reviewCount": "48666"
 		}
 	},
 	{
@@ -1565,7 +1565,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "161"
+			"reviewCount": "166"
 		}
 	},
 	{
@@ -1618,7 +1618,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "103"
+			"reviewCount": "104"
 		}
 	},
 	{

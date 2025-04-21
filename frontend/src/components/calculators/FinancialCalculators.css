@@ -1,76 +1,64 @@
-/* Container for the entire calculator section */
+/* Masonry Layout Styles */
 .financial-calculators-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 14px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-
-
-/* Container for individual calculator rows */
-.calculator-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    display: block;
+    padding: 20px;
     width: 100%;
     max-width: 1200px;
-    margin-bottom: 30px;
+    margin: 0 auto;
     box-sizing: border-box;
 }
 
-/* Individual calculator card styling */
+.content-wrapper {
+    column-count: 2;
+    column-gap: 20px;
+    width: 100%;
+}
+
 .calculator {
-    flex: 1 1 calc(50% - 40px);
+    display: inline-block;
+    width: 100%;
     background-color: #ffffff;
     padding: 20px;
+    margin-bottom: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 450px;
+    break-inside: avoid;
     box-sizing: border-box;
-    text-align: center;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
+/* Calculator Content Styles */
 .calculator h2 {
     text-align: center;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1.3rem;
 }
 
-/* Form Layout */
 .calculator form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
 }
 
-/* Label styling */
-.calculator label {
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: left;
-    font-weight: 600;
-}
-
-/* Input styling */
-.calculator input {
-    padding: 10px;
-    font-size: 16px;
-    margin-top: 5px;
+.input-group {
     margin-bottom: 15px;
+}
+
+.calculator label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.calculator input {
+    width: 100%;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    width: 100%;
+    font-size: 16px;
     box-sizing: border-box;
 }
 
-/* Button styling */
 .calculator button {
     padding: 12px;
     background-color: #971ae1;
@@ -78,10 +66,10 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    text-align: center;
     font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 100%;
     transition: background-color 0.3s ease;
 }
 
@@ -89,29 +77,35 @@
     background-color: #41a522;
 }
 
-/* Result Field Styling */
 .result-field {
     margin-top: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
     font-weight: bold;
     text-align: center;
-    font-size: 0.8em;
-    word-wrap: break-word;
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 100%;
-    /* Ensures it doesn’t exceed the calculator’s width */
-    box-sizing: border-box;
-    /* Includes padding/borders in width */
 }
 
-
-/* Responsive adjustments */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .calculator {
-        flex: 1 1 90%;
+    .content-wrapper {
+        column-count: 1;
     }
 
-    .result-field {
-        font-size: 0.8em;
+    .calculator {
+        margin-bottom: 15px;
     }
+}
+
+/* Top Banner Styles */
+.top-banner-container {
+    width: 100%;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.TopBannerImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
