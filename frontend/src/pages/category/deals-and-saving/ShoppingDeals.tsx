@@ -111,7 +111,17 @@ const ProductCard: React.FC<Product> = ({
 							{discountPercentage}% OFF
 						</span>
 					)}
-					<span className='sd-current-price'>{currentPrice}</span>
+					<span
+						className={`sd-current-price ${
+							!currentPrice || currentPrice.trim() === ""
+								? "sd-unavailable-price"
+								: ""
+						}`}
+					>
+						{currentPrice && currentPrice.trim() !== ""
+							? currentPrice
+							: "Currently Not Available"}
+					</span>
 				</div>
 				{specialOffer && (
 					<p className='sd-special-offer-badge'>{specialOffer}</p>
