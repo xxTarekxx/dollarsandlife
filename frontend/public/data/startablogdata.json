@@ -556,7 +556,7 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "install-wordpress-and-choose-a-theme",
-		"headline": "Install WordPress and Pick a Beginner-Friendly Theme That Grows With You",
+		"headline": "Step 4: Install WordPress and Pick a Beginner-Friendly Theme That Grows With You",
 		"description": "Comprehensive guide to installing WordPress, choosing a high-performance theme, and customizing your blog for a polished, professional online presence.",
 		"author": {
 			"@type": "Organization",

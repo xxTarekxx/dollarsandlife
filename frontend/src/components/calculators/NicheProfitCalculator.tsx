@@ -73,7 +73,6 @@ export const NicheProfitCalculator: React.FC = () => {
 
 	return (
 		<div className='calculator'>
-			<h2>Niche Profit Calculator</h2>
 			<form onSubmit={handleCalculate} aria-labelledby='niche-profit-heading'>
 				<label htmlFor='revenue'>
 					Total Revenue ($):

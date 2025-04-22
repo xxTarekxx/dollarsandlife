@@ -1,4 +1,4 @@
-/* Masonry Layout Styles */
+/* Masonry Layout with Stable Rendering */
 .financial-calculators-container {
     display: block;
     padding: 20px;
@@ -30,10 +30,22 @@
 .calculator h2 {
     text-align: center;
     margin-bottom: 15px;
-    color: #2c3e50;
+    color: #6000ce;
     font-size: 1.3rem;
+    position: relative;
 }
 
+.calculator h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 25%;
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(to right, #6000ce, #a029ff);
+}
+
+/* Form Elements */
 .calculator form {
     display: flex;
     flex-direction: column;
@@ -57,11 +69,18 @@
     border-radius: 6px;
     font-size: 16px;
     box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.calculator input:focus {
+    border-color: #6000ce;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(96, 0, 206, 0.1);
 }
 
 .calculator button {
     padding: 12px;
-    background-color: #971ae1;
+    background: linear-gradient(to right, #6000ce, #a029ff);
     color: white;
     border: none;
     border-radius: 6px;
@@ -70,11 +89,13 @@
     font-size: 16px;
     margin-top: 10px;
     width: 100%;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .calculator button:hover {
-    background-color: #41a522;
+    background: linear-gradient(to right, #4a00a5, #7e1fd3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(96, 0, 206, 0.2);
 }
 
 .result-field {
@@ -84,6 +105,7 @@
     border-radius: 6px;
     font-weight: bold;
     text-align: center;
+    border-left: 4px solid #6000ce;
 }
 
 /* Responsive Adjustments */
@@ -95,17 +117,4 @@
     .calculator {
         margin-bottom: 15px;
     }
-}
-
-/* Top Banner Styles */
-.top-banner-container {
-    width: 100%;
-    margin-bottom: 25px;
-    text-align: center;
-}
-
-.TopBannerImage {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
 }

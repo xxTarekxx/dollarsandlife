@@ -12,23 +12,55 @@ import { NicheProfitCalculator } from "./NicheProfitCalculator";
 
 const FinancialCalculators: React.FC = memo(() => {
 	const calculators = [
-		{ component: <NicheProfitCalculator />, name: "Niche Profit" },
-		{ component: <RetirementCalculator />, name: "Retirement" },
-		{ component: <MortgageCalculator />, name: "Mortgage" },
-		{ component: <CreditCardCalculator />, name: "Credit Card" },
-		{ component: <AutoLoanCalculator />, name: "Auto Loan" },
-		{ component: <SavingsCalculator />, name: "Savings" },
-		{ component: <LoanPaymentCalculator />, name: "Loan Payment" },
-		{ component: <TaxCalculator />, name: "Tax" },
+		{
+			component: <NicheProfitCalculator />,
+			name: "Niche Profit",
+			icon: "💼",
+		},
+		{
+			component: <RetirementCalculator />,
+			name: "Retirement",
+			icon: "🌴",
+		},
+		{
+			component: <MortgageCalculator />,
+			name: "Mortgage",
+			icon: "🏠",
+		},
+		{
+			component: <CreditCardCalculator />,
+			name: "Credit Card",
+			icon: "💳",
+		},
+		{
+			component: <AutoLoanCalculator />,
+			name: "Auto Loan",
+			icon: "🚗",
+		},
+		{
+			component: <SavingsCalculator />,
+			name: "Savings",
+			icon: "💰",
+		},
+		{
+			component: <LoanPaymentCalculator />,
+			name: "Loan Payment",
+			icon: "📊",
+		},
+		{
+			component: <TaxCalculator />,
+			name: "Tax",
+			icon: "🧾",
+		},
 	];
 
 	return (
 		<div className='financial-calculators-container'>
 			<Helmet>
-				<title>Financial Calculators - Plan & Manage Your Money</title>
+				<title>Modern Financial Calculators | Dollars & Life</title>
 				<meta
 					name='description'
-					content='Use our financial calculators for retirement, mortgages, loans, credit cards, and savings. Plan your financial future with accurate calculations.'
+					content='Beautiful, modern financial calculators for retirement planning, mortgages, loans, and more. Visualize your financial future.'
 				/>
 				<link
 					rel='canonical'
@@ -36,27 +68,21 @@ const FinancialCalculators: React.FC = memo(() => {
 				/>
 			</Helmet>
 
-			<h1>Financial Calculators</h1>
-
-			<div className='top-banner-container'>
-				<a
-					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-					target='_blank'
-					rel='noopener noreferrer'
-					className='TopBanner'
-				>
-					<img
-						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-						alt='Lyca Mobile Banner'
-						className='TopBannerImage'
-						loading='eager'
-					/>
-				</a>
-			</div>
+			<h1>Plan your financial future with our interactive tools</h1>
 
 			<div className='content-wrapper'>
-				{calculators.map(({ component }, index) => (
-					<div key={index} className='calculator'>
+				{calculators.map(({ component, name, icon }, index) => (
+					<div
+						key={index}
+						className='calculator'
+						data-calculator={name.toLowerCase()}
+					>
+						<div className='calculator-header'>
+							<h2>
+								<span className='calculator-icon'>{icon}</span>
+								{name}
+							</h2>
+						</div>
 						{component}
 					</div>
 				))}

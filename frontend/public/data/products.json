@@ -2,8 +2,465 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
+		"id": "39",
+		"headline": "Neutrogena Makeup Remover Wipes - 2 Pack (50 Count) ✨🧴",
+		"shortName": "Neutrogena Makeup Remover Facial Wipes",
+		"description": "<h3>Dermatologist-Approved Makeup Removal 🌟🧖‍♀️</h3><p>Neutrogena's micellar-infused makeup remover wipes gently cleanse skin while removing 99% of makeup, including waterproof mascara. Trusted by 109,324+ customers for daily skincare routines.</p><strong>Key Benefits:</strong><ul><li><strong>Ultra-Gentle Formula</strong><br/>🌸 Ophthalmologist-tested and safe for sensitive eyes</li><li> <strong>Powerful Cleansing</strong><br/>🧼 Removes dirt, oil, pollution and sunscreen without residue</li><li> <strong>Convenient Twin Pack</strong><br/>🛍️ 50 pre-moistened wipes for home/travel use</li><li> <strong>Skin-Nourishing</strong><br/>💧 Triple emollient formula conditions while cleansing</li><li> <strong>Eco-Conscious</strong><br/>🌱 Compostable plant-based fibers biodegrade in 35 days</li></ul><p>Perfect for quick makeup removal, post-workout refreshment, or as part of your evening skincare ritual.</p>",
+		"datePublished": "2025-04-21T21:28:19Z",
+		"dateModified": "2025-04-21T21:28:19Z",
+		"mainEntityOfPage": "/shopping-deals/products/39-neutrogena-makeup-remover-wipes",
+		"canonicalUrl": "/shopping-deals/products/39-neutrogena-makeup-remover-wipes",
+		"purchaseUrl": "https://amzn.to/3RZO01S",
+		"currentPrice": "$9.97",
+		"discountPercentage": "27%",
+		"designer": {
+			"@type": "Organization",
+			"name": "Neutrogena"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/718tZy6VWQL._SL1500_.jpg",
+			"caption": "Neutrogena Makeup Remover Wipes Twin Pack"
+		},
+		"keywords": [
+			"micellar makeup wipes",
+			"gentle eye makeup remover",
+			"compostable facial wipes",
+			"dermatologist approved cleanser",
+			"travel makeup remover",
+			"oil-free cleansing towelettes",
+			"waterproof mascara remover",
+			"post-gym face wipes",
+			"vegan makeup remover",
+			"sensitive skin facial wipes"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3RZO01S",
+			"availability": "https://schema.org/InStock",
+			"price": "9.97"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Neutrogena"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.8",
+			"reviewCount": "109324"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "38",
+		"headline": "Artnaturals Kojic Acid Soap + Sponge - Dark Spot Corrector (2-Pack) ✨🧼",
+		"shortName": "Artnaturals Kojic Acid Soap with African Net Sponge",
+		"description": "<h3>Japanese-Inspired Brightening System 🌟</h3><p>This dermatologist-formulated kojic acid soap combines traditional Japanese skin-brightening techniques with powerful actives (Vitamin C, Retinol, Hyaluronic Acid) to visibly reduce dark spots, scars and uneven tone. Includes exfoliating African net sponge for enhanced results.</p><strong>Key Benefits:</strong><ul><li>🌸 Multi-Acid Complex<br>Kojic + Hyaluronic acids target hyperpigmentation at the source</li><li>🧽 Dual-Action Exfoliation<br>Comes with durable nylon African net sponge for gentle physical exfoliation</li><li>🌿 Turmeric-Infused Formula<br>Natural anti-inflammatory properties help calm irritated skin</li><li>⚡ All-Over Brightening<br>Safe for face, body, underarms and sensitive areas</li><li>🧪 Clinical-Grade Actives<br>Retinol + Vitamin C work synergistically for faster results</li></ul><p>Trusted by 2,518+ customers for melasma, post-acne marks, and sun damage. Cruelty-free and vegan.</p>",
+		"datePublished": "2025-04-21T21:11:22Z",
+		"dateModified": "2025-04-21T21:11:22Z",
+		"mainEntityOfPage": "/shopping-deals/products/38-artnaturals-kojic-acid-soap-african-sponge",
+		"canonicalUrl": "/shopping-deals/products/38-artnaturals-kojic-acid-soap-african-sponge",
+		"purchaseUrl": "https://amzn.to/3EHGoxX",
+		"currentPrice": "$14.97",
+		"designer": {
+			"@type": "Organization",
+			"name": "Artnaturals"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/81SHjJJHYQL._SL1500_.jpg",
+			"caption": "Artnaturals Kojic Acid Soap with African Net Sponge"
+		},
+		"keywords": [
+			"kojic acid brightening soap",
+			"African net sponge exfoliator",
+			"Japanese skin lightening formula",
+			"turmeric dark spot treatment",
+			"retinol vitamin c soap",
+			"melasma correction soap",
+			"post-acne scar remover",
+			"underarm brightening bar",
+			"dermatologist formulated soap",
+			"vegan hyperpigmentation treatment"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3EHGoxX",
+			"availability": "https://schema.org/InStock",
+			"price": "14.97"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Artnaturals"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.3",
+			"reviewCount": "2518"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "37",
+		"headline": "Mighty Patch™ Original - Overnight Acne Patches (36 Count) ⚡✨",
+		"shortName": "Mighty Patch™ Hydrocolloid Acne Patches",
+		"description": "<h3>Dermatologist-Tested Acne Solution 🌙⭐</h3><p>Hero Cosmetics' award-winning Mighty Patch Original uses medical-grade hydrocolloid technology to visibly reduce pimples overnight without popping or irritation. Trusted by 172,516+ customers for clearer skin by morning.</p><strong>Key Benefits:</strong><ul><li><strong>Overnight Results</strong><br/>🩹 Absorbs impurities in 6-8 hours while you sleep</li><li> <strong>Medical-Grade Hydrocolloid</strong><br/>🌙 Clinically tested, drug-free, and vegan-friendly</li><li> <strong>All-Night Adhesion</strong><br/>👁️ Stays put through tossing/turning (12mm patches)</li><li> <strong>Invisible Wear</strong><br/>🦠 Translucent matte finish blends with all skin tones</li><li> <strong>Sterile Protection</strong><br/>- UV sterilized and allergy tested for sensitive skin</li></ul><p>Perfect for teens, adults, and anyone seeking a gentle yet effective acne treatment without harsh ingredients.</p>",
+		"datePublished": "2025-04-21T21:02:58Z",
+		"dateModified": "2025-04-21T21:02:58Z",
+		"mainEntityOfPage": "/shopping-deals/products/37-mighty-patch-hydrocolloid-acne-patches",
+		"canonicalUrl": "/shopping-deals/products/37-mighty-patch-hydrocolloid-acne-patches",
+		"purchaseUrl": "https://amzn.to/3GiFBnL",
+		"currentPrice": "$12.99",
+		"designer": {
+			"@type": "Organization",
+			"name": "Hero Cosmetics"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/41JILztxbDL._SL1080_.jpg",
+			"caption": "Mighty Patch™ Hydrocolloid Acne Patches"
+		},
+		"keywords": [
+			"overnight pimple patches",
+			"hydrocolloid acne stickers",
+			"vegan zit patches",
+			"sensitive skin acne treatment",
+			"invisible blemish covers",
+			"teen acne solutions",
+			"non-irritating pimple patches",
+			"sterile hydrocolloid dots",
+			"12mm acne patches",
+			"dermatologist approved patches"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3GiFBnL",
+			"availability": "https://schema.org/InStock",
+			"price": "12.99"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Hero Cosmetics"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.6",
+			"reviewCount": "172516"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "36",
+		"headline": "EUHOMY Countertop Ice Maker - 26lbs/24Hr, 9 Cubes in 6 Mins ❄️⚡",
+		"shortName": "EUHOMY Portable Ice Maker Machine - Fast & Quiet",
+		"description": "<h3>Professional-Grade Ice in Minutes ⏱️❄️</h3><p>The EUHOMY countertop ice maker delivers commercial-quality ice production (26lbs/day) in a compact, portable design perfect for kitchens, RVs, and outdoor adventures. Enjoy your first batch of 9 bullet-shaped ice cubes in just 6 minutes - faster than most competitors.</p><strong>Why This Ice Maker Stands Out:</strong><ul><li> <strong>Lightning-Fast Ice Production</strong><br/>🔇 9 cubes ready in 6 minutes (26lbs/24hrs)</li><li> <strong>Ultra-Quiet Operation</strong><br/>🏕️ <45dB noise level (quieter than a refrigerator)</li><li> <strong>Portable All-Weather Design</strong><br/>🧊 Compact 11.5\" cube with carry handle for camping/RVs</li><li> <strong>Perfect Bullet-Shaped Ice</strong><br/>🤖 Non-stick cubes ideal for drinks and chewing</li><li> <strong>Smart Self-Cleaning System</strong><br/>🔋 One-touch 30-minute automatic cleaning cycle</li><li> <strong>Energy Efficient</strong><br/>– Only 4kWh/24hrs (about $0.50/day to operate)</li></ul><p>Trusted by 11,872+ customers for parties, home bars, medical needs, and outdoor adventures. Includes ice scoop, basket, and 1-year warranty.</p>",
+		"datePublished": "2025-04-21T21:00:32Z",
+		"dateModified": "2025-04-21T21:00:32Z",
+		"mainEntityOfPage": "/shopping-deals/products/36-euhomy-fast-countertop-ice-maker-26lbs",
+		"canonicalUrl": "/shopping-deals/products/36-euhomy-fast-countertop-ice-maker-26lbs",
+		"purchaseUrl": "https://amzn.to/3GlyLhb",
+		"currentPrice": "$74.97",
+		"discountPercentage": "17%",
+		"designer": {
+			"@type": "Organization",
+			"name": "EUHOMY",
+			"url": "https://www.euhomy.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			},
+			"publishingPrinciples": "https://www.dollarsandlife.com/editorial-standards"
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/81KSDMsfnxL._AC_SL1500_.jpg",
+			"caption": "EUHOMY Black Countertop Ice Maker - 26lbs Daily Production"
+		},
+		"keywords": [
+			"fastest countertop ice maker",
+			"quiet portable ice machine",
+			"RV ice maker under $100",
+			"bullet ice cube machine",
+			"energy efficient ice maker",
+			"compact camping ice machine",
+			"self-cleaning ice maker",
+			"home bar ice producer",
+			"medical ice machine",
+			"small footprint ice maker"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3GlyLhb",
+			"availability": "https://schema.org/InStock",
+			"price": "74.97",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"shippingDetails": "Free Prime Delivery <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>",
+			"priceValidUntil": "2025-12-31"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "EUHOMY",
+			"description": "EUHOMY specializes in innovative kitchen appliances with smart features since 2015."
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.4",
+			"reviewCount": "11872",
+			"bestRating": "5",
+			"worstRating": "1"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "35",
+		"headline": "Crocs Kids' Classic Clogs - Best Lightweight Shoes for Active Children 👟✨",
+		"shortName": "Crocs Kids' Classic Clogs - Comfortable & Fun",
+		"description": "<h3>Parent-Approved Comfort for Growing Feet 👶👟</h3><p>Designed specifically for active kids, these Crocs Classic Clogs combine fun colors with practical features parents love. The lightweight design and roomy fit accommodate growing feet while providing all-day comfort for school, playdates, or family outings.</p><strong>Why Parents Choose These Crocs:</strong><ul><li> <strong>Easy On/Off Design</strong><br/>🚿 Perfect for independent toddlers learning to dress themselves</li><li> <strong>Waterproof & Quick-Dry</strong><br/>🩹 Ideal for splash pads, beach trips, or rainy day puddle jumping</li><li> <strong>Orthopedic Benefits</strong><br/>👟 Pediatrician-recommended for proper foot development</li><li> <strong>Customizable Fun</strong><br/>🧼 Add Jibbitz™ charms to match your child's personality</li><li><strong>Easy-Clean Material</strong><br/>– Wipe clean after messy play with soap and water</li></ul><p>Trusted by 188,604+ parents for their durability and kid-friendly comfort. Machine washable for effortless maintenance.</p>",
+		"datePublished": "2025-04-21T20:59:01Z",
+		"dateModified": "2025-04-21T20:59:01Z",
+		"mainEntityOfPage": "/shopping-deals/products/35-crocs-kids-classic-clogs-lightweight-shoes",
+		"canonicalUrl": "/shopping-deals/products/35-crocs-kids-classic-clogs-lightweight-shoes",
+		"purchaseUrl": "https://amzn.to/3RvjRYe",
+		"currentPrice": "$19.98",
+		"discountPercentage": "20%",
+		"designer": {
+			"@type": "Organization",
+			"name": "Crocs",
+			"url": "https://www.crocs.com/kids"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			},
+			"publishingPrinciples": "https://www.dollarsandlife.com/editorial-standards"
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/61seY4GZnhL._AC_SY625_.jpg",
+			"caption": "Crocs Kids' Classic Clogs in Fun Colors - Lightweight & Comfortable"
+		},
+		"keywords": [
+			"toddler easy-on shoes",
+			"pediatrician approved clogs",
+			"machine washable kids footwear",
+			"waterproof play shoes",
+			"lightweight school shoes",
+			"growing feet footwear",
+			"non-slip kid clogs",
+			"breathable summer shoes kids",
+			"customizable children's crocs",
+			"indoor outdoor kid shoes"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3RvjRYe",
+			"availability": "https://schema.org/InStock",
+			"price": "19.98",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"shippingDetails": "Free Prime Delivery & Easy Returns <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Crocs",
+			"description": "Crocs makes comfortable, lightweight shoes loved by kids and parents worldwide since 2002."
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.8",
+			"reviewCount": "188604",
+			"bestRating": "5",
+			"worstRating": "1"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "34",
+		"headline": "Crocs Classic Clogs - Most Comfortable Unisex Slip-On Shoes for Work & Play 👟✨",
+		"shortName": "Crocs Unisex Classic Clogs - Lightweight & Cushioned",
+		"description": "<h3>All-Day Comfort You Can Trust 🌟</h3><p>Experience why millions swear by Crocs Classic Clogs - the perfect blend of comfort, durability, and effortless style. These iconic unisex shoes feature Croslite™ foam cushioning that molds to your feet, making them ideal for healthcare workers, chefs, gardeners, or anyone who spends hours on their feet.</p><strong>Why Choose Classic Crocs:</strong><ul><li> <strong>Orthopedic Comfort</strong><br/>🚿 Podiatrist-recommended support with heel-to-toe cushioning that reduces foot fatigue</li><li> <strong>Water-Friendly Design</strong><br/>👟 Quick-drying material perfect for beaches, pools, or rainy days</li><li> <strong>Workplace Approved</strong><br/>🌱 Non-slip soles meet industry standards for food service and medical professionals</li><li> <strong>Vegan & Odor-Resistant</strong><br/>👨‍⚕️ Made without animal products and resists bacteria buildup</li><li> <strong>30+ Color Options</strong><br/>– Personalize with Jibbitz™ charms for unique self-expression</li></ul><p>Backed by 625,875+ verified reviews from real customers who love their Crocs for nursing shifts, kitchen work, or casual everyday wear.</p>",
+		"datePublished": "2025-04-21T20:55:07Z",
+		"dateModified": "2025-04-21T20:55:07Z",
+		"mainEntityOfPage": "/shopping-deals/products/34-crocs-classic-clogs-unisex-slide-on-shoes",
+		"canonicalUrl": "/shopping-deals/products/34-crocs-classic-clogs-unisex-slide-on-shoes",
+		"purchaseUrl": "https://amzn.to/3Y9tVdc",
+		"currentPrice": "$36.95",
+		"discountPercentage": "26%",
+		"designer": {
+			"@type": "Organization",
+			"name": "Crocs",
+			"url": "https://www.crocs.com"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			},
+			"publishingPrinciples": "https://www.dollarsandlife.com/editorial-standards"
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/814W35fsrCL._AC_SX625_.jpg",
+			"caption": "Official Crocs Classic Clogs in Multiple Colors - Unisex Comfort Shoes"
+		},
+		"keywords": [
+			"podiatrist approved clogs",
+			"lightweight work shoes for nurses",
+			"non-slip kitchen crocs",
+			"vegan waterproof footwear",
+			"arch support slide-ons",
+			"easy clean garden shoes",
+			"hospital approved footwear",
+			"croslite foam comfort",
+			"wide width comfortable clogs",
+			"breathable summer shoes"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3Y9tVdc",
+			"availability": "https://schema.org/InStock",
+			"price": "36.95",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"shippingDetails": "Free Prime Delivery & Returns <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Crocs",
+			"description": "Crocs makes comfortable, lightweight shoes loved by millions worldwide since 2002."
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.8",
+			"reviewCount": "625875",
+			"bestRating": "5",
+			"worstRating": "1"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "33",
+		"headline": "Carhartt Heavyweight Pocket T-Shirt – Durable Comfort for Work & Leisure",
+		"shortName": "Carhartt Heavyweight Pocket Tee",
+		"description": "<h3>Built Tough, Worn Easy 👕🛠️</h3><p>Whether you're working hard or kicking back, this Carhartt Heavyweight Pocket T-Shirt delivers unmatched durability and comfort. Crafted from premium heavyweight cotton, this tee features Carhartt's roomiest fit, providing ease of movement and all-day comfort.</p><strong>Key Features:</strong><ul><li>👕 Heavyweight Cotton – Premium fabric that withstands tough conditions while staying comfortable.</li><li>📏 Roomy Original Fit – Generous cut gives ample room for movement during work or leisure.</li><li>🛠️ Functional Chest Pocket – Convenient storage for small essentials on the job.</li><li>🌿 Softens Over Time – Fabric becomes more comfortable with each wash while maintaining durability.</li><li>📐 Big & Tall Sizes – Available in extended sizes to accommodate all body types.</li></ul><p>Ideal for tradesmen, outdoor enthusiasts, or anyone who values rugged comfort in their everyday wear.</p>",
+		"datePublished": "2025-04-21T20:29:33Z",
+		"dateModified": "2025-04-21T20:29:33Z",
+		"mainEntityOfPage": "/shopping-deals/products/33-carhartt-heavyweight-pocket-tee",
+		"canonicalUrl": "/shopping-deals/products/33-carhartt-heavyweight-pocket-tee",
+		"purchaseUrl": "https://amzn.to/4lVfm7g",
+		"currentPrice": "$14.99",
+		"discountPercentage": "25%",
+		"designer": {
+			"@type": "Organization",
+			"name": "Carhartt"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://m.media-amazon.com/images/I/71RPinQjeCL._AC_SX569_.jpg",
+			"caption": "Carhartt Men's Heavyweight Pocket T-Shirt in Various Sizes"
+		},
+		"keywords": [
+			"heavyweight pocket tee",
+			"durable work shirt",
+			"loose fit carhartt t-shirt",
+			"big and tall workwear",
+			"comfortable work clothing",
+			"carhartt cotton shirt",
+			"rugged casual tee",
+			"men's work t-shirt with pocket",
+			"breathable heavy-duty shirt",
+			"carhartt everyday wear"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4lVfm7g",
+			"availability": "https://schema.org/InStock",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"url": "https://www.dollarsandlife.com/return-policy"
+			},
+			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\">Try Prime Free For 30 Days</a>",
+			"price": "14.99"
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Carhartt"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.6",
+			"reviewCount": "152823"
+		}
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
 		"id": "28",
-		"headline": "PQRQP Wireless Lavalier Mic for iPhone, Android & USB-C 📱🎤 – 3-in-1 Plug & Record",
+		"headline": "PQRQP Wireless Lavalier Mic for iPhone, Android & USB-C",
 		"shortName": "PQRQP 3 in 1 Wireless Lavalier Microphones for iPhone, iPad, Android, Camera",
 		"description": "<h3>Wireless Sound, Zero Complications 🔊</h3><p>Upgrade your audio for vlogs, livestreams, interviews, and mobile content creation. The PQRQP 3-in-1 wireless lavalier mic system is compatible with all major devices and offers crystal-clear sound with built-in noise reduction and long battery life.</p><strong>Key Features:</strong><ul><li>📡 Universal Wireless System – Stable connection up to 65 feet with dual mic support for multi-person recording.</li><li>🔌 Full Compatibility – Works with iPhone (incl. iPhone 15), Android, iPad, laptops, cameras, and more—no adapters needed.</li><li>🔇 Smart Noise Cancellation – Built-in chip and sponge filter eliminate background noise for clear recordings anywhere.</li><li>🔋 Rechargeable Battery – 7+ hours of use, plus charging support while recording via Type-C cable.</li><li>⚡ Easy Auto Connect – Plug and play with lightning, USB-C, or 3.5mm ports. No Bluetooth, apps, or pairing headaches.</li><li>🎛️ Mode Switching – Use buttons to switch between phone, speaker, and camera recording modes for optimal clarity.</li></ul><p>Perfect for mobile creators, online educators, YouTubers, and TikTok influencers looking to level up their audio without complicated gear.</p>",
 		"datePublished": "2025-04-12T14:30:35Z",

@@ -135,7 +135,6 @@ export const TaxCalculator: React.FC = () => {
 			role='form'
 			aria-labelledby='state-tax-calculator'
 		>
-			<h2 id='state-tax-calculator'>State and Federal Tax Calculator</h2>
 			{loading && <p aria-live='polite'>Loading tax data...</p>}
 			{error && (
 				<p style={{ color: "red" }} aria-live='assertive'>

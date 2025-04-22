@@ -102,7 +102,6 @@ export const LoanPaymentCalculator: React.FC = () => {
 
 	return (
 		<div className='calculator'>
-			<h2>Loan Payment Calculator</h2>
 			<form
 				onSubmit={handleLoanCalculation}
 				aria-labelledby='loan-payment-calculator'
