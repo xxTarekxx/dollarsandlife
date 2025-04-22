@@ -61,7 +61,6 @@ export const MortgageCalculator: React.FC = () => {
 
 	return (
 		<div className='calculator'>
-			<h2>Mortgage Calculator</h2>
 			<form
 				onSubmit={handleMortgageCalculation}
 				aria-labelledby='mortgage-calculator'

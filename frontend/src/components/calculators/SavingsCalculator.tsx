@@ -76,7 +76,6 @@ export const SavingsCalculator: React.FC = () => {
 
 	return (
 		<div className='calculator'>
-			<h2>Savings Calculator</h2>
 			<form
 				onSubmit={handleSavingsCalculation}
 				aria-labelledby='savings-calculator'

@@ -268,7 +268,7 @@
         /* Ensure container doesn't exceed screen */
         width: 100%;
         /* Ensure container tries to fill screen */
-        padding: 0px;
+        padding: 10px;
         /* Keep or adjust small screen padding */
         overflow-x: hidden;
         /* <= Prevent container itself from showing scrollbar */

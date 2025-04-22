@@ -68,7 +68,6 @@ export const CreditCardCalculator: React.FC = () => {
 
 	return (
 		<div className='calculator'>
-			<h2>Credit Card & Debt Payoff Calculator</h2>
 			<form
 				onSubmit={handleCreditCardCalculation}
 				aria-labelledby='credit-card-calculator'

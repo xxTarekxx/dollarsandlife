@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import BlogPostCard from "../../../components/BlogPostCard";
 import BlogPostContent from "../../../components/BlogPostContent";
 import PaginationContainer from "../../../components/PaginationContainer";
-import "../extra-income/CommonStyles.css"; // Ensure CSS for .content-wrapper grid is here or imported
-import "../../../components/BlogPostContent.css"; // Keep if used by BlogPostCard/Content
+import "../extra-income/CommonStyles.css";
 
 interface BlogPost {
 	id: string;
@@ -25,8 +24,7 @@ interface BlogPost {
 const StartABlog: React.FC = () => {
 	const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 9; // Adjusted to potentially fit 3x3 grid better
-	const pageRef = useRef<HTMLDivElement>(null);
+	const postsPerPage = 9;
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -36,17 +34,15 @@ const StartABlog: React.FC = () => {
 				const data: BlogPost[] = await response.json();
 				setBlogPosts(data);
 			} catch (error) {
-				console.error("Error fetching data:", error);
+				console.error("Error fetching blog posts:", error);
 			}
 		};
-
 		if (blogPosts.length === 0) fetchData();
 	}, [blogPosts.length]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
 		let excerpt = firstSection?.text || "";
-		// Using a potentially shorter excerpt for card view
 		return excerpt.length > 120 ? `${excerpt.substring(0, 120)}...` : excerpt;
 	};
 
@@ -56,16 +52,11 @@ const StartABlog: React.FC = () => {
 	);
 
 	useEffect(() => {
-		if (pageRef.current) {
-			window.scrollTo({
-				top: 0,
-				behavior: "smooth",
-			});
-		}
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
 	return (
-		<div className='page-container' ref={pageRef}>
+		<div className='page-container'>
 			<Helmet>
 				<title>How to Start a Blog in 2025 Step-by-Step Guide</title>
 				<meta
@@ -74,7 +65,7 @@ const StartABlog: React.FC = () => {
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/start-a-blog'
+					href='https://www.dollarsandlife.com/extra-income/start-a-blog'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -84,10 +75,10 @@ const StartABlog: React.FC = () => {
 							"@type": "Article",
 							position: index + 1,
 							headline: post.headline,
-							image: post.image, // Assuming image object is suitable for schema
-							author: { "@type": "Person", name: post.author.name }, // Corrected author schema
+							image: post.image.url,
+							author: { "@type": "Organization", name: post.author.name },
 							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/start-a-blog/${post.id}`,
+							url: `https://www.dollarsandlife.com/extra-income/start-a-blog/${post.id}`,
 						})),
 					})}
 				</script>
@@ -103,28 +94,20 @@ const StartABlog: React.FC = () => {
 								for Beginners
 							</h1>
 
-							<div className='top-banner-container'>
-								{/* Content other than ads can go here if needed */}
-							</div>
-
 							<div className='content-wrapper'>
 								{currentPosts.map((post) => (
-									<Link
+									<BlogPostCard
 										key={post.id}
-										to={`/start-a-blog/${post.id}`}
-										aria-label={`Read more about ${post.headline}`}
-										style={{ textDecoration: "none", display: "block" }}
-									>
-										<BlogPostCard
-											id={post.id}
-											headline={post.headline}
-											image={post.image}
-											content={getExcerpt(post.content)}
-											author={post.author}
-											datePublished={post.datePublished}
-											dateModified={post.dateModified}
-										/>
-									</Link>
+										id={post.id}
+										headline={post.headline}
+										image={post.image}
+										content={getExcerpt(post.content)}
+										author={post.author}
+										datePublished={post.datePublished}
+										dateModified={post.dateModified}
+										canonicalUrl={`https://www.dollarsandlife.com/extra-income/start-a-blog/${post.id}`}
+										linkTo={`/start-a-blog/${post.id}`}
+									/>
 								))}
 							</div>
 
@@ -134,8 +117,6 @@ const StartABlog: React.FC = () => {
 								currentPage={currentPage}
 								setCurrentPage={setCurrentPage}
 							/>
-
-							{/* Removed Bottom Banner Ad Container */}
 						</>
 					}
 				/>
