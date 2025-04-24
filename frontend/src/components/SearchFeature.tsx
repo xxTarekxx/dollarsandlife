@@ -14,25 +14,25 @@ interface Post {
 // Props expected by this component
 interface SearchFeatureProps {
 	isOpen: boolean;
-	onClose: () => void; // Callback to tell the parent NavBar to close the search
+	onClose: () => void;
 }
 
 const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 	// --- State specific to Search ---
 	const [searchQuery, setSearchQuery] = useState("");
-	const [searchResults, setSearchResults] = useState<Post[]>([]); // All fetched posts
-	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]); // Posts matching query
-	const [searchDataLoaded, setSearchDataLoaded] = useState(false); // Data fetch status
-	const [isLoadingSearch, setIsLoadingSearch] = useState(false); // Fetch in progress
+	const [searchResults, setSearchResults] = useState<Post[]>([]);
+	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+	const [searchDataLoaded, setSearchDataLoaded] = useState(false);
+	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
 	// --- Refs and Hooks ---
-	const searchRef = useRef<HTMLDivElement>(null); // Ref for the container div
-	const inputRef = useRef<HTMLInputElement>(null); // Ref for the input field
+	const searchRef = useRef<HTMLDivElement>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
 	const navigate = useNavigate();
 
 	// --- Data Fetching Logic ---
 	const loadSearchData = useCallback(async () => {
-		if (searchDataLoaded || isLoadingSearch) return; // Prevent redundant fetches
+		if (searchDataLoaded || isLoadingSearch) return;
 
 		setIsLoadingSearch(true);
 
@@ -78,13 +78,11 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 	// --- Effect to Load Data and Focus Input ---
 	useEffect(() => {
 		if (isOpen && !searchDataLoaded) {
-			loadSearchData(); // Fetch data when search becomes open
+			loadSearchData();
 		}
-		// Focus the input field when the search bar opens
 		if (isOpen && inputRef.current) {
-			// Use a slight delay to ensure the element is rendered and visible
-			const timer = setTimeout(() => inputRef.current?.focus(), 50); // 50ms delay
-			return () => clearTimeout(timer); // Cleanup timeout on unmount or if isOpen changes
+			const timer = setTimeout(() => inputRef.current?.focus(), 50);
+			return () => clearTimeout(timer);
 		}
 	}, [isOpen, searchDataLoaded, loadSearchData]);
 
@@ -95,19 +93,17 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 			return;
 		}
 		if (searchDataLoaded) {
-			// Only filter if data is available
 			const lowerCaseQuery = searchQuery.toLowerCase();
 			const filtered = searchResults.filter((post) =>
 				post.headline.toLowerCase().includes(lowerCaseQuery),
 			);
 			setFilteredPosts(filtered);
 		}
-	}, [searchQuery, searchResults, searchDataLoaded]); // Depend on query, results, and loaded status
+	}, [searchQuery, searchResults, searchDataLoaded]);
 
 	// --- Effect for Handling Clicks Outside ---
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			// If the click is outside the searchRef container, call onClose
 			if (
 				searchRef.current &&
 				!searchRef.current.contains(event.target as Node)
@@ -116,22 +112,19 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 			}
 		};
 
-		// Add listener only when the search component is open
 		if (isOpen) {
 			document.addEventListener("mousedown", handleClickOutside);
 		}
 
-		// Cleanup listener when component unmounts or isOpen becomes false
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
-	}, [isOpen, onClose]); // Depend on isOpen and the onClose callback
-
+	}, [isOpen, onClose]);
 	// --- Handler for Clicking a Suggestion ---
 	const handlePostClick = useCallback(
 		(post: Post) => {
-			onClose(); // Close the search bar via the callback
-			setSearchQuery(""); // Reset internal state
+			onClose();
+			setSearchQuery("");
 			setFilteredPosts([]);
 
 			// Map JSON file names to specific routes
@@ -150,29 +143,27 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 				navigate(targetRoute); // Navigate to the specific post route
 			} else {
 				console.warn(`No route defined for jsonFile: ${post.jsonFile}`);
-				// Optionally add fallback navigation here if needed
 			}
 		},
-		[navigate, onClose], // Include navigate and onClose in dependencies
+		[navigate, onClose],
 	);
 
 	// --- Render the Search UI ---
 	return (
 		<div
-			ref={searchRef} // Attach ref to the container
-			className={`search-bar-container ${isOpen ? "open" : "closed"}`} // Control visibility via className
+			ref={searchRef}
+			className={`search-bar-container ${isOpen ? "open" : "closed"}`}
 		>
 			<input
-				ref={inputRef} // Attach ref to the input for focusing
+				ref={inputRef}
 				type='text'
 				placeholder={isLoadingSearch ? "Loading..." : "Search posts..."}
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
 				className='search-bar'
 				aria-label='Search posts'
-				disabled={isLoadingSearch} // Disable input while fetching data
+				disabled={isLoadingSearch}
 			/>
-			{/* Show suggestions only if loaded, not loading, and results exist */}
 			{searchDataLoaded && !isLoadingSearch && filteredPosts.length > 0 && (
 				<ul className='suggestions-list'>
 					{filteredPosts.map((post) => (
@@ -200,5 +191,4 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 	);
 };
 
-// Use memo to prevent unnecessary re-renders if props haven't changed
 export default memo(SearchFeature);

@@ -6,7 +6,6 @@ const ScrollToTop: React.FC = () => {
 	const navigationType = useNavigationType();
 
 	useEffect(() => {
-		// Don't scroll to top when using BACK/FORWARD (POP)
 		if (navigationType !== "POP") {
 			window.scrollTo(0, 0);
 		}

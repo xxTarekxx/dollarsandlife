@@ -15,7 +15,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["jest"],
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src", "sitemap-generator/generate-sitemap.ts", "src/setupTests.ts"]

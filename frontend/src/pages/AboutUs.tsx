@@ -18,7 +18,6 @@ const AboutUs: React.FC = () => {
 
 			<h1 className='title-heading'>About Dollars & Life</h1>
 
-			{/* Intro Section */}
 			<section className='about-intro'>
 				<img
 					src='/images/profile-image.webp'
@@ -41,7 +40,6 @@ const AboutUs: React.FC = () => {
 				</div>
 			</section>
 
-			{/* Story Section */}
 			<section className='about-body'>
 				<h2>Why I Started This Blog</h2>
 				<p>
@@ -58,7 +56,6 @@ const AboutUs: React.FC = () => {
 				</p>
 			</section>
 
-			{/* Mission Card */}
 			<section className='about-mission-card'>
 				<h3>What This Site Is Really About</h3>
 				<p>
@@ -69,7 +66,6 @@ const AboutUs: React.FC = () => {
 				</p>
 			</section>
 
-			{/* Technical Background Section */}
 			<section className='about-tech-card'>
 				<h3>How I Built This Site</h3>
 				<p>
@@ -100,7 +96,6 @@ const AboutUs: React.FC = () => {
 				</p>
 			</section>
 
-			{/* Connect Section */}
 			<section className='about-connect'>
 				<p>
 					Want to connect or explore how I built this further? You can reach me

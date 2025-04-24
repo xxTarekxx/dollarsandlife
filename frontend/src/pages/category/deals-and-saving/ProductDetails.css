@@ -1,12 +1,8 @@
-/* ProductDetails.css - Corresponds to ProductDetails.tsx using pdf- classes */
-
-/* --- Container --- */
 .pdf-container {
     max-width: 1100px;
     margin: 2rem auto;
     padding: 1rem;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    /* Common system fonts */
 }
 
 /* --- Loading / Error States --- */
@@ -56,7 +52,7 @@
 .pdf-card {
     display: grid;
     grid-template-columns: 1fr;
-    /* Default 1 column */
+
     gap: 1.5rem;
     background-color: #ffffff;
     border-radius: 8px;
@@ -80,8 +76,7 @@
     padding: 1.5rem;
     background-color: #ffffff;
     min-height: 300px;
-    /* Add border for separation on larger screens if needed */
-    /* @media (min-width: 768px) { border-right: 1px solid #eee; } */
+
 }
 
 .pdf-image {
@@ -115,11 +110,8 @@
 
 
 
-/* @media (min-width: 768px) {
-    .pdf-info-section {
-        padding: 2rem;
-    }
-} */
+
+
 
 /* --- Header --- */
 .pdf-header {
@@ -147,7 +139,6 @@
     line-height: 1.65;
     font-size: 0.95rem;
     flex-grow: 1;
-    /* Allows section to expand */
     overflow-wrap: break-word;
 }
 
@@ -179,7 +170,6 @@
     display: block;
     font-weight: 600;
     font-size: 1.10em;
-    /* margin: 1.5rem 0 0.7rem 0; */
     color: #000000;
 }
 
@@ -190,7 +180,6 @@
 }
 
 .pdf-description li {
-    /* margin-bottom: 0.5rem; */
     padding-left: 0;
 }
 
@@ -214,7 +203,6 @@
     display: flex;
     align-items: baseline;
     gap: 1rem;
-    /* margin: 1rem 0; */
     padding: 1rem 0;
     border-top: 1px solid #eee;
 }
@@ -250,7 +238,6 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
-    /* Space between star group and text */
     margin-bottom: 1rem;
     color: #777;
     font-size: 0.9rem;
@@ -261,9 +248,9 @@
     vertical-align: middle;
     margin-right: 1px;
     color: #ccc;
-    /* Default empty star color */
+
     position: relative;
-    /* Needed for potential pseudo-elements if using advanced half-star */
+
 }
 
 .pdf-star {
@@ -271,33 +258,32 @@
     vertical-align: middle;
     margin-right: 1px;
     color: #ccc;
-    /* Default empty */
 }
 
 .pdf-star-filled {
     color: #f39c12;
-    /* Gold/Yellow */
+
 }
 
 .pdf-star-half {
     display: inline-block;
     position: relative;
-    /* Needed for the pseudo-element */
+
     color: #ccc;
-    /* Background color (empty part) */
+
 }
 
 .pdf-star-half::before {
     content: '★';
-    /* The star character */
+
     position: absolute;
     left: 0;
     top: 0;
     width: 50%;
-    /* Fill half the width */
+
     overflow: hidden;
     color: #f39c12;
-    /* Filled color */
+
 }
 
 /* Simple half star */
@@ -309,7 +295,7 @@
     font-weight: bold;
     color: #555;
     margin-left: 0.35rem;
-    /* More space after stars */
+
 }
 
 .pdf-review-count {

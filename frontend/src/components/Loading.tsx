@@ -1,6 +1,6 @@
 // Loading.tsx
 import React from "react";
-import "./Loading.css"; // Optional: Add some basic styling
+import "./Loading.css";
 
 const Loading: React.FC = () => {
 	return (
