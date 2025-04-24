@@ -92,7 +92,7 @@ module.exports = (env, argv) => {
             new CopyPlugin({
                 patterns: [
                     { from: 'public/data', to: 'data' },
-                    { from: 'public/images', to: 'images' },
+                    { from: 'src/assets', to: 'images' },
                     { from: 'ads', to: 'ads' },
                     { from: '.htaccess', to: '' },
                     { from: 'ads.txt', to: 'ads.txt' },

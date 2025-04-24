@@ -2,9 +2,11 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "./Footer.css";
-import FacebookIcon from "../../public/images/favicon/facebook-icon.svg";
-import InstagramIcon from "../../public/images/favicon/instagram-icon.svg";
-import YoutubeIcon from "../../public/images/favicon/youtube-icon.svg";
+
+// Static SVG Imports (handled by Webpack asset loader)
+import FacebookIcon from "../assets/favicon/facebook-icon.svg";
+import InstagramIcon from "../assets/favicon/instagram-icon.svg";
+import YoutubeIcon from "../assets/favicon/youtube-icon.svg";
 
 const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();
@@ -33,6 +35,7 @@ const Footer: React.FC = () => {
 				{ to: "/contact-us", text: "Contact Us" },
 				{ to: "/terms-of-service", text: "Terms Of Service" },
 				{ to: "/privacy-policy", text: "Privacy Policy" },
+				{ to: "/about-us", text: "About Us" },
 			],
 		},
 	];
@@ -57,7 +60,6 @@ const Footer: React.FC = () => {
 
 	return (
 		<>
-			{/* Structured Data */}
 			<Helmet>
 				<script type='application/ld+json'>
 					{JSON.stringify({
@@ -81,7 +83,6 @@ const Footer: React.FC = () => {
 			</Helmet>
 
 			<footer className='footer-container'>
-				{/* Social Media */}
 				<div className='social-container'>
 					{socialLinks.map(({ href, icon, alt }, idx) => (
 						<a
@@ -97,7 +98,6 @@ const Footer: React.FC = () => {
 					))}
 				</div>
 
-				{/* Footer Columns */}
 				<div className='main-footer-container'>
 					{footerColumns.map((column, idx) => (
 						<div className='column' key={idx}>
@@ -111,7 +111,6 @@ const Footer: React.FC = () => {
 					))}
 				</div>
 
-				{/* Disclosure */}
 				<div className='disclosure-statment'>
 					<p>
 						This site contains affiliate links, and we may earn a commission if
@@ -124,7 +123,6 @@ const Footer: React.FC = () => {
 					</p>
 				</div>
 
-				{/* Copyright */}
 				<div className='copyright'>
 					© {currentYear} All Rights Reserved Texas Connect LLC <br />
 					Developed And Designed By{" "}

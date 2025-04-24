@@ -1,14 +1,14 @@
 import React from "react";
-import "./SentryPCLanding.css"; // Ensure CSS is imported
+import "./SentryPCLanding.css";
 import { Helmet } from "react-helmet-async";
-import SentryLogo from "../../../public/images/sentrypc/sentrypc-logo.webp"; // Adjust path if needed
+import SentryLogo from "../../assets/sentrypc/sentrypc-logo.webp";
 
 interface Plan {
 	name: string;
 	price: string;
 	features: string[];
 	cta: string;
-	isBestSeller?: boolean; // Kept in interface, but not used for className anymore
+	isBestSeller?: boolean;
 }
 
 const SentryPCLanding: React.FC = () => {
@@ -38,7 +38,7 @@ const SentryPCLanding: React.FC = () => {
 				"$29.90 per license",
 			],
 			cta: "Get Business 50",
-			isBestSeller: true, // Data remains, but not used for styling
+			isBestSeller: true,
 		},
 		{
 			name: "Business 100",
@@ -89,6 +89,14 @@ const SentryPCLanding: React.FC = () => {
 		},
 	];
 
+	const handleAffiliateClick = () => {
+		if (window.gtag) {
+			window.gtag("event", "conversion", {
+				send_to: "AW-16613104907/nkKZCJXDsaYaEIu63_E9",
+			});
+		}
+	};
+
 	return (
 		<div className='sentrypc-container'>
 			<Helmet>
@@ -96,7 +104,6 @@ const SentryPCLanding: React.FC = () => {
 				<meta name='robots' content='noindex' />
 			</Helmet>
 
-			{/* --- START: UNCHANGED SECTION --- */}
 			<section className='hero'>
 				<h1>
 					Unlock Peak Productivity & Security with Effortless Employee
@@ -113,11 +120,8 @@ const SentryPCLanding: React.FC = () => {
 					<span>🔔 Instant Activity Alerts</span>
 				</div>
 			</section>
-			{/* --- END: UNCHANGED SECTION --- */}
 
-			{/* --- START: MODIFIED PRICING SECTION --- */}
 			<section className='pricing-table'>
-				{/* Logo wrapper is part of the original structure */}
 				<section className='sentrypc-logo-wrapper'>
 					<img
 						src={SentryLogo}
@@ -128,12 +132,10 @@ const SentryPCLanding: React.FC = () => {
 				<h2>Flexible Plans Designed for Your Business Growth</h2>
 				<div className='pricing-cards'>
 					{pricingPlans.map((plan, index) => (
-						// *** REPLACED OLD .plan-card STRUCTURE WITH NEW .card STRUCTURE ***
 						<div key={index} className='card'>
 							<div className='card__border'></div>
 							<div className='card_title__container'>
 								<h3 className='card_title'>{plan.name}</h3>
-								{/* Use card_paragraph for price, consistent with new design */}
 								<p className='card_paragraph'>{plan.price}</p>
 							</div>
 							<hr className='line' />
@@ -158,23 +160,20 @@ const SentryPCLanding: React.FC = () => {
 									</li>
 								))}
 							</ul>
-							{/* Use new button class and correct link */}
 							<a
 								href={trackingLink}
 								target='_blank'
 								rel='noopener noreferrer'
 								className='button'
+								onClick={handleAffiliateClick}
 							>
 								{plan.cta}
 							</a>
 						</div>
-						// *** END OF REPLACEMENT ***
 					))}
 				</div>
 			</section>
-			{/* --- END: MODIFIED PRICING SECTION --- */}
 
-			{/* --- START: UNCHANGED SECTIONS --- */}
 			<section className='intro'>
 				<h2>
 					SentryPC: Your All-in-One Solution for Enhanced Team Performance &
@@ -183,19 +182,17 @@ const SentryPCLanding: React.FC = () => {
 				<p>
 					Trusted by businesses of all sizes, SentryPC provides the insights you
 					need to foster a productive work environment, identify potential
-					risks, and protect your valuable company data. From small teams to
-					large enterprises, gain the power to monitor, manage, and secure your
-					digital workspace effectively.
+					risks, and protect your valuable company data.
 				</p>
 			</section>
 
 			<section className='features'>
 				<h2>Key Benefits of Choosing SentryPC</h2>
 				<ul>
-					<li>☁️ Access Your Dashboard From Anywhere, Anytime</li>
+					<li>📁 Access Your Dashboard From Anywhere, Anytime</li>
 					<li>⏱️ Monitor Activity in Real-Time for Immediate Insights</li>
-					<li>💻 Centrally Manage Multiple Devices with Ease</li>
-					<li>🤫 Operate Discreetly Without Disrupting Workflow</li>
+					<li>🖥️ Centrally Manage Multiple Devices with Ease</li>
+					<li>😫 Operate Discreetly Without Disrupting Workflow</li>
 					<li>🛡️ Control Access with Content Filtering & App Blocking</li>
 					<li>📸 Capture and Store Screenshots for Detailed Review</li>
 					<li>🚨 Receive Instant Alerts for Critical Activities</li>
@@ -208,11 +205,9 @@ const SentryPCLanding: React.FC = () => {
 			<section className='compare'>
 				<h2>Why SentryPC is a Smarter Alternative to Teramind & Controlio</h2>
 				<p>
-					Looking for powerful employee monitoring software without the steep
-					price tag or complexity? <strong>SentryPC</strong> delivers all the
-					core features of top tools like <strong>Teramind</strong> and{" "}
-					<strong>Controlio</strong>—such as activity tracking, screen capture,
-					and app blocking—at a fraction of the cost.
+					SentryPC delivers all the core features of top tools like Teramind and
+					Controlio—such as activity tracking, screen capture, and app
+					blocking—at a fraction of the cost.
 				</p>
 				<ul>
 					<li>Flat-rate pricing with no hidden fees or per-user add-ons</li>
@@ -224,11 +219,6 @@ const SentryPCLanding: React.FC = () => {
 						Controlio plans
 					</li>
 				</ul>
-				<p>
-					Whether you're switching from another platform or starting fresh,
-					SentryPC offers the flexibility and affordability your team
-					needs—without sacrificing functionality.
-				</p>
 			</section>
 
 			<section className='ideal-for'>
@@ -246,15 +236,14 @@ const SentryPCLanding: React.FC = () => {
 				<h2>Scalable Solutions to Match Your Evolving Needs</h2>
 				<p>
 					SentryPC offers cost-effective annual plans that grow with your
-					organization. Whether you're just starting or managing a large team,
-					find the perfect plan to gain comprehensive employee monitoring
-					capabilities.
+					organization.
 				</p>
 				<a
 					href={trackingLink}
 					target='_blank'
 					rel='noopener noreferrer'
-					className='card-cta-button' // This button remains styled by .card-cta-button
+					className='card-cta-button'
+					onClick={handleAffiliateClick}
 				>
 					Explore Plans & Start Monitoring Today →
 				</a>
@@ -265,18 +254,15 @@ const SentryPCLanding: React.FC = () => {
 				<ul>
 					<li>
 						<strong>Is SentryPC easy to set up?</strong> Absolutely! A quick,
-						one-time installation gets you started, with all management done
-						remotely.
+						one-time installation gets you started.
 					</li>
 					<li>
 						<strong>Is employee monitoring legally sound?</strong> Yes, as long
-						as it's implemented on company-owned or managed devices with proper
-						policies in place.
+						as it's implemented on company-owned or managed devices.
 					</li>
 					<li>
 						<strong>Can employees detect SentryPC?</strong> You have the
-						flexibility to run SentryPC in a discreet mode, ensuring seamless
-						operation.
+						flexibility to run SentryPC in a discreet mode.
 					</li>
 				</ul>
 			</section>
@@ -287,7 +273,8 @@ const SentryPCLanding: React.FC = () => {
 					href={trackingLink}
 					target='_blank'
 					rel='noopener noreferrer'
-					className='card-cta-button' // This button remains styled by .card-cta-button
+					className='card-cta-button'
+					onClick={handleAffiliateClick}
 				>
 					Begin Your SentryPC Journey Today
 				</a>
@@ -297,11 +284,9 @@ const SentryPCLanding: React.FC = () => {
 				<p className='disclaimer-text'>
 					<strong>Disclosure:</strong> We are an affiliate partner of SentryPC.
 					If you make a purchase through the links on this page, we may earn a
-					commission—at no extra cost to you. This helps us keep our content
-					free and unbiased.
+					commission—at no extra cost to you.
 				</p>
 			</section>
-			{/* --- END: UNCHANGED SECTIONS --- */}
 		</div>
 	);
 };

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Route, Routes } from "react-router-dom";
 import BlogPostCard from "../../../components/BlogPostCard";
-import BlogPostContent from "../../../components/BlogPostContent";
 import PaginationContainer from "../../../components/PaginationContainer";
 import "../extra-income/CommonStyles.css";
 
@@ -63,7 +61,7 @@ const BreakingNews: React.FC = () => {
 
 	return (
 		<div className='page-container'>
-			<Helmet>
+			<Helmet prioritizeSeoTags>
 				<title>Breaking News - Latest Financial and Economic Updates</title>
 				<meta
 					name='description'
@@ -75,9 +73,7 @@ const BreakingNews: React.FC = () => {
 				/>
 			</Helmet>
 
-			<h1 className='title-heading'>
-				<strong>Breaking</strong> News
-			</h1>
+			<h1 className='title-heading'>Breaking News</h1>
 
 			<div className='content-wrapper'>
 				{currentPosts.map((post) => (
@@ -90,7 +86,6 @@ const BreakingNews: React.FC = () => {
 						author={{ name: post.author.name }}
 						datePublished={post.datePublished}
 						dateModified={post.dateModified}
-						canonicalUrl={`https://www.dollarsandlife.com/breaking-news/${post.id}`}
 						linkTo={`/breaking-news/${post.id}`}
 					/>
 				))}

@@ -1,0 +1,116 @@
+.about-us {
+    padding-top: 1rem;
+}
+
+/* Intro: Image + Text Side by Side */
+.about-intro {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.about-profile-image {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.about-intro-text {
+    max-width: 600px;
+}
+
+/* Main Body Text Section */
+.about-body {
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1rem;
+    text-align: left;
+}
+
+.about-body h2 {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/* Mission Card */
+.about-mission-card {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #fff9e6;
+    border-left: 4px solid #6000ce;
+    border-radius: 8px;
+}
+
+.about-mission-card h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #6000ce;
+}
+
+.about-mission-card p {
+    margin-bottom: 0;
+}
+
+.about-tech-card {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #fff9e6;
+    border-left: 4px solid #6000ce;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.about-tech-card h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #6000ce;
+    text-align: center;
+}
+
+.about-tech-card p {
+    margin-bottom: 1rem;
+    font-size: 0.98rem;
+    line-height: 1.6;
+}
+
+
+/* Connect Section */
+.about-connect {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.about-connect a {
+    color: #0073b1;
+    /* LinkedIn blue */
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.about-connect a:hover {
+    color: #004182;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .about-intro {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-body,
+    .about-mission-card,
+    .about-connect {
+        padding: 0 1rem;
+    }
+}

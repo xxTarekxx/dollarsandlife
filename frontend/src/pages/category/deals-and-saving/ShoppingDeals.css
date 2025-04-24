@@ -325,14 +325,3 @@
     min-height: 90px;
     /* Ensure space for ad */
 }
-
-/* --- Responsive Grid --- */
-@media (max-width: 650px) {
-    .sd-products-grid {
-        /* Switch to 1 column on smaller screens if auto-fill isn't enough */
-        /* grid-template-columns: 1fr; */
-    }
-
-    /* Adjust card details padding if needed */
-    /* .sd-product-details { padding: 10px; } */
-}

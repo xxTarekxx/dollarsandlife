@@ -110,19 +110,13 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 		fetchPost();
 	}, [fetchPost]);
 
-	useEffect(() => {
-		if (post) {
-			const canonical = post.canonicalUrl;
-			if (canonical) {
-				const link =
-					document.querySelector('link[rel="canonical"]') ||
-					document.createElement("link");
-				link.setAttribute("rel", "canonical");
-				link.setAttribute("href", canonical);
+	const cleanDescription = useMemo(() => {
+		if (!post?.content?.[0]?.text)
+			return "Stay updated with the latest financial and economic insights.";
 
-				document.head.appendChild(link);
-			}
-		}
+		const raw = post.content[0].text;
+		const stripped = raw.replace(/<\/?[^>]+(>|$)/g, ""); // Strip HTML
+		return stripped.slice(0, 155) + (stripped.length > 155 ? "..." : "");
 	}, [post]);
 
 	const postContentMemo = useMemo(() => {
@@ -264,7 +258,14 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 
 	return (
 		<div className='page-container'>
-			<Helmet>{/* Canonical tag will be added via useEffect */}</Helmet>
+			<Helmet>
+				<title>{post.headline}</title>
+				<meta name='description' content={cleanDescription} />
+				<link
+					rel='canonical'
+					href={post.canonicalUrl || window.location.href}
+				/>
+			</Helmet>
 			{postContentMemo}
 		</div>
 	);

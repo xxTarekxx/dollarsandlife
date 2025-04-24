@@ -13,7 +13,7 @@ interface Product {
 	discountPercentage?: string;
 	brand?: { name: string };
 	purchaseUrl: string;
-	offers?: { availability?: string };
+	offers?: { availability?: string; displayShippingInfo?: string };
 	specialOffer?: string;
 	aggregateRating?: {
 		ratingValue: string;
@@ -136,6 +136,21 @@ const ProductDetails: React.FC = () => {
 					</header>
 
 					<div className='pdf-description'>{parse(product.description)}</div>
+
+					{product.offers?.displayShippingInfo?.includes(
+						"Free Prime Delivery",
+					) && (
+						<p className='pdf-shipping-info'>
+							<strong>Free Prime Delivery</strong> —{" "}
+							<a
+								href='https://www.amazon.com/gp/help/customer/display.html?nodeId=GZXW7X6AKTHNUP6H'
+								target='_blank'
+								rel='noopener noreferrer'
+							>
+								Try Amazon Prime Free
+							</a>
+						</p>
+					)}
 
 					<div className='pdf-price-stock-section'>
 						<span className='pdf-price'>{product.currentPrice}</span>

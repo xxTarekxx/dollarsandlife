@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./BlogPostCard.css";
 
@@ -11,7 +11,7 @@ interface BlogPostCardProps {
 	datePublished: string;
 	dateModified?: string;
 	onClick?: () => void;
-	canonicalUrl?: string;
+	canonicalUrl?: string; // ✅ Add this line
 	linkTo?: string;
 }
 
@@ -20,8 +20,6 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	image,
 	content,
 	datePublished,
-	onClick,
-	canonicalUrl,
 	linkTo = "#",
 }) => {
 	const publishedDate = new Date(datePublished);
@@ -35,18 +33,8 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 		tmp.innerHTML = html;
 		return tmp.textContent || tmp.innerText || "";
 	};
-	const textSnippet = stripHtml(content);
 
-	useEffect(() => {
-		if (canonicalUrl) {
-			const link =
-				document.querySelector('link[rel="canonical"]') ||
-				document.createElement("link");
-			link.setAttribute("rel", "canonical");
-			link.setAttribute("href", canonicalUrl);
-			document.head.appendChild(link);
-		}
-	}, [canonicalUrl]);
+	const textSnippet = stripHtml(content);
 
 	return (
 		<Link
@@ -68,7 +56,6 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 						<span className='month'>{month}</span>
 					</div>
 				</div>
-
 				<figcaption className='card-content'>
 					<h2 className='card-title'>{headline}</h2>
 				</figcaption>
