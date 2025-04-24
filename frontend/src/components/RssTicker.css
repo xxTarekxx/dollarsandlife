@@ -2,10 +2,8 @@
 .rss-ticker {
     width: 100%;
     background: linear-gradient(90deg, #2a5298, #4c1e72);
-    /* Dark blue gradient */
     color: white;
     overflow: hidden;
-    /* padding: 10px 0; */
     font-size: 16px;
     font-weight: 500;
     position: relative;
@@ -27,7 +25,6 @@
     display: flex;
     white-space: nowrap;
     animation: scrollTicker 60s linear infinite;
-    /* Continuous loop */
 }
 
 /* Duplicate content to create a seamless loop */
@@ -35,7 +32,6 @@
     content: attr(data-content);
     white-space: nowrap;
     padding-left: 50px;
-    /* Adjust spacing */
 }
 
 /* Infinite scrolling animation */
@@ -62,7 +58,6 @@
 /* Hover effect */
 .rss-ticker-content a:hover {
     color: #ffcc00;
-    /* Gold color for contrast */
     text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
 }
 

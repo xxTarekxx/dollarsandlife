@@ -31,11 +31,8 @@
 
     .postings-container .adsbygoogle {
         width: 100% !important;
-        /* take up full width of container */
         height: auto !important;
-        /* height adjusts automatically */
         max-width: 300px !important;
-        /* but do not exceed 300px */
     }
 }
 
@@ -46,7 +43,6 @@
     text-align: center !important;
     width: 100%;
     max-width: 728px;
-    /* Do not exceed 728px */
     height: auto;
     text-align: center;
 }
@@ -60,11 +56,8 @@
 
     .postings-container .adsbygoogle-banner {
         width: 100% !important;
-        /* Forces it to take full width */
         max-width: 100% !important;
-        /* Prevents it from exceeding screen size */
         height: auto !important;
-        /* Keeps aspect ratio */
     }
 }
 
@@ -77,9 +70,7 @@
     .postings-container {
 
         max-width: 100%;
-        /* Ensure it uses full width on smaller screens */
         width: auto;
-        /* Full width for mobile */
         height: auto;
     }
 }
@@ -133,9 +124,7 @@
 .postings-bottom-container img {
     display: flex;
     flex-direction: column;
-    /* width: 100%; */
     align-items: center;
-    /* margin: 20px; */
 }
 
 @media (max-width: 806px) {

@@ -121,6 +121,7 @@ const NavBar: React.FC = () => {
 						{ to: "/start-a-blog", text: "Start A Blog" },
 						{ to: "/breaking-news", text: "Breaking News" },
 						{ to: "/financial-calculators", text: "Financial Calculators" },
+						{ to: "/about-us", text: "About Us" },
 					].map((link, i) => (
 						<Link
 							key={i}

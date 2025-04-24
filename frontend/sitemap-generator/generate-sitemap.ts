@@ -118,8 +118,8 @@ async function generateSitemap() {
         // Extract static routes and add RSS feed
         const staticRoutes = [
             ...extractRoutesFromApp(),
-            '/ads.txt',  // Ensure ads.txt is indexed
-            '/rss.xml',   // Direct RSS feed URL
+            '/ads.txt',  
+            '/rss.xml',   
         ];
 
         staticRoutes.forEach(route => {

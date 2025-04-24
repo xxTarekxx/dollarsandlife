@@ -4,39 +4,38 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Center content horizontally */
+
     padding: 20px 15px;
-    /* Consistent padding */
+
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     max-width: 1400px;
-    /* Limit overall page width */
+
     margin: 0 auto;
-    /* Center page container */
+
     box-sizing: border-box;
 }
 
 .sd-page-title {
     font-size: clamp(1.8rem, 5vw, 2.5rem);
-    /* Responsive font size */
+
     color: #6000ce;
-    /* Theme purple */
+
     margin-bottom: 1.5rem;
     text-align: center;
     font-family: 'Playfair Display', serif;
-    /* Match heading font */
+
 }
 
 /* --- Optional Banner --- */
 .sd-top-banner-container {
     width: 100%;
     max-width: 728px;
-    /* Example max width */
+
     margin: 0 auto 2rem auto;
-    /* Center banner */
+
 }
 
 .sd-top-banner-container img {
-    /* Basic responsive banner image */
     display: block;
     width: 100%;
     height: auto;
@@ -62,34 +61,34 @@
 /* --- Products Grid --- */
 .sd-products-grid {
     display: grid;
-    /* More flexible columns: min 300px, max 1fr */
+
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
-    /* Slightly reduced gap */
+
     width: 100%;
     max-width: 1300px;
-    /* Max width for the grid itself */
+
     margin: 1rem 0 2rem 0;
-    /* Vertical margins */
+
 }
 
 /* --- Product Card --- */
 .sd-product-card {
     background: #fff;
     border-radius: 8px;
-    /* Slightly less rounded */
+
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    /* Softer shadow */
+
     overflow: hidden;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     display: flex;
     flex-direction: column;
-    /* No fixed max-width, let the grid handle sizing */
+
 }
 
 .sd-product-card:hover {
     transform: translateY(-5px);
-    /* Slightly more lift */
+
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
@@ -98,15 +97,15 @@
     display: block;
     width: 100%;
     aspect-ratio: 1 / 1;
-    /* Force square aspect ratio */
+
     object-fit: contain;
-    /* Use contain to show whole image */
+
     background-color: #f9f9f9;
-    /* Background if image is transparent/smaller */
+
     border-bottom: 1px solid #eee;
-    /* Separator */
+
     padding: 10px;
-    /* Small padding within image area */
+
     box-sizing: border-box;
 }
 
@@ -116,41 +115,35 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    /* Allows details to fill card height */
+
     text-align: left;
-    /* Align text left */
+
 }
 
 /* Card Title */
 .sd-product-title {
     font-size: 1.1rem;
-    /* Slightly smaller */
     font-weight: 600;
     color: #6000ce;
     margin: 0 0 8px 0;
     line-height: 1.3;
     font-family: inherit;
-    /* Use card font */
-    /* Prevent long titles breaking layout */
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    /* Limit to 2 lines */
     -webkit-box-orient: vertical;
-
-
+    line-clamp: 2;
+    box-orient: vertical;
 }
 
 .sd-product-title a {
     color: inherit;
-    /* Inherit color from h2 */
     text-decoration: none;
 }
 
 .sd-product-title a:hover {
     color: #6000ce;
-    /* Theme purple on hover */
     text-decoration: underline;
 }
 
@@ -161,15 +154,14 @@
     color: #666;
     margin: 0 0 12px 0;
     line-height: 1.5;
-    /* Limit lines for snippet */
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    /* Limit to 3 lines */
     -webkit-box-orient: vertical;
+    line-clamp: 3;
+    box-orient: vertical;
     flex-grow: 1;
-    /* Push price/rating/button down */
 }
 
 /* Card Price Section */
@@ -179,20 +171,19 @@
     align-items: baseline;
     gap: 8px;
     flex-wrap: wrap;
-    /* Allow wrapping */
+
 }
 
 .sd-current-price {
     font-size: 1.3rem;
     font-weight: bold;
     color: #1a936f;
-    /* Theme green */
+
 }
 
 .sd-unavailable-price {
     font-size: 0.8rem;
     color: #c0392b;
-    /* deep red */
     font-style: italic;
     font-weight: 500;
 }
@@ -200,7 +191,6 @@
 .sd-discount-percentage {
     font-size: 0.8rem;
     color: #e74c3c;
-    /* Red */
     background-color: rgba(231, 76, 60, 0.1);
     padding: 2px 6px;
     border-radius: 3px;
@@ -210,7 +200,6 @@
 .sd-special-offer-badge {
     font-size: 0.8rem;
     color: #c85a04;
-    /* Orange/brown */
     background-color: #fff8e1;
     padding: 2px 6px;
     border-radius: 3px;
@@ -227,15 +216,12 @@
     flex-wrap: wrap;
     gap: 5px;
     margin: 0 0 12px 0;
-    /* Consistent bottom margin */
     color: #777;
     font-size: 0.85rem;
-    /* Slightly smaller */
 }
 
 .sd-stars {
     font-size: 1rem;
-    /* Star size on card */
     line-height: 1;
     display: inline-block;
     white-space: nowrap;
@@ -286,20 +272,17 @@
 /* Card Action Button */
 .sd-product-actions {
     margin-top: auto;
-    /* Push button to bottom */
+
     padding-top: 12px;
-    /* Space above button */
+
     border-top: 1px solid #f0f0f0;
-    /* Subtle separator */
+
 }
 
 .sd-view-details-button {
     display: block;
-    /* Make button full width */
     padding: 8px 15px;
-    /* Button padding */
     background-color: #007bff;
-    /* Blue */
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -312,7 +295,6 @@
 .sd-view-details-button:hover {
     background-color: #6000ce;
     color: white;
-    /* Darker blue */
     transform: translateY(-1px);
 }
 
@@ -323,5 +305,5 @@
     width: 100%;
     margin: 2rem 0;
     min-height: 90px;
-    /* Ensure space for ad */
+
 }

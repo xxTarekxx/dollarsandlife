@@ -73,7 +73,7 @@ const ContactUs: React.FC = () => {
 			if (existingScript && document.body.contains(existingScript)) {
 				document.body.removeChild(existingScript);
 			}
-			setIsRecaptchaScriptLoaded(false); // Reset state on unmount
+			setIsRecaptchaScriptLoaded(false);
 		};
 	}, [recaptchaSiteKey]);
 
@@ -104,7 +104,7 @@ const ContactUs: React.FC = () => {
 			const sanitizedValue = sanitizeInput(value);
 			setFormData((prev) => ({ ...prev, [name]: sanitizedValue }));
 		},
-		[sanitizeInput], // Include sanitizeInput if its definition could change (it doesn't here, but good practice)
+		[sanitizeInput],
 	);
 
 	const handleSubmit = async (e: React.FormEvent) => {

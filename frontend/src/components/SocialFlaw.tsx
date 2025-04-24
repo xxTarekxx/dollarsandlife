@@ -74,7 +74,7 @@ const SocialFlaw: React.FC = () => {
 					content='Stay connected with Dollars And Life on YouTube, Facebook, Twitter, and Instagram for the latest updates on personal finance and earning strategies.'
 				/>
 				<meta property='og:url' content='https://www.dollarsandlife.com/' />
-				{/* Structured Data for Social Media Links */}
+
 				<script type='application/ld+json'>{JSON.stringify(schemaData)}</script>
 			</Helmet>
 
