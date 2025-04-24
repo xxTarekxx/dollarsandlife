@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import "./HomePage.css";
 
 // Import images directly, if using Webpack's file-loader or similar
-import ShoppingDealsImg from "../../public/images/icons/img-dealsandsavings.webp";
-import ExtraIncomeImg from "../../public/images/icons/img-extraincome.webp";
-import StartAblogimg from "../../public/images/icons/img-startablog.webp";
+import ShoppingDealsImg from "../assets/icons/img-dealsandsavings.webp";
+import ExtraIncomeImg from "../assets/icons/img-extraincome.webp";
+import StartAblogimg from "../assets/icons/img-startablog.webp";
 
 // Define the LinkBox interface for type safety
 interface LinkBoxData {
@@ -123,24 +123,6 @@ const HomePage: React.FC = () => {
 					and guiding you through the process of starting your own blog.
 				</p>
 			</section>
-
-			{/* <div className='top-banner-container'>
-				<a
-					href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
-					target='_blank'
-					rel='noopener noreferrer'
-					className='TopBanner'
-				>
-					<img
-						src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
-						alt='Lyca Mobile Banner'
-						className='TopBannerImage'
-						width='730px'
-						height='90px'
-						loading='eager'
-					/>
-				</a>
-			</div> */}
 
 			<div className='home-main-links' aria-label='Main navigation links'>
 				{linkBoxes.map((linkBox, index) => (

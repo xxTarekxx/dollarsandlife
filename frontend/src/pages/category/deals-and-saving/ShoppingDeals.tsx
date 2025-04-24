@@ -24,7 +24,7 @@ interface Product {
 		url?: string;
 		availability?: string;
 		hasMerchantReturnPolicy?: string;
-		shippingDetails?: string;
+		displayShippingInfo?: string;
 	};
 	brand?: {
 		"@type"?: "Brand";
@@ -54,6 +54,7 @@ const ProductCard: React.FC<Product> = ({
 	specialOffer,
 	aggregateRating,
 	canonicalUrl,
+	offers,
 }) => {
 	const productSlug = `${id}-${headline
 		.toLowerCase()
@@ -101,6 +102,7 @@ const ProductCard: React.FC<Product> = ({
 					<Link to={canonicalUrl || "#"}>{headline}</Link>
 				</h2>
 				<p className='sd-product-description-snippet'>{descriptionSnippet}</p>
+
 				<div className='sd-product-price-section'>
 					{discountPercentage && (
 						<span className='sd-discount-percentage'>
@@ -119,9 +121,26 @@ const ProductCard: React.FC<Product> = ({
 							: "Currently Not Available"}
 					</span>
 				</div>
+
+				{/* ✅ Shipping Info */}
+				{offers?.displayShippingInfo &&
+					offers.displayShippingInfo.includes("Free Prime Delivery") && (
+						<p className='sd-shipping-info'>
+							<strong>Free Prime Delivery</strong> —{" "}
+							<a
+								href='https://www.amazon.com/gp/help/customer/display.html?nodeId=GZXW7X6AKTHNUP6H'
+								target='_blank'
+								rel='noopener noreferrer'
+							>
+								Try Amazon Prime Free
+							</a>
+						</p>
+					)}
+
 				{specialOffer && (
 					<p className='sd-special-offer-badge'>{specialOffer}</p>
 				)}
+
 				{aggregateRating && (
 					<div className='sd-product-rating'>
 						{aggregateRating.ratingValue && (
@@ -141,6 +160,7 @@ const ProductCard: React.FC<Product> = ({
 						)}
 					</div>
 				)}
+
 				<div className='sd-product-actions'>
 					<Link to={canonicalUrl || "#"} className='sd-view-details-button'>
 						View Details

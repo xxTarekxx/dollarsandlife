@@ -2,10 +2,10 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "./ExtraIncome.css";
-import Budgettingimg from "../../../../public/images/icons/img-budgetting.webp";
-import FreeLancerimg from "../../../../public//images/icons/img-freelancer.webp";
-import MoneyMakingAppsimg from "../../../../public//images/icons/img-moneymakingapps.webp";
-import RemoteJobimg from "../../../../public//images/icons/img-remotejobs.webp";
+import Budgettingimg from "../../../assets/icons/img-budgetting.webp";
+import FreeLancerimg from "../../../assets/icons/img-freelancer.webp";
+import MoneyMakingAppsimg from "../../../assets/icons/img-moneymakingapps.webp";
+import RemoteJobimg from "../../../assets/icons/img-remotejobs.webp";
 
 const ExtraIncome: React.FC = () => {
 	const linkBoxes = [

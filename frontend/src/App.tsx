@@ -52,6 +52,8 @@ const ProductDetails = lazy(
 const FinancialCalculators = lazy(
 	() => import("./components/calculators/FinancialCalculators"),
 );
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+
 const ContactUs = lazy(() => import("./components/ContactUs"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
@@ -241,6 +243,7 @@ const AppContent: React.FC = () => {
 							/>
 							<Route path='/return-policy' element={<ReturnPolicy />} />
 							<Route path='*' element={<NotFoundPage />} />
+							<Route path='/about-us' element={<AboutUs />} />
 						</Routes>
 					</Suspense>
 				</main>
