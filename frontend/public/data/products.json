@@ -53,6 +53,7 @@
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
 				"merchantReturnDays": 30
 			},
+			"displayShippingInfo": "Free Prime Delivery With Amazon Prime",
 			"shippingDetails": {
 				"@type": "OfferShippingDetails",
 				"shippingRate": {
@@ -64,8 +65,7 @@
 					"@type": "DefinedRegion",
 					"addressCountry": "US"
 				}
-			},
-			"displayShippingInfo": "Free Prime Delivery With Amazon Prime"
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -74,8 +74,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "109324"
-		}
+			"reviewCount": "109384"
+		},
+		"color": "N/A",
+		"size": "N/A",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -130,7 +134,19 @@
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
 				"merchantReturnDays": 30
 			},
-			"shippingDetails": "Free Prime Delivery <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>"
+			"displayShippingInfo": "Free Prime Delivery <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -139,8 +155,13 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2518"
-		}
+			"reviewCount": "2554"
+		},
+		"color": "N/A",
+		"size": "N/A",
+		"gender": "unisex",
+		"age_group": "adult",
+		"discountPercentage": ""
 	},
 	{
 		"@context": "https://schema.org",
@@ -195,7 +216,19 @@
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
 				"merchantReturnDays": 30
 			},
-			"shippingDetails": "Free Prime Delivery <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>"
+			"displayShippingInfo": "Free Prime Delivery <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -204,8 +237,13 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "172516"
-		}
+			"reviewCount": "172588"
+		},
+		"color": "N/A",
+		"size": "N/A",
+		"gender": "unisex",
+		"age_group": "adult",
+		"discountPercentage": ""
 	},
 	{
 		"@context": "https://schema.org",
@@ -219,8 +257,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/36-euhomy-fast-countertop-ice-maker-26lbs",
 		"canonicalUrl": "/shopping-deals/products/36-euhomy-fast-countertop-ice-maker-26lbs",
 		"purchaseUrl": "https://amzn.to/3GlyLhb",
-		"currentPrice": "$74.97",
-		"discountPercentage": "17%",
+		"currentPrice": "$89.99",
+		"discountPercentage": "",
 		"designer": {
 			"@type": "Organization",
 			"name": "EUHOMY",
@@ -257,14 +295,25 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3GlyLhb",
 			"availability": "https://schema.org/InStock",
-			"price": "74.97",
+			"price": "89.99",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
 				"merchantReturnDays": 30
 			},
-			"shippingDetails": "Free Prime Delivery <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>",
-			"priceValidUntil": "2025-12-31"
+			"displayShippingInfo": "Free Prime Delivery <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -274,10 +323,14 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "11872",
+			"reviewCount": "11891",
 			"bestRating": "5",
 			"worstRating": "1"
-		}
+		},
+		"color": "black",
+		"size": "One Size",
+		"gender": "N/A",
+		"age_group": "N/A"
 	},
 	{
 		"@context": "https://schema.org",
@@ -291,8 +344,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/35-crocs-kids-classic-clogs-lightweight-shoes",
 		"canonicalUrl": "/shopping-deals/products/35-crocs-kids-classic-clogs-lightweight-shoes",
 		"purchaseUrl": "https://amzn.to/3RvjRYe",
-		"currentPrice": "$19.98",
-		"discountPercentage": "20%",
+		"currentPrice": "$24.95",
+		"discountPercentage": "",
 		"designer": {
 			"@type": "Organization",
 			"name": "Crocs",
@@ -329,13 +382,25 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3RvjRYe",
 			"availability": "https://schema.org/InStock",
-			"price": "19.98",
+			"price": "24.95",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
 				"merchantReturnDays": 30
 			},
-			"shippingDetails": "Free Prime Delivery & Easy Returns <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>"
+			"displayShippingInfo": "Free Prime Delivery & Easy Returns <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -345,10 +410,14 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "188604",
+			"reviewCount": "188704",
 			"bestRating": "5",
 			"worstRating": "1"
-		}
+		},
+		"color": "Taffy Pink",
+		"size": "4 Toddler",
+		"gender": "female",
+		"age_group": "toddler"
 	},
 	{
 		"@context": "https://schema.org",
@@ -362,8 +431,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/34-crocs-classic-clogs-unisex-slide-on-shoes",
 		"canonicalUrl": "/shopping-deals/products/34-crocs-classic-clogs-unisex-slide-on-shoes",
 		"purchaseUrl": "https://amzn.to/3Y9tVdc",
-		"currentPrice": "$36.95",
-		"discountPercentage": "26%",
+		"currentPrice": "$39.95",
+		"discountPercentage": "20%",
 		"designer": {
 			"@type": "Organization",
 			"name": "Crocs",
@@ -380,7 +449,7 @@
 		},
 		"image": {
 			"@type": "ImageObject",
-			"url": "https://m.media-amazon.com/images/I/814W35fsrCL._AC_SX625_.jpg",
+			"url": "https://c.media-amazon.com/images/I/91O1eKG5e+L._AC_SY695_.jpg",
 			"caption": "Official Crocs Classic Clogs in Multiple Colors - Unisex Comfort Shoes"
 		},
 		"keywords": [
@@ -400,13 +469,25 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3Y9tVdc",
 			"availability": "https://schema.org/InStock",
-			"price": "36.95",
+			"price": "39.95",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
 				"merchantReturnDays": 30
 			},
-			"shippingDetails": "Free Prime Delivery & Returns <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>"
+			"displayShippingInfo": "Free Prime Delivery & Returns <a href='https://amzn.to/3RB9XnL' target='_blank'>Try Amazon Prime Free</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -416,10 +497,14 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "625875",
+			"reviewCount": "626039",
 			"bestRating": "5",
 			"worstRating": "1"
-		}
+		},
+		"color": "black",
+		"size": "10 Women, 8 Men",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -433,8 +518,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/33-carhartt-heavyweight-pocket-tee",
 		"canonicalUrl": "/shopping-deals/products/33-carhartt-heavyweight-pocket-tee",
 		"purchaseUrl": "https://amzn.to/4lVfm7g",
-		"currentPrice": "$14.99",
-		"discountPercentage": "25%",
+		"currentPrice": "$19.99",
+		"discountPercentage": "",
 		"designer": {
 			"@type": "Organization",
 			"name": "Carhartt"
@@ -473,8 +558,20 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\">Try Prime Free For 30 Days</a>",
-			"price": "14.99"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\">Try Prime Free For 30 Days</a>",
+			"price": "19.99",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -483,8 +580,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "152823"
-		}
+			"reviewCount": "152918"
+		},
+		"color": "black",
+		"size": "x-Large",
+		"gender": "male",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -538,8 +639,20 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
-			"price": "24.99"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"price": "24.99",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -548,8 +661,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1865"
-		}
+			"reviewCount": "1871"
+		},
+		"color": "N/A",
+		"size": "N/A",
+		"gender": "N/A",
+		"age_group": "N/A"
 	},
 	{
 		"@context": "https://schema.org",
@@ -603,8 +720,20 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
-			"price": "34.99"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"price": "34.99",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -613,8 +742,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26392"
-		}
+			"reviewCount": "26423"
+		},
+		"color": "Black Mesh",
+		"size": "One Size",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -640,7 +773,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"designer": {
 			"@type": "Organization",
@@ -677,8 +822,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40386"
-		}
+			"reviewCount": "40397"
+		},
+		"color": "N/A",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -704,7 +853,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"designer": {
 			"@type": "Organization",
@@ -748,7 +909,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
 			"reviewCount": "590"
-		}
+		},
+		"color": "Green",
+		"size": "N/A",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -806,7 +971,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -818,7 +995,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "5.0",
 			"reviewCount": "1"
-		}
+		},
+		"color": "N/A",
+		"size": "1 Bar",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -830,7 +1011,7 @@
 		"mainEntityOfPage": "/shopping-deals/products/2-cnp-honey-lip-butter",
 		"canonicalUrl": "/shopping-deals/products/2-cnp-honey-lip-butter",
 		"purchaseUrl": "https://amzn.to/3XGwVgO",
-		"currentPrice": "$17.90",
+		"currentPrice": "$17.88",
 		"discountPercentage": "",
 		"designer": {
 			"@type": "Organization",
@@ -861,7 +1042,7 @@
 		],
 		"offers": {
 			"@type": "Offer",
-			"price": "17.90",
+			"price": "17.88",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3XGwVgO",
 			"availability": "https://schema.org/InStock",
@@ -869,7 +1050,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -880,8 +1073,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2641"
-		}
+			"reviewCount": "2661"
+		},
+		"color": "Fruity",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -910,7 +1107,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"keywords": [
 			"Madagascar raffia sandals",
@@ -938,7 +1147,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
 			"reviewCount": "37"
-		}
+		},
+		"color": "Beige",
+		"size": "7",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -968,7 +1181,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"keywords": [
 			"invisible mineral SPF40",
@@ -995,8 +1220,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16795"
-		}
+			"reviewCount": "16806"
+		},
+		"color": "N/A",
+		"size": "N/A",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1050,13 +1279,29 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.1",
 			"reviewCount": "37"
-		}
+		},
+		"color": "Golden",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1114,7 +1359,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1127,7 +1384,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "Bleu Electrique Porosus Crocodile",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1172,28 +1433,43 @@
 			"Veepeak bestseller"
 		],
 		"discountPercentage": "9%",
-		"currentPrice": "$31.95",
+		"currentPrice": "$31.99",
 		"canonicalUrl": "/shopping-deals/products/1-veepeak-obdcheck-ble",
 		"offers": {
 			"@type": "Offer",
-			"price": "31.95",
+			"price": "31.99",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4cbSnQA",
-			"priceValidUntil": "2024-12-31",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"datePublished": "2025-03-27T05:03:24",
 		"dateModified": "2025-04-05T20:20:20Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21232"
-		}
+			"reviewCount": "21256"
+		},
+		"color": "Black",
+		"size": "One Size",
+		"gender": "N/A",
+		"age_group": "N/A"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1222,7 +1498,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"keywords": [
 			"podiatrist-approved flats",
@@ -1249,8 +1537,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "117"
-		}
+			"reviewCount": "127"
+		},
+		"color": "Black",
+		"size": "6",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1267,7 +1559,7 @@
 		"mainEntityOfPage": "/shopping-deals/products/4-personalized-bunny-easter-basket",
 		"offers": {
 			"@type": "Offer",
-			"price": "18.99",
+			"price": "13.99",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4hw05X5",
@@ -1275,7 +1567,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"keywords": [
 			"cotton rope Easter basket",
@@ -1295,15 +1599,19 @@
 			"heirloom quality basket"
 		],
 		"canonicalUrl": "/shopping-deals/products/4-personalized-bunny-easter-basket",
-		"discountPercentage": "5%",
-		"currentPrice": "$18.99",
+		"discountPercentage": "30%",
+		"currentPrice": "$13.99",
 		"datePublished": "2025-03-27T17:03:24",
 		"dateModified": "2025-04-05T20:20:51Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.1",
-			"reviewCount": "18"
-		}
+			"reviewCount": "19"
+		},
+		"color": "Maillard",
+		"size": "One Size",
+		"gender": "unisex",
+		"age_group": "toddler"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1361,7 +1669,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1374,7 +1694,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "White",
+		"size": "10",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1432,7 +1756,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1445,7 +1781,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "White Graffiti Monogram Canvas",
+		"size": "One Size",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1503,7 +1843,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1515,7 +1867,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "N/A",
+		"size": "0.5 OZ",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1573,7 +1929,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1586,7 +1954,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "Brown Monogram Millefeuille Tote",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1615,7 +1987,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"keywords": [
 			"220GSM linen blend",
@@ -1642,8 +2026,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "32"
-		}
+			"reviewCount": "33"
+		},
+		"color": "Pink",
+		"size": "Large",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1692,7 +2080,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1702,8 +2102,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67693"
-		}
+			"reviewCount": "67729"
+		},
+		"color": "Medium Brown",
+		"size": "0.42 OZ",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1758,7 +2162,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1770,8 +2186,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "48666"
-		}
+			"reviewCount": "49043"
+		},
+		"color": "Berry",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1829,7 +2249,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1842,7 +2274,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "Stainless Steel",
+		"size": "One Size",
+		"gender": "male",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1900,7 +2336,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1912,7 +2360,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "N/A",
+		"size": "3.2 OZ",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -1970,7 +2422,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -1983,7 +2447,11 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "Pink",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -2041,7 +2509,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -2052,8 +2532,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "166"
-		}
+			"reviewCount": "173"
+		},
+		"color": "N/A",
+		"size": "N/A",
+		"gender": "unisex",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -2070,7 +2554,7 @@
 		"mainEntityOfPage": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"offers": {
 			"@type": "Offer",
-			"price": "",
+			"price": "24.00",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/OutOfStock",
 			"url": "https://amzn.to/41NEZ0v",
@@ -2078,7 +2562,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"keywords": [
 			"fermented saururus oil",
@@ -2099,14 +2595,18 @@
 		],
 		"canonicalUrl": "/shopping-deals/products/3-saltair-shimmering-body-oil",
 		"discountPercentage": "",
-		"currentPrice": "",
+		"currentPrice": "$24.00",
 		"datePublished": "2025-03-29T07:03:24",
 		"dateModified": "2025-04-05T20:23:31Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "104"
-		}
+			"reviewCount": "105"
+		},
+		"color": "N/A",
+		"size": "4 oz",
+		"gender": "female",
+		"age_group": "adult"
 	},
 	{
 		"@context": "https://schema.org",
@@ -2127,12 +2627,23 @@
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4ilDdLa",
-			"priceValidUntil": "2024-12-31",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"keywords": [
 			"FSC-certified bamboo",
@@ -2159,8 +2670,12 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "79"
-		}
+			"reviewCount": "80"
+		},
+		"color": "N/A",
+		"size": "2L",
+		"gender": "N/A",
+		"age_group": "N/A"
 	},
 	{
 		"@context": "https://schema.org",
@@ -2210,7 +2725,7 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "",
+			"price": "999.00",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4hRfjGl",
 			"availability": "https://schema.org/OutOfStock",
@@ -2218,7 +2733,19 @@
 				"@type": "MerchantReturnPolicy",
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
-			"shippingDetails": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>"
+			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
 		},
 		"brand": {
 			"@type": "Brand",
@@ -2231,6 +2758,10 @@
 			"@type": "AggregateRating",
 			"ratingValue": "",
 			"reviewCount": ""
-		}
+		},
+		"color": "Beige",
+		"size": "One Size",
+		"gender": "female",
+		"age_group": "adult"
 	}
 ]
