@@ -226,7 +226,23 @@ const ShoppingDeals: React.FC = () => {
 				"@type": "ListItem",
 				position: i + 1,
 				item: {
-					/* ... schema item details ... */
+					"@type": "Product",
+					name: p.headline,
+					image: p.image.url,
+					description: p.description.replace(/<[^>]*>/g, "").slice(0, 200),
+					offers: {
+						"@type": "Offer",
+						priceCurrency: "USD",
+						price: p.offers?.price || p.currentPrice.replace("$", ""),
+						availability:
+							p.offers?.availability || "https://schema.org/InStock",
+						url: `https://www.dollarsandlife.com${p.canonicalUrl}`,
+					},
+					aggregateRating: {
+						"@type": "AggregateRating",
+						ratingValue: p.aggregateRating?.ratingValue,
+						reviewCount: p.aggregateRating?.reviewCount,
+					},
 				},
 			})),
 		}),

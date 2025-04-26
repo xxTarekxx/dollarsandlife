@@ -110,6 +110,34 @@ const ProductDetails: React.FC = () => {
 			<Helmet>
 				<title>{`${product.headline} | Shopping Deals`}</title>
 				<meta name='description' content={metaDesc} />
+				<script type='application/ld+json'>
+					{JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "Product",
+						name: product.headline,
+						image: product.image.url,
+						description: metaDesc,
+						brand: {
+							"@type": "Brand",
+							name: product.brand?.name || "Generic",
+						},
+						offers: {
+							"@type": "Offer",
+							priceCurrency: "USD",
+							price: product.currentPrice.replace("$", ""),
+							availability:
+								product.offers?.availability || "https://schema.org/InStock",
+							url: product.purchaseUrl,
+						},
+						aggregateRating: product.aggregateRating
+							? {
+									"@type": "AggregateRating",
+									ratingValue: product.aggregateRating.ratingValue,
+									reviewCount: product.aggregateRating.reviewCount,
+							  }
+							: undefined,
+					})}
+				</script>
 			</Helmet>
 
 			<article className='pdf-card'>
