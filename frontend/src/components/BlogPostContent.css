@@ -57,14 +57,18 @@
 .blog-post-content iframe,
 .blog-post-content figure img,
 .blog-post-content .image-box,
-.blog-post-content .section-image,
-.blog-post-content .main-image {
+.blog-post-content .section-image {
     max-width: 100%;
     height: auto;
     display: block;
     margin: 15px auto;
     border-radius: 6px;
     object-fit: cover;
+}
+
+.blog-post-content .main-image {
+    width: 450px;
+    height: 300px;
 }
 
 .blog-post-content pre {
