@@ -3,6 +3,8 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "real-estate-freelance-opportunity",
+		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/real-estate-freelance-opportunity",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/extra-income/freelancers/real-estate-freelance-opportunity",
 		"headline": "Work from Home in Real Estate: Freelance Agent Jobs That Pay Well",
 		"description": "Explore high-paying freelance real estate jobs you can do from home. Learn how to get licensed online with AceableAgent, grow a flexible career in top U.S. states, and build income on your schedule.",
 		"author": {
@@ -17,7 +19,6 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/extra-income/freelancers/real-estate-freelance-opportunity",
 		"datePublished": "2025-03-15T01:00:00",
 		"dateModified": "2025-03-22T01:20:00",
 		"image": {
@@ -42,7 +43,6 @@
 			"freelance housing market careers",
 			"flexible real estate income stream"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/real-estate-freelance-opportunity",
 		"content": [
 			{
 				"subtitle": "Remote Real Estate Jobs: Why Freelancing as an Agent Is a Smart Career Move",
@@ -192,11 +192,12 @@
 			}
 		]
 	},
-
 	{
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "freelance-web-app-development-guide",
+		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/freelance-web-app-development-guide",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/freelance-web-app-development-guide",
 		"headline": "Freelance Web Developer Jobs in 2025: How to Get Clients and Build Income Online",
 		"description": "Discover how to succeed as a freelance web developer in 2025. Learn how to find remote clients, price your skills, and use AI tools to boost your income and land more projects.",
 		"author": {
@@ -211,7 +212,6 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/freelance-web-app-development-guide",
 		"datePublished": "2025-03-05T04:43:11",
 		"dateModified": "2025-03-22T01:05:11",
 		"image": {
@@ -231,7 +231,6 @@
 			"remote software contracts 2025",
 			"start freelance web development career"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/freelance-web-app-development-guide",
 		"content": [
 			{
 				"subtitle": "Introduction",
@@ -322,6 +321,8 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "uber-driving-gig-economy",
+		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/uber-driving-gig-economy",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/uber-driving-gig-economy",
 		"headline": "How to Make $25–$50/Hour as an Uber Driver in 2025: Smart Tips for Gig Economy Success",
 		"description": "Learn how to increase your Uber driver income in 2025 with proven ride strategies, best driving times, UberX vs. Uber Black insights, and must-know tips to thrive in the gig economy.",
 		"author": {
@@ -336,7 +337,6 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/uber-driving-gig-economy",
 		"datePublished": "2024-09-15T04:43:11",
 		"dateModified": "2025-03-22T00:40:11",
 		"image": {
@@ -356,7 +356,6 @@
 			"rideshare driver insurance options",
 			"tax deductions for Uber drivers"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/uber-driving-gig-economy",
 		"content": [
 			{
 				"subtitle": "Why Uber Is the Best Gig Economy Job in 2025 🚗💸",
@@ -536,11 +535,12 @@
 			}
 		]
 	},
-
 	{
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "fiverr-seller",
+		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/fiverr-seller",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/fiverr-seller",
 		"headline": "Fiverr Seller Blueprint 2025: Earn $5K+/Month With Simple Gig Systems",
 		"description": "Unlock the secrets to earning $5,000 or more per month on Fiverr. Discover proven seller strategies, optimize your gigs for Fiverr’s 2025 algorithm, and build a sustainable six-figure freelance income with high-demand services.",
 		"author": {
@@ -555,7 +555,6 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/fiverr-seller",
 		"datePublished": "2024-09-10T08:00:00",
 		"dateModified": "2025-03-22T02:00:00",
 		"image": {
@@ -575,7 +574,6 @@
 			"boost Fiverr conversions",
 			"high-paying Fiverr services"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/fiverr-seller",
 		"content": [
 			{
 				"subtitle": "Fiverr for Beginners: How to Launch a Profitable Freelance Side Hustle",
@@ -755,6 +753,8 @@
 		"@context": "https://schema.org",
 		"@type": "Article",
 		"id": "doordash-delivery-gig",
+		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/doordash-delivery-gig",
+		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/doordash-delivery-gig",
 		"headline": "How to Make $1,000/Week with DoorDash in 2025: Real Driver Tips & Earnings Strategy",
 		"description": "Discover how real Dashers consistently earn $25–$40/hour delivering for DoorDash. Learn proven strategies for peak zones, bonus stacking, and delivery timing that beat Instacart and other apps.",
 		"author": {
@@ -769,7 +769,6 @@
 				"url": "https://www.dollarsandlife.com/images/logo.png"
 			}
 		},
-		"mainEntityOfPage": "https://www.dollarsandlife.com/freelance-jobs/doordash-delivery-gig",
 		"datePublished": "2024-09-07T04:43:11",
 		"dateModified": "2025-03-22T02:30:00",
 		"image": {
@@ -784,7 +783,6 @@
 			"DoorDash vs Uber Eats income",
 			"delivery driver hacks for beginners"
 		],
-		"canonicalUrl": "https://www.dollarsandlife.com/extra-income/freelancers/doordash-delivery-gig",
 		"content": [
 			{
 				"subtitle": "Unlocking Freelance Freedom: Why DoorDash Stands Out",
