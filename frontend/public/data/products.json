@@ -74,7 +74,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "109384"
+			"reviewCount": "109415"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -155,7 +155,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2554"
+			"reviewCount": "2567"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -237,7 +237,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "172588"
+			"reviewCount": "172612"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -323,7 +323,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "11891",
+			"reviewCount": "11896",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -410,7 +410,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "188704",
+			"reviewCount": "188895",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -431,8 +431,8 @@
 		"mainEntityOfPage": "/shopping-deals/products/34-crocs-classic-clogs-unisex-slide-on-shoes",
 		"canonicalUrl": "/shopping-deals/products/34-crocs-classic-clogs-unisex-slide-on-shoes",
 		"purchaseUrl": "https://amzn.to/3Y9tVdc",
-		"currentPrice": "$39.95",
-		"discountPercentage": "20%",
+		"currentPrice": "39.99",
+		"discountPercentage": "",
 		"designer": {
 			"@type": "Organization",
 			"name": "Crocs",
@@ -469,7 +469,7 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3Y9tVdc",
 			"availability": "https://schema.org/InStock",
-			"price": "39.95",
+			"price": "39.99",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
@@ -497,7 +497,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "626039",
+			"reviewCount": "626129",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -580,7 +580,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "152918"
+			"reviewCount": "152948"
 		},
 		"color": "black",
 		"size": "x-Large",
@@ -742,7 +742,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26423"
+			"reviewCount": "26432"
 		},
 		"color": "Black Mesh",
 		"size": "One Size",
@@ -908,7 +908,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "590"
+			"reviewCount": "591"
 		},
 		"color": "Green",
 		"size": "N/A",
@@ -1073,7 +1073,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2661"
+			"reviewCount": "2667"
 		},
 		"color": "Fruity",
 		"size": "One Size",
@@ -1145,8 +1145,8 @@
 		"dateModified": "2025-04-05T20:19:25Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.2",
-			"reviewCount": "37"
+			"ratingValue": "4.1",
+			"reviewCount": "40"
 		},
 		"color": "Beige",
 		"size": "7",
@@ -1220,7 +1220,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16806"
+			"reviewCount": "16813"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1433,11 +1433,11 @@
 			"Veepeak bestseller"
 		],
 		"discountPercentage": "9%",
-		"currentPrice": "$31.99",
+		"currentPrice": "$31.95",
 		"canonicalUrl": "/shopping-deals/products/1-veepeak-obdcheck-ble",
 		"offers": {
 			"@type": "Offer",
-			"price": "31.99",
+			"price": "31.95",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4cbSnQA",
@@ -1464,7 +1464,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21256"
+			"reviewCount": "21260"
 		},
 		"color": "Black",
 		"size": "One Size",
@@ -1537,7 +1537,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "127"
+			"reviewCount": "128"
 		},
 		"color": "Black",
 		"size": "6",
@@ -2102,7 +2102,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67729"
+			"reviewCount": "67736"
 		},
 		"color": "Medium Brown",
 		"size": "0.42 OZ",
@@ -2186,7 +2186,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "49043"
+			"reviewCount": "49053"
 		},
 		"color": "Berry",
 		"size": "One Size",
@@ -2532,7 +2532,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "173"
+			"reviewCount": "177"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -2601,7 +2601,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "105"
+			"reviewCount": "106"
 		},
 		"color": "N/A",
 		"size": "4 oz",
@@ -2669,8 +2669,8 @@
 		"dateModified": "2025-04-05T20:23:43Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "3.8",
-			"reviewCount": "80"
+			"ratingValue": "3.7",
+			"reviewCount": "82"
 		},
 		"color": "N/A",
 		"size": "2L",
@@ -2725,7 +2725,7 @@
 		"discountPercentage": "",
 		"offers": {
 			"@type": "Offer",
-			"price": "999.00",
+			"price": "",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4hRfjGl",
 			"availability": "https://schema.org/OutOfStock",
