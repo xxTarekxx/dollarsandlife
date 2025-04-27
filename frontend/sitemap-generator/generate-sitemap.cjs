@@ -20,10 +20,9 @@ function extractRoutesFromApp() {
             }
         }
 
-
         return routes;
     } catch (err) {
-        console.error(` Error reading App.tsx:`, err);
+        console.error(`❌ Error reading App.tsx:`, err);
         return [];
     }
 }
@@ -34,10 +33,9 @@ function getJsonFiles() {
         const files = fs.readdirSync(dataDir)
             .filter(file => file.endsWith(".json"));
 
-
         return files.map(file => path.resolve(dataDir, file));
     } catch (err) {
-        console.error(` Error reading data directory:`, err);
+        console.error(`❌ Error reading data directory:`, err);
         return [];
     }
 }
@@ -56,68 +54,37 @@ async function fetchDynamicRoutes() {
                 continue;
             }
 
-            const filename = path.basename(filePath, ".json");
-
             jsonData.forEach(item => {
-                // Handle products.json differently
-                if (filename === "products") {
-                    if (!item.id || !item.mainEntityOfPage) {
-                        console.warn(`⚠️ Skipping invalid product:`, item);
-                        return;
-                    }
-
-                    const rawDate = item.dateModified && item.dateModified.trim() !== ""
-                        ? item.dateModified
-                        : item.datePublished || new Date().toISOString();
-
-                    const route = {
-                        url: item.mainEntityOfPage.toLowerCase(),
-                        changefreq: "weekly",
-                        priority: 0.9,
-                        lastmod: new Date(rawDate).toISOString(),
-                    };
-                    dynamicRoutes.push(route);
-                } else {
-                    // Original logic for other JSON files
-                    if (!item.id || !item.datePublished) {
-                        console.warn(`⚠️ Skipping invalid entry in ${filePath}:`, item);
-                        return;
-                    }
-
-                    const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
-                        : filename.includes("freelancejobs") ? "/extra-income/freelancers"
-                            : filename.includes("moneymakingapps") ? "/extra-income/money-making-apps"
-                                : filename.includes("budgetdata") ? "/extra-income/budget"
-                                    : filename.includes("startablogdata") ? "/start-a-blog"
-                                        : filename.includes("breakingnews") ? "/breaking-news"
-                                            : "";
-
-                    if (urlBase) {
-                        const rawDate = item.dateModified && item.dateModified.trim() !== ""
-                            ? item.dateModified
-                            : item.datePublished;
-
-                        if (!rawDate || isNaN(new Date(rawDate).getTime())) {
-                            console.warn(`⚠️ Invalid date in file: ${filePath}`);
-                            console.warn(`   Post ID: ${item.id}`);
-                            console.warn(`   datePublished: ${item.datePublished}`);
-                            console.warn(`   dateModified: ${item.dateModified}`);
-                            return;
-                        }
-
-                        const route = {
-                            url: `${urlBase}/${item.id}`.toLowerCase(),
-                            changefreq: "monthly",
-                            priority: 0.8,
-                            lastmod: new Date(rawDate).toISOString(),
-                        };
-                        dynamicRoutes.push(route);
-                    }
+                if (!item.canonicalUrl || !item.datePublished) {
+                    console.warn(`⚠️ Skipping entry missing canonicalUrl or datePublished:`, item);
+                    return;
                 }
+
+                const url = item.canonicalUrl.startsWith("/")
+                    ? BASE_URL + item.canonicalUrl
+                    : item.canonicalUrl;
+
+                const rawDate = item.dateModified && item.dateModified.trim() !== ""
+                    ? item.dateModified
+                    : item.datePublished;
+
+                if (!rawDate || isNaN(new Date(rawDate).getTime())) {
+                    console.warn(`⚠️ Invalid date for URL: ${url}`);
+                    return;
+                }
+
+                const route = {
+                    url: url.toLowerCase(),
+                    changefreq: "monthly",
+                    priority: 0.8,
+                    lastmod: new Date(rawDate).toISOString(),
+                };
+
+                dynamicRoutes.push(route);
             });
 
         } catch (err) {
-            console.error(` Error reading ${filePath}:`, err);
+            console.error(`❌ Error reading ${filePath}:`, err);
         }
     }
 
@@ -148,8 +115,10 @@ async function generateSitemap() {
         sitemap.end();
         await streamToPromise(sitemap);
 
+        console.log("✅ Sitemap generated successfully!");
+
     } catch (err) {
-        console.error(` Error generating sitemap:`, err);
+        console.error(`❌ Error generating sitemap:`, err);
     }
 }
 
