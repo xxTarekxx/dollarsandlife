@@ -19,7 +19,7 @@
 				"url": "https://www.dollarsandlife.com/logo.png"
 			}
 		},
-		"datePublished": "2025-04-26T23:00:00",
+		"datePublished": "2025-04-26T20:00:00",
 		"dateModified": "",
 		"image": {
 			"@type": "ImageObject",
@@ -98,8 +98,8 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "NewsArticle",
-		"id": "measles-usa-texas-guide-2025",
-		"canonicalUrl": "https://www.dollarsandlife.com/breaking-news/measles-usa-texas-guide-2025",
+		"id": "measles-usa-texas-latest-news-2025",
+		"canonicalUrl": "https://www.dollarsandlife.com/breaking-news/measles-usa-texas-latest-news-2025",
 		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/measles-usa-texas-latest-news-2025",
 		"headline": "Measles Resurgence 2025: Understanding Risks and Protecting Your Family",
 		"author": {
@@ -767,10 +767,7 @@
 		"@type": "NewsArticle",
 		"id": "stimulus-check-2025-payment-dates",
 		"canonicalUrl": "https://www.dollarsandlife.com/breaking-news/stimulus-check-2025-payment-dates",
-		"mainEntityOfPage": {
-			"@type": "WebPage",
-			"@id": "https://www.dollarsandlife.com/breaking-news/stimulus-check-2025-payment-dates"
-		},
+		"mainEntityOfPage": "https://www.dollarsandlife.com/breaking-news/stimulus-check-2025-payment-dates",
 		"headline": "Stimulus Check 2025: Payment Dates, IRS Tracking, and Eligibility Explained",
 		"author": {
 			"@type": "Organization",
