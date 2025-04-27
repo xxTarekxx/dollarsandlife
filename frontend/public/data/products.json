@@ -74,7 +74,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "109415"
+			"reviewCount": "109460"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -155,7 +155,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2567"
+			"reviewCount": "2589"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -237,7 +237,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "172612"
+			"reviewCount": "172665"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -323,7 +323,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "11896",
+			"reviewCount": "11921",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -410,7 +410,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "188895",
+			"reviewCount": "188951",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -431,8 +431,8 @@
 		"datePublished": "2025-04-21T20:55:07Z",
 		"dateModified": "2025-04-21T20:55:07Z",
 		"purchaseUrl": "https://amzn.to/3Y9tVdc",
-		"currentPrice": "39.99",
-		"discountPercentage": "",
+		"currentPrice": "$39.95",
+		"discountPercentage": "20%",
 		"designer": {
 			"@type": "Organization",
 			"name": "Crocs",
@@ -469,7 +469,7 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3Y9tVdc",
 			"availability": "https://schema.org/InStock",
-			"price": "39.99",
+			"price": "39.95",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
@@ -497,7 +497,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "626129",
+			"reviewCount": "626273",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -580,7 +580,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "152948"
+			"reviewCount": "153007"
 		},
 		"color": "black",
 		"size": "x-Large",
@@ -661,7 +661,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1871"
+			"reviewCount": "1873"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -742,7 +742,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26432"
+			"reviewCount": "26448"
 		},
 		"color": "Black Mesh",
 		"size": "One Size",
@@ -822,7 +822,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40397"
+			"reviewCount": "40407"
 		},
 		"color": "N/A",
 		"size": "One Size",
@@ -1074,7 +1074,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2667"
+			"reviewCount": "2694"
 		},
 		"color": "Fruity",
 		"size": "One Size",
@@ -1101,7 +1101,7 @@
 		},
 		"offers": {
 			"@type": "Offer",
-			"price": "49.99",
+			"price": "44.99",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4kDoKM9",
@@ -1140,14 +1140,14 @@
 			"spot clean sandals",
 			"COUTGO bestseller"
 		],
-		"currentPrice": "$49.99",
-		"discountPercentage": "",
+		"currentPrice": "$44.99",
+		"discountPercentage": "10%",
 		"datePublished": "2025-03-29T19:03:24",
 		"dateModified": "2025-04-05T20:19:25Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.1",
-			"reviewCount": "40"
+			"ratingValue": "4.2",
+			"reviewCount": "41"
 		},
 		"color": "Beige",
 		"size": "7",
@@ -1221,7 +1221,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16813"
+			"reviewCount": "16822"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1296,8 +1296,8 @@
 		},
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.1",
-			"reviewCount": "37"
+			"ratingValue": "4.0",
+			"reviewCount": "38"
 		},
 		"color": "Golden",
 		"size": "One Size",
@@ -1465,7 +1465,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21260"
+			"reviewCount": "21274"
 		},
 		"color": "Black",
 		"size": "One Size",
@@ -1538,7 +1538,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "128"
+			"reviewCount": "131"
 		},
 		"color": "Black",
 		"size": "6",
@@ -1600,7 +1600,7 @@
 			"12 font color options",
 			"heirloom quality basket"
 		],
-		"discountPercentage": "30%",
+		"discountPercentage": "26%",
 		"currentPrice": "$13.99",
 		"datePublished": "2025-03-27T17:03:24",
 		"dateModified": "2025-04-05T20:20:51Z",
@@ -2027,7 +2027,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "33"
+			"reviewCount": "34"
 		},
 		"color": "Pink",
 		"size": "Large",
@@ -2103,7 +2103,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67736"
+			"reviewCount": "67759"
 		},
 		"color": "Medium Brown",
 		"size": "0.42 OZ",
@@ -2187,7 +2187,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "49053"
+			"reviewCount": "49085"
 		},
 		"color": "Berry",
 		"size": "One Size",
@@ -2533,7 +2533,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "177"
+			"reviewCount": "189"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -2625,7 +2625,7 @@
 		},
 		"offers": {
 			"@type": "Offer",
-			"price": "26.95",
+			"price": "24.95",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4ilDdLa",
@@ -2664,8 +2664,8 @@
 			"kitchen counter organizer",
 			"eco-friendly food storage"
 		],
-		"discountPercentage": "10%",
-		"currentPrice": "$26.95",
+		"discountPercentage": "17%",
+		"currentPrice": "$24.95",
 		"datePublished": "2025-03-28T16:03:24",
 		"dateModified": "2025-04-05T20:23:43Z",
 		"aggregateRating": {
