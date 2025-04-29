@@ -74,7 +74,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "109460"
+			"reviewCount": "109484"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -155,7 +155,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2589"
+			"reviewCount": "2593"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -237,7 +237,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "172665"
+			"reviewCount": "172680"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -323,7 +323,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "11921",
+			"reviewCount": "11930",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -410,7 +410,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "188951",
+			"reviewCount": "188988",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -497,7 +497,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "626273",
+			"reviewCount": "626326",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -580,7 +580,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "153007"
+			"reviewCount": "153037"
 		},
 		"color": "black",
 		"size": "x-Large",
@@ -599,8 +599,8 @@
 		"datePublished": "2025-04-12T14:30:35Z",
 		"dateModified": "2025-04-12T14:30:35Z",
 		"purchaseUrl": "https://amzn.to/3Yxb77F",
-		"currentPrice": "$24.99",
-		"discountPercentage": "38%",
+		"currentPrice": "$29.99",
+		"discountPercentage": "25%",
 		"designer": {
 			"@type": "Organization",
 			"name": "PQRQP"
@@ -640,7 +640,7 @@
 				"url": "https://www.dollarsandlife.com/return-policy"
 			},
 			"displayShippingInfo": "Get Fast, Free Shipping With Amazon Prime and Free Returns <a href=\"https://amzn.to/3RB9XnL\" target=\"_blank\" rel=\"noopener noreferrer\"> Try Prime Free For 30 Days</a>",
-			"price": "24.99",
+			"price": "29.99",
 			"shippingDetails": {
 				"@type": "OfferShippingDetails",
 				"shippingRate": {
@@ -661,7 +661,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1873"
+			"reviewCount": "1874"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -742,7 +742,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26448"
+			"reviewCount": "26458"
 		},
 		"color": "Black Mesh",
 		"size": "One Size",
@@ -1011,7 +1011,7 @@
 		"shortName": "CNP Propolis Lip Butter",
 		"description": "<h3>CNP Propolis Lipcerin: 12-Hour Lip Hydration ✨</h3><div class='spacer'></div><p>Professional lip care. Propolis and honey hydrate day and night.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🌿 Propolis & Honey - Deep nourishment from natural extracts.</div><div class='feature-item'>💧 12-Hour Moisture - Clinically proven hydration.</div><div class='feature-item'>🔄 Hygienic Dial - Fresh, mess-free application.</div><div class='feature-item'>🌸 Floral Scent - Gentle, natural fragrance.</div><div class='feature-item'>⚕️ Dermatologist Tested - Safe for sensitive lips.</div></div><div class='feature-list'><div class='feature-section'>Perfect for:</div><div class='feature-item'>Daily Conditioning</div><div class='feature-item'>Overnight Therapy</div><div class='feature-item'>Makeup Prep</div><div class='feature-item'>Cold Protection</div></div>",
 		"purchaseUrl": "https://amzn.to/3XGwVgO",
-		"currentPrice": "$17.88",
+		"currentPrice": "$17.25",
 		"datePublished": "2025-04-25T17:03:24",
 		"discountPercentage": "",
 		"designer": {
@@ -1043,7 +1043,7 @@
 		],
 		"offers": {
 			"@type": "Offer",
-			"price": "17.88",
+			"price": "17.25",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3XGwVgO",
 			"availability": "https://schema.org/InStock",
@@ -1074,7 +1074,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2694"
+			"reviewCount": "2703"
 		},
 		"color": "Fruity",
 		"size": "One Size",
@@ -1146,8 +1146,8 @@
 		"dateModified": "2025-04-05T20:19:25Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.2",
-			"reviewCount": "41"
+			"ratingValue": "4.1",
+			"reviewCount": "42"
 		},
 		"color": "Beige",
 		"size": "7",
@@ -1221,7 +1221,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16822"
+			"reviewCount": "16825"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1435,10 +1435,10 @@
 			"Veepeak bestseller"
 		],
 		"discountPercentage": "9%",
-		"currentPrice": "$31.95",
+		"currentPrice": "$31.99",
 		"offers": {
 			"@type": "Offer",
-			"price": "31.95",
+			"price": "31.99",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4cbSnQA",
@@ -1465,7 +1465,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21274"
+			"reviewCount": "21281"
 		},
 		"color": "Black",
 		"size": "One Size",
@@ -1538,7 +1538,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "131"
+			"reviewCount": "133"
 		},
 		"color": "Black",
 		"size": "6",
@@ -2103,7 +2103,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67759"
+			"reviewCount": "67783"
 		},
 		"color": "Medium Brown",
 		"size": "0.42 OZ",
@@ -2187,7 +2187,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "49085"
+			"reviewCount": "49098"
 		},
 		"color": "Berry",
 		"size": "One Size",
@@ -2498,11 +2498,11 @@
 			"anti-pollution sunscreen",
 			"ANUA bestseller"
 		],
-		"currentPrice": "$18.00",
-		"discountPercentage": "",
+		"currentPrice": "$15.30",
+		"discountPercentage": "15%",
 		"offers": {
 			"@type": "Offer",
-			"price": "18.00",
+			"price": "15.30",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/4bKfxgY",
 			"availability": "https://schema.org/InStock",
@@ -2533,7 +2533,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "189"
+			"reviewCount": "193"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -2602,7 +2602,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "106"
+			"reviewCount": "108"
 		},
 		"color": "N/A",
 		"size": "4 oz",
@@ -2671,7 +2671,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.7",
-			"reviewCount": "82"
+			"reviewCount": "83"
 		},
 		"color": "N/A",
 		"size": "2L",
