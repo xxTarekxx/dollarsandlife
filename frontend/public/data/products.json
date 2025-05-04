@@ -155,7 +155,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2634"
+			"reviewCount": "2637"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -237,7 +237,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "172787"
+			"reviewCount": "172789"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -323,7 +323,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "11964",
+			"reviewCount": "11967",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -410,7 +410,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "189259",
+			"reviewCount": "189264",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -431,7 +431,7 @@
 		"datePublished": "2025-04-21T20:55:07Z",
 		"dateModified": "2025-04-21T20:55:07Z",
 		"purchaseUrl": "https://amzn.to/3Y9tVdc",
-		"currentPrice": "$39.97",
+		"currentPrice": "$39.98",
 		"discountPercentage": "20%",
 		"designer": {
 			"@type": "Organization",
@@ -469,7 +469,7 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3Y9tVdc",
 			"availability": "https://schema.org/InStock",
-			"price": "39.97",
+			"price": "39.98",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
@@ -497,7 +497,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "626816",
+			"reviewCount": "626820",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -580,7 +580,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "153195"
+			"reviewCount": "153199"
 		},
 		"color": "black",
 		"size": "x-Large",
@@ -661,7 +661,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1705"
+			"reviewCount": "1706"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -742,7 +742,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26857"
+			"reviewCount": "26859"
 		},
 		"color": "Black Mesh",
 		"size": "One Size",
@@ -761,11 +761,11 @@
 		"datePublished": "2025-03-31T19:52:10",
 		"dateModified": "2025-04-05T20:18:24Z",
 		"purchaseUrl": "https://amzn.to/3QZiMro",
-		"currentPrice": "$17.97",
-		"discountPercentage": "40%",
+		"currentPrice": "$22.49",
+		"discountPercentage": "25%",
 		"offers": {
 			"@type": "Offer",
-			"price": "17.97",
+			"price": "22.49",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3QZiMro",
 			"availability": "https://schema.org/InStock",
@@ -822,7 +822,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40417"
+			"reviewCount": "40418"
 		},
 		"color": "N/A",
 		"size": "One Size",
@@ -1011,9 +1011,9 @@
 		"shortName": "CNP Propolis Lip Butter",
 		"description": "<h3>CNP Propolis Lipcerin: 12-Hour Lip Hydration ✨</h3><div class='spacer'></div><p>Professional lip care. Propolis and honey hydrate day and night.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🌿 Propolis & Honey - Deep nourishment from natural extracts.</div><div class='feature-item'>💧 12-Hour Moisture - Clinically proven hydration.</div><div class='feature-item'>🔄 Hygienic Dial - Fresh, mess-free application.</div><div class='feature-item'>🌸 Floral Scent - Gentle, natural fragrance.</div><div class='feature-item'>⚕️ Dermatologist Tested - Safe for sensitive lips.</div></div><div class='feature-list'><div class='feature-section'>Perfect for:</div><div class='feature-item'>Daily Conditioning</div><div class='feature-item'>Overnight Therapy</div><div class='feature-item'>Makeup Prep</div><div class='feature-item'>Cold Protection</div></div>",
 		"purchaseUrl": "https://amzn.to/3XGwVgO",
-		"currentPrice": "$16.99",
+		"currentPrice": "$16.50",
 		"datePublished": "2025-04-25T17:03:24",
-		"discountPercentage": "5%",
+		"discountPercentage": "8%",
 		"designer": {
 			"@type": "Organization",
 			"name": "CNP"
@@ -1043,7 +1043,7 @@
 		],
 		"offers": {
 			"@type": "Offer",
-			"price": "16.99",
+			"price": "16.50",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3XGwVgO",
 			"availability": "https://schema.org/InStock",
@@ -1221,7 +1221,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16845"
+			"reviewCount": "16846"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -2103,7 +2103,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67850"
+			"reviewCount": "67851"
 		},
 		"color": "Medium Brown",
 		"size": "0.42 OZ",
@@ -2187,7 +2187,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "49157"
+			"reviewCount": "49161"
 		},
 		"color": "Berry",
 		"size": "One Size",
