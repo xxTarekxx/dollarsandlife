@@ -2,10 +2,421 @@
 	{
 		"@context": "https://schema.org",
 		"@type": "Product",
+		"id": "44",
+		"canonicalUrl": "/shopping-deals/products/44-relief-sun-organic-sunscreen-spf50-pa-plus",
+		"mainEntityOfPage": "/shopping-deals/products/44-relief-sun-organic-sunscreen-spf50-pa-plus",
+		"headline": "Relief Sun Organic Sunscreen SPF50+ PA++++ – Korean Skincare with Rice & Probiotics 🌿☀️",
+		"shortName": "Relief Sun SPF50+ PA++++ Organic Korean Sunscreen",
+		"description": "<h3>Gentle Yet Powerful Sun Protection for Every Skin Type 🧴🌞</h3><p>Relief Sun Organic Sunscreen offers full-spectrum defense against UV rays while nourishing skin with antioxidant-rich Korean ingredients like fermented rice and probiotics. Ideal for daily use under makeup or on bare skin.</p><strong>Key Features:</strong><ul><li>🛡️ Broad-Spectrum Shield: Effective UVA + UVB protection with SPF50+ PA++++ rating</li><li>🧬 Probiotic-Rich Formula: Includes rice ferment and green tea to soothe and restore</li><li>💧 Lightweight & Hydrating: Absorbs quickly without white cast or greasiness</li><li>🌊 Water-Resistant: Lasts up to 80 minutes for pool days or outdoor workouts</li><li>🌱 Suitable for All Skin Types: Dermatologist-tested for oily, dry, and sensitive skin</li></ul><p>A cult-favorite in Korean skincare routines, this sunscreen protects and nourishes in one step—perfect for a healthy, glowing complexion.</p>",
+		"datePublished": "2025-05-05T18:39:14Z",
+		"dateModified": "2025-05-05T18:39:14Z",
+		"purchaseUrl": "https://amzn.to/44kFgec",
+		"currentPrice": "$14.99",
+		"discountPercentage": "",
+		"designer": {
+			"@type": "Organization",
+			"name": "Fanxbox"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://c.media-amazon.com/images/I/41NG7chvXxL._SL1500_.jpg",
+			"caption": "Relief Sun Organic Korean Sunscreen SPF50+ with Rice & Probiotics"
+		},
+		"keywords": [
+			"korean organic sunscreen",
+			"spf50 probiotic sunblock",
+			"rice extract facial sunscreen",
+			"relief sun sunscreen review",
+			"uv protection for sensitive skin",
+			"non-greasy korean sun care",
+			"pa plus plus plus plus sunscreen",
+			"water-resistant korean sunscreen",
+			"green tea antioxidant sunscreen",
+			"daily sunblock for all skin types"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/44kFgec",
+			"availability": "https://schema.org/InStock",
+			"price": "14.99",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"displayShippingInfo": "Free Prime Delivery With Amazon Prime",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Fanxbox"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.4",
+			"reviewCount": "144"
+		},
+		"color": "N/A",
+		"size": "1.69 oz",
+		"gender": "unisex",
+		"age_group": "adult"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "43",
+		"canonicalUrl": "/shopping-deals/products/43-tractive-xl-gps-dog-tracker-50lbs-plus",
+		"mainEntityOfPage": "/shopping-deals/products/43-tractive-xl-gps-dog-tracker-50lbs-plus",
+		"headline": "Tractive XL GPS Dog Tracker – Real-Time Location, Virtual Fence, Health Alerts (50lbs+) 🐕📲",
+		"shortName": "Tractive XL Real-Time GPS Dog Tracker (Adventure Edition)",
+		"description": "<h3>Track, Protect, and Monitor Large Dogs With Precision 🐾📡</h3><p>The Tractive XL GPS Tracker for dogs 50 lbs and up offers real-time location updates, health monitoring, and customizable virtual fences via a mobile app—keeping your furry friend safe and in sight at all times.</p><strong>Key Features:</strong><ul><li>🛰️ Real-Time GPS: Updates every 2–3 seconds with unlimited range via LTE coverage</li><li>🚧 Custom Safe Zones: Set virtual fences & get instant alerts if your dog leaves</li><li>📊 Wellness Monitoring: Track sleep, activity, and overall health in the Tractive app</li><li>💦 Built for Big Dogs: Rugged waterproof design fits dogs over 50 lbs</li><li>🔋 Long Battery Life: Lasts 5–15 days (or 30 days with Power Saving Zones)</li><li>📱 App + Subscription: Plans from $5/month include SIM + global data</li></ul><p>Trusted by pet parents worldwide, the Tractive XL makes dog safety smarter—on hikes, road trips, or everyday adventures.</p>",
+		"datePublished": "2025-05-05T18:31:49Z",
+		"dateModified": "2025-05-05T18:31:49Z",
+		"purchaseUrl": "https://amzn.to/3GFb9nQ",
+		"currentPrice": "$99.99",
+		"discountPercentage": "",
+		"designer": {
+			"@type": "Organization",
+			"name": "Tractive"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://c.media-amazon.com/images/I/71TAY+WrciL._AC_SL1500_.jpg",
+			"caption": "Tractive XL GPS Dog Tracker for 50 lbs+ Dogs – Adventure Edition"
+		},
+		"keywords": [
+			"real-time gps dog tracker",
+			"tractive dog tracker review",
+			"gps collar for large dogs",
+			"pet wellness monitor",
+			"virtual dog fence tracker",
+			"adventure dog gps collar",
+			"lte dog tracking device",
+			"waterproof gps tracker for pets",
+			"dog collar health monitor",
+			"long battery gps dog tracker"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3GFb9nQ",
+			"availability": "https://schema.org/InStock",
+			"price": "99.99",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"displayShippingInfo": "Free Prime Delivery With Amazon Prime",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Tractive"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.3",
+			"reviewCount": "686"
+		},
+		"color": "N/A",
+		"size": "One Size",
+		"gender": "N/A",
+		"age_group": "N/A"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "42",
+		"canonicalUrl": "/shopping-deals/products/42-halo-collar-4-gps-wireless-dog-fence-tracker",
+		"mainEntityOfPage": "/shopping-deals/products/42-halo-collar-4-gps-wireless-dog-fence-tracker",
+		"headline": "Halo Collar 4 GPS Wireless Dog Fence & Tracker – Waterproof Smart Training Collar 🐶📡",
+		"shortName": "Halo 4 Smart GPS Dog Collar with Wireless Fence",
+		"description": "<h3>Next-Gen Wireless Dog Fence with GPS Tracking & Smart Features 🐾🛰️</h3><p>The Halo Collar 4 is a high-tech pet safety solution that blends GPS precision with real-time tracking, boundary control, and built-in training tools—all from your phone.</p><strong>Key Features:</strong><ul><li>📍 Advanced GPS Tracking: Dual-band GPS (L1 & L5) offers unmatched accuracy—even in tough environments</li><li>🦴 Reliable Containment: Instantly create GPS fences via app; your dog stays secure without buried wires</li><li>🔋 Long Battery Life: Over 30 hours of runtime per charge and durable waterproof construction</li><li>📱 Subscription-Ready: Plans start at $9.99/month for full GPS access and activity features</li><li>🐕 Fits All Breeds: Lightweight, adjustable collar fits dogs 10 lbs and up (8\" to 30.5\" neck size)</li><li>🎓 Easy Training: Step-by-step lessons in the Halo app plus 1:1 live support if needed</li></ul><p>Ideal for active dog owners seeking peace of mind while letting their pets roam safely—backyards, parks, or RV trips.</p>",
+		"datePublished": "2025-05-05T18:25:27Z",
+		"dateModified": "2025-05-05T18:25:27Z",
+		"purchaseUrl": "https://amzn.to/3RQ7d6c",
+		"currentPrice": "$549.00",
+		"discountPercentage": "8%",
+		"designer": {
+			"@type": "Organization",
+			"name": "Halo"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://c.media-amazon.com/images/I/81PQdF6oSuL._AC_SX466_.jpg",
+			"caption": "Halo Collar 4 Wireless Dog Fence & GPS Tracker"
+		},
+		"keywords": [
+			"gps dog collar fence",
+			"wireless pet containment system",
+			"halo collar 4 review",
+			"dog training collar with gps",
+			"no-wire dog fence system",
+			"pet gps tracker for dogs",
+			"outdoor wireless dog boundary",
+			"smart dog collar subscription",
+			"portable gps fence for pets",
+			"waterproof gps dog collar"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4d3JUPS",
+			"availability": "https://schema.org/InStock",
+			"price": "549.00",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"displayShippingInfo": "Free Prime Delivery With Amazon Prime",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "Halo"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "3.8",
+			"reviewCount": "2306"
+		},
+		"color": "Orchid",
+		"size": "One Size",
+		"gender": "N/A",
+		"age_group": "N/A"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "41",
+		"canonicalUrl": "/shopping-deals/products/41-chanel-chance-eau-tendre-edt-women",
+		"mainEntityOfPage": "/shopping-deals/products/41-chanel-chance-eau-tendre-edt-women",
+		"headline": "Chanel Chance Eau Tendre for Women - 3.4 oz Eau de Toilette",
+		"shortName": "Chanel Chance Eau Tendre EDT 3.4 oz",
+		"description": "<h3>Fresh, Elegant & Feminine Fragrance Experience 💕🍊</h3><p>Chanel Chance Eau Tendre blends fruity notes with soft floral elegance, offering a graceful and inviting scent. Ideal for everyday wear, it envelops the skin in a gentle yet uplifting aroma.</p><strong>Key Features:</strong><ul><li>🍑 Fruity-Floral Blend: Juicy grapefruit & jasmine absolute notes</li><li>🎀 Delicate & Sensual: Soft white musk adds warmth & longevity</li><li>🇫🇷 French Sophistication: Crafted in France for refined elegance</li><li>🧴 Generous Size: 3.4 oz bottle for long-lasting enjoyment</li><li>🎁 Perfect Gift: A charming choice for birthdays, holidays, or self-care</li></ul><p>Ideal for women seeking a light, modern scent with timeless appeal—refreshing, flirty, and unmistakably Chanel.</p>",
+		"datePublished": "2025-05-05T01:43:46Z",
+		"dateModified": "2025-05-05T01:43:47Z",
+		"purchaseUrl": "https://amzn.to/4d0jEpE",
+		"currentPrice": "$165.00",
+		"discountPercentage": "",
+		"designer": {
+			"@type": "Organization",
+			"name": "CHANEL"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://c.media-amazon.com/images/I/51qGlYvQqqL._SX679_.jpg",
+			"caption": "Chanel Chance Eau Tendre for Women - Eau de Toilette Spray 3.4 oz"
+		},
+		"keywords": [
+			"light fruity floral perfume",
+			"chanel edt for women",
+			"elegant feminine scent",
+			"grapefruit jasmine perfume",
+			"soft white musk fragrance",
+			"everyday luxury perfume",
+			"romantic chanel scent",
+			"best gift perfume for women",
+			"french designer fragrance",
+			"modern women's fragrance"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/4d0jEpE",
+			"availability": "https://schema.org/InStock",
+			"price": "165.00",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"displayShippingInfo": "Free Prime Delivery With Amazon Prime",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "CHANEL"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.6",
+			"reviewCount": "394"
+		},
+		"color": "N/A",
+		"size": "3.4 oz",
+		"gender": "female",
+		"age_group": "adult"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
+		"id": "40",
+		"canonicalUrl": "/shopping-deals/products/40-no-5-by-chanel-eau-de-parfum-women",
+		"mainEntityOfPage": "/shopping-deals/products/40-no-5-by-chanel-eau-de-parfum-women",
+		"headline": "CHANEL No. 5 Eau De Parfum for Women - 3.4 oz Timeless Luxury",
+		"shortName": "CHANEL No. 5 Women’s Parfum Spray 3.4oz",
+		"description": "<h3>Iconic French Fragrance for Sophisticated Women 💐🇫🇷</h3><p>CHANEL No. 5 is the world’s most recognized perfume, celebrated for its classic floral blend and refined elegance. Made in France, this long-lasting Eau De Parfum Spray adds a timeless touch to any collection.</p><strong>Key Features:</strong><ul><li>🌸 Romantic Floral Notes: A captivating bouquet of May Rose and Jasmine</li><li>💎 Timeless Design: Classic bottle crafted for elegance and luxury</li><li>🌍 French Heritage: Manufactured in France with premium quality</li><li>🎁 Ideal Gift: Perfect for anniversaries, birthdays, or luxury self-care</li><li>👜 Travel-Friendly: 3.4 oz size suitable for daily use or special occasions</li></ul><p>Perfect for signature scent lovers, vintage fragrance collectors, or anyone seeking a premium romantic scent that never goes out of style.</p>",
+		"datePublished": "2025-05-05T01:37:46Z",
+		"dateModified": "2025-05-05T01:37:46Z",
+		"purchaseUrl": "https://amzn.to/3Z0GwiY",
+		"currentPrice": "$109.99",
+
+		"discountPercentage": "35%",
+		"designer": {
+			"@type": "Organization",
+			"name": "CHANEL"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Dollars & Life",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://www.dollarsandlife.com/images/logo.png"
+			}
+		},
+		"image": {
+			"@type": "ImageObject",
+			"url": "https://c.media-amazon.com/images/I/51oiZ5JZxsL._SX679_.jpg",
+			"caption": "CHANEL No. 5 Eau De Parfum Spray for Women - 3.4 Ounce Bottle"
+		},
+		"keywords": [
+			"luxury women's perfume",
+			"floral french parfum",
+			"chanel no. 5 review",
+			"romantic fragrance gift",
+			"long lasting women's perfume",
+			"classic scent for women",
+			"iconic women's fragrance",
+			"signature scent for her",
+			"elegant perfume made in france",
+			"vintage-inspired feminine perfume"
+		],
+		"offers": {
+			"@type": "Offer",
+			"priceCurrency": "USD",
+			"url": "https://amzn.to/3Z0GwiY",
+			"availability": "https://schema.org/InStock",
+			"price": "109.99",
+			"hasMerchantReturnPolicy": {
+				"@type": "MerchantReturnPolicy",
+				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+				"merchantReturnDays": 30
+			},
+			"displayShippingInfo": "Free Prime Delivery With Amazon Prime",
+			"shippingDetails": {
+				"@type": "OfferShippingDetails",
+				"shippingRate": {
+					"@type": "MonetaryAmount",
+					"value": "0.00",
+					"currency": "USD"
+				},
+				"shippingDestination": {
+					"@type": "DefinedRegion",
+					"addressCountry": "US"
+				}
+			}
+		},
+		"brand": {
+			"@type": "Brand",
+			"name": "CHANEL"
+		},
+		"aggregateRating": {
+			"@type": "AggregateRating",
+			"ratingValue": "4.3",
+			"reviewCount": "2831"
+		},
+		"color": "N/A",
+		"size": "3.4 oz",
+		"gender": "female",
+		"age_group": "adult"
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Product",
 		"id": "39",
 		"canonicalUrl": "/shopping-deals/products/39-neutrogena-makeup-remover-wipes",
 		"mainEntityOfPage": "/shopping-deals/products/39-neutrogena-makeup-remover-wipes",
-		"headline": "Neutrogena Makeup Remover Wipes - 2 Pack (50 Count) ✨🧴",
+		"headline": "Neutrogena Makeup Remover Wipes - 2 Pack (50 Count)",
 		"shortName": "Neutrogena Makeup Remover Facial Wipes",
 		"description": "<h3>Dermatologist-Approved Makeup Removal 🌟🧖‍♀️</h3><p>Neutrogena's micellar-infused makeup remover wipes gently cleanse skin while removing 99% of makeup, including waterproof mascara. Trusted by 109,324+ customers for daily skincare routines.</p><strong>Key Benefits:</strong><ul><li>🌸 Ultra-Gentle Formula: Ophthalmologist-tested and safe for sensitive eyes</li><li> 🧼 Powerful Cleansing: Removes dirt, oil, pollution and sunscreen without residue</li><li> 🛍️ Convenient Twin Pack: 50 pre-moistened wipes for home/travel use</li><li>💧 Skin-Nourishing: Triple emollient formula conditions while cleansing</li><li> 🌱 Eco-Conscious: Compostable plant-based fibers biodegrade in 35 days</li></ul><p>Perfect for quick makeup removal, post-workout refreshment, or as part of your evening skincare ritual.</p>",
 		"datePublished": "2025-04-21T21:28:19Z",
