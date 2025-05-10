@@ -1,6 +1,5 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-// Link is still imported in case it's used elsewhere, but not for the specific scroll button
 import { Link } from "react-router-dom";
 import "./HomePage.css";
 
@@ -8,11 +7,6 @@ import "./HomePage.css";
 import ShoppingDealsImg from "../assets/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "../assets/icons/img-extraincome.webp";
 import StartAblogimg from "../assets/icons/img-startablog.webp";
-
-// Placeholder for a more prominent hero image if you add one
-// import HeroImage from "../assets/images/homepage-hero.webp";
-// Placeholder for an image in the "Why Trust Us" section
-// import TrustImage from "../assets/images/trust-graphic.webp";
 
 interface CoreTopicData {
 	to: string;
@@ -74,25 +68,13 @@ const HomePage: React.FC = () => {
 			keywords:
 				"how to start a blog, beginner blogging guide, monetize a blog, niche blogging, blogging for profit",
 		},
-		// Uncomment and use if adding budgeting later
-		// {
-		// 	to: "/budgeting-basics",
-		// 	ariaLabel: "Master personal budgeting techniques for debt control and savings growth",
-		// 	imgSrc: BudgetingImg,
-		// 	altText: "Calculator and notebook illustration representing personal budgeting planning",
-		// 	title: "Master Your Budget",
-		// 	description:
-		// 		"Build a budget that works for you. Learn the 50/30/20 rule, zero-based budgeting, and how to manage debt without sacrificing your future goals.",
-		// 	priority: false,
-		// 	keywords: "budgeting tips, manage debt, save money, financial planning for beginners",
-		// },
 	];
 
 	const faqs: FAQItem[] = [
 		{
 			question: "How can I start saving money if I live paycheck to paycheck?",
 			answer:
-				"It starts with understanding your spending. Track your expenses for a month, then identify non-essential areas where you can cut back, even small amounts. Creating a simple budget and setting realistic savings goals can make a big difference. Explore our <a href='/budgeting-basics'>beginner's guide to budgeting</a> for actionable steps.",
+				"It starts with understanding your spending. Track your expenses for a month, then identify non-essential areas where you can cut back, even small amounts. Creating a simple budget and setting realistic savings goals can make a big difference. Explore our <a href='/extra-income/budget'>beginner's guide to budgeting</a> for actionable steps.",
 		},
 		{
 			question:
@@ -334,7 +316,7 @@ const HomePage: React.FC = () => {
 							From creating your first budget to advanced saving strategies.
 							Conquer debt and build wealth.
 						</p>
-						<Link to='/category/budgeting' className='text-link'>
+						<Link to='/extra-income/budget' className='text-link'>
 							Explore Budgeting →
 						</Link>
 					</div>
@@ -396,9 +378,9 @@ const HomePage: React.FC = () => {
 					Take the first step towards a brighter financial future. Explore our
 					guides, tools, and resources today.
 				</p>
-				<Link to='/blog' className='cta-button'>
+				<a href='#core-topics-destination' className='cta-button'>
 					Start Your Journey Now
-				</Link>
+				</a>
 			</section>
 		</div>
 	);

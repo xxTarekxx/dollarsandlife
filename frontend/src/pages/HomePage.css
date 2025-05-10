@@ -134,7 +134,10 @@ a:focus {
 .text-link {
     font-weight: 500;
     display: inline-block;
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; /* Old margin - will be replaced by auto */
+    /* THE ONLY CHANGE to .text-link */
+    margin-top: auto;
+    /* This pushes the link to the bottom of the flex container */
 }
 
 /* --- Hero Section --- */
@@ -323,6 +326,11 @@ a:focus {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* THE ONLY CHANGES to .discover-item */
+    display: flex;
+    /* Make it a flex container */
+    flex-direction: column;
+    /* Stack children vertically */
 }
 
 .discover-item:hover {
@@ -340,6 +348,9 @@ a:focus {
     font-size: 0.9rem;
     color: var(--text-light);
     margin-bottom: 1rem;
+    /* Or adjust as needed. The 'Explore...' link will be after this due to flex auto margin */
+    /* Optional: If you want the paragraph to definitively take up space if it's short: */
+    /* flex-grow: 1; */
 }
 
 /* --- FAQ Section --- */
