@@ -74,7 +74,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "147"
+			"reviewCount": "149"
 		},
 		"color": "N/A",
 		"size": "1.69 oz",
@@ -93,8 +93,8 @@
 		"datePublished": "2025-05-05T18:31:49Z",
 		"dateModified": "2025-05-05T18:31:49Z",
 		"purchaseUrl": "https://amzn.to/3GFb9nQ",
-		"currentPrice": "$83.49",
-		"discountPercentage": "17%",
+		"currentPrice": "$84.92",
+		"discountPercentage": "15%",
 		"designer": {
 			"@type": "Organization",
 			"name": "Tractive"
@@ -129,7 +129,7 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3GFb9nQ",
 			"availability": "https://schema.org/InStock",
-			"price": "83.49",
+			"price": "84.92",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
@@ -238,7 +238,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "2299"
+			"reviewCount": "2307"
 		},
 		"color": "Orchid",
 		"size": "One Size",
@@ -320,7 +320,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "394"
+			"reviewCount": "395"
 		},
 		"color": "N/A",
 		"size": "3.4 oz",
@@ -402,7 +402,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2835"
+			"reviewCount": "2838"
 		},
 		"color": "N/A",
 		"size": "3.4 oz",
@@ -484,7 +484,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "109649"
+			"reviewCount": "109678"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -565,7 +565,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2654"
+			"reviewCount": "2668"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -647,7 +647,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "172859"
+			"reviewCount": "172880"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -733,7 +733,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "11989",
+			"reviewCount": "11997",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -754,7 +754,7 @@
 		"datePublished": "2025-04-21T20:59:01Z",
 		"dateModified": "2025-04-21T20:59:01Z",
 		"purchaseUrl": "https://amzn.to/3RvjRYe",
-		"currentPrice": "$24.90",
+		"currentPrice": "$24.95",
 		"discountPercentage": "",
 		"designer": {
 			"@type": "Organization",
@@ -792,7 +792,7 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3RvjRYe",
 			"availability": "https://schema.org/InStock",
-			"price": "24.90",
+			"price": "24.95",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
@@ -820,7 +820,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "189213",
+			"reviewCount": "189259",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -841,7 +841,7 @@
 		"datePublished": "2025-04-21T20:55:07Z",
 		"dateModified": "2025-04-21T20:55:07Z",
 		"purchaseUrl": "https://amzn.to/3Y9tVdc",
-		"currentPrice": "$39.97",
+		"currentPrice": "$39.95",
 		"discountPercentage": "20%",
 		"designer": {
 			"@type": "Organization",
@@ -879,7 +879,7 @@
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3Y9tVdc",
 			"availability": "https://schema.org/InStock",
-			"price": "39.97",
+			"price": "39.95",
 			"hasMerchantReturnPolicy": {
 				"@type": "MerchantReturnPolicy",
 				"returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
@@ -907,7 +907,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "627027",
+			"reviewCount": "627213",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -990,7 +990,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "153288"
+			"reviewCount": "153319"
 		},
 		"color": "black",
 		"size": "x-Large",
@@ -1071,7 +1071,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1710"
+			"reviewCount": "1711"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1152,7 +1152,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26883"
+			"reviewCount": "26890"
 		},
 		"color": "Black Mesh",
 		"size": "One Size",
@@ -1232,7 +1232,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40426"
+			"reviewCount": "40431"
 		},
 		"color": "N/A",
 		"size": "One Size",
@@ -1484,7 +1484,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2744"
+			"reviewCount": "2746"
 		},
 		"color": "Fruity",
 		"size": "One Size",
@@ -1557,7 +1557,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "47"
+			"reviewCount": "48"
 		},
 		"color": "Beige",
 		"size": "7",
@@ -1631,7 +1631,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16861"
+			"reviewCount": "16864"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1707,7 +1707,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.9",
-			"reviewCount": "39"
+			"reviewCount": "40"
 		},
 		"color": "Golden",
 		"size": "One Size",
@@ -1875,7 +1875,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21324"
+			"reviewCount": "21326"
 		},
 		"color": "Black",
 		"size": "One Size",
@@ -2017,7 +2017,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.1",
-			"reviewCount": "19"
+			"reviewCount": "20"
 		},
 		"color": "Maillard",
 		"size": "One Size",
@@ -2513,7 +2513,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "67872"
+			"reviewCount": "67884"
 		},
 		"color": "Medium Brown",
 		"size": "0.42 OZ",
@@ -2597,7 +2597,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "49199"
+			"reviewCount": "49215"
 		},
 		"color": "Berry",
 		"size": "One Size",
@@ -2943,7 +2943,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "227"
+			"reviewCount": "229"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -3081,7 +3081,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.7",
-			"reviewCount": "85"
+			"reviewCount": "86"
 		},
 		"color": "N/A",
 		"size": "2L",

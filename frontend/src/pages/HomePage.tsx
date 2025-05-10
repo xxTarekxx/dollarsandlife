@@ -3,12 +3,10 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "./HomePage.css";
 
-// Import images directly, if using Webpack's file-loader or similar
 import ShoppingDealsImg from "../assets/icons/img-dealsandsavings.webp";
 import ExtraIncomeImg from "../assets/icons/img-extraincome.webp";
 import StartAblogimg from "../assets/icons/img-startablog.webp";
 
-// Define the LinkBox interface for type safety
 interface LinkBoxData {
 	to: string;
 	ariaLabel: string;
@@ -25,9 +23,9 @@ const HomePage: React.FC = () => {
 	const linkBoxes: LinkBoxData[] = [
 		{
 			to: "/extra-income",
-			ariaLabel: "Extra Income",
+			ariaLabel: "Learn how to earn extra income",
 			imgSrc: ExtraIncomeImg,
-			altText: "Extra Income Menu link",
+			altText: "Boost your income with side hustles and remote jobs",
 			captionText: "Boost Your Income",
 			width: 220,
 			height: 220,
@@ -36,9 +34,9 @@ const HomePage: React.FC = () => {
 		},
 		{
 			to: "/shopping-deals",
-			ariaLabel: "Shopping Deals",
+			ariaLabel: "Explore shopping deals and save money",
 			imgSrc: ShoppingDealsImg,
-			altText: "Shopping Deals Menu link",
+			altText: "Find the best online shopping deals and discounts",
 			captionText: "Smart Shopping",
 			width: 220,
 			height: 220,
@@ -47,9 +45,9 @@ const HomePage: React.FC = () => {
 		},
 		{
 			to: "/start-a-blog",
-			ariaLabel: "Start A Blog",
+			ariaLabel: "Start your own blog and grow online",
 			imgSrc: StartAblogimg,
-			altText: "Start A Blog Guide link",
+			altText: "Learn how to start a blog and make money blogging",
 			captionText: "Start Your Blog",
 			width: 220,
 			height: 220,
@@ -61,18 +59,18 @@ const HomePage: React.FC = () => {
 	return (
 		<div className='main-container'>
 			<Helmet>
-				<title>Dollars And Life: Personal Finance & Blogging Tips</title>
+				<title>DollarsAndLife.com | Budget Smarter, Earn More, Live Free</title>
 				<meta
 					name='description'
-					content='Learn personal finance, discover extra income opportunities, find shopping deals, and start your own blog. Expert advice for a better financial life.'
+					content='Explore expert tips on budgeting, earning extra income, smart shopping, and starting a profitable blog. Your guide to financial freedom.'
 				/>
 				<meta
 					property='og:title'
-					content='Dollars And Life: Personal Finance & Blogging'
+					content='Dollars And Life | Personal Finance & Online Income'
 				/>
 				<meta
 					property='og:description'
-					content='Expert tips on personal finance, earning extra income, finding shopping deals, and starting a blog. Your guide to financial success.'
+					content='Unlock practical financial strategies for saving, earning, and blogging. Join the DollarsAndLife.com community today.'
 				/>
 				<meta
 					property='og:image'
@@ -98,9 +96,10 @@ const HomePage: React.FC = () => {
 					{JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "WebPage",
-						name: "Dollars And Life: Personal Finance & Blogging",
+						mainEntityOfPage: "https://www.dollarsandlife.com/",
+						name: "Dollars And Life | Personal Finance & Online Income",
 						description:
-							"Expert tips on personal finance, earning extra income, finding shopping deals, and starting a blog. Your guide to financial success.",
+							"Explore expert tips on budgeting, earning extra income, smart shopping, and starting a profitable blog. Your guide to financial freedom.",
 						url: "https://www.dollarsandlife.com/",
 						publisher: {
 							"@type": "Organization",
@@ -110,21 +109,27 @@ const HomePage: React.FC = () => {
 								url: "https://www.dollarsandlife.com/favicon.webp",
 							},
 						},
+						potentialAction: {
+							"@type": "SearchAction",
+							target:
+								"https://www.dollarsandlife.com/search?q={search_term_string}",
+							"query-input": "required name=search_term_string",
+						},
 					})}
 				</script>
 			</Helmet>
 
-			<section className='intro-section'>
-				<h1>Unlock Your Financial Potential</h1>
+			<main className='intro-section'>
+				<h1>Welcome to Dollars And Life</h1>
 				<p className='intro-text'>
-					Welcome to Dollars And Life, your trusted resource for navigating the
-					world of personal finance and online entrepreneurship. We provide
-					expert advice on earning extra income, finding smart shopping deals,
-					and guiding you through the process of starting your own blog.
+					Take control of your finances with step-by-step guides on budgeting,
+					increasing your income, finding the best deals, and launching a
+					successful blog. Whether you're just starting out or ready to scale
+					your savings, we’re here to help.
 				</p>
-			</section>
+			</main>
 
-			<div className='home-main-links' aria-label='Main navigation links'>
+			<section className='home-main-links' aria-label='Main categories'>
 				{linkBoxes.map((linkBox, index) => (
 					<Link
 						className='home-links'
@@ -132,21 +137,23 @@ const HomePage: React.FC = () => {
 						to={linkBox.to}
 						aria-label={linkBox.ariaLabel}
 					>
-						<img
-							src={linkBox.imgSrc}
-							alt={linkBox.altText}
-							width={linkBox.width}
-							height={linkBox.height}
-							loading={linkBox.priority ? "eager" : "lazy"}
-							{...(linkBox.priority ? { fetchpriority: "high" } : {})}
-						/>
-						<figcaption className='home-figcaption'>
-							{linkBox.captionText}
-						</figcaption>
-						<div className='keywords-display'>{linkBox.keywords}</div>
+						<figure>
+							<img
+								src={linkBox.imgSrc}
+								alt={linkBox.altText}
+								width={linkBox.width}
+								height={linkBox.height}
+								loading={linkBox.priority ? "eager" : "lazy"}
+								{...(linkBox.priority ? { fetchpriority: "high" } : {})}
+							/>
+							<figcaption className='home-figcaption'>
+								{linkBox.captionText}
+							</figcaption>
+						</figure>
+						<p className='keywords-display'>{linkBox.keywords}</p>
 					</Link>
 				))}
-			</div>
+			</section>
 		</div>
 	);
 };
