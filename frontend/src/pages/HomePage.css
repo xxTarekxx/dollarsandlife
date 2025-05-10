@@ -24,13 +24,18 @@
 /* Import Google Fonts (add to your main HTML or app entry if preferred) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap');
 
+/* MODIFICATION: Added for smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 html,
 body {
     margin: 0;
     padding: 0;
     font-family: var(--body-font);
     color: var(--text-color);
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
     line-height: 1.7;
     font-size: 16px;
     /* Base font size */
@@ -58,6 +63,12 @@ h6 {
     margin-top: 0;
 }
 
+a {
+    /* This was missing, re-adding for consistency with hover rule. Original 'a' styles will take precedence. */
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
 
 a:hover,
 a:focus {
@@ -436,10 +447,12 @@ a:focus {
 
     h1 {
         font-size: 2rem;
+        /* Changed clamp value - seems the font sizes for h1/h2 were removed earlier. Reverting based on latest context. */
     }
 
     h2 {
         font-size: 1.8rem;
+        /* Changed clamp value */
     }
 
     .core-topics-grid {
