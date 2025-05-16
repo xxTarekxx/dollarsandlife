@@ -74,7 +74,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "159"
+			"reviewCount": "158"
 		},
 		"color": "N/A",
 		"size": "1.69 oz",
@@ -156,7 +156,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "696"
+			"reviewCount": "699"
 		},
 		"color": "N/A",
 		"size": "One Size",
@@ -238,7 +238,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "2277"
+			"reviewCount": "2236"
 		},
 		"color": "Orchid",
 		"size": "One Size",
@@ -402,7 +402,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2871"
+			"reviewCount": "2873"
 		},
 		"color": "N/A",
 		"size": "3.4 oz",
@@ -484,7 +484,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "109810"
+			"reviewCount": "109824"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -565,7 +565,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2730"
+			"reviewCount": "2739"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -647,7 +647,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "173211"
+			"reviewCount": "173241"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -733,7 +733,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "12053",
+			"reviewCount": "12068",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -820,7 +820,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "190516",
+			"reviewCount": "190443",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -907,7 +907,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "627845",
+			"reviewCount": "628387",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -990,7 +990,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "150273"
+			"reviewCount": "150760"
 		},
 		"color": "black",
 		"size": "x-Large",
@@ -1071,7 +1071,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1724"
+			"reviewCount": "1730"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1152,7 +1152,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26946"
+			"reviewCount": "26957"
 		},
 		"color": "Black Mesh",
 		"size": "One Size",
@@ -1232,7 +1232,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40420"
+			"reviewCount": "40453"
 		},
 		"color": "N/A",
 		"size": "One Size",
@@ -1421,9 +1421,9 @@
 		"shortName": "CNP Propolis Lip Butter",
 		"description": "<h3>CNP Propolis Lipcerin: 12-Hour Lip Hydration ✨</h3><div class='spacer'></div><p>Professional lip care. Propolis and honey hydrate day and night.</p><div class='spacer'>\n</div><div class='feature-list'><div class='feature-section'>Key Features:</div><div class='feature-item'>🌿 Propolis & Honey - Deep nourishment from natural extracts.</div><div class='feature-item'>💧 12-Hour Moisture - Clinically proven hydration.</div><div class='feature-item'>🔄 Hygienic Dial - Fresh, mess-free application.</div><div class='feature-item'>🌸 Floral Scent - Gentle, natural fragrance.</div><div class='feature-item'>⚕️ Dermatologist Tested - Safe for sensitive lips.</div></div><div class='feature-list'><div class='feature-section'>Perfect for:</div><div class='feature-item'>Daily Conditioning</div><div class='feature-item'>Overnight Therapy</div><div class='feature-item'>Makeup Prep</div><div class='feature-item'>Cold Protection</div></div>",
 		"purchaseUrl": "https://amzn.to/3XGwVgO",
-		"currentPrice": "$16.49",
+		"currentPrice": "$16.31",
 		"datePublished": "2025-04-25T17:03:24",
-		"discountPercentage": "8%",
+		"discountPercentage": "9%",
 		"designer": {
 			"@type": "Organization",
 			"name": "CNP"
@@ -1453,7 +1453,7 @@
 		],
 		"offers": {
 			"@type": "Offer",
-			"price": "16.49",
+			"price": "16.31",
 			"priceCurrency": "USD",
 			"url": "https://amzn.to/3XGwVgO",
 			"availability": "https://schema.org/InStock",
@@ -1484,7 +1484,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2821"
+			"reviewCount": "2828"
 		},
 		"color": "Fruity",
 		"size": "One Size",
@@ -1631,7 +1631,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16904"
+			"reviewCount": "16907"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1875,7 +1875,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21359"
+			"reviewCount": "21363"
 		},
 		"color": "Black",
 		"size": "One Size",
@@ -1948,7 +1948,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.0",
-			"reviewCount": "165"
+			"reviewCount": "166"
 		},
 		"color": "Black",
 		"size": "6",
@@ -2513,7 +2513,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "68042"
+			"reviewCount": "68273"
 		},
 		"color": "Medium Brown",
 		"size": "0.42 OZ",
@@ -2597,7 +2597,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "49318"
+			"reviewCount": "49327"
 		},
 		"color": "Berry",
 		"size": "One Size",
@@ -2942,8 +2942,8 @@
 		"dateModified": "2025-04-05T20:23:20Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.6",
-			"reviewCount": "250"
+			"ratingValue": "4.5",
+			"reviewCount": "254"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -3012,7 +3012,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "117"
+			"reviewCount": "118"
 		},
 		"color": "N/A",
 		"size": "4 oz",
