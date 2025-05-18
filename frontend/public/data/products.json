@@ -74,7 +74,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "158"
+			"reviewCount": "163"
 		},
 		"color": "N/A",
 		"size": "1.69 oz",
@@ -156,7 +156,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "699"
+			"reviewCount": "700"
 		},
 		"color": "N/A",
 		"size": "One Size",
@@ -238,7 +238,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.8",
-			"reviewCount": "2236"
+			"reviewCount": "2247"
 		},
 		"color": "Orchid",
 		"size": "One Size",
@@ -402,7 +402,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2873"
+			"reviewCount": "2881"
 		},
 		"color": "N/A",
 		"size": "3.4 oz",
@@ -484,7 +484,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "109824"
+			"reviewCount": "109879"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -565,7 +565,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "2739"
+			"reviewCount": "2767"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -647,7 +647,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "173241"
+			"reviewCount": "173303"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -733,7 +733,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "12068",
+			"reviewCount": "12088",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -820,7 +820,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "190443",
+			"reviewCount": "190539",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -907,7 +907,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.8",
-			"reviewCount": "628387",
+			"reviewCount": "628094",
 			"bestRating": "5",
 			"worstRating": "1"
 		},
@@ -990,7 +990,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "150760"
+			"reviewCount": "150817"
 		},
 		"color": "black",
 		"size": "x-Large",
@@ -1071,7 +1071,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "1730"
+			"reviewCount": "1737"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1152,7 +1152,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.3",
-			"reviewCount": "26957"
+			"reviewCount": "26972"
 		},
 		"color": "Black Mesh",
 		"size": "One Size",
@@ -1232,7 +1232,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.4",
-			"reviewCount": "40453"
+			"reviewCount": "40458"
 		},
 		"color": "N/A",
 		"size": "One Size",
@@ -1484,7 +1484,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "2828"
+			"reviewCount": "2839"
 		},
 		"color": "Fruity",
 		"size": "One Size",
@@ -1631,7 +1631,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "16907"
+			"reviewCount": "16975"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -1875,7 +1875,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "21363"
+			"reviewCount": "21372"
 		},
 		"color": "Black",
 		"size": "One Size",
@@ -1902,7 +1902,7 @@
 		},
 		"offers": {
 			"@type": "Offer",
-			"price": "54.99",
+			"price": "54.01",
 			"priceCurrency": "USD",
 			"availability": "https://schema.org/InStock",
 			"url": "https://amzn.to/4kJ5cpC",
@@ -1941,14 +1941,14 @@
 			"CUSHIONAIRE bestseller",
 			"teacher comfortable shoes"
 		],
-		"currentPrice": "$54.99",
+		"currentPrice": "$54.01",
 		"discountPercentage": "",
 		"datePublished": "2025-03-29T01:03:24",
 		"dateModified": "2025-04-05T20:20:39Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.0",
-			"reviewCount": "166"
+			"reviewCount": "170"
 		},
 		"color": "Black",
 		"size": "6",
@@ -2017,7 +2017,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "21"
+			"reviewCount": "22"
 		},
 		"color": "Maillard",
 		"size": "One Size",
@@ -2436,8 +2436,8 @@
 		"dateModified": "2025-04-05T20:22:14Z",
 		"aggregateRating": {
 			"@type": "AggregateRating",
-			"ratingValue": "4.0",
-			"reviewCount": "35"
+			"ratingValue": "3.8",
+			"reviewCount": "37"
 		},
 		"color": "Pink",
 		"size": "Large",
@@ -2513,7 +2513,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.2",
-			"reviewCount": "68273"
+			"reviewCount": "68291"
 		},
 		"color": "Medium Brown",
 		"size": "0.42 OZ",
@@ -2597,7 +2597,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.6",
-			"reviewCount": "49327"
+			"reviewCount": "49362"
 		},
 		"color": "Berry",
 		"size": "One Size",
@@ -2943,7 +2943,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "4.5",
-			"reviewCount": "254"
+			"reviewCount": "265"
 		},
 		"color": "N/A",
 		"size": "N/A",
@@ -3081,7 +3081,7 @@
 		"aggregateRating": {
 			"@type": "AggregateRating",
 			"ratingValue": "3.7",
-			"reviewCount": "89"
+			"reviewCount": "90"
 		},
 		"color": "N/A",
 		"size": "2L",
