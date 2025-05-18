@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import PaginationContainer from "../../../components/PaginationContainer"; // Verify path
+import PaginationContainer from "../../../components/PaginationContainer";
 import "./ShoppingDeals.css";
 
-// Removed declare global block for window.adsbygoogle
-
-// Interface for Product Data
 interface Product {
 	id: string;
 	headline: string;
@@ -43,7 +40,12 @@ interface Product {
 	canonicalUrl?: string;
 }
 
-// Product Card Sub-Component
+const cleanText = (text: string): string =>
+	text
+		.replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
+		.replace(/<[^>]*>/g, "")
+		.trim();
+
 const ProductCard: React.FC<Product> = ({
 	id,
 	headline,
@@ -56,12 +58,6 @@ const ProductCard: React.FC<Product> = ({
 	canonicalUrl,
 	offers,
 }) => {
-	const productSlug = `${id}-${headline
-		.toLowerCase()
-		.replace(/[^\w\s-]/g, "")
-		.replace(/\s+/g, "-")
-		.replace(/-+/g, "-")}`;
-
 	const descriptionSnippet =
 		description
 			?.replace(/<[^>]+>/g, "")
@@ -122,20 +118,18 @@ const ProductCard: React.FC<Product> = ({
 					</span>
 				</div>
 
-				{/* ✅ Shipping Info */}
-				{offers?.displayShippingInfo &&
-					offers.displayShippingInfo.includes("Free Prime Delivery") && (
-						<p className='sd-shipping-info'>
-							<strong>Free Prime Delivery</strong> —{" "}
-							<a
-								href='https://amzn.to/4cTcIec'
-								target='_blank'
-								rel='noopener noreferrer'
-							>
-								Try Amazon Prime Free
-							</a>
-						</p>
-					)}
+				{offers?.displayShippingInfo?.includes("Free Prime Delivery") && (
+					<p className='sd-shipping-info'>
+						<strong>Free Prime Delivery</strong> —
+						<a
+							href='https://amzn.to/4cTcIec'
+							target='_blank'
+							rel='noopener noreferrer'
+						>
+							Try Amazon Prime Free
+						</a>
+					</p>
+				)}
 
 				{specialOffer && (
 					<p className='sd-special-offer-badge'>{specialOffer}</p>
@@ -171,7 +165,6 @@ const ProductCard: React.FC<Product> = ({
 	);
 };
 
-// Main ShoppingDeals Component
 const ShoppingDeals: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -203,8 +196,7 @@ const ShoppingDeals: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		const isInitialMount = currentPage === 1;
-		if (!isInitialMount) {
+		if (currentPage !== 1) {
 			window.scrollTo({ top: 0, behavior: "smooth" });
 		}
 	}, [currentPage]);
@@ -227,9 +219,9 @@ const ShoppingDeals: React.FC = () => {
 				position: i + 1,
 				item: {
 					"@type": "Product",
-					name: p.headline,
+					name: cleanText(p.headline),
 					image: p.image.url,
-					description: p.description.replace(/<[^>]*>/g, "").slice(0, 200),
+					description: cleanText(p.description).slice(0, 200),
 					offers: {
 						"@type": "Offer",
 						priceCurrency: "USD",
@@ -238,10 +230,10 @@ const ShoppingDeals: React.FC = () => {
 							p.offers?.availability || "https://schema.org/InStock",
 						url: `https://www.dollarsandlife.com${p.canonicalUrl}`,
 					},
-					aggregateRating: {
+					aggregateRating: p.aggregateRating && {
 						"@type": "AggregateRating",
-						ratingValue: p.aggregateRating?.ratingValue,
-						reviewCount: p.aggregateRating?.reviewCount,
+						ratingValue: p.aggregateRating.ratingValue,
+						reviewCount: p.aggregateRating.reviewCount,
 					},
 				},
 			})),
@@ -261,7 +253,14 @@ const ShoppingDeals: React.FC = () => {
 					rel='canonical'
 					href='https://www.dollarsandlife.com/shopping-deals'
 				/>
-				<script type='application/ld+json'>{JSON.stringify(schemaData)}</script>
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(schemaData)
+							.replace(/<\/script>/g, "<\\/script>")
+							.replace(/[\u2028\u2029]/g, ""),
+					}}
+				/>
 			</Helmet>
 			<h1 className='sd-page-title'>Deals and Savings</h1>
 			{loading && <div className='sd-loading-indicator'>Loading Deals...</div>}
@@ -284,7 +283,6 @@ const ShoppingDeals: React.FC = () => {
 					setCurrentPage={setCurrentPage}
 				/>
 			)}
-			{/* Removed any potential ad containers or logic */}
 		</div>
 	);
 };
