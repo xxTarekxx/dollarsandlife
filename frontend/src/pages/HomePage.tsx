@@ -267,6 +267,7 @@ const HomePage: React.FC = () => {
 			</section>
 
 			{/* --- Why Trust DollarsAndLife.com (EEAT) --- */}
+			{/* --- Why Trust DollarsAndLife.com (EEAT) --- */}
 			<section className='why-trust-us' aria-labelledby='why-trust-title'>
 				<div className='why-trust-content'>
 					<h2 id='why-trust-title'>
@@ -274,15 +275,22 @@ const HomePage: React.FC = () => {
 					</h2>
 					<p>
 						We're committed to providing clear, reliable, and actionable
-						personal finance advice. Founded by [Your Name/Brand Story Snippet -
-						e.g., a team of finance enthusiasts passionate about empowering
-						others], our content is built on thorough research, real-world
-						experience, and a genuine desire to help you succeed.
+						personal finance advice. Founded by{" "}
+						<strong>
+							<a href='https://www.linkedin.com/in/tarek-ismael-96777578/'>
+								Tarek I.
+							</a>
+						</strong>
+						, a self-taught developer and personal finance writer based in
+						Texas, passionate about making money management accessible to all,
+						our content is built on thorough research, real-world experience,
+						and a genuine desire to help you succeed.
 					</p>
 					<ul>
 						<li>
-							<strong>Expert Insights:</strong> Articles crafted by [mention
-							expertise - e.g., finance writers, experienced bloggers].
+							<strong>Expert Insights:</strong> Articles crafted by experienced
+							money bloggers and digital entrepreneurs who’ve tested every
+							strategy firsthand.
 						</li>
 						<li>
 							<strong>Practical & Actionable:</strong> We focus on tips you can
@@ -293,9 +301,9 @@ const HomePage: React.FC = () => {
 							simply, no jargon.
 						</li>
 						<li>
-							<strong>Community Focused:</strong> We're building a supportive
-							space for learning and growth. (Link to about page or community
-							forum if you have one)
+							<strong>Community Focused:</strong> Every guide is written with
+							you in mind — no fluff, just practical advice that works in the
+							real world.
 						</li>
 					</ul>
 					<Link to='/about-us' className='cta-button-secondary'>
