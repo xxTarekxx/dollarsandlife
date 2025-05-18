@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import "./HomePage.css";
+import MovieList from "./MovieList";
 
 // Keep your existing image imports
 import ShoppingDealsImg from "../assets/icons/img-dealsandsavings.webp";
@@ -390,6 +391,7 @@ const HomePage: React.FC = () => {
 					Start Your Journey Now
 				</a>
 			</section>
+			<MovieList />
 		</div>
 	);
 };
