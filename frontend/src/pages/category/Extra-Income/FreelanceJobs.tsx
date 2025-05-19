@@ -29,7 +29,9 @@ const FreelanceJobs: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/data/freelancejobs.json");
+				const response = await fetch(
+					"http://localhost:5000/api/freelance-jobs",
+				);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: FreelanceJob[] = await response.json();
 				setFreelanceJobs(data);
@@ -125,7 +127,7 @@ const FreelanceJobs: React.FC = () => {
 				/>
 				<Route
 					path=':id'
-					element={<BlogPostContent jsonFile='freelancejobs.json' />}
+					element={<BlogPostContent jsonFile='freelance-jobs' />}
 				/>
 			</Routes>
 		</div>

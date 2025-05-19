@@ -176,7 +176,7 @@ const ShoppingDeals: React.FC = () => {
 		setLoading(true);
 		setError(null);
 		document.title = "Deals and Savings - Best Shopping Discounts";
-		fetch("/data/products.json")
+		fetch("http://localhost:5000/api/shopping-deals")
 			.then((res) => {
 				if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 				return res.json();
