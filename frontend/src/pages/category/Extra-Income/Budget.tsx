@@ -29,7 +29,7 @@ const Budget: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/data/budgetdata.json");
+				const response = await fetch("http://localhost:5000/api/budget-data");
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: BlogPost[] = await response.json();
 				setBudgetPosts(data);
@@ -119,7 +119,7 @@ const Budget: React.FC = () => {
 				/>
 				<Route
 					path=':id'
-					element={<BlogPostContent jsonFile='budgetdata.json' />}
+					element={<BlogPostContent jsonFile='budget-data' />}
 				/>
 			</Routes>
 		</div>

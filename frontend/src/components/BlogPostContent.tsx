@@ -92,16 +92,20 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 	const fetchPost = useCallback(async () => {
 		if (!postId) return;
 		try {
-			const response = await fetch(`/data/${jsonFile}`);
-			if (!response.ok) throw new Error("Failed to fetch post");
-			const data: BlogPost[] = await response.json();
-			const selectedPost = data.find(
-				(item) => item.id.toLowerCase() === postId.toLowerCase(),
+			const response = await fetch(
+				`http://localhost:5000/api/${jsonFile}/${postId}`,
 			);
-			if (!selectedPost) return navigate("/404", { replace: true });
+
+			console.log("📡 Request:", response.status);
+
+			if (!response.ok) throw new Error("Failed to fetch post");
+
+			const selectedPost = await response.json();
+			console.log("🧪 Post content:", selectedPost);
+
 			setPost(selectedPost);
 		} catch (error) {
-			console.error("Error fetching post:", error);
+			console.error("❌ Error fetching post:", error);
 			navigate("/404", { replace: true });
 		}
 	}, [postId, jsonFile, navigate]);

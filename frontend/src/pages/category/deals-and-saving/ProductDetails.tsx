@@ -39,17 +39,15 @@ const ProductDetails: React.FC = () => {
 
 		const fetchProduct = async () => {
 			try {
-				const response = await fetch("/data/products.json");
+				const response = await fetch(
+					`http://localhost:5000/api/shopping-deals/${productId}`,
+				);
 				if (!response.ok) throw new Error("Failed to fetch product data");
-				const products: Product[] = await response.json();
-				const found = products.find((p) => p.id === productId);
+
+				const product: Product = await response.json();
 				if (isMounted) {
-					if (found) {
-						setProduct(found);
-						setNotFound(false);
-					} else {
-						setNotFound(true);
-					}
+					setProduct(product);
+					setNotFound(false);
 				}
 			} catch {
 				if (isMounted) setNotFound(true);

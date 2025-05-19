@@ -29,7 +29,9 @@ const MoneyMakingApps: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/data/moneymakingapps.json");
+				const response = await fetch(
+					"http://localhost:5000/api/money-making-apps",
+				);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: MoneyMakingApp[] = await response.json();
 				setApps(data);
