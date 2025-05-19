@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import BlogPostCard from "../../../components/BlogPostCard";
 import PaginationContainer from "../../../components/PaginationContainer";
+import BlogPostContent from "../../../components/BlogPostContent";
 import "../extra-income/CommonStyles.css";
 
 interface BlogPost {
@@ -73,30 +75,44 @@ const BreakingNews: React.FC = () => {
 				/>
 			</Helmet>
 
-			<h1 className='title-heading'>Breaking News</h1>
+			<Routes>
+				<Route
+					path='/'
+					element={
+						<>
+							<h1 className='title-heading'>Breaking News</h1>
 
-			<div className='content-wrapper'>
-				{currentPosts.map((post) => (
-					<BlogPostCard
-						key={post.id}
-						id={post.id}
-						headline={post.headline}
-						image={post.image}
-						content={getExcerpt(post.content)}
-						author={{ name: post.author.name }}
-						datePublished={post.datePublished}
-						dateModified={post.dateModified}
-						linkTo={`/breaking-news/${post.id}`}
-					/>
-				))}
-			</div>
+							<div className='content-wrapper'>
+								{currentPosts.map((post) => (
+									<BlogPostCard
+										key={post.id}
+										id={post.id}
+										headline={post.headline}
+										image={post.image}
+										content={getExcerpt(post.content)}
+										author={{ name: post.author.name }}
+										datePublished={post.datePublished}
+										dateModified={post.dateModified}
+										linkTo={`/breaking-news/${post.id}`}
+									/>
+								))}
+							</div>
 
-			<PaginationContainer
-				totalItems={localNews.length}
-				itemsPerPage={postsPerPage}
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-			/>
+							<PaginationContainer
+								totalItems={localNews.length}
+								itemsPerPage={postsPerPage}
+								currentPage={currentPage}
+								setCurrentPage={setCurrentPage}
+							/>
+						</>
+					}
+				/>
+
+				<Route
+					path=':id'
+					element={<BlogPostContent jsonFile='breaking-news' />}
+				/>
+			</Routes>
 		</div>
 	);
 };
