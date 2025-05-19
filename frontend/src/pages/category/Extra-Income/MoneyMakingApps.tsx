@@ -128,7 +128,7 @@ const MoneyMakingApps: React.FC = () => {
 				/>
 				<Route
 					path=':id'
-					element={<BlogPostContent jsonFile='moneymakingapps.json' />}
+					element={<BlogPostContent jsonFile='money-making-apps' />}
 				/>
 			</Routes>
 		</div>

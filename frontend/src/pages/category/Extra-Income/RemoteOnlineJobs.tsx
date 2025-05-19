@@ -123,7 +123,7 @@ const RemoteOnlineJobs: React.FC = () => {
 				/>
 				<Route
 					path=':id'
-					element={<BlogPostContent jsonFile='remotejobs.json' />}
+					element={<BlogPostContent jsonFile='remote-jobs' />}
 				/>
 			</Routes>
 		</div>

@@ -231,11 +231,11 @@ const AppContent: React.FC = () => {
 							/>
 							<Route
 								path='/start-a-blog/:id'
-								element={<BlogPostContent jsonFile='startablogdata.json' />}
+								element={<BlogPostContent jsonFile='start-blog' />}
 							/>
 							<Route
 								path='/breaking-news/:id'
-								element={<BlogPostContent jsonFile='breakingnews.json' />}
+								element={<BlogPostContent jsonFile='breaking-news' />}
 							/>
 							<Route
 								path='/sentry-pc-employee-monitoring-systems'
