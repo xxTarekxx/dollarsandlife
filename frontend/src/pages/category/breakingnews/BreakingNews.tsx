@@ -33,7 +33,9 @@ const BreakingNews: React.FC = () => {
 	useEffect(() => {
 		const fetchNews = async () => {
 			try {
-				const response = await fetch("http://localhost:5000/api/breaking-news");
+				const response = await fetch(
+					`${process.env.REACT_APP_API_BASE}/breaking-news`,
+				);
 				if (!response.ok) throw new Error("Failed to fetch news data");
 				const data = await response.json();
 				const newsArray = Array.isArray(data) ? data : [data];

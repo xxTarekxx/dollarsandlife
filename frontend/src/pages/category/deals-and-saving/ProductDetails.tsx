@@ -40,7 +40,7 @@ const ProductDetails: React.FC = () => {
 		const fetchProduct = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:5000/api/shopping-deals/${productId}`,
+					`${process.env.REACT_APP_API_BASE}/shopping-deals/${productId}`,
 				);
 				if (!response.ok) throw new Error("Failed to fetch product data");
 

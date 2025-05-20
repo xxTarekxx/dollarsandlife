@@ -1,81 +1,109 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// Ensure NavBar.css (or a dedicated CSS file) is imported if styles are needed
 import "./NavBar.css";
 
-// Define the Post interface (can be shared in a types file if used elsewhere)
 interface Post {
 	id: string;
 	headline: string;
-	jsonFile: string;
-	route: string;
+	// 'identifier' is used to know the source/type of the post (e.g., "budget-data", "shopping-deals")
+	identifier: string;
+	// 'baseClientRoute' is the root path for this type of content (e.g., "/extra-income/budget")
+	baseClientRoute: string;
+	// Optional: For products, the API might provide a direct slug or full canonical URL
+	slug?: string;
+	canonicalUrl?: string;
 }
 
-// Props expected by this component
 interface SearchFeatureProps {
 	isOpen: boolean;
 	onClose: () => void;
 }
 
 const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
-	// --- State specific to Search ---
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchResults, setSearchResults] = useState<Post[]>([]);
 	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 	const [searchDataLoaded, setSearchDataLoaded] = useState(false);
 	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
-	// --- Refs and Hooks ---
 	const searchRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const navigate = useNavigate();
 
-	// --- Data Fetching Logic ---
 	const loadSearchData = useCallback(async () => {
 		if (searchDataLoaded || isLoadingSearch) return;
-
 		setIsLoadingSearch(true);
 
-		// List of JSON files to fetch for search data
-		const files = [
-			{ file: "budgetdata.json", route: "/extra-income" },
-			{ file: "freelancejobs.json", route: "/extra-income/freelancers" },
+		const API_BASE = process.env.REACT_APP_API_BASE || "/api";
+
+		const endpointsToFetch = [
 			{
-				file: "moneymakingapps.json",
-				route: "/extra-income/money-making-apps",
+				apiPath: "budget-data",
+				baseClientRoute: "/extra-income/budget",
+				identifier: "budget-data",
 			},
-			{ file: "products.json", route: "/shopping-deals" },
-			{ file: "remotejobs.json", route: "/extra-income/remote-jobs" },
-			{ file: "startablogdata.json", route: "/start-a-blog" },
-			{ file: "breakingnews.json", route: "/breaking-news" },
+			{
+				apiPath: "freelance-jobs",
+				baseClientRoute: "/extra-income/freelancers",
+				identifier: "freelance-jobs",
+			},
+			{
+				apiPath: "money-making-apps",
+				baseClientRoute: "/extra-income/money-making-apps",
+				identifier: "money-making-apps",
+			},
+			{
+				apiPath: "shopping-deals",
+				baseClientRoute: "/shopping-deals",
+				identifier: "shopping-deals",
+			},
+			{
+				apiPath: "remote-jobs",
+				baseClientRoute: "/extra-income/remote-jobs",
+				identifier: "remote-jobs",
+			},
+			{
+				apiPath: "start-blog",
+				baseClientRoute: "/start-a-blog",
+				identifier: "start-blog",
+			},
+			{
+				apiPath: "breaking-news",
+				baseClientRoute: "/breaking-news",
+				identifier: "breaking-news",
+			},
 		];
 
-		const allPosts: Post[] = [];
-		for (const { file, route } of files) {
-			try {
-				const res = await fetch(`/data/${file}?v=${Date.now()}`); // Cache bust
-				if (!res.ok) {
-					console.warn(`Failed to fetch ${file}: ${res.statusText}`);
-					continue;
+		const allPostsPromises = endpointsToFetch.map(
+			async ({ apiPath, baseClientRoute, identifier }) => {
+				try {
+					const res = await fetch(`${API_BASE}/${apiPath}`);
+					if (!res.ok) {
+						console.warn(`Failed to fetch ${apiPath}: ${res.statusText}`);
+						return [];
+					}
+					const items: any[] = await res.json();
+					return items.map((item) => ({
+						id: item.id,
+						headline: item.headline,
+						identifier: identifier,
+						baseClientRoute: baseClientRoute,
+						slug: item.slug, // Expecting API to provide slug for products
+						canonicalUrl: item.canonicalUrl, // Or a full canonical URL
+					}));
+				} catch (err) {
+					console.warn(`Error processing or fetching ${apiPath}`, err);
+					return [];
 				}
-				const data: Post[] = await res.json();
-				// Add metadata to each post
-				const postsWithRoute = data.map((post) => ({
-					...post,
-					route,
-					jsonFile: file,
-				}));
-				allPosts.push(...postsWithRoute);
-			} catch (err) {
-				console.warn(`Error processing or fetching ${file}`, err);
-			}
-		}
-		setSearchResults(allPosts);
+			},
+		);
+
+		const results = await Promise.all(allPostsPromises);
+		setSearchResults(results.flat());
 		setSearchDataLoaded(true);
 		setIsLoadingSearch(false);
-	}, [searchDataLoaded, isLoadingSearch]); // Dependencies for useCallback
+	}, [searchDataLoaded, isLoadingSearch]);
 
-	// --- Effect to Load Data and Focus Input ---
 	useEffect(() => {
 		if (isOpen && !searchDataLoaded) {
 			loadSearchData();
@@ -86,7 +114,6 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 		}
 	}, [isOpen, searchDataLoaded, loadSearchData]);
 
-	// --- Effect for Filtering Search Results ---
 	useEffect(() => {
 		if (searchQuery.trim() === "") {
 			setFilteredPosts([]);
@@ -101,7 +128,6 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 		}
 	}, [searchQuery, searchResults, searchDataLoaded]);
 
-	// --- Effect for Handling Clicks Outside ---
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
@@ -111,44 +137,51 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 				onClose();
 			}
 		};
-
-		if (isOpen) {
-			document.addEventListener("mousedown", handleClickOutside);
-		}
-
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
+		if (isOpen) document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, [isOpen, onClose]);
-	// --- Handler for Clicking a Suggestion ---
+
 	const handlePostClick = useCallback(
 		(post: Post) => {
 			onClose();
 			setSearchQuery("");
 			setFilteredPosts([]);
 
-			// Map JSON file names to specific routes
-			const postRouteMap: Record<string, string> = {
-				"budgetdata.json": `/extra-income/${post.id}`,
-				"freelancejobs.json": `/extra-income/freelancers/${post.id}`,
-				"moneymakingapps.json": `/extra-income/money-making-apps/${post.id}`,
-				"remotejobs.json": `/extra-income/remote-jobs/${post.id}`,
-				"startablogdata.json": `/start-a-blog/${post.id}`,
-				"breakingnews.json": `/breaking-news/${post.id}`,
-				"products.json": `/shopping-deals/${post.id}`,
-			};
+			let targetRoute = "";
 
-			const targetRoute = postRouteMap[post.jsonFile];
-			if (targetRoute) {
-				navigate(targetRoute); // Navigate to the specific post route
+			if (post.identifier === "shopping-deals") {
+				if (post.canonicalUrl) {
+					// Prefer canonicalUrl if provided by API
+					targetRoute = post.canonicalUrl;
+				} else if (post.slug) {
+					// Then try slug if provided
+					targetRoute = `/shopping-deals/products/${post.slug}`;
+				} else {
+					// Fallback: attempt to create a basic slug if API doesn't provide one
+					// This requires post.id to be the numeric part for products.
+					const generatedSlug = `${post.id}-${post.headline
+						.toLowerCase()
+						.replace(/\s+/g, "-")
+						.replace(/[^a-z0-9-]/g, "")}`;
+					targetRoute = `/shopping-deals/products/${generatedSlug}`;
+					console.warn(
+						"Shopping deal slug generated on client, API should ideally provide it.",
+						post,
+					);
+				}
 			} else {
-				console.warn(`No route defined for jsonFile: ${post.jsonFile}`);
+				targetRoute = `${post.baseClientRoute}/${post.id}`;
+			}
+
+			if (targetRoute) {
+				navigate(targetRoute);
+			} else {
+				console.warn(`Could not determine route for post:`, post);
 			}
 		},
 		[navigate, onClose],
 	);
 
-	// --- Render the Search UI ---
 	return (
 		<div
 			ref={searchRef}
@@ -157,18 +190,18 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 			<input
 				ref={inputRef}
 				type='text'
-				placeholder={isLoadingSearch ? "Loading..." : "Search posts..."}
+				placeholder={isLoadingSearch ? "Loading data..." : "Search posts..."}
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
 				className='search-bar'
 				aria-label='Search posts'
-				disabled={isLoadingSearch}
+				disabled={isLoadingSearch || !searchDataLoaded}
 			/>
-			{searchDataLoaded && !isLoadingSearch && filteredPosts.length > 0 && (
+			{!isLoadingSearch && searchDataLoaded && filteredPosts.length > 0 && (
 				<ul className='suggestions-list'>
 					{filteredPosts.map((post) => (
 						<li
-							key={`${post.jsonFile}-${post.id}`}
+							key={`${post.identifier}-${post.id}`} // Use identifier and id for a unique key
 							onClick={() => handlePostClick(post)}
 						>
 							{post.headline}
@@ -176,13 +209,11 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 					))}
 				</ul>
 			)}
-			{/* Optional loading indicator */}
 			{isLoadingSearch && (
-				<div className='search-loading'>Loading posts...</div>
+				<div className='search-loading'>Loading search data...</div>
 			)}
-			{/* Optional 'no results' message */}
-			{searchDataLoaded &&
-				!isLoadingSearch &&
+			{!isLoadingSearch &&
+				searchDataLoaded &&
 				searchQuery.trim() !== "" &&
 				filteredPosts.length === 0 && (
 					<div className='search-no-results'>No matches found.</div>

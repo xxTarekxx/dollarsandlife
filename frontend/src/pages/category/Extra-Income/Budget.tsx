@@ -29,7 +29,9 @@ const Budget: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch("http://localhost:5000/api/budget-data");
+				const response = await fetch(
+					`${process.env.REACT_APP_API_BASE}/budget-data`,
+				);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: BlogPost[] = await response.json();
 				setBudgetPosts(data);

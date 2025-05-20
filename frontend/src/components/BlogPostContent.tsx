@@ -93,7 +93,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 		if (!postId) return;
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/${jsonFile}/${postId}`,
+				`${process.env.REACT_APP_API_BASE}/${jsonFile}/${postId}`,
 			);
 
 			console.log("📡 Request:", response.status);
