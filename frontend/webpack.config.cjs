@@ -1,3 +1,5 @@
+// frontend/webpack.config.cjs
+
 const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -7,7 +9,7 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-dotenv.config();
+dotenv.config(); // This loads variables from .env or .env.production into process.env for the build script
 
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production';
@@ -82,6 +84,13 @@ module.exports = (env, argv) => {
                 openAnalyzer: false,
             }),
             new webpack.DefinePlugin({
+                // Define NODE_ENV for client-side code if needed
+                'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
+
+                // ** THE FIX IS HERE: Added REACT_APP_API_BASE **
+                'process.env.REACT_APP_API_BASE': JSON.stringify(process.env.REACT_APP_API_BASE),
+
+                // Your existing environment variables
                 'process.env.REACT_APP_INTERNAL_IP_PREFIX': JSON.stringify(process.env.REACT_APP_INTERNAL_IP_PREFIX),
                 'process.env.REACT_APP_EMAILJS_SERVICE_ID': JSON.stringify(process.env.REACT_APP_EMAILJS_SERVICE_ID),
                 'process.env.REACT_APP_EMAILJS_TEMPLATE_ID': JSON.stringify(process.env.REACT_APP_EMAILJS_TEMPLATE_ID),

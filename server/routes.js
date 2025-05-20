@@ -1,4 +1,7 @@
 require('dotenv').config();
+
+// console.log("✅ routes.js loaded"); 
+
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const router = express.Router();
@@ -7,7 +10,8 @@ const uri = process.env.MONGODB_URI;
 if (!uri) throw new Error("❌ MONGODB_URI is missing");
 
 const createContentRoutes = (collectionName, basePath) => {
-    console.log(`🟡 Registering route: /api/${basePath}`);
+    // console.log("🟡 Registering route:", collectionName, basePath);
+    // console.log(`🟡 Registering route: /api/${basePath}`);
 
     // GET all
     router.get(`/${basePath}`, async (req, res) => {
@@ -52,7 +56,6 @@ createContentRoutes('start_a_blog', 'start-blog');
 createContentRoutes('money_making_apps', 'money-making-apps');
 createContentRoutes('products_list', 'shopping-deals');
 createContentRoutes('remote_jobs', 'remote-jobs');
-
 
 
 module.exports = router;

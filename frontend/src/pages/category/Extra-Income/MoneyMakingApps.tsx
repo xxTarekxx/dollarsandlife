@@ -30,7 +30,7 @@ const MoneyMakingApps: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:5000/api/money-making-apps",
+					`${process.env.REACT_APP_API_BASE}/money-making-apps`,
 				);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: MoneyMakingApp[] = await response.json();

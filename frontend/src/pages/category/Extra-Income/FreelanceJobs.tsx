@@ -30,7 +30,7 @@ const FreelanceJobs: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:5000/api/freelance-jobs",
+					`${process.env.REACT_APP_API_BASE}/freelance-jobs`,
 				);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: FreelanceJob[] = await response.json();
