@@ -1,4 +1,4 @@
-// In D:\project\dollarsandlife\server\server.js
+// /var/www/html/dollarsandlife/server.js (Full version with NEW wildcard)
 
 const express = require('express');
 const cors = require('cors');
@@ -16,10 +16,11 @@ app.use('/api', routes);
 
 // Serve React build in production
 if (process.env.NODE_ENV === 'production') {
-    const buildPath = __dirname; // <--- THIS IS THE CORRECTED LINE
+    const buildPath = __dirname;
     app.use(express.static(buildPath));
 
-    app.get('*', (req, res, next) => {
+    // MODIFIED WILDCARD SYNTAX FOR EXPRESS 5.x
+    app.get('/{*splat}', (req, res, next) => {
         if (req.originalUrl.startsWith('/api/')) {
             return next();
         }
@@ -28,5 +29,5 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`🚀 Full Server with new wildcard running at http://localhost:${PORT}`);
 });
