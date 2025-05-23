@@ -29,9 +29,16 @@ const FreelanceJobs: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch(
-					`${process.env.REACT_APP_API_BASE}/freelance-jobs`,
-				);
+				// 1. URL construction moved to a separate variable 'apiUrl'
+				const apiUrl = `${process.env.REACT_APP_API_BASE}/freelance-jobs`;
+
+				// 2. The new console.log to inspect 'apiUrl'
+				console.log("Attempting to fetch from (FreelanceJobs.tsx):", apiUrl);
+
+				// 3. 'fetch' now uses the 'apiUrl' variable
+				const response = await fetch(apiUrl);
+
+				// Rest of the logic is identical
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: FreelanceJob[] = await response.json();
 				setFreelanceJobs(data);
