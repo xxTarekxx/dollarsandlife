@@ -9,21 +9,38 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-dotenv.config(); // This loads variables from .env or .env.production into process.env for the build script
+// --- MODIFIED SECTION FOR DEBUGGING ---
+const nodeEnvForDotenv = process.env.NODE_ENV; // See what NODE_ENV is before webpack --mode might override it for the export
+const envPath = nodeEnvForDotenv === 'production' ? path.resolve(__dirname, '.env.production') : path.resolve(__dirname, '.env');
+console.log(`[Webpack Build] Attempting to load .env file from: ${envPath} (based on initial NODE_ENV: ${nodeEnvForDotenv})`);
+
+const envConfig = dotenv.config({ path: envPath }); // Explicitly load based on initial NODE_ENV
+
+if (envConfig.error) {
+    console.warn(`[Webpack Build] Warning: dotenv.config() error: `, envConfig.error);
+} else if (Object.keys(envConfig.parsed || {}).length === 0) {
+    console.warn(`[Webpack Build] Warning: dotenv.config() loaded an empty object from ${envPath}. Check file content and path.`);
+} else {
+    console.log(`[Webpack Build] Successfully loaded variables from ${envPath}. Parsed:`, Object.keys(envConfig.parsed || {}));
+}
+console.log(`[Webpack Build] REACT_APP_API_BASE from process.env (after dotenv): ${process.env.REACT_APP_API_BASE}`);
+// --- END OF MODIFIED SECTION ---
 
 module.exports = (env, argv) => {
-    const isProduction = argv.mode === 'production';
+    const isProduction = argv.mode === 'production'; // argv.mode is reliable from webpack CLI
+    console.log(`[Webpack Build] Inside module.exports: argv.mode is ${argv.mode}, isProduction is ${isProduction}`);
+    console.log(`[Webpack Build] Inside module.exports: REACT_APP_API_BASE from process.env: ${process.env.REACT_APP_API_BASE}`);
 
     return {
         mode: isProduction ? 'production' : 'development',
-        entry: './src/main.tsx',
+        entry: './src/main.tsx', // You have this as entry
         output: {
             filename: isProduction ? 'assets/[name].[contenthash].js' : 'assets/[name].js',
             path: path.resolve(__dirname, 'build'),
             publicPath: '/',
             clean: true,
         },
-        module: {
+        module: { // Your existing module rules
             rules: [
                 {
                     test: /\.tsx?$/,
@@ -51,7 +68,7 @@ module.exports = (env, argv) => {
                 },
             ],
         },
-        plugins: [
+        plugins: [ // Your existing plugins, ensure DefinePlugin is correct
             new HtmlWebpackPlugin({
                 template: './index.html',
                 filename: 'index.html',
@@ -83,14 +100,10 @@ module.exports = (env, argv) => {
                 reportFilename: 'stats.html',
                 openAnalyzer: false,
             }),
+            // --- ENSURE THIS DefinePlugin IS CORRECT ---
             new webpack.DefinePlugin({
-                // Define NODE_ENV for client-side code if needed
                 'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
-
-                // ** THE FIX IS HERE: Added REACT_APP_API_BASE **
-                'process.env.REACT_APP_API_BASE': JSON.stringify(process.env.REACT_APP_API_BASE),
-
-                // Your existing environment variables
+                'process.env.REACT_APP_API_BASE': JSON.stringify(process.env.REACT_APP_API_BASE), // Uses process.env populated by dotenv
                 'process.env.REACT_APP_INTERNAL_IP_PREFIX': JSON.stringify(process.env.REACT_APP_INTERNAL_IP_PREFIX),
                 'process.env.REACT_APP_EMAILJS_SERVICE_ID': JSON.stringify(process.env.REACT_APP_EMAILJS_SERVICE_ID),
                 'process.env.REACT_APP_EMAILJS_TEMPLATE_ID': JSON.stringify(process.env.REACT_APP_EMAILJS_TEMPLATE_ID),
@@ -98,9 +111,13 @@ module.exports = (env, argv) => {
                 'process.env.REACT_APP_RECAPTCHA_SITE_KEY': JSON.stringify(process.env.REACT_APP_RECAPTCHA_SITE_KEY),
                 'process.env.REACT_APP_RSS2JSON_API_KEY': JSON.stringify(process.env.REACT_APP_RSS2JSON_API_KEY),
             }),
+            // --- END OF DefinePlugin SECTION ---
             new CopyPlugin({
                 patterns: [
                     { from: 'public/data', to: 'data' },
+                    { from: 'public/403-apache.html', to: '403-apache.html' }, // <-- ADD THIS
+                    { from: 'public/404-apache.html', to: '404-apache.html' }, // <-- ADD THIS
+                    { from: 'public/500-apache.html', to: '500-apache.html' }, // <-- ADD THIS
                     { from: 'src/assets', to: 'images' },
                     { from: 'ads', to: 'ads' },
                     { from: '.htaccess', to: '' },
@@ -111,10 +128,10 @@ module.exports = (env, argv) => {
                 ],
             }),
         ],
-        resolve: {
+        resolve: { // Your existing resolve
             extensions: ['.tsx', '.ts', '.js'],
         },
-        devServer: {
+        devServer: { // Your existing devServer
             port: 3000,
             static: {
                 directory: path.join(__dirname, 'public'),
@@ -128,7 +145,7 @@ module.exports = (env, argv) => {
                 },
             },
         },
-        optimization: {
+        optimization: { // Your existing optimization
             splitChunks: {
                 chunks: 'all',
                 cacheGroups: {
@@ -137,7 +154,7 @@ module.exports = (env, argv) => {
                         name: 'vendor',
                         chunks: 'all',
                     },
-                    recaptcha: {
+                    recaptcha: { // ... and other cacheGroups
                         test: /[\\/]node_modules[\\/]react-google-recaptcha[\\/]/,
                         name: 'recaptcha',
                         chunks: 'all',
@@ -156,7 +173,7 @@ module.exports = (env, argv) => {
             },
             usedExports: true,
         },
-        performance: {
+        performance: { // Your existing performance
             maxAssetSize: 1000000,
             hints: isProduction ? 'warning' : false,
         },

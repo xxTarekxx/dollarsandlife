@@ -3,7 +3,8 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"build": "webpack --mode production",
+		"prebuild": "node sitemap-generator/mongo-generate-sitemap.cjs",
+		"build": "cross-env NODE_ENV=production webpack --mode production",
 		"start": "webpack serve --mode development",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"generate-sitemap": "node dist/generate-sitemap.js"
@@ -19,6 +20,7 @@
 		"emailjs-com": "^3.2.0",
 		"fs-extra": "^11.3.0",
 		"html-react-parser": "^5.2.2",
+		"mongodb": "^6.16.0",
 		"react": "^18.2.0",
 		"react-adsense": "^0.1.0",
 		"react-device-detect": "^2.2.3",
@@ -42,6 +44,7 @@
 		"@typescript-eslint/parser": "^8.7.0",
 		"babel-loader": "^10.0.0",
 		"copy-webpack-plugin": "^13.0.0",
+		"cross-env": "^7.0.3",
 		"css-loader": "^7.1.2",
 		"dotenv": "^16.4.7",
 		"dotenv-webpack": "^8.1.0",
