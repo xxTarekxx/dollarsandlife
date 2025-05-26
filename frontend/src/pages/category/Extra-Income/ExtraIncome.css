@@ -1,11 +1,3 @@
-@media (max-width: 768px) {
-    .blog-post-content h1 {
-        font-size: 1.3em;
-    }
-
-
-}
-
 /* Category Links Container */
 .category-links-container {
     width: 100%;
