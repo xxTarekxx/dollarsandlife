@@ -5,16 +5,11 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path'); // Ensure path is required
 const { MongoClient } = require('mongodb');
-require('dotenv').config({ path: path.resolve(__dirname, '.env') }); // This loads variables from server/.env
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
-
-// === PORT HANDLING IS HERE ===
-const PORT = process.env.PORT || 5000; // This line reads PORT from your server/.env file.
-// If not found, it defaults to 5000.
-// === END OF PORT HANDLING ===
-
-const MONGODB_URI_SERVER = process.env.MONGODB_URI; // This reads MONGODB_URI from server/.env
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI_SERVER = process.env.MONGODB_URI;
 
 if (!MONGODB_URI_SERVER) {
     console.error("❌ FATAL ERROR (server.js): MONGODB_URI is missing. Application cannot start.");
@@ -49,9 +44,11 @@ app.use(async (req, res, next) => {
     next();
 });
 
+// --- MODIFIED REQUIRE FOR ROUTES.JS ---
 const routesPath = path.resolve(__dirname, './routes.js');
-delete require.cache[routesPath];
-const routes = require(routesPath);
+delete require.cache[routesPath]; // Attempt to clear cache for routes.js
+const routes = require(routesPath); // Re-require with absolute path
+// --- END OF MODIFIED REQUIRE ---
 
 app.use(cors());
 app.use(express.json());
@@ -69,7 +66,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 connectDB().then(() => {
-    app.listen(PORT, () => { // The PORT variable (from .env or default) is used here
+    app.listen(PORT, () => {
         console.log(`🚀 Full Server with new wildcard running at http://localhost:${PORT}`);
     });
 }).catch(err => {
