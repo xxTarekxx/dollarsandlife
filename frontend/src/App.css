@@ -271,10 +271,9 @@ button.secondary:hover {
 @media (max-width: 30rem) {
 
   /* 480px */
-  h1 {
+  /* h1 {
     font-size: 1.6rem;
-    /* FIXED: was 1.4rem, now larger than h2 */
-  }
+  } */
 
   h2 {
     font-size: 1.4rem;
