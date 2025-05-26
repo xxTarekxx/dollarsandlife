@@ -51,12 +51,12 @@ body {
 }
 
 /* --- Typography --- */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.homepage-container h1,
+.homepage-container h2,
+.homepage-container h3,
+.homepage-container h4,
+.homepage-container h5,
+.homepage-container h6 {
     font-family: var(--heading-font);
     font-weight: 600;
     color: var(--primary-color);
@@ -456,12 +456,12 @@ a:focus {
         padding: 3rem 1rem;
     }
 
-    h1 {
+    .homepage-container h1 {
         font-size: 2rem;
         /* Changed clamp value - seems the font sizes for h1/h2 were removed earlier. Reverting based on latest context. */
     }
 
-    h2 {
+    .homepage-container h2 {
         font-size: 1.8rem;
         /* Changed clamp value */
     }
