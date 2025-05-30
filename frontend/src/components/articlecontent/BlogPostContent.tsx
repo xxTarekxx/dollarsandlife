@@ -10,8 +10,8 @@ import React, {
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import "./BlogPostContent.css";
-import "../components/AdComponent.css";
-import "../pages/category/extra-income/CommonStyles.css";
+// import "../../components/AdComponent.css";
+import "../../pages/category/extra-income/CommonStyles.css";
 
 interface BlogPostContentProps {
 	jsonFile: string;

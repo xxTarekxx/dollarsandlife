@@ -1,0 +1,226 @@
+/* frontend/src/pages/forum/ForumHomePage.css */
+.forum-homepage-container {
+    padding: 20px 15px;
+    /* Adjusted padding for smaller screens */
+    max-width: 1200px;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.forum-header {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow wrapping for smaller screens */
+    gap: 15px;
+    /* Space between title and button if they wrap */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forum-header h1 {
+    color: #6000ce;
+    font-size: 24px;
+    /* Adjusted for responsiveness */
+    font-weight: 600;
+    margin: 0;
+    /* Remove default margin */
+}
+
+.create-post-button-main {
+    padding: 10px 18px;
+    /* Adjusted padding */
+    background-color: #6000ce;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    /* Adjusted for responsiveness */
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    white-space: nowrap;
+    /* Prevent button text from wrapping */
+}
+
+.create-post-button-main:hover {
+    background-color: #4d00a9;
+    transform: translateY(-1px);
+}
+
+.create-post-button-main:active {
+    transform: translateY(0);
+}
+
+.forum-content {
+    display: flex;
+    flex-direction: column;
+    /* Stack on small screens */
+    gap: 25px;
+}
+
+.post-feed-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.post-feed-area h2 {
+    font-size: 20px;
+    /* Adjusted */
+    color: #6000ce;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.dummy-post-card {
+    background-color: #ffffff;
+    padding: 15px;
+    /* Adjusted */
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+    transition: box-shadow 0.2s ease;
+}
+
+.dummy-post-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dummy-post-card h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #0062cc;
+    font-size: 17px;
+    /* Adjusted */
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.dummy-post-card h3:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.dummy-post-card p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.dummy-post-card p:last-child {
+    margin-bottom: 0;
+}
+
+.dummy-post-card .post-meta {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 12px;
+}
+
+.forum-sidebar {
+    flex-basis: 100%;
+    /* Full width on small screens */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+    height: fit-content;
+}
+
+.forum-sidebar h3 {
+    font-size: 18px;
+    /* Adjusted */
+    color: #6000ce;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.forum-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.forum-sidebar li {
+    background-color: transparent;
+    padding: 10px 0px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    /* Adjusted */
+    color: #0062cc;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.forum-sidebar li:last-child {
+    border-bottom: none;
+}
+
+.forum-sidebar li:hover {
+    color: #004c9e;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+
+    /* Tablet and above */
+    .forum-homepage-container {
+        padding: 20px 30px;
+    }
+
+    .forum-header h1 {
+        font-size: 26px;
+    }
+
+    .create-post-button-main {
+        padding: 12px 22px;
+        font-size: 16px;
+    }
+
+    .forum-content {
+        flex-direction: row;
+        /* Side-by-side layout */
+    }
+
+    .post-feed-area h2 {
+        font-size: 22px;
+    }
+
+    .dummy-post-card {
+        padding: 20px;
+    }
+
+    .dummy-post-card h3 {
+        font-size: 18px;
+    }
+
+    .forum-sidebar {
+        flex-basis: 280px;
+        /* Fixed width for sidebar */
+        flex-shrink: 0;
+    }
+
+    .forum-sidebar li {
+        font-size: 15px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    /* Larger desktops */
+    .forum-sidebar {
+        flex-basis: 300px;
+        /* Slightly wider sidebar on large screens */
+    }
+}

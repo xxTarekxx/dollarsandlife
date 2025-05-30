@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import BlogPostCard from "../../../components/BlogPostCard";
-import PaginationContainer from "../../../components/PaginationContainer";
-import BlogPostContent from "../../../components/BlogPostContent";
+import { Route, Routes } from "react-router-dom";
+import BlogPostContent from "../../../components/articlecontent/BlogPostContent";
+import PaginationContainer from "../../../components/pagination/PaginationContainer";
+import BlogPostCard from "../../../components/postcards/BlogPostCard";
 import "../extra-income/CommonStyles.css";
 
 interface BlogPost {

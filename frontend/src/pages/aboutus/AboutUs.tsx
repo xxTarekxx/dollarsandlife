@@ -1,14 +1,14 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import "./category/extra-income/CommonStyles.css";
+import "../category/extra-income/CommonStyles.css";
 import "./AboutUs.css";
 
 // Importing logos from /assets
-import mongoLogo from "../../src/assets/mongodb.webp";
-import expressLogo from "../../src/assets/expressjs.webp";
-import reactLogo from "../../src/assets/reactlogo.webp";
-import nodeLogo from "../../src/assets/nodejslogo.webp";
-import firebaseLogo from "../../src/assets/firebaselogo.png"; // Make sure this exists
+import mongoLogo from "../../../src/assets/mongodb.webp";
+import expressLogo from "../../../src/assets/expressjs.webp";
+import reactLogo from "../../../src/assets/reactlogo.webp";
+import nodeLogo from "../../../src/assets/nodejslogo.webp";
+import firebaseLogo from "../../../src/assets/firebaselogo.png"; // Make sure this exists
 
 const AboutUs: React.FC = () => {
 	return (
