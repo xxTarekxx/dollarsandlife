@@ -1,10 +1,10 @@
 import React, {
 	lazy,
 	Suspense,
-	useEffect,
-	useState,
-	useMemo,
 	useCallback,
+	useEffect,
+	useMemo,
+	useState,
 } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
@@ -14,15 +14,21 @@ import {
 	useLocation,
 } from "react-router-dom";
 import "./App.css";
-import Loading from "./components/Loading";
-import NavBar from "./components/NavBar";
-import NotFoundPage from "./components/NotFoundPage";
+import Loading from "./components/loadingstatus/Loading";
+import NavBar from "./components/navbar/NavBar";
+import NotFoundPage from "./components/notfound404/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
+
+const SignUp = lazy(() => import("./auth/SignUp")); // Corrected path
+const Login = lazy(() => import("./auth/Login"));
+const ForumHomePage = lazy(
+	() => import("./pages/forum/forum-home/ForumHomePage"),
+);
 
 const SentryPCLanding = lazy(
 	() => import("./pages/sentrypc-landing/SentryPCLanding"),
 );
-const RssTicker = lazy(() => import("./components/RssTicker"));
+const RssTicker = lazy(() => import("./components/rss-news/RssTicker"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ExtraIncome = lazy(
 	() => import("./pages/category/extra-income/ExtraIncome"),
@@ -52,15 +58,19 @@ const ProductDetails = lazy(
 const FinancialCalculators = lazy(
 	() => import("./components/calculators/FinancialCalculators"),
 );
-const AboutUs = lazy(() => import("./pages/AboutUs"));
+const AboutUs = lazy(() => import("./pages/aboutus/AboutUs"));
 
-const ContactUs = lazy(() => import("./components/ContactUs"));
+const ContactUs = lazy(() => import("./pages/contactus/ContactUs"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
-const BlogPostContent = lazy(() => import("./components/BlogPostContent"));
-const BreadcrumbWrapper = lazy(() => import("./components/BreadcrumbWrapper"));
+const BlogPostContent = lazy(
+	() => import("./components/articlecontent/BlogPostContent"),
+);
+const BreadcrumbWrapper = lazy(
+	() => import("./components/breadcrumbs/BreadcrumbWrapper"),
+);
 const ReturnPolicy = lazy(() => import("./pages/returnpolicy/ReturnPolicy"));
-const Footer = lazy(() => import("./components/Footer"));
+const Footer = lazy(() => import("./components/footer/Footer"));
 
 declare global {
 	interface Window {
@@ -197,6 +207,8 @@ const AppContent: React.FC = () => {
 					<Suspense fallback={<Loading />}>
 						<Routes>
 							<Route path='/' element={<HomePage />} />
+							<Route path='/signup' element={<SignUp />} />
+							<Route path='/login' element={<Login />} />
 							<Route path='/extra-income' element={<ExtraIncome />} />
 							<Route
 								path='/extra-income/freelancers/*'
@@ -244,6 +256,7 @@ const AppContent: React.FC = () => {
 							<Route path='/return-policy' element={<ReturnPolicy />} />
 							<Route path='*' element={<NotFoundPage />} />
 							<Route path='/about-us' element={<AboutUs />} />
+							<Route path='/forum' element={<ForumHomePage />} />
 						</Routes>
 					</Suspense>
 				</main>

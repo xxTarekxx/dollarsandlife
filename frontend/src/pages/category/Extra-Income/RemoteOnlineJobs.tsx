@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Route, Routes } from "react-router-dom";
-import BlogPostCard from "../../../components/BlogPostCard";
-import BlogPostContent from "../../../components/BlogPostContent";
-import PaginationContainer from "../../../components/PaginationContainer";
+import BlogPostContent from "../../../components/articlecontent/BlogPostContent";
+import PaginationContainer from "../../../components/pagination/PaginationContainer";
+import BlogPostCard from "../../../components/postcards/BlogPostCard";
 import "./CommonStyles.css";
 
 interface RemoteJob {

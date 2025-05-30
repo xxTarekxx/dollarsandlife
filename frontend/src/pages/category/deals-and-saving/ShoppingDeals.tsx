@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import PaginationContainer from "../../../components/PaginationContainer";
+import PaginationContainer from "../../../components/pagination/PaginationContainer";
 import "./ShoppingDeals.css";
 
 interface Product {

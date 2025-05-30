@@ -1,10 +1,9 @@
 import React, {
+	Suspense,
+	lazy,
 	memo,
 	useCallback, // Keep useCallback import, but we won't wrap closeMenuAndNavigate
 	useState,
-	Suspense,
-	lazy,
-	useEffect,
 } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
