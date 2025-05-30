@@ -18,6 +18,7 @@ import Loading from "./components/loadingstatus/Loading";
 import NavBar from "./components/navbar/NavBar";
 import NotFoundPage from "./components/notfound404/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
+import { Toaster } from "react-hot-toast";
 
 const SignUp = lazy(() => import("./auth/SignUp")); // Corrected path
 const Login = lazy(() => import("./auth/Login"));
@@ -64,7 +65,7 @@ const ContactUs = lazy(() => import("./pages/contactus/ContactUs"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const BlogPostContent = lazy(
-	() => import("./components/articlecontent/BlogPostContent"),
+	() => import("./components/articles-content/BlogPostContent"),
 );
 const BreadcrumbWrapper = lazy(
 	() => import("./components/breadcrumbs/BreadcrumbWrapper"),
@@ -166,6 +167,17 @@ const AppContent: React.FC = () => {
 
 	return (
 		<HelmetProvider>
+			<Toaster
+				position='top-center'
+				toastOptions={{
+					style: {
+						fontSize: "1rem",
+						fontWeight: "600",
+						padding: "14px 24px",
+						borderRadius: "10px",
+					},
+				}}
+			/>
 			<div className={`app-container ${showAdBlockPrompt ? "blurred" : ""}`}>
 				{showAdBlockPrompt && (
 					<div className='adblock-warning'>

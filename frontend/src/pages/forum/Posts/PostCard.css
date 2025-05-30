@@ -40,23 +40,39 @@
 }
 
 .post-card-meta {
-    font-size: 13px;
-    /* Slightly smaller meta text */
-    color: #6c757d;
-    /* Grey for meta */
-    margin-bottom: 12px;
     display: flex;
     flex-wrap: wrap;
-    /* Allow meta items to wrap */
-    gap: 5px 15px;
-    /* Gap between meta items */
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
 }
 
 .post-card-meta span {
-    /* Individual meta items */
-    display: inline-flex;
-    /* Align icons with text if any */
+    display: flex;
     align-items: center;
+    gap: 4px;
+}
+
+.post-card-meta .tag-label {
+    font-weight: 600;
+    color: #444;
+}
+
+.post-card-meta .tag-list {
+    display: inline-flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.post-card-meta .tag-pill {
+    background-color: #e6f0ff;
+    color: #0056b3;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 12px;
+    font-weight: 500;
 }
 
 .post-card-snippet {

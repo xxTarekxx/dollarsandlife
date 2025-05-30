@@ -108,6 +108,10 @@ const ProductDetails: React.FC = () => {
 			<Helmet>
 				<title>{`${product.headline} | Shopping Deals`}</title>
 				<meta name='description' content={metaDesc} />
+				<link
+					rel='canonical'
+					href={`https://www.dollarsandlife.com/shopping-deals/products/${productSlug}`}
+				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
