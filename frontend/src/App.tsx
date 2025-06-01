@@ -82,17 +82,23 @@ declare global {
 
 const AppContent: React.FC = () => {
 	const location = useLocation();
-	const canonicalUrl = useMemo(
-		() => `https://www.dollarsandlife.com${location.pathname.toLowerCase()}`,
-		[location.pathname],
-	);
-	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
+	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false); // ✅ FIXED missing state
+	const canonicalUrl = useMemo(() => {
+		const parts = location.pathname.split("/");
+		const lowercasedParts = parts.map((part, idx) =>
+			parts[idx - 1] === "post" ? part : part.toLowerCase(),
+		);
+		return `https://www.dollarsandlife.com${lowercasedParts.join("/")}`;
+	}, [location.pathname]);
 
 	useEffect(() => {
-		const currentPath = location.pathname;
-		const lowerCasePath = currentPath.toLowerCase();
-		if (currentPath !== lowerCasePath) {
-			window.history.replaceState({}, document.title, lowerCasePath);
+		const parts = location.pathname.split("/");
+		const correctedParts = parts.map((part, idx) =>
+			parts[idx - 1] === "post" ? part : part.toLowerCase(),
+		);
+		const correctedPath = correctedParts.join("/");
+		if (location.pathname !== correctedPath) {
+			window.history.replaceState({}, document.title, correctedPath);
 		}
 	}, [location.pathname]);
 

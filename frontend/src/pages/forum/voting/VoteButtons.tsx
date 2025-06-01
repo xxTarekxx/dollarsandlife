@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import "./VoteButtons.css"; // Or your chosen CSS file name
 // import { auth } from '../../../firebase'; // Path to your firebase.ts
-// import { onAuthStateChanged, User } from 'firebase/auth';
+import { onAuthStateChanged, User } from "firebase/auth";
 // import { castVote, getUserVoteForItem } from './voteService'; // To be created
 
 interface VoteButtonsProps {
