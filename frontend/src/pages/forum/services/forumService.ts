@@ -1,6 +1,6 @@
 // frontend/src/pages/forum/services/forumService.ts
 import { db } from "../../../firebase"; // adjust if your firebase.ts is in src/
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { deleteDoc, doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 interface NewPostData {
 	title: string;
@@ -19,4 +19,9 @@ export const createForumPost = async (post: NewPostData) => {
 		commentCount: 0,
 		timestamp: serverTimestamp(),
 	});
+};
+
+export const deleteForumPost = async (postId: string) => {
+	const postRef = doc(db, "forumPosts", postId);
+	await deleteDoc(postRef);
 };

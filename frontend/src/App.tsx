@@ -25,6 +25,7 @@ const Login = lazy(() => import("./auth/Login"));
 const ForumHomePage = lazy(
 	() => import("./pages/forum/forum-home/ForumHomePage"),
 );
+const ViewPostPage = lazy(() => import("./pages/forum/view-post/ViewPostPage"));
 
 const SentryPCLanding = lazy(
 	() => import("./pages/sentrypc-landing/SentryPCLanding"),
@@ -269,6 +270,7 @@ const AppContent: React.FC = () => {
 							<Route path='*' element={<NotFoundPage />} />
 							<Route path='/about-us' element={<AboutUs />} />
 							<Route path='/forum' element={<ForumHomePage />} />
+							<Route path='/forum/post/:postId' element={<ViewPostPage />} />
 						</Routes>
 					</Suspense>
 				</main>
