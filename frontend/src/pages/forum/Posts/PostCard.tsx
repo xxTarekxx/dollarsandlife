@@ -15,7 +15,7 @@ export interface PostData {
 	// Changed from voteCount to specific counts
 	helpfulVoteCount: number; // <-- CHANGED/ADDED
 	notHelpfulVoteCount: number; // <-- ADDED
-	commentCount: number;
+	answerCount: number;
 	tags?: string[];
 }
 
@@ -77,10 +77,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 					itemType='post'
 				/>
 				<Link
-					to={`/forum/post/${post.id}#comments`}
+					to={`/forum/post/${post.id}#answers`}
 					className='post-card-view-link'
 				>
-					{post.commentCount} Comments
+					{post.answerCount} Answers
 				</Link>
 			</div>
 		</article>
