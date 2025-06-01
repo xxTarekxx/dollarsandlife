@@ -1,5 +1,7 @@
 // frontend/src/pages/forum/post-form/CreatePostForm.tsx
 import React, { useState, useEffect, useRef } from "react";
+import { auth } from "../../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import "./CreatePostForm.css";
 import { createForumPost } from "../services/forumService";
 import toast from "react-hot-toast";
@@ -27,6 +29,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ onPostSuccess }) => {
 	const [content, setContent] = useState("");
 	const [tags, setTags] = useState<string[]>([]); // ✅ tags as array, not string
 	const titleRef = useRef<HTMLInputElement>(null);
+	const [user] = useAuthState(auth);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -35,8 +38,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ onPostSuccess }) => {
 			await createForumPost({
 				title,
 				content,
-				tags, // ✅ already array of lowercase
-				authorDisplayName: "Anonymous",
+				tags,
+				authorId: user?.uid || "", // ✅ save logged-in user ID
+				authorDisplayName: user?.displayName || "Anonymous",
 			});
 			toast.success("✅ Post submitted successfully!");
 			onPostSuccess?.();

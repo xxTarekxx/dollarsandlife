@@ -13,7 +13,7 @@ interface NewPostData {
 export const createForumPost = async (post: NewPostData) => {
 	const postsRef = collection(db, "forumPosts");
 	await addDoc(postsRef, {
-		...post,
+		...post, // ✅ must include authorId here
 		helpfulVoteCount: 0,
 		notHelpfulVoteCount: 0,
 		commentCount: 0,

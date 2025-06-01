@@ -1,345 +1,447 @@
 /* frontend/src/pages/forum/ForumHomePage.css */
+
+:root {
+    --page-bg-color: #f8f9fa;
+    --card-bg-color: #ffffff;
+    --primary-text-color: #212529;
+    --secondary-text-color: #495057;
+    --muted-text-color: #6c757d;
+    --border-color: #dee2e6;
+    --border-radius: 8px;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    --primary-brand-color: #6a11cb;
+    /* A nice purple */
+    --primary-brand-hover-color: #530ca7;
+    --text-on-primary-brand: #ffffff;
+
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+        Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    --modal-overlay-bg: rgba(30, 30, 30, 0.7);
+    --modal-animation-duration: 0.25s;
+}
+
 .forum-homepage-container {
-    padding: 20px 15px;
-    /* Adjusted padding for smaller screens */
+    padding: 1.5rem 1rem;
+    /* 24px 16px */
     max-width: 1200px;
-    margin: 20px auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f95b;
+    margin: 1.5rem auto;
+    font-family: var(--font-sans);
+    background-color: var(--page-bg-color);
+    color: var(--primary-text-color);
+}
+
+.forum-homepage-container.blurred {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
 }
 
 .forum-header {
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e7e7e7;
+    margin-bottom: 2rem;
+    /* 32px */
+    padding-bottom: 1rem;
+    /* 16px */
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     flex-wrap: wrap;
-    /* Allow wrapping for smaller screens */
-    gap: 15px;
-    /* Space between title and button if they wrap */
+    gap: 1rem;
+    /* 16px */
     justify-content: space-between;
     align-items: center;
 }
 
 .forum-header h1 {
-    color: #6000ce;
-    font-size: 24px;
-    /* Adjusted for responsiveness */
-    font-weight: 600;
+    color: var(--primary-brand-color);
+    font-size: clamp(1.5rem, 4vw, 1.875rem);
+    /* Responsive font size: 24px to 30px */
+    font-weight: 700;
     margin: 0;
-    /* Remove default margin */
+}
+
+.create-post-button-main {
+    padding: 0.75rem 1.25rem;
+    /* 12px 20px */
+    background-color: var(--primary-brand-color);
+    color: var(--text-on-primary-brand);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9375rem;
+    /* 15px */
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    white-space: nowrap;
+    box-shadow: var(--shadow-sm);
+}
+
+.create-post-button-main:hover {
+    background-color: var(--primary-brand-hover-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.create-post-button-main:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
 }
 
 .sort-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 20px 0;
-    padding-left: 5px;
+    gap: 0.75rem;
+    /* 12px */
+    margin-bottom: 1.5rem;
+    /* 24px */
 }
 
 .sort-controls label {
     font-weight: 600;
-    font-size: 15px;
-    color: #333;
+    font-size: 0.9375rem;
+    /* 15px */
+    color: var(--secondary-text-color);
 }
 
 .sort-controls select {
-    padding: 8px 12px;
-    font-size: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    color: #333;
-    transition: border-color 0.2s ease;
+    padding: 0.625rem 0.875rem;
+    /* 10px 14px */
+    font-size: 0.9375rem;
+    /* 15px */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg-color);
+    color: var(--primary-text-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 150px;
+    /* Give select some base width */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    appearance: none;
+    /* Remove default arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 .sort-controls select:focus {
     outline: none;
-    border-color: #0077cc;
-}
-
-
-.create-post-button-main {
-    padding: 10px 18px;
-    /* Adjusted padding */
-    background-color: #6000ce;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    /* Adjusted for responsiveness */
-    font-weight: 500;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    white-space: nowrap;
-    /* Prevent button text from wrapping */
-}
-
-.create-post-button-main:hover {
-    background-color: #4d00a9;
-    transform: translateY(-1px);
-}
-
-.create-post-button-main:active {
-    transform: translateY(0);
+    border-color: var(--primary-brand-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--primary-brand-color-rgb, 106, 17, 203), 0.25);
+    /* Define --primary-brand-color-rgb if needed, or use hex directly */
 }
 
 .forum-content {
     display: flex;
     flex-direction: column;
-    /* Stack on small screens */
-    gap: 25px;
+    gap: 2rem;
+    /* 32px */
 }
 
 .post-feed-area {
     flex: 1;
     min-width: 0;
+    /* Prevents flex item overflow */
 }
 
-.post-feed-area h2 {
-    font-size: 20px;
-    /* Adjusted */
-    color: #6000ce;
-    margin-bottom: 20px;
+.post-feed-area>h2 {
+    /* More specific selector for "Recent Questions" */
+    font-size: 1.375rem;
+    /* 22px */
+    color: var(--primary-text-color);
+    margin-bottom: 1.25rem;
+    /* 20px */
     font-weight: 600;
 }
 
-.dummy-post-card {
-    background-color: #ffffff;
-    padding: 15px;
-    /* Adjusted */
-    border: 1px solid #eaeaea;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
-    transition: box-shadow 0.2s ease;
+.post-list {
+    display: grid;
+    gap: 1.5rem;
+    /* 24px */
 }
 
-.dummy-post-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Styling for items that would be rendered by PostCard.
+   PostCard.css would ideally handle its own specific styling.
+   This is a general card appearance if needed. */
+.post-card-placeholder {
+    background-color: var(--card-bg-color);
+    padding: 1.25rem;
+    /* 20px */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.dummy-post-card h3 {
+.post-card-placeholder:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
+
+.post-card-placeholder h3 {
     margin-top: 0;
-    margin-bottom: 8px;
-    color: #0062cc;
-    font-size: 17px;
-    /* Adjusted */
+    margin-bottom: 0.5rem;
+    /* 8px */
+    color: var(--primary-brand-color);
+    font-size: 1.125rem;
+    /* 18px */
     font-weight: 600;
-    line-height: 1.3;
+    line-height: 1.4;
 }
 
-.dummy-post-card h3:hover {
+.post-card-placeholder h3 a:hover {
+    /* Assuming title is a link */
     text-decoration: underline;
-    cursor: pointer;
 }
 
-.dummy-post-card p {
-    font-size: 14px;
-    color: #555;
+.post-card-placeholder p {
+    font-size: 0.9375rem;
+    /* 15px */
+    color: var(--secondary-text-color);
     line-height: 1.6;
-    margin-bottom: 10px;
+    margin-bottom: 0.75rem;
+    /* 12px */
 }
 
-.dummy-post-card p:last-child {
-    margin-bottom: 0;
+.post-card-placeholder .post-meta {
+    font-size: 0.8125rem;
+    /* 13px */
+    color: var(--muted-text-color);
 }
 
-.dummy-post-card .post-meta {
-    font-size: 12px;
-    color: #777;
-    margin-bottom: 12px;
-}
 
 .forum-sidebar {
     flex-basis: 100%;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+    /* Full width on mobile */
+    background-color: var(--card-bg-color);
+    padding: 1.25rem;
+    /* 20px */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
     height: fit-content;
+    /* So it doesn't stretch unnecessarily */
 }
 
 .forum-sidebar h3 {
-    font-size: 18px;
-    color: #6000ce;
+    font-size: 1.125rem;
+    /* 18px */
+    color: var(--primary-text-color);
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
+    /* 16px */
     font-weight: 600;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+    padding-bottom: 0.75rem;
+    /* 12px */
+    border-bottom: 1px solid var(--border-color);
 }
 
-.forum-sidebar ul {
+.tag-filter-list {
+    /* Class from your TSX */
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    /* 8px */
 }
 
-.forum-sidebar li {
-    display: inline-block;
-    background-color: #f0f4ff;
-    padding: 6px 12px;
-    margin: 6px 6px 6px 0;
+.tag-pill {
+    /* Class from your TSX */
+    /* Base styles - background and color will be overridden by inline styles from tagColors */
+    padding: 0.4rem 0.8rem;
+    /* 6.4px 12.8px */
     border-radius: 20px;
-    font-size: 13px;
-    color: #0056b3;
+    /* Pill shape */
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 500;
     cursor: pointer;
-    border: 1px solid #d0e0ff;
-    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    /* Base for consistency */
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    text-align: center;
 }
 
-.forum-sidebar li:hover {
-    background-color: #e1ebff;
-    color: #003f8a;
+.tag-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    /* Consider a subtle border change on hover if not overridden by inline style */
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
-.forum-sidebar .active-tag {
-    background-color: #0077cc;
-    color: white;
+.tag-pill.active-tag {
+    /* Active state - background and color likely overridden by inline style,
+       but we can add other indicators like a stronger border or shadow */
+    font-weight: 700;
+    box-shadow: 0 0 0 2px var(--primary-brand-color), var(--shadow-sm);
+    /* Example active indicator */
+}
+
+.clear-tag {
+    /* Class from your TSX */
+    background-color: #f1f3f5;
+    /* Light gray */
+    color: var(--secondary-text-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8125rem;
     font-weight: 600;
-    border-color: #0077cc;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.forum-sidebar .clear-tag {
-    background-color: #ffeaea;
-    color: #b00000;
-    font-weight: 600;
-    border-color: #ffc0c0;
+.clear-tag:hover {
+    background-color: #e9ecef;
+    /* Slightly darker gray */
+    color: var(--primary-text-color);
 }
 
 
-/* Modal Overlay */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
+    inset: 0;
+    /* Replaces top, left, width, height */
+    background-color: var(--modal-overlay-bg);
+    backdrop-filter: blur(5px);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 1rem;
+    /* Ensure modal content isn't flush with screen edges on small screens */
 }
 
-/* Modal Content Box */
 .modal-content {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
+    background: var(--card-bg-color);
+    padding: 2rem 2.5rem;
+    /* 32px 40px */
+    border-radius: var(--border-radius);
+    width: 100%;
     max-width: 700px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
     position: relative;
+    overflow-y: auto;
+    /* In case content is too tall */
+    max-height: 90vh;
+    /* Limit height */
 }
 
-/* Close Button */
 .close-modal {
     position: absolute;
-    top: 15px;
-    right: 20px;
-    background: none;
+    top: 1rem;
+    /* 16px */
+    right: 1rem;
+    /* 16px */
+    background: transparent;
     border: none;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #888;
+    font-size: 1.75rem;
+    /* 28px */
+    font-weight: 300;
+    line-height: 1;
+    color: var(--muted-text-color);
     cursor: pointer;
-    transition: color 0.2s;
+    padding: 0.25rem;
+    /* Clickable area */
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .close-modal:hover {
-    color: #333;
+    color: var(--primary-text-color);
+    transform: scale(1.1);
 }
 
-/* Fade Animations */
-.fade-in {
-    animation: fadeIn 0.25s ease-out forwards;
+.modal-overlay.fade-in {
+    animation: fadeInOverlay var(--modal-animation-duration) ease-out forwards;
 }
 
-.fade-out {
-    animation: fadeOut 0.2s ease-in forwards;
+.modal-overlay.fade-in .modal-content {
+    animation: popInModalContent var(--modal-animation-duration) 0.05s ease-out forwards;
+}
+
+.modal-overlay.fade-out {
+    animation: fadeOutOverlay var(--modal-animation-duration) ease-in forwards;
+}
+
+.modal-overlay.fade-out .modal-content {
+    animation: popOutModalContent var(--modal-animation-duration) ease-in forwards;
 }
 
 
-@keyframes fadeIn {
+@keyframes fadeInOverlay {
     from {
         opacity: 0;
-        transform: scale(0.98);
     }
 
     to {
         opacity: 1;
-        transform: scale(1);
     }
 }
 
-@keyframes fadeOut {
+@keyframes fadeOutOverlay {
     from {
         opacity: 1;
-        transform: scale(1);
     }
 
     to {
         opacity: 0;
-        transform: scale(0.96);
+    }
+}
+
+@keyframes popInModalContent {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes popOutModalContent {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
     }
 }
 
 
-
-/* Responsive Adjustments */
 @media (min-width: 768px) {
-
-    /* Tablet and above */
     .forum-homepage-container {
-        padding: 20px 30px;
-    }
-
-    .forum-header h1 {
-        font-size: 26px;
-    }
-
-    .create-post-button-main {
-        padding: 12px 22px;
-        font-size: 16px;
+        padding: 2rem 1.5rem;
+        /* 32px 24px */
     }
 
     .forum-content {
         flex-direction: row;
-        /* Side-by-side layout */
-    }
-
-    .post-feed-area h2 {
-        font-size: 22px;
-    }
-
-    .dummy-post-card {
-        padding: 20px;
-    }
-
-    .dummy-post-card h3 {
-        font-size: 18px;
     }
 
     .forum-sidebar {
         flex-basis: 280px;
-        /* Fixed width for sidebar */
+        /* Fixed width for sidebar on larger screens */
         flex-shrink: 0;
+        /* Prevent sidebar from shrinking */
     }
 
-    .forum-sidebar li {
-        font-size: 15px;
+    .tag-pill {
+        font-size: 0.875rem;
+        /* 14px */
     }
 }
 
 @media (min-width: 992px) {
-
-    /* Larger desktops */
     .forum-sidebar {
-        flex-basis: 300px;
-        /* Slightly wider sidebar on large screens */
+        flex-basis: 320px;
     }
 }

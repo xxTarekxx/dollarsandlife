@@ -26,7 +26,7 @@ const ForumHomePage: React.FC = () => {
 		setShowModal(false);
 		setTimeout(() => {
 			setIsModalVisible(false);
-			setFormKey((prev) => prev + 1); // 🔁 force re-render
+			setFormKey((prev) => prev + 1);
 		}, 200);
 	};
 
@@ -57,7 +57,7 @@ const ForumHomePage: React.FC = () => {
 	}, [sortBy, activeTag]);
 
 	return (
-		<div className='forum-homepage-container'>
+		<div className={`forum-homepage-container ${showModal ? "blurred" : ""}`}>
 			<header className='forum-header'>
 				<h1>Welcome to the Forum!</h1>
 				<button className='create-post-button-main' onClick={openModal}>
@@ -75,6 +75,7 @@ const ForumHomePage: React.FC = () => {
 					</div>
 				</div>
 			)}
+
 			<div className='sort-controls'>
 				<label htmlFor='sort-select'>Sort by:</label>
 				<select
@@ -152,4 +153,5 @@ const ForumHomePage: React.FC = () => {
 		</div>
 	);
 };
+
 export default ForumHomePage;
