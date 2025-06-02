@@ -10,6 +10,9 @@ import {
 	addDoc,
 	updateDoc,
 	deleteDoc,
+	serverTimestamp, // Import serverTimestamp
+	query, // Import query
+	orderBy, // Import orderBy
 } from "firebase/firestore";
 import { db, auth } from "../../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -25,99 +28,188 @@ interface PostData {
 	content: string;
 	authorDisplayName: string;
 	authorId?: string;
-	timestamp: any;
+	timestamp: any; // Keep as any for flexibility with Firestore Timestamp object
 	tags: string[];
 	helpfulVoteCount: number;
 	notHelpfulVoteCount: number;
 	answerCount: number;
 }
 
+interface AnswerData {
+	id: string;
+	content: string; // Changed from 'text'
+	authorDisplayName: string;
+	authorId: string;
+	postId: string; // Added postId
+	timestamp: any; // Keep as any
+	helpfulVoteCount?: number; // Make these optional if not always present or not in rules
+	notHelpfulVoteCount?: number; // Make these optional
+	// Add any other fields your answer document might have
+}
+
 const ViewPostPage: React.FC = () => {
-	const { postId } = useParams();
+	const { postId } = useParams<{ postId: string }>(); // Ensure postId is always string
 	const navigate = useNavigate();
 
 	const [post, setPost] = useState<PostData | null>(null);
-	const [answers, setAnswers] = useState<any[]>([]);
-	const [newAnswer, setNewAnswer] = useState("");
+	const [answers, setAnswers] = useState<AnswerData[]>([]);
+	const [newAnswerContent, setNewAnswerContent] = useState(""); // Renamed for clarity
 	const [loading, setLoading] = useState(true);
 	const [user, authLoading] = useAuthState(auth);
 	const [showAuthModal, setShowAuthModal] = useState(false);
+	const [isSubmittingAnswer, setIsSubmittingAnswer] = useState(false);
 
 	const isPostAuthor = user?.uid === post?.authorId;
 
 	useEffect(() => {
-		if (!postId || authLoading) return;
+		if (!postId) {
+			console.error("Post ID is missing from URL parameters.");
+			setLoading(false);
+			setPost(null); // Explicitly set post to null if postId is missing
+			return;
+		}
+		if (authLoading) return; // Wait for auth state to resolve
 
 		const fetchPostAndAnswers = async () => {
 			setLoading(true);
 			try {
-				const docRef = doc(db, "forumPosts", postId);
-				const snapshot = await getDoc(docRef);
+				const postDocRef = doc(db, "forumPosts", postId);
+				const postSnapshot = await getDoc(postDocRef);
 
-				if (snapshot.exists()) {
-					setPost({ ...snapshot.data(), id: snapshot.id } as PostData);
+				if (postSnapshot.exists()) {
+					setPost({ id: postSnapshot.id, ...postSnapshot.data() } as PostData);
 				} else {
 					console.log("Post not found with ID:", postId);
+					toast.error("Post not found.");
 					setPost(null);
 				}
 
-				const answersRef = collection(db, "forumPosts", postId, "answers");
-				const snap = await getDocs(answersRef);
-				setAnswers(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+				// Fetch answers ordered by timestamp (most recent first)
+				const answersCollectionRef = collection(
+					db,
+					"forumPosts",
+					postId,
+					"answers",
+				);
+				const answersQuery = query(
+					answersCollectionRef,
+					orderBy("timestamp", "desc"),
+				);
+				const answersSnapshot = await getDocs(answersQuery);
+				setAnswers(
+					answersSnapshot.docs.map((d) => ({
+						id: d.id,
+						...d.data(),
+					})) as AnswerData[],
+				);
 			} catch (err) {
-				console.error("Error loading post", err);
-				setPost(null);
+				console.error("Error loading post or answers:", err);
+				toast.error("Error loading content. Please try again.");
+				setPost(null); // Set post to null on error
 			} finally {
 				setLoading(false);
 			}
 		};
 
 		fetchPostAndAnswers();
-	}, [postId, authLoading]);
+	}, [postId, authLoading]); // Depend on postId and authLoading
 
 	const handleSubmitAnswer = async () => {
-		if (!postId || !auth) return;
+		if (!postId) {
+			toast.error("Cannot submit answer: Post ID is missing.");
+			return;
+		}
 
-		// If user is not logged in, show auth modal and stop processing
 		if (!user) {
 			setShowAuthModal(true);
 			return;
 		}
 
-		if (!newAnswer.trim()) {
+		if (!newAnswerContent.trim()) {
 			toast.error("Answer cannot be empty.");
 			return;
 		}
 
-		const answerData = {
-			text: newAnswer.trim(),
-			authorDisplayName: user.displayName || "Anonymous",
-			authorId: user.uid,
-			timestamp: new Date(),
-			helpfulVoteCount: 0,
-			notHelpfulVoteCount: 0,
+		setIsSubmittingAnswer(true);
+
+		// --- CONSTRUCTING answerData TO MATCH FIRESTORE RULES ---
+		const answerDataToSubmit = {
+			content: newAnswerContent.trim(), // Field name: 'content'
+			authorId: user.uid, // Field name: 'authorId'
+			postId: postId, // Field name: 'postId' - CRUCIAL
+			timestamp: serverTimestamp(), // Field name: 'timestamp' - Use serverTimestamp
+			// Optional fields that must be in 'hasOnly' if sent,
+			// and your rules must not disallow them implicitly by 'hasOnly'.
+			authorDisplayName: user.displayName || "Anonymous User",
+			// Initialize vote counts if your app logic expects them at creation
+			// helpfulVoteCount: 0,
+			// notHelpfulVoteCount: 0,
 		};
 
-		const answerDocRef = await addDoc(
-			collection(db, "forumPosts", postId, "answers"),
-			answerData,
+		// --- DEBUG LOGGING (same as before, very important) ---
+		console.log(
+			"Attempting to create answer with data:",
+			JSON.stringify(answerDataToSubmit, null, 2),
 		);
+		console.log("Current User UID:", user.uid);
+		console.log("Target Post ID:", postId);
+		// --- END DEBUG LOGGING ---
 
-		setAnswers((prev) => [...prev, { ...answerData, id: answerDocRef.id }]);
-		setNewAnswer("");
-
-		if (post) {
-			const postRef = doc(db, "forumPosts", postId);
-			await updateDoc(postRef, {
-				answerCount: (post.answerCount || 0) + 1,
-			});
-			setPost((prevPost) =>
-				prevPost
-					? { ...prevPost, answerCount: (prevPost.answerCount || 0) + 1 }
-					: null,
+		try {
+			const answersCollectionRef = collection(
+				db,
+				"forumPosts",
+				postId,
+				"answers",
 			);
+			const newAnswerDocRef = await addDoc(
+				answersCollectionRef,
+				answerDataToSubmit,
+			);
+
+			// Optimistically update UI or re-fetch answers.
+			// For simplicity, adding to local state. Re-fetching ensures server data.
+			// The 'id' comes from newAnswerDocRef.id.
+			// The 'timestamp' will be a Firestore ServerTimestamp object initially,
+			// it resolves to a Date object when read back from Firestore.
+			// For immediate UI update, we can simulate or wait for a re-fetch.
+			// Let's keep it simple and add locally, but know a re-fetch is more robust for the actual timestamp.
+
+			// To get the actual data with resolved server timestamp, it's better to re-fetch or listen to changes.
+			// For now, we'll add a client-side representation:
+			const optimisticAnswer: AnswerData = {
+				...answerDataToSubmit,
+				id: newAnswerDocRef.id,
+				timestamp: new Date(), // Approximate for immediate UI update
+			};
+			setAnswers((prevAnswers) => [optimisticAnswer, ...prevAnswers]); // Add to beginning if sorted by desc timestamp
+			setNewAnswerContent("");
+
+			// Update answer count on the post
+			if (post) {
+				const postDocRef = doc(db, "forumPosts", postId);
+				await updateDoc(postDocRef, {
+					answerCount: (post.answerCount || 0) + 1,
+				});
+				setPost((prevPost) =>
+					prevPost
+						? { ...prevPost, answerCount: (prevPost.answerCount || 0) + 1 }
+						: null,
+				);
+			}
+			toast.success("Answer posted successfully!");
+		} catch (error: any) {
+			console.error("Error posting answer:", error);
+			if (error.code === "permission-denied") {
+				toast.error(
+					"Permission denied. Please ensure all data is correct or check Firestore rules.",
+				);
+			} else {
+				toast.error("Failed to post answer. Please try again.");
+			}
+		} finally {
+			setIsSubmittingAnswer(false);
 		}
-		toast.success("Answer posted!");
 	};
 
 	const handleDeletePost = async () => {
@@ -140,11 +232,17 @@ const ViewPostPage: React.FC = () => {
 
 		try {
 			await deleteDoc(doc(db, "forumPosts", postId, "answers", answerId));
-			setAnswers((prev) => prev.filter((a) => a.id !== answerId));
+			setAnswers((prevAnswers) =>
+				prevAnswers.filter((ans) => ans.id !== answerId),
+			);
 
-			if (post && post.answerCount > 0) {
-				const postRef = doc(db, "forumPosts", postId);
-				await updateDoc(postRef, {
+			if (
+				post &&
+				typeof post.answerCount === "number" &&
+				post.answerCount > 0
+			) {
+				const postDocRef = doc(db, "forumPosts", postId);
+				await updateDoc(postDocRef, {
 					answerCount: post.answerCount - 1,
 				});
 				setPost((prevPost) =>
@@ -153,32 +251,42 @@ const ViewPostPage: React.FC = () => {
 						: null,
 				);
 			}
-			toast.success("Answer deleted.");
-		} catch (e) {
+			toast.success("Answer deleted successfully.");
+		} catch (e: any) {
 			console.error("Error deleting answer:", e);
-			toast.error("Failed to delete answer.");
+			if (e.code === "permission-denied") {
+				toast.error("Permission denied to delete this answer.");
+			} else {
+				toast.error("Failed to delete answer.");
+			}
 		}
 	};
 
-	if (loading || authLoading)
-		return <div className='page-loading-indicator'>Loading post...</div>;
-	if (!post)
+	if (loading || authLoading) {
+		return (
+			<div className='page-loading-indicator'>Loading post content...</div>
+		);
+	}
+
+	if (!post) {
 		return (
 			<div className='page-error-indicator'>
-				Post not found or an error occurred.
+				Post not found or there was an error loading the post. Please try
+				refreshing or go back to the forum.
 			</div>
 		);
+	}
 
 	return (
 		<>
 			<div className={`view-post-container ${showAuthModal ? "blurred" : ""}`}>
 				<h1>{post.title}</h1>
 				<div className='post-meta-row'>
-					<span>By: {post.authorDisplayName || "Anonymous"}</span>
+					<span>By: {post.authorDisplayName || "Anonymous User"}</span>
 					<span>
 						{post.timestamp?.seconds
 							? new Date(post.timestamp.seconds * 1000).toLocaleDateString()
-							: "Date unknown"}
+							: "Date not available"}
 					</span>
 					<span>{post.answerCount || 0} Answers</span>
 					{isPostAuthor && (
@@ -190,7 +298,7 @@ const ViewPostPage: React.FC = () => {
 
 				<div
 					className='post-content'
-					dangerouslySetInnerHTML={{ __html: post.content }}
+					dangerouslySetInnerHTML={{ __html: post.content }} // Ensure content is sanitized if user-generated HTML
 				></div>
 
 				{post.tags && post.tags.length > 0 && (
@@ -235,61 +343,81 @@ const ViewPostPage: React.FC = () => {
 							className='prompt-vote-button'
 							onClick={() => setShowAuthModal(true)}
 						>
-							Vote on this post
+							Login to Vote
 						</button>
 					))}
 
-				{/* --- MODIFIED SECTION FOR ANSWER FORM --- */}
 				<div className='answer-form'>
 					<h3>Post Your Answer</h3>
-					<textarea
-						placeholder='Share your knowledge or insights...'
-						value={newAnswer}
-						onChange={(e) => setNewAnswer(e.target.value)}
-						rows={5}
-					/>
-					<button
-						onClick={handleSubmitAnswer}
-						disabled={!newAnswer.trim() && !!user}
-					>
-						{/* Button is disabled if answer is empty AND user is logged in.
-						    If user is not logged in, button is active to trigger auth modal.
-						    Or simplify to: disabled={!newAnswer.trim()}
-						    and let handleSubmitAnswer handle the user check for modal.
-							Let's go with the simpler: disabled={!newAnswer.trim()}
-						*/}
-						Post Answer
-					</button>
+					{user ? (
+						<>
+							<textarea
+								placeholder='Share your knowledge or insights...'
+								value={newAnswerContent}
+								onChange={(e) => setNewAnswerContent(e.target.value)}
+								rows={5}
+								disabled={isSubmittingAnswer}
+							/>
+							<button
+								onClick={handleSubmitAnswer}
+								disabled={!newAnswerContent.trim() || isSubmittingAnswer}
+							>
+								{isSubmittingAnswer ? "Submitting..." : "Post Answer"}
+							</button>
+						</>
+					) : (
+						<div className='answer-form-prompt'>
+							<p>
+								Please{" "}
+								<button
+									className='link-button'
+									onClick={() => setShowAuthModal(true)}
+								>
+									log in
+								</button>{" "}
+								or{" "}
+								<button
+									className='link-button'
+									onClick={() => setShowAuthModal(true)}
+								>
+									sign up
+								</button>{" "}
+								to post an answer.
+							</p>
+						</div>
+					)}
 				</div>
+
 				<div className='answers-section'>
-					<h3>{post.answerCount || 0} Answers</h3>
-					{answers.length > 0 ? (
+					<h3>{(answers && answers.length) || 0} Answers</h3>
+					{answers && answers.length > 0 ? (
 						<div className='answers-list'>
-							{answers
-								.sort((a, b) => b.timestamp?.seconds - a.timestamp?.seconds)
-								.map((ans) => (
-									<div key={ans.id} className='answer-card'>
-										<div className='answer-text'>{ans.text}</div>
-										<div className='answer-meta'>
-											<span>By: {ans.authorDisplayName || "Anonymous"}</span>
-											<span>
-												{ans.timestamp?.seconds
-													? new Date(
-															ans.timestamp.seconds * 1000,
-													  ).toLocaleDateString()
-													: "Date unknown"}
-											</span>
-											{user?.uid === ans.authorId && (
-												<button
-													className='delete-answer-button'
-													onClick={() => handleDeleteAnswer(ans.id)}
-												>
-													Delete ❌
-												</button>
-											)}
-										</div>
+							{answers.map((ans) => (
+								<div key={ans.id} className='answer-card'>
+									<div className='answer-text'>{ans.content}</div>{" "}
+									{/* Changed from ans.text */}
+									<div className='answer-meta'>
+										<span>By: {ans.authorDisplayName || "Anonymous User"}</span>
+										<span>
+											{ans.timestamp?.seconds
+												? new Date(
+														ans.timestamp.seconds * 1000,
+												  ).toLocaleDateString()
+												: ans.timestamp instanceof Date // Handle optimistic client-side date
+												? ans.timestamp.toLocaleDateString()
+												: "A moment ago"}
+										</span>
+										{user?.uid === ans.authorId && (
+											<button
+												className='delete-answer-button'
+												onClick={() => handleDeleteAnswer(ans.id)}
+											>
+												Delete ❌
+											</button>
+										)}
 									</div>
-								))}
+								</div>
+							))}
 						</div>
 					) : (
 						<p className='no-answers-yet'>

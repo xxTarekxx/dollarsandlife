@@ -1,3 +1,4 @@
+// frontend/src/App.tsx
 import React, {
 	lazy,
 	Suspense,
@@ -19,14 +20,15 @@ import NavBar from "./components/navbar/NavBar";
 import NotFoundPage from "./components/notfound404/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
+import AuthActionHandler from "./auth/AuthActionHandler"; // Ensure this path is correct
 
-const SignUp = lazy(() => import("./auth/SignUp")); // Corrected path
-const Login = lazy(() => import("./auth/Login"));
+// Lazy loaded components
+const SignUp = lazy(() => import("./auth/SignUp"));
+const Login = lazy(() => import("./auth/Login")); // This is your dedicated /login page component
 const ForumHomePage = lazy(
 	() => import("./pages/forum/forum-home/ForumHomePage"),
 );
 const ViewPostPage = lazy(() => import("./pages/forum/view-post/ViewPostPage"));
-
 const SentryPCLanding = lazy(
 	() => import("./pages/sentrypc-landing/SentryPCLanding"),
 );
@@ -61,7 +63,6 @@ const FinancialCalculators = lazy(
 	() => import("./components/calculators/FinancialCalculators"),
 );
 const AboutUs = lazy(() => import("./pages/aboutus/AboutUs"));
-
 const ContactUs = lazy(() => import("./pages/contactus/ContactUs"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
@@ -74,6 +75,9 @@ const BreadcrumbWrapper = lazy(
 const ReturnPolicy = lazy(() => import("./pages/returnpolicy/ReturnPolicy"));
 const Footer = lazy(() => import("./components/footer/Footer"));
 
+// If you create NewPasswordPage.tsx later, you would lazy load it like this:
+// const NewPasswordPage = lazy(() => import("./auth/NewPasswordPage"));
+
 declare global {
 	interface Window {
 		gtag?: (...args: any[]) => void;
@@ -82,13 +86,17 @@ declare global {
 
 const AppContent: React.FC = () => {
 	const location = useLocation();
-	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false); // ✅ FIXED missing state
+	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
 	const canonicalUrl = useMemo(() => {
 		const parts = location.pathname.split("/");
 		const lowercasedParts = parts.map((part, idx) =>
 			parts[idx - 1] === "post" ? part : part.toLowerCase(),
 		);
-		return `https://www.dollarsandlife.com${lowercasedParts.join("/")}`;
+		// Ensure no double slashes if pathname is "/"
+		const joinedPath = lowercasedParts.join("/");
+		return `https://www.dollarsandlife.com${
+			joinedPath === "/" && lowercasedParts.length > 1 ? "" : joinedPath
+		}`;
 	}, [location.pathname]);
 
 	useEffect(() => {
@@ -97,8 +105,10 @@ const AppContent: React.FC = () => {
 			parts[idx - 1] === "post" ? part : part.toLowerCase(),
 		);
 		const correctedPath = correctedParts.join("/");
-		if (location.pathname !== correctedPath) {
-			window.history.replaceState({}, document.title, correctedPath);
+		if (location.pathname !== correctedPath && location.pathname !== "/") {
+			if (correctedPath || location.pathname === "/") {
+				window.history.replaceState({}, document.title, correctedPath || "/");
+			}
 		}
 	}, [location.pathname]);
 
@@ -114,9 +124,16 @@ const AppContent: React.FC = () => {
 				document.body.appendChild(testAd);
 				requestAnimationFrame(() => {
 					setTimeout(() => {
-						if (testAd.offsetHeight === 0) isAdBlocked = true;
-						if (document.body.contains(testAd))
+						if (
+							testAd.offsetHeight === 0 ||
+							testAd.style.display === "none" ||
+							testAd.style.visibility === "hidden"
+						) {
+							isAdBlocked = true;
+						}
+						if (document.body.contains(testAd)) {
 							document.body.removeChild(testAd);
+						}
 						if (isAdBlocked) {
 							console.log("AdBlock detected.");
 							setShowAdBlockPrompt(true);
@@ -125,42 +142,51 @@ const AppContent: React.FC = () => {
 				});
 			} catch (e) {
 				console.error("Error during AdBlock check:", e);
-				if (document.body.contains(testAd)) document.body.removeChild(testAd);
+				if (document.body.contains(testAd)) {
+					document.body.removeChild(testAd);
+				}
 			}
 		};
-		const timer = setTimeout(checkAdBlock, 2000);
+		const timer = setTimeout(checkAdBlock, 2500);
 		return () => clearTimeout(timer);
 	}, []);
 
 	useEffect(() => {
 		const internalPrefixes = (process.env.REACT_APP_INTERNAL_IP_PREFIX || "")
 			.split(",")
-			.map((p) => p.trim());
+			.map((p) => p.trim())
+			.filter((p) => p);
 
-		console.log("ENV INTERNAL IP Prefixes:", internalPrefixes);
+		if (internalPrefixes.length > 0) {
+			console.log("ENV INTERNAL IP Prefixes:", internalPrefixes);
+		}
 
 		fetch("https://api64.ipify.org?format=json")
 			.then((res) => res.json())
 			.then((data) => {
 				const userIP = data.ip;
 				const normalizeIP = (ip: string) => ip.replace(/[^a-zA-Z0-9:.]/g, "");
-
-				const isInternal = internalPrefixes.some((prefix) => {
-					return normalizeIP(userIP).startsWith(normalizeIP(prefix));
-				});
+				let isInternal = false;
+				if (internalPrefixes.length > 0) {
+					isInternal = internalPrefixes.some((prefix) => {
+						return normalizeIP(userIP).startsWith(normalizeIP(prefix));
+					});
+				}
 
 				console.log("Your IP is:", userIP);
+				console.log("Is internal traffic:", isInternal);
 				console.log("Tracking allowed:", !isInternal);
 
 				if (typeof window.gtag === "function") {
 					window.gtag("config", "G-S7FWNHSD7P", {
 						send_page_view: !isInternal,
-						...(isInternal ? { traffic_type: "internal_traffic" } : {}),
+						...(isInternal ? { page_title: "internal_traffic" } : {}),
 					});
 					window.gtag("config", "AW-16613104907");
 				}
 			})
-			.catch(() => {
+			.catch((err) => {
+				console.error("Failed to fetch IP or configure gtag:", err);
 				if (typeof window.gtag === "function") {
 					window.gtag("config", "G-S7FWNHSD7P");
 					window.gtag("config", "AW-16613104907");
@@ -182,6 +208,22 @@ const AppContent: React.FC = () => {
 						fontWeight: "600",
 						padding: "14px 24px",
 						borderRadius: "10px",
+						background: "#333",
+						color: "#fff",
+					},
+					success: {
+						duration: 3000,
+						iconTheme: {
+							primary: "green",
+							secondary: "white",
+						},
+					},
+					error: {
+						duration: 5000,
+						iconTheme: {
+							primary: "red",
+							secondary: "white",
+						},
 					},
 				}}
 			/>
@@ -224,10 +266,28 @@ const AppContent: React.FC = () => {
 				)}
 				<main>
 					<Suspense fallback={<Loading />}>
+						{/* ALL Routes are defined within this single <Routes> component */}
 						<Routes>
+							{/* General Pages */}
 							<Route path='/' element={<HomePage />} />
+							<Route path='/about-us' element={<AboutUs />} />
+							<Route path='/contact-us' element={<ContactUs />} />
+							<Route path='/terms-of-service' element={<TermsOfService />} />
+							<Route path='/privacy-policy' element={<PrivacyPolicy />} />
+							<Route path='/return-policy' element={<ReturnPolicy />} />
+
+							{/* Authentication Pages & Handlers */}
 							<Route path='/signup' element={<SignUp />} />
 							<Route path='/login' element={<Login />} />
+							<Route path='/auth/action' element={<AuthActionHandler />} />
+							{/*
+                            When you create NewPasswordPage.tsx for handling password reset form:
+                            You would uncomment the line below and ensure NewPasswordPage is imported.
+                            Example: const NewPasswordPage = lazy(() => import("./auth/NewPasswordPage"));
+                            <Route path='/new-password' element={<NewPasswordPage />} />
+                            */}
+
+							{/* Content Category Pages */}
 							<Route path='/extra-income' element={<ExtraIncome />} />
 							<Route
 								path='/extra-income/freelancers/*'
@@ -242,20 +302,15 @@ const AppContent: React.FC = () => {
 								element={<MoneyMakingApps />}
 							/>
 							<Route path='/extra-income/budget/*' element={<Budget />} />
+							<Route path='/start-a-blog/*' element={<StartABlog />} />
+							<Route path='/breaking-news' element={<BreakingNews />} />
 							<Route path='/shopping-deals' element={<ShoppingDeals />} />
+
+							{/* Dynamic Content / Post Pages */}
 							<Route
 								path='/shopping-deals/products/:productSlug'
 								element={<ProductDetails key={location.pathname} />}
 							/>
-							<Route path='/start-a-blog/*' element={<StartABlog />} />
-							<Route
-								path='/financial-calculators'
-								element={<FinancialCalculators />}
-							/>
-							<Route path='/breaking-news' element={<BreakingNews />} />
-							<Route path='/terms-of-service' element={<TermsOfService />} />
-							<Route path='/privacy-policy' element={<PrivacyPolicy />} />
-							<Route path='/contact-us' element={<ContactUs />} />
 							<Route
 								path='/extra-income/:id'
 								element={<BlogPostContent jsonFile='budgetdata.json' />}
@@ -268,15 +323,23 @@ const AppContent: React.FC = () => {
 								path='/breaking-news/:id'
 								element={<BlogPostContent jsonFile='breaking-news' />}
 							/>
+
+							{/* Tools & Specific Landing Pages */}
+							<Route
+								path='/financial-calculators'
+								element={<FinancialCalculators />}
+							/>
 							<Route
 								path='/sentry-pc-employee-monitoring-systems'
 								element={<SentryPCLanding />}
 							/>
-							<Route path='/return-policy' element={<ReturnPolicy />} />
-							<Route path='*' element={<NotFoundPage />} />
-							<Route path='/about-us' element={<AboutUs />} />
+
+							{/* Forum Pages */}
 							<Route path='/forum' element={<ForumHomePage />} />
 							<Route path='/forum/post/:postId' element={<ViewPostPage />} />
+
+							{/* Fallback for unmatched routes */}
+							<Route path='*' element={<NotFoundPage />} />
 						</Routes>
 					</Suspense>
 				</main>
