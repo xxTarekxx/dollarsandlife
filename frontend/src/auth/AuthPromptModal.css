@@ -38,24 +38,23 @@
 }
 
 .auth-modal-content {
-    /* Matched TSX class name */
-    background: var(--auth-background-color);
+    /* This is the white box of the AuthPromptModal */
+    background: var(--auth-background-color, #ffffff);
+    /* SHOULD BE LIGHT */
     padding: 2rem 2.5rem;
-    /* Use rems for scalability */
-    border-radius: var(--auth-border-radius-lg);
+    border-radius: var(--auth-border-radius-lg, 12px);
     width: 100%;
     max-width: 420px;
-    /* Slightly wider for more content space */
+    /* Or your desired max-width */
     text-align: center;
-    box-shadow: var(--auth-modal-shadow);
+    box-shadow: var(--auth-modal-shadow, 0 8px 24px rgba(0, 0, 0, 0.1));
     position: relative;
-    font-family: var(--auth-font-family);
-    transform: scale(0.95) translateY(10px);
-    /* Initial state for animation */
-    opacity: 0;
-    /* Start hidden for animation */
-    animation: popInModal 0.35s 0.1s ease-out forwards;
-    /* Delay modal pop-in slightly */
+    /* For close button */
+    font-family: var(--auth-font-family, sans-serif);
+    /* Ensure no opacity < 1 here unless intended for a transition */
+    opacity: 1;
+    /* SHOULD BE 1 for visibility */
+    /* Ensure no filter that darkens it, e.g., filter: brightness(0.5); */
 }
 
 .auth-modal-content h2 {

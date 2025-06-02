@@ -8,47 +8,57 @@
     --muted-text-color: #6c757d;
     --border-color: #dee2e6;
     --border-radius: 8px;
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --border-radius-lg: 12px;
+    --border-radius-pill: 20px;
 
     --primary-brand-color: #6a11cb;
-    /* A nice purple */
     --primary-brand-hover-color: #530ca7;
     --text-on-primary-brand: #ffffff;
 
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-        Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --destructive-color: #dc3545;
+    --destructive-hover-color: #c82333;
 
-    --modal-overlay-bg: rgba(30, 30, 30, 0.7);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol";
+
+    --modal-overlay-bg: rgba(30, 30, 30, 0.65);
     --modal-animation-duration: 0.25s;
+    --modal-backdrop-blur: 6px;
+    /* Amount for page content blur when modal is open */
+    --muted-bg-color: #e9ecef;
 }
 
+/* --- General Page Setup --- */
 .forum-homepage-container {
     padding: 1.5rem 1rem;
-    /* 24px 16px */
     max-width: 1200px;
     margin: 1.5rem auto;
     font-family: var(--font-sans);
     background-color: var(--page-bg-color);
     color: var(--primary-text-color);
+    transition: filter var(--modal-animation-duration) ease-out;
 }
 
 .forum-homepage-container.blurred {
-    filter: blur(5px);
-    pointer-events: none;
-    user-select: none;
+    filter: blur(var(--modal-backdrop-blur));
+    /* MODIFIED: Uncommented and using correct variable */
+    /* pointer-events: none; /* Be cautious with this, can interfere with modal interactions if not perfectly managed */
+    /* user-select: none; */
 }
 
+/* --- Forum Header & Actions --- */
 .forum-header {
     margin-bottom: 2rem;
-    /* 32px */
     padding-bottom: 1rem;
-    /* 16px */
     border-bottom: 1px solid var(--border-color);
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    /* 16px */
     justify-content: space-between;
     align-items: center;
 }
@@ -56,305 +66,192 @@
 .forum-header h1 {
     color: var(--primary-brand-color);
     font-size: clamp(1.5rem, 4vw, 1.875rem);
-    /* Responsive font size: 24px to 30px */
     font-weight: 700;
     margin: 0;
 }
 
-.create-post-button-main {
-    padding: 0.75rem 1.25rem;
-    /* 12px 20px */
-    background-color: var(--primary-brand-color);
-    color: var(--text-on-primary-brand);
-    border: none;
+.forum-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+/* --- User Status Widget --- */
+.user-status-widget {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.auth-loading-text {
+    font-style: italic;
+    color: var(--muted-text-color);
+    font-size: 0.875rem;
+}
+
+.user-profile-info {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.profile-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    background-color: var(--muted-bg-color);
+}
+
+.profile-icon.default-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.profile-icon.default-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--secondary-text-color);
+}
+
+.display-name {
+    font-weight: 600;
+    color: var(--primary-text-color);
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Buttons (General styles first, then specific overrides) --- */
+.create-post-button-main,
+.login-signup-button,
+.logout-button {
+    padding: 0.625rem 1.125rem;
+    border: 1px solid transparent;
     border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 0.9375rem;
-    /* 15px */
     font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease,
+        box-shadow 0.15s ease, border-color 0.2s ease;
     white-space: nowrap;
+    line-height: 1.5;
+}
+
+.create-post-button-main,
+.login-signup-button {
+    background-color: var(--primary-brand-color);
+    color: var(--text-on-primary-brand);
+    border-color: var(--primary-brand-color);
     box-shadow: var(--shadow-sm);
 }
 
-.create-post-button-main:hover {
+.create-post-button-main:hover,
+.login-signup-button:hover {
     background-color: var(--primary-brand-hover-color);
+    border-color: var(--primary-brand-hover-color);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
-.create-post-button-main:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
-}
-
-.sort-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    /* 12px */
-    margin-bottom: 1.5rem;
-    /* 24px */
-}
-
-.sort-controls label {
-    font-weight: 600;
-    font-size: 0.9375rem;
-    /* 15px */
-    color: var(--secondary-text-color);
-}
-
-.sort-controls select {
-    padding: 0.625rem 0.875rem;
-    /* 10px 14px */
-    font-size: 0.9375rem;
-    /* 15px */
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
+.logout-button {
     background-color: var(--card-bg-color);
-    color: var(--primary-text-color);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    min-width: 150px;
-    /* Give select some base width */
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 16px 12px;
-    appearance: none;
-    /* Remove default arrow */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
-.sort-controls select:focus {
-    outline: none;
-    border-color: var(--primary-brand-color);
-    box-shadow: 0 0 0 0.2rem rgba(var(--primary-brand-color-rgb, 106, 17, 203), 0.25);
-    /* Define --primary-brand-color-rgb if needed, or use hex directly */
-}
-
-.forum-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    /* 32px */
-}
-
-.post-feed-area {
-    flex: 1;
-    min-width: 0;
-    /* Prevents flex item overflow */
-}
-
-.post-feed-area>h2 {
-    /* More specific selector for "Recent Questions" */
-    font-size: 1.375rem;
-    /* 22px */
-    color: var(--primary-text-color);
-    margin-bottom: 1.25rem;
-    /* 20px */
-    font-weight: 600;
-}
-
-.post-list {
-    display: grid;
-    gap: 1.5rem;
-    /* 24px */
-}
-
-/* Styling for items that would be rendered by PostCard.
-   PostCard.css would ideally handle its own specific styling.
-   This is a general card appearance if needed. */
-.post-card-placeholder {
-    background-color: var(--card-bg-color);
-    padding: 1.25rem;
-    /* 20px */
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.post-card-placeholder:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
-}
-
-.post-card-placeholder h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    /* 8px */
-    color: var(--primary-brand-color);
-    font-size: 1.125rem;
-    /* 18px */
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.post-card-placeholder h3 a:hover {
-    /* Assuming title is a link */
-    text-decoration: underline;
-}
-
-.post-card-placeholder p {
-    font-size: 0.9375rem;
-    /* 15px */
     color: var(--secondary-text-color);
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
-    /* 12px */
+    border-color: var(--border-color);
 }
 
-.post-card-placeholder .post-meta {
-    font-size: 0.8125rem;
-    /* 13px */
-    color: var(--muted-text-color);
+.logout-button:hover {
+    background-color: var(--muted-bg-color);
+    border-color: #c8ced3;
 }
 
-
-.forum-sidebar {
-    flex-basis: 100%;
-    /* Full width on mobile */
-    background-color: var(--card-bg-color);
-    padding: 1.25rem;
-    /* 20px */
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    height: fit-content;
-    /* So it doesn't stretch unnecessarily */
-}
-
-.forum-sidebar h3 {
-    font-size: 1.125rem;
-    /* 18px */
-    color: var(--primary-text-color);
-    margin-top: 0;
-    margin-bottom: 1rem;
-    /* 16px */
-    font-weight: 600;
-    padding-bottom: 0.75rem;
-    /* 12px */
-    border-bottom: 1px solid var(--border-color);
-}
-
-.tag-filter-list {
-    /* Class from your TSX */
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    /* 8px */
-}
-
-.tag-pill {
-    /* Class from your TSX */
-    /* Base styles - background and color will be overridden by inline styles from tagColors */
-    padding: 0.4rem 0.8rem;
-    /* 6.4px 12.8px */
-    border-radius: 20px;
-    /* Pill shape */
-    font-size: 0.8125rem;
-    /* 13px */
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid transparent;
-    /* Base for consistency */
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    text-align: center;
-}
-
-.tag-pill:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-    /* Consider a subtle border change on hover if not overridden by inline style */
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-.tag-pill.active-tag {
-    /* Active state - background and color likely overridden by inline style,
-       but we can add other indicators like a stronger border or shadow */
-    font-weight: 700;
-    box-shadow: 0 0 0 2px var(--primary-brand-color), var(--shadow-sm);
-    /* Example active indicator */
-}
-
-.clear-tag {
-    /* Class from your TSX */
-    background-color: #f1f3f5;
-    /* Light gray */
-    color: var(--secondary-text-color);
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border-color);
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.clear-tag:hover {
-    background-color: #e9ecef;
-    /* Slightly darker gray */
-    color: var(--primary-text-color);
-}
-
-
+/* --- Modal Styles (Common for Portalized Modals like CreatePostModal) --- */
+/* These styles are used by createPostModalComponent. AuthPromptModal uses its own. */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    /* Replaces top, left, width, height */
     background-color: var(--modal-overlay-bg);
-    backdrop-filter: blur(5px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 10000;
+    /* Ensure FHP modals are high enough */
     padding: 1rem;
-    /* Ensure modal content isn't flush with screen edges on small screens */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-overlay.fade-in {
+    pointer-events: auto;
 }
 
 .modal-content {
     background: var(--card-bg-color);
     padding: 2rem 2.5rem;
-    /* 32px 40px */
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-lg);
     width: 100%;
-    max-width: 700px;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
     position: relative;
     overflow-y: auto;
-    /* In case content is too tall */
     max-height: 90vh;
-    /* Limit height */
+    transform: scale(0.95) translateY(10px);
+    opacity: 0;
+    z-index: 10001;
+    /* Content above its own overlay */
+}
+
+.create-post-modal-content {
+    max-width: 700px;
+}
+
+/* This class was previously used to wrap AuthPromptModal.
+   It's no longer strictly necessary if AuthPromptModal is rendered directly
+   and handles all its own styling. Kept for reference or other uses. */
+.auth-prompt-content-wrapper {
+    max-width: 420px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
 }
 
 .close-modal {
     position: absolute;
     top: 1rem;
-    /* 16px */
     right: 1rem;
-    /* 16px */
     background: transparent;
     border: none;
     font-size: 1.75rem;
-    /* 28px */
     font-weight: 300;
     line-height: 1;
     color: var(--muted-text-color);
     cursor: pointer;
     padding: 0.25rem;
-    /* Clickable area */
-    transition: color 0.2s ease, transform 0.2s ease;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease,
+        transform 0.2s ease;
+    z-index: 10;
 }
 
 .close-modal:hover {
+    background-color: var(--muted-bg-color);
     color: var(--primary-text-color);
     transform: scale(1.1);
 }
 
+/* Modal Animations (for FHP's .modal-overlay and .modal-content) */
 .modal-overlay.fade-in {
     animation: fadeInOverlay var(--modal-animation-duration) ease-out forwards;
 }
@@ -370,7 +267,6 @@
 .modal-overlay.fade-out .modal-content {
     animation: popOutModalContent var(--modal-animation-duration) ease-in forwards;
 }
-
 
 @keyframes fadeInOverlay {
     from {
@@ -416,11 +312,160 @@
     }
 }
 
+/* --- Sort Controls --- */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
 
+.sort-controls label {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--secondary-text-color);
+}
+
+.sort-controls select {
+    padding: 0.625rem 2.5rem 0.625rem 0.875rem;
+    font-size: 0.9375rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg-color);
+    color: var(--primary-text-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 160px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+.sort-controls select:focus {
+    outline: none;
+    border-color: var(--primary-brand-color);
+    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
+}
+
+/* --- Main Forum Content Layout --- */
+.forum-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.post-feed-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.post-feed-area>h2 {
+    font-size: 1.375rem;
+    color: var(--primary-text-color);
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+}
+
+.post-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.no-posts-message,
+.post-feed-area>p {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted-text-color);
+    font-style: italic;
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    border: 1px dashed var(--border-color);
+}
+
+/* --- Forum Sidebar --- */
+.forum-sidebar {
+    background-color: var(--card-bg-color);
+    padding: 1.25rem;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    height: fit-content;
+}
+
+.forum-sidebar h3 {
+    font-size: 1.125rem;
+    color: var(--primary-text-color);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tag-filter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+}
+
+.tag-filter-list .tag-pill {
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid;
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.tag-filter-list .tag-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    opacity: 0.85;
+}
+
+.tag-filter-list .tag-pill.active-tag {
+    font-weight: 700;
+    box-shadow: 0 0 0 2.5px var(--primary-brand-color), var(--shadow-sm);
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.clear-tag {
+    background-color: var(--muted-bg-color);
+    color: var(--secondary-text-color);
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.clear-tag:hover {
+    background-color: #d3d9df;
+    color: var(--primary-text-color);
+}
+
+.clear-tag .clear-tag-icon {
+    margin-left: 0.4em;
+    font-weight: normal;
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+/* --- Responsive Adjustments --- */
 @media (min-width: 768px) {
     .forum-homepage-container {
         padding: 2rem 1.5rem;
-        /* 32px 24px */
     }
 
     .forum-content {
@@ -429,14 +474,7 @@
 
     .forum-sidebar {
         flex-basis: 280px;
-        /* Fixed width for sidebar on larger screens */
         flex-shrink: 0;
-        /* Prevent sidebar from shrinking */
-    }
-
-    .tag-pill {
-        font-size: 0.875rem;
-        /* 14px */
     }
 }
 

@@ -1,5 +1,6 @@
-// In frontend/src/auth/SignUp.tsx
+// frontend/src/components/auth/SignUp.tsx
 import React, { useState, FormEvent, useEffect } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom"; // Added useNavigate
 import "./SignUp.css"; // Your SignUp CSS
 import { auth } from "../firebase"; // Ensure this path is correct for firebase.ts
 import {
@@ -8,17 +9,23 @@ import {
 	sendEmailVerification,
 	signInWithPopup,
 	GoogleAuthProvider,
-	OAuthProvider, // For Microsoft
+	OAuthProvider,
 	UserCredential,
 	AuthError,
 	User,
+	onAuthStateChanged, // For redirecting if already logged in
 } from "firebase/auth";
 
 // Import your local SVG logos
-import GmailIcon from "../assets/icons/gmail-icon.svg"; // Assuming gmail-icon.svg is in src/assets/icons/
-import MicrosoftIcon from "../assets/icons/microsoft-icon.svg"; // Assuming microsoft-icon.svg is in src/assets/icons/
+import GmailIcon from "../assets/icons/gmail-icon.svg";
+import MicrosoftIcon from "../assets/icons/microsoft-icon.svg";
 
-const SignUp: React.FC = () => {
+// Define the props interface
+interface SignUpProps {
+	onSwitchToLogin?: () => void; // For use within AuthPromptModal to switch views
+}
+
+const SignUp: React.FC<SignUpProps> = ({ onSwitchToLogin }) => {
 	const [displayName, setDisplayName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -27,24 +34,15 @@ const SignUp: React.FC = () => {
 	const [successMessage, setSuccessMessage] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [passwordMessage, setPasswordMessage] = useState<string>("");
+	const navigate = useNavigate(); // For standalone page navigation
 
 	const validatePassword = (pass: string): string[] => {
 		const errors: string[] = [];
-		if (pass.length < 8) {
-			errors.push("At least 8 characters.");
-		}
-		if (!/[A-Z]/.test(pass)) {
-			errors.push("An uppercase letter.");
-		}
-		if (!/[a-z]/.test(pass)) {
-			errors.push("A lowercase letter.");
-		}
-		if (!/[0-9]/.test(pass)) {
-			errors.push("A number.");
-		}
-		if (!/[^A-Za-z0-9]/.test(pass)) {
-			errors.push("A special character.");
-		}
+		if (pass.length < 8) errors.push("At least 8 characters");
+		if (!/[A-Z]/.test(pass)) errors.push("An uppercase letter");
+		if (!/[a-z]/.test(pass)) errors.push("A lowercase letter");
+		if (!/[0-9]/.test(pass)) errors.push("A number");
+		if (!/[^A-Za-z0-9]/.test(pass)) errors.push("A special character");
 		return errors;
 	};
 
@@ -52,7 +50,7 @@ const SignUp: React.FC = () => {
 		if (password) {
 			const validationErrors = validatePassword(password);
 			if (validationErrors.length > 0) {
-				setPasswordMessage(`Needs: ${validationErrors.join(" ")}`);
+				setPasswordMessage(`Needs: ${validationErrors.join(", ")}.`);
 			} else {
 				setPasswordMessage("Password strength: Good");
 			}
@@ -61,13 +59,48 @@ const SignUp: React.FC = () => {
 		}
 	}, [password]);
 
+	// Effect to redirect if user is already logged in and lands on the /signup page
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (user && window.location.pathname === "/signup") {
+				// Check current path
+				console.log(
+					"User already logged in on /signup page, redirecting to /forum",
+				);
+				navigate("/forum", { replace: true });
+			}
+		});
+		return () => unsubscribe();
+	}, [navigate]);
+
+	const handleSuccessfulSignUpOrSocialLogin = (user: User) => {
+		// Common logic after any sign-up/sign-in method
+		// If this component is used as a standalone page (e.g., /signup route),
+		// we might want to redirect.
+		// If it's in a modal, the modal will close automatically due to auth state change
+		// handled by the parent component (e.g., ForumHomePage).
+
+		// Check if we are on the dedicated /signup page.
+		if (window.location.pathname === "/signup") {
+			setSuccessMessage(
+				`Welcome, ${user.displayName || "User"}! Redirecting...`,
+			);
+			setTimeout(() => {
+				navigate("/forum", { replace: true }); // Or to a profile completion page, etc.
+			}, 2000); // Short delay to show success message
+		} else {
+			// If in a modal, just show success; parent will handle modal close.
+			setSuccessMessage(`Welcome, ${user.displayName || "User"}!`);
+		}
+	};
+
 	const handleEmailPasswordSubmit = async (
 		event: FormEvent<HTMLFormElement>,
 	) => {
 		event.preventDefault();
 		setError("");
 		setSuccessMessage("");
-		setPasswordMessage("");
+		// setPasswordMessage(""); // Keep password message for reference or clear it
 
 		if (!displayName.trim()) {
 			setError("Display Name cannot be empty.");
@@ -75,7 +108,7 @@ const SignUp: React.FC = () => {
 		}
 		const passwordValidationErrors = validatePassword(password);
 		if (passwordValidationErrors.length > 0) {
-			setError(`Password issues: ${passwordValidationErrors.join(" ")}`);
+			setError(`Password issues: ${passwordValidationErrors.join(", ")}.`);
 			return;
 		}
 		if (password !== confirmPassword) {
@@ -88,28 +121,43 @@ const SignUp: React.FC = () => {
 			const userCredential: UserCredential =
 				await createUserWithEmailAndPassword(auth, email, password);
 			const user: User = userCredential.user;
-			await updateProfile(user, { displayName: displayName });
+			await updateProfile(user, { displayName: displayName.trim() });
 			await sendEmailVerification(user);
 
 			console.log(
 				"User signed up via email, profile updated, verification email sent:",
 				user,
 			);
-			setDisplayName("");
+			setDisplayName(""); // Clear form on success
 			setEmail("");
 			setPassword("");
 			setConfirmPassword("");
+			setPasswordMessage("");
 			setSuccessMessage(
-				"Sign up successful! A verification email has been sent. Please check your inbox (and spam folder) to verify your email.",
+				"Sign up successful! A verification email has been sent. Please check your inbox (and spam folder).",
 			);
+			// Firebase automatically signs in the user. The parent component (ForumHomePage)
+			// using useAuthState will detect this and close the AuthPromptModal.
+			// If this is a standalone page, we might navigate after a delay,
+			// but Firebase's auto-login handles the auth state.
 		} catch (err) {
 			const authError = err as AuthError;
+			console.error(
+				"Error signing up via email:",
+				authError.code,
+				authError.message,
+			);
 			if (authError.code === "auth/email-already-in-use") {
-				setError("This email address is already in use.");
+				setError(
+					"This email address is already in use. Try logging in instead.",
+				);
+			} else if (authError.code === "auth/weak-password") {
+				setError("Password is too weak. Please choose a stronger password.");
 			} else {
-				setError(authError.message);
+				setError(
+					authError.message || "Failed to create an account. Please try again.",
+				);
 			}
-			console.error("Error signing up via email:", authError);
 		} finally {
 			setLoading(false);
 		}
@@ -120,21 +168,21 @@ const SignUp: React.FC = () => {
 	) => {
 		setError("");
 		setSuccessMessage("");
-		setLoading(true); // Consider separate loading states for email vs social if needed
+		setLoading(true);
 		try {
 			const userCredential = await signInWithPopup(auth, provider);
 			const user = userCredential.user;
 			console.log("User signed in/up via social provider:", user);
-			// TODO: Add logic here if you need to create a user profile in Firestore
-			// for new social sign-ups, or check if it's their first time.
-			// For example, you might check user.metadata.creationTime === user.metadata.lastSignInTime
-			setSuccessMessage(
-				`Welcome, ${user.displayName || "User"}! You are now signed in.`,
-			);
-			// You would typically redirect the user here, e.g., to a dashboard or home page.
-			// Example: history.push('/dashboard');
+			// Here, you might want to check if this is a new user (user.metadata.creationTime === user.metadata.lastSignInTime)
+			// and create a corresponding user document in Firestore if needed.
+			handleSuccessfulSignUpOrSocialLogin(user); // Centralized success handling
 		} catch (err) {
 			const authError = err as AuthError;
+			console.error(
+				"Error with social sign-in:",
+				authError.code,
+				authError.message,
+			);
 			if (
 				authError.code === "auth/popup-closed-by-user" ||
 				authError.code === "auth/cancelled-popup-request"
@@ -144,37 +192,45 @@ const SignUp: React.FC = () => {
 				authError.code === "auth/account-exists-with-different-credential"
 			) {
 				setError(
-					"An account already exists with the same email address but different sign-in credentials. Try signing in with the original method.",
+					"An account already exists with this email address but different sign-in credentials. Try signing in with the original method.",
 				);
 			} else {
-				setError(authError.message);
+				setError(authError.message || "Failed to sign in. Please try again.");
 			}
-			console.error("Error with social sign-in:", authError);
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	const handleGoogleSignIn = () => {
-		const provider = new GoogleAuthProvider();
-		handleSocialLogin(provider);
-	};
+	const handleGoogleSignIn = () => handleSocialLogin(new GoogleAuthProvider());
+	const handleMicrosoftSignIn = () =>
+		handleSocialLogin(new OAuthProvider("microsoft.com"));
 
-	const handleMicrosoftSignIn = () => {
-		const provider = new OAuthProvider("microsoft.com");
-		// provider.setCustomParameters({ prompt: 'select_account' }); // Optional: always prompt for account selection
-		handleSocialLogin(provider);
+	// This function is called when the "Already have an account? Log In" link is clicked.
+	const handleSwitchToLoginClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault();
+		if (onSwitchToLogin) {
+			// If onSwitchToLogin prop is provided (i.e., component is used in AuthPromptModal),
+			// call it to switch the modal's view to the Login form.
+			onSwitchToLogin();
+		} else {
+			// If onSwitchToLogin is not provided (i.e., component is used as a standalone /signup page),
+			// navigate to the /login page.
+			navigate("/login");
+		}
 	};
 
 	return (
-		<div className='signup-container'>
+		// If used as standalone page, add a wrapper class like 'signup-page-container' for page layout
+		<div className='signup-content-wrapper auth-form-styles'>
+			{" "}
+			{/* This is the main content box */}
 			<form onSubmit={handleEmailPasswordSubmit} className='signup-form'>
-				<h2>Forum Sign Up</h2>
+				<h3>Create Your Account</h3>
 				{successMessage && <p className='success-message'>{successMessage}</p>}
-				{error && <p className='error-message'>{error}</p>}{" "}
-				{/* Moved error above form fields for general errors */}
+				{error && <p className='error-message'>{error}</p>}
 				<div className='form-group'>
-					<label htmlFor='signup-display-name'>Display Name:</label>
+					<label htmlFor='signup-display-name'>Display Name</label>
 					<input
 						type='text'
 						id='signup-display-name'
@@ -182,10 +238,11 @@ const SignUp: React.FC = () => {
 						onChange={(e) => setDisplayName(e.target.value)}
 						required
 						disabled={loading}
+						autoComplete='name'
 					/>
 				</div>
 				<div className='form-group'>
-					<label htmlFor='signup-email'>Email:</label>
+					<label htmlFor='signup-email'>Email</label>
 					<input
 						type='email'
 						id='signup-email'
@@ -193,10 +250,11 @@ const SignUp: React.FC = () => {
 						onChange={(e) => setEmail(e.target.value)}
 						required
 						disabled={loading}
+						autoComplete='email'
 					/>
 				</div>
 				<div className='form-group'>
-					<label htmlFor='signup-password'>New Password:</label>
+					<label htmlFor='signup-password'>New Password</label>
 					<input
 						type='password'
 						id='signup-password'
@@ -204,6 +262,7 @@ const SignUp: React.FC = () => {
 						onChange={(e) => setPassword(e.target.value)}
 						required
 						disabled={loading}
+						autoComplete='new-password'
 					/>
 					{passwordMessage && (
 						<p
@@ -216,7 +275,7 @@ const SignUp: React.FC = () => {
 					)}
 				</div>
 				<div className='form-group'>
-					<label htmlFor='signup-confirm-password'>Confirm Password:</label>
+					<label htmlFor='signup-confirm-password'>Confirm Password</label>
 					<input
 						type='password'
 						id='signup-confirm-password'
@@ -224,16 +283,16 @@ const SignUp: React.FC = () => {
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
 						disabled={loading}
+						autoComplete='new-password'
 					/>
 				</div>
-				{/* Error message specifically for form field issues could also be placed here or above button */}
-				<button type='submit' className='submit-button' disabled={loading}>
-					{loading &&
-					!successMessage &&
-					!error.includes("Display Name") &&
-					!error.includes("Password issues") &&
-					!error.includes("Passwords do not match")
-						? "Processing..."
+				<button
+					type='submit'
+					className='submit-button primary-auth-button'
+					disabled={loading}
+				>
+					{loading && !successMessage && !error
+						? "Creating Account..."
 						: "Sign Up with Email"}
 				</button>
 				<div className='social-login-divider'>OR</div>
@@ -244,7 +303,8 @@ const SignUp: React.FC = () => {
 						className='social-button google-button'
 						disabled={loading}
 					>
-						<img src={GmailIcon} alt='Sign up with Google' />
+						<img src={GmailIcon} alt='Google icon' />
+						<span>Sign up with Google</span>
 					</button>
 					<button
 						type='button'
@@ -252,8 +312,18 @@ const SignUp: React.FC = () => {
 						className='social-button microsoft-button'
 						disabled={loading}
 					>
-						<img src={MicrosoftIcon} alt='Sign up with Microsoft' />
+						<img src={MicrosoftIcon} alt='Microsoft icon' />
+						<span>Sign up with Microsoft</span>
 					</button>
+				</div>
+				<div className='auth-links'>
+					<a
+						href='#'
+						onClick={handleSwitchToLoginClick}
+						className='auth-switch-link'
+					>
+						Already have an account? Log In
+					</a>
 				</div>
 			</form>
 		</div>
