@@ -2,7 +2,7 @@ import React, {
 	Suspense,
 	lazy,
 	memo,
-	useCallback, // Keep useCallback import, but we won't wrap closeMenuAndNavigate
+	// useCallback, // Keep useCallback import if SearchFeature or other parts still use it
 	useState,
 } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -29,7 +29,9 @@ const NavBar: React.FC = () => {
 	const handleSearchInteraction = () => {
 		setSearchOpen((prev) => !prev);
 		if (!searchOpen) {
+			// If search is being opened
 			if (menuOpen) {
+				// And menu is open, close the menu
 				setIsClosing(true);
 				setTimeout(() => {
 					setMenuOpen(false);
@@ -40,42 +42,40 @@ const NavBar: React.FC = () => {
 	};
 
 	// Close Search (Callback for SearchFeature)
-	const handleCloseSearch = useCallback(() => {
+	// Wrapped in useCallback because it's passed as a prop to SearchFeature
+	const handleCloseSearch = React.useCallback(() => {
 		setSearchOpen(false);
 	}, []);
 
-	// Close Menu & Navigate (Viewport Aware - NO useCallback here)
+	// Close Menu & Navigate (Viewport Aware)
 	const closeMenuAndNavigate = (to: string) => {
-		// Check viewport width dynamically on click
 		const isMobile = window.matchMedia(
 			`(max-width: ${MOBILE_BREAKPOINT}px)`,
 		).matches;
 
 		if (isMobile) {
-			// Mobile logic: requires menu to be open and not closing
 			if (menuOpen && !isClosing) {
 				setIsClosing(true);
-				const timer = setTimeout(() => {
+				setTimeout(() => {
+					// Use setTimeout to allow animation to play
 					setMenuOpen(false);
 					setIsClosing(false);
 					navigate(to);
-				}, 400);
+				}, 400); // Match CSS animation duration
 			} else {
-				console.log(
-					"[Mobile] Navigation prevented: menuOpen=",
-					menuOpen,
-					"isClosing=",
-					isClosing,
-				);
+				// If menu isn't open on mobile, just navigate (e.g. logo click)
+				// Or if it's already closing, the navigation will happen after animation.
+				if (!menuOpen) navigate(to);
 			}
 		} else {
+			// Desktop: just navigate
 			navigate(to);
 		}
 	};
 
 	// Toggle Mobile Menu (for Hamburger)
 	const toggleMobileMenu = () => {
-		if (isClosing) return;
+		if (isClosing) return; // Prevent re-toggling during closing animation
 
 		if (menuOpen) {
 			setIsClosing(true);
@@ -86,16 +86,43 @@ const NavBar: React.FC = () => {
 		} else {
 			setMenuOpen(true);
 			if (searchOpen) {
+				// If search is open, close it when opening menu
 				setSearchOpen(false);
 			}
 		}
 	};
 
+	// Define menu items including the new "Ask a Question"
+	const menuItems = [
+		{ to: "/forum", text: "Ask a Question" },
+		{ to: "/extra-income", text: "Extra Income" },
+		{ to: "/shopping-deals", text: "Shopping Deals" },
+		{ to: "/start-a-blog", text: "Start A Blog" },
+
+		{ to: "/breaking-news", text: "Breaking News" },
+		{ to: "/financial-calculators", text: "Financial Calculators" },
+		{ to: "/about-us", text: "About Us" },
+	];
+
 	return (
 		<nav className='nav'>
 			{/* Logo */}
 			<div className='logo'>
-				<Link to='/' aria-label='Home'>
+				<Link
+					to='/'
+					aria-label='Home'
+					onClick={(e) => {
+						// Ensure menu closes if logo is clicked on mobile
+						if (
+							menuOpen &&
+							window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches
+						) {
+							e.preventDefault();
+							closeMenuAndNavigate("/");
+						}
+						// For desktop, default Link behavior is fine, or use closeMenuAndNavigate if preferred
+					}}
+				>
 					<img
 						src='/images/website-logo.webp'
 						alt='Logo'
@@ -114,29 +141,33 @@ const NavBar: React.FC = () => {
 						menuOpen ? (isClosing ? "closing" : "open") : "closed"
 					}`}
 				>
-					{[
-						{ to: "/extra-income", text: "Extra Income" },
-						{ to: "/shopping-deals", text: "Shopping Deals" },
-						{ to: "/start-a-blog", text: "Start A Blog" },
-						{ to: "/breaking-news", text: "Breaking News" },
-						{ to: "/financial-calculators", text: "Financial Calculators" },
-						{ to: "/about-us", text: "About Us" },
-					].map((link, i) => (
-						<Link
-							key={i}
-							to={link.to}
-							className={`menu-item ${
-								location.pathname.startsWith(link.to) ? "active" : ""
-							}`}
-							onClick={(e) => {
-								e.preventDefault(); // Prevent default link navigation
-								closeMenuAndNavigate(link.to); // Call viewport-aware function
-							}}
-							style={{ animationDelay: `${i * 0.1}s` }}
-						>
-							{link.text}
-						</Link>
-					))}
+					{menuItems.map(
+						(
+							link,
+							i, // Use the menuItems array
+						) => (
+							<Link
+								key={i}
+								to={link.to}
+								className={`menu-item ${
+									// Special highlighting for "Ask a Question" if on any /forum path
+									(link.to === "/forum" &&
+										location.pathname.startsWith("/forum")) ||
+									(location.pathname.startsWith(link.to) && link.to !== "/") || // Avoid highlighting all for "/"
+									(location.pathname === "/" && link.to === "/") // Explicitly for home if needed
+										? "active"
+										: ""
+								}`}
+								onClick={(e) => {
+									e.preventDefault();
+									closeMenuAndNavigate(link.to);
+								}}
+								style={{ animationDelay: `${i * 0.1}s` }}
+							>
+								{link.text}
+							</Link>
+						),
+					)}
 				</div>
 
 				{/* Hamburger Icon */}
@@ -172,8 +203,8 @@ const NavBar: React.FC = () => {
 				<Suspense
 					fallback={
 						<div
-							className='search-bar-container open'
-							style={{ minHeight: "40px", zIndex: 5 }}
+							className='search-bar-container open' // Ensure it has 'open' to be visible initially
+							style={{ minHeight: "40px", zIndex: 5 }} // zIndex might need adjustment
 						>
 							<div className='search-loading'>Loading Search...</div>
 						</div>
