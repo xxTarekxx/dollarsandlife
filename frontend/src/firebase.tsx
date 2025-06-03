@@ -9,18 +9,23 @@ import { getFirestore, connectFirestoreEmulator } from "firebase/firestore"; // 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-	apiKey: "AIzaSyDDc0ctdb9HAtfKBFMcLb_-oZzhA61ZSKc",
+	apiKey: "AIzaSyDDc0ctdb9HAtfKBFMcLb_-oZzhA61ZSKc", // Replace with your actual API key if different
 	authDomain: "dollarsandlifeforum.firebaseapp.com",
 	projectId: "dollarsandlifeforum",
 	storageBucket: "dollarsandlifeforum.firebasestorage.app",
 	messagingSenderId: "965261990077",
 	appId: "1:965261990077:web:b219509b5d2ab678583fd4",
-	measurementId: "G-76XESXFFJP",
+	measurementId: "G-76XESXFFJP", // Optional
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app); // getAnalytics can be conditional too if not needed for emulated env
+let analytics;
+if (typeof window !== "undefined") {
+	// Ensure getAnalytics is only called in the browser
+	analytics = getAnalytics(app);
+}
+
 const auth = getAuth(app);
 const db = getFirestore(app);
 
@@ -29,8 +34,9 @@ const db = getFirestore(app);
 // Default ports: Auth (9099), Firestore (8080)
 // Check your firebase.json or emulator startup logs for the correct ports if you've changed them.
 if (
-	window.location.hostname === "localhost" ||
-	window.location.hostname === "127.0.0.1"
+	typeof window !== "undefined" &&
+	(window.location.hostname === "localhost" ||
+		window.location.hostname === "127.0.0.1")
 ) {
 	console.log(
 		"Development environment detected: Connecting to Firebase Emulators.",
