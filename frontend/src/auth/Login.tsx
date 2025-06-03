@@ -198,6 +198,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 				</button>
 
 				<div className='social-login-divider'>OR</div>
+				<div>Log In Using</div>
 				<div className='social-login-buttons'>
 					<button
 						type='button'
@@ -206,7 +207,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 						disabled={loading}
 					>
 						<img src={GmailIcon} alt='Google icon' />
-						<span>Log in with Google</span>
+						<span></span>
 					</button>
 					<button
 						type='button'
@@ -215,7 +216,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 						disabled={loading}
 					>
 						<img src={MicrosoftIcon} alt='Microsoft icon' />
-						<span>Log in with Microsoft</span>
+						{/* <span>Log in with</span> */}
 					</button>
 				</div>
 

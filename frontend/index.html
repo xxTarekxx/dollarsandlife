@@ -61,12 +61,22 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079721341426198"
     crossorigin="anonymous"></script>
 
-  <!-- Google Tag Manager Script (loaded only once; internal IP filtering now handled via App.tsx) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P"></script>
+  <!-- Google Analytics Script (gtag.js) - Primary Configuration -->
+  <!-- Ensure this ID matches your firebase.tsx measurementId and your primary GA4 property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-76XESXFFJP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
+
+    // Initial basic config. More specific config (like conditional page_view) can be handled in App.tsx
+    // or after Firebase Analytics initializes if preferred.
+    // For now, this sets up the GA property.
+    gtag('config', 'G-76XESXFFJP');
+
+    // If you have Google Ads conversion tracking, its config would also go here.
+    // For example: gtag('config', 'AW-16613104907');
+    // We will move the AW config to App.tsx to be consistent with the IP check logic
   </script>
 </head>
 

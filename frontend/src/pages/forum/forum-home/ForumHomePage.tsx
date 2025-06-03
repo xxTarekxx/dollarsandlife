@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom"; // <<--- IMPORT ReactDOM
+import React, { useState, useEffect, useCallback } from "react"; // Added useCallback
+import ReactDOM from "react-dom";
 import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
-import { db, auth } from "../../../firebase"; // Ensure auth is exported from firebase.ts
-import { signOut } from "firebase/auth"; // Import signOut
-import { useAuthState } from "react-firebase-hooks/auth"; // Import useAuthState
+import { db, auth } from "../../../firebase";
+import { signOut } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import "./ForumHomePage.css";
 import CreatePostForm from "../post-form/CreatePostForm";
 import PostCard, { PostData } from "../Posts/PostCard";
 import tagColors from "../../../utils/tagColors";
-import AuthPromptModal from "../../../auth/AuthPromptModal"; // Path to your AuthPromptModal
+import AuthPromptModal from "../../../auth/AuthPromptModal";
 
-// A simple default profile icon (SVG)
 const DefaultProfileIcon = () => (
 	<svg
 		xmlns='http://www.w3.org/2000/svg'
@@ -24,7 +23,6 @@ const DefaultProfileIcon = () => (
 	</svg>
 );
 
-// Get the modal root element, or create it if it doesn't exist
 const modalRootElement =
 	document.getElementById("modal-root") ||
 	(() => {
@@ -46,24 +44,35 @@ const ForumHomePage: React.FC = () => {
 	const [activeTag, setActiveTag] = useState<string | null>(null);
 
 	const [user, authLoading, authError] = useAuthState(auth);
-	const [showAuthModal, setShowAuthModal] = useState(false); // Still used to control visibility intent from FHP
-	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false); // Controls if AuthPromptModal is rendered
+	// Auth Modal States
+	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false); // Controls DOM presence
+	// const [showAuthModal, setShowAuthModal] = useState(false); // This was for internal modal visibility, now less critical
+	const [isAuthModalEmailPending, setIsAuthModalEmailPending] = useState(false); // New state
 
+	const closeAuthModal = useCallback(() => {
+		// setShowAuthModal(false); // Not strictly needed if isAuthModalInDom controls everything
+		setIsAuthModalEmailPending(false); // Reset pending state when modal is intentionally closed
+		setIsAuthModalInDom(false); // Remove from DOM after animation (AuthPromptModal handles its own fade out)
+	}, []); // No dependencies needed if it only sets state
+
+	// Effect to close Auth Modal if user logs in, UNLESS email verification is pending
 	useEffect(() => {
-		if (user && (showAuthModal || isAuthModalInDom)) {
-			setShowAuthModal(false);
-			setTimeout(() => setIsAuthModalInDom(false), 300);
+		if (user && isAuthModalInDom && !isAuthModalEmailPending) {
+			console.log(
+				"ForumHomePage: User session detected, modal was open, and NOT email pending. Closing auth modal.",
+			);
+			closeAuthModal();
 		}
-	}, [user, showAuthModal, isAuthModalInDom]);
+		// If user logs out and the "email pending" flag was set (e.g. modal was closed by X), clear it
+		if (!user && isAuthModalEmailPending) {
+			setIsAuthModalEmailPending(false);
+		}
+	}, [user, isAuthModalInDom, isAuthModalEmailPending, closeAuthModal]);
 
 	const openAuthModal = () => {
-		setIsAuthModalInDom(true);
-		setTimeout(() => setShowAuthModal(true), 10); // showAuthModal can be used by AuthPromptModal if needed, or just for FHP logic
-	};
-
-	const closeAuthModal = () => {
-		setShowAuthModal(false); // Signal intent to close
-		setTimeout(() => setIsAuthModalInDom(false), 300); // Remove AuthPromptModal from DOM
+		setIsAuthModalEmailPending(false); // Reset on open
+		setIsAuthModalInDom(true); // Add to DOM
+		// AuthPromptModal handles its own internal isVisible state for fade-in
 	};
 
 	const openCreatePostModal = () => {
@@ -72,7 +81,7 @@ const ForumHomePage: React.FC = () => {
 			return;
 		}
 		setIsCreatePostModalInDom(true);
-		setTimeout(() => setShowCreatePostModal(true), 10);
+		setTimeout(() => setShowCreatePostModal(true), 10); // For fade-in animation
 	};
 
 	const closeCreatePostModal = () => {
@@ -80,11 +89,12 @@ const ForumHomePage: React.FC = () => {
 		setTimeout(() => {
 			setIsCreatePostModalInDom(false);
 			setFormKey((prev) => prev + 1);
-		}, 300);
+		}, 300); // Match CSS animation
 	};
 
 	const handleLogout = async () => {
 		try {
+			setIsAuthModalEmailPending(false); // Clear pending state on logout
 			await signOut(auth);
 		} catch (error) {
 			console.error("Error signing out: ", error);
@@ -96,7 +106,6 @@ const ForumHomePage: React.FC = () => {
 			setLoadingPosts(true);
 			const postsRef = collection(db, "forumPosts");
 			let q;
-
 			if (activeTag) {
 				q = query(
 					postsRef,
@@ -106,7 +115,6 @@ const ForumHomePage: React.FC = () => {
 			} else {
 				q = query(postsRef, orderBy(sortBy, "desc"));
 			}
-
 			try {
 				const snapshot = await getDocs(q);
 				const fetchedPosts = snapshot.docs.map((doc) => ({
@@ -142,10 +150,8 @@ const ForumHomePage: React.FC = () => {
 		</div>
 	);
 
-	// Determine if any modal is active for blurring the background
 	const isAnyModalEffectivelyOpen =
-		(isCreatePostModalInDom && showCreatePostModal) ||
-		(isAuthModalInDom && showAuthModal);
+		(isCreatePostModalInDom && showCreatePostModal) || isAuthModalInDom;
 
 	return (
 		<>
@@ -282,24 +288,13 @@ const ForumHomePage: React.FC = () => {
 				</div>
 			</div>
 
-			{/* --- Render Modals --- */}
-			{/* CreatePostModal is portalized here as its JSX includes the necessary overlay/content structure */}
 			{isCreatePostModalInDom &&
 				ReactDOM.createPortal(createPostModalComponent, modalRootElement)}
 
-			{/* AuthPromptModal handles its own portal internally.
-                We just need to ensure it's rendered when needed.
-                It will append itself to the modalRootElement.
-                The `showAuthModal` state can be passed if AuthPromptModal needs an external trigger
-                for its internal `isVisible` state, or ForumHomePage can rely on `isAuthModalInDom`
-                for its own logic (like the .blurred class).
-                AuthPromptModal's own useEffect for visibility will handle its fade-in/out.
-            */}
 			{isAuthModalInDom && (
 				<AuthPromptModal
 					onClose={closeAuthModal}
-					// Optional: pass showAuthModal if AuthPromptModal's internal visibility depends on it
-					// isInitiallyVisible={showAuthModal}
+					onSetEmailPending={setIsAuthModalEmailPending} // Pass the setter for the pending state
 				/>
 			)}
 		</>

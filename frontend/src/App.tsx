@@ -20,11 +20,11 @@ import NavBar from "./components/navbar/NavBar";
 import NotFoundPage from "./components/notfound404/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
-import AuthActionHandler from "./auth/AuthActionHandler"; // Ensure this path is correct
+import AuthActionHandler from "./auth/AuthActionHandler";
 
 // Lazy loaded components
 const SignUp = lazy(() => import("./auth/SignUp"));
-const Login = lazy(() => import("./auth/Login")); // This is your dedicated /login page component
+const Login = lazy(() => import("./auth/Login"));
 const ForumHomePage = lazy(
 	() => import("./pages/forum/forum-home/ForumHomePage"),
 );
@@ -75,7 +75,6 @@ const BreadcrumbWrapper = lazy(
 const ReturnPolicy = lazy(() => import("./pages/returnpolicy/ReturnPolicy"));
 const Footer = lazy(() => import("./components/footer/Footer"));
 
-// If you create NewPasswordPage.tsx later, you would lazy load it like this:
 // const NewPasswordPage = lazy(() => import("./auth/NewPasswordPage"));
 
 declare global {
@@ -84,21 +83,25 @@ declare global {
 	}
 }
 
+const GA_MEASUREMENT_ID = "G-76XESXFFJP"; // Your primary GA4 ID
+const GOOGLE_ADS_ID = "AW-16613104907"; // Your Google Ads ID
+
 const AppContent: React.FC = () => {
 	const location = useLocation();
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
+
 	const canonicalUrl = useMemo(() => {
 		const parts = location.pathname.split("/");
 		const lowercasedParts = parts.map((part, idx) =>
 			parts[idx - 1] === "post" ? part : part.toLowerCase(),
 		);
-		// Ensure no double slashes if pathname is "/"
 		const joinedPath = lowercasedParts.join("/");
 		return `https://www.dollarsandlife.com${
 			joinedPath === "/" && lowercasedParts.length > 1 ? "" : joinedPath
 		}`;
 	}, [location.pathname]);
 
+	// Normalize URL to lowercase (except for post IDs)
 	useEffect(() => {
 		const parts = location.pathname.split("/");
 		const correctedParts = parts.map((part, idx) =>
@@ -112,6 +115,7 @@ const AppContent: React.FC = () => {
 		}
 	}, [location.pathname]);
 
+	// AdBlock detection
 	useEffect(() => {
 		const checkAdBlock = () => {
 			let isAdBlocked = false;
@@ -151,6 +155,7 @@ const AppContent: React.FC = () => {
 		return () => clearTimeout(timer);
 	}, []);
 
+	// IP-based GA configuration & Page View tracking for GA4
 	useEffect(() => {
 		const internalPrefixes = (process.env.REACT_APP_INTERNAL_IP_PREFIX || "")
 			.split(",")
@@ -161,6 +166,22 @@ const AppContent: React.FC = () => {
 			console.log("ENV INTERNAL IP Prefixes:", internalPrefixes);
 		}
 
+		const configureGa = (isInternal: boolean) => {
+			if (typeof window.gtag === "function") {
+				console.log(
+					`Configuring GA (${GA_MEASUREMENT_ID}) - Internal: ${isInternal}`,
+				);
+				window.gtag("config", GA_MEASUREMENT_ID, {
+					send_page_view: !isInternal, // Send page_view based on IP check
+					...(isInternal ? { page_title: "internal_traffic" } : {}),
+				});
+				// Configure Google Ads as well
+				window.gtag("config", GOOGLE_ADS_ID);
+				console.log(`Configured Google Ads (${GOOGLE_ADS_ID})`);
+			}
+		};
+
+		// Fetch IP and configure GA
 		fetch("https://api64.ipify.org?format=json")
 			.then((res) => res.json())
 			.then((data) => {
@@ -168,31 +189,23 @@ const AppContent: React.FC = () => {
 				const normalizeIP = (ip: string) => ip.replace(/[^a-zA-Z0-9:.]/g, "");
 				let isInternal = false;
 				if (internalPrefixes.length > 0) {
-					isInternal = internalPrefixes.some((prefix) => {
-						return normalizeIP(userIP).startsWith(normalizeIP(prefix));
-					});
+					isInternal = internalPrefixes.some((prefix) =>
+						normalizeIP(userIP).startsWith(normalizeIP(prefix)),
+					);
 				}
-
 				console.log("Your IP is:", userIP);
 				console.log("Is internal traffic:", isInternal);
-				console.log("Tracking allowed:", !isInternal);
-
-				if (typeof window.gtag === "function") {
-					window.gtag("config", "G-S7FWNHSD7P", {
-						send_page_view: !isInternal,
-						...(isInternal ? { page_title: "internal_traffic" } : {}),
-					});
-					window.gtag("config", "AW-16613104907");
-				}
+				configureGa(isInternal);
 			})
 			.catch((err) => {
-				console.error("Failed to fetch IP or configure gtag:", err);
-				if (typeof window.gtag === "function") {
-					window.gtag("config", "G-S7FWNHSD7P");
-					window.gtag("config", "AW-16613104907");
-				}
+				console.error(
+					"Failed to fetch IP or configure gtag, defaulting to standard config:",
+					err,
+				);
+				// Fallback to standard configuration if IP check fails
+				configureGa(false); // Assume not internal if IP check fails
 			});
-	}, []);
+	}, [location.pathname]); // Re-run config if path changes for SPA page_view logic
 
 	const handleDismissAdBlockPrompt = useCallback(() => {
 		setShowAdBlockPrompt(false);
@@ -213,17 +226,11 @@ const AppContent: React.FC = () => {
 					},
 					success: {
 						duration: 3000,
-						iconTheme: {
-							primary: "green",
-							secondary: "white",
-						},
+						iconTheme: { primary: "green", secondary: "white" },
 					},
 					error: {
 						duration: 5000,
-						iconTheme: {
-							primary: "red",
-							secondary: "white",
-						},
+						iconTheme: { primary: "red", secondary: "white" },
 					},
 				}}
 			/>
@@ -266,7 +273,6 @@ const AppContent: React.FC = () => {
 				)}
 				<main>
 					<Suspense fallback={<Loading />}>
-						{/* ALL Routes are defined within this single <Routes> component */}
 						<Routes>
 							{/* General Pages */}
 							<Route path='/' element={<HomePage />} />
@@ -280,12 +286,7 @@ const AppContent: React.FC = () => {
 							<Route path='/signup' element={<SignUp />} />
 							<Route path='/login' element={<Login />} />
 							<Route path='/auth/action' element={<AuthActionHandler />} />
-							{/*
-                            When you create NewPasswordPage.tsx for handling password reset form:
-                            You would uncomment the line below and ensure NewPasswordPage is imported.
-                            Example: const NewPasswordPage = lazy(() => import("./auth/NewPasswordPage"));
-                            <Route path='/new-password' element={<NewPasswordPage />} />
-                            */}
+							{/* <Route path='/new-password' element={<NewPasswordPage />} /> */}
 
 							{/* Content Category Pages */}
 							<Route path='/extra-income' element={<ExtraIncome />} />

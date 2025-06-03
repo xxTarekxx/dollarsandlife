@@ -1,15 +1,19 @@
 // frontend/src/components/auth/AuthPromptModal.tsx
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import ReactDOM from "react-dom";
-import "./AuthPromptModal.css"; // Ensure this CSS styles .auth-modal-overlay and .auth-modal-content
-import SignUp from "./SignUp"; // This component MUST define and accept 'onSwitchToLogin' prop
-import Login from "./Login"; // This component MUST define and accept 'onSwitchToSignUp' prop
+import "./AuthPromptModal.css";
+import SignUp from "./SignUp";
+import Login from "./Login";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface AuthPromptModalProps {
 	onClose: () => void;
+	onSetEmailPending: (isPending: boolean) => void;
+	// onSetEmailPending is removed if AuthPromptModal manages this state internally
+	// If ForumHomePage needs to know, we can re-add it, but let's test internal management first.
 }
 
-// Get the modal root element, or create it if it doesn't exist
 const modalRoot =
 	document.getElementById("modal-root") ||
 	(() => {
@@ -19,61 +23,118 @@ const modalRoot =
 		return el;
 	})();
 
-const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
+const AuthPromptModal: React.FC<AuthPromptModalProps> = ({
+	onClose,
+	onSetEmailPending,
+}) => {
 	const [mode, setMode] = useState<"login" | "signup" | null>(null);
-	const [isVisible, setIsVisible] = useState(false); // For controlling fade-in/out CSS class
+	const [isVisible, setIsVisible] = useState(false);
+	const [user, loadingAuth] = useAuthState(auth);
+	const [
+		isEmailVerificationMessageActive,
+		setIsEmailVerificationMessageActive,
+	] = useState(false); // Internal state to track if SignUp is showing its verification message
 
-	// Memoize the portal target element to keep its reference stable
 	const el = useMemo(() => document.createElement("div"), []);
 
 	useEffect(() => {
-		// Append the stable 'el' to the modalRoot when the component mounts
 		modalRoot.appendChild(el);
-
-		// Trigger fade-in animation
-		// Use requestAnimationFrame to ensure the element is in the DOM and styles can be applied
 		requestAnimationFrame(() => {
 			setIsVisible(true);
 		});
-
-		// Cleanup function to remove 'el' from modalRoot when the component unmounts
 		return () => {
 			if (modalRoot.contains(el)) {
-				// Check if parent still contains the child
 				modalRoot.removeChild(el);
 			}
 		};
-	}, [el]); // Dependency array with 'el' (which is memoized and stable)
+	}, [el]);
 
-	const handleClose = () => {
-		setIsVisible(false); // Trigger fade-out animation class
-		// Wait for CSS animation to complete before calling the parent's onClose,
-		// which will typically unmount this component.
+	const handleClose = useCallback(() => {
+		console.log("AUTHPROMPTMODAL: handleClose called"); // DEBUG
+		setIsVisible(false);
 		setTimeout(() => {
 			onClose();
-		}, 250); // This duration MUST match your CSS animation-duration for fade-out.
-	};
+			setIsEmailVerificationMessageActive(false); // Reset internal pending state when modal is explicitly closed
+			if (onSetEmailPending) {
+				// Also inform parent when closing, to reset its state
+				console.log(
+					"AUTHPROMPTMODAL: handleClose - Calling PARENT's onSetEmailPending(false)",
+				);
+				onSetEmailPending(false);
+			}
+		}, 250);
+	}, [onClose, onSetEmailPending]);
 
-	// Handler to switch the modal's internal view to the Login component
+	useEffect(() => {
+		console.log(
+			"AUTHPROMPTMODAL: useEffect check - user:",
+			!!user,
+			"loadingAuth:",
+			loadingAuth,
+			"isEmailVerificationMessageActive:",
+			isEmailVerificationMessageActive,
+			"mode:",
+			mode,
+		); // DEBUG
+
+		if (!loadingAuth && user && !isEmailVerificationMessageActive) {
+			// If a user is authenticated (either from Login, or already was)
+			// AND we are NOT intentionally showing the email verification message (via isEmailVerificationMessageActive)
+			if (mode !== "signup") {
+				// And the mode is 'login' or 'null' (initial state where user might already be logged in)
+				// If mode is 'signup', we let SignUp component handle its display or trigger close via onSuccessfulSocialLogin.
+				console.log(
+					"AUTHPROMPTMODAL: Auto-closing: User session active, not pending verification, and mode is not 'signup'. Mode:",
+					mode,
+				); // DEBUG
+				handleClose();
+			} else {
+				console.log(
+					"AUTHPROMPTMODAL: User session active, not pending verification, BUT mode is 'signup'. Not closing from this effect.",
+				); // DEBUG
+			}
+		}
+	}, [user, loadingAuth, mode, handleClose, isEmailVerificationMessageActive]);
+
 	const handleSwitchToLogin = () => {
+		console.log("AUTHPROMPTMODAL: Switching to Login mode."); // DEBUG
 		setMode("login");
+		setIsEmailVerificationMessageActive(false); // Reset pending state
 	};
 
-	// Handler to switch the modal's internal view to the SignUp component
 	const handleSwitchToSignUp = () => {
+		console.log("AUTHPROMPTMODAL: Switching to SignUp mode."); // DEBUG
 		setMode("signup");
+		setIsEmailVerificationMessageActive(false); // Reset pending state
 	};
 
-	// The JSX content that will be rendered into the portal
+	// Called by SignUp component after a successful SOCIAL login
+	const handleSuccessfulSocialLoginInSignUp = useCallback(() => {
+		console.log(
+			"AUTHPROMPTMODAL: Social login successful in SignUp, closing modal.",
+		); // DEBUG
+		setIsEmailVerificationMessageActive(false); // Ensure this is reset
+		handleClose();
+	}, [handleClose, onSetEmailPending]);
+
+	// Called by SignUp component after a successful EMAIL sign-up (verification email sent)
+	const handleEmailSignUpPendingInSignUp = useCallback(() => {
+		console.log(
+			"AUTHPROMPTMODAL: Email sign-up pending. Setting internal flag AND calling parent's onSetEmailPending.",
+		); // DEBUG
+		setIsEmailVerificationMessageActive(true); // Set its own internal flag
+		if (onSetEmailPending) {
+			onSetEmailPending(true); // <<< --- CRITICAL: Signal the parent (ForumHomePage)
+		}
+	}, [onSetEmailPending]);
+
 	const modalRenderContent = (
 		<div className={`auth-modal-overlay ${isVisible ? "fade-in" : "fade-out"}`}>
 			<div className='auth-modal-content'>
-				{" "}
-				{/* This is the main styled "box" of the modal */}
 				<button className='auth-close-btn' onClick={handleClose}>
 					✕
 				</button>
-				{!mode ? ( // Initial state: show options to Log In or Sign Up
+				{!mode ? (
 					<>
 						<h2>Please Log In or Sign Up</h2>
 						<div className='auth-modal-buttons'>
@@ -81,17 +142,20 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
 							<button onClick={handleSwitchToSignUp}>Sign Up</button>
 						</div>
 					</>
-				) : mode === "login" ? ( // If mode is "login", render the Login component
+				) : mode === "login" ? (
 					<Login onSwitchToSignUp={handleSwitchToSignUp} />
 				) : (
-					// Otherwise (if mode is "signup"), render the SignUp component
-					<SignUp onSwitchToLogin={handleSwitchToLogin} />
+					// mode === "signup"
+					<SignUp
+						onSwitchToLogin={handleSwitchToLogin}
+						onSuccessfulSocialLogin={handleSuccessfulSocialLoginInSignUp}
+						onEmailSignUpPendingVerification={handleEmailSignUpPendingInSignUp}
+					/>
 				)}
 			</div>
 		</div>
 	);
 
-	// Render the modal content into the portal target element 'el'
 	return ReactDOM.createPortal(modalRenderContent, el);
 };
 
