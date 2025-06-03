@@ -9,9 +9,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 interface AuthPromptModalProps {
 	onClose: () => void;
-	onSetEmailPending: (isPending: boolean) => void;
-	// onSetEmailPending is removed if AuthPromptModal manages this state internally
-	// If ForumHomePage needs to know, we can re-add it, but let's test internal management first.
 }
 
 const modalRoot =
@@ -23,17 +20,11 @@ const modalRoot =
 		return el;
 	})();
 
-const AuthPromptModal: React.FC<AuthPromptModalProps> = ({
-	onClose,
-	onSetEmailPending,
-}) => {
+const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
 	const [mode, setMode] = useState<"login" | "signup" | null>(null);
 	const [isVisible, setIsVisible] = useState(false);
 	const [user, loadingAuth] = useAuthState(auth);
-	const [
-		isEmailVerificationMessageActive,
-		setIsEmailVerificationMessageActive,
-	] = useState(false); // Internal state to track if SignUp is showing its verification message
+	const [keepModalOpenForMessage, setKeepModalOpenForMessage] = useState(false);
 
 	const el = useMemo(() => document.createElement("div"), []);
 
@@ -50,20 +41,13 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({
 	}, [el]);
 
 	const handleClose = useCallback(() => {
-		console.log("AUTHPROMPTMODAL: handleClose called"); // DEBUG
+		console.log("AUTHPROMPTMODAL: handleClose called.");
 		setIsVisible(false);
+		setKeepModalOpenForMessage(false); // Reset this flag
 		setTimeout(() => {
-			onClose();
-			setIsEmailVerificationMessageActive(false); // Reset internal pending state when modal is explicitly closed
-			if (onSetEmailPending) {
-				// Also inform parent when closing, to reset its state
-				console.log(
-					"AUTHPROMPTMODAL: handleClose - Calling PARENT's onSetEmailPending(false)",
-				);
-				onSetEmailPending(false);
-			}
-		}, 250);
-	}, [onClose, onSetEmailPending]);
+			onClose(); // Call parent's onClose
+		}, 250); // Match CSS animation for fade-out
+	}, [onClose]);
 
 	useEffect(() => {
 		console.log(
@@ -71,62 +55,55 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({
 			!!user,
 			"loadingAuth:",
 			loadingAuth,
-			"isEmailVerificationMessageActive:",
-			isEmailVerificationMessageActive,
+			"keepModalOpenForMessage:",
+			keepModalOpenForMessage,
 			"mode:",
 			mode,
-		); // DEBUG
+		);
 
-		if (!loadingAuth && user && !isEmailVerificationMessageActive) {
-			// If a user is authenticated (either from Login, or already was)
-			// AND we are NOT intentionally showing the email verification message (via isEmailVerificationMessageActive)
-			if (mode !== "signup") {
-				// And the mode is 'login' or 'null' (initial state where user might already be logged in)
-				// If mode is 'signup', we let SignUp component handle its display or trigger close via onSuccessfulSocialLogin.
+		if (!loadingAuth && user && !keepModalOpenForMessage) {
+			// If user is authenticated AND we are NOT supposed to keep modal open for a message:
+			if (mode === "login" || mode === null) {
+				// If login was successful, or user was already logged in when modal opened in a non-signup initial state.
 				console.log(
-					"AUTHPROMPTMODAL: Auto-closing: User session active, not pending verification, and mode is not 'signup'. Mode:",
-					mode,
-				); // DEBUG
+					"AUTHPROMPTMODAL: User authenticated, not keeping open for message, mode is login or null. Closing.",
+				);
 				handleClose();
-			} else {
-				console.log(
-					"AUTHPROMPTMODAL: User session active, not pending verification, BUT mode is 'signup'. Not closing from this effect.",
-				); // DEBUG
 			}
+			// If mode is 'signup':
+			// - Social login calls handleSuccessfulSocialLoginInSignUp -> handleClose.
+			// - Email/pass sign-up sets keepModalOpenForMessage=true, so this block is skipped.
 		}
-	}, [user, loadingAuth, mode, handleClose, isEmailVerificationMessageActive]);
+	}, [user, loadingAuth, mode, handleClose, keepModalOpenForMessage]);
 
 	const handleSwitchToLogin = () => {
-		console.log("AUTHPROMPTMODAL: Switching to Login mode."); // DEBUG
+		console.log("AUTHPROMPTMODAL: Switching to Login mode.");
 		setMode("login");
-		setIsEmailVerificationMessageActive(false); // Reset pending state
+		setKeepModalOpenForMessage(false); // Reset flag when switching mode
 	};
 
 	const handleSwitchToSignUp = () => {
-		console.log("AUTHPROMPTMODAL: Switching to SignUp mode."); // DEBUG
+		console.log("AUTHPROMPTMODAL: Switching to SignUp mode.");
 		setMode("signup");
-		setIsEmailVerificationMessageActive(false); // Reset pending state
+		setKeepModalOpenForMessage(false); // Reset flag when switching mode
 	};
 
 	// Called by SignUp component after a successful SOCIAL login
 	const handleSuccessfulSocialLoginInSignUp = useCallback(() => {
 		console.log(
-			"AUTHPROMPTMODAL: Social login successful in SignUp, closing modal.",
-		); // DEBUG
-		setIsEmailVerificationMessageActive(false); // Ensure this is reset
+			"AUTHPROMPTMODAL: Social login successful in SignUp. Resetting flag and closing modal.",
+		);
+		setKeepModalOpenForMessage(false);
 		handleClose();
-	}, [handleClose, onSetEmailPending]);
+	}, [handleClose]);
 
 	// Called by SignUp component after a successful EMAIL sign-up (verification email sent)
 	const handleEmailSignUpPendingInSignUp = useCallback(() => {
 		console.log(
-			"AUTHPROMPTMODAL: Email sign-up pending. Setting internal flag AND calling parent's onSetEmailPending.",
-		); // DEBUG
-		setIsEmailVerificationMessageActive(true); // Set its own internal flag
-		if (onSetEmailPending) {
-			onSetEmailPending(true); // <<< --- CRITICAL: Signal the parent (ForumHomePage)
-		}
-	}, [onSetEmailPending]);
+			"AUTHPROMPTMODAL: Email sign-up pending, setting flag to keep modal open.",
+		);
+		setKeepModalOpenForMessage(true); // This modal will now stay open to show SignUp's message
+	}, []);
 
 	const modalRenderContent = (
 		<div className={`auth-modal-overlay ${isVisible ? "fade-in" : "fade-out"}`}>

@@ -238,16 +238,16 @@ const SignUp: React.FC<SignUpProps> = ({
 						style={{ marginTop: "20px", textAlign: "center" }}
 					>
 						<p>Once verified, you will be able to log in.</p>
-						<button
+						{/* <button
 							onClick={() => {
 								if (onSwitchToLogin) onSwitchToLogin();
 								else navigate("/login");
 							}}
-							className='submit-button primary-auth-button' // Re-use button style
+							className='submit-button primary-auth-button' 
 							style={{ marginTop: "10px" }}
 						>
 							Proceed to Log In
-						</button>
+						</button> */}
 					</div>
 				</div>
 			</div>
