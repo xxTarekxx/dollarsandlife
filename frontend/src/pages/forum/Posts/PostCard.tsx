@@ -1,10 +1,8 @@
-// frontend/src/pages/forum/Posts/PostCard.tsx
 import React from "react";
 import { Link } from "react-router-dom";
 import "./PostCard.css";
 import VoteButtons from "../voting/VoteButtons";
 import tagColors from "../../../utils/tagColors";
-
 export interface PostData {
 	id: string;
 	title: string;
@@ -12,17 +10,14 @@ export interface PostData {
 	authorId?: string;
 	timestamp?: any;
 	snippet?: string;
-	// Changed from voteCount to specific counts
-	helpfulVoteCount: number; // <-- CHANGED/ADDED
-	notHelpfulVoteCount: number; // <-- ADDED
+	helpfulVoteCount: number;
+	notHelpfulVoteCount: number;
 	answerCount: number;
 	tags?: string[];
 }
-
 interface PostCardProps {
 	post: PostData;
 }
-
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
 	const formatTimestamp = (ts: any) => {
 		if (!ts) return "Some time ago";
@@ -30,7 +25,6 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 		if (ts instanceof Date) return ts.toLocaleDateString();
 		return new Date(ts).toLocaleDateString();
 	};
-
 	return (
 		<article className='post-card'>
 			<h3 className='post-card-title'>
@@ -72,9 +66,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 			<div className='post-card-actions'>
 				<VoteButtons
 					itemId={post.id}
-					initialHelpfulVotes={post.helpfulVoteCount} // <-- CHANGED
-					initialNotHelpfulVotes={post.notHelpfulVoteCount} // <-- CHANGED
+					initialHelpfulVotes={post.helpfulVoteCount}
+					initialNotHelpfulVotes={post.notHelpfulVoteCount}
 					itemType='post'
+					itemAuthorId={post.authorId} // <-- FIXED: Pass authorId
 				/>
 				<Link
 					to={`/forum/post/${post.id}#answers`}
