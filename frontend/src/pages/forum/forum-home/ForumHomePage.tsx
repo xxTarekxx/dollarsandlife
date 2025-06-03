@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react"; // Added useCallback
+import React, { useState, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
 import { db, auth } from "../../../firebase";
-import { signOut } from "firebase/auth";
+import { signOut } from "firebase/auth"; // No longer need onAuthStateChanged here for this specific logic
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./ForumHomePage.css";
 import CreatePostForm from "../post-form/CreatePostForm";
@@ -44,35 +44,45 @@ const ForumHomePage: React.FC = () => {
 	const [activeTag, setActiveTag] = useState<string | null>(null);
 
 	const [user, authLoading, authError] = useAuthState(auth);
-	// Auth Modal States
-	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false); // Controls DOM presence
-	// const [showAuthModal, setShowAuthModal] = useState(false); // This was for internal modal visibility, now less critical
-	const [isAuthModalEmailPending, setIsAuthModalEmailPending] = useState(false); // New state
+	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false);
 
+	// This function is called by AuthPromptModal when it decides to close.
 	const closeAuthModal = useCallback(() => {
-		// setShowAuthModal(false); // Not strictly needed if isAuthModalInDom controls everything
-		setIsAuthModalEmailPending(false); // Reset pending state when modal is intentionally closed
-		setIsAuthModalInDom(false); // Remove from DOM after animation (AuthPromptModal handles its own fade out)
-	}, []); // No dependencies needed if it only sets state
+		console.log(
+			"FORUMHOMEPAGE: closeAuthModal called (triggered by AuthPromptModal's onClose).",
+		);
+		setIsAuthModalInDom(false);
+	}, []);
 
-	// Effect to close Auth Modal if user logs in, UNLESS email verification is pending
+	// This effect primarily handles the case where the user might already be logged in
+	// when ForumHomePage mounts AND we might have intended to show the modal.
+	// AuthPromptModal itself will call `onClose` if it opens, sees a user, and isn't
+	// in a state like 'signup' or 'keepModalOpenForMessage'.
 	useEffect(() => {
-		if (user && isAuthModalInDom && !isAuthModalEmailPending) {
+		if (!authLoading && user && isAuthModalInDom) {
+			// If user is logged in and modal is in DOM,
+			// AuthPromptModal should call its onClose if it's not meant to stay open.
+			// This effect is a safeguard. If AuthPromptModal is well-behaved, it might not be strictly necessary
+			// to have ForumHomePage *also* try to close it based on `user` state.
+			// However, it can help ensure consistency if the modal was opened for a logged-out user who then
+			// gets an auth state update from elsewhere (e.g., another tab).
 			console.log(
-				"ForumHomePage: User session detected, modal was open, and NOT email pending. Closing auth modal.",
+				"FORUMHOMEPAGE: User state is now:",
+				!!user,
+				"Modal in DOM:",
+				isAuthModalInDom,
+				"Auth Loading:",
+				authLoading,
 			);
-			closeAuthModal();
+			// At this point, if AuthPromptModal is supposed to close because a user is present,
+			// it should have already called `onClose` which triggers `closeAuthModal`.
+			// If it hasn't (e.g. it's showing a verify email message), then `isAuthModalInDom` will remain true.
 		}
-		// If user logs out and the "email pending" flag was set (e.g. modal was closed by X), clear it
-		if (!user && isAuthModalEmailPending) {
-			setIsAuthModalEmailPending(false);
-		}
-	}, [user, isAuthModalInDom, isAuthModalEmailPending, closeAuthModal]);
+	}, [user, authLoading, isAuthModalInDom]);
 
 	const openAuthModal = () => {
-		setIsAuthModalEmailPending(false); // Reset on open
-		setIsAuthModalInDom(true); // Add to DOM
-		// AuthPromptModal handles its own internal isVisible state for fade-in
+		console.log("FORUMHOMEPAGE: openAuthModal called.");
+		setIsAuthModalInDom(true); // Just put the modal in the DOM
 	};
 
 	const openCreatePostModal = () => {
@@ -81,7 +91,7 @@ const ForumHomePage: React.FC = () => {
 			return;
 		}
 		setIsCreatePostModalInDom(true);
-		setTimeout(() => setShowCreatePostModal(true), 10); // For fade-in animation
+		setTimeout(() => setShowCreatePostModal(true), 10);
 	};
 
 	const closeCreatePostModal = () => {
@@ -89,13 +99,16 @@ const ForumHomePage: React.FC = () => {
 		setTimeout(() => {
 			setIsCreatePostModalInDom(false);
 			setFormKey((prev) => prev + 1);
-		}, 300); // Match CSS animation
+		}, 300);
 	};
 
 	const handleLogout = async () => {
 		try {
-			setIsAuthModalEmailPending(false); // Clear pending state on logout
 			await signOut(auth);
+			if (isAuthModalInDom) {
+				// If auth modal was open during logout, close it
+				closeAuthModal();
+			}
 		} catch (error) {
 			console.error("Error signing out: ", error);
 		}
@@ -294,7 +307,8 @@ const ForumHomePage: React.FC = () => {
 			{isAuthModalInDom && (
 				<AuthPromptModal
 					onClose={closeAuthModal}
-					onSetEmailPending={setIsAuthModalEmailPending} // Pass the setter for the pending state
+					// Note: onSetEmailPending is no longer passed from ForumHomePage
+					// AuthPromptModal now manages its "keep open for message" state internally.
 				/>
 			)}
 		</>
