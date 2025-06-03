@@ -1,0 +1,97 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /forumPosts/{postId} {
+      allow read: if true;
+      // Allow authenticated users to create posts.
+      // Allow authenticated users to update posts (e.g., for vote counts by castVote, or content by author).
+      allow write: if request.auth != null;
+
+      match /answers/{answerId} {
+        allow read: if true;
+
+        // CREATE Answer Rule
+        allow create: if request.auth != null &&
+                         request.resource.data.authorId == request.auth.uid &&
+                         request.resource.data.content is string &&
+                         request.resource.data.content.size() > 0 &&
+                         request.resource.data.postId == postId &&
+                         request.resource.data.helpfulVoteCount == 0 && // Ensure initialized
+                         request.resource.data.notHelpfulVoteCount == 0 && // Ensure initialized
+                         request.resource.data.keys().hasAll(['authorId', 'content', 'timestamp', 'postId', 'authorDisplayName', 'helpfulVoteCount', 'notHelpfulVoteCount']) &&
+                         request.resource.data.keys().hasOnly(['authorId', 'content', 'timestamp', 'postId', 'authorDisplayName', 'helpfulVoteCount', 'notHelpfulVoteCount']);
+
+        // UPDATE Answer Rule
+        allow update: if request.auth != null &&
+                         // First, ensure fields that should be immutable ARE NOT being changed if they are present in the request
+                         (request.resource.data.authorId == null || request.resource.data.authorId == resource.data.authorId) &&
+                         (request.resource.data.postId == null || request.resource.data.postId == resource.data.postId) &&
+                         (request.resource.data.timestamp == null || request.resource.data.timestamp == resource.data.timestamp) &&
+
+                         // Case 1: Author is updating their own answer (e.g., content, lastEditedAt)
+                         (
+                           resource.data.authorId == request.auth.uid &&
+                           (request.resource.data.content == null || (request.resource.data.content is string && request.resource.data.content.size() > 0)) &&
+                           // authorDisplayName can be part of author's update if needed, ensure it's not changed otherwise
+                           (request.resource.data.authorDisplayName == null || request.resource.data.authorDisplayName == resource.data.authorDisplayName) &&
+                           // lastEditedAt for author edits
+                           (request.resource.data.lastEditedAt == null || request.resource.data.lastEditedAt == request.time) &&
+                           // Vote counts should not be part of an author's content edit request payload, or if they are, they must match existing
+                           (request.resource.data.helpfulVoteCount == null || request.resource.data.helpfulVoteCount == resource.data.helpfulVoteCount) &&
+                           (request.resource.data.notHelpfulVoteCount == null || request.resource.data.notHelpfulVoteCount == resource.data.notHelpfulVoteCount) &&
+                           // Define what fields an author can modify in this type of update
+                           request.resource.data.keys().hasOnly(['authorId', 'content', 'timestamp', 'postId', 'authorDisplayName', 'helpfulVoteCount', 'notHelpfulVoteCount', 'lastEditedAt'])
+                         ) ||
+                         // Case 2: Vote count update (can be by any authenticated user, including author if they are just voting)
+                         (
+                           // Content and authorDisplayName should not be part of a pure vote update request
+                           (request.resource.data.content == null || request.resource.data.content == resource.data.content) &&
+                           (request.resource.data.authorDisplayName == null || request.resource.data.authorDisplayName == resource.data.authorDisplayName) &&
+                           // Check that the *only* fields being effectively changed are the vote counts
+                           (
+                             request.resource.data.diff(resource.data).affectedKeys().hasOnly(['helpfulVoteCount', 'notHelpfulVoteCount']) ||
+                             request.resource.data.diff(resource.data).affectedKeys().hasOnly(['helpfulVoteCount']) ||
+                             request.resource.data.diff(resource.data).affectedKeys().hasOnly(['notHelpfulVoteCount'])
+                           )
+                         );
+
+        // DELETE Answer Rule
+        allow delete: if request.auth != null &&
+                         resource.data.authorId == request.auth.uid;
+      }
+    }
+
+    // Rules for userItemVotes collection
+    match /userItemVotes/{voteDocId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+
+      allow create: if request.auth != null &&
+                       voteDocId.startsWith(request.auth.uid + '_') &&
+                       request.resource.data.userId == request.auth.uid &&
+                       request.resource.data.itemId is string &&
+                       request.resource.data.itemType in ['post', 'answer'] &&
+                       request.resource.data.voteType in ['helpful', 'notHelpful'] &&
+                       request.resource.data.timestamp == request.time &&
+                       request.resource.data.keys().hasAll(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']) &&
+                       request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']);
+
+      allow update: if request.auth != null &&
+                       resource.data.userId == request.auth.uid && // Doc belongs to user
+                       request.resource.data.userId == resource.data.userId && // userId cannot change
+                       request.resource.data.itemId == resource.data.itemId && // itemId cannot change
+                       request.resource.data.itemType == resource.data.itemType && // itemType cannot change
+                       request.resource.data.voteType in ['helpful', 'notHelpful'] && // voteType can change
+                       request.resource.data.timestamp == request.time && // timestamp updates to server time on change
+                       request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']);
+
+      allow delete: if request.auth != null &&
+                       resource.data.userId == request.auth.uid;
+    }
+
+    // Default deny rule
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
