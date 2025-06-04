@@ -337,7 +337,6 @@ const SignUp: React.FC<SignUpProps> = ({
 						disabled={loading}
 					>
 						<img src={GmailIcon} alt='Google icon' />
-						<span>Sign up with Google</span>
 					</button>
 					<button
 						type='button'
@@ -346,7 +345,6 @@ const SignUp: React.FC<SignUpProps> = ({
 						disabled={loading}
 					>
 						<img src={MicrosoftIcon} alt='Microsoft icon' />
-						<span>Sign up with Microsoft</span>
 					</button>
 				</div>
 				<div className='auth-links'>

@@ -10,30 +10,21 @@
     --border-radius: 8px;
     --border-radius-lg: 12px;
     --border-radius-pill: 20px;
-
     --primary-brand-color: #6a11cb;
     --primary-brand-hover-color: #530ca7;
     --text-on-primary-brand: #ffffff;
-
-    --destructive-color: #dc3545;
-    --destructive-hover-color: #c82333;
-
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-
     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
         "Segoe UI Symbol";
-
     --modal-overlay-bg: rgba(30, 30, 30, 0.65);
     --modal-animation-duration: 0.25s;
     --modal-backdrop-blur: 6px;
-    /* Amount for page content blur when modal is open */
     --muted-bg-color: #e9ecef;
 }
 
-/* --- General Page Setup --- */
 .forum-homepage-container {
     padding: 1.5rem 1rem;
     max-width: 1200px;
@@ -46,9 +37,6 @@
 
 .forum-homepage-container.blurred {
     filter: blur(var(--modal-backdrop-blur));
-    /* MODIFIED: Uncommented and using correct variable */
-    /* pointer-events: none; /* Be cautious with this, can interfere with modal interactions if not perfectly managed */
-    /* user-select: none; */
 }
 
 /* --- Forum Header & Actions --- */
@@ -56,11 +44,13 @@
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
+    /* DESKTOP FIRST: Default is row, space-between title and interactive area */
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+    /* Gap between title and interactive area on desktop */
 }
 
 .forum-header h1 {
@@ -68,20 +58,28 @@
     font-size: clamp(1.5rem, 4vw, 1.875rem);
     font-weight: 700;
     margin: 0;
+    flex-shrink: 0;
 }
 
-.forum-header-actions {
+/* Groups "Ask Question" button and "User Section" */
+.forum-header-interactive-area {
+    /* DESKTOP: flex row for its children */
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-left: auto;
+    /* Gap between "Ask Question" and "User Section" on desktop */
 }
 
-/* --- User Status Widget --- */
-.user-status-widget {
+.header-ask-question {
+    /* Styles from .create-post-button-main apply. Specific positioning handled by parent flex. */
+}
+
+.user-section {
     display: flex;
+    /* To correctly align its content (e.g. auth-loading-text or user-actions-area) */
     align-items: center;
-    gap: 0.75rem;
+    min-width: 0;
+    /* Prevents user section from causing overflow if display name is very long */
 }
 
 .auth-loading-text {
@@ -90,10 +88,20 @@
     font-size: 0.875rem;
 }
 
+.user-actions-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    /* Desktop: Gap between profile info and logout button */
+    width: 100%;
+    /* Will be adjusted for mobile */
+}
+
 .user-profile-info {
     display: flex;
     align-items: center;
     gap: 0.625rem;
+    min-width: 0;
 }
 
 .profile-icon {
@@ -103,6 +111,7 @@
     object-fit: cover;
     border: 2px solid var(--border-color);
     background-color: var(--muted-bg-color);
+    flex-shrink: 0;
 }
 
 .profile-icon.default-icon {
@@ -123,12 +132,12 @@
     color: var(--primary-text-color);
     font-size: 0.9375rem;
     white-space: nowrap;
-    max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 120px;
 }
 
-/* --- Buttons (General styles first, then specific overrides) --- */
+/* --- Buttons --- */
 .create-post-button-main,
 .login-signup-button,
 .logout-button {
@@ -138,8 +147,7 @@
     cursor: pointer;
     font-size: 0.9375rem;
     font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.15s ease,
-        box-shadow 0.15s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease;
     white-space: nowrap;
     line-height: 1.5;
 }
@@ -171,8 +179,12 @@
     border-color: #c8ced3;
 }
 
-/* --- Modal Styles (Common for Portalized Modals like CreatePostModal) --- */
-/* These styles are used by createPostModalComponent. AuthPromptModal uses its own. */
+.header-logout-button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.875rem;
+}
+
+/* --- Modal Styles --- */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -181,7 +193,6 @@
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    /* Ensure FHP modals are high enough */
     padding: 1rem;
     opacity: 0;
     pointer-events: none;
@@ -193,7 +204,7 @@
 
 .modal-content {
     background: var(--card-bg-color);
-    padding: 2rem 2.5rem;
+    padding: 1rem 1.5rem;
     border-radius: var(--border-radius-lg);
     width: 100%;
     box-shadow: var(--shadow-lg);
@@ -203,23 +214,10 @@
     transform: scale(0.95) translateY(10px);
     opacity: 0;
     z-index: 10001;
-    /* Content above its own overlay */
 }
 
 .create-post-modal-content {
     max-width: 700px;
-}
-
-/* This class was previously used to wrap AuthPromptModal.
-   It's no longer strictly necessary if AuthPromptModal is rendered directly
-   and handles all its own styling. Kept for reference or other uses. */
-.auth-prompt-content-wrapper {
-    max-width: 420px;
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-    border-radius: var(--border-radius-lg);
-    overflow: hidden;
 }
 
 .close-modal {
@@ -240,8 +238,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease, color 0.2s ease,
-        transform 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     z-index: 10;
 }
 
@@ -249,23 +246,6 @@
     background-color: var(--muted-bg-color);
     color: var(--primary-text-color);
     transform: scale(1.1);
-}
-
-/* Modal Animations (for FHP's .modal-overlay and .modal-content) */
-.modal-overlay.fade-in {
-    animation: fadeInOverlay var(--modal-animation-duration) ease-out forwards;
-}
-
-.modal-overlay.fade-in .modal-content {
-    animation: popInModalContent var(--modal-animation-duration) 0.05s ease-out forwards;
-}
-
-.modal-overlay.fade-out {
-    animation: fadeOutOverlay var(--modal-animation-duration) ease-in forwards;
-}
-
-.modal-overlay.fade-out .modal-content {
-    animation: popOutModalContent var(--modal-animation-duration) ease-in forwards;
 }
 
 @keyframes fadeInOverlay {
@@ -310,6 +290,22 @@
         opacity: 0;
         transform: scale(0.95) translateY(10px);
     }
+}
+
+.modal-overlay.fade-in {
+    animation: fadeInOverlay var(--modal-animation-duration) ease-out forwards;
+}
+
+.modal-overlay.fade-in .modal-content {
+    animation: popInModalContent var(--modal-animation-duration) 0.05s ease-out forwards;
+}
+
+.modal-overlay.fade-out {
+    animation: fadeOutOverlay var(--modal-animation-duration) ease-in forwards;
+}
+
+.modal-overlay.fade-out .modal-content {
+    animation: popOutModalContent var(--modal-animation-duration) ease-in forwards;
 }
 
 /* --- Sort Controls --- */
@@ -419,8 +415,7 @@
     font-weight: 500;
     cursor: pointer;
     border: 1px solid;
-    transition: transform 0.15s ease, box-shadow 0.15s ease,
-        opacity 0.15s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
 .tag-filter-list .tag-pill:hover {
@@ -463,7 +458,131 @@
 }
 
 /* --- Responsive Adjustments --- */
+
+/* === MOBILE STYLES for Header (up to 767px) === */
+@media (max-width: 767px) {
+    .forum-header {
+        flex-direction: column;
+        /* Stack title and interactive area vertically */
+        align-items: stretch;
+        /* Make children (like h1, interactive-area) take full width */
+        gap: 0.5rem;
+        /* Gap between stacked items */
+    }
+
+    .forum-header h1 {
+        text-align: center;
+        /* Center the title on mobile */
+        margin-bottom: 0.5rem;
+    }
+
+    .forum-header-interactive-area {
+        display: flex;
+        /* Still flex, but column now */
+        flex-direction: column;
+        align-items: stretch;
+        /* Make its children (ask button, user section) full width */
+        width: 100%;
+        gap: 0.75rem;
+        /* Gap between AskQ button and UserSection on mobile */
+    }
+
+    .header-ask-question {
+        /* order: 1; /* Default order within column is fine */
+        width: 100%;
+    }
+
+    .user-section {
+        /* order: 2; /* Default order within column is fine */
+        width: 100%;
+    }
+
+    .user-actions-area {
+        justify-content: space-between;
+        /* Pushes profile left, logout right */
+        /* width: 100%; /* Already set */
+    }
+
+    .login-signup-button.header-login-button {
+        width: 100%;
+        /* Full width button */
+    }
+}
+
+/* Further refinements for very small screens */
+@media (max-width: 500px) {
+    .display-name {
+        max-width: 70px;
+    }
+
+    .header-logout-button {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .forum-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .header-ask-question,
+    .login-signup-button.header-login-button {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+}
+
+/* Tablet and Desktop (from 768px upwards) */
 @media (min-width: 768px) {
+    .forum-header {
+        /* Revert to desktop defaults (already set as base styles) */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .forum-header h1 {
+        text-align: left;
+        /* Reset from mobile's center */
+        margin-bottom: 0;
+    }
+
+    .forum-header-interactive-area {
+        flex-direction: row;
+        /* Children side-by-side */
+        align-items: center;
+        width: auto;
+        /* Content determines width */
+        gap: 1rem;
+        /* Desktop gap */
+    }
+
+    .header-ask-question {
+        width: auto;
+        /* Reset from mobile's 100% */
+    }
+
+    .user-section {
+        width: auto;
+        /* Reset from mobile's 100% */
+    }
+
+    .user-actions-area {
+        justify-content: flex-start;
+        /* Or whatever the desktop default was, often with a gap */
+        gap: 0.75rem;
+    }
+
+    .login-signup-button.header-login-button {
+        width: auto;
+        /* Reset from mobile's 100% */
+    }
+
+    .display-name {
+        max-width: 150px;
+    }
+
+    /* General layout for forum content */
     .forum-homepage-container {
         padding: 2rem 1.5rem;
     }

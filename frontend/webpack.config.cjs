@@ -12,7 +12,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // --- MODIFIED SECTION FOR DEBUGGING ---
 const nodeEnvForDotenv = process.env.NODE_ENV; // See what NODE_ENV is before webpack --mode might override it for the export
 const envPath = nodeEnvForDotenv === 'production' ? path.resolve(__dirname, '.env.production') : path.resolve(__dirname, '.env');
-console.log(`[Webpack Build] Attempting to load .env file from: ${envPath} (based on initial NODE_ENV: ${nodeEnvForDotenv})`);
+
 
 const envConfig = dotenv.config({ path: envPath }); // Explicitly load based on initial NODE_ENV
 
@@ -21,15 +21,13 @@ if (envConfig.error) {
 } else if (Object.keys(envConfig.parsed || {}).length === 0) {
     console.warn(`[Webpack Build] Warning: dotenv.config() loaded an empty object from ${envPath}. Check file content and path.`);
 } else {
-    console.log(`[Webpack Build] Successfully loaded variables from ${envPath}. Parsed:`, Object.keys(envConfig.parsed || {}));
 }
-console.log(`[Webpack Build] REACT_APP_API_BASE from process.env (after dotenv): ${process.env.REACT_APP_API_BASE}`);
+
 // --- END OF MODIFIED SECTION ---
 
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production'; // argv.mode is reliable from webpack CLI
-    console.log(`[Webpack Build] Inside module.exports: argv.mode is ${argv.mode}, isProduction is ${isProduction}`);
-    console.log(`[Webpack Build] Inside module.exports: REACT_APP_API_BASE from process.env: ${process.env.REACT_APP_API_BASE}`);
+
 
     return {
         mode: isProduction ? 'production' : 'development',

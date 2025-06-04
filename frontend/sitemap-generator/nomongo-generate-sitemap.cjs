@@ -115,7 +115,6 @@ async function generateSitemap() {
         sitemap.end();
         await streamToPromise(sitemap);
 
-        console.log("✅ Sitemap generated successfully!");
 
     } catch (err) {
         console.error(`❌ Error generating sitemap:`, err);

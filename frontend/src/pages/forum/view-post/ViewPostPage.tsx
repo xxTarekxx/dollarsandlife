@@ -241,13 +241,20 @@ const ViewPostPage: React.FC = () => {
 			<div className={`view-post-container ${showAuthModal ? "blurred" : ""}`}>
 				<h1>{post.title}</h1>
 				<div className='post-meta-row'>
-					<span>By: {post.authorDisplayName || "Anonymous User"}</span>
-					<span>
-						{post.timestamp?.seconds
-							? new Date(post.timestamp.seconds * 1000).toLocaleDateString()
-							: "Date unavailable"}
-					</span>
-					<span>{post.answerCount || 0} Answers</span>
+					{/* New wrapper for the primary meta info */}
+					<div className='post-meta-info-group'>
+						<span>By: {post.authorDisplayName || "Anonymous User"}</span>
+						<span className='post-meta-separator-mobile'> • </span>{" "}
+						{/* Separator for mobile if needed */}
+						<span>
+							{post.timestamp?.seconds
+								? new Date(post.timestamp.seconds * 1000).toLocaleDateString()
+								: "Date unavailable"}
+						</span>
+						<span className='post-meta-separator-mobile'> • </span>{" "}
+						{/* Separator for mobile if needed */}
+						<span>{post.answerCount || 0} Answers</span>
+					</div>
 					{isPostAuthor && (
 						<button className='delete-post-button' onClick={handleDeletePost}>
 							Delete Post 🗑️
