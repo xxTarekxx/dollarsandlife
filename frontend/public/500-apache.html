@@ -4,39 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>500 - Internal Server Error</title>
+    <title>500 - Internal Server Error | Dollars & Life</title>
     <style>
+        /* Styling consistent with 404-apache.html and 403-apache.html */
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
             color: #333;
         }
 
-        h1 {
-            color: #d9534f;
+        .error-page-container {
+            /* Renamed class for general error pages */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
         }
 
-        p {
-            margin-bottom: 20px;
+        .error-content {
+            /* Renamed class for general error content */
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            max-width: 600px;
+            margin: auto;
         }
 
-        a {
-            color: #007bff;
+        .error-content h1 {
+            color: #ffc107;
+            /* Changed to a warning color (orange/yellow) for 500 */
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .error-content p {
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .back-home-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #6000ce;
+            color: white;
             text-decoration: none;
+            border-radius: 25px;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .back-home-btn:hover {
+            background-color: #7600ff;
+        }
+
+        .website-logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
 
 <body>
-    <h1>500 - Internal Server Error</h1>
-    <p>We're sorry, but something went wrong on our end and we couldn't complete your request.</p>
-    <p>Our team has been notified. Please try again later.</p>
-    <p><a href="/">Return to Homepage</a></p>
+    <div class='error-page-container'>
+        <div class='error-content'>
+            <img src='/images/website-logo.webp' alt='Dollars & Life Logo' class='website-logo' />
+            <h1>500 - Internal Server Error</h1>
+            <p>Oops! Something went wrong on our end.</p>
+            <p>We're working to fix it. Please try again in a few minutes, or return to the homepage.</p>
+            <a href='/' class='back-home-btn'>
+                Return to Homepage
+            </a>
+        </div>
+    </div>
 </body>
 
 </html>

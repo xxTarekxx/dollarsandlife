@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
 						"@type": "Organization",
 						name: "Dollars And Life",
 						url: "https://www.dollarsandlife.com",
-						logo: "/images/favicon/favicon.webp",
+						logo: "/images/website-logo.webp",
 						sameAs: [
 							"https://www.facebook.com/profile.php?id=61552256902083",
 							"https://www.instagram.com/dollarsnlife/",
