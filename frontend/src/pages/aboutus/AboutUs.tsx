@@ -85,19 +85,22 @@ const AboutUs: React.FC = () => {
 					<img src={expressLogo} alt='Express.js Logo' />
 					<img src={reactLogo} alt='React Logo' />
 					<img src={nodeLogo} alt='Node.js Logo' />
-				</div>
-				<p>
-					<span className='firebase-note'>
-						Coming soon: Dollars & Life will integrate{" "}
-						<strong>Firebase Authentication</strong> for secure login, along
-						with <strong>Firebase Storage</strong> to support a full-featured{" "}
-						forum system. You'll be able to connect, ask questions, and share
-						insights directly with other readers.
-					</span>
-				</p>
-				<div className='firebase-tech-icons'>
 					<img src={firebaseLogo} alt='Firebase Logo' />
 				</div>
+				<p>
+					The site now includes a live, full-featured{" "}
+					<a
+						href='https://www.dollarsandlife.com/forum'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						community forum
+					</a>{" "}
+					secured by <strong>Firebase Authentication</strong> and powered by{" "}
+					<strong>Firebase Storage</strong>. You can sign in securely with your
+					Email, Google or Microsoft, ask questions, and connect directly with
+					other readers.
+				</p>
 				<p>
 					The frontend is built with <strong>React 18</strong> and{" "}
 					<strong>TypeScript</strong>, with client-side routing handled by{" "}
