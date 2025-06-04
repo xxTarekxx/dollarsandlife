@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
 import { db, auth } from "../../../firebase";
-import { signOut } from "firebase/auth"; // No longer need onAuthStateChanged here for this specific logic
+import { signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "./ForumHomePage.css";
 import CreatePostForm from "../post-form/CreatePostForm";
@@ -46,43 +46,18 @@ const ForumHomePage: React.FC = () => {
 	const [user, authLoading, authError] = useAuthState(auth);
 	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false);
 
-	// This function is called by AuthPromptModal when it decides to close.
 	const closeAuthModal = useCallback(() => {
-		console.log(
-			"FORUMHOMEPAGE: closeAuthModal called (triggered by AuthPromptModal's onClose).",
-		);
 		setIsAuthModalInDom(false);
 	}, []);
 
-	// This effect primarily handles the case where the user might already be logged in
-	// when ForumHomePage mounts AND we might have intended to show the modal.
-	// AuthPromptModal itself will call `onClose` if it opens, sees a user, and isn't
-	// in a state like 'signup' or 'keepModalOpenForMessage'.
 	useEffect(() => {
 		if (!authLoading && user && isAuthModalInDom) {
-			// If user is logged in and modal is in DOM,
-			// AuthPromptModal should call its onClose if it's not meant to stay open.
-			// This effect is a safeguard. If AuthPromptModal is well-behaved, it might not be strictly necessary
-			// to have ForumHomePage *also* try to close it based on `user` state.
-			// However, it can help ensure consistency if the modal was opened for a logged-out user who then
-			// gets an auth state update from elsewhere (e.g., another tab).
-			console.log(
-				"FORUMHOMEPAGE: User state is now:",
-				!!user,
-				"Modal in DOM:",
-				isAuthModalInDom,
-				"Auth Loading:",
-				authLoading,
-			);
-			// At this point, if AuthPromptModal is supposed to close because a user is present,
-			// it should have already called `onClose` which triggers `closeAuthModal`.
-			// If it hasn't (e.g. it's showing a verify email message), then `isAuthModalInDom` will remain true.
+			// Modal consistency logic
 		}
 	}, [user, authLoading, isAuthModalInDom]);
 
 	const openAuthModal = () => {
-		console.log("FORUMHOMEPAGE: openAuthModal called.");
-		setIsAuthModalInDom(true); // Just put the modal in the DOM
+		setIsAuthModalInDom(true);
 	};
 
 	const openCreatePostModal = () => {
@@ -106,7 +81,6 @@ const ForumHomePage: React.FC = () => {
 		try {
 			await signOut(auth);
 			if (isAuthModalInDom) {
-				// If auth modal was open during logout, close it
 				closeAuthModal();
 			}
 		} catch (error) {
@@ -175,38 +149,48 @@ const ForumHomePage: React.FC = () => {
 			>
 				<header className='forum-header'>
 					<h1>Welcome to the Forum!</h1>
-					<div className='forum-header-actions'>
+					{/* This div groups "Ask Question" and user section for desktop right-alignment 
+                        and helps with ordering on mobile */}
+					<div className='forum-header-interactive-area'>
 						<button
-							className='create-post-button-main'
+							className='create-post-button-main header-ask-question'
 							onClick={openCreatePostModal}
 						>
 							Ask a Question
 						</button>
-						<div className='user-status-widget'>
+						<div className='user-section'>
 							{authLoading ? (
 								<span className='auth-loading-text'>Loading...</span>
 							) : user ? (
-								<div className='user-profile-info'>
-									{user.photoURL ? (
-										<img
-											src={user.photoURL}
-											alt={user.displayName || "User"}
-											className='profile-icon'
-										/>
-									) : (
-										<span className='profile-icon default-icon'>
-											<DefaultProfileIcon />
+								<div className='user-actions-area'>
+									<div className='user-profile-info'>
+										{user.photoURL ? (
+											<img
+												src={user.photoURL}
+												alt={user.displayName || "User"}
+												className='profile-icon'
+											/>
+										) : (
+											<span className='profile-icon default-icon'>
+												<DefaultProfileIcon />
+											</span>
+										)}
+										<span className='display-name'>
+											{user.displayName || "User"}
 										</span>
-									)}
-									<span className='display-name'>
-										{user.displayName || "User"}
-									</span>
-									<button onClick={handleLogout} className='logout-button'>
+									</div>
+									<button
+										onClick={handleLogout}
+										className='logout-button header-logout-button'
+									>
 										Logout
 									</button>
 								</div>
 							) : (
-								<button onClick={openAuthModal} className='login-signup-button'>
+								<button
+									onClick={openAuthModal}
+									className='login-signup-button header-login-button'
+								>
 									Login / Sign Up
 								</button>
 							)}
@@ -304,13 +288,7 @@ const ForumHomePage: React.FC = () => {
 			{isCreatePostModalInDom &&
 				ReactDOM.createPortal(createPostModalComponent, modalRootElement)}
 
-			{isAuthModalInDom && (
-				<AuthPromptModal
-					onClose={closeAuthModal}
-					// Note: onSetEmailPending is no longer passed from ForumHomePage
-					// AuthPromptModal now manages its "keep open for message" state internally.
-				/>
-			)}
+			{isAuthModalInDom && <AuthPromptModal onClose={closeAuthModal} />}
 		</>
 	);
 };

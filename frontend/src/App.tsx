@@ -139,7 +139,6 @@ const AppContent: React.FC = () => {
 							document.body.removeChild(testAd);
 						}
 						if (isAdBlocked) {
-							console.log("AdBlock detected.");
 							setShowAdBlockPrompt(true);
 						}
 					}, 100);
@@ -163,21 +162,16 @@ const AppContent: React.FC = () => {
 			.filter((p) => p);
 
 		if (internalPrefixes.length > 0) {
-			console.log("ENV INTERNAL IP Prefixes:", internalPrefixes);
 		}
 
 		const configureGa = (isInternal: boolean) => {
 			if (typeof window.gtag === "function") {
-				console.log(
-					`Configuring GA (${GA_MEASUREMENT_ID}) - Internal: ${isInternal}`,
-				);
 				window.gtag("config", GA_MEASUREMENT_ID, {
 					send_page_view: !isInternal, // Send page_view based on IP check
 					...(isInternal ? { page_title: "internal_traffic" } : {}),
 				});
 				// Configure Google Ads as well
 				window.gtag("config", GOOGLE_ADS_ID);
-				console.log(`Configured Google Ads (${GOOGLE_ADS_ID})`);
 			}
 		};
 
@@ -193,8 +187,6 @@ const AppContent: React.FC = () => {
 						normalizeIP(userIP).startsWith(normalizeIP(prefix)),
 					);
 				}
-				console.log("Your IP is:", userIP);
-				console.log("Is internal traffic:", isInternal);
 				configureGa(isInternal);
 			})
 			.catch((err) => {

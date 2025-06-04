@@ -41,7 +41,6 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
 	}, [el]);
 
 	const handleClose = useCallback(() => {
-		console.log("AUTHPROMPTMODAL: handleClose called.");
 		setIsVisible(false);
 		setKeepModalOpenForMessage(false); // Reset this flag
 		setTimeout(() => {

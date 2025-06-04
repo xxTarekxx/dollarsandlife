@@ -7,7 +7,7 @@ const { MongoClient } = require("mongodb");
 
 // ✅ Load environment variables from .env.production
 const dotenvPath = path.resolve(__dirname, "../.env.production");
-console.log("🔍 Loading env from:", dotenvPath);
+
 require("dotenv").config({ path: dotenvPath });
 
 // ✅ Check Mongo URI
@@ -18,10 +18,6 @@ if (!MONGO_URI) {
 }
 
 
-console.log("✅ MONGO_URI loaded.");
-
-console.log("✅ MONGO_URI =", process.env.MONGO_URI);
-console.log("🧪 MONGO_URI_TEST =", process.env.MONGO_URI_TEST);
 
 // ✅ Config
 const BASE_URL = "https://www.dollarsandlife.com";
@@ -130,7 +126,6 @@ async function generateSitemap() {
         sitemap.end();
         await streamToPromise(sitemap);
 
-        console.log("✅ Sitemap generated at: /public/sitemap.xml");
     } catch (err) {
         console.error("❌ Error generating sitemap:", err);
     }

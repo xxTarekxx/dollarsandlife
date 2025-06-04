@@ -38,18 +38,13 @@ if (
 	(window.location.hostname === "localhost" ||
 		window.location.hostname === "127.0.0.1")
 ) {
-	console.log(
-		"Development environment detected: Connecting to Firebase Emulators.",
-	);
 	try {
 		connectAuthEmulator(auth, "http://localhost:9099");
-		console.log("Auth Emulator connected.");
 	} catch (error) {
 		console.error("Error connecting to Auth Emulator:", error);
 	}
 	try {
 		connectFirestoreEmulator(db, "localhost", 8080);
-		console.log("Firestore Emulator connected.");
 	} catch (error) {
 		console.error("Error connecting to Firestore Emulator:", error);
 	}

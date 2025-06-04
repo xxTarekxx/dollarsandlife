@@ -1,8 +1,11 @@
 /* frontend/src/pages/forum/post-form/CreatePostForm.css */
 
 .create-post-form {
+    /* Max-width is good for larger screens, on mobile it will be constrained by modal */
     max-width: 700px;
-    margin: 30px auto;
+    /* Margin auto for horizontal centering is fine */
+    margin: 20px auto;
+    /* Reduced top/bottom margin slightly */
     padding: 25px;
     background-color: #fff;
     border-radius: 12px;
@@ -10,6 +13,10 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    /* Ensure it doesn't overflow its container, especially within a modal */
+    width: 100%;
+    box-sizing: border-box;
+    /* Include padding and border in the element's total width and height */
 }
 
 .form-heading {
@@ -17,11 +24,19 @@
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
+    color: #333;
+    /* Added for consistency */
 }
 
 .create-post-form label {
     font-weight: 600;
     color: #333;
+    font-size: 0.95rem;
+    /* Slightly adjust base size */
+    margin-bottom: 4px;
+    /* Add a small gap between label and input */
+    display: block;
+    /* Ensure label takes its own line if needed */
 }
 
 .create-post-form input,
@@ -32,12 +47,20 @@
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.2s;
+    box-sizing: border-box;
+    /* Important for width: 100% */
+    background-color: #f9f9f9;
+    /* Slight background for inputs */
 }
 
 .create-post-form input:focus,
 .create-post-form textarea:focus {
     border-color: #0077cc;
     outline: none;
+    background-color: #fff;
+    /* White background on focus */
+    box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.2);
+    /* Subtle focus ring */
 }
 
 .create-post-form textarea {
@@ -45,28 +68,38 @@
     resize: vertical;
 }
 
+.form-tag-options-container {
+    /* Wrapper for label and tags if needed, or just apply margin to .form-tag-options */
+}
+
 .form-tag-options {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 10px 0 20px;
+    /* margin: 10px 0 20px; */
+    /* Let the main form gap handle spacing */
 }
 
 .form-tag-pill {
     display: inline-block;
     padding: 6px 12px;
-    font-size: 13px;
+    font-size: 0.8rem;
+    /* Slightly smaller for better fit */
     background-color: #f0f4ff;
     color: #0056b3;
     border: 1px solid #d0e0ff;
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-weight: 500;
 }
 
 .form-tag-pill:hover {
     background-color: #e1ebff;
-    color: #003f8a;
+    border-color: #b3ceff;
+    /* Lighter border on hover */
+    transform: translateY(-1px);
+    /* Slight lift on hover */
 }
 
 .form-tag-pill.selected {
@@ -85,9 +118,71 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.15s ease;
+    align-self: flex-end;
+    /* Align button to the right by default if desired */
 }
 
 .submit-post-button:hover {
     background-color: #005fa3;
+    transform: translateY(-1px);
+    /* Slight lift on hover */
+}
+
+/* --- Responsive Adjustments --- */
+
+/* For smaller screens (e.g., mobile phones) */
+@media (max-width: 600px) {
+    .create-post-form {
+        padding: 20px 15px;
+        /* Reduced padding for smaller screens */
+        gap: 15px;
+        /* Reduced gap between form elements */
+        margin: 10px auto;
+        /* Reduced vertical margin */
+        /* max-width will be controlled by the modal it's in, form should fill modal width */
+    }
+
+    .form-heading {
+        font-size: 1.5rem;
+        /* Smaller heading */
+        margin-bottom: 8px;
+    }
+
+    .create-post-form label {
+        font-size: 0.9rem;
+    }
+
+    .create-post-form input,
+    .create-post-form textarea {
+        padding: 10px 12px;
+        /* Slightly smaller padding in inputs */
+        font-size: 0.95rem;
+        /* Slightly smaller font in inputs */
+    }
+
+    .create-post-form textarea {
+        min-height: 100px;
+        /* Slightly smaller min-height */
+    }
+
+    .form-tag-pill {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+        /* Even smaller tags for mobile */
+    }
+
+    .form-tag-options {
+        gap: 6px;
+        /* Slightly smaller gap between tags */
+    }
+
+    .submit-post-button {
+        padding: 10px 15px;
+        font-size: 0.95rem;
+        width: 100%;
+        /* Make button full width on small screens for easier tapping */
+        align-self: stretch;
+        /* Override any previous align-self */
+    }
 }

@@ -1,26 +1,6 @@
 /* frontend/src/pages/forum/ViewPostPage.css */
 
-/* :root variables should be defined globally or at the top of this file if not already */
-/* Example:
-:root {
-    --card-bg-color: #ffffff;
-    --page-bg-color: #f8f9fa;
-    --primary-text-color: #212529;
-    --secondary-text-color: #495057;
-    --muted-text-color: #6c757d;
-    --border-color: #dee2e6;
-    --border-radius: 8px;
-    --border-radius-lg: 12px;
-    --primary-brand-color: #6a11cb;
-    --primary-brand-hover-color: #530ca7;
-    --text-on-primary-brand: #ffffff;
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --muted-bg-color: #e9ecef;
-}
-*/
-
+/* ... (existing styles - UNCHANGED) ... */
 .view-post-container {
     max-width: 850px;
     margin: 2rem auto;
@@ -30,6 +10,8 @@
     box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.08));
     font-family: var(--font-sans, sans-serif);
     color: var(--primary-text-color, #212529);
+    box-sizing: border-box;
+    /* Ensure padding doesn't increase total width */
 }
 
 .view-post-container.blurred {
@@ -57,7 +39,9 @@
 .post-meta-row {
     display: flex;
     flex-wrap: wrap;
+    /* Allows wrapping by default */
     align-items: center;
+    /* Default alignment */
     gap: 0.5rem 1.5rem;
     font-size: 0.875rem;
     color: var(--muted-text-color, #6c757d);
@@ -66,20 +50,26 @@
     border-bottom: 1px solid var(--border-color, #dee2e6);
 }
 
-.post-meta-row>span:not(:last-child)::after {
+
+/* DESKTOP: Separators for the main spans. The new .post-meta-info-group will contain these spans. */
+.post-meta-info-group>span:not(:last-child)::after {
     content: "•";
-    position: relative;
-    /* Changed from absolute for simpler flow */
     margin-left: 0.75rem;
-    /* Space before dot */
+    margin-right: 0.75rem;
+    /* Added for symmetry with existing gap */
     color: var(--muted-text-color, #6c757d);
     opacity: 0.5;
 }
 
-/* Adjust delete button specifically if it's in meta row */
+.post-meta-separator-mobile {
+    display: none;
+    /* Hidden on desktop by default */
+}
+
+
 .post-meta-row .delete-post-button {
     margin-left: auto;
-    /* Pushes it to the right */
+    /* Pushes it to the right on desktop */
 }
 
 
@@ -89,13 +79,10 @@
     line-height: 1.7;
     margin-bottom: 1.5rem;
     white-space: pre-wrap;
-    /* Preserve line breaks and spaces */
     word-wrap: break-word;
-    /* Ensure long words break */
 }
 
 .post-content p {
-    /* Style paragraphs within content if it's HTML */
     margin-bottom: 1em;
 }
 
@@ -108,20 +95,17 @@
     color: var(--primary-brand-hover-color, #530ca7);
 }
 
-/* VoteButtons wrapper on this page */
 .vote-buttons-wrapper-viewpost {
     margin-bottom: 1.5rem;
     padding: 0.75rem 0;
-    /* Add some vertical padding */
     border-top: 1px solid var(--border-color, #dee2e6);
     border-bottom: 1px solid var(--border-color, #dee2e6);
     margin-top: 1.5rem;
 }
 
-/* Button for non-logged-in users to prompt login for voting */
 .prompt-vote-button {
     padding: 0.60rem 1rem;
-    font-size: 0.70rem;
+    font-size: 0.8rem;
     font-weight: 600;
     border-radius: var(--border-radius, 8px);
     cursor: pointer;
@@ -130,15 +114,8 @@
     border: 1px solid var(--primary-brand-color, #6a11cb);
     transition: background-color 0.2s ease, border-color 0.2s ease;
     display: inline-block;
-    /* Or block if it should be full width */
     margin-bottom: 1.5rem;
     margin-top: 1.5rem;
-    border-top: 1px solid var(--border-color, #dee2e6);
-    /* Match wrapper */
-    border-bottom: 1px solid var(--border-color, #dee2e6);
-    /* Match wrapper */
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
 }
 
 .prompt-vote-button:hover {
@@ -161,8 +138,6 @@
     border-radius: 1rem;
     line-height: 1.2;
     border: 1px solid;
-    /* Border color will be set by inline style */
-    /* background-color and color are set by inline styles from tagColors */
 }
 
 .delete-post-button,
@@ -185,7 +160,6 @@
     border-color: #dc3545;
 }
 
-/* Answers Section */
 .answers-section {
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -194,10 +168,8 @@
 
 .answers-section>h3 {
     font-size: 1.5rem;
-    /* 24px */
     color: var(--primary-text-color, #212529);
     margin-bottom: 1.25rem;
-    /* 20px */
     font-weight: 600;
 }
 
@@ -219,7 +191,6 @@
     padding: 1.25rem 1.5rem;
     border-radius: var(--border-radius, 8px);
     border: 1px solid var(--border-color, #dee2e6);
-    /* box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,0.05)); Optional shadow for answers */
 }
 
 .answer-text {
@@ -235,20 +206,16 @@
     margin-bottom: 1em;
 }
 
-/* For HTML content in answers */
-
-
 .answer-meta {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.5rem 1rem;
     font-size: 0.8125rem;
     color: var(--muted-text-color, #6c757d);
     padding-top: 0.75rem;
     margin-top: 0.75rem;
-    /* Added margin top for spacing before border */
     border-top: 1px solid var(--border-color, #dee2e6);
 }
 
@@ -256,11 +223,10 @@
     background-color: var(--card-bg-color, #ffffff);
     padding: 1.5rem 2rem;
     border-radius: var(--border-radius-lg, 12px);
-    /* Larger radius for form container */
     border: 1px solid var(--border-color, #dee2e6);
     box-shadow: var(--shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.05));
     margin-top: 2rem;
-    /* Space above form */
+    box-sizing: border-box;
 }
 
 .answer-form>h3 {
@@ -271,6 +237,7 @@
 }
 
 .answer-form textarea {
+    /* Ensured responsive by default */
     width: 100%;
     min-height: 120px;
     padding: 0.875rem 1rem;
@@ -281,13 +248,13 @@
     resize: vertical;
     margin-bottom: 1rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
 }
 
 .answer-form textarea:focus {
     outline: none;
     border-color: var(--primary-brand-color, #6a11cb);
     box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
-    /* Use direct RGB for box-shadow color */
 }
 
 .answer-form button {
@@ -328,7 +295,6 @@
 }
 
 .link-button {
-    /* For "log in" / "sign up" in the prompt */
     background: none;
     border: none;
     color: var(--primary-brand-color, #6a11cb);
@@ -340,4 +306,193 @@
 
 .link-button:hover {
     color: var(--primary-brand-hover-color, #530ca7);
+}
+
+
+/* --- Responsive Adjustments --- */
+
+@media (max-width: 767px) {
+    .view-post-container {
+        margin: 1rem auto;
+        padding: 1.5rem;
+        border-radius: var(--border-radius, 8px);
+    }
+
+    .view-post-container>h1 {
+        font-size: clamp(1.5rem, 4.5vw, 2rem);
+    }
+
+    /* START: Specific mobile styling for .post-meta-row */
+    .post-meta-row {
+        flex-direction: column;
+        /* Stack info group and delete button */
+        align-items: center;
+        /* Center items horizontally in the column */
+        gap: 0.75rem;
+        /* Gap between the info group and delete button */
+    }
+
+    .post-meta-info-group {
+        display: flex;
+        /* Arrange author, date, answers in a row */
+        flex-wrap: nowrap;
+        /* Prevent wrapping within this specific group */
+        justify-content: center;
+        /* Center this group */
+        align-items: center;
+        gap: 0.5rem;
+        /* Gap between items in this group */
+        width: 100%;
+        /* Take full width to allow centering */
+        text-align: center;
+    }
+
+    .post-meta-info-group>span {
+        font-size: 0.8rem;
+        /* Adjust font size for mobile meta */
+    }
+
+    .post-meta-info-group>span::after {
+        /* Hide desktop separators */
+        display: none;
+    }
+
+    .post-meta-separator-mobile {
+        display: inline-block;
+        /* Show mobile separators */
+        color: var(--muted-text-color, #6c757d);
+        opacity: 0.5;
+    }
+
+
+    .post-meta-row .delete-post-button {
+        margin-left: 0;
+        /* Reset desktop margin */
+        width: auto;
+        /* Let the button size itself, or set a max-width if preferred */
+        min-width: 150px;
+        /* Example: ensure it's not too small */
+        padding: 0.6rem 1rem;
+        /* Adjust padding for mobile */
+        /* order: 2; /* Ensured by flex-direction: column on parent */
+    }
+
+    /* END: Specific mobile styling for .post-meta-row */
+
+
+    .post-content {
+        font-size: 0.9375rem;
+        line-height: 1.65;
+    }
+
+    .prompt-vote-button {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.8rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .post-tags .tag-pill {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.75rem;
+    }
+
+    .answers-section>h3 {
+        font-size: 1.3rem;
+    }
+
+    .answer-card {
+        padding: 1rem 1.25rem;
+    }
+
+    .answer-text {
+        font-size: 0.875rem;
+    }
+
+    .answer-meta {
+        font-size: 0.75rem;
+        gap: 0.25rem 0.5rem;
+    }
+
+    .answer-meta>*:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+
+
+    .answer-form {
+        padding: 1rem 1.5rem;
+    }
+
+    .answer-form>h3 {
+        font-size: 1.25rem;
+    }
+
+    .answer-form textarea {
+        /* Responsive by default due to width: 100% */
+        font-size: 0.875rem;
+        min-height: 100px;
+    }
+
+    .answer-form button {
+        width: 100%;
+        margin-left: 0;
+        font-size: 0.9375rem;
+        padding: 0.625rem 1.25rem;
+    }
+
+    .answer-form-prompt {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .view-post-container {
+        margin: 0.5rem auto;
+        padding: 1rem;
+        border-radius: 0;
+    }
+
+    .view-post-container>h1 {
+        font-size: clamp(1.3rem, 4vw, 1.75rem);
+    }
+
+    /* Further adjustments for very small screens if .post-meta-info-group still wraps undesirably */
+    .post-meta-info-group {
+        flex-wrap: wrap;
+        /* Allow wrapping for very small screens */
+        gap: 0.25rem 0.5rem;
+        /* Adjust gap if wrapping */
+    }
+
+    .post-meta-info-group>span {
+        font-size: 0.75rem;
+    }
+
+    /* If they wrap, you might want to hide mobile separators again or ensure they are at the end of lines */
+
+
+    .post-content {
+        font-size: 0.875rem;
+    }
+
+    .answers-section>h3 {
+        font-size: 1.2rem;
+    }
+
+    .answer-card {
+        padding: 0.75rem 1rem;
+    }
+
+    .answer-form {
+        padding: 1rem;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+    }
+
+    .answer-form>h3 {
+        font-size: 1.15rem;
+    }
 }
