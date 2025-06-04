@@ -75,6 +75,11 @@
     margin: 1.5rem 0;
 }
 
+.tech-icons img:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+}
+
 .tech-icons img {
     width: 160px;
     height: auto;
