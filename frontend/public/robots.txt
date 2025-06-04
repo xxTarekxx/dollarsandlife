@@ -4,6 +4,7 @@ Disallow: /private/
 Disallow: /tmp/
 Allow: /images/
 Allow: /assets/
+Disallow: /search?q=
 
 # Primary sitemap
 Sitemap: https://www.dollarsandlife.com/sitemap.xml

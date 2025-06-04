@@ -93,7 +93,7 @@ const FreelanceJobs: React.FC = () => {
 							name: "Dollars & Life",
 							logo: {
 								"@type": "ImageObject",
-								url: "/images/favicon/favicon.webp",
+								url: "/images/website-logo.webp",
 							},
 						},
 					})}
