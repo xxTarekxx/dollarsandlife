@@ -30,7 +30,7 @@ const RemoteOnlineJobs: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(
-					`${process.env.REACT_APP_API_BASE}/remote-jobs`,
+					`${import.meta.env.VITE_REACT_APP_API_BASE}/remote-jobs`,
 				);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: RemoteJob[] = await response.json();

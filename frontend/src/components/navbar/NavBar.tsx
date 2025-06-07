@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
+import logoImagePath from "../../assets/images/website-logo.webp";
+import searchIcon from "../../assets/images/favicon/searchicon.svg";
 
 // Lazily import the SearchFeature component
 const SearchFeature = lazy(() => import("./SearchFeature"));
@@ -124,7 +126,7 @@ const NavBar: React.FC = () => {
 					}}
 				>
 					<img
-						src='/images/website-logo.webp'
+						src={logoImagePath}
 						alt='Logo'
 						className='logo'
 						width='240'
@@ -191,7 +193,7 @@ const NavBar: React.FC = () => {
 					aria-label='Toggle search'
 				>
 					<img
-						src='/images/favicon/searchicon.svg'
+						src={searchIcon}
 						alt='Search icon'
 						className='search-icon-image'
 					/>

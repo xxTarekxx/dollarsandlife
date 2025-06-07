@@ -4,11 +4,13 @@ import ReactDOM from "react-dom";
 import "./AuthPromptModal.css";
 import SignUp from "./SignUp";
 import Login from "./Login";
-import { auth } from "../firebase";
+// import { auth } from "../firebase"; // REMOVE direct import of auth
+import { Auth } from "firebase/auth"; // Import Auth type
 import { useAuthState } from "react-firebase-hooks/auth";
 
 interface AuthPromptModalProps {
 	onClose: () => void;
+	auth: Auth; // Expect auth instance as a prop
 }
 
 const modalRoot =
@@ -20,10 +22,12 @@ const modalRoot =
 		return el;
 	})();
 
-const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
+const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose, auth }) => {
+	// Receive auth as prop
 	const [mode, setMode] = useState<"login" | "signup" | null>(null);
 	const [isVisible, setIsVisible] = useState(false);
-	const [user, loadingAuth] = useAuthState(auth);
+	// useAuthState hook now uses the passed 'auth' instance
+	const [user, loadingAuth] = useAuthState(auth); // auth is from props
 	const [keepModalOpenForMessage, setKeepModalOpenForMessage] = useState(false);
 
 	const el = useMemo(() => document.createElement("div"), []);
@@ -42,10 +46,10 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
 
 	const handleClose = useCallback(() => {
 		setIsVisible(false);
-		setKeepModalOpenForMessage(false); // Reset this flag
+		setKeepModalOpenForMessage(false);
 		setTimeout(() => {
-			onClose(); // Call parent's onClose
-		}, 250); // Match CSS animation for fade-out
+			onClose();
+		}, 250);
 	}, [onClose]);
 
 	useEffect(() => {
@@ -54,6 +58,8 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
 			!!user,
 			"loadingAuth:",
 			loadingAuth,
+			"auth prop provided:",
+			!!auth,
 			"keepModalOpenForMessage:",
 			keepModalOpenForMessage,
 			"mode:",
@@ -61,47 +67,40 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
 		);
 
 		if (!loadingAuth && user && !keepModalOpenForMessage) {
-			// If user is authenticated AND we are NOT supposed to keep modal open for a message:
 			if (mode === "login" || mode === null) {
-				// If login was successful, or user was already logged in when modal opened in a non-signup initial state.
 				console.log(
-					"AUTHPROMPTMODAL: User authenticated, not keeping open for message, mode is login or null. Closing.",
+					"AUTHPROMPTMODAL: User authenticated, not keeping open, mode login/null. Closing.",
 				);
 				handleClose();
 			}
-			// If mode is 'signup':
-			// - Social login calls handleSuccessfulSocialLoginInSignUp -> handleClose.
-			// - Email/pass sign-up sets keepModalOpenForMessage=true, so this block is skipped.
 		}
-	}, [user, loadingAuth, mode, handleClose, keepModalOpenForMessage]);
+	}, [user, loadingAuth, mode, handleClose, keepModalOpenForMessage, auth]); // Added auth to dep array
 
 	const handleSwitchToLogin = () => {
 		console.log("AUTHPROMPTMODAL: Switching to Login mode.");
 		setMode("login");
-		setKeepModalOpenForMessage(false); // Reset flag when switching mode
+		setKeepModalOpenForMessage(false);
 	};
 
 	const handleSwitchToSignUp = () => {
 		console.log("AUTHPROMPTMODAL: Switching to SignUp mode.");
 		setMode("signup");
-		setKeepModalOpenForMessage(false); // Reset flag when switching mode
+		setKeepModalOpenForMessage(false);
 	};
 
-	// Called by SignUp component after a successful SOCIAL login
 	const handleSuccessfulSocialLoginInSignUp = useCallback(() => {
 		console.log(
-			"AUTHPROMPTMODAL: Social login successful in SignUp. Resetting flag and closing modal.",
+			"AUTHPROMPTMODAL: Social login successful in SignUp. Closing modal.",
 		);
 		setKeepModalOpenForMessage(false);
 		handleClose();
 	}, [handleClose]);
 
-	// Called by SignUp component after a successful EMAIL sign-up (verification email sent)
 	const handleEmailSignUpPendingInSignUp = useCallback(() => {
 		console.log(
-			"AUTHPROMPTMODAL: Email sign-up pending, setting flag to keep modal open.",
+			"AUTHPROMPTMODAL: Email sign-up pending, keeping modal open for message.",
 		);
-		setKeepModalOpenForMessage(true); // This modal will now stay open to show SignUp's message
+		setKeepModalOpenForMessage(true);
 	}, []);
 
 	const modalRenderContent = (
@@ -119,13 +118,13 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose }) => {
 						</div>
 					</>
 				) : mode === "login" ? (
-					<Login onSwitchToSignUp={handleSwitchToSignUp} />
+					<Login onSwitchToSignUp={handleSwitchToSignUp} auth={auth} /> // Pass auth prop
 				) : (
-					// mode === "signup"
 					<SignUp
 						onSwitchToLogin={handleSwitchToLogin}
 						onSuccessfulSocialLogin={handleSuccessfulSocialLoginInSignUp}
 						onEmailSignUpPendingVerification={handleEmailSignUpPendingInSignUp}
+						auth={auth} // Pass auth prop
 					/>
 				)}
 			</div>

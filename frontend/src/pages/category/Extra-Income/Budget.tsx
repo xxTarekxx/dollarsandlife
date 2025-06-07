@@ -30,7 +30,7 @@ const Budget: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(
-					`${process.env.REACT_APP_API_BASE}/budget-data`,
+					`${import.meta.env.VITE_REACT_APP_API_BASE}/budget-data`,
 				);
 				if (!response.ok) throw new Error("Failed to fetch data");
 				const data: BlogPost[] = await response.json();

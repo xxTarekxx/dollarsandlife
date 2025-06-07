@@ -176,7 +176,7 @@ const ShoppingDeals: React.FC = () => {
 		setLoading(true);
 		setError(null);
 		document.title = "Deals and Savings - Best Shopping Discounts";
-		fetch(`${process.env.REACT_APP_API_BASE}/shopping-deals`)
+		fetch(`${import.meta.env.VITE_REACT_APP_API_BASE}/shopping-deals`)
 			.then((res) => {
 				if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
 				return res.json();

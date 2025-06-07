@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import "./PostCard.css";
 import VoteButtons from "../voting/VoteButtons";
 import tagColors from "../../../utils/tagColors";
+import { Auth } from "firebase/auth"; // Import Auth type
+import { Firestore } from "firebase/firestore"; // Import Firestore type
+
 export interface PostData {
 	id: string;
 	title: string;
@@ -15,16 +18,32 @@ export interface PostData {
 	answerCount: number;
 	tags?: string[];
 }
+
 interface PostCardProps {
 	post: PostData;
+	auth: Auth | null; // Can be null if Firebase not yet initialized
+	db: Firestore | null; // Can be null
 }
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
+
+const PostCard: React.FC<PostCardProps> = ({ post, auth, db }) => {
 	const formatTimestamp = (ts: any) => {
 		if (!ts) return "Some time ago";
-		if (ts.toDate) return ts.toDate().toLocaleDateString();
-		if (ts instanceof Date) return ts.toLocaleDateString();
-		return new Date(ts).toLocaleDateString();
+		// Check if 'ts' is a Firebase Timestamp object
+		if (ts && typeof ts.toDate === "function") {
+			return ts.toDate().toLocaleDateString();
+		}
+		// Check if 'ts' is already a Date object
+		if (ts instanceof Date) {
+			return ts.toLocaleDateString();
+		}
+		// Try to parse if it's a string or number (less ideal)
+		const date = new Date(ts);
+		if (!isNaN(date.getTime())) {
+			return date.toLocaleDateString();
+		}
+		return "Date unavailable";
 	};
+
 	return (
 		<article className='post-card'>
 			<h3 className='post-card-title'>
@@ -44,7 +63,6 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 									bg: "#ccc",
 									text: "#000",
 								};
-
 								return (
 									<span
 										key={tag}
@@ -64,18 +82,24 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 			</div>
 			{post.snippet && <p className='post-card-snippet'>{post.snippet}</p>}
 			<div className='post-card-actions'>
-				<VoteButtons
-					itemId={post.id}
-					initialHelpfulVotes={post.helpfulVoteCount}
-					initialNotHelpfulVotes={post.notHelpfulVoteCount}
-					itemType='post'
-					itemAuthorId={post.authorId} // <-- FIXED: Pass authorId
-				/>
+				{auth && db ? ( // Only render VoteButtons if auth and db are available
+					<VoteButtons
+						itemId={post.id}
+						initialHelpfulVotes={post.helpfulVoteCount}
+						initialNotHelpfulVotes={post.notHelpfulVoteCount}
+						itemType='post'
+						itemAuthorId={post.authorId}
+						auth={auth} // Pass auth instance
+						db={db} // Pass db instance
+					/>
+				) : (
+					<div className='vote-placeholder'>Voting unavailable...</div>
+				)}
 				<Link
 					to={`/forum/post/${post.id}#answers`}
 					className='post-card-view-link'
 				>
-					{post.answerCount} Answers
+					{post.answerCount || 0} Answers
 				</Link>
 			</div>
 		</article>

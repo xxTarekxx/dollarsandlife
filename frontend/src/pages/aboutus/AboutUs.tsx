@@ -4,11 +4,12 @@ import "../category/extra-income/CommonStyles.css";
 import "./AboutUs.css";
 
 // Importing logos from /assets
-import mongoLogo from "../../../src/assets/mongodb.webp";
-import expressLogo from "../../../src/assets/expressjs.webp";
-import reactLogo from "../../../src/assets/reactlogo.webp";
-import nodeLogo from "../../../src/assets/nodejslogo.webp";
-import firebaseLogo from "../../../src/assets/firebaselogo.png"; // Make sure this exists
+import expressLogo from "../../assets/images/expressjs.webp";
+import firebaseLogo from "../../assets/images/firebaselogo.png"; // Make sure this exists
+import mongoLogo from "../../assets/images/mongodb.webp";
+import nodeLogo from "../../assets/images/nodejslogo.webp";
+import reactLogo from "../../assets/images/reactlogo.webp";
+import profileImage from "../../assets/images/profile-image.webp";
 
 const AboutUs: React.FC = () => {
 	return (
@@ -26,7 +27,7 @@ const AboutUs: React.FC = () => {
 
 			<section className='about-intro'>
 				<img
-					src='/images/profile-image.webp'
+					src={profileImage}
 					alt='Tarek I. - Founder of Dollars & Life'
 					className='about-profile-image'
 				/>

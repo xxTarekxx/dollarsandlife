@@ -1,10 +1,10 @@
 import React, {
-	useState,
-	useEffect,
-	useRef,
 	Suspense,
 	lazy,
 	useCallback,
+	useEffect,
+	useRef,
+	useState,
 } from "react";
 import "./ContactUs.css";
 
@@ -19,10 +19,10 @@ interface FormData {
 }
 
 const ContactUs: React.FC = () => {
-	const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-	const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-	const userId = process.env.REACT_APP_EMAILJS_USER_ID;
-	const recaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+	const serviceId = import.meta.env.VITE_REACT_APP_EMAILJS_SERVICE_ID;
+	const templateId = import.meta.env.VITE_REACT_APP_EMAILJS_TEMPLATE_ID;
+	const userId = import.meta.env.VITE_REACT_APP_EMAILJS_USER_ID;
+	const recaptchaSiteKey = import.meta.env.VITE_REACT_APP_RECAPTCHA_SITE_KEY;
 
 	const [formData, setFormData] = useState<FormData>({
 		firstName: "",

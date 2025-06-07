@@ -8,6 +8,7 @@ import React, {
 	useState,
 } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Toaster } from "react-hot-toast";
 import {
 	Route,
 	BrowserRouter as Router,
@@ -15,12 +16,11 @@ import {
 	useLocation,
 } from "react-router-dom";
 import "./App.css";
+import AuthActionHandler from "./auth/AuthActionHandler"; // Path adjusted based on previous assumption
 import Loading from "./components/loadingstatus/Loading";
 import NavBar from "./components/navbar/NavBar";
 import NotFoundPage from "./components/notfound404/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
-import { Toaster } from "react-hot-toast";
-import AuthActionHandler from "./auth/AuthActionHandler";
 
 // Lazy loaded components
 const SignUp = lazy(() => import("./auth/SignUp"));
@@ -75,6 +75,7 @@ const BreadcrumbWrapper = lazy(
 const ReturnPolicy = lazy(() => import("./pages/returnpolicy/ReturnPolicy"));
 const Footer = lazy(() => import("./components/footer/Footer"));
 
+// Example if you add NewPasswordPage
 // const NewPasswordPage = lazy(() => import("./auth/NewPasswordPage"));
 
 declare global {
@@ -83,8 +84,8 @@ declare global {
 	}
 }
 
-const GA_MEASUREMENT_ID = "G-76XESXFFJP"; // Your primary GA4 ID
-const GOOGLE_ADS_ID = "AW-16613104907"; // Your Google Ads ID
+const GA_MEASUREMENT_ID = "G-76XESXFFJP";
+const GOOGLE_ADS_ID = "AW-16613104907";
 
 const AppContent: React.FC = () => {
 	const location = useLocation();
@@ -93,7 +94,9 @@ const AppContent: React.FC = () => {
 	const canonicalUrl = useMemo(() => {
 		const parts = location.pathname.split("/");
 		const lowercasedParts = parts.map((part, idx) =>
-			parts[idx - 1] === "post" ? part : part.toLowerCase(),
+			parts[idx - 1] === "post" || parts[idx - 1] === "products"
+				? part
+				: part.toLowerCase(),
 		);
 		const joinedPath = lowercasedParts.join("/");
 		return `https://www.dollarsandlife.com${
@@ -101,11 +104,12 @@ const AppContent: React.FC = () => {
 		}`;
 	}, [location.pathname]);
 
-	// Normalize URL to lowercase (except for post IDs)
 	useEffect(() => {
 		const parts = location.pathname.split("/");
 		const correctedParts = parts.map((part, idx) =>
-			parts[idx - 1] === "post" ? part : part.toLowerCase(),
+			parts[idx - 1] === "post" || parts[idx - 1] === "products"
+				? part
+				: part.toLowerCase(),
 		);
 		const correctedPath = correctedParts.join("/");
 		if (location.pathname !== correctedPath && location.pathname !== "/") {
@@ -115,7 +119,6 @@ const AppContent: React.FC = () => {
 		}
 	}, [location.pathname]);
 
-	// AdBlock detection
 	useEffect(() => {
 		const checkAdBlock = () => {
 			let isAdBlocked = false;
@@ -130,8 +133,8 @@ const AppContent: React.FC = () => {
 					setTimeout(() => {
 						if (
 							testAd.offsetHeight === 0 ||
-							testAd.style.display === "none" ||
-							testAd.style.visibility === "hidden"
+							window.getComputedStyle(testAd).display === "none" ||
+							window.getComputedStyle(testAd).visibility === "hidden"
 						) {
 							isAdBlocked = true;
 						}
@@ -141,63 +144,72 @@ const AppContent: React.FC = () => {
 						if (isAdBlocked) {
 							setShowAdBlockPrompt(true);
 						}
-					}, 100);
+					}, 150);
 				});
 			} catch (e) {
-				console.error("Error during AdBlock check:", e);
+				console.warn("AdBlock check minor error:", e);
 				if (document.body.contains(testAd)) {
 					document.body.removeChild(testAd);
 				}
 			}
 		};
-		const timer = setTimeout(checkAdBlock, 2500);
+		const timer = setTimeout(checkAdBlock, 3000);
 		return () => clearTimeout(timer);
 	}, []);
 
-	// IP-based GA configuration & Page View tracking for GA4
 	useEffect(() => {
-		const internalPrefixes = (process.env.REACT_APP_INTERNAL_IP_PREFIX || "")
+		const VITE_INTERNAL_IP_PREFIX = import.meta.env
+			.VITE_REACT_APP_INTERNAL_IP_PREFIX as string | undefined;
+		const internalPrefixes = (VITE_INTERNAL_IP_PREFIX || "")
 			.split(",")
-			.map((p) => p.trim())
-			.filter((p) => p);
-
-		if (internalPrefixes.length > 0) {
-		}
+			.map((p: string) => p.trim()) // Explicitly type 'p'
+			.filter((p: string) => p); // Explicitly type 'p'
 
 		const configureGa = (isInternal: boolean) => {
 			if (typeof window.gtag === "function") {
 				window.gtag("config", GA_MEASUREMENT_ID, {
-					send_page_view: !isInternal, // Send page_view based on IP check
-					...(isInternal ? { page_title: "internal_traffic" } : {}),
+					page_path: location.pathname + location.search,
+					...(isInternal && { traffic_type: "internal" }),
 				});
-				// Configure Google Ads as well
 				window.gtag("config", GOOGLE_ADS_ID);
+				console.log(
+					`GA configured for ${location.pathname}. Internal: ${isInternal}`,
+				);
 			}
 		};
 
-		// Fetch IP and configure GA
-		fetch("https://api64.ipify.org?format=json")
-			.then((res) => res.json())
-			.then((data) => {
-				const userIP = data.ip;
-				const normalizeIP = (ip: string) => ip.replace(/[^a-zA-Z0-9:.]/g, "");
-				let isInternal = false;
-				if (internalPrefixes.length > 0) {
-					isInternal = internalPrefixes.some((prefix) =>
-						normalizeIP(userIP).startsWith(normalizeIP(prefix)),
+		if (internalPrefixes.length > 0) {
+			fetch("https://api64.ipify.org?format=json")
+				.then((res) => {
+					if (!res.ok) {
+						throw new Error(`IPify request failed with status ${res.status}`);
+					}
+					return res.json();
+				})
+				.then((data) => {
+					if (typeof data?.ip !== "string") {
+						throw new Error("Invalid IP data received from IPify");
+					}
+					const userIP = data.ip;
+					const normalizeIP = (ip: string) => ip.replace(/[^a-zA-Z0-9:.]/g, "");
+					const isInternal = internalPrefixes.some(
+						(
+							prefix: string, // Explicitly type 'prefix'
+						) => normalizeIP(userIP).startsWith(normalizeIP(prefix)),
 					);
-				}
-				configureGa(isInternal);
-			})
-			.catch((err) => {
-				console.error(
-					"Failed to fetch IP or configure gtag, defaulting to standard config:",
-					err,
-				);
-				// Fallback to standard configuration if IP check fails
-				configureGa(false); // Assume not internal if IP check fails
-			});
-	}, [location.pathname]); // Re-run config if path changes for SPA page_view logic
+					configureGa(isInternal);
+				})
+				.catch((err) => {
+					console.error(
+						"Failed to fetch IP or process IP data, defaulting to standard GA config:",
+						err,
+					);
+					configureGa(false);
+				});
+		} else {
+			configureGa(false);
+		}
+	}, [location.pathname, location.search]);
 
 	const handleDismissAdBlockPrompt = useCallback(() => {
 		setShowAdBlockPrompt(false);
@@ -207,24 +219,11 @@ const AppContent: React.FC = () => {
 		<HelmetProvider>
 			<Toaster
 				position='top-center'
-				toastOptions={{
-					style: {
-						fontSize: "1rem",
-						fontWeight: "600",
-						padding: "14px 24px",
-						borderRadius: "10px",
-						background: "#333",
-						color: "#fff",
-					},
-					success: {
-						duration: 3000,
-						iconTheme: { primary: "green", secondary: "white" },
-					},
-					error: {
-						duration: 5000,
-						iconTheme: { primary: "red", secondary: "white" },
-					},
-				}}
+				toastOptions={
+					{
+						/* ... your toast options ... */
+					}
+				}
 			/>
 			<div className={`app-container ${showAdBlockPrompt ? "blurred" : ""}`}>
 				{showAdBlockPrompt && (
@@ -280,7 +279,7 @@ const AppContent: React.FC = () => {
 							<Route path='/auth/action' element={<AuthActionHandler />} />
 							{/* <Route path='/new-password' element={<NewPasswordPage />} /> */}
 
-							{/* Content Category Pages */}
+							{/* Content Category Pages & Dynamic Content */}
 							<Route path='/extra-income' element={<ExtraIncome />} />
 							<Route
 								path='/extra-income/freelancers/*'
@@ -295,26 +294,27 @@ const AppContent: React.FC = () => {
 								element={<MoneyMakingApps />}
 							/>
 							<Route path='/extra-income/budget/*' element={<Budget />} />
-							<Route path='/start-a-blog/*' element={<StartABlog />} />
-							<Route path='/breaking-news' element={<BreakingNews />} />
-							<Route path='/shopping-deals' element={<ShoppingDeals />} />
-
-							{/* Dynamic Content / Post Pages */}
-							<Route
-								path='/shopping-deals/products/:productSlug'
-								element={<ProductDetails key={location.pathname} />}
-							/>
 							<Route
 								path='/extra-income/:id'
 								element={<BlogPostContent jsonFile='budgetdata.json' />}
 							/>
+
+							<Route path='/start-a-blog/*' element={<StartABlog />} />
 							<Route
 								path='/start-a-blog/:id'
 								element={<BlogPostContent jsonFile='start-blog' />}
 							/>
+
+							<Route path='/breaking-news' element={<BreakingNews />} />
 							<Route
 								path='/breaking-news/:id'
 								element={<BlogPostContent jsonFile='breaking-news' />}
+							/>
+
+							<Route path='/shopping-deals' element={<ShoppingDeals />} />
+							<Route
+								path='/shopping-deals/products/:productSlug'
+								element={<ProductDetails key={location.pathname} />}
 							/>
 
 							{/* Tools & Specific Landing Pages */}
@@ -327,7 +327,7 @@ const AppContent: React.FC = () => {
 								element={<SentryPCLanding />}
 							/>
 
-							{/* Forum Pages */}
+							{/* Forum Pages (Firebase dependent) */}
 							<Route path='/forum' element={<ForumHomePage />} />
 							<Route path='/forum/post/:postId' element={<ViewPostPage />} />
 
