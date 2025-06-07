@@ -1,12 +1,5 @@
 import parse from "html-react-parser";
-import React, {
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-	useMemo,
-	memo,
-} from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import "./BlogPostContent.css";
@@ -93,7 +86,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 		if (!postId) return;
 		try {
 			const response = await fetch(
-				`${process.env.REACT_APP_API_BASE}/${jsonFile}/${postId}`,
+				`${import.meta.env.VITE_REACT_APP_API_BASE}/${jsonFile}/${postId}`,
 			);
 
 			console.log("📡 Request:", response.status);
