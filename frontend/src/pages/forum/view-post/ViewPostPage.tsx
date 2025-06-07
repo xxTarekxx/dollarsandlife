@@ -1,5 +1,5 @@
 // frontend/src/pages/forum/view-post/ViewPostPage.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AuthPromptModal from "../../../auth/AuthPromptModal";
 import {
@@ -13,14 +13,18 @@ import {
 	serverTimestamp,
 	query,
 	orderBy,
+	Firestore,
 } from "firebase/firestore";
-import { db, auth } from "../../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { Auth, User as FirebaseUser } from "firebase/auth"; // Added FirebaseUser
+import { initializeFirebaseAndGetServices } from "../../../firebase";
+import { useAuthState, AuthStateHook } from "react-firebase-hooks/auth"; // Import AuthStateHook
 import "./ViewPostPage.css";
 import VoteButtons from "../voting/VoteButtons";
-import { deleteForumPost } from "../services/forumService";
+import { deleteForumPost as deleteForumPostService } from "../services/forumService";
 import toast from "react-hot-toast";
 import tagColors from "../../../utils/tagColors";
+
+// ... PostData and AnswerData interfaces ...
 interface PostData {
 	id: string;
 	title: string;
@@ -40,35 +44,48 @@ interface AnswerData {
 	authorId: string;
 	postId: string;
 	timestamp: any;
-	helpfulVoteCount: number; // Ensure this is initialized
-	notHelpfulVoteCount: number; // Ensure this is initialized
+	helpfulVoteCount: number;
+	notHelpfulVoteCount: number;
 }
-const ViewPostPage: React.FC = () => {
-	const { postId } = useParams<{ postId: string }>();
+
+const AuthenticatedViewPostPageContent: React.FC<{
+	postId: string;
+	firebaseAuth: Auth;
+	firebaseDb: Firestore | null;
+	firebaseInitialized: boolean;
+	firebaseError: Error | null;
+}> = ({
+	postId,
+	firebaseAuth,
+	firebaseDb,
+	firebaseInitialized,
+	firebaseError,
+}) => {
 	const navigate = useNavigate();
 	const [post, setPost] = useState<PostData | null>(null);
 	const [answers, setAnswers] = useState<AnswerData[]>([]);
 	const [newAnswerContent, setNewAnswerContent] = useState("");
-	const [loading, setLoading] = useState(true);
-	const [user, authLoading] = useAuthState(auth);
+	const [loadingData, setLoadingData] = useState(true);
 	const [showAuthModal, setShowAuthModal] = useState(false);
 	const [isSubmittingAnswer, setIsSubmittingAnswer] = useState(false);
+
+	const [user, authLoadingHook, authErrorHook] = useAuthState(firebaseAuth); // No '?? undefined'
 
 	const isPostAuthor = user?.uid === post?.authorId;
 
 	useEffect(() => {
-		if (!postId) {
-			console.error("Post ID is missing");
-			setLoading(false);
-			setPost(null);
+		if (!firebaseDb) {
+			// Wait for Firebase DB (firebaseAuth is guaranteed by parent)
+			if (firebaseInitialized && !firebaseDb && firebaseError) {
+				setLoadingData(false);
+			}
 			return;
 		}
-		if (authLoading) return;
 
 		const fetchPostAndAnswers = async () => {
-			setLoading(true);
+			setLoadingData(true);
 			try {
-				const postDocRef = doc(db, "forumPosts", postId);
+				const postDocRef = doc(firebaseDb, "forumPosts", postId);
 				const postSnapshot = await getDoc(postDocRef);
 
 				if (postSnapshot.exists()) {
@@ -79,7 +96,7 @@ const ViewPostPage: React.FC = () => {
 				}
 
 				const answersCollectionRef = collection(
-					db,
+					firebaseDb,
 					"forumPosts",
 					postId,
 					"answers",
@@ -96,26 +113,30 @@ const ViewPostPage: React.FC = () => {
 					})) as AnswerData[],
 				);
 			} catch (err) {
-				console.error("Error loading post or answers:", err);
+				console.error("ViewPostPage: Error loading post or answers:", err);
 				toast.error("Error loading content.");
 				setPost(null);
 			} finally {
-				setLoading(false);
+				setLoadingData(false);
 			}
 		};
 
 		fetchPostAndAnswers();
-	}, [postId, authLoading]);
+	}, [postId, firebaseDb, firebaseInitialized, firebaseError]); // firebaseAuth removed as it's stable from prop
 
 	const handleSubmitAnswer = async () => {
-		if (!postId) {
-			toast.error("Cannot submit answer: Post ID is missing.");
+		// firebaseAuth and firebaseDb are guaranteed by parent structure
+		if (!postId || !firebaseDb) {
+			toast.error(
+				"Cannot submit answer: Services not ready or Post ID is missing.",
+			);
 			return;
 		}
 		if (!user) {
 			setShowAuthModal(true);
 			return;
 		}
+		// ... rest of handleSubmitAnswer logic is fine
 		if (!newAnswerContent.trim()) {
 			toast.error("Answer cannot be empty.");
 			return;
@@ -128,13 +149,13 @@ const ViewPostPage: React.FC = () => {
 			postId: postId,
 			timestamp: serverTimestamp(),
 			authorDisplayName: user.displayName || "Anonymous User",
-			helpfulVoteCount: 0, // <-- FIXED: Initialize vote count
-			notHelpfulVoteCount: 0, // <-- FIXED: Initialize vote count
+			helpfulVoteCount: 0,
+			notHelpfulVoteCount: 0,
 		};
 
 		try {
 			const answersCollectionRef = collection(
-				db,
+				firebaseDb,
 				"forumPosts",
 				postId,
 				"answers",
@@ -147,13 +168,13 @@ const ViewPostPage: React.FC = () => {
 			const optimisticAnswer: AnswerData = {
 				...answerDataToSubmit,
 				id: newAnswerDocRef.id,
-				timestamp: new Date(), // Approximate for UI
+				timestamp: new Date(),
 			};
 			setAnswers((prevAnswers) => [optimisticAnswer, ...prevAnswers]);
 			setNewAnswerContent("");
 
 			if (post) {
-				const postDocRef = doc(db, "forumPosts", postId);
+				const postDocRef = doc(firebaseDb, "forumPosts", postId);
 				await updateDoc(postDocRef, {
 					answerCount: (post.answerCount || 0) + 1,
 				});
@@ -165,7 +186,7 @@ const ViewPostPage: React.FC = () => {
 			}
 			toast.success("Answer posted successfully!");
 		} catch (error: any) {
-			console.error("Error posting answer:", error);
+			console.error("ViewPostPage: Error posting answer:", error);
 			if (error.code === "permission-denied") {
 				toast.error(
 					"Permission denied. Check Firestore rules and ensure data is correct.",
@@ -179,10 +200,10 @@ const ViewPostPage: React.FC = () => {
 	};
 
 	const handleDeletePost = async () => {
-		if (!post?.id) return;
+		if (!post?.id || !firebaseDb) return;
 		if (!window.confirm("Are you sure you want to delete this post?")) return;
 		try {
-			await deleteForumPost(post.id);
+			await deleteForumPostService(firebaseDb, post.id);
 			toast.success("Post deleted successfully!");
 			navigate("/forum");
 		} catch (err) {
@@ -191,10 +212,13 @@ const ViewPostPage: React.FC = () => {
 	};
 
 	const handleDeleteAnswer = async (answerId: string) => {
-		if (!postId || !answerId) return;
+		if (!postId || !answerId || !firebaseDb) return;
+		// ... rest of handleDeleteAnswer is fine
 		if (!window.confirm("Are you sure you want to delete this answer?")) return;
 		try {
-			await deleteDoc(doc(db, "forumPosts", postId, "answers", answerId));
+			await deleteDoc(
+				doc(firebaseDb, "forumPosts", postId, "answers", answerId),
+			);
 			setAnswers((prevAnswers) =>
 				prevAnswers.filter((ans) => ans.id !== answerId),
 			);
@@ -203,7 +227,7 @@ const ViewPostPage: React.FC = () => {
 				typeof post.answerCount === "number" &&
 				post.answerCount > 0
 			) {
-				const postDocRef = doc(db, "forumPosts", postId);
+				const postDocRef = doc(firebaseDb, "forumPosts", postId);
 				await updateDoc(postDocRef, {
 					answerCount: post.answerCount - 1,
 				});
@@ -223,40 +247,61 @@ const ViewPostPage: React.FC = () => {
 		}
 	};
 
-	if (loading || authLoading) {
+	// Combined loading state for this authenticated content
+	const isLoadingPageContent = authLoadingHook || loadingData;
+
+	if (isLoadingPageContent) {
+		// Simpler loading check here as parent handles firebase init
 		return (
-			<div className='page-loading-indicator'>Loading post content...</div>
+			<div className='page-loading-indicator'>Loading post details...</div>
 		);
 	}
-	if (!post) {
+	if (authErrorHook) {
 		return (
 			<div className='page-error-indicator'>
-				Post not found or error loading.
+				Authentication error: {authErrorHook.message}
 			</div>
 		);
 	}
+	if (!post && !loadingData) {
+		// Ensure data loading done
+		return (
+			<div className='page-error-indicator'>
+				Post not found or error loading data.
+			</div>
+		);
+	}
+	if (!post) {
+		// General fallback if post is still null
+		return <div className='page-error-indicator'>Post data unavailable.</div>;
+	}
 
+	// ... JSX for rendering the post, answer form, answers list ...
+	// This is the same JSX as before, starting from the <div className="view-post-container">
+	// Ensure all uses of firebaseAuth and firebaseDb are from props if needed, or directly.
 	return (
 		<>
 			<div className={`view-post-container ${showAuthModal ? "blurred" : ""}`}>
 				<h1>{post.title}</h1>
+				{/* ... post meta, content, tags ... */}
 				<div className='post-meta-row'>
-					{/* New wrapper for the primary meta info */}
 					<div className='post-meta-info-group'>
 						<span>By: {post.authorDisplayName || "Anonymous User"}</span>
-						<span className='post-meta-separator-mobile'> • </span>{" "}
-						{/* Separator for mobile if needed */}
+						<span className='post-meta-separator-mobile'> • </span>
 						<span>
 							{post.timestamp?.seconds
 								? new Date(post.timestamp.seconds * 1000).toLocaleDateString()
 								: "Date unavailable"}
 						</span>
-						<span className='post-meta-separator-mobile'> • </span>{" "}
-						{/* Separator for mobile if needed */}
+						<span className='post-meta-separator-mobile'> • </span>
 						<span>{post.answerCount || 0} Answers</span>
 					</div>
 					{isPostAuthor && (
-						<button className='delete-post-button' onClick={handleDeletePost}>
+						<button
+							className='delete-post-button'
+							onClick={handleDeletePost}
+							disabled={!firebaseDb}
+						>
 							Delete Post 🗑️
 						</button>
 					)}
@@ -292,14 +337,16 @@ const ViewPostPage: React.FC = () => {
 					</div>
 				)}
 
-				{/* Vote buttons for the POST itself */}
+				{/* Vote buttons for the POST itself - firebaseAuth and firebaseDb are from props now */}
 				<div className='vote-buttons-wrapper-viewpost'>
 					<VoteButtons
 						itemId={post.id}
 						initialHelpfulVotes={post.helpfulVoteCount}
 						initialNotHelpfulVotes={post.notHelpfulVoteCount}
 						itemType='post'
-						itemAuthorId={post.authorId} // <-- FIXED: Pass authorId for the post
+						itemAuthorId={post.authorId}
+						auth={firebaseAuth} // from prop
+						db={firebaseDb!} // from prop, assert not null as parent checks
 					/>
 				</div>
 
@@ -312,11 +359,13 @@ const ViewPostPage: React.FC = () => {
 								value={newAnswerContent}
 								onChange={(e) => setNewAnswerContent(e.target.value)}
 								rows={5}
-								disabled={isSubmittingAnswer}
+								disabled={isSubmittingAnswer || !firebaseDb}
 							/>
 							<button
 								onClick={handleSubmitAnswer}
-								disabled={!newAnswerContent.trim() || isSubmittingAnswer}
+								disabled={
+									!newAnswerContent.trim() || isSubmittingAnswer || !firebaseDb
+								}
 							>
 								{isSubmittingAnswer ? "Submitting..." : "Post Answer"}
 							</button>
@@ -366,20 +415,23 @@ const ViewPostPage: React.FC = () => {
 											<button
 												className='delete-answer-button'
 												onClick={() => handleDeleteAnswer(ans.id)}
+												disabled={!firebaseDb}
 											>
 												Delete ❌
 											</button>
 										)}
 									</div>
-									{/* Vote buttons for each ANSWER */}
+									{/* Vote buttons for each ANSWER - firebaseAuth and firebaseDb from props */}
 									<div className='vote-buttons-wrapper-answer'>
 										<VoteButtons
 											itemId={ans.id}
 											initialHelpfulVotes={ans.helpfulVoteCount || 0}
 											initialNotHelpfulVotes={ans.notHelpfulVoteCount || 0}
 											itemType='answer'
-											itemAuthorId={ans.authorId} // <-- FIXED: Pass answer's authorId
-											postIdForItem={postId} // Pass parent post ID for context if needed by castVote
+											itemAuthorId={ans.authorId}
+											postIdForItem={postId}
+											auth={firebaseAuth} // from prop
+											db={firebaseDb!} // from prop, assert not null
 										/>
 									</div>
 								</div>
@@ -393,9 +445,77 @@ const ViewPostPage: React.FC = () => {
 				</div>
 			</div>
 			{showAuthModal && (
-				<AuthPromptModal onClose={() => setShowAuthModal(false)} />
+				<AuthPromptModal
+					onClose={() => setShowAuthModal(false)}
+					auth={firebaseAuth}
+				/>
 			)}
 		</>
+	);
+};
+
+const ViewPostPage: React.FC = () => {
+	const { postId } = useParams<{ postId: string }>();
+	const [firebaseAuth, setFirebaseAuth] = useState<Auth | null>(null);
+	const [firebaseDb, setFirebaseDb] = useState<Firestore | null>(null);
+	const [firebaseInitialized, setFirebaseInitialized] = useState(false);
+	const [firebaseError, setFirebaseError] = useState<Error | null>(null);
+
+	useEffect(() => {
+		console.log("ViewPostPage: Mounting. Attempting Firebase initialization.");
+		initializeFirebaseAndGetServices()
+			.then(({ auth: initializedAuth, db: initializedDb }) => {
+				console.log("ViewPostPage: Firebase initialized successfully.");
+				setFirebaseAuth(initializedAuth);
+				setFirebaseDb(initializedDb);
+				setFirebaseInitialized(true);
+			})
+			.catch((error) => {
+				console.error("ViewPostPage: Firebase initialization failed:", error);
+				setFirebaseError(error);
+				setFirebaseInitialized(true); // Mark as attempted
+			});
+	}, []);
+
+	if (!postId) {
+		// Handle missing postId early
+		return (
+			<div className='page-error-indicator'>Error: Post ID is missing.</div>
+		);
+	}
+
+	if (!firebaseInitialized) {
+		return (
+			<div className='page-loading-indicator'>Initializing services...</div>
+		);
+	}
+
+	if (firebaseError) {
+		return (
+			<div className='page-error-indicator'>
+				Error initializing Firebase: {firebaseError.message}. Please try
+				refreshing.
+			</div>
+		);
+	}
+
+	if (!firebaseAuth) {
+		return (
+			<div className='page-error-indicator'>
+				Authentication service could not be loaded. Please try refreshing.
+			</div>
+		);
+	}
+
+	// Render the main content component only when firebaseAuth and postId are available
+	return (
+		<AuthenticatedViewPostPageContent
+			postId={postId}
+			firebaseAuth={firebaseAuth}
+			firebaseDb={firebaseDb}
+			firebaseInitialized={firebaseInitialized} // Pass these down if needed by child
+			firebaseError={firebaseError} // or if child has its own loading
+		/>
 	);
 };
 

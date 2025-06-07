@@ -1,61 +1,109 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, connectAuthEmulator } from "firebase/auth"; // Added connectAuthEmulator
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore"; // Added connectFirestoreEmulator
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// frontend/src/firebase.ts - Modified for on-demand initialization
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp, FirebaseApp } from "firebase/app";
+import { getAuth, Auth, connectAuthEmulator } from "firebase/auth";
+import {
+	getFirestore,
+	Firestore,
+	connectFirestoreEmulator,
+} from "firebase/firestore";
+
 const firebaseConfig = {
-	apiKey: "AIzaSyDDc0ctdb9HAtfKBFMcLb_-oZzhA61ZSKc", // Replace with your actual API key if different
+	apiKey: "AIzaSyDDc0ctdb9HAtfKBFMcLb_-oZzhA61ZSKc",
 	authDomain: "dollarsandlifeforum.firebaseapp.com",
 	projectId: "dollarsandlifeforum",
 	storageBucket: "dollarsandlifeforum.firebasestorage.app",
 	messagingSenderId: "965261990077",
 	appId: "1:965261990077:web:b219509b5d2ab678583fd4",
-	measurementId: "G-76XESXFFJP", // Optional
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-let analytics;
-if (typeof window !== "undefined") {
-	// Ensure getAnalytics is only called in the browser
-	analytics = getAnalytics(app);
+let appInstance: FirebaseApp | null = null;
+let authInstance: Auth | null = null;
+let dbInstance: Firestore | null = null;
+let firebaseInitializationPromise: Promise<{
+	app: FirebaseApp;
+	auth: Auth;
+	db: Firestore;
+}> | null = null;
+
+export function initializeFirebaseAndGetServices(): Promise<{
+	app: FirebaseApp;
+	auth: Auth;
+	db: Firestore;
+}> {
+	if (!firebaseInitializationPromise) {
+		firebaseInitializationPromise = (async () => {
+			if (!appInstance) {
+				console.log("Firebase: Initializing app and services...");
+				appInstance = initializeApp(firebaseConfig);
+				authInstance = getAuth(appInstance);
+				dbInstance = getFirestore(appInstance);
+
+				// Connect to Firebase Emulators if running locally
+				// The connect...Emulator functions are idempotent.
+				// They will only connect if not already connected to the specified host/port.
+				if (
+					typeof window !== "undefined" &&
+					(window.location.hostname === "localhost" ||
+						window.location.hostname === "127.0.0.1")
+				) {
+					console.log(
+						"Firebase: Development environment detected. Attempting to connect to Emulators...",
+					);
+					try {
+						if (authInstance) {
+							// Ensure authInstance is initialized
+							connectAuthEmulator(authInstance, "http://localhost:9099", {
+								disableWarnings: true,
+							});
+							console.log(
+								"Firebase: Auth Emulator connection attempt made (or already connected).",
+							);
+						}
+					} catch (error) {
+						console.error(
+							"Firebase: Error during Auth Emulator connection attempt:",
+							error,
+						);
+					}
+					try {
+						if (dbInstance) {
+							// Ensure dbInstance is initialized
+							connectFirestoreEmulator(dbInstance, "localhost", 8080);
+							console.log(
+								"Firebase: Firestore Emulator connection attempt made (or already connected).",
+							);
+						}
+					} catch (error) {
+						console.error(
+							"Firebase: Error during Firestore Emulator connection attempt:",
+							error,
+						);
+					}
+				} else {
+					console.log(
+						"Firebase: Production environment. Connecting to live services.",
+					);
+				}
+			}
+			if (!appInstance || !authInstance || !dbInstance) {
+				// This case should ideally not be reached if initializeApp and getAuth/getFirestore succeed.
+				throw new Error(
+					"Firebase initialization failed: One or more services are null after initialization attempt.",
+				);
+			}
+			return { app: appInstance, auth: authInstance, db: dbInstance };
+		})();
+	}
+	return firebaseInitializationPromise;
 }
 
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// Connect to Firebase Emulators if the app is running locally
-// Ensure your emulators are running (e.g., `firebase emulators:start`)
-// Default ports: Auth (9099), Firestore (8080)
-// Check your firebase.json or emulator startup logs for the correct ports if you've changed them.
-if (
-	typeof window !== "undefined" &&
-	(window.location.hostname === "localhost" ||
-		window.location.hostname === "127.0.0.1")
-) {
-	try {
-		connectAuthEmulator(auth, "http://localhost:9099");
-	} catch (error) {
-		console.error("Error connecting to Auth Emulator:", error);
-	}
-	try {
-		connectFirestoreEmulator(db, "localhost", 8080);
-	} catch (error) {
-		console.error("Error connecting to Firestore Emulator:", error);
-	}
-	// If you use Firebase Functions emulator:
-	// import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
-	// const functions = getFunctions(app);
-	// connectFunctionsEmulator(functions, "localhost", 5001);
-} else {
-	console.log(
-		"Production environment detected: Connecting to live Firebase services.",
-	);
+export async function getFirebaseAuth(): Promise<Auth> {
+	const { auth } = await initializeFirebaseAndGetServices();
+	return auth;
 }
 
-export { app, auth, analytics, db };
+export async function getFirebaseDb(): Promise<Firestore> {
+	const { db } = await initializeFirebaseAndGetServices();
+	return db;
+}

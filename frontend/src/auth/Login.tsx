@@ -1,24 +1,26 @@
-// frontend/src/components/auth/Login.tsx (or your actual path)
+// frontend/src/components/auth/Login.tsx
 import React, { useState, FormEvent, useEffect } from "react";
 import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
 import {
+	Auth, // Import Auth type
 	signInWithEmailAndPassword,
 	GoogleAuthProvider,
 	signInWithPopup,
 	OAuthProvider,
 	onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "../firebase"; // Adjust this path to your firebase.ts file
-import "./Login.css"; // Your existing styles for Login.tsx
-import GmailIcon from "../assets/icons/gmail-icon.svg"; // Adjust path if needed
-import MicrosoftIcon from "../assets/icons/microsoft-icon.svg"; // Adjust path if needed
+// import { auth } from "../firebase"; // REMOVE direct import
+import { getFirebaseAuth } from "../firebase"; // Import the getter
+import "./Login.css";
+import GmailIcon from "../assets/images/gmail-icon.svg";
+import MicrosoftIcon from "../assets/images/microsoft-icon.svg";
 
 interface LoginProps {
-	onSwitchToSignUp?: () => void; // For use within AuthPromptModal to switch views
+	onSwitchToSignUp?: () => void;
+	auth?: Auth; // Auth prop is optional; will be provided by AuthPromptModal
 }
 
-const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
-	// Added opening brace
+const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [error, setError] = useState<string>("");
@@ -26,9 +28,43 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	// Effect to redirect if user is already logged in and lands on the /login page
+	const [currentAuth, setCurrentAuth] = useState<Auth | null>(propAuth || null);
+	const [authInitializedFromGetter, setAuthInitializedFromGetter] = useState(
+		!!propAuth,
+	);
+
 	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, (user) => {
+		// If auth is not provided via props (e.g., standalone /login page), initialize it.
+		if (!propAuth && !authInitializedFromGetter) {
+			console.log(
+				"Login.tsx: Auth not provided via prop, attempting to get/initialize.",
+			);
+			getFirebaseAuth()
+				.then((initializedAuth) => {
+					console.log(
+						"Login.tsx: Auth initialized/retrieved via getFirebaseAuth.",
+					);
+					setCurrentAuth(initializedAuth);
+					setAuthInitializedFromGetter(true);
+				})
+				.catch((err) => {
+					console.error("Login.tsx: Failed to initialize Firebase Auth:", err);
+					setError(
+						"Authentication service failed to load. Please try again later.",
+					);
+					setAuthInitializedFromGetter(true); // Mark as attempted
+				});
+		} else if (propAuth && currentAuth !== propAuth) {
+			// Prop updated
+			setCurrentAuth(propAuth);
+		}
+	}, [propAuth, authInitializedFromGetter, currentAuth]);
+
+	// Effect to redirect if user is already logged in
+	useEffect(() => {
+		if (!currentAuth) return; // Wait for auth to be available
+
+		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
 			if (user && location.pathname === "/login") {
 				console.log(
 					"User already logged in on /login page, redirecting to /forum",
@@ -36,12 +72,11 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 				navigate("/forum", { replace: true });
 			}
 		});
-		return () => unsubscribe(); // Cleanup subscription on component unmount
-	}, [navigate, location.pathname]);
+		return () => unsubscribe();
+	}, [navigate, location.pathname, currentAuth]);
 
 	const handleLoginSuccess = () => {
 		console.log("Login successful, preparing to navigate.");
-		// Redirect to previous page or /forum after successful login if this is a standalone page
 		const from =
 			(location.state as { from?: { pathname?: string } })?.from?.pathname ||
 			"/forum";
@@ -52,24 +87,22 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 		event: FormEvent<HTMLFormElement>,
 	) => {
 		event.preventDefault();
+		if (!currentAuth) {
+			setError("Authentication service is not ready. Please try again.");
+			return;
+		}
 		setError("");
 		setLoading(true);
 		console.log("Attempting Firebase Email/Pass Log In:", { email, password });
-
 		try {
-			await signInWithEmailAndPassword(auth, email, password);
-			// If this component is rendered as a standalone page (e.g., /login), navigate.
-			// If it's in a modal, the parent component (ForumHomePage) will close the modal
-			// due to auth state change, so direct navigation here might only be for the standalone page scenario.
+			await signInWithEmailAndPassword(currentAuth, email, password);
 			if (location.pathname === "/login") {
-				// Only navigate if on the dedicated /login page
 				handleLoginSuccess();
 			}
-			// If in a modal, the modal will close via parent's useEffect on auth state change.
-			// setLoading(false) will be effectively handled when component unmounts or navigates.
 		} catch (err: any) {
 			console.error("Firebase Login Error:", err.code, err.message);
 			let errorMessage = "Failed to log in. Please check your credentials.";
+			// ... (error handling as before)
 			if (
 				err.code === "auth/user-not-found" ||
 				err.code === "auth/invalid-credential" ||
@@ -83,22 +116,25 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 					"Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.";
 			}
 			setError(errorMessage);
-			setLoading(false); // Explicitly set loading false on error
+			setLoading(false);
 		}
-		// No finally block needed here if success leads to navigation/unmount
 	};
 
 	const handleGoogleSignIn = async () => {
+		if (!currentAuth) {
+			setError("Authentication service is not ready. Please try again.");
+			return;
+		}
 		setError("");
 		setLoading(true);
 		const provider = new GoogleAuthProvider();
 		try {
-			await signInWithPopup(auth, provider);
+			await signInWithPopup(currentAuth, provider);
 			if (location.pathname === "/login") {
 				handleLoginSuccess();
 			}
-			// If in modal, modal closes via parent
 		} catch (err: any) {
+			// ... (error handling as before)
 			console.error("Firebase Google Sign-In Error:", err.code, err.message);
 			let errorMessage = "Failed to sign in with Google.";
 			if (err.code === "auth/popup-closed-by-user") {
@@ -113,16 +149,20 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 	};
 
 	const handleMicrosoftSignIn = async () => {
+		if (!currentAuth) {
+			setError("Authentication service is not ready. Please try again.");
+			return;
+		}
 		setError("");
 		setLoading(true);
 		const provider = new OAuthProvider("microsoft.com");
 		try {
-			await signInWithPopup(auth, provider);
+			await signInWithPopup(currentAuth, provider);
 			if (location.pathname === "/login") {
 				handleLoginSuccess();
 			}
-			// If in modal, modal closes via parent
 		} catch (err: any) {
+			// ... (error handling as before)
 			console.error("Firebase Microsoft Sign-In Error:", err.code, err.message);
 			let errorMessage = "Failed to sign in with Microsoft.";
 			if (err.code === "auth/popup-closed-by-user") {
@@ -136,33 +176,32 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 		}
 	};
 
-	// This function is called when the "Don't have an account? Sign Up" link is clicked.
 	const handleSwitchToSignUpClick = (
 		e: React.MouseEvent<HTMLAnchorElement>,
 	) => {
 		e.preventDefault();
 		if (onSwitchToSignUp) {
-			// If onSwitchToSignUp prop is provided (i.e., component is used in AuthPromptModal),
-			// call it to switch the modal's view to the SignUp form.
 			onSwitchToSignUp();
 		} else {
-			// If onSwitchToSignUp is not provided (i.e., component is used as a standalone /login page),
-			// navigate to the /signup page.
 			navigate("/signup");
 		}
 	};
 
+	if (!currentAuth && !authInitializedFromGetter && !propAuth) {
+		// Show minimal UI or loader if auth is being fetched for standalone page
+		return (
+			<div className='login-content-wrapper auth-form-styles'>
+				<p>Loading login...</p>
+			</div>
+		);
+	}
+
 	return (
-		// If this is a standalone page, you might want a different top-level container class
-		// e.g., <div className='login-page-container'> for page-level centering etc.
-		// The class 'login-container' might be more for the form itself.
-		// For consistency with AuthPromptModal's content structure:
 		<div className='login-content-wrapper auth-form-styles'>
-			{" "}
-			{/* This would be the equivalent of .auth-modal-content */}
 			<form onSubmit={handleEmailPasswordSubmit} className='login-form'>
 				<h3>Log In</h3>
 				{error && <p className='error-message'>{error}</p>}
+				{/* ... rest of the form ... */}
 				<div className='form-group'>
 					<label htmlFor='login-email'>Email</label>
 					<input
@@ -171,7 +210,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
-						disabled={loading}
+						disabled={loading || !currentAuth}
 						placeholder='you@example.com'
 						autoComplete='email'
 					/>
@@ -184,7 +223,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
-						disabled={loading}
+						disabled={loading || !currentAuth}
 						placeholder='••••••••'
 						autoComplete='current-password'
 					/>
@@ -192,7 +231,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 				<button
 					type='submit'
 					className='submit-button primary-auth-button'
-					disabled={loading}
+					disabled={loading || !currentAuth}
 				>
 					{loading ? "Logging In..." : "Log In"}
 				</button>
@@ -204,7 +243,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 						type='button'
 						onClick={handleGoogleSignIn}
 						className='social-button google-button'
-						disabled={loading}
+						disabled={loading || !currentAuth}
 					>
 						<img src={GmailIcon} alt='Google icon' />
 						<span></span>
@@ -213,10 +252,9 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 						type='button'
 						onClick={handleMicrosoftSignIn}
 						className='social-button microsoft-button'
-						disabled={loading}
+						disabled={loading || !currentAuth}
 					>
 						<img src={MicrosoftIcon} alt='Microsoft icon' />
-						{/* <span>Log in with</span> */}
 					</button>
 				</div>
 
@@ -234,6 +272,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp }) => {
 			</form>
 		</div>
 	);
-}; // Added closing brace
+};
 
 export default Login;

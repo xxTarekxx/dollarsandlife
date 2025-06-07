@@ -148,7 +148,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 						className='TopBanner'
 					>
 						<img
-							src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
+							src='/images/Lyca-Mobile-728x90.webp'
 							alt='Lyca Mobile Banner'
 							className='TopBannerImage'
 							width='730px'

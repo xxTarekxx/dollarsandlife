@@ -1,13 +1,15 @@
-// frontend/src/pages/auth/AuthActionHandler.tsx (or a similar path)
+// frontend/src/auth/AuthActionHandler.tsx
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../firebase"; // Adjust path
+import { getFirebaseAuth } from "../firebase"; // Assuming firebase.ts is in src/firebase.ts
 import {
+	Auth, // Import Auth type
 	applyActionCode,
 	checkActionCode,
 	signInWithEmailLink,
 	isSignInWithEmailLink,
-} from "firebase/auth"; // Added signInWithEmailLink
+	User, // Import User type if needed for currentUser checks
+} from "firebase/auth";
 import toast from "react-hot-toast";
 
 const AuthActionHandler: React.FC = () => {
@@ -15,91 +17,140 @@ const AuthActionHandler: React.FC = () => {
 	const navigate = useNavigate();
 	const [message, setMessage] = useState<string>("Processing...");
 	const [error, setError] = useState<string>("");
+	const [currentAuth, setCurrentAuth] = useState<Auth | null>(null);
+	const [authInitialized, setAuthInitialized] = useState(false);
 
 	useEffect(() => {
+		getFirebaseAuth()
+			.then((initializedAuth: Auth) => {
+				// Explicitly type initializedAuth
+				setCurrentAuth(initializedAuth);
+				setAuthInitialized(true);
+				console.log("AuthActionHandler: Firebase Auth initialized.");
+			})
+			.catch((err) => {
+				console.error(
+					"AuthActionHandler: Failed to initialize Firebase Auth:",
+					err,
+				);
+				setError(
+					"Authentication service failed to load. Please try again later.",
+				);
+				setAuthInitialized(true); // Mark as attempted
+			});
+	}, []);
+
+	useEffect(() => {
+		if (!authInitialized || !currentAuth) {
+			if (authInitialized && !currentAuth && !error) {
+				setError("Authentication service could not be loaded.");
+			}
+			return;
+		}
+
 		const params = new URLSearchParams(location.search);
 		const mode = params.get("mode");
 		const actionCode = params.get("oobCode");
-		const apiKey = params.get("apiKey"); // Firebase needs this
-		// const continueUrl = params.get('continueUrl'); // Optional
 
 		if (!actionCode || !mode) {
 			setError("Invalid action link. Missing code or mode.");
+			setMessage("");
 			return;
 		}
 
 		const handleAction = async () => {
 			try {
+				let userFromAction: User | null = null; // To store user if action results in login
+
 				switch (mode) {
 					case "resetPassword":
-						// You would typically redirect to a page to enter a new password
-						// For now, just verify the code
-						await checkActionCode(auth, actionCode);
+						await checkActionCode(currentAuth, actionCode);
 						setMessage(
 							"Password reset link is valid. Please enter your new password.",
 						);
-						// Example: navigate(`/reset-password-form?oobCode=${actionCode}`);
-						navigate(`/new-password?oobCode=${actionCode}`); // Navigate to a form to set new password
+						navigate(`/new-password?oobCode=${actionCode}`); // Ensure you have a /new-password route
 						break;
 					case "recoverEmail":
-						// Handle email recovery
+						// Implement email recovery logic: This usually involves verifyPasswordResetCode then updateEmail
+						setError(
+							"Email recovery mode not yet fully implemented. Please contact support.",
+						);
 						break;
 					case "verifyEmail":
-						await applyActionCode(auth, actionCode);
+						await applyActionCode(currentAuth, actionCode);
 						setMessage(
 							"Your email has been verified successfully! You can now log in.",
 						);
 						toast.success("Email verified! Please log in.");
-						// If the user is already logged in on this browser, they are fine.
-						// If not, redirect them to login or home.
-						// Check if user is already logged in
-						if (auth.currentUser) {
-							// If they are logged in and verified their email, maybe just send them to their dashboard or forum
-							navigate("/forum"); // Or wherever you want them to go
-						} else {
-							// If they aren't logged in, prompt them to login.
-							// The email is verified, but they need to authenticate the session.
-							navigate("/forum"); // Send them to forum, they can login via modal
-						}
+						// Note: applyActionCode for verifyEmail does not sign the user in.
+						// It just marks their email as verified.
+						// Redirect to login or a page that prompts login.
+						navigate("/forum"); // User will see login prompt in forum if not logged in
 						break;
-					case "signIn": // For email link sign-in (passwordless)
-						if (isSignInWithEmailLink(auth, window.location.href)) {
+					case "signIn":
+						if (isSignInWithEmailLink(currentAuth, window.location.href)) {
 							let email = window.localStorage.getItem("emailForSignIn");
 							if (!email) {
-								// User opened the link on a different device. To prevent session fixation
-								// attacks, ask the user to provide the email again. For example:
 								email = window.prompt(
 									"Please provide your email for confirmation",
 								);
 							}
 							if (email) {
-								await signInWithEmailLink(auth, email, window.location.href);
+								const userCredential = await signInWithEmailLink(
+									currentAuth,
+									email,
+									window.location.href,
+								);
+								userFromAction = userCredential.user; // Get user from sign-in
 								window.localStorage.removeItem("emailForSignIn");
-								setMessage("Successfully signed in!");
+								setMessage(
+									`Successfully signed in as ${
+										userFromAction?.displayName || userFromAction?.email
+									}!`,
+								);
 								toast.success("Successfully signed in!");
-								navigate("/forum"); // Or user dashboard
+								navigate("/forum");
 							} else {
 								setError("Email not provided or link expired.");
+								setMessage("");
 							}
 						} else {
 							setError("Invalid sign-in link.");
+							setMessage("");
 						}
 						break;
 					default:
 						setError("Invalid action mode.");
+						setMessage("");
 				}
 			} catch (err: any) {
 				console.error("Error handling action code:", err);
-				setError(
+				let specificError =
 					err.message ||
-						"Failed to process the request. The link may be invalid or expired.",
-				);
-				toast.error(err.message || "Invalid or expired link.");
+					"Failed to process the request. The link may be invalid or expired.";
+				if (err.code === "auth/invalid-action-code") {
+					specificError = "Invalid or expired link. Please request a new one.";
+				} else if (err.code === "auth/user-disabled") {
+					specificError = "This account has been disabled.";
+				} else if (err.code === "auth/user-not-found" && mode === "signIn") {
+					specificError = "No account found for this email. Please sign up.";
+				}
+				setError(specificError);
+				toast.error(specificError);
+				setMessage("");
 			}
 		};
 
 		handleAction();
-	}, [location, navigate]);
+	}, [location, navigate, currentAuth, authInitialized, error]);
+
+	if (!authInitialized && !error) {
+		return (
+			<div style={{ padding: "20px", textAlign: "center" }}>
+				<p>Initializing authentication service...</p>
+			</div>
+		);
+	}
 
 	return (
 		<div
@@ -116,7 +167,9 @@ const AuthActionHandler: React.FC = () => {
 			<h2>Authentication Action</h2>
 			{message && !error && <p style={{ color: "green" }}>{message}</p>}
 			{error && <p style={{ color: "red" }}>Error: {error}</p>}
-			{!message && !error && <p>Loading...</p>}
+			{!message && !error && authInitialized && (
+				<p>Processing your request...</p>
+			)}
 			<button
 				onClick={() => navigate("/forum")}
 				style={{ marginTop: "20px", padding: "10px 20px" }}

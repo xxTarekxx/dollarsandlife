@@ -34,7 +34,7 @@ const BreakingNews: React.FC = () => {
 		const fetchNews = async () => {
 			try {
 				const response = await fetch(
-					`${process.env.REACT_APP_API_BASE}/breaking-news`,
+					`${import.meta.env.VITE_REACT_APP_API_BASE}/breaking-news`,
 				);
 				if (!response.ok) throw new Error("Failed to fetch news data");
 				const data = await response.json();

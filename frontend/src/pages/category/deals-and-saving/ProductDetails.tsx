@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import parse from "html-react-parser";
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { Navigate, useParams } from "react-router-dom";
 import "./ProductDetails.css";
 
 interface Product {
@@ -40,7 +40,9 @@ const ProductDetails: React.FC = () => {
 		const fetchProduct = async () => {
 			try {
 				const response = await fetch(
-					`${process.env.REACT_APP_API_BASE}/shopping-deals/${productId}`,
+					`${
+						import.meta.env.VITE_REACT_APP_API_BASE
+					}/shopping-deals/${productId}`,
 				);
 				if (!response.ok) throw new Error("Failed to fetch product data");
 

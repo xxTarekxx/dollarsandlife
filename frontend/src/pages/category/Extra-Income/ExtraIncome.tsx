@@ -1,10 +1,10 @@
+import Budgettingimg from "@assets/images/icons/img-budgetting.webp";
+import FreeLancerimg from "@assets/images/icons/img-freelancer.webp";
+import MoneyMakingAppsimg from "@assets/images/icons/img-moneymakingapps.webp";
+import RemoteJobimg from "@assets/images/icons/img-remotejobs.webp";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import Budgettingimg from "../../../assets/icons/img-budgetting.webp";
-import FreeLancerimg from "../../../assets/icons/img-freelancer.webp";
-import MoneyMakingAppsimg from "../../../assets/icons/img-moneymakingapps.webp";
-import RemoteJobimg from "../../../assets/icons/img-remotejobs.webp";
 import "./ExtraIncome.css";
 
 const ExtraIncome: React.FC = () => {
@@ -129,7 +129,7 @@ const ExtraIncome: React.FC = () => {
 						className='TopBanner'
 					>
 						<img
-							src='/images/shoppinganddeals/Lyca-Mobile-728x90.webp'
+							src='/images/Lyca-Mobile-728x90.webp'
 							alt='Lyca Mobile Banner - Affordable International Calling'
 							className='TopBannerImage'
 							width='730px'

@@ -21,10 +21,8 @@
     --border-radius: 12px;
 }
 
-/* Import Google Fonts (add to your main HTML or app entry if preferred) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap');
+/* Google Fonts are now imported via <link> in HomePage.tsx using Helmet */
 
-/* MODIFICATION: Added for smooth scrolling */
 html {
     scroll-behavior: smooth;
 }
@@ -35,7 +33,8 @@ body {
     padding: 0;
     font-family: var(--body-font);
     color: var(--text-color);
-    /* background-color: var(--background-color); */
+    background-color: var(--background-color);
+    /* Re-enabled for consistent page background */
     line-height: 1.7;
     font-size: 16px;
     /* Base font size */
@@ -61,10 +60,11 @@ body {
     font-weight: 600;
     color: var(--primary-color);
     margin-top: 0;
+    line-height: 1.3;
+    /* Added for tighter heading line-height */
 }
 
 a {
-    /* This was missing, re-adding for consistency with hover rule. Original 'a' styles will take precedence. */
     color: var(--accent-color);
     text-decoration: none;
     transition: color 0.3s ease;
@@ -80,6 +80,14 @@ a:focus {
     color: var(--accent-color);
 }
 
+.section-title {
+    /* New utility class for consistent section titles */
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    /* Example size, adjust as needed */
+}
+
 .section-subtitle {
     text-align: center;
     max-width: 700px;
@@ -87,6 +95,8 @@ a:focus {
     margin-right: auto;
     margin-bottom: 2.5rem;
     font-size: 1.1rem;
+    color: var(--text-light);
+    /* Ensure subtitle uses lighter text */
 }
 
 /* --- Buttons --- */
@@ -102,6 +112,8 @@ a:focus {
     transition: all 0.3s ease;
     font-size: 1rem;
     text-align: center;
+    border: 2px solid transparent;
+    /* Base border for consistent sizing */
 }
 
 .cta-button {
@@ -134,48 +146,65 @@ a:focus {
 .text-link {
     font-weight: 500;
     display: inline-block;
-    /* margin-top: 0.5rem; /* Old margin - will be replaced by auto */
-    /* THE ONLY CHANGE to .text-link */
     margin-top: auto;
     /* This pushes the link to the bottom of the flex container */
+    color: var(--accent-color);
+    /* Ensure it uses accent color */
 }
+
+.text-link:hover,
+.text-link:focus {
+    color: var(--primary-color);
+    /* Darken on hover/focus */
+    text-decoration: underline;
+}
+
 
 /* --- Hero Section --- */
 .hero-section {
     text-align: center;
-    padding: 4rem 1rem;
-    /* background: linear-gradient(135deg, rgba(249, 250, 255,0.8), rgba(230, 230, 255,0.8)), url('../assets/images/your-subtle-hero-background.webp');
-	background-size: cover;
-	background-position: center; */
+    padding: 4rem 1rem 5rem 1rem;
+    /* Increased bottom padding */
+    /* Example with a subtle gradient background, ensure high contrast with text */
+    /* background: linear-gradient(135deg, var(--background-color) 70%, var(--secondary-color-light, #e6e6ff) 100%); */
     border-bottom: 1px solid var(--border-color);
     margin-bottom: 3rem;
     position: relative;
-    /* For potential hero image if added behind text */
 }
 
-/*
-.hero-image {
-	width: 100%;
-	max-height: 400px;
-	object-fit: cover;
-	border-radius: var(--border-radius);
-	margin-bottom: 2rem;
-}
-*/
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
 }
 
+.hero-section h1 {
+    /* More specific styling for hero H1 */
+    font-size: 2.8rem;
+    /* Adjust as needed */
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
 .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    /* Slightly larger */
     color: var(--text-light);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    /* More space before CTA */
+    line-height: 1.8;
+}
+
+.hero-cta {
+    /* For specific hero CTA adjustments if needed */
+    padding: 1rem 2.2rem;
+    font-size: 1.1rem;
 }
 
 /* --- Core Topics Intro --- */
 .core-topics-intro {
     padding: 2rem 0;
+    margin-bottom: 1rem;
+    /* Reduced margin as grid follows */
 }
 
 
@@ -201,6 +230,7 @@ a:focus {
 
 .topic-card:hover,
 .topic-card:focus-within {
+    /* focus-within is great for keyboard nav */
     transform: translateY(-8px);
     box-shadow: var(--box-shadow-hover);
 }
@@ -214,9 +244,7 @@ a:focus {
     width: 100%;
     max-height: 180px;
     object-fit: contain;
-    /* Changed to contain to ensure image is fully visible */
     border-radius: calc(var(--border-radius) - 6px);
-    /* Slightly smaller radius */
 }
 
 .topic-card-content {
@@ -228,6 +256,8 @@ a:focus {
 .topic-card-title {
     margin-bottom: 0.5rem;
     font-size: 1.3rem;
+    color: var(--primary-color);
+    /* Ensure title uses primary color */
 }
 
 .topic-card-description {
@@ -235,55 +265,68 @@ a:focus {
     color: var(--text-light);
     line-height: 1.6;
     flex-grow: 1;
+    /* Ensures description takes available space */
+    margin-bottom: 1rem;
+    /* Space before the link */
 }
 
 .topic-card-link {
     margin-top: auto;
-    /* Pushes link to the bottom if card heights vary */
     font-weight: 600;
     color: var(--accent-color);
     font-size: 0.9rem;
     align-self: flex-start;
-    /* Aligns to the left */
 }
 
-.topic-card-link:hover {
+.topic-card-link:hover,
+.topic-card-link:focus {
     text-decoration: underline;
+    color: var(--primary-color);
 }
 
 
 /* --- Why Trust Us Section --- */
 .why-trust-us {
-    padding: 3rem 1rem;
+    padding: 3rem 1.5rem;
+    /* Increased padding */
     background-color: var(--card-background);
+    /* Was --background-color, now using card for contrast */
     border-radius: var(--border-radius);
     margin-bottom: 4rem;
     box-shadow: var(--box-shadow);
     display: flex;
-    /* For side-by-side image and text if you add an image */
     align-items: center;
     gap: 2rem;
 }
 
-/*
-.why-trust-image {
-	flex-basis: 40%;
-	max-width: 350px;
-	height: auto;
-	object-fit: cover;
-	border-radius: var(--border-radius);
-}
-*/
 .why-trust-content {
     flex-basis: 100%;
-    /* Takes full width if no image */
-    /* flex-basis: 60%; if image is present */
 }
 
-.why-trust-us h2 {
+.why-trust-us .section-title {
+    /* Title specific to this section */
     text-align: left;
+    /* Overriding centered default */
     margin-bottom: 1.5rem;
 }
+
+.why-trust-us p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    color: var(--text-light);
+}
+
+.why-trust-us p strong a {
+    /* Style for the LinkedIn link */
+    color: var(--primary-color);
+    font-weight: 600;
+    /* Keep it bold */
+}
+
+.why-trust-us p strong a:hover {
+    color: var(--accent-color);
+}
+
 
 .why-trust-us ul {
     list-style: none;
@@ -292,19 +335,31 @@ a:focus {
 }
 
 .why-trust-us ul li {
-    padding-left: 1.5em;
+    padding-left: 2em;
+    /* Increased padding for icon */
     position: relative;
-    margin-bottom: 0.75em;
+    margin-bottom: 1em;
+    /* Increased spacing */
     color: var(--text-light);
+    line-height: 1.7;
 }
 
 .why-trust-us ul li::before {
     content: '✔';
-    /* Checkmark */
     color: var(--accent-color);
     position: absolute;
     left: 0;
-    font-weight: bold;
+    font-size: 1.2em;
+    /* Slightly larger checkmark */
+    top: 2px;
+    /* Fine-tune vertical alignment */
+}
+
+.why-trust-us ul li strong {
+    color: var(--text-color);
+    /* Make the bolded part slightly darker */
+    font-weight: 500;
+    /* Roboto 500 */
 }
 
 
@@ -326,32 +381,65 @@ a:focus {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    /* THE ONLY CHANGES to .discover-item */
     display: flex;
-    /* Make it a flex container */
     flex-direction: column;
-    /* Stack children vertically */
 }
 
-.discover-item:hover {
+.discover-item:hover,
+.discover-item:focus-within {
+    /* Added focus-within */
     transform: translateY(-5px);
     box-shadow: var(--box-shadow-hover);
 }
 
 .discover-item h4 {
     color: var(--primary-color);
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+    /* Slightly larger */
+    margin-bottom: 0.75rem;
+    /* More space */
 }
 
 .discover-item p {
     font-size: 0.9rem;
     color: var(--text-light);
     margin-bottom: 1rem;
-    /* Or adjust as needed. The 'Explore...' link will be after this due to flex auto margin */
-    /* Optional: If you want the paragraph to definitively take up space if it's short: */
-    /* flex-grow: 1; */
+    flex-grow: 1;
+    /* Ensures paragraph takes space pushing link down */
 }
+
+/* --- Community Forum CTA Section --- */
+.community-forum-section {
+    text-align: center;
+    padding: 3rem 1rem;
+    /* Adjusted padding to be consistent with others */
+    margin-bottom: 3rem;
+    /* Optional: Add a distinct background if desired */
+    /* background-color: var(--card-background); */
+    /* border-radius: var(--border-radius); */
+    /* box-shadow: var(--box-shadow); */
+    /* border-top: 1px solid var(--border-color); */
+    /* border-bottom: 1px solid var(--border-color); */
+}
+
+.community-forum-section .section-title {
+    margin-bottom: 1rem;
+    /* Standard spacing for section title */
+}
+
+.community-forum-section .section-subtitle {
+    margin-bottom: 2rem;
+    /* More space before the button */
+}
+
+.community-forum-section .cta-button {
+    /* The cta-button already has good styling. 
+       You can add specific overrides here if needed for this section */
+    /* Example: Make it slightly larger if it's the sole CTA */
+    /* padding: 0.9rem 2rem; */
+    /* font-size: 1.05rem; */
+}
+
 
 /* --- FAQ Section --- */
 .faq-section {
@@ -370,6 +458,8 @@ a:focus {
     border-radius: var(--border-radius);
     margin-bottom: 1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+    /* Smooth shadow transition */
 }
 
 .faq-item[open] {
@@ -377,24 +467,30 @@ a:focus {
 }
 
 .faq-question {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
+    /* Increased padding */
     font-weight: 600;
+    font-family: var(--heading-font);
+    /* Consistent heading font */
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: var(--primary-color);
     font-size: 1.1rem;
+    line-height: 1.4;
 }
 
 .faq-question::-webkit-details-marker {
     display: none;
-    /* Hide default arrow in Chrome/Safari */
 }
 
 .faq-question::after {
     content: '+';
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    /* Larger icon */
+    line-height: 1;
+    /* Prevent extra spacing */
     color: var(--accent-color);
     transition: transform 0.2s ease-out;
 }
@@ -410,84 +506,124 @@ a:focus {
     line-height: 1.7;
     border-top: 1px solid var(--border-color);
     margin-top: 0.5rem;
+    /* Space after question before border */
 }
 
 .faq-answer a {
     font-weight: 500;
+    color: var(--accent-color);
+    /* Consistent link styling */
+}
+
+.faq-answer a:hover,
+.faq-answer a:focus {
+    color: var(--primary-color);
 }
 
 
 /* --- Final Call to Action Section --- */
 .final-cta-section {
     text-align: center;
-    padding: 4rem 1rem;
-    background-color: var(--primary-color);
+    padding: 4rem 1.5rem;
+    /* Increased padding */
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    /* Gradient background */
     color: white;
     border-radius: var(--border-radius);
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
+    /* More space at the bottom */
+    box-shadow: var(--box-shadow-hover);
+    /* Give it a lift */
 }
 
-.final-cta-section h2 {
+.final-cta-section .section-title {
+    /* Title specific to this section */
     color: white;
     margin-bottom: 1rem;
 }
 
 .final-cta-section p {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
+    /* Slightly more opaque */
     max-width: 600px;
-    margin: 0 auto 2rem auto;
+    margin: 0 auto 2.5rem auto;
+    /* More space before button */
+    font-size: 1.1rem;
+    /* Slightly larger */
+    line-height: 1.8;
 }
 
 .final-cta-section .cta-button {
     background: white;
     color: var(--primary-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 2.2rem;
+    /* Match hero CTA */
+    font-size: 1.1rem;
+    /* Match hero CTA */
 }
 
-.final-cta-section .cta-button:hover {
+.final-cta-section .cta-button:hover,
+.final-cta-section .cta-button:focus {
     background: var(--accent-color);
+    /* Using accent for hover */
     color: white;
+    /* Ensure text stays white */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+    /* Add transform from main button style */
+    text-decoration: none;
 }
 
 /* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+
+    /* Added a new breakpoint for larger tablets */
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
     .hero-section {
-        padding: 3rem 1rem;
+        padding: 3rem 1rem 4rem 1rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2.2rem;
     }
 
     .homepage-container h1 {
+        /* Original rule - keeping if it targets other h1s not in sections */
         font-size: 2rem;
-        /* Changed clamp value - seems the font sizes for h1/h2 were removed earlier. Reverting based on latest context. */
     }
 
-    .homepage-container h2 {
+    .homepage-container h2,
+    .section-title {
+        /* Apply to general h2 and section-title */
         font-size: 1.8rem;
-        /* Changed clamp value */
     }
 
     .core-topics-grid {
         grid-template-columns: 1fr;
-        /* Stack cards on smaller screens */
     }
 
     .why-trust-us {
         flex-direction: column;
+        padding: 2.5rem 1rem;
     }
 
-    /*
-	.why-trust-image {
-		flex-basis: auto;
-		width: 80%;
-		max-width: 300px;
-	} */
+    .why-trust-us .section-title {
+        text-align: center;
+        /* Center on mobile */
+    }
 
     .why-trust-content {
         flex-basis: auto;
-    }
-
-    .why-trust-us h2 {
-        text-align: center;
     }
 }
 
@@ -496,7 +632,19 @@ a:focus {
         padding: 0 1rem;
     }
 
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+
     .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .section-subtitle {
         font-size: 1rem;
     }
 
@@ -506,7 +654,26 @@ a:focus {
         font-size: 0.9rem;
     }
 
+    .hero-cta,
+    .final-cta-section .cta-button {
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+    }
+
     .faq-question {
         font-size: 1rem;
+        padding: 1rem 1.25rem;
+    }
+
+    .faq-question::after {
+        font-size: 1.5rem;
+    }
+
+    .faq-answer {
+        font-size: 0.9rem;
+    }
+
+    .topic-card-title {
+        font-size: 1.15rem;
     }
 }

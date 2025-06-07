@@ -1,7 +1,7 @@
 import React from "react";
 import "./SentryPCLanding.css";
 import { Helmet } from "react-helmet-async";
-import SentryLogo from "../../assets/sentrypc/sentrypc-logo.webp";
+import SentryLogo from "../../../src/assets/images/sentrypc/sentrypc-logo.webp";
 
 interface Plan {
 	name: string;

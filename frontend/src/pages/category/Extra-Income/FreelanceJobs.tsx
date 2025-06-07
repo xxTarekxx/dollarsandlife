@@ -30,7 +30,9 @@ const FreelanceJobs: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				// 1. URL construction moved to a separate variable 'apiUrl'
-				const apiUrl = `${process.env.REACT_APP_API_BASE}/freelance-jobs`;
+				const apiUrl = `${
+					import.meta.env.VITE_REACT_APP_API_BASE
+				}/freelance-jobs`;
 
 				// 2. The new console.log to inspect 'apiUrl'
 				console.log("Attempting to fetch from (FreelanceJobs.tsx):", apiUrl);

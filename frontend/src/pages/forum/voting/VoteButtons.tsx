@@ -1,8 +1,9 @@
 // frontend/src/pages/forum/voting/VoteButtons.tsx
 import React, { useState, useEffect, useCallback } from "react";
 import "./VoteButtons.css";
-import { auth } from "../../../firebase"; // Adjust path if needed
-import { onAuthStateChanged, User } from "firebase/auth";
+// import { auth } from "../../../firebase"; // REMOVE direct import
+import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Import Auth type & onAuthStateChanged
+import { Firestore } from "firebase/firestore"; // Import Firestore type
 import {
 	castVote,
 	getUserVoteForItem,
@@ -10,14 +11,18 @@ import {
 	ItemType,
 } from "../services/voteService";
 import toast from "react-hot-toast";
+
 interface VoteButtonsProps {
 	itemId: string;
 	initialHelpfulVotes: number;
 	initialNotHelpfulVotes: number;
 	itemType: ItemType;
-	itemAuthorId?: string; // ID of the author of the item (post or answer)
-	postIdForItem?: string; // Required if itemType is 'answer', represents the parent post ID
+	itemAuthorId?: string;
+	postIdForItem?: string;
+	auth: Auth; // Expect auth instance as a prop
+	db: Firestore; // Expect db instance as a prop
 }
+
 const VoteButtons: React.FC<VoteButtonsProps> = ({
 	itemId,
 	initialHelpfulVotes,
@@ -25,6 +30,8 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 	itemType,
 	itemAuthorId,
 	postIdForItem,
+	auth, // Use prop
+	db, // Use prop
 }) => {
 	const [helpfulVotes, setHelpfulVotes] = useState<number>(initialHelpfulVotes);
 	const [notHelpfulVotes, setNotHelpfulVotes] = useState<number>(
@@ -34,22 +41,28 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 	const [isLoadingVote, setIsLoadingVote] = useState<boolean>(true);
 	const [isSubmittingVote, setIsSubmittingVote] = useState<boolean>(false);
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
+
 	useEffect(() => {
 		setHelpfulVotes(initialHelpfulVotes);
 		setNotHelpfulVotes(initialNotHelpfulVotes);
 	}, [initialHelpfulVotes, initialNotHelpfulVotes]);
 
 	useEffect(() => {
+		// Use the passed 'auth' instance for onAuthStateChanged
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			setCurrentUser(user);
-			if (user && itemId) {
+			if (user && itemId && db) {
+				// Check for db as well
 				setIsLoadingVote(true);
-				getUserVoteForItem(user.uid, itemId)
+				getUserVoteForItem(db, user.uid, itemId) // Pass db
 					.then((vote) => {
 						setCurrentUserVote(vote);
 					})
 					.catch((err) => {
-						console.error("Error fetching user's current vote:", err);
+						console.error(
+							"VoteButtons: Error fetching user's current vote:",
+							err,
+						);
 					})
 					.finally(() => {
 						setIsLoadingVote(false);
@@ -60,24 +73,23 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 			}
 		});
 		return () => unsubscribe();
-	}, [itemId]); // Removed currentUser dependency to avoid re-fetching on every currentUser object change if only uid matters
+	}, [itemId, auth, db]); // Add auth and db to dependency array
 
 	const handleFeedback = useCallback(
 		async (feedbackType: VoteType) => {
 			if (!currentUser) {
 				toast.error("Please log in to vote.");
-				// Consider calling a global modal open function here if available
 				return;
 			}
-
 			if (currentUser.uid === itemAuthorId) {
-				// This check should ideally prevent this function from being called
-				// by not rendering the buttons for the author, but as a safeguard:
 				toast.error("You cannot vote on your own " + itemType + ".");
 				return;
 			}
-
-			if (isSubmittingVote) return;
+			if (isSubmittingVote || !db) {
+				// Check for db
+				if (!db) toast.error("Database service unavailable.");
+				return;
+			}
 			setIsSubmittingVote(true);
 
 			const previousHelpfulVotes = helpfulVotes;
@@ -108,21 +120,18 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 			setCurrentUserVote(newVoteStatusForUI);
 
 			try {
-				// castVote MUST update the parent item's (post/answer) vote counts in Firestore
 				await castVote(
+					db, // Pass db
 					currentUser.uid,
 					itemId,
 					itemType,
 					feedbackType,
 					previousUserVoteStatus,
-					itemAuthorId, // Pass itemAuthorId (for potential checks in castVote, not strictly needed for vote logic)
-					itemType === "answer" ? postIdForItem : undefined, // Pass parent postId if item is an answer
+					itemAuthorId,
+					itemType === "answer" ? postIdForItem : undefined,
 				);
-				// If castVote successfully updates Firestore and returns new counts, you could use them.
-				// Otherwise, rely on Firestore listeners or re-fetch to get authoritative counts.
-				// For now, optimistic updates are kept.
 			} catch (error: any) {
-				console.error("Error submitting vote:", error);
+				console.error("VoteButtons: Error submitting vote:", error);
 				toast.error(
 					error.message || "Failed to submit vote. Please try again.",
 				);
@@ -143,6 +152,7 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 			currentUserVote,
 			itemId,
 			postIdForItem,
+			db, // Add db to dependency array
 		],
 	);
 
@@ -150,8 +160,6 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 	const helpfulPercentage =
 		totalVotes > 0 ? (helpfulVotes / totalVotes) * 100 : 0;
 
-	// Hide voting buttons if the current user is the author of the item.
-	// Show stats regardless (or conditionally based on your preference).
 	if (itemAuthorId && currentUser && itemAuthorId === currentUser.uid) {
 		return (
 			<div className='feedback-buttons-container is-author'>
@@ -182,7 +190,7 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 	}
 
 	const commonButtonProps = {
-		disabled: isSubmittingVote || isLoadingVote || !currentUser,
+		disabled: isSubmittingVote || isLoadingVote || !currentUser || !db, // Add !db
 	};
 
 	return (
@@ -226,8 +234,8 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 					{totalVotes > 0 ? (
 						<>
 							<p className='helpfulness-stat-text'>
-								{helpfulVotes} of {totalVotes} user
-								{totalVotes === 1 ? "" : "s"} found this helpful.
+								{helpfulVotes} of {totalVotes} user{totalVotes === 1 ? "" : "s"}{" "}
+								found this helpful.
 							</p>
 							<div className='helpfulness-bar-container'>
 								<div
