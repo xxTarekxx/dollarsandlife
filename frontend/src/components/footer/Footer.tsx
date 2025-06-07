@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 
 // Static SVG Imports (handled by Webpack asset loader)
-import FacebookIcon from "../../assets/favicon/facebook-icon.svg";
-import InstagramIcon from "../../assets/favicon/instagram-icon.svg";
-import YoutubeIcon from "../../assets/favicon/youtube-icon.svg";
+import FacebookIcon from "../../../src/assets/images/favicon/facebook-icon.svg";
+import InstagramIcon from "../../../src/assets/images/favicon/instagram-icon.svg";
+import YoutubeIcon from "../../../src/assets/images/favicon/youtube-icon.svg";
 
 const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();

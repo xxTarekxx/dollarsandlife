@@ -34,7 +34,7 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 		if (searchDataLoaded || isLoadingSearch) return;
 		setIsLoadingSearch(true);
 
-		const API_BASE = process.env.REACT_APP_API_BASE || "/api";
+		const API_BASE = import.meta.env.VITE_REACT_APP_API_BASE || "/api";
 
 		const endpointsToFetch = [
 			{

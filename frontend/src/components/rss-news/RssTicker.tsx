@@ -12,7 +12,7 @@ const REFRESH_INTERVAL = 3780000; // 1 hour 3 minutes
 
 const RssTicker: React.FC = () => {
 	const [articles, setArticles] = useState<Article[]>([]);
-	const API_KEY = process.env.REACT_APP_RSS2JSON_API_KEY;
+	const API_KEY = import.meta.env.VITE_REACT_APP_RSS2JSON_API_KEY;
 
 	// Fetch RSS Feed
 	const fetchRSS = useCallback(async () => {
