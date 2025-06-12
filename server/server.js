@@ -1,78 +1,69 @@
-// D:\project\dollarsandlife\server\server.js
-console.log(`<<<< SERVER.JS STARTING - VERSION ${Date.now()} >>>>`);
+// /var/www/html/dollarsandlife/server.js
+
+console.log(`<<<< NON-SSR SERVER.JS STARTING - VERSION ${Date.now()} >>>>`);
 
 const express = require('express');
 const cors = require('cors');
-const path = require('path'); // Ensure path is required
+const path = require('path');
 const { MongoClient } = require('mongodb');
-require('dotenv').config({ path: path.resolve(__dirname, '.env') }); // This loads variables from server/.env
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
+const PORT = process.env.PORT || 5001;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-// === PORT HANDLING IS HERE ===
-const PORT = process.env.PORT || 5000; // This line reads PORT from your server/.env file.
-// If not found, it defaults to 5000.
-// === END OF PORT HANDLING ===
-
-const MONGODB_URI_SERVER = process.env.MONGODB_URI; // This reads MONGODB_URI from server/.env
-
-if (!MONGODB_URI_SERVER) {
-    console.error("❌ FATAL ERROR (server.js): MONGODB_URI is missing. Application cannot start.");
+if (!MONGODB_URI) {
+    console.error("❌ MONGODB_URI is missing from .env");
     process.exit(1);
 }
-console.log(`[server.js] MONGODB_URI for server: ${MONGODB_URI_SERVER ? '******' : 'MISSING'}`);
 
 let dbInstance;
-
 async function connectDB() {
     if (dbInstance) return dbInstance;
-    try {
-        const client = await MongoClient.connect(MONGODB_URI_SERVER);
-        dbInstance = client.db('dollarsandlife_data');
-        console.log("✅ Successfully connected to MongoDB and selected 'dollarsandlife_data' database.");
-        return dbInstance;
-    } catch (e) {
-        console.error("❌ Failed to connect to MongoDB:", e);
-        throw e;
-    }
+    const client = await MongoClient.connect(MONGODB_URI);
+    dbInstance = client.db('dollarsandlife_data');
+    console.log("✅ Connected to MongoDB dollarsandlife_data");
+    return dbInstance;
 }
 
+app.use(cors());
+app.use(express.json());
+
+// Attach DB to each request
 app.use(async (req, res, next) => {
     if (!dbInstance) {
         try {
             await connectDB();
         } catch (e) {
-            return res.status(503).json({ error: "Database not available" });
+            return res.status(503).json({ error: "Database unavailable" });
         }
     }
     req.db = dbInstance;
     next();
 });
 
-const routesPath = path.resolve(__dirname, './routes.js');
-delete require.cache[routesPath];
-const routes = require(routesPath);
-
-app.use(cors());
-app.use(express.json());
+// API routes
+const routes = require('./routes.js');
 app.use('/api', routes);
 
-if (process.env.NODE_ENV === 'production') {
-    const buildPath = __dirname;
-    app.use(express.static(buildPath));
-    app.get('/{*splat}', (req, res, next) => {
-        if (req.originalUrl.startsWith('/api/')) {
-            return next();
-        }
-        res.sendFile(path.join(buildPath, 'index.html'));
-    });
-}
+// Serve static files
+app.use(express.static(__dirname));
 
+// Wildcard route for React/SPA frontend (Express 5+ syntax)
+// Fallback route: only respond if not an API route or static file
+app.use((req, res, next) => {
+    if (req.url.startsWith('/api/') || req.url.includes('.')) {
+        return next(); // pass to 404 or static handler
+    }
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+
+const port = process.env.PORT || 5001;
+
+// Start server
 connectDB().then(() => {
-    app.listen(PORT, () => { // The PORT variable (from .env or default) is used here
-        console.log(`🚀 Full Server with new wildcard running at http://localhost:${PORT}`);
+    app.listen(port, '0.0.0.0', () => {
+        console.log(`🚀 Server running at http://0.0.0.0:${port}`);
     });
-}).catch(err => {
-    console.error("💀 Server failed to start due to MongoDB connection error:", err);
-    process.exit(1);
 });
