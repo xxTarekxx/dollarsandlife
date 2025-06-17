@@ -3,7 +3,6 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 import "./BlogPostContent.css";
-// import "../../components/AdComponent.css";
 import "../../pages/category/extra-income/CommonStyles.css";
 
 interface BlogPostContentProps {
@@ -16,11 +15,17 @@ interface CaseStudy {
 	stats: string;
 }
 
+interface SectionImage {
+	url: string;
+	caption: string;
+}
+
 interface PostContent {
 	subtitle?: string;
 	text?: string;
 	details?: string;
 	image?: string;
+	images?: SectionImage[];
 	bulletPoints?: string[];
 	stats?: string | string[];
 	expertQuotes?: string | string[];
@@ -89,13 +94,9 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 				`${import.meta.env.VITE_REACT_APP_API_BASE}/${jsonFile}/${postId}`,
 			);
 
-			console.log("📡 Request:", response.status);
-
 			if (!response.ok) throw new Error("Failed to fetch post");
 
 			const selectedPost = await response.json();
-			console.log("🧪 Post content:", selectedPost);
-
 			setPost(selectedPost);
 		} catch (error) {
 			console.error("❌ Error fetching post:", error);
@@ -116,12 +117,22 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 		return stripped.slice(0, 155) + (stripped.length > 155 ? "..." : "");
 	}, [post]);
 
-	const postContentMemo = useMemo(() => {
-		if (!post) return null;
+	if (!post) return <div>Loading...</div>;
 
-		return (
+	return (
+		<div className='page-container'>
+			<Helmet>
+				<title>{post.headline}</title>
+				<meta name='description' content={cleanDescription} />
+				<link
+					rel='canonical'
+					href={post.canonicalUrl || window.location.href}
+				/>
+			</Helmet>
+
 			<div className='blog-post-content'>
 				<h1>{post.headline}</h1>
+
 				<div className='image-box'>
 					<img
 						src={post.image.url}
@@ -132,6 +143,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 						height='354px'
 					/>
 				</div>
+
 				<div className='author-date'>
 					<p className='author'>By: {post.author.name}</p>
 					<p className='published-updated-date'>
@@ -140,6 +152,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 							` | Updated: ${new Date(post.dateModified).toLocaleDateString()}`}
 					</p>
 				</div>
+
 				<div className='top-banner-container'>
 					<a
 						href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -163,17 +176,24 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 						{section.subtitle && <h2>{section.subtitle}</h2>}
 						{section.text && <>{parseString(section.text)}</>}
 
-						{section.details && (
-							<p className='details'>{parseString(section.details)}</p>
-						)}
-						{section.image && (
-							<img
-								src={section.image}
-								alt='Section visual'
-								className='section-image'
-								loading='lazy'
-							/>
-						)}
+						{section.images &&
+							Array.isArray(section.images) &&
+							section.images.map((img, i) => (
+								<div key={i} className='section-image-box'>
+									<img
+										src={img.url}
+										alt={img.caption}
+										className='section-image'
+										width='450'
+										height='300'
+										loading='lazy'
+									/>
+									{img.caption && (
+										<p className='image-caption'>{img.caption}</p>
+									)}
+								</div>
+							))}
+
 						{section.bulletPoints && (
 							<ul>
 								{section.bulletPoints.map((point, i) => (
@@ -248,22 +268,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ jsonFile }) => {
 					</div>
 				))}
 			</div>
-		);
-	}, [post, parseString, renderArrayOrString]);
-
-	if (!post) return <div>Loading...</div>;
-
-	return (
-		<div className='page-container'>
-			<Helmet>
-				<title>{post.headline}</title>
-				<meta name='description' content={cleanDescription} />
-				<link
-					rel='canonical'
-					href={post.canonicalUrl || window.location.href}
-				/>
-			</Helmet>
-			{postContentMemo}
 		</div>
 	);
 });
