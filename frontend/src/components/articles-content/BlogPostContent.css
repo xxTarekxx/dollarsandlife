@@ -71,6 +71,15 @@
     height: 300px;
 }
 
+.blog-post-content .image-caption {
+    text-align: center;
+    font-size: 0.95em;
+    color: #555;
+    margin-top: 0.4em;
+    font-style: italic;
+}
+
+
 .blog-post-content pre {
     white-space: pre-wrap;
     word-wrap: break-word;
