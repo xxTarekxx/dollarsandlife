@@ -1,14 +1,8 @@
-import React, {
-	Suspense,
-	lazy,
-	memo,
-	// useCallback, // Keep useCallback import if SearchFeature or other parts still use it
-	useState,
-} from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./NavBar.css";
-import logoImagePath from "../../assets/images/website-logo.webp";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { Suspense, lazy, memo, useEffect, useState } from "react";
 import searchIcon from "../../assets/images/favicon/searchicon.svg";
+import logoImagePath from "../../assets/images/website-logo.webp";
 
 // Lazily import the SearchFeature component
 const SearchFeature = lazy(() => import("./SearchFeature"));
@@ -21,9 +15,14 @@ const NavBar: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isClosing, setIsClosing] = useState(false); // For menu animation
 	const [searchOpen, setSearchOpen] = useState(false);
+	const [isClient, setIsClient] = useState(false);
 
-	const navigate = useNavigate();
-	const location = useLocation();
+	const router = useRouter();
+
+	// Ensure we're on the client side
+	useEffect(() => {
+		setIsClient(true);
+	}, []);
 
 	// --- Handlers ---
 
@@ -51,6 +50,8 @@ const NavBar: React.FC = () => {
 
 	// Close Menu & Navigate (Viewport Aware)
 	const closeMenuAndNavigate = (to: string) => {
+		if (!isClient) return;
+
 		const isMobile = window.matchMedia(
 			`(max-width: ${MOBILE_BREAKPOINT}px)`,
 		).matches;
@@ -62,16 +63,16 @@ const NavBar: React.FC = () => {
 					// Use setTimeout to allow animation to play
 					setMenuOpen(false);
 					setIsClosing(false);
-					navigate(to);
+					router.push(to);
 				}, 400); // Match CSS animation duration
 			} else {
 				// If menu isn't open on mobile, just navigate (e.g. logo click)
 				// Or if it's already closing, the navigation will happen after animation.
-				if (!menuOpen) navigate(to);
+				if (!menuOpen) router.push(to);
 			}
 		} else {
 			// Desktop: just navigate
-			navigate(to);
+			router.push(to);
 		}
 	};
 
@@ -100,22 +101,25 @@ const NavBar: React.FC = () => {
 		{ to: "/extra-income", text: "Extra Income" },
 		{ to: "/shopping-deals", text: "Shopping Deals" },
 		{ to: "/start-a-blog", text: "Start A Blog" },
-
 		{ to: "/breaking-news", text: "Breaking News" },
 		{ to: "/financial-calculators", text: "Financial Calculators" },
 		{ to: "/about-us", text: "About Us" },
 	];
+
+	// Get current pathname safely
+	const currentPathname = isClient ? router.pathname : "";
 
 	return (
 		<nav className='nav'>
 			{/* Logo */}
 			<div className='logo'>
 				<Link
-					to='/'
+					href='/'
 					aria-label='Home'
 					onClick={(e) => {
 						// Ensure menu closes if logo is clicked on mobile
 						if (
+							isClient &&
 							menuOpen &&
 							window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches
 						) {
@@ -126,7 +130,7 @@ const NavBar: React.FC = () => {
 					}}
 				>
 					<img
-						src={logoImagePath}
+						src={logoImagePath.src}
 						alt='Logo'
 						className='logo'
 						width='240'
@@ -150,13 +154,13 @@ const NavBar: React.FC = () => {
 						) => (
 							<Link
 								key={i}
-								to={link.to}
+								href={link.to}
 								className={`menu-item ${
 									// Special highlighting for "Ask a Question" if on any /forum path
 									(link.to === "/forum" &&
-										location.pathname.startsWith("/forum")) ||
-									(location.pathname.startsWith(link.to) && link.to !== "/") || // Avoid highlighting all for "/"
-									(location.pathname === "/" && link.to === "/") // Explicitly for home if needed
+										currentPathname.startsWith("/forum")) ||
+									(currentPathname.startsWith(link.to) && link.to !== "/") || // Avoid highlighting all for "/"
+									(currentPathname === "/" && link.to === "/") // Explicitly for home if needed
 										? "active"
 										: ""
 								}`}
@@ -193,7 +197,7 @@ const NavBar: React.FC = () => {
 					aria-label='Toggle search'
 				>
 					<img
-						src={searchIcon}
+						src={searchIcon.src}
 						alt='Search icon'
 						className='search-icon-image'
 					/>

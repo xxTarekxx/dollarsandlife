@@ -1,5 +1,4 @@
 import React from "react";
-import "./PaginationContainer.css";
 
 interface PaginationContainerProps {
 	totalItems: number;

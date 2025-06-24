@@ -1,7 +1,5 @@
 // /var/www/html/dollarsandlife/server.js
 
-console.log(`<<<< NON-SSR SERVER.JS STARTING - VERSION ${Date.now()} >>>>`);
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');

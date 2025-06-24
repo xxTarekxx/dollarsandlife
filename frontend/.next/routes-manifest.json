@@ -1,0 +1,317 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "dynamicRoutes": [
+    {
+      "page": "/breaking-news/[id]",
+      "regex": "^/breaking\\-news/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/breaking\\-news/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/extra-income/budget/[id]",
+      "regex": "^/extra\\-income/budget/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/extra\\-income/budget/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/extra-income/freelance-jobs/[id]",
+      "regex": "^/extra\\-income/freelance\\-jobs/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/extra\\-income/freelance\\-jobs/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/extra-income/money-making-apps/[id]",
+      "regex": "^/extra\\-income/money\\-making\\-apps/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/extra\\-income/money\\-making\\-apps/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/extra-income/remote-online-jobs/[id]",
+      "regex": "^/extra\\-income/remote\\-online\\-jobs/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/extra\\-income/remote\\-online\\-jobs/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/forum/post/[slug]",
+      "regex": "^/forum/post/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/forum/post/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/shopping-deals/products/[productId]",
+      "regex": "^/shopping\\-deals/products/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPproductId": "nxtPproductId"
+      },
+      "namedRegex": "^/shopping\\-deals/products/(?<nxtPproductId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/start-a-blog/[id]",
+      "regex": "^/start\\-a\\-blog/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/start\\-a\\-blog/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/about-us",
+      "regex": "^/about\\-us(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about\\-us(?:/)?$"
+    },
+    {
+      "page": "/breaking-news",
+      "regex": "^/breaking\\-news(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/breaking\\-news(?:/)?$"
+    },
+    {
+      "page": "/contact-us",
+      "regex": "^/contact\\-us(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact\\-us(?:/)?$"
+    },
+    {
+      "page": "/extra-income",
+      "regex": "^/extra\\-income(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/extra\\-income(?:/)?$"
+    },
+    {
+      "page": "/extra-income/budget",
+      "regex": "^/extra\\-income/budget(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/extra\\-income/budget(?:/)?$"
+    },
+    {
+      "page": "/extra-income/freelance-jobs",
+      "regex": "^/extra\\-income/freelance\\-jobs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/extra\\-income/freelance\\-jobs(?:/)?$"
+    },
+    {
+      "page": "/extra-income/money-making-apps",
+      "regex": "^/extra\\-income/money\\-making\\-apps(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/extra\\-income/money\\-making\\-apps(?:/)?$"
+    },
+    {
+      "page": "/extra-income/remote-online-jobs",
+      "regex": "^/extra\\-income/remote\\-online\\-jobs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/extra\\-income/remote\\-online\\-jobs(?:/)?$"
+    },
+    {
+      "page": "/financial-calculators",
+      "regex": "^/financial\\-calculators(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/financial\\-calculators(?:/)?$"
+    },
+    {
+      "page": "/forum",
+      "regex": "^/forum(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/forum(?:/)?$"
+    },
+    {
+      "page": "/forum/create-post",
+      "regex": "^/forum/create\\-post(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/forum/create\\-post(?:/)?$"
+    },
+    {
+      "page": "/privacy-policy",
+      "regex": "^/privacy\\-policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy\\-policy(?:/)?$"
+    },
+    {
+      "page": "/return-policy",
+      "regex": "^/return\\-policy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/return\\-policy(?:/)?$"
+    },
+    {
+      "page": "/sentrypc-landing",
+      "regex": "^/sentrypc\\-landing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sentrypc\\-landing(?:/)?$"
+    },
+    {
+      "page": "/shopping-deals",
+      "regex": "^/shopping\\-deals(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/shopping\\-deals(?:/)?$"
+    },
+    {
+      "page": "/start-a-blog",
+      "regex": "^/start\\-a\\-blog(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/start\\-a\\-blog(?:/)?$"
+    },
+    {
+      "page": "/terms-of-service",
+      "regex": "^/terms\\-of\\-service(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms\\-of\\-service(?:/)?$"
+    }
+  ],
+  "dataRoutes": [
+    {
+      "page": "/breaking-news",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/breaking-news\\.json$"
+    },
+    {
+      "page": "/breaking-news/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/breaking\\-news/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/breaking\\-news/(?<nxtPid>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/extra-income/budget",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra-income/budget\\.json$"
+    },
+    {
+      "page": "/extra-income/budget/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/budget/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/budget/(?<nxtPid>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/extra-income/freelance-jobs",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra-income/freelance-jobs\\.json$"
+    },
+    {
+      "page": "/extra-income/freelance-jobs/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/freelance\\-jobs/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/freelance\\-jobs/(?<nxtPid>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/extra-income/money-making-apps",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra-income/money-making-apps\\.json$"
+    },
+    {
+      "page": "/extra-income/money-making-apps/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/money\\-making\\-apps/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/money\\-making\\-apps/(?<nxtPid>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/extra-income/remote-online-jobs",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra-income/remote-online-jobs\\.json$"
+    },
+    {
+      "page": "/extra-income/remote-online-jobs/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/remote\\-online\\-jobs/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/extra\\-income/remote\\-online\\-jobs/(?<nxtPid>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/forum",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/forum\\.json$"
+    },
+    {
+      "page": "/forum/create-post",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/forum/create-post\\.json$"
+    },
+    {
+      "page": "/forum/post/[slug]",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/forum/post/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/forum/post/(?<nxtPslug>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/shopping-deals",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/shopping-deals\\.json$"
+    },
+    {
+      "page": "/shopping-deals/products/[productId]",
+      "routeKeys": {
+        "nxtPproductId": "nxtPproductId"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/shopping\\-deals/products/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/shopping\\-deals/products/(?<nxtPproductId>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/start-a-blog",
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/start-a-blog\\.json$"
+    },
+    {
+      "page": "/start-a-blog/[id]",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "dataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/start\\-a\\-blog/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/eCjca6nyRhPMIgEeOQ8ri/start\\-a\\-blog/(?<nxtPid>[^/]+?)\\.json$"
+    }
+  ],
+  "rsc": {
+    "header": "RSC",
+    "varyHeader": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch",
+    "prefetchHeader": "Next-Router-Prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "Next-Router-Segment-Prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*",
+      "regex": "^/api(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    }
+  ]
+}

@@ -1,53 +1,41 @@
 {
   "compilerOptions": {
-    "target": "ESNext", // Common to use uppercase for newer targets
-    "useDefineForClassFields": true, // Recommended by Vite for new projects
+    "target": "ES2017",
     "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
+      "dom",
+      "dom.iterable",
+      "es6"
     ],
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": true, // Enables allowSyntheticDefaultImports
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    // "moduleResolution": "node", // Vite works well with "bundler" or "node"
-    "moduleResolution": "bundler", // Recommended for Vite with modern TypeScript
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    // Path Aliases for TypeScript
-    "baseUrl": ".", // Base directory for path resolution
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ]
-      // Add more aliases here if you create them in vite.config.ts
-      // e.g., "@components/*": ["src/components/*"]
-    },
-    // TypeRoots are usually automatically discovered from node_modules/@types
-    // Explicitly listing it is fine but often not necessary.
-    // "typeRoots": ["./node_modules/@types"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@pages/*": ["./pages/*"],
+      "@public/*": ["./public/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@types/*": ["./src/types/*"]
+    }
   },
   "include": [
-    "src", // Include all files in the src directory
-    "vite.config.ts", // Include Vite config for better TS support if it uses TS features directly
-    // Ensure your asset type declaration file is listed if not broadly included by "src"
-    // If assets.d.ts is directly in src, "src" above covers it.
-    // If it's elsewhere, like `src/types/assets.d.ts`, ensure that path is covered.
-    // The line below assumes it's `src/assets.d.ts`
-    "src/assets.d.ts"
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
   ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ] // Recommended by Vite for new projects
+  "exclude": [
+    "node_modules"
+  ]
 }

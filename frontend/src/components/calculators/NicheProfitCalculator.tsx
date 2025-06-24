@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
-import "./FinancialCalculators.css";
+import React, { useCallback, useMemo, useState } from "react";
 
 export const NicheProfitCalculator: React.FC = () => {
 	const [revenue, setRevenue] = useState("");

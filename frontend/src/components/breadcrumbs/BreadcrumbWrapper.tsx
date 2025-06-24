@@ -1,31 +1,46 @@
+import { useRouter } from "next/router";
 import React from "react";
-import { useLocation } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 
 // Map of URL paths to breadcrumb titles
 const breadcrumbNameMap: Record<string, string> = {
 	"/": "Home",
+	"/forum": "Forum",
 	"/extra-income": "Extra Income",
-	"/extra-income/freelancers": "Freelancers",
+	"/extra-income/freelance-jobs": "Freelance Jobs",
 	"/extra-income/budget": "Budgeting",
-	"/extra-income/remote-jobs": "Remote Jobs",
-	"/extra-income/side-hustles": "Side Hustles",
+	"/extra-income/remote-online-jobs": "Remote Online Jobs",
 	"/extra-income/money-making-apps": "Money Making Apps",
 	"/shopping-deals": "Shopping Deals",
 	"/start-a-blog": "Start A Blog",
 	"/breaking-news": "Breaking News",
 	"/financial-calculators": "Financial Calculators",
+	"/about-us": "About Us",
+	"/contact-us": "Contact Us",
+	"/privacy-policy": "Privacy Policy",
+	"/terms-of-service": "Terms of Service",
+	"/return-policy": "Return Policy",
+	"/forum/create-post": "Create Post",
 };
 
 const BreadcrumbWrapper: React.FC = () => {
-	const location = useLocation();
+	const router = useRouter();
 
-	const paths = location.pathname.split("/").filter(Boolean); // Removes empty strings from splitting
+	// Use asPath instead of pathname to get the actual URL path
+	const paths = router.asPath.split("/").filter(Boolean); // Removes empty strings from splitting
 
 	const breadcrumbPaths = paths.reduce<{ title: string; url: string }[]>(
 		(acc, path, index) => {
 			const url = `/${paths.slice(0, index + 1).join("/")}`;
-			const title = breadcrumbNameMap[url] || decodeURIComponent(path);
+			// Try to get the title from the map, fallback to a formatted version of the path
+			let title = breadcrumbNameMap[url];
+			if (!title) {
+				// For dynamic routes (like [id]), format the actual path segment
+				title = decodeURIComponent(path)
+					.split("-")
+					.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+					.join(" ");
+			}
 			acc.push({ title, url });
 			return acc;
 		},

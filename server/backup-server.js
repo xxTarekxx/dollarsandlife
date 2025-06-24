@@ -1,6 +1,4 @@
 // D:\project\dollarsandlife\server\server.js
-console.log(`<<<< SERVER.JS STARTING - VERSION ${Date.now()} >>>>`);
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path'); // Ensure path is required
@@ -15,7 +13,6 @@ if (!MONGODB_URI_SERVER) {
     console.error("❌ FATAL ERROR (server.js): MONGODB_URI is missing. Application cannot start.");
     process.exit(1);
 }
-console.log(`[server.js] MONGODB_URI for server: ${MONGODB_URI_SERVER ? '******' : 'MISSING'}`);
 
 let dbInstance;
 
@@ -24,10 +21,8 @@ async function connectDB() {
     try {
         const client = await MongoClient.connect(MONGODB_URI_SERVER);
         dbInstance = client.db('dollarsandlife_data');
-        console.log("✅ Successfully connected to MongoDB and selected 'dollarsandlife_data' database.");
         return dbInstance;
     } catch (e) {
-        console.error("❌ Failed to connect to MongoDB:", e);
         throw e;
     }
 }

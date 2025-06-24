@@ -1,0 +1,105 @@
+/* frontend/src/components/forum/VoteButtons.css */ /* Updated path comment */
+.feedback-buttons-container {
+    /* Renamed from vote-buttons-container for clarity */
+    display: flex;
+    flex-direction: column;
+    /* Stack buttons and then the text stat */
+    align-items: flex-start;
+    /* Align items to the start */
+    gap: 8px;
+}
+
+.feedback-actions {
+    /* Container for the two buttons */
+    display: flex;
+    gap: 10px;
+}
+
+.feedback-button {
+    font-family: 'Trebuchet MS', serif;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 6px 12px;
+    /* Adjusted padding */
+    cursor: pointer;
+    font-size: 12px;
+    /* Slightly smaller font */
+    font-weight: 600;
+    color: #495057;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    display: inline-flex;
+    /* For potential icons later */
+    align-items: center;
+}
+
+.feedback-button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.feedback-button.selected {
+    /* Style for when a button is selected by the current user */
+    /* Helpful selected */
+}
+
+.feedback-button.helpful.selected {
+    background-color: #d4edda;
+    /* Light green */
+    border-color: #c3e6cb;
+    color: #155724;
+    /* Dark green text */
+}
+
+.feedback-button.not-helpful.selected {
+    background-color: #f8d7da;
+    /* Light red */
+    border-color: #f5c6cb;
+    color: #721c24;
+    /* Dark red text */
+}
+
+
+.feedback-button svg {
+    /* If you add SVG icons later */
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    fill: currentColor;
+}
+
+.helpfulness-stat-text {
+    font-size: 12px;
+    color: #6c757d;
+    /* Grey text for the stat */
+    margin-top: 4px;
+    /* Space above the text if buttons are above */
+}
+
+/* ... (all previous styles for .feedback-buttons-container, .feedback-actions, .feedback-button, .helpfulness-stat-text) ... */
+
+.helpfulness-bar-container {
+    width: 120px;
+    /* Or a percentage like 100%, max-width can control it */
+    height: 8px;
+    /* Height of the bar */
+    background-color: #e9ecef;
+    /* Background of the bar track */
+    border-radius: 4px;
+    /* Rounded corners for the track */
+    overflow: hidden;
+    /* To keep the foreground bar contained */
+    margin-top: 5px;
+    /* Space above the bar */
+}
+
+.helpfulness-bar-foreground {
+    height: 100%;
+    background-color: #28a745;
+    /* Green for helpful percentage */
+    border-radius: 4px;
+    /* Match container's rounding */
+    transition: width 0.3s ease-in-out;
+    /* Smooth transition for width changes */
+    /* The 'width' property will be set inline via style prop in React based on percentage */
+}

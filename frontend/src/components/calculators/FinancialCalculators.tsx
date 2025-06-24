@@ -1,14 +1,13 @@
+import Head from "next/head";
 import React, { memo } from "react";
-import { Helmet } from "react-helmet-async";
-import "./FinancialCalculators.css";
 import { AutoLoanCalculator } from "./AutoLoanCalculator";
 import { CreditCardCalculator } from "./CreditCardCalculator";
 import { LoanPaymentCalculator } from "./LoanPaymentCalculator";
 import { MortgageCalculator } from "./MortgageCalculator";
+import { NicheProfitCalculator } from "./NicheProfitCalculator";
 import { RetirementCalculator } from "./RetirementCalculator";
 import { SavingsCalculator } from "./SavingsCalculator";
 import { TaxCalculator } from "./TaxCalculator";
-import { NicheProfitCalculator } from "./NicheProfitCalculator";
 
 const FinancialCalculators: React.FC = memo(() => {
 	const calculators = [
@@ -56,7 +55,7 @@ const FinancialCalculators: React.FC = memo(() => {
 
 	return (
 		<div className='financial-calculators-container'>
-			<Helmet>
+			<Head>
 				<title>Modern Financial Calculators | Dollars & Life</title>
 				<meta
 					name='description'
@@ -66,7 +65,7 @@ const FinancialCalculators: React.FC = memo(() => {
 					rel='canonical'
 					href='https://www.dollarsandlife.com/financial-calculators'
 				/>
-			</Helmet>
+			</Head>
 
 			<h1>Plan your financial future with our interactive tools</h1>
 

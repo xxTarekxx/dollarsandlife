@@ -1,38 +1,38 @@
+import Head from "next/head";
+import Link from "next/link";
 import React from "react"; // Added to potentially fix "React is not defined" error
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
 import "./NotFoundPage.css"; // Ensure this CSS file exists and is correctly imported
 
 const NotFoundPage: React.FC = () => {
 	return (
 		<div className='not-found-page'>
-			<Helmet>
+			<Head>
 				<title>404 - Page Not Found | Dollars & Life</title>
 				<meta name='robots' content='noindex, follow' />
-			</Helmet>
+			</Head>
 			<div className='not-found-content'>
 				<h1>404 - Page Not Found</h1>
 				<p>Oops! The page you're looking for doesn't exist.</p>
-				<Link to='/' className='back-home-btn'>
+				<Link href='/' className='back-home-btn'>
 					Go Back Home
 				</Link>
 				<div className='suggested-links'>
 					<h2>Explore Other Pages:</h2>
 					<ul>
 						<li>
-							<Link to='/extra-income'>Extra Income</Link>
+							<Link href='/extra-income'>Extra Income</Link>
 						</li>
 						<li>
-							<Link to='/shopping-deals'>Shopping Deals</Link>
+							<Link href='/shopping-deals'>Shopping Deals</Link>
 						</li>
 						<li>
-							<Link to='/start-a-blog'>Start A Blog</Link>
+							<Link href='/start-a-blog'>Start A Blog</Link>
 						</li>
 						<li>
-							<Link to='/breaking-news'>Breaking News</Link>
+							<Link href='/breaking-news'>Breaking News</Link>
 						</li>
 						<li>
-							<Link to='/financial-calculators'>Financial Calculators</Link>
+							<Link href='/financial-calculators'>Financial Calculators</Link>
 						</li>
 					</ul>
 				</div>

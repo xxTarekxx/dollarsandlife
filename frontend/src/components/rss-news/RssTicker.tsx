@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import "./RssTicker.css";
 
 interface Article {
 	title: string;
@@ -12,12 +11,14 @@ const REFRESH_INTERVAL = 3780000; // 1 hour 3 minutes
 
 const RssTicker: React.FC = () => {
 	const [articles, setArticles] = useState<Article[]>([]);
-	const API_KEY = import.meta.env.VITE_REACT_APP_RSS2JSON_API_KEY;
+	const [isLoading, setIsLoading] = useState(true);
+	const API_KEY = process.env.NEXT_PUBLIC_RSS2JSON_API_KEY;
 
 	// Fetch RSS Feed
 	const fetchRSS = useCallback(async () => {
 		if (!API_KEY) {
-			console.error("Missing API Key: Check your .env file!");
+			// Don't show error in console, just set loading to false
+			setIsLoading(false);
 			return;
 		}
 
@@ -38,6 +39,8 @@ const RssTicker: React.FC = () => {
 			setArticles(data.items);
 		} catch (error) {
 			console.error("RSS Feed Error:", error);
+		} finally {
+			setIsLoading(false);
 		}
 	}, [API_KEY]);
 
@@ -52,10 +55,17 @@ const RssTicker: React.FC = () => {
 		};
 	}, [fetchRSS]);
 
+	// Don't render anything if no API key is configured
+	if (!API_KEY) {
+		return null;
+	}
+
 	return (
 		<div className='rss-ticker' aria-label='Latest Financial News Ticker'>
 			<div className='rss-ticker-content'>
-				{articles.length > 0 ? (
+				{isLoading ? (
+					<p>Loading latest financial news...</p>
+				) : articles.length > 0 ? (
 					articles.map((article, index) => (
 						<a
 							key={index}
@@ -67,7 +77,7 @@ const RssTicker: React.FC = () => {
 						</a>
 					))
 				) : (
-					<p>Loading latest financial news...</p>
+					<p>No news available at the moment.</p>
 				)}
 			</div>
 		</div>
