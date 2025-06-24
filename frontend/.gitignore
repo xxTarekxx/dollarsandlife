@@ -6,6 +6,8 @@ fixJsonFields.js
 .htaccess
 f2f534c237f3484bbed9b00b5ccad78a.txt
 robots.txt
+.env
+.env.production
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
