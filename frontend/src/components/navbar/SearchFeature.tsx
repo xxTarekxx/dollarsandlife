@@ -1,6 +1,5 @@
+import { useRouter } from "next/router";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./NavBar.css";
 
 interface Post {
 	id: string;
@@ -28,13 +27,13 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 
 	const searchRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
-	const navigate = useNavigate();
+	const router = useRouter();
 
 	const loadSearchData = useCallback(async () => {
 		if (searchDataLoaded || isLoadingSearch) return;
 		setIsLoadingSearch(true);
 
-		const API_BASE = import.meta.env.VITE_REACT_APP_API_BASE || "/api";
+		const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "/api";
 
 		const endpointsToFetch = [
 			{
@@ -82,15 +81,25 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 						console.warn(`Failed to fetch ${apiPath}: ${res.statusText}`);
 						return [];
 					}
-					const items: any[] = await res.json();
-					return items.map((item) => ({
-						id: item.id,
-						headline: item.headline,
-						identifier: identifier,
-						baseClientRoute: baseClientRoute,
-						slug: item.slug, // Expecting API to provide slug for products
-						canonicalUrl: item.canonicalUrl, // Or a full canonical URL
-					}));
+					const items = (await res.json()) as unknown[];
+					return items.map((item: unknown) => {
+						const typedItem = item as {
+							id: string;
+							headline: string;
+							identifier: string;
+							baseClientRoute: string;
+							slug?: string;
+							canonicalUrl?: string;
+						};
+						return {
+							id: typedItem.id,
+							headline: typedItem.headline,
+							identifier: identifier,
+							baseClientRoute: baseClientRoute,
+							slug: typedItem.slug,
+							canonicalUrl: typedItem.canonicalUrl,
+						};
+					});
 				} catch (err) {
 					console.warn(`Error processing or fetching ${apiPath}`, err);
 					return [];
@@ -174,12 +183,12 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 			}
 
 			if (targetRoute) {
-				navigate(targetRoute);
+				router.push(targetRoute);
 			} else {
 				console.warn(`Could not determine route for post:`, post);
 			}
 		},
-		[navigate, onClose],
+		[router, onClose],
 	);
 
 	return (

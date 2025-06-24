@@ -1,9 +1,9 @@
 // frontend/src/components/auth/AuthPromptModal.tsx
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
-import "./AuthPromptModal.css";
-import SignUp from "./SignUp";
+import styles from "./AuthPromptModal.module.css";
 import Login from "./Login";
+import SignUp from "./SignUp";
 // import { auth } from "../firebase"; // REMOVE direct import of auth
 import { Auth } from "firebase/auth"; // Import Auth type
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -13,15 +13,6 @@ interface AuthPromptModalProps {
 	auth: Auth; // Expect auth instance as a prop
 }
 
-const modalRoot =
-	document.getElementById("modal-root") ||
-	(() => {
-		const el = document.createElement("div");
-		el.id = "modal-root";
-		document.body.appendChild(el);
-		return el;
-	})();
-
 const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose, auth }) => {
 	// Receive auth as prop
 	const [mode, setMode] = useState<"login" | "signup" | null>(null);
@@ -30,9 +21,29 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose, auth }) => {
 	const [user, loadingAuth] = useAuthState(auth); // auth is from props
 	const [keepModalOpenForMessage, setKeepModalOpenForMessage] = useState(false);
 
-	const el = useMemo(() => document.createElement("div"), []);
+	// Move modalRoot creation inside component and add browser check
+	const modalRoot = useMemo(() => {
+		if (typeof window === "undefined") return null; // SSR check
+
+		return (
+			document.getElementById("modal-root") ||
+			(() => {
+				const el = document.createElement("div");
+				el.id = "modal-root";
+				document.body.appendChild(el);
+				return el;
+			})()
+		);
+	}, []);
+
+	const el = useMemo(() => {
+		if (typeof window === "undefined") return null; // SSR check
+		return document.createElement("div");
+	}, []);
 
 	useEffect(() => {
+		if (!modalRoot || !el) return; // Don't run if not in browser or elements not ready
+
 		modalRoot.appendChild(el);
 		requestAnimationFrame(() => {
 			setIsVisible(true);
@@ -42,7 +53,7 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose, auth }) => {
 				modalRoot.removeChild(el);
 			}
 		};
-	}, [el]);
+	}, [el, modalRoot]);
 
 	const handleClose = useCallback(() => {
 		setIsVisible(false);
@@ -53,66 +64,51 @@ const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose, auth }) => {
 	}, [onClose]);
 
 	useEffect(() => {
-		console.log(
-			"AUTHPROMPTMODAL: useEffect check - user:",
-			!!user,
-			"loadingAuth:",
-			loadingAuth,
-			"auth prop provided:",
-			!!auth,
-			"keepModalOpenForMessage:",
-			keepModalOpenForMessage,
-			"mode:",
-			mode,
-		);
-
 		if (!loadingAuth && user && !keepModalOpenForMessage) {
 			if (mode === "login" || mode === null) {
-				console.log(
-					"AUTHPROMPTMODAL: User authenticated, not keeping open, mode login/null. Closing.",
-				);
 				handleClose();
 			}
 		}
 	}, [user, loadingAuth, mode, handleClose, keepModalOpenForMessage, auth]); // Added auth to dep array
 
 	const handleSwitchToLogin = () => {
-		console.log("AUTHPROMPTMODAL: Switching to Login mode.");
 		setMode("login");
 		setKeepModalOpenForMessage(false);
 	};
 
 	const handleSwitchToSignUp = () => {
-		console.log("AUTHPROMPTMODAL: Switching to SignUp mode.");
 		setMode("signup");
 		setKeepModalOpenForMessage(false);
 	};
 
 	const handleSuccessfulSocialLoginInSignUp = useCallback(() => {
-		console.log(
-			"AUTHPROMPTMODAL: Social login successful in SignUp. Closing modal.",
-		);
 		setKeepModalOpenForMessage(false);
 		handleClose();
 	}, [handleClose]);
 
 	const handleEmailSignUpPendingInSignUp = useCallback(() => {
-		console.log(
-			"AUTHPROMPTMODAL: Email sign-up pending, keeping modal open for message.",
-		);
 		setKeepModalOpenForMessage(true);
 	}, []);
 
+	// Don't render anything during SSR
+	if (typeof window === "undefined" || !el || !modalRoot) {
+		return null;
+	}
+
 	const modalRenderContent = (
-		<div className={`auth-modal-overlay ${isVisible ? "fade-in" : "fade-out"}`}>
-			<div className='auth-modal-content'>
-				<button className='auth-close-btn' onClick={handleClose}>
+		<div
+			className={`${styles.authModalOverlay} ${
+				isVisible ? styles.fadeIn : styles.fadeOut
+			}`}
+		>
+			<div className={styles.authModalContent}>
+				<button className={styles.authCloseBtn} onClick={handleClose}>
 					✕
 				</button>
 				{!mode ? (
 					<>
 						<h2>Please Log In or Sign Up</h2>
-						<div className='auth-modal-buttons'>
+						<div className={styles.authModalButtons}>
 							<button onClick={handleSwitchToLogin}>Log In</button>
 							<button onClick={handleSwitchToSignUp}>Sign Up</button>
 						</div>

@@ -1,25 +1,68 @@
 // frontend/src/components/auth/SignUp.tsx
-import React, { useState, FormEvent, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./SignUp.css";
+import { useRouter } from "next/router";
+import React, { FormEvent, useEffect, useState } from "react";
+import styles from "./SignUp.module.css";
 // import { auth } from "../firebase"; // REMOVE direct import
-import { getFirebaseAuth } from "../firebase"; // Import the getter
 import {
-	Auth, // Import Auth type
-	createUserWithEmailAndPassword,
-	updateProfile,
-	sendEmailVerification,
-	signInWithPopup,
+	ActionCodeSettings,
+	Auth,
+	AuthError,
 	GoogleAuthProvider,
 	OAuthProvider,
-	UserCredential,
-	AuthError,
 	User,
+	UserCredential, // Import Auth type
+	createUserWithEmailAndPassword,
 	onAuthStateChanged,
-	ActionCodeSettings,
+	sendEmailVerification,
+	signInWithPopup,
+	updateProfile,
 } from "firebase/auth";
-import GmailIcon from "../assets/images/gmail-icon.svg";
-import MicrosoftIcon from "../assets/images/microsoft-icon.svg";
+import { getFirebaseAuth } from "../firebase"; // Import the getter
+
+// Import SVGs as React components
+const GmailIcon = () => (
+	<svg
+		width='24'
+		height='24'
+		viewBox='0 0 98.38 24.76'
+		xmlns='http://www.w3.org/2000/svg'
+	>
+		<path
+			fill='#e94235'
+			d='M0,3.38v3l3.44,3.33,4.06,2.3.75-5.05-.75-4.7-2.1-1.57C3.17-.99,0,.6,0,3.38Z'
+		/>
+		<path
+			fill='#ffba00'
+			d='M25.5,2.26l-.75,4.76.75,4.99,3.68-1.82,3.82-3.8v-3c0-2.78-3.17-4.37-5.4-2.7l-2.1,1.57Z'
+		/>
+		<path
+			fill='#2684fc'
+			d='M2.25,24.76h5.25v-12.75L0,6.38v16.12c0,1.24,1.01,2.25,2.25,2.25Z'
+		/>
+		<path
+			fill='#00ac47'
+			d='M25.5,24.76h5.25c1.24,0,2.25-1.01,2.25-2.25V6.38l-7.5,5.62v12.75Z'
+		/>
+		<path
+			fill='#c5221f'
+			d='M16.5,9.01L7.5,2.26v9.75l9,6.75,9-6.75V2.26l-9,6.75Z'
+		/>
+	</svg>
+);
+
+const MicrosoftIcon = () => (
+	<svg
+		width='24'
+		height='24'
+		viewBox='0 0 1033.7455 220.69501'
+		xmlns='http://www.w3.org/2000/svg'
+	>
+		<path d='m104.87 104.87h-104.87v-104.87h104.87v104.87z' fill='#f1511b' />
+		<path d='m220.65 104.87h-104.87v-104.87h104.87v104.87z' fill='#80cc28' />
+		<path d='m104.86 220.7h-104.86v-104.87h104.86v104.87z' fill='#00adef' />
+		<path d='m220.65 220.7h-104.87v-104.87h104.87v104.87z' fill='#fbbc09' />
+	</svg>
+);
 
 interface SignUpProps {
 	onSwitchToLogin?: () => void;
@@ -45,7 +88,7 @@ const SignUp: React.FC<SignUpProps> = ({
 	const [isEmailSignUpSuccessDisplay, setIsEmailSignUpSuccessDisplay] =
 		useState<boolean>(false);
 	const [passwordMessage, setPasswordMessage] = useState<string>("");
-	const navigate = useNavigate();
+	const router = useRouter();
 
 	const [currentAuth, setCurrentAuth] = useState<Auth | null>(propAuth || null);
 	const [authInitializedFromGetter, setAuthInitializedFromGetter] = useState(
@@ -106,26 +149,26 @@ const SignUp: React.FC<SignUpProps> = ({
 		if (!currentAuth) return; // Wait for auth
 
 		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
-			if (user && window.location.pathname === "/signup") {
+			if (user && router.pathname === "/signup") {
 				console.log(
 					"User already logged in on /signup page, redirecting to /forum",
 				);
-				navigate("/forum", { replace: true });
+				router.replace("/forum");
 			}
 		});
 		return () => unsubscribe();
-	}, [navigate, currentAuth]);
+	}, [router, currentAuth]);
 
 	const handleSuccessfulSocialLoginInternal = (user: User) => {
 		/* ... as before ... */
 		if (onSuccessfulSocialLogin) {
 			onSuccessfulSocialLogin();
-		} else if (window.location.pathname === "/signup") {
+		} else if (router.pathname === "/signup") {
 			setSuccessMessage(
 				`Welcome, ${user.displayName || "User"}! Redirecting...`,
 			);
 			setTimeout(() => {
-				navigate("/forum", { replace: true });
+				router.replace("/forum");
 			}, 2000);
 		} else {
 			setSuccessMessage(`Welcome, ${user.displayName || "User"}!`);
@@ -255,14 +298,14 @@ const SignUp: React.FC<SignUpProps> = ({
 		if (onSwitchToLogin) {
 			onSwitchToLogin();
 		} else {
-			navigate("/login");
+			router.push("/login");
 		}
 	};
 
 	if (!currentAuth && !authInitializedFromGetter && !propAuth) {
 		// Show minimal UI or loader if auth is being fetched for standalone page
 		return (
-			<div className='signup-content-wrapper auth-form-styles'>
+			<div className={styles.signupContentWrapper}>
 				<p>Loading sign up...</p>
 			</div>
 		);
@@ -272,14 +315,14 @@ const SignUp: React.FC<SignUpProps> = ({
 		// ... success display as before ...
 		console.log("SIGNUP.TSX: Now rendering success display block.");
 		return (
-			<div className='signup-content-wrapper auth-form-styles'>
-				<div className='signup-form'>
+			<div className={styles.signupContentWrapper}>
+				<div className={styles.signupForm}>
 					<h3>Account Created</h3>
 					{successMessage && (
-						<p className='success-message'>{successMessage}</p>
+						<p className={styles.successMessage}>{successMessage}</p>
 					)}
 					<div
-						className='auth-links'
+						className={styles.authLinks}
 						style={{ marginTop: "20px", textAlign: "center" }}
 					>
 						<p>Once verified, you will be able to log in.</p>
@@ -290,15 +333,15 @@ const SignUp: React.FC<SignUpProps> = ({
 	}
 
 	return (
-		<div className='signup-content-wrapper auth-form-styles'>
-			<form onSubmit={handleEmailPasswordSubmit} className='signup-form'>
+		<div className={styles.signupContentWrapper}>
+			<form onSubmit={handleEmailPasswordSubmit} className={styles.signupForm}>
 				<h3>Create Your Account</h3>
 				{successMessage && !isEmailSignUpSuccessDisplay && (
-					<p className='success-message'>{successMessage}</p>
+					<p className={styles.successMessage}>{successMessage}</p>
 				)}
-				{error && <p className='error-message'>{error}</p>}
+				{error && <p className={styles.errorMessage}>{error}</p>}
 				{/* ... form fields, disable if loading OR !currentAuth ... */}
-				<div className='form-group'>
+				<div className={styles.formGroup}>
 					<label htmlFor='signup-display-name'>Display Name</label>
 					<input
 						type='text'
@@ -310,7 +353,7 @@ const SignUp: React.FC<SignUpProps> = ({
 						autoComplete='name'
 					/>
 				</div>
-				<div className='form-group'>
+				<div className={styles.formGroup}>
 					<label htmlFor='signup-email'>Email</label>
 					<input
 						type='email'
@@ -322,7 +365,7 @@ const SignUp: React.FC<SignUpProps> = ({
 						autoComplete='email'
 					/>
 				</div>
-				<div className='form-group'>
+				<div className={styles.formGroup}>
 					<label htmlFor='signup-password'>New Password</label>
 					<input
 						type='password'
@@ -335,15 +378,15 @@ const SignUp: React.FC<SignUpProps> = ({
 					/>
 					{passwordMessage && (
 						<p
-							className={`password-strength-message ${
-								passwordMessage.includes("Good") ? "good" : "issues"
+							className={`${styles.passwordStrengthMessage} ${
+								passwordMessage.includes("Good") ? styles.good : styles.issues
 							}`}
 						>
 							{passwordMessage}
 						</p>
 					)}
 				</div>
-				<div className='form-group'>
+				<div className={styles.formGroup}>
 					<label htmlFor='signup-confirm-password'>Confirm Password</label>
 					<input
 						type='password'
@@ -357,36 +400,38 @@ const SignUp: React.FC<SignUpProps> = ({
 				</div>
 				<button
 					type='submit'
-					className='submit-button primary-auth-button'
+					className={styles.submitButton}
 					disabled={loading || !currentAuth}
 				>
 					{loading ? "Creating Account..." : "Sign Up with Email"}
 				</button>
 
-				<div className='social-login-divider'>OR</div>
-				<div className='social-login-buttons'>
+				<div className={styles.socialLoginDivider}>OR</div>
+				<div className={styles.socialLoginButtons}>
 					<button
 						type='button'
 						onClick={handleGoogleSignIn}
-						className='social-button google-button'
+						className={`${styles.socialButton} ${styles.googleButton}`}
 						disabled={loading || !currentAuth}
+						title='Sign up with Google'
 					>
-						<img src={GmailIcon} alt='Google icon' />
+						<GmailIcon />
 					</button>
 					<button
 						type='button'
 						onClick={handleMicrosoftSignIn}
-						className='social-button microsoft-button'
+						className={`${styles.socialButton} ${styles.microsoftButton}`}
 						disabled={loading || !currentAuth}
+						title='Sign up with Microsoft'
 					>
-						<img src={MicrosoftIcon} alt='Microsoft icon' />
+						<MicrosoftIcon />
 					</button>
 				</div>
-				<div className='auth-links'>
+				<div className={styles.authLinks}>
 					<a
 						href='#'
 						onClick={handleSwitchToLoginLink}
-						className='auth-switch-link'
+						className={styles.authSwitchLink}
 					>
 						Already have an account? Log In
 					</a>

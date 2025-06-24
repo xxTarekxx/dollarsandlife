@@ -39,9 +39,9 @@ declare module '*.webp' {
 }
 
 declare module '*.svg' {
-  const content: string; // For Vite, importing an SVG typically gives its URL path.
+  const content: string;
   export default content;
-  // If you are using vite-plugin-svgr or similar to import SVGs as React components:
+  // If you are using @svgr/webpack or similar to import SVGs as React components:
   // import * as React from 'react';
   // export const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   // const src: string;

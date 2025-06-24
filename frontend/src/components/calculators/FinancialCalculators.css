@@ -9,8 +9,9 @@
 }
 
 .content-wrapper {
-    column-count: 2;
-    column-gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     width: 100%;
 }
 
@@ -111,7 +112,7 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .content-wrapper {
-        column-count: 1;
+        grid-template-columns: 1fr;
     }
 
     .calculator {

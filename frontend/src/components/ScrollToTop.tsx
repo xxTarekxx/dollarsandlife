@@ -1,15 +1,13 @@
+import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useLocation, useNavigationType } from "react-router-dom";
 
 const ScrollToTop: React.FC = () => {
-	const { pathname } = useLocation();
-	const navigationType = useNavigationType();
+	const router = useRouter();
 
 	useEffect(() => {
-		if (navigationType !== "POP") {
-			window.scrollTo(0, 0);
-		}
-	}, [pathname, navigationType]);
+		// Scroll to top on route change
+		window.scrollTo(0, 0);
+	}, [router.asPath]);
 
 	useEffect(() => {
 		if ("scrollRestoration" in window.history) {

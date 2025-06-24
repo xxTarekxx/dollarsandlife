@@ -1,0 +1,255 @@
+/* frontend/src/components/auth/AuthPromptModal.css */
+
+.authModalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    /* Slightly darker overlay */
+    backdrop-filter: blur(8px);
+    /* Increased blur for a more frosted glass effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    /* Add some padding for smaller screens */
+    opacity: 0;
+    /* Start hidden for animation */
+}
+
+.fadeIn {
+    animation: fadeInOverlay 0.3s ease-out forwards;
+}
+
+.fadeOut {
+    animation: fadeOutOverlay 0.3s ease-out forwards;
+}
+
+.authModalContent {
+    /* This is the white box of the AuthPromptModal */
+    background: #ffffff;
+    /* SHOULD BE LIGHT */
+    padding: 1.25rem 1.5rem;
+    /* Reduced vertical and horizontal padding */
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 80vh;
+    /* Limit height to viewport */
+    overflow-y: auto;
+    /* Scroll if content overflows */
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08);
+    position: relative;
+    /* For close button */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol";
+    /* Ensure no opacity < 1 here unless intended for a transition */
+    opacity: 1;
+    /* SHOULD BE 1 for visibility */
+    /* Ensure no filter that darkens it, e.g., filter: brightness(0.5); */
+}
+
+.authModalContent h2 {
+    color: #212529;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.authModalButtons {
+    /* Matched TSX class name */
+    display: flex;
+    flex-direction: column;
+    /* Stack buttons vertically for better mobile and clarity */
+    gap: 0.5rem;
+    /* Spacing between buttons */
+    margin-top: 1rem;
+    /* Space above buttons */
+}
+
+.authModalButtons button {
+    padding: 0.6rem 1.2rem;
+    /* More generous padding */
+    font-size: 0.95rem;
+    /* Standard button text size */
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    /* Base border for consistent sizing */
+    transition: background-color 0.2s ease-out, color 0.2s ease-out,
+        border-color 0.2s ease-out, transform 0.15s ease-out, box-shadow 0.15s ease-out;
+    width: 100%;
+    /* Make buttons full width within the modal */
+}
+
+/* Primary button style (e.g., Sign Up) */
+.authModalButtons button:last-child {
+    /* Assuming Sign Up is the primary action and last button */
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.authModalButtons button:last-child:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* Secondary button style (e.g., Log In) */
+.authModalButtons button:first-child {
+    /* Assuming Log In is secondary and first button */
+    background-color: #f8f9fa;
+    color: #343a40;
+    border: 1px solid #dee2e6;
+}
+
+.authModalButtons button:first-child:hover {
+    background-color: #e2e6ea;
+    border-color: #c8ced3;
+    /* Slightly darker border on hover */
+    transform: translateY(-2px);
+}
+
+/* Focus visible state for accessibility */
+.authModalButtons button:focus-visible {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+.authCloseBtn {
+    /* Matched TSX class name */
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 1.2rem;
+    /* Slightly smaller and more refined */
+    font-weight: 300;
+    /* Lighter weight for the '✕' */
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    width: 32px;
+    /* Create a defined hit area */
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    /* Make it circular */
+    transition: background-color 0.2s ease-out, color 0.2s ease-out;
+}
+
+.authCloseBtn:hover {
+    background-color: #f8f9fa;
+    /* Subtle background on hover */
+    color: #212529;
+}
+
+@keyframes fadeInOverlay {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutOverlay {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes popInModal {
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Optional: Styles for when Login or SignUp components are active */
+/* You might want to adjust the modal padding or layout if those components are tall */
+.authModalContent>div {
+    /* Targets the Login or SignUp component div */
+    margin-top: 0.75rem;
+}
+
+/* Example: If your Login/SignUp forms have their own h3 */
+.authModalContent h3 {
+    color: #212529;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+/* Form input styles */
+.authModalContent input[type="text"],
+.authModalContent input[type="email"],
+.authModalContent input[type="password"] {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s ease-out;
+}
+
+.authModalContent input[type="text"]:focus,
+.authModalContent input[type="email"]:focus,
+.authModalContent input[type="password"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.authModalContent form button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.authModalContent form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .authModalContent {
+        padding: 0.75rem 0.5rem;
+        /* Even smaller padding on mobile */
+        max-width: 98vw;
+        min-width: 0;
+        font-size: 0.95rem;
+    }
+
+    .authModalContent h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .authModalButtons button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .authModalContent input[type="text"],
+    .authModalContent input[type="email"],
+    .authModalContent input[type="password"] {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+}

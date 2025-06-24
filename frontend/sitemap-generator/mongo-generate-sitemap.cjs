@@ -7,6 +7,7 @@ const { MongoClient } = require("mongodb");
 
 // ✅ Load environment variables from .env.production
 const dotenvPath = path.resolve(__dirname, "../.env.production");
+console.log("🔍 Looking for .env.production at:", dotenvPath);
 
 require("dotenv").config({ path: dotenvPath });
 
@@ -14,7 +15,10 @@ require("dotenv").config({ path: dotenvPath });
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
     console.error("❌ MONGO_URI is undefined. Check your .env.production file.");
-    process.exit(1);
+    console.log("🔍 Available environment variables:", Object.keys(process.env).filter(key => key.includes('MONGO')));
+    console.log("⚠️  Proceeding with static sitemap only (no dynamic routes from MongoDB)");
+} else {
+    console.log("✅ MONGO_URI found, will include dynamic routes");
 }
 
 // ✅ Config
@@ -30,41 +34,37 @@ const COLLECTIONS = [
     "start_a_blog"
 ];
 
-// ❗ IMPORTANT: Set this to the exact path string from your App.tsx
-const ROUTE_TO_EXCLUDE = "/sentry-pc-employee-monitoring-systems";
+// ✅ Extract static routes for Next.js
+function extractStaticRoutes() {
+    // Next.js static routes - these are the main pages
+    const staticRoutes = [
+        "/",
+        "/about-us",
+        "/contact-us",
+        "/return-policy",
+        "/sentrypc-landing",
+        "/privacy-policy",
+        "/terms-of-service",
+        "/extra-income",
+        "/shopping-deals",
+        "/start-a-blog",
+        "/breaking-news",
+        "/ads.txt",
+        "/rss.xml",
+        "/signup",
+        "/login"
+    ];
 
-// ✅ Extract static routes from App.tsx
-function extractRoutesFromApp() {
-    const appFilePath = path.resolve(__dirname, "../src/App.tsx");
-    try {
-        const content = fs.readFileSync(appFilePath, "utf-8");
-        const routeRegex = /<Route\s+path=["']([^"']+)["']/g;
-        const routes = [];
-
-        let match;
-        while ((match = routeRegex.exec(content)) !== null) {
-            const route = match[1]; // This is the raw path string from App.tsx
-            const lowerRoute = route.toLowerCase();
-
-            if (
-                !route.includes("*") && // Check original route for * and :
-                !route.includes(":") &&
-                !routes.includes(lowerRoute) && // Check if the lowercase version is already added
-                lowerRoute !== ROUTE_TO_EXCLUDE.toLowerCase() // Compare lowercase versions
-            ) {
-                routes.push(lowerRoute);
-            }
-        }
-        console.log(`📢 Extracted static routes (after attempting to exclude '${ROUTE_TO_EXCLUDE}'):`, routes);
-        return routes;
-    } catch (err) {
-        console.error("❌ Failed to read App.tsx:", err);
-        return [];
-    }
+    return staticRoutes;
 }
 
 // ✅ Fetch dynamic article routes from MongoDB
 async function fetchDynamicRoutes() {
+    if (!MONGO_URI) {
+        console.log("⚠️  Skipping dynamic routes - no MONGO_URI provided");
+        return [];
+    }
+
     const client = new MongoClient(MONGO_URI);
     const dynamicRoutes = [];
 
@@ -79,18 +79,7 @@ async function fetchDynamicRoutes() {
             for (const doc of documents) {
                 if (!doc.canonicalUrl || !doc.datePublished) continue;
 
-                let urlPath = doc.canonicalUrl;
-                if (urlPath.startsWith(BASE_URL)) {
-                    urlPath = urlPath.substring(BASE_URL.length);
-                }
-                // Also exclude if it somehow comes from dynamic routes
-                if (urlPath.toLowerCase() === ROUTE_TO_EXCLUDE.toLowerCase()) {
-                    console.log(`ℹ️ Skipping dynamic route that matches exclusion: ${doc.canonicalUrl}`);
-                    continue;
-                }
-
-
-                const fullUrl = doc.canonicalUrl.startsWith("/")
+                const url = doc.canonicalUrl.startsWith("/")
                     ? BASE_URL + doc.canonicalUrl
                     : doc.canonicalUrl;
 
@@ -100,7 +89,7 @@ async function fetchDynamicRoutes() {
                 if (isNaN(parsedDate.getTime())) continue;
 
                 dynamicRoutes.push({
-                    url: fullUrl.toLowerCase(),
+                    url: url.toLowerCase(),
                     changefreq: "monthly",
                     priority: 0.8,
                     lastmod: parsedDate.toISOString(),
@@ -112,7 +101,7 @@ async function fetchDynamicRoutes() {
     } finally {
         await client.close();
     }
-    console.log(`📢 Fetched ${dynamicRoutes.length} dynamic routes.`);
+
     return dynamicRoutes;
 }
 
@@ -125,19 +114,11 @@ async function generateSitemap() {
         sitemap.pipe(writeStream);
 
         // Static routes
-        const allStaticRoutes = extractRoutesFromApp(); // Call it once
-        const finalStaticRoutes = [ // Ensure ads.txt and rss.xml are not accidentally excluded
-            ...allStaticRoutes.filter(r => r !== "/ads.txt" && r !== "/rss.xml"),
-            "/ads.txt",
-            "/rss.xml"
-        ].filter((value, index, self) => self.indexOf(value) === index); // Deduplicate
-
-        console.log("Writing static routes:", finalStaticRoutes);
-        finalStaticRoutes.forEach(route => {
-            // Ensure leading slash for consistency if `route` doesn't have one, though `extractRoutesFromApp` should provide it.
-            const urlPath = route.startsWith('/') ? route : `/${route}`;
+        const staticRoutes = extractStaticRoutes();
+        console.log("📝 Adding static routes:", staticRoutes.length);
+        staticRoutes.forEach(route => {
             sitemap.write({
-                url: urlPath.toLowerCase(),
+                url: route.toLowerCase(),
                 changefreq: "hourly",
                 priority: 0.8,
             });
@@ -145,12 +126,13 @@ async function generateSitemap() {
 
         // Dynamic article routes
         const dynamicRoutes = await fetchDynamicRoutes();
-        console.log("Writing dynamic routes:", dynamicRoutes.map(r => r.url));
+        console.log("📝 Adding dynamic routes:", dynamicRoutes.length);
         dynamicRoutes.forEach(route => sitemap.write(route));
 
         sitemap.end();
         await streamToPromise(sitemap);
-        console.log("✅ Sitemap generated successfully at:", sitemapPath);
+
+        console.log("✅ Sitemap generated successfully!");
 
     } catch (err) {
         console.error("❌ Error generating sitemap:", err);

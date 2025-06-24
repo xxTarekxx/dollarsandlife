@@ -1,12 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./Breadcrumb.css";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 interface BreadcrumbProps {
 	paths: { title: string; url: string }[];
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
+	const [origin, setOrigin] = useState<string>(
+		"https://dev.dollarsandlife.com",
+	);
+
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			// Use the actual origin for client-side rendering
+			setOrigin(window.location.origin);
+		}
+	}, []);
+
 	if (!paths || paths.length === 0) return null;
 
 	const structuredData = {
@@ -16,7 +26,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 			"@type": "ListItem",
 			position: index + 1,
 			item: {
-				"@id": `${window.location.origin}${path.url}`,
+				"@id": `${origin}${path.url}`,
 				name: path.title || "Untitled",
 			},
 		})),
@@ -25,9 +35,12 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 	return (
 		<nav aria-label='Breadcrumb Navigation' className='breadcrumb-wrapper'>
 			{/* JSON-LD Structured Data for SEO */}
-			<script type='application/ld+json'>
-				{JSON.stringify(structuredData)}
-			</script>
+			<script
+				type='application/ld+json'
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(structuredData),
+				}}
+			/>
 
 			<ol
 				className='breadcrumb-list'
@@ -43,7 +56,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 						itemType='https://schema.org/ListItem'
 					>
 						<Link
-							to={path.url}
+							href={path.url}
 							itemProp='item'
 							aria-current={index === paths.length - 1 ? "page" : undefined}
 						>

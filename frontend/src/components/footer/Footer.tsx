@@ -1,15 +1,16 @@
-import React from "react";
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import "./Footer.css";
-
-// Static SVG Imports (handled by Webpack asset loader)
-import FacebookIcon from "../../../src/assets/images/favicon/facebook-icon.svg";
-import InstagramIcon from "../../../src/assets/images/favicon/instagram-icon.svg";
-import YoutubeIcon from "../../../src/assets/images/favicon/youtube-icon.svg";
+import Head from "next/head";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import facebookIcon from "../../../src/assets/images/favicon/facebook-icon.svg";
+import instagramIcon from "../../../src/assets/images/favicon/instagram-icon.svg";
+import youtubeIcon from "../../../src/assets/images/favicon/youtube-icon.svg";
 
 const Footer: React.FC = () => {
-	const currentYear = new Date().getFullYear();
+	const [currentYear, setCurrentYear] = useState<number>(2024); // Default fallback
+
+	useEffect(() => {
+		setCurrentYear(new Date().getFullYear());
+	}, []);
 
 	const footerColumns = [
 		{
@@ -43,24 +44,24 @@ const Footer: React.FC = () => {
 	const socialLinks = [
 		{
 			href: "https://www.youtube.com/@dollarsandlife",
-			icon: YoutubeIcon,
+			icon: youtubeIcon.src,
 			alt: "YouTube",
 		},
 		{
 			href: "https://www.facebook.com/profile.php?id=61552256902083",
-			icon: FacebookIcon,
+			icon: facebookIcon.src,
 			alt: "Facebook",
 		},
 		{
 			href: "https://www.instagram.com/dollars_and_life/",
-			icon: InstagramIcon,
+			icon: instagramIcon.src,
 			alt: "Instagram",
 		},
 	];
 
 	return (
 		<>
-			<Helmet>
+			<Head>
 				<script type='application/ld+json'>
 					{JSON.stringify({
 						"@context": "https://schema.org",
@@ -80,7 +81,7 @@ const Footer: React.FC = () => {
 						},
 					})}
 				</script>
-			</Helmet>
+			</Head>
 
 			<footer className='footer-container'>
 				<div className='social-container'>
@@ -90,7 +91,7 @@ const Footer: React.FC = () => {
 							href={href}
 							target='_blank'
 							rel='noopener noreferrer'
-							className='social-media'
+							className='social-link'
 							aria-label={alt}
 						>
 							<img src={icon} alt={alt} className='social-icon' />
@@ -103,7 +104,7 @@ const Footer: React.FC = () => {
 						<div className='column' key={idx}>
 							<h2 className='header'>{column.title}</h2>
 							{column.links.map((link, linkIdx) => (
-								<Link key={linkIdx} to={link.to} className='footer-link'>
+								<Link key={linkIdx} href={link.to} className='footer-link'>
 									{link.text}
 								</Link>
 							))}
@@ -118,8 +119,8 @@ const Footer: React.FC = () => {
 						share data for market research. We do not target ads based on
 						sensitive data, and all recommendations are intended for general
 						audiences only. Refer to our{" "}
-						<Link to='/terms-of-service'>Terms Of Service</Link> and{" "}
-						<Link to='/privacy-policy'>Privacy Policy</Link> pages.
+						<Link href='/terms-of-service'>Terms Of Service</Link> and{" "}
+						<Link href='/privacy-policy'>Privacy Policy</Link> pages.
 					</p>
 				</div>
 

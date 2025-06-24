@@ -1,19 +1,63 @@
 // frontend/src/components/auth/Login.tsx
-import React, { useState, FormEvent, useEffect } from "react";
-import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
 import {
-	Auth, // Import Auth type
-	signInWithEmailAndPassword,
-	GoogleAuthProvider,
-	signInWithPopup,
-	OAuthProvider,
-	onAuthStateChanged,
+    Auth,
+    GoogleAuthProvider,
+    OAuthProvider,
+    onAuthStateChanged, // Import Auth type
+    signInWithEmailAndPassword,
+    signInWithPopup,
 } from "firebase/auth";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { FormEvent, useEffect, useState } from "react";
 // import { auth } from "../firebase"; // REMOVE direct import
 import { getFirebaseAuth } from "../firebase"; // Import the getter
-import "./Login.css";
-import GmailIcon from "../assets/images/gmail-icon.svg";
-import MicrosoftIcon from "../assets/images/microsoft-icon.svg";
+import styles from "./Login.module.css";
+
+// Import SVGs as React components
+const GmailIcon = () => (
+	<svg
+		width='24'
+		height='24'
+		viewBox='0 0 98.38 24.76'
+		xmlns='http://www.w3.org/2000/svg'
+	>
+		<path
+			fill='#e94235'
+			d='M0,3.38v3l3.44,3.33,4.06,2.3.75-5.05-.75-4.7-2.1-1.57C3.17-.99,0,.6,0,3.38Z'
+		/>
+		<path
+			fill='#ffba00'
+			d='M25.5,2.26l-.75,4.76.75,4.99,3.68-1.82,3.82-3.8v-3c0-2.78-3.17-4.37-5.4-2.7l-2.1,1.57Z'
+		/>
+		<path
+			fill='#2684fc'
+			d='M2.25,24.76h5.25v-12.75L0,6.38v16.12c0,1.24,1.01,2.25,2.25,2.25Z'
+		/>
+		<path
+			fill='#00ac47'
+			d='M25.5,24.76h5.25c1.24,0,2.25-1.01,2.25-2.25V6.38l-7.5,5.62v12.75Z'
+		/>
+		<path
+			fill='#c5221f'
+			d='M16.5,9.01L7.5,2.26v9.75l9,6.75,9-6.75V2.26l-9,6.75Z'
+		/>
+	</svg>
+);
+
+const MicrosoftIcon = () => (
+	<svg
+		width='24'
+		height='24'
+		viewBox='0 0 1033.7455 220.69501'
+		xmlns='http://www.w3.org/2000/svg'
+	>
+		<path d='m104.87 104.87h-104.87v-104.87h104.87v104.87z' fill='#f1511b' />
+		<path d='m220.65 104.87h-104.87v-104.87h104.87v104.87z' fill='#80cc28' />
+		<path d='m104.86 220.7h-104.86v-104.87h104.86v104.87z' fill='#00adef' />
+		<path d='m220.65 220.7h-104.87v-104.87h104.87v104.87z' fill='#fbbc09' />
+	</svg>
+);
 
 interface LoginProps {
 	onSwitchToSignUp?: () => void;
@@ -25,8 +69,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	const [password, setPassword] = useState<string>("");
 	const [error, setError] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
-	const navigate = useNavigate();
-	const location = useLocation();
+	const router = useRouter();
 
 	const [currentAuth, setCurrentAuth] = useState<Auth | null>(propAuth || null);
 	const [authInitializedFromGetter, setAuthInitializedFromGetter] = useState(
@@ -65,22 +108,20 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		if (!currentAuth) return; // Wait for auth to be available
 
 		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
-			if (user && location.pathname === "/login") {
+			if (user && router.pathname === "/login") {
 				console.log(
 					"User already logged in on /login page, redirecting to /forum",
 				);
-				navigate("/forum", { replace: true });
+				router.replace("/forum");
 			}
 		});
 		return () => unsubscribe();
-	}, [navigate, location.pathname, currentAuth]);
+	}, [router, currentAuth]);
 
 	const handleLoginSuccess = () => {
 		console.log("Login successful, preparing to navigate.");
-		const from =
-			(location.state as { from?: { pathname?: string } })?.from?.pathname ||
-			"/forum";
-		navigate(from, { replace: true });
+		const from = (router.query.from as string) || "/forum";
+		router.replace(from);
 	};
 
 	const handleEmailPasswordSubmit = async (
@@ -96,24 +137,25 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		console.log("Attempting Firebase Email/Pass Log In:", { email, password });
 		try {
 			await signInWithEmailAndPassword(currentAuth, email, password);
-			if (location.pathname === "/login") {
+			if (router.pathname === "/login") {
 				handleLoginSuccess();
 			}
-		} catch (err: any) {
-			console.error("Firebase Login Error:", err.code, err.message);
+		} catch (err: unknown) {
 			let errorMessage = "Failed to log in. Please check your credentials.";
-			// ... (error handling as before)
-			if (
-				err.code === "auth/user-not-found" ||
-				err.code === "auth/invalid-credential" ||
-				err.code === "auth/wrong-password"
-			) {
-				errorMessage = "Invalid email or password. Please try again.";
-			} else if (err.code === "auth/invalid-email") {
-				errorMessage = "The email address is not valid.";
-			} else if (err.code === "auth/too-many-requests") {
-				errorMessage =
-					"Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.";
+			if (typeof err === "object" && err && "code" in err) {
+				const code = (err as { code?: string }).code;
+				if (
+					code === "auth/user-not-found" ||
+					code === "auth/invalid-credential" ||
+					code === "auth/wrong-password"
+				) {
+					errorMessage = "Invalid email or password. Please try again.";
+				} else if (code === "auth/invalid-email") {
+					errorMessage = "The email address is not valid.";
+				} else if (code === "auth/too-many-requests") {
+					errorMessage =
+						"Access to this account has been temporarily disabled. Please reset your password or try again later.";
+				}
 			}
 			setError(errorMessage);
 			setLoading(false);
@@ -130,18 +172,21 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		const provider = new GoogleAuthProvider();
 		try {
 			await signInWithPopup(currentAuth, provider);
-			if (location.pathname === "/login") {
+			if (router.pathname === "/login") {
 				handleLoginSuccess();
 			}
-		} catch (err: any) {
-			// ... (error handling as before)
-			console.error("Firebase Google Sign-In Error:", err.code, err.message);
+		} catch (err: unknown) {
 			let errorMessage = "Failed to sign in with Google.";
-			if (err.code === "auth/popup-closed-by-user") {
-				errorMessage = "Sign-in popup was closed. Please try again.";
-			} else if (err.code === "auth/account-exists-with-different-credential") {
-				errorMessage =
-					"An account with this email already exists using a different sign-in method.";
+			if (typeof err === "object" && err && "code" in err) {
+				const code = (err as { code?: string }).code;
+				if (code === "auth/popup-closed-by-user") {
+					errorMessage = "Sign-in popup was closed. Please try again.";
+				} else if (
+					code === "auth/account-exists-with-different-credential"
+				) {
+					errorMessage =
+						"An account with this email already exists with a different sign-in method.";
+				}
 			}
 			setError(errorMessage);
 			setLoading(false);
@@ -158,18 +203,21 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		const provider = new OAuthProvider("microsoft.com");
 		try {
 			await signInWithPopup(currentAuth, provider);
-			if (location.pathname === "/login") {
+			if (router.pathname === "/login") {
 				handleLoginSuccess();
 			}
-		} catch (err: any) {
-			// ... (error handling as before)
-			console.error("Firebase Microsoft Sign-In Error:", err.code, err.message);
+		} catch (err: unknown) {
 			let errorMessage = "Failed to sign in with Microsoft.";
-			if (err.code === "auth/popup-closed-by-user") {
-				errorMessage = "Sign-in popup was closed. Please try again.";
-			} else if (err.code === "auth/account-exists-with-different-credential") {
-				errorMessage =
-					"An account with this email already exists using a different sign-in method.";
+			if (typeof err === "object" && err && "code" in err) {
+				const code = (err as { code?: string }).code;
+				if (code === "auth/popup-closed-by-user") {
+					errorMessage = "Sign-in popup was closed. Please try again.";
+				} else if (
+					code === "auth/account-exists-with-different-credential"
+				) {
+					errorMessage =
+						"An account with this email already exists with a different sign-in method.";
+				}
 			}
 			setError(errorMessage);
 			setLoading(false);
@@ -183,26 +231,26 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		if (onSwitchToSignUp) {
 			onSwitchToSignUp();
 		} else {
-			navigate("/signup");
+			router.push("/signup");
 		}
 	};
 
 	if (!currentAuth && !authInitializedFromGetter && !propAuth) {
 		// Show minimal UI or loader if auth is being fetched for standalone page
 		return (
-			<div className='login-content-wrapper auth-form-styles'>
+			<div className={styles.loginContentWrapper}>
 				<p>Loading login...</p>
 			</div>
 		);
 	}
 
 	return (
-		<div className='login-content-wrapper auth-form-styles'>
-			<form onSubmit={handleEmailPasswordSubmit} className='login-form'>
+		<div className={styles.loginContentWrapper}>
+			<form onSubmit={handleEmailPasswordSubmit} className={styles.loginForm}>
 				<h3>Log In</h3>
-				{error && <p className='error-message'>{error}</p>}
+				{error && <p className={styles.errorMessage}>{error}</p>}
 				{/* ... rest of the form ... */}
-				<div className='form-group'>
+				<div className={styles.formGroup}>
 					<label htmlFor='login-email'>Email</label>
 					<input
 						type='email'
@@ -215,7 +263,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 						autoComplete='email'
 					/>
 				</div>
-				<div className='form-group'>
+				<div className={styles.formGroup}>
 					<label htmlFor='login-password'>Password</label>
 					<input
 						type='password'
@@ -230,41 +278,42 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 				</div>
 				<button
 					type='submit'
-					className='submit-button primary-auth-button'
+					className={styles.submitButton}
 					disabled={loading || !currentAuth}
 				>
 					{loading ? "Logging In..." : "Log In"}
 				</button>
 
-				<div className='social-login-divider'>OR</div>
+				<div className={styles.socialLoginDivider}>OR</div>
 				<div>Log In Using</div>
-				<div className='social-login-buttons'>
+				<div className={styles.socialLoginButtons}>
 					<button
 						type='button'
 						onClick={handleGoogleSignIn}
-						className='social-button google-button'
+						className={`${styles.socialButton} ${styles.googleButton}`}
 						disabled={loading || !currentAuth}
+						title='Sign in with Google'
 					>
-						<img src={GmailIcon} alt='Google icon' />
-						<span></span>
+						<GmailIcon />
 					</button>
 					<button
 						type='button'
 						onClick={handleMicrosoftSignIn}
-						className='social-button microsoft-button'
+						className={`${styles.socialButton} ${styles.microsoftButton}`}
 						disabled={loading || !currentAuth}
+						title='Sign in with Microsoft'
 					>
-						<img src={MicrosoftIcon} alt='Microsoft icon' />
+						<MicrosoftIcon />
 					</button>
 				</div>
 
-				<div className='auth-links'>
-					<RouterLink to='/forgot-password'>Forgot Password?</RouterLink>
+				<div className={styles.authLinks}>
+					<Link href='/forgot-password'>Forgot Password?</Link>
 					<span> | </span>
 					<a
 						href='#'
 						onClick={handleSwitchToSignUpClick}
-						className='auth-switch-link'
+						className={styles.authSwitchLink}
 					>
 						Don't have an account? Sign Up
 					</a>

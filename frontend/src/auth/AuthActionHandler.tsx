@@ -1,20 +1,19 @@
 // frontend/src/auth/AuthActionHandler.tsx
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getFirebaseAuth } from "../firebase"; // Assuming firebase.ts is in src/firebase.ts
 import {
-	Auth, // Import Auth type
 	applyActionCode,
+	Auth,
 	checkActionCode,
-	signInWithEmailLink,
 	isSignInWithEmailLink,
+	signInWithEmailLink,
 	User, // Import User type if needed for currentUser checks
 } from "firebase/auth";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { getFirebaseAuth } from "../firebase"; // Assuming firebase.ts is in src/firebase.ts
 
 const AuthActionHandler: React.FC = () => {
-	const location = useLocation();
-	const navigate = useNavigate();
+	const router = useRouter();
 	const [message, setMessage] = useState<string>("Processing...");
 	const [error, setError] = useState<string>("");
 	const [currentAuth, setCurrentAuth] = useState<Auth | null>(null);
@@ -48,9 +47,8 @@ const AuthActionHandler: React.FC = () => {
 			return;
 		}
 
-		const params = new URLSearchParams(location.search);
-		const mode = params.get("mode");
-		const actionCode = params.get("oobCode");
+		const mode = router.query.mode as string;
+		const actionCode = router.query.oobCode as string;
 
 		if (!actionCode || !mode) {
 			setError("Invalid action link. Missing code or mode.");
@@ -68,7 +66,7 @@ const AuthActionHandler: React.FC = () => {
 						setMessage(
 							"Password reset link is valid. Please enter your new password.",
 						);
-						navigate(`/new-password?oobCode=${actionCode}`); // Ensure you have a /new-password route
+						router.push(`/new-password?oobCode=${actionCode}`); // Ensure you have a /new-password route
 						break;
 					case "recoverEmail":
 						// Implement email recovery logic: This usually involves verifyPasswordResetCode then updateEmail
@@ -85,7 +83,7 @@ const AuthActionHandler: React.FC = () => {
 						// Note: applyActionCode for verifyEmail does not sign the user in.
 						// It just marks their email as verified.
 						// Redirect to login or a page that prompts login.
-						navigate("/forum"); // User will see login prompt in forum if not logged in
+						router.push("/forum"); // User will see login prompt in forum if not logged in
 						break;
 					case "signIn":
 						if (isSignInWithEmailLink(currentAuth, window.location.href)) {
@@ -109,7 +107,7 @@ const AuthActionHandler: React.FC = () => {
 									}!`,
 								);
 								toast.success("Successfully signed in!");
-								navigate("/forum");
+								router.push("/forum");
 							} else {
 								setError("Email not provided or link expired.");
 								setMessage("");
@@ -123,18 +121,27 @@ const AuthActionHandler: React.FC = () => {
 						setError("Invalid action mode.");
 						setMessage("");
 				}
-			} catch (err: any) {
+			} catch (err: unknown) {
 				console.error("Error handling action code:", err);
 				let specificError =
-					err.message ||
 					"Failed to process the request. The link may be invalid or expired.";
-				if (err.code === "auth/invalid-action-code") {
-					specificError = "Invalid or expired link. Please request a new one.";
-				} else if (err.code === "auth/user-disabled") {
-					specificError = "This account has been disabled.";
-				} else if (err.code === "auth/user-not-found" && mode === "signIn") {
-					specificError = "No account found for this email. Please sign up.";
+
+				if (typeof err === "object" && err !== null && "code" in err) {
+					const errorCode = (err as { code: string }).code;
+					const errorMessage = (err as { message?: string }).message;
+
+					specificError = errorMessage || specificError;
+
+					if (errorCode === "auth/invalid-action-code") {
+						specificError =
+							"Invalid or expired link. Please request a new one.";
+					} else if (errorCode === "auth/user-disabled") {
+						specificError = "This account has been disabled.";
+					} else if (errorCode === "auth/user-not-found" && mode === "signIn") {
+						specificError = "No account found for this email. Please sign up.";
+					}
 				}
+
 				setError(specificError);
 				toast.error(specificError);
 				setMessage("");
@@ -142,7 +149,7 @@ const AuthActionHandler: React.FC = () => {
 		};
 
 		handleAction();
-	}, [location, navigate, currentAuth, authInitialized, error]);
+	}, [router.query, router, currentAuth, authInitialized, error]);
 
 	if (!authInitialized && !error) {
 		return (
@@ -171,7 +178,7 @@ const AuthActionHandler: React.FC = () => {
 				<p>Processing your request...</p>
 			)}
 			<button
-				onClick={() => navigate("/forum")}
+				onClick={() => router.push("/forum")}
 				style={{ marginTop: "20px", padding: "10px 20px" }}
 			>
 				Go to Forum

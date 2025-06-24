@@ -1,11 +1,11 @@
 // frontend/src/firebase.ts - Modified for on-demand initialization
 
-import { initializeApp, FirebaseApp } from "firebase/app";
-import { getAuth, Auth, connectAuthEmulator } from "firebase/auth";
+import { FirebaseApp, initializeApp } from "firebase/app";
+import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
 import {
-	getFirestore,
 	Firestore,
 	connectFirestoreEmulator,
+	getFirestore,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -34,7 +34,6 @@ export function initializeFirebaseAndGetServices(): Promise<{
 	if (!firebaseInitializationPromise) {
 		firebaseInitializationPromise = (async () => {
 			if (!appInstance) {
-				console.log("Firebase: Initializing app and services...");
 				appInstance = initializeApp(firebaseConfig);
 				authInstance = getAuth(appInstance);
 				dbInstance = getFirestore(appInstance);
@@ -47,18 +46,12 @@ export function initializeFirebaseAndGetServices(): Promise<{
 					(window.location.hostname === "localhost" ||
 						window.location.hostname === "127.0.0.1")
 				) {
-					console.log(
-						"Firebase: Development environment detected. Attempting to connect to Emulators...",
-					);
 					try {
 						if (authInstance) {
 							// Ensure authInstance is initialized
 							connectAuthEmulator(authInstance, "http://localhost:9099", {
 								disableWarnings: true,
 							});
-							console.log(
-								"Firebase: Auth Emulator connection attempt made (or already connected).",
-							);
 						}
 					} catch (error) {
 						console.error(
@@ -70,9 +63,6 @@ export function initializeFirebaseAndGetServices(): Promise<{
 						if (dbInstance) {
 							// Ensure dbInstance is initialized
 							connectFirestoreEmulator(dbInstance, "localhost", 8080);
-							console.log(
-								"Firebase: Firestore Emulator connection attempt made (or already connected).",
-							);
 						}
 					} catch (error) {
 						console.error(
