@@ -5,16 +5,16 @@ const fs = require("fs");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const { MongoClient } = require("mongodb");
 
-// ✅ Load environment variables from .env.production
-const dotenvPath = path.resolve(__dirname, "../.env.production");
-console.log("🔍 Looking for .env.production at:", dotenvPath);
+// ✅ Load environment variables from .env
+const dotenvPath = path.resolve(__dirname, "../.env");
+console.log("🔍 Looking for .env at:", dotenvPath);
 
 require("dotenv").config({ path: dotenvPath });
 
 // ✅ Check Mongo URI
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
-    console.error("❌ MONGO_URI is undefined. Check your .env.production file.");
+    console.error("❌ MONGO_URI is undefined. Check your .env file.");
     console.log("🔍 Available environment variables:", Object.keys(process.env).filter(key => key.includes('MONGO')));
     console.log("⚠️  Proceeding with static sitemap only (no dynamic routes from MongoDB)");
 } else {
