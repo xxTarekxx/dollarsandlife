@@ -60,25 +60,35 @@ const RssTicker: React.FC = () => {
 		return null;
 	}
 
+	// Create the content string for the data-content attribute
+	const contentString = articles.length > 0 
+		? articles.map(article => `• ${article.title} •`).join(' ')
+		: 'No news available at the moment.';
+
 	return (
 		<div className='rss-ticker' aria-label='Latest Financial News Ticker'>
-			<div className='rss-ticker-content'>
-				{isLoading ? (
-					<p>Loading latest financial news...</p>
-				) : articles.length > 0 ? (
-					articles.map((article, index) => (
-						<a
-							key={index}
-							href={article.link}
-							target='_blank'
-							rel='noopener noreferrer'
-						>
-							• {article.title} •
-						</a>
-					))
-				) : (
-					<p>No news available at the moment.</p>
-				)}
+			<div className='rss-ticker-wrapper'>
+				<div 
+					className='rss-ticker-content'
+					data-content={contentString}
+				>
+					{isLoading ? (
+						<span>Loading latest financial news...</span>
+					) : articles.length > 0 ? (
+						articles.map((article, index) => (
+							<a
+								key={index}
+								href={article.link}
+								target='_blank'
+								rel='noopener noreferrer'
+							>
+								• {article.title} •
+							</a>
+						))
+					) : (
+						<span>No news available at the moment.</span>
+					)}
+				</div>
 			</div>
 		</div>
 	);
