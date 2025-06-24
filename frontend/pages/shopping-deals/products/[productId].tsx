@@ -28,10 +28,12 @@ interface ProductDetailsProps {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { productId } = context.params || {};
-    if (!productId || typeof productId !== "string") {
+    
+    // Validate productId parameter
+    if (!productId || typeof productId !== "string" || productId.length > 200) {
         return { notFound: true };
     }
-
+    
     // Extract the numeric ID from the beginning of the slug
     const numericId = productId.split("-")[0];
     if (!numericId || isNaN(parseInt(numericId, 10))) {
@@ -41,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     try {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/shopping-deals/${numericId}`,
+            `${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/shopping-deals/${encodeURIComponent(numericId)}`,
         );
         if (!response.ok) {
             if (response.status === 404) {

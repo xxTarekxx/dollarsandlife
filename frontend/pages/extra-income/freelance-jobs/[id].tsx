@@ -21,9 +21,16 @@ interface FreelanceJobDetailProps {
 	error?: string;
 }
 
+// Validation function to ensure id is safe
+const isValidId = (id: string): boolean => {
+	// Only allow alphanumeric characters, hyphens, and underscores
+	// This prevents injection attacks and ensures the id is safe for URLs
+	return /^[a-zA-Z0-9_-]+$/.test(id) && id.length > 0 && id.length <= 100;
+};
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.params || {};
-	if (!id || typeof id !== "string") {
+	if (!id || typeof id !== "string" || !isValidId(id)) {
 		return { notFound: true };
 	}
 
@@ -42,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/freelance-jobs/${normalizedId}`,
+			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/freelance-jobs/${encodeURIComponent(normalizedId)}`,
 		);
 		if (!response.ok) {
 			if (response.status === 404) {
