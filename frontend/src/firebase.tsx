@@ -1,18 +1,12 @@
-// frontend/src/firebase.ts - Optimized with correct types and lazy-load
+// frontend/src/firebase.ts - Modified for on-demand initialization
 
-import { FirebaseApp, initializeApp, getApps, getApp } from "firebase/app";
-import type { Auth } from "firebase/auth";
-import type { Firestore } from "firebase/firestore";
-
-let appInstance: FirebaseApp | null = null;
-let authInstance: Auth | null = null;
-let dbInstance: Firestore | null = null;
-
-let firebaseInitializationPromise: Promise<{
-	app: FirebaseApp;
-	auth: Auth;
-	db: Firestore;
-}> | null = null;
+import { FirebaseApp, initializeApp } from "firebase/app";
+import { Auth, connectAuthEmulator, getAuth } from "firebase/auth";
+import {
+	Firestore,
+	connectFirestoreEmulator,
+	getFirestore,
+} from "firebase/firestore";
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -23,6 +17,15 @@ const firebaseConfig = {
 	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+let appInstance: FirebaseApp | null = null;
+let authInstance: Auth | null = null;
+let dbInstance: Firestore | null = null;
+let firebaseInitializationPromise: Promise<{
+	app: FirebaseApp;
+	auth: Auth;
+	db: Firestore;
+}> | null = null;
+
 export function initializeFirebaseAndGetServices(): Promise<{
 	app: FirebaseApp;
 	auth: Auth;
@@ -31,30 +34,41 @@ export function initializeFirebaseAndGetServices(): Promise<{
 	if (!firebaseInitializationPromise) {
 		firebaseInitializationPromise = (async () => {
 			if (!appInstance) {
-				appInstance = getApps().length
-					? getApp()
-					: initializeApp(firebaseConfig);
-
-				const { getAuth, connectAuthEmulator } = await import("firebase/auth");
-				const { getFirestore, connectFirestoreEmulator } = await import(
-					"firebase/firestore"
-				);
-
+				appInstance = initializeApp(firebaseConfig);
 				authInstance = getAuth(appInstance);
 				dbInstance = getFirestore(appInstance);
 
+				// Connect to Firebase Emulators if running locally
+				// The connect...Emulator functions are idempotent.
+				// They will only connect if not already connected to the specified host/port.
 				if (
 					typeof window !== "undefined" &&
 					(window.location.hostname === "localhost" ||
 						window.location.hostname === "127.0.0.1")
 				) {
 					try {
-						connectAuthEmulator(authInstance, "http://localhost:9099", {
-							disableWarnings: true,
-						});
-						connectFirestoreEmulator(dbInstance, "localhost", 8080);
+						if (authInstance) {
+							// Ensure authInstance is initialized
+							connectAuthEmulator(authInstance, "http://localhost:9099", {
+								disableWarnings: true,
+							});
+						}
 					} catch (error) {
-						console.error("Error connecting to emulators:", error);
+						console.error(
+							"Firebase: Error during Auth Emulator connection attempt:",
+							error,
+						);
+					}
+					try {
+						if (dbInstance) {
+							// Ensure dbInstance is initialized
+							connectFirestoreEmulator(dbInstance, "localhost", 8080);
+						}
+					} catch (error) {
+						console.error(
+							"Firebase: Error during Firestore Emulator connection attempt:",
+							error,
+						);
 					}
 				} else {
 					console.log(
@@ -62,15 +76,15 @@ export function initializeFirebaseAndGetServices(): Promise<{
 					);
 				}
 			}
-
-			if (!authInstance || !dbInstance) {
-				throw new Error("Failed to initialize Firebase services.");
+			if (!appInstance || !authInstance || !dbInstance) {
+				// This case should ideally not be reached if initializeApp and getAuth/getFirestore succeed.
+				throw new Error(
+					"Firebase initialization failed: One or more services are null after initialization attempt.",
+				);
 			}
-
 			return { app: appInstance, auth: authInstance, db: dbInstance };
 		})();
 	}
-
 	return firebaseInitializationPromise;
 }
 
