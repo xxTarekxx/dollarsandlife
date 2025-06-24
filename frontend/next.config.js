@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -39,7 +43,6 @@ const nextConfig = {
     }
     return config;
   },
-  // Handle static file serving and redirects
   async rewrites() {
     return [
       {
@@ -48,11 +51,9 @@ const nextConfig = {
       },
     ];
   },
-  // Add redirects for legacy routes
   async redirects() {
     return [];
   },
-  // Environment variables that should be available on the client
   env: {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
     NEXT_PUBLIC_REACT_APP_API_BASE: process.env.NEXT_PUBLIC_REACT_APP_API_BASE || 'http://localhost:5000',
@@ -67,4 +68,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);

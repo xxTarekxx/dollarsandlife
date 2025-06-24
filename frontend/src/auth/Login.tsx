@@ -1,12 +1,5 @@
 // frontend/src/components/auth/Login.tsx
-import {
-    Auth,
-    GoogleAuthProvider,
-    OAuthProvider,
-    onAuthStateChanged, // Import Auth type
-    signInWithEmailAndPassword,
-    signInWithPopup,
-} from "firebase/auth";
+import type { Auth } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, useEffect, useState } from "react";
@@ -107,14 +100,15 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	useEffect(() => {
 		if (!currentAuth) return; // Wait for auth to be available
 
-		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
-			if (user && router.pathname === "/login") {
-				console.log(
-					"User already logged in on /login page, redirecting to /forum",
-				);
-				router.replace("/forum");
-			}
-		});
+		let unsubscribe: () => void = () => {};
+		(async () => {
+			const { onAuthStateChanged } = await import("firebase/auth");
+			unsubscribe = onAuthStateChanged(currentAuth, (user) => {
+				if (user && router.pathname === "/login") {
+					router.replace("/forum");
+				}
+			});
+		})();
 		return () => unsubscribe();
 	}, [router, currentAuth]);
 
@@ -136,6 +130,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		setLoading(true);
 		console.log("Attempting Firebase Email/Pass Log In:", { email, password });
 		try {
+			const { signInWithEmailAndPassword } = await import("firebase/auth");
 			await signInWithEmailAndPassword(currentAuth, email, password);
 			if (router.pathname === "/login") {
 				handleLoginSuccess();
@@ -169,6 +164,9 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		}
 		setError("");
 		setLoading(true);
+		const { GoogleAuthProvider, signInWithPopup } = await import(
+			"firebase/auth"
+		);
 		const provider = new GoogleAuthProvider();
 		try {
 			await signInWithPopup(currentAuth, provider);
@@ -181,9 +179,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 				const code = (err as { code?: string }).code;
 				if (code === "auth/popup-closed-by-user") {
 					errorMessage = "Sign-in popup was closed. Please try again.";
-				} else if (
-					code === "auth/account-exists-with-different-credential"
-				) {
+				} else if (code === "auth/account-exists-with-different-credential") {
 					errorMessage =
 						"An account with this email already exists with a different sign-in method.";
 				}
@@ -200,6 +196,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		}
 		setError("");
 		setLoading(true);
+		const { OAuthProvider, signInWithPopup } = await import("firebase/auth");
 		const provider = new OAuthProvider("microsoft.com");
 		try {
 			await signInWithPopup(currentAuth, provider);
@@ -212,9 +209,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 				const code = (err as { code?: string }).code;
 				if (code === "auth/popup-closed-by-user") {
 					errorMessage = "Sign-in popup was closed. Please try again.";
-				} else if (
-					code === "auth/account-exists-with-different-credential"
-				) {
+				} else if (code === "auth/account-exists-with-different-credential") {
 					errorMessage =
 						"An account with this email already exists with a different sign-in method.";
 				}
