@@ -5,16 +5,21 @@ const fs = require("fs");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const { MongoClient } = require("mongodb");
 
-// ✅ Load environment variables from .env
-const dotenvPath = path.resolve(__dirname, "../.env");
-console.log("🔍 Looking for .env at:", dotenvPath);
+// ✅ Load environment variables from server .env
+const serverDotenvPath = path.resolve(__dirname, "../../server/.env");
+const frontendDotenvPath = path.resolve(__dirname, "../.env");
 
-require("dotenv").config({ path: dotenvPath });
+console.log("🔍 Looking for server .env at:", serverDotenvPath);
+console.log("🔍 Looking for frontend .env at:", frontendDotenvPath);
+
+// Try to load from server .env first, then frontend .env as fallback
+require("dotenv").config({ path: serverDotenvPath });
+require("dotenv").config({ path: frontendDotenvPath });
 
 // ✅ Check Mongo URI
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
-    console.error("❌ MONGO_URI is undefined. Check your .env file.");
+    console.error("❌ MONGO_URI is undefined. Check your server .env file.");
     process.exit(1);
 }
 
