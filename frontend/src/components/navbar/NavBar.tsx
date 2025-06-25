@@ -37,7 +37,7 @@ const NavBar: React.FC = () => {
 				setTimeout(() => {
 					setMenuOpen(false);
 					setIsClosing(false);
-				}, 400);
+				}, 500);
 			}
 		}
 	};
@@ -64,7 +64,7 @@ const NavBar: React.FC = () => {
 					setMenuOpen(false);
 					setIsClosing(false);
 					router.push(to);
-				}, 400); // Match CSS animation duration
+				}, 500); // Match CSS animation duration
 			} else {
 				// If menu isn't open on mobile, just navigate (e.g. logo click)
 				// Or if it's already closing, the navigation will happen after animation.

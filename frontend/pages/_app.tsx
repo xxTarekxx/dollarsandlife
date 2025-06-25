@@ -1,7 +1,7 @@
 import { AppProps } from "next/app";
 import Head from "next/head"; // For default head tags
 import Router, { useRouter } from "next/router"; // Import useRouter as well for the router instance
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react"; // Import React
 import { Toaster } from "react-hot-toast";
 
 // Import global CSS
@@ -114,7 +114,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 		setShowAdBlockPrompt(false);
 	}, []);
 
-	// GA Configuration
+	const isInternalUserRef = React.useRef<boolean | null>(null); // To store internal user status
+
+	// GA Configuration - Initial Load and IP Check
 	useEffect(() => {
 		const INTERNAL_IP_PREFIX =
 			process.env.NEXT_PUBLIC_REACT_APP_INTERNAL_IP_PREFIX;
@@ -123,36 +125,63 @@ function MyApp({ Component, pageProps }: AppProps) {
 			.map((p) => p.trim())
 			.filter((p) => p);
 
-		const configureGa = (isInternal: boolean) => {
+		const initializeGa = async () => {
+			let isInternal = false;
+			if (internalPrefixes.length > 0 && internalPrefixes[0] !== "http://localhost:5000") { // Avoid fetch if default and likely incorrect prefix
+				try {
+					const res = await fetch("https://api64.ipify.org?format=json");
+					if (!res.ok) throw new Error("Failed to fetch IP");
+					const data = await res.json();
+					const userIP = data.ip;
+					const normalizeIP = (ip: string) => ip.replace(/[^a-zA-Z0-9:.]/g, "");
+					isInternal = internalPrefixes.some((prefix) =>
+						normalizeIP(userIP).startsWith(normalizeIP(prefix)),
+					);
+				} catch (error) {
+					console.error("Error fetching IP for GA:", error);
+					// isInternal remains false
+				}
+			}
+			isInternalUserRef.current = isInternal;
+
 			if (typeof window.gtag === "function") {
 				window.gtag("config", GA_MEASUREMENT_ID, {
-					page_path: router.asPath, // router.asPath includes query parameters
+					page_path: router.asPath,
 					...(isInternal && { traffic_type: "internal" }),
 				});
 				window.gtag("config", GOOGLE_ADS_ID);
 			}
 		};
 
-		if (internalPrefixes.length > 0) {
-			fetch("https://api64.ipify.org?format=json")
-				.then((res) => {
-					if (!res.ok) throw new Error("Failed to fetch IP");
-					return res.json();
-				})
-				.then((data) => {
-					const userIP = data.ip;
-					const normalizeIP = (ip: string) => ip.replace(/[^a-zA-Z0-9:.]/g, "");
-					const isInternal = internalPrefixes.some((prefix) =>
-						normalizeIP(userIP).startsWith(normalizeIP(prefix)),
-					);
-					configureGa(isInternal);
-				})
-				.catch(() => configureGa(false)); // Fallback on API error
-		} else {
-			configureGa(false);
-		}
-		// Listen to route changes for GA page views
-	}, [router.asPath]); // Depend on router.asPath for full URL including query params
+		initializeGa();
+	}, []); // Runs once on component mount
+
+	// GA Configuration - Route Change Handler
+	useEffect(() => {
+		const handleRouteChange = (url: string) => {
+			if (typeof window.gtag === "function") {
+				const configPayload: { page_path: string; traffic_type?: string } = { page_path: url };
+				if (isInternalUserRef.current === true) {
+					configPayload.traffic_type = "internal";
+				}
+				// Send page view event
+				window.gtag("event", "page_view", {
+					page_path: url,
+					send_to: GA_MEASUREMENT_ID,
+					...(isInternalUserRef.current === true && { traffic_type: "internal" }), // Optional: include traffic_type in page_view if desired
+				});
+
+				// Alternatively, some setups just re-run config on route change:
+				// window.gtag("config", GA_MEASUREMENT_ID, configPayload);
+			}
+		};
+
+		Router.events.on("routeChangeComplete", handleRouteChange);
+
+		return () => {
+			Router.events.off("routeChangeComplete", handleRouteChange);
+		};
+	}, [router]); // router instance is stable, effect runs once to set up/tear down listeners
 
 	// Determine if BreadcrumbWrapper should be shown
 	const showBreadcrumbs = router.pathname !== "/";
