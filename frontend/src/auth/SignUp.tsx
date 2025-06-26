@@ -1,7 +1,4 @@
 // frontend/src/components/auth/SignUp.tsx
-import { useRouter } from "next/router";
-import React, { FormEvent, useEffect, useState } from "react";
-import styles from "./SignUp.module.css";
 import {
 	ActionCodeSettings,
 	Auth,
@@ -9,14 +6,16 @@ import {
 	GoogleAuthProvider,
 	OAuthProvider,
 	User,
-	UserCredential,
 	createUserWithEmailAndPassword,
 	onAuthStateChanged,
 	sendEmailVerification,
 	signInWithPopup,
 	updateProfile,
 } from "firebase/auth";
+import { useRouter } from "next/router";
+import React, { FormEvent, useEffect, useState } from "react";
 import { getFirebaseAuth } from "../firebase";
+import styles from "./SignUp.module.css";
 
 import googleLogo from "../assets/images/google-logo.png";
 import microsoftLogo from "../assets/images/microsoft-logo.png";
@@ -121,18 +120,28 @@ const SignUp: React.FC<SignUpProps> = ({
 
 	const handleEmailPasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (!currentAuth) return setError("Authentication not ready.");
+		if (!currentAuth) {
+			setError("Authentication not ready.");
+			return;
+		}
 
 		setError("");
 		setSuccessMessage("");
 		setIsEmailSignUpSuccessDisplay(false);
 
-		if (!displayName.trim()) return setError("Display Name cannot be empty.");
+		if (!displayName.trim()) {
+			setError("Display Name cannot be empty.");
+			return;
+		}
 		const passwordErrors = validatePassword(password);
-		if (passwordErrors.length > 0)
-			return setError(`Password issues: ${passwordErrors.join(", ")}.`);
-		if (password !== confirmPassword)
-			return setError("Passwords do not match.");
+		if (passwordErrors.length > 0) {
+			setError(`Password issues: ${passwordErrors.join(", ")}.`);
+			return;
+		}
+		if (password !== confirmPassword) {
+			setError("Passwords do not match.");
+			return;
+		}
 
 		setLoading(true);
 		try {
@@ -172,7 +181,10 @@ const SignUp: React.FC<SignUpProps> = ({
 	const handleSocialLogin = async (
 		provider: GoogleAuthProvider | OAuthProvider,
 	) => {
-		if (!currentAuth) return setError("Authentication not ready.");
+		if (!currentAuth) {
+			setError("Authentication not ready.");
+			return;
+		}
 		setError("");
 		setSuccessMessage("");
 		setLoading(true);
@@ -207,7 +219,12 @@ const SignUp: React.FC<SignUpProps> = ({
 
 	const handleSwitchToLoginLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
-		onSwitchToLogin ? onSwitchToLogin() : router.push("/login");
+		// FIX: Replaced ternary operator with if/else to satisfy no-unused-expressions rule
+		if (onSwitchToLogin) {
+			onSwitchToLogin();
+		} else {
+			router.push("/login");
+		}
 	};
 
 	if (!currentAuth && !authInitializedFromGetter && !propAuth) {
@@ -300,6 +317,7 @@ const SignUp: React.FC<SignUpProps> = ({
 				</button>
 
 				<div className={styles.socialLoginDivider}>OR</div>
+				<div>Sign Up With</div>
 				<div className={styles.socialLoginButtons}>
 					<button
 						type='button'

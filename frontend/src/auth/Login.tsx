@@ -3,65 +3,27 @@ import {
 	Auth,
 	GoogleAuthProvider,
 	OAuthProvider,
-	onAuthStateChanged, // Import Auth type
+	onAuthStateChanged,
 	signInWithEmailAndPassword,
 	signInWithPopup,
 } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, useEffect, useState } from "react";
-// import { auth } from "../firebase"; // REMOVE direct import
-import { getFirebaseAuth } from "../firebase"; // Import the getter
+import { getFirebaseAuth } from "../firebase";
 import styles from "./Login.module.css";
+import googleLogo from "../assets/images/google-logo.png";
+import microsoftLogo from "../assets/images/microsoft-logo.png";
 
-// Import SVGs as React components
-const GmailIcon = () => (
-	<svg
-		width='24'
-		height='24'
-		viewBox='0 0 98.38 24.76'
-		xmlns='http://www.w3.org/2000/svg'
-	>
-		<path
-			fill='#e94235'
-			d='M0,3.38v3l3.44,3.33,4.06,2.3.75-5.05-.75-4.7-2.1-1.57C3.17-.99,0,.6,0,3.38Z'
-		/>
-		<path
-			fill='#ffba00'
-			d='M25.5,2.26l-.75,4.76.75,4.99,3.68-1.82,3.82-3.8v-3c0-2.78-3.17-4.37-5.4-2.7l-2.1,1.57Z'
-		/>
-		<path
-			fill='#2684fc'
-			d='M2.25,24.76h5.25v-12.75L0,6.38v16.12c0,1.24,1.01,2.25,2.25,2.25Z'
-		/>
-		<path
-			fill='#00ac47'
-			d='M25.5,24.76h5.25c1.24,0,2.25-1.01,2.25-2.25V6.38l-7.5,5.62v12.75Z'
-		/>
-		<path
-			fill='#c5221f'
-			d='M16.5,9.01L7.5,2.26v9.75l9,6.75,9-6.75V2.26l-9,6.75Z'
-		/>
-	</svg>
-);
+const GmailIcon = () => <img src={googleLogo.src} alt='Google logo' />;
 
-const MicrosoftIcon = () => (
-	<svg
-		width='24'
-		height='24'
-		viewBox='0 0 1033.7455 220.69501'
-		xmlns='http://www.w3.org/2000/svg'
-	>
-		<path d='m104.87 104.87h-104.87v-104.87h104.87v104.87z' fill='#f1511b' />
-		<path d='m220.65 104.87h-104.87v-104.87h104.87v104.87z' fill='#80cc28' />
-		<path d='m104.86 220.7h-104.86v-104.87h104.86v104.87z' fill='#00adef' />
-		<path d='m220.65 220.7h-104.87v-104.87h104.87v104.87z' fill='#fbbc09' />
-	</svg>
+const MicrosoftButtonContent = () => (
+	<img src={microsoftLogo.src} alt='Microsoft logo' />
 );
 
 interface LoginProps {
 	onSwitchToSignUp?: () => void;
-	auth?: Auth; // Auth prop is optional; will be provided by AuthPromptModal
+	auth?: Auth;
 }
 
 const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
@@ -77,7 +39,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	);
 
 	useEffect(() => {
-		// If auth is not provided via props (e.g., standalone /login page), initialize it.
 		if (!propAuth && !authInitializedFromGetter) {
 			console.log(
 				"Login.tsx: Auth not provided via prop, attempting to get/initialize.",
@@ -95,17 +56,15 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 					setError(
 						"Authentication service failed to load. Please try again later.",
 					);
-					setAuthInitializedFromGetter(true); // Mark as attempted
+					setAuthInitializedFromGetter(true);
 				});
 		} else if (propAuth && currentAuth !== propAuth) {
-			// Prop updated
 			setCurrentAuth(propAuth);
 		}
 	}, [propAuth, authInitializedFromGetter, currentAuth]);
 
-	// Effect to redirect if user is already logged in
 	useEffect(() => {
-		if (!currentAuth) return; // Wait for auth to be available
+		if (!currentAuth) return;
 
 		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
 			if (user && router.pathname === "/login") {
@@ -232,7 +191,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	};
 
 	if (!currentAuth && !authInitializedFromGetter && !propAuth) {
-		// Show minimal UI or loader if auth is being fetched for standalone page
 		return (
 			<div className={styles.loginContentWrapper}>
 				<p>Loading login...</p>
@@ -245,7 +203,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 			<form onSubmit={handleEmailPasswordSubmit} className={styles.loginForm}>
 				<h3>Log In</h3>
 				{error && <p className={styles.errorMessage}>{error}</p>}
-				{/* ... rest of the form ... */}
 				<div className={styles.formGroup}>
 					<label htmlFor='login-email'>Email</label>
 					<input
@@ -281,25 +238,25 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 				</button>
 
 				<div className={styles.socialLoginDivider}>OR</div>
-				<div>Log In Using</div>
+				<p> Log In With</p>
 				<div className={styles.socialLoginButtons}>
 					<button
 						type='button'
 						onClick={handleGoogleSignIn}
 						className={`${styles.socialButton} ${styles.googleButton}`}
 						disabled={loading || !currentAuth}
-						title='Sign in with Google'
 					>
 						<GmailIcon />
+						<span className={styles.socialText}>Gmail</span>
 					</button>
 					<button
 						type='button'
 						onClick={handleMicrosoftSignIn}
 						className={`${styles.socialButton} ${styles.microsoftButton}`}
 						disabled={loading || !currentAuth}
-						title='Sign in with Microsoft'
 					>
-						<MicrosoftIcon />
+						<MicrosoftButtonContent />
+						<span className={styles.socialText}>Microsoft</span>
 					</button>
 				</div>
 

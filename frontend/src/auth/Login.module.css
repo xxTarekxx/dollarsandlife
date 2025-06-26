@@ -5,7 +5,6 @@
     align-items: center;
     justify-content: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* padding: 20px; */
 }
 
 .loginContentWrapper {
@@ -26,13 +25,7 @@
     box-sizing: border-box;
 }
 
-.loginForm h2 {
-    color: #333;
-    margin-bottom: 10px;
-    text-align: center;
-    font-size: 18px;
-}
-
+.loginForm h2,
 .loginForm h3 {
     color: #333;
     margin-bottom: 10px;
@@ -71,7 +64,6 @@
     width: 100%;
     padding: 6px 10px;
     background-color: #28a745;
-    /* Green for login */
     color: white;
     border: none;
     border-radius: 4px;
@@ -83,7 +75,6 @@
 
 .submitButton:hover {
     background-color: #218838;
-    /* Darker green on hover */
 }
 
 .errorMessage {
@@ -98,63 +89,53 @@
     border-radius: 4px;
 }
 
-/* Optional: For "Forgot password?" or "Don't have an account?" links */
 .authLinks {
     text-align: center;
     margin-top: 8px;
     font-size: 12px;
 }
 
-.authLinks a {
-    color: #007bff;
-    text-decoration: none;
-    margin: 0 5px;
-}
-
-.authLinks a:hover {
-    text-decoration: underline;
-}
-
+.authLinks a,
 .authSwitchLink {
     color: #007bff;
     text-decoration: none;
     margin: 0 5px;
 }
 
+.authLinks a:hover,
 .authSwitchLink:hover {
     text-decoration: underline;
 }
 
+/* Social Login Styles - Copied from SignUp.module.css for consistency */
 .socialLoginDivider {
     display: flex;
     align-items: center;
     text-align: center;
-    color: #888;
-    margin: 10px 0;
+    color: #6c757d;
+    margin: 20px 0;
 }
 
 .socialLoginDivider::before,
 .socialLoginDivider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #dee2e6;
 }
 
 .socialLoginDivider:not(:empty)::before {
-    margin-right: .5em;
-    /* Spacing around "OR" */
+    margin-right: 0.5em;
 }
 
 .socialLoginDivider:not(:empty)::after {
-    margin-left: .5em;
-    /* Spacing around "OR" */
+    margin-left: 0.5em;
 }
 
 .socialLoginButtons {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: 6px;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 .socialButton {
@@ -173,109 +154,38 @@
     min-height: 40px;
 }
 
-.socialButton img {
-    width: 18px;
-    height: 18px;
-    margin-right: 6px;
+.googleButton {
+    background-color: #f3f3f3;
+    color: #000;
 }
 
-.googleButton {
-    background-color: #ffffff;
-    /* Google's white */
-    color: #757575;
-    /* Google's grey text */
-    border: 1px solid #dadce0;
-    /* Google's border */
+.googleButton img {
+    padding-right: 8px;
+    width: 32px;
 }
+
 
 .googleButton:hover {
-    background-color: #f8f9fa;
+    background-color: #e0e0e0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .microsoftButton {
-    background-color: #2f2f2f;
-    /* Microsoft's dark grey/black */
-    color: white;
+    background-color: #f3f3f3;
+    color: #000;
+}
+
+.microsoftButton img {
+    padding-right: 8px;
+    width: 32px;
 }
 
 .microsoftButton:hover {
-    background-color: #1f1f1f;
-    /* Slightly darker on hover */
+    background-color: #e0e0e0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Additions/Modifications to your existing SignUp.css for Social Login Buttons */
-
-.socialLoginDivider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #6c757d;
-    /* Slightly adjusted color for better contrast with some backgrounds */
-    margin: 20px 0;
-}
-
-.socialLoginDivider::before,
-.socialLoginDivider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.socialLoginDivider:not(:empty)::before {
-    margin-right: .5em;
-}
-
-.socialLoginDivider:not(:empty)::after {
-    margin-left: .5em;
-}
-
-.socialLoginButtons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.socialButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    font-size: 15px;
+.socialText {
+    font-size: 16px;
     font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.socialButton img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-}
-
-.googleButton {
-    background-color: #ffffff;
-    color: #757575;
-    border: 1px solid #dadce0;
-}
-
-.googleButton:hover {
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.microsoftButton {
-    background-color: #2f2f2f;
-    color: white;
-}
-
-.microsoftButton:hover {
-    background-color: #1f1f1f;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
