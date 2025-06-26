@@ -1,10 +1,9 @@
 import { AppProps } from "next/app";
-import Head from "next/head"; // For default head tags
-import Router, { useRouter } from "next/router"; // Import useRouter as well for the router instance
-import React, { useCallback, useEffect, useState } from "react"; // Import React
+import Head from "next/head";
+import Router, { useRouter } from "next/router";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
-// Import global CSS
 import "../src/App.css";
 import "../src/components/articles-content/BlogPostContent.css";
 import "../src/components/articles-postcards/BlogPostCard.css";
@@ -25,13 +24,11 @@ import "./SentryPCLanding.css";
 import "./shopping-deals/ProductDetails.css";
 import "./shopping-deals/ShoppingDeals.css";
 
-// Import layout components
 import BreadcrumbWrapper from "../src/components/breadcrumbs/BreadcrumbWrapper";
 import Footer from "../src/components/footer/Footer";
 import NavBar from "../src/components/navbar/NavBar";
 import RssTicker from "../src/components/rss-news/RssTicker";
 
-// Type declarations for gtag
 declare global {
 	interface Window {
 		gtag: (
@@ -46,16 +43,15 @@ declare global {
 	}
 }
 
-// GA and AdBlock related constants
 const GA_MEASUREMENT_ID =
 	process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-76XESXFFJP";
 const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-16613104907";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [showAdBlockPrompt, setShowAdBlockPrompt] = useState(false);
-	const router = useRouter(); // Use useRouter hook for consistency
+	const router = useRouter();
+	const isInternalUserRef = useRef<boolean | null>(null);
 
-	// ScrollToTop functionality
 	useEffect(() => {
 		const handleRouteChange = () => {
 			window.scrollTo(0, 0);
@@ -66,27 +62,22 @@ function MyApp({ Component, pageProps }: AppProps) {
 		};
 	}, []);
 
-	// AdBlock Detection
 	useEffect(() => {
 		const checkAdBlock = () => {
 			let isAdBlocked = false;
 			const testAd = document.createElement("div");
-			testAd.innerHTML = "\u00A0"; // &nbsp;
+			testAd.innerHTML = "\u00A0";
 			testAd.className = "adsbox";
 			testAd.style.cssText =
 				"position:absolute; height:1px; width:1px; top:-1px; left:-1px; opacity:0.01; pointer-events:none;";
 			try {
 				document.body.appendChild(testAd);
-				// Use requestAnimationFrame to ensure the element is in the DOM and styles are applied
 				requestAnimationFrame(() => {
-					// Delay check slightly to give ad blockers time to act
 					setTimeout(() => {
 						if (
 							testAd.offsetHeight === 0 ||
-							(typeof window !== "undefined" &&
-								window.getComputedStyle(testAd).display === "none") ||
-							(typeof window !== "undefined" &&
-								window.getComputedStyle(testAd).visibility === "hidden")
+							window.getComputedStyle(testAd).display === "none" ||
+							window.getComputedStyle(testAd).visibility === "hidden"
 						) {
 							isAdBlocked = true;
 						}
@@ -96,16 +87,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 						if (isAdBlocked) {
 							setShowAdBlockPrompt(true);
 						}
-					}, 150); // Increased delay slightly
+					}, 150);
 				});
 			} catch {
-				// Fallback if appendChild fails or other error
 				if (document.body.contains(testAd)) {
 					document.body.removeChild(testAd);
 				}
 			}
 		};
-		// Delay initial check to allow page to render and ad blockers to potentially act
 		const timer = setTimeout(checkAdBlock, 3000);
 		return () => clearTimeout(timer);
 	}, []);
@@ -114,9 +103,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 		setShowAdBlockPrompt(false);
 	}, []);
 
-	const isInternalUserRef = React.useRef<boolean | null>(null); // To store internal user status
-
-	// GA Configuration - Initial Load and IP Check
 	useEffect(() => {
 		const INTERNAL_IP_PREFIX =
 			process.env.NEXT_PUBLIC_REACT_APP_INTERNAL_IP_PREFIX;
@@ -127,7 +113,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 		const initializeGa = async () => {
 			let isInternal = false;
-			if (internalPrefixes.length > 0 && internalPrefixes[0] !== "http://localhost:5000") { // Avoid fetch if default and likely incorrect prefix
+			if (
+				internalPrefixes.length > 0 &&
+				internalPrefixes[0] !== "http://localhost:5000"
+			) {
 				try {
 					const res = await fetch("https://api64.ipify.org?format=json");
 					if (!res.ok) throw new Error("Failed to fetch IP");
@@ -139,7 +128,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 					);
 				} catch (error) {
 					console.error("Error fetching IP for GA:", error);
-					// isInternal remains false
 				}
 			}
 			isInternalUserRef.current = isInternal;
@@ -154,36 +142,33 @@ function MyApp({ Component, pageProps }: AppProps) {
 		};
 
 		initializeGa();
-	}, []); // Runs once on component mount
+	}, [router.asPath]); // ✅ Fixed dependency
 
-	// GA Configuration - Route Change Handler
 	useEffect(() => {
 		const handleRouteChange = (url: string) => {
 			if (typeof window.gtag === "function") {
-				const configPayload: { page_path: string; traffic_type?: string } = { page_path: url };
+				const configPayload: { page_path: string; traffic_type?: string } = {
+					page_path: url,
+				};
 				if (isInternalUserRef.current === true) {
 					configPayload.traffic_type = "internal";
 				}
-				// Send page view event
 				window.gtag("event", "page_view", {
 					page_path: url,
 					send_to: GA_MEASUREMENT_ID,
-					...(isInternalUserRef.current === true && { traffic_type: "internal" }), // Optional: include traffic_type in page_view if desired
+					...(isInternalUserRef.current === true && {
+						traffic_type: "internal",
+					}),
 				});
-
-				// Alternatively, some setups just re-run config on route change:
-				// window.gtag("config", GA_MEASUREMENT_ID, configPayload);
 			}
 		};
 
 		Router.events.on("routeChangeComplete", handleRouteChange);
-
 		return () => {
 			Router.events.off("routeChangeComplete", handleRouteChange);
 		};
-	}, [router]); // router instance is stable, effect runs once to set up/tear down listeners
+	}, [router]);
 
-	// Determine if BreadcrumbWrapper should be shown
 	const showBreadcrumbs = router.pathname !== "/";
 
 	return (
@@ -197,17 +182,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 					content='Dollars And Life offers advice on extra income, budgeting, and saving deals.'
 				/>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
-				{/* Custom favicon */}
 				<link rel='icon' type='image/png' href='/website-logo-icon.png' />
-				{/* Optionally, remove or comment out the old favicon links below */}
-				{/*
-				<link rel='icon' href='/favicon/favicon.ico' />
-				<link rel='apple-touch-icon' sizes='180x180' href='/favicon/apple-touch-icon.png' />
-				<link rel='icon' type='image/png' sizes='32x32' href='/favicon/favicon-32x32.png' />
-				<link rel='icon' type='image/png' sizes='16x16' href='/favicon/favicon-16x16.png' />
-				<link rel='manifest' href='/favicon/site.webmanifest' />
-				*/}
 			</Head>
+
 			<Toaster
 				position='top-center'
 				toastOptions={{
