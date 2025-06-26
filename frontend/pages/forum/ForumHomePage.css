@@ -679,8 +679,9 @@ body {
 
     .create-post-button-main,
     .login-signup-button.header-login-button {
+        text-align: center;
+        width: auto;
         padding-top: 0.8rem;
-        /* Slightly more padding for tap targets */
         padding-bottom: 0.8rem;
         font-size: 0.9rem;
     }
@@ -707,9 +708,7 @@ body {
         text-align: left;
         /* Align title left */
         margin-bottom: 0;
-        /* Reset mobile margin */
         font-size: clamp(1.75rem, 4vw, 2.25rem);
-        /* Restore desktop font size */
     }
 
     .forum-header-interactive-area {
@@ -740,31 +739,24 @@ body {
 
     .display-name {
         max-width: 150px;
-        /* More space for name on desktop */
+
     }
 
     .forum-homepage-container {
         padding: 2rem 1.5rem;
-        /* More padding on larger screens */
     }
 
     .forum-content {
         flex-direction: row;
-        /* Sidebar next to feed */
         gap: 2rem;
-        /* Gap between feed and sidebar */
         align-items: flex-start;
-        /* Align items to top */
     }
 
     .forum-sidebar {
         flex-basis: 280px;
         flex-shrink: 0;
-        /* Prevent sidebar from shrinking */
         position: sticky;
-        /* Make sidebar sticky */
         top: 1.5rem;
-        /* Adjust based on any fixed header/navbar */
     }
 }
 

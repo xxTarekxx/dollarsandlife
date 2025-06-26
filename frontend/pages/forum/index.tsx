@@ -41,9 +41,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 
 	const [posts, setPosts] = useState<PostData[]>(initialPosts || []); // Initialize with static props
 	const [loadingPosts, setLoadingPosts] = useState<boolean>(!initialPosts); // Don't load if initialPosts exist
-	// const [showCreatePostModal, setShowCreatePostModal] = useState(false); // Removed
-	// const [isCreatePostModalInDom, setIsCreatePostModalInDom] = useState(false); // Removed
-	// const [formKey, setFormKey] = useState(0); // Removed, related to modal
 	const [sortBy, setSortBy] = useState<"timestamp" | "helpfulVoteCount">(
 		"timestamp",
 	);
@@ -73,9 +70,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	const handleLogout = async () => {
 		try {
 			await signOut(firebaseAuth);
-			// No need to manually close AuthModal here if it's open,
-			// as logout means the condition for it being open (no user) is met.
-			// If it was open due to an action, user navigating away or logging out should implicitly close it.
 			console.log("ForumHomePage: User logged out.");
 		} catch (error) {
 			console.error("ForumHomePage: Error signing out: ", error);
@@ -124,7 +118,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 		};
 
 		// If initialPosts are provided from getStaticProps, use them.
-		// Otherwise, or if sorting/filtering changes, fetch client-side.
 		if (
 			initialPosts &&
 			initialPosts.length > 0 &&
@@ -150,10 +143,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 		);
 	}
 
-	// Modal component for creating a post
-	// Only render if firebaseDb is available, as CreatePostForm depends on it.
-	// createPostModalComponent and related states/functions removed
-
 	const isAnyModalEffectivelyOpen = isAuthModalInDom; // Only auth modal can blur now
 
 	return (
@@ -177,10 +166,9 @@ const AuthenticatedForumHomePageContent: React.FC<{
 							onClick={(e) => {
 								if (!user) {
 									e.preventDefault(); // Prevent navigation
-									openAuthModal(); // Open auth modal instead
+									openAuthModal();
 								} else if (!firebaseDb || authLoadingHook) {
-									e.preventDefault(); // Prevent navigation if db not ready or auth loading
-									// Optionally, show a toast message here
+									e.preventDefault();
 								}
 							}}
 						>
@@ -238,7 +226,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 					<h3>Popular Tags</h3>
 					<ul className='tag-filter-list'>
 						{[
-							// Ensure these tags have entries in your tagColors.ts or provide defaults
 							"Budgeting",
 							"Saving",
 							"Investing",
@@ -250,10 +237,10 @@ const AuthenticatedForumHomePageContent: React.FC<{
 							"Taxes",
 							"Retirement",
 						].map((tag) => {
-							const tagKey = tag.toLowerCase(); // Use lowercase key for tagColors
+							const tagKey = tag.toLowerCase();
 							const T_color = tagColors[tagKey] || {
-								bg: "var(--muted-bg-color)", // Fallback background
-								text: "var(--secondary-text-color)", // Fallback text color
+								bg: "var(--muted-bg-color)",
+								text: "var(--secondary-text-color)",
 							};
 							return (
 								<li
@@ -366,11 +353,11 @@ const AuthenticatedForumHomePageContent: React.FC<{
 export const getStaticProps: GetStaticProps = async () => {
 	// Remove the API call that's causing 404 errors
 	// The forum posts will be loaded client-side from Firestore
-	return { 
-		props: { 
+	return {
+		props: {
 			initialPosts: [],
-		}, 
-		revalidate: 60 
+		},
+		revalidate: 60,
 	};
 };
 
