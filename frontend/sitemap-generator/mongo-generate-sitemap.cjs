@@ -5,14 +5,9 @@ const fs = require("fs");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const { MongoClient } = require("mongodb");
 
-// ✅ Load environment variables from server .env
+// ✅ Load environment variables from server and frontend .env
 const serverDotenvPath = path.resolve(__dirname, "../../server/.env");
 const frontendDotenvPath = path.resolve(__dirname, "../.env");
-
-console.log("🔍 Looking for server .env at:", serverDotenvPath);
-console.log("🔍 Looking for frontend .env at:", frontendDotenvPath);
-
-// Try to load from server .env first, then frontend .env as fallback
 require("dotenv").config({ path: serverDotenvPath });
 require("dotenv").config({ path: frontendDotenvPath });
 
@@ -20,10 +15,7 @@ require("dotenv").config({ path: frontendDotenvPath });
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
     console.error("❌ MONGO_URI is undefined. Check your server .env file.");
-    console.log("🔍 Available environment variables:", Object.keys(process.env).filter(key => key.includes('MONGO')));
-    console.log("⚠️  Proceeding with static sitemap only (no dynamic routes from MongoDB)");
-} else {
-    console.log("✅ MONGO_URI found, will include dynamic routes");
+    console.log("⚠️ Proceeding without dynamic routes.");
 }
 
 // ✅ Config
@@ -39,15 +31,16 @@ const COLLECTIONS = [
     "start_a_blog"
 ];
 
-// ✅ Extract static routes for Next.js
+// ✅ Excluded routes
+const EXCLUDED_ROUTE = "/sentrypc-landing";
+
+// ✅ Static routes
 function extractStaticRoutes() {
-    // Next.js static routes - these are the main pages
-    const staticRoutes = [
+    return [
         "/",
         "/about-us",
         "/contact-us",
         "/return-policy",
-        "/sentrypc-landing",
         "/privacy-policy",
         "/terms-of-service",
         "/extra-income",
@@ -59,16 +52,11 @@ function extractStaticRoutes() {
         "/signup",
         "/login"
     ];
-
-    return staticRoutes;
 }
 
-// ✅ Fetch dynamic article routes from MongoDB
+// ✅ Fetch dynamic routes from MongoDB
 async function fetchDynamicRoutes() {
-    if (!MONGO_URI) {
-        console.log("⚠️  Skipping dynamic routes - no MONGO_URI provided");
-        return [];
-    }
+    if (!MONGO_URI) return [];
 
     const client = new MongoClient(MONGO_URI);
     const dynamicRoutes = [];
@@ -84,17 +72,22 @@ async function fetchDynamicRoutes() {
             for (const doc of documents) {
                 if (!doc.canonicalUrl || !doc.datePublished) continue;
 
-                const url = doc.canonicalUrl.startsWith("/")
+                const urlPath = doc.canonicalUrl.toLowerCase();
+                if (urlPath === EXCLUDED_ROUTE.toLowerCase()) {
+                    console.log(`🚫 Skipping excluded dynamic route: ${urlPath}`);
+                    continue;
+                }
+
+                const fullUrl = doc.canonicalUrl.startsWith("/")
                     ? BASE_URL + doc.canonicalUrl
                     : doc.canonicalUrl;
 
                 const rawDate = doc.dateModified?.trim() || doc.datePublished;
                 const parsedDate = new Date(rawDate);
-
                 if (isNaN(parsedDate.getTime())) continue;
 
                 dynamicRoutes.push({
-                    url: url.toLowerCase(),
+                    url: fullUrl.toLowerCase(),
                     changefreq: "monthly",
                     priority: 0.8,
                     lastmod: parsedDate.toISOString(),
@@ -110,7 +103,7 @@ async function fetchDynamicRoutes() {
     return dynamicRoutes;
 }
 
-// ✅ Generate the sitemap file
+// ✅ Generate sitemap
 async function generateSitemap() {
     try {
         const sitemapPath = path.resolve(__dirname, "../public/sitemap.xml");
@@ -119,8 +112,10 @@ async function generateSitemap() {
         sitemap.pipe(writeStream);
 
         // Static routes
-        const staticRoutes = extractStaticRoutes();
+        let staticRoutes = extractStaticRoutes();
+        staticRoutes = staticRoutes.filter(route => route.toLowerCase() !== EXCLUDED_ROUTE.toLowerCase());
         console.log("📝 Adding static routes:", staticRoutes.length);
+
         staticRoutes.forEach(route => {
             sitemap.write({
                 url: route.toLowerCase(),
@@ -129,16 +124,14 @@ async function generateSitemap() {
             });
         });
 
-        // Dynamic article routes
+        // Dynamic routes
         const dynamicRoutes = await fetchDynamicRoutes();
         console.log("📝 Adding dynamic routes:", dynamicRoutes.length);
         dynamicRoutes.forEach(route => sitemap.write(route));
 
         sitemap.end();
         await streamToPromise(sitemap);
-
         console.log("✅ Sitemap generated successfully!");
-
     } catch (err) {
         console.error("❌ Error generating sitemap:", err);
     }
