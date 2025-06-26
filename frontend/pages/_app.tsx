@@ -154,6 +154,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 		};
 
 		initializeGa();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []); // Runs once on component mount
 
 	// GA Configuration - Route Change Handler

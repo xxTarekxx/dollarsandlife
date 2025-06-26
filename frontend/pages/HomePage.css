@@ -1,71 +1,103 @@
-/* --- Global Styles & Resets --- */
+/* --- Global Styles & CSS Variables --- */
 :root {
-    --primary-color: #4A00E0;
-    /* Vibrant Purple */
-    --secondary-color: #8E2DE2;
-    /* Lighter Purple */
-    --accent-color: #00c6ff;
-    /* Bright Blue for accents */
-    --text-color: #333;
-    --text-light: #555;
-    --background-color: #f9faff;
-    /* Very light blue/grey */
-    --card-background: #ffffff;
-    --border-color: #e0e0e0;
-    --heading-font: 'Poppins', sans-serif;
-    /* Modern, clean sans-serif */
-    --body-font: 'Roboto', sans-serif;
-    /* Highly readable sans-serif */
-    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    --box-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
-    --border-radius: 12px;
+    /* Color Palette - Keeping your purple, adding modern neutrals and a brighter accent */
+    --color-primary: #7B2CBF; /* Your existing purple (similar to #971ae1, slightly adjusted for harmony) */
+    --color-primary-dark: #5A189A; /* Darker shade for hovers/depth */
+    --color-accent: #00A8E8; /* Bright, friendly blue - similar to Penny Hoarder's link blue */
+    --color-accent-hover: #0077B6; /* Darker blue for hover */
+
+    --color-text-headings: #1D2D35; /* Dark, slightly desaturated blue-grey for headings */
+    --color-text-body: #34495E;    /* Dark grey for body text */
+    --color-text-light: #5D6D7E;   /* Lighter grey for subtitles, descriptions */
+    --color-text-on-primary: #FFFFFF; /* White text on primary color backgrounds */
+
+    --color-background-main: #FFFFFF;  /* Clean white background for the page */
+    --color-background-alt: #F4F6F8; /* Very light grey for alternating sections or cards */
+    --color-background-card: #FFFFFF;
+
+    --color-border: #EAECEE;        /* Light grey for borders */
+    --color-success: #2ECC71;       /* Green for success/positive elements */
+    --color-warning: #F39C12;       /* Orange for warnings */
+    --color-error: #E74C3C;         /* Red for errors */
+
+    /* Typography */
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500; /* Roboto 500 is nice for subheadings or bolded text */
+    --font-weight-semibold: 600; /* Poppins 600 for headings */
+    --font-weight-bold: 700;
+
+    /* Spacing - using rem for scalability */
+    --space-xs: 0.5rem;  /* 8px */
+    --space-sm: 1rem;    /* 16px */
+    --space-md: 1.5rem;  /* 24px */
+    --space-lg: 2.5rem;  /* 40px */
+    --space-xl: 4rem;    /* 64px */
+
+    /* Borders & Shadows */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px; /* Was 12px, making slightly more subtle */
+    --border-radius-lg: 16px;
+    --border-radius-pill: 50px;
+
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08); /* Was 0 4px 15px rgba(0,0,0,0.08) */
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1); /* Was 0 6px 20px rgba(0,0,0,0.12) for hover */
+
+    /* Transitions */
+    --transition-fast: all 0.2s ease-in-out;
+    --transition-std: all 0.3s ease-in-out;
 }
 
-/* Google Fonts are now imported via <link> in HomePage.tsx using Helmet */
-
+/* --- Base HTML & Body Styles --- */
 html {
     scroll-behavior: smooth;
+    font-size: 100%; /* Base for rem unit calculations (usually 16px) */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-html,
 body {
     margin: 0;
     padding: 0;
-    font-family: var(--body-font);
-    color: var(--text-color);
-    background-color: #faf3d6;
-    /* Re-enabled for consistent page background */
-    line-height: 1.7;
-    font-size: 16px;
-    /* Base font size */
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-body);
+    background-color: var(--color-background-main); /* Changed from #faf3d6 to clean white */
+    line-height: 1.65; /* Slightly adjusted from 1.7 for Roboto */
     overflow-x: hidden;
-    /* Prevent horizontal scroll */
 }
 
 .homepage-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1.5rem;
-    /* Add horizontal padding */
+    padding: 0 var(--space-md); /* Using spacing variables */
 }
 
-/* --- Typography --- */
-.homepage-container h1,
-.homepage-container h2,
-.homepage-container h3,
-.homepage-container h4,
-.homepage-container h5,
-.homepage-container h6 {
-    font-family: var(--heading-font);
-    font-weight: 600;
-    color: var(--primary-color);
+/* --- General Typography --- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-headings);
     margin-top: 0;
+    margin-bottom: var(--space-sm); /* Consistent bottom margin */
     line-height: 1.3;
-    /* Added for tighter heading line-height */
+}
+
+h1 { font-size: 2.75rem; } /* Base H1 size */
+h2 { font-size: 2.25rem; } /* Base H2 / Section Title size */
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.25rem; }
+
+p {
+    margin-top: 0;
+    margin-bottom: var(--space-sm);
 }
 
 a {
-    color: var(--accent-color);
+    color: var(--color-accent);
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -103,59 +135,56 @@ a:focus {
 .cta-button,
 .cta-button-secondary {
     display: inline-block;
-    padding: 0.8rem 1.8rem;
-    border-radius: 50px;
-    /* Pill shape */
-    font-family: var(--heading-font);
-    font-weight: 600;
+    padding: var(--space-sm) var(--space-lg); /* Using spacing variables */
+    border-radius: var(--border-radius-pill); /* Pill shape */
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 1rem;
+    transition: var(--transition-std);
+    font-size: 1.05rem; /* Slightly larger base for CTAs */
     text-align: center;
     border: 2px solid transparent;
-    /* Base border for consistent sizing */
+    cursor: pointer; /* Add cursor pointer */
+    line-height: 1.5; /* Ensure text is centered vertically */
 }
 
 .cta-button {
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    box-shadow: 0 4px 10px rgba(74, 0, 224, 0.3);
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent)); /* Primary to Accent gradient */
+    color: var(--color-text-on-primary);
+    box-shadow: var(--shadow-md);
 }
 
 .cta-button:hover,
 .cta-button:focus {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(74, 0, 224, 0.4);
-    color: white;
+    transform: translateY(-2px); /* Subtle lift */
+    box-shadow: var(--shadow-lg);
+    color: var(--color-text-on-primary); /* Ensure text color remains on hover */
     text-decoration: none;
 }
 
 .cta-button-secondary {
     background-color: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    color: var(--color-primary);
+    border-color: var(--color-primary); /* Use border-color property */
 }
 
 .cta-button-secondary:hover,
 .cta-button-secondary:focus {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-text-on-primary);
     text-decoration: none;
 }
 
 .text-link {
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     display: inline-block;
     margin-top: auto;
-    /* This pushes the link to the bottom of the flex container */
-    color: var(--accent-color);
-    /* Ensure it uses accent color */
+    color: var(--color-accent);
 }
 
 .text-link:hover,
 .text-link:focus {
-    color: var(--primary-color);
-    /* Darken on hover/focus */
+    color: var(--color-accent-hover);
     text-decoration: underline;
 }
 
@@ -163,415 +192,438 @@ a:focus {
 /* --- Hero Section --- */
 .hero-section {
     text-align: center;
-    padding: 4rem 1rem 5rem 1rem;
-    /* Increased bottom padding */
-    /* Example with a subtle gradient background, ensure high contrast with text */
-    /* background: linear-gradient(135deg, var(--background-color) 70%, var(--secondary-color-light, #e6e6ff) 100%); */
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 3rem;
-    position: relative;
+    padding: var(--space-xl) var(--space-sm) var(--space-xl) var(--space-sm); /* Generous padding */
+    background-color: var(--color-background-alt); /* Use alt background for slight differentiation */
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-xl); /* Consistent spacing */
+    position: relative; /* For potential future pseudo-elements or decorations */
 }
 
 .hero-content {
-    max-width: 800px;
+    max-width: 850px; /* Slightly increased max-width for content */
     margin: 0 auto;
 }
 
 .hero-section h1 {
-    /* More specific styling for hero H1 */
-    font-size: 2.8rem;
-    /* Adjust as needed */
-    margin-bottom: 1rem;
-    color: var(--primary-color);
+    font-size: 3rem; /* Larger, more impactful H1 */
+    font-weight: var(--font-weight-bold); /* Bolder H1 */
+    margin-bottom: var(--space-md);
+    color: var(--color-text-headings); /* Using defined heading color */
+    line-height: 1.2; /* Tighter line height for large heading */
+}
+
+.hero-section h1 .highlight { /* Style for the .highlight span within H1 */
+    color: var(--color-primary); /* Use primary color for highlight */
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
-    /* Slightly larger */
-    color: var(--text-light);
-    margin-bottom: 2.5rem;
-    /* More space before CTA */
-    line-height: 1.8;
+    font-size: 1.2rem; /* Adjusted size */
+    color: var(--color-text-light);
+    margin-bottom: var(--space-lg); /* More space before CTA */
+    line-height: 1.7; /* Good readability */
 }
 
 .hero-cta {
-    /* For specific hero CTA adjustments if needed */
-    padding: 1rem 2.2rem;
-    font-size: 1.1rem;
+    padding: var(--space-md) var(--space-xl); /* Larger padding for hero CTA */
+    font-size: 1.15rem; /* Larger font for hero CTA */
 }
 
 /* --- Core Topics Intro --- */
 .core-topics-intro {
-    padding: 2rem 0;
-    margin-bottom: 1rem;
-    /* Reduced margin as grid follows */
+    padding: var(--space-lg) 0; /* Use spacing variables */
+    margin-bottom: var(--space-md); /* Consistent spacing */
+    text-align: center; /* Ensure intro text is centered */
 }
 
+/* Updated .section-title and .section-subtitle will apply here */
 
-/* --- Core Topics Grid (prev home-main-links) --- */
+
+/* --- Core Topics Grid --- */
 .core-topics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly larger minmax base */
+    gap: var(--space-lg); /* Increased gap for more air */
+    margin-bottom: var(--space-xl); /* Consistent spacing */
 }
 
 .topic-card {
-    background-color: var(--card-background);
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
+    background-color: var(--color-background-card); /* Should be white by default */
+    border-radius: var(--border-radius-lg); /* Larger, softer border radius */
+    padding: 0; /* Remove padding, will apply to content instead for full-bleed image */
     text-decoration: none;
-    color: inherit;
-    box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: var(--color-text-body); /* Use body text color for base */
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-std); /* Use standard transition */
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* Important for child border-radius on image */
 }
 
 .topic-card:hover,
 .topic-card:focus-within {
-    /* focus-within is great for keyboard nav */
-    transform: translateY(-8px);
-    box-shadow: var(--box-shadow-hover);
+    transform: translateY(-5px); /* Slightly less lift than -8px */
+    box-shadow: var(--shadow-lg); /* Use updated shadow variable */
 }
 
 .topic-card-figure {
-    margin: 0 0 1rem 0;
-    text-align: center;
+    margin: 0; /* Remove margin */
+    height: 200px; /* Fixed height for image container */
+    overflow: hidden; /* Ensure image respects this container's bounds */
 }
 
 .topic-card-figure img {
     width: 100%;
-    max-height: 180px;
-    object-fit: contain;
-    border-radius: calc(var(--border-radius) - 6px);
+    height: 100%;
+    object-fit: cover; /* Cover ensures image fills space, might crop */
+    /* border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; */ /* Top corners rounded if not full bleed */
+    transition: transform 0.3s ease-out; /* Smooth zoom for image on card hover */
+}
+
+.topic-card:hover .topic-card-figure img {
+    transform: scale(1.05); /* Subtle zoom on image on card hover */
 }
 
 .topic-card-content {
+    padding: var(--space-md); /* Apply padding here instead of the card itself */
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
 .topic-card-title {
-    margin-bottom: 0.5rem;
-    font-size: 1.3rem;
-    color: var(--primary-color);
-    /* Ensure title uses primary color */
+    margin-bottom: var(--space-xs); /* Tighter margin to description */
+    font-size: 1.5rem; /* Larger card titles */
+    font-weight: var(--font-weight-semibold); /* Ensure it uses heading weight */
+    color: var(--color-text-headings); /* Use heading color */
+    line-height: 1.3;
 }
 
 .topic-card-description {
-    font-size: 0.95rem;
-    color: var(--text-light);
+    font-size: 0.95rem; /* Maintained size */
+    color: var(--color-text-light);
     line-height: 1.6;
     flex-grow: 1;
-    /* Ensures description takes available space */
-    margin-bottom: 1rem;
-    /* Space before the link */
+    margin-bottom: var(--space-sm); /* Space before the link */
 }
 
 .topic-card-link {
-    margin-top: auto;
-    font-weight: 600;
-    color: var(--accent-color);
-    font-size: 0.9rem;
-    align-self: flex-start;
+    margin-top: auto; /* Pushes to bottom */
+    font-weight: var(--font-weight-semibold); /* Bolder link text */
+    color: var(--color-accent);
+    font-size: 1rem; /* Larger link text */
+    align-self: flex-start; /* Align to the start of the flex container */
+    text-decoration: none; /* Ensure no underline by default */
 }
 
 .topic-card-link:hover,
 .topic-card-link:focus {
-    text-decoration: underline;
-    color: var(--primary-color);
+    color: var(--color-accent-hover); /* Use accent hover color */
+    text-decoration: underline; /* Underline on hover/focus */
 }
 
 
-/* --- Why Trust Us Section --- */
+/* --- Why Trust Us Section (E-E-A-T) --- */
 .why-trust-us {
-    padding: 3rem 1.5rem;
-    /* Increased padding */
-    background-color: var(--card-background);
-    /* Was --background-color, now using card for contrast */
-    border-radius: var(--border-radius);
-    margin-bottom: 4rem;
-    box-shadow: var(--box-shadow);
-    display: flex;
-    align-items: center;
-    gap: 2rem;
+    padding: var(--space-xl) var(--space-md); /* Generous padding */
+    background-color: var(--color-background-main); /* Keep on main white or use alt if preferred */
+    border-top: 1px solid var(--color-border); /* Add top/bottom borders for separation */
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-xl); /* Consistent spacing */
+    /* Removed display:flex and gap from here, will let content flow naturally or use internal grid if needed */
 }
 
 .why-trust-content {
-    flex-basis: 100%;
+    max-width: 900px; /* Control width of the content block */
+    margin: 0 auto; /* Center the content block */
+    text-align: left; /* Default text align for content */
 }
 
 .why-trust-us .section-title {
-    /* Title specific to this section */
-    text-align: left;
-    /* Overriding centered default */
-    margin-bottom: 1.5rem;
+    text-align: center; /* Center the main section title */
+    margin-bottom: var(--space-lg); /* More space after title */
+    font-size: 2rem; /* Slightly smaller than main H2 if desired, or keep consistent */
 }
 
 .why-trust-us p {
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-    color: var(--text-light);
+    margin-bottom: var(--space-md); /* Consistent paragraph spacing */
+    line-height: 1.75; /* Slightly more line height for readability */
+    color: var(--color-text-body); /* Use standard body text color */
 }
 
 .why-trust-us p strong a {
-    /* Style for the LinkedIn link */
-    color: var(--primary-color);
-    font-weight: 600;
-    /* Keep it bold */
+    color: var(--color-primary); /* Primary color for important links */
+    font-weight: var(--font-weight-semibold); /* Make it stand out */
 }
 
-.why-trust-us p strong a:hover {
-    color: var(--accent-color);
+.why-trust-us p strong a:hover,
+.why-trust-us p strong a:focus {
+    color: var(--color-primary-dark); /* Darken on hover */
+    text-decoration: underline;
 }
-
 
 .why-trust-us ul {
     list-style: none;
     padding-left: 0;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-lg); /* More space after list */
+    display: grid; /* Using grid for a two-column layout on wider screens */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: var(--space-md); /* Gap between list items */
 }
 
 .why-trust-us ul li {
-    padding-left: 2em;
-    /* Increased padding for icon */
+    padding-left: 2.2em; /* Space for a larger icon */
     position: relative;
-    margin-bottom: 1em;
-    /* Increased spacing */
-    color: var(--text-light);
-    line-height: 1.7;
+    margin-bottom: var(--space-sm); /* Space between items if they stack */
+    color: var(--color-text-body); /* Standard body text for list items */
+    line-height: 1.6;
+    background-color: var(--color-background-alt); /* Slight background for each item */
+    padding: var(--space-sm);
+    padding-left: 2.5em; /* Adjust padding to account for icon */
+    border-radius: var(--border-radius-md);
 }
 
 .why-trust-us ul li::before {
-    content: '✔';
-    color: var(--accent-color);
+    content: '✓'; /* Using a more standard checkmark */
+    color: var(--color-success); /* Use success color for checkmarks */
     position: absolute;
-    left: 0;
-    font-size: 1.2em;
-    /* Slightly larger checkmark */
-    top: 2px;
-    /* Fine-tune vertical alignment */
+    left: var(--space-sm); /* Position icon within padding */
+    font-size: 1.4em; /* Larger checkmark */
+    font-weight: var(--font-weight-bold);
+    top: 0.8em; /* Adjust vertical alignment */
+    transform: translateY(-50%);
 }
 
 .why-trust-us ul li strong {
-    color: var(--text-color);
-    /* Make the bolded part slightly darker */
-    font-weight: 500;
-    /* Roboto 500 */
+    color: var(--color-text-headings); /* Heading color for emphasis */
+    font-weight: var(--font-weight-semibold);
+    display: block; /* Make strong take full width for better structure */
+    margin-bottom: var(--space-xs);
+}
+
+.why-trust-us .cta-button-secondary {
+    display: block; /* Make button block to center it */
+    margin: 0 auto; /* Center the button */
+    max-width: 250px; /* Control button width */
 }
 
 
 /* --- Discover Section --- */
 .discover-section {
-    padding: 3rem 0;
-    margin-bottom: 3rem;
+    padding: var(--space-xl) 0; /* Consistent padding */
+    margin-bottom: var(--space-xl); /* Consistent spacing */
+    background-color: var(--color-background-alt); /* Use alt background for visual break */
+}
+
+.discover-section .section-title {
+    margin-bottom: var(--space-lg); /* More space after title for this section */
 }
 
 .discover-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    /* Using 4 columns for desktop, responsive */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-lg); /* Generous gap */
 }
 
 .discover-item {
-    background-color: var(--card-background);
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-background-card); /* White background for items */
+    padding: var(--space-md);
+    border-radius: var(--border-radius-md); /* Consistent medium border radius */
+    box-shadow: var(--shadow-sm); /* Lighter shadow for these smaller items */
+    transition: var(--transition-std);
     display: flex;
     flex-direction: column;
+    text-align: center; /* Center text within discover items */
 }
 
 .discover-item:hover,
 .discover-item:focus-within {
-    /* Added focus-within */
-    transform: translateY(-5px);
-    box-shadow: var(--box-shadow-hover);
+    transform: translateY(-4px); /* Subtle lift */
+    box-shadow: var(--shadow-md); /* Slightly more pronounced shadow on hover */
 }
 
 .discover-item h4 {
-    color: var(--primary-color);
-    font-size: 1.15rem;
-    /* Slightly larger */
-    margin-bottom: 0.75rem;
-    /* More space */
+    color: var(--color-primary); /* Primary color for emphasis */
+    font-size: 1.3rem; /* Prominent title for the item */
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-xs);
 }
 
 .discover-item p {
     font-size: 0.9rem;
-    color: var(--text-light);
-    margin-bottom: 1rem;
-    flex-grow: 1;
-    /* Ensures paragraph takes space pushing link down */
+    color: var(--color-text-light);
+    margin-bottom: var(--space-sm);
+    flex-grow: 1; /* Pushes link to bottom */
+}
+
+.discover-item .text-link {
+    margin-top: auto; /* Ensure link is at the bottom */
+    font-size: 0.95rem;
+    font-weight: var(--font-weight-semibold); /* Make link text a bit bolder */
 }
 
 /* --- Community Forum CTA Section --- */
 .community-forum-section {
     text-align: center;
-    padding: 3rem 1rem;
-    /* Adjusted padding to be consistent with others */
-    margin-bottom: 3rem;
-    /* Optional: Add a distinct background if desired */
-    /* background-color: var(--card-background); */
-    /* border-radius: var(--border-radius); */
-    /* box-shadow: var(--box-shadow); */
-    /* border-top: 1px solid var(--border-color); */
-    /* border-bottom: 1px solid var(--border-color); */
+    padding: var(--space-xl) var(--space-md); /* Generous padding */
+    margin-bottom: var(--space-xl); /* Consistent spacing */
+    background-color: var(--color-background-alt); /* Use alt background to stand out slightly */
+    border-radius: var(--border-radius-lg); /* Rounded corners for the section block */
+    box-shadow: var(--shadow-sm); /* Subtle shadow for the section block */
 }
 
 .community-forum-section .section-title {
-    margin-bottom: 1rem;
-    /* Standard spacing for section title */
+    margin-bottom: var(--space-sm); /* Standard spacing for section title */
+    color: var(--color-primary); /* Emphasize title with primary color */
 }
 
 .community-forum-section .section-subtitle {
-    margin-bottom: 2rem;
-    /* More space before the button */
+    margin-bottom: var(--space-lg); /* More space before the button */
+    max-width: 750px; /* Ensure subtitle isn't too wide */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .community-forum-section .cta-button {
-    /* The cta-button already has good styling. 
-       You can add specific overrides here if needed for this section */
-    /* Example: Make it slightly larger if it's the sole CTA */
-    /* padding: 0.9rem 2rem; */
-    /* font-size: 1.05rem; */
+    /* Making this specific CTA button potentially larger or styled differently if needed */
+    padding: var(--space-md) var(--space-xl); /* Larger padding */
+    font-size: 1.15rem; /* Larger font size */
+    /* The global .cta-button style (gradient, text color) will apply.
+       If a different button style is needed for this specific CTA,
+       it can be overridden here or by adding a new class. */
 }
 
 
 /* --- FAQ Section --- */
 .faq-section {
-    padding: 3rem 0;
-    margin-bottom: 3rem;
+    padding: var(--space-xl) 0; /* Consistent padding */
+    margin-bottom: var(--space-xl); /* Consistent spacing */
+    /* background-color: var(--color-background-alt); */ /* Optional: Alt background for section */
+}
+
+.faq-section .section-title {
+    margin-bottom: var(--space-lg); /* More space after title */
 }
 
 .faq-list {
-    max-width: 800px;
+    max-width: 850px; /* Slightly wider for better line lengths */
     margin: 0 auto;
 }
 
 .faq-item {
-    background-color: var(--card-background);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.3s ease;
-    /* Smooth shadow transition */
+    background-color: var(--color-background-card); /* White background */
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md); /* Consistent medium radius */
+    margin-bottom: var(--space-sm); /* Space between FAQ items */
+    box-shadow: var(--shadow-sm); /* Subtle default shadow */
+    transition: var(--transition-std); /* Use standard transition for shadow */
 }
 
 .faq-item[open] {
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-md); /* More pronounced shadow when open */
+    border-color: var(--color-primary-dark); /* Optional: Accent border when open */
 }
 
-.faq-question {
-    padding: 1.25rem 1.5rem;
-    /* Increased padding */
-    font-weight: 600;
-    font-family: var(--heading-font);
-    /* Consistent heading font */
+.faq-question { /* This is the <summary> element */
+    padding: var(--space-md) var(--space-lg); /* Generous padding for clickable area */
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-heading);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--primary-color);
-    font-size: 1.1rem;
+    color: var(--color-text-headings); /* Use heading text color */
+    font-size: 1.2rem; /* Slightly larger question text */
     line-height: 1.4;
+    transition: background-color 0.2s ease; /* Subtle background change on hover */
 }
 
-.faq-question::-webkit-details-marker {
+.faq-item:not([open]):hover .faq-question {
+    background-color: var(--color-background-alt); /* Slight hover effect when closed */
+}
+
+
+.faq-question::-webkit-details-marker { /* Hide default Safari marker */
     display: none;
 }
 
-.faq-question::after {
+.faq-question::after { /* Custom expand/collapse icon */
     content: '+';
-    font-size: 1.8rem;
-    /* Larger icon */
-    line-height: 1;
-    /* Prevent extra spacing */
-    color: var(--accent-color);
-    transition: transform 0.2s ease-out;
+    font-size: 1.6rem; /* Adjusted size */
+    font-weight: var(--font-weight-light); /* Lighter plus/minus */
+    color: var(--color-accent);
+    transition: transform 0.25s ease-out; /* Smooth rotation */
+    margin-left: var(--space-sm); /* Space from text */
 }
 
 .faq-item[open] .faq-question::after {
-    transform: rotate(45deg);
+    content: '−'; /* Minus sign when open */
+    transform: rotate(180deg); /* Rotate for effect, or simply change content */
 }
 
-.faq-answer {
-    padding: 0 1.5rem 1.5rem 1.5rem;
-    font-size: 0.95rem;
-    color: var(--text-light);
+.faq-answer { /* This is the content div inside <details> */
+    padding: var(--space-sm) var(--space-lg) var(--space-lg) var(--space-lg); /* Padding for answer */
+    font-size: 1rem; /* Slightly larger answer text */
+    color: var(--color-text-body); /* Use standard body text */
     line-height: 1.7;
-    border-top: 1px solid var(--border-color);
-    margin-top: 0.5rem;
-    /* Space after question before border */
+    border-top: 1px solid var(--color-border);
+    /* margin-top: var(--space-xs); */ /* Removed, padding handles separation */
 }
 
 .faq-answer a {
-    font-weight: 500;
-    color: var(--accent-color);
-    /* Consistent link styling */
+    font-weight: var(--font-weight-medium);
+    color: var(--color-accent);
 }
 
 .faq-answer a:hover,
 .faq-answer a:focus {
-    color: var(--primary-color);
+    color: var(--color-accent-hover);
+    text-decoration: underline;
 }
 
 
 /* --- Final Call to Action Section --- */
 .final-cta-section {
     text-align: center;
-    padding: 4rem 1.5rem;
-    /* Increased padding */
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    /* Gradient background */
-    color: white;
-    border-radius: var(--border-radius);
-    margin-bottom: 4rem;
-    /* More space at the bottom */
-    box-shadow: var(--box-shadow-hover);
-    /* Give it a lift */
+    padding: var(--space-xl) var(--space-md); /* Generous padding */
+    background: linear-gradient(105deg, var(--color-primary) 0%, var(--color-accent) 100%); /* Updated gradient direction and colors */
+    color: var(--color-text-on-primary); /* White text */
+    border-radius: var(--border-radius-lg); /* Consistent large radius */
+    margin-top: var(--space-xl); /* Ensure space from FAQ */
+    margin-bottom: var(--space-xl); /* Consistent bottom spacing */
+    box-shadow: var(--shadow-lg); /* Prominent shadow */
 }
 
 .final-cta-section .section-title {
-    /* Title specific to this section */
-    color: white;
-    margin-bottom: 1rem;
+    color: var(--color-text-on-primary); /* White title */
+    margin-bottom: var(--space-sm);
+    font-size: 2rem; /* Consistent with other section titles or adjust as needed */
 }
 
 .final-cta-section p {
-    color: rgba(255, 255, 255, 0.9);
-    /* Slightly more opaque */
-    max-width: 600px;
-    margin: 0 auto 2.5rem auto;
-    /* More space before button */
+    color: rgba(255, 255, 255, 0.85); /* Slightly transparent white for readability */
+    max-width: 650px; /* Control width */
+    margin: 0 auto var(--space-lg) auto; /* Center and space before button */
     font-size: 1.1rem;
-    /* Slightly larger */
-    line-height: 1.8;
+    line-height: 1.7;
 }
 
 .final-cta-section .cta-button {
-    background: white;
-    color: var(--primary-color);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    padding: 1rem 2.2rem;
-    /* Match hero CTA */
-    font-size: 1.1rem;
-    /* Match hero CTA */
+    background: var(--color-background-main); /* White background for the button */
+    color: var(--color-primary); /* Primary color for text on button */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Subtle shadow for the button */
+    padding: var(--space-md) var(--space-xl); /* Match hero CTA padding */
+    font-size: 1.15rem; /* Match hero CTA font size */
+    font-weight: var(--font-weight-semibold);
+    border: 2px solid var(--color-background-main); /* Ensure border for consistent size */
 }
 
 .final-cta-section .cta-button:hover,
 .final-cta-section .cta-button:focus {
-    background: var(--accent-color);
-    /* Using accent for hover */
-    color: white;
-    /* Ensure text stays white */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-    transform: translateY(-3px);
-    /* Add transform from main button style */
+    background: var(--color-background-alt); /* Slightly off-white on hover */
+    color: var(--color-primary-dark); /* Darker primary text on hover */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px); /* Use standard lift */
     text-decoration: none;
 }
 
