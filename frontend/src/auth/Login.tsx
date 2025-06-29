@@ -3,6 +3,7 @@ import {
 	Auth,
 	GoogleAuthProvider,
 	OAuthProvider,
+	FacebookAuthProvider, // Added FacebookAuthProvider
 	onAuthStateChanged,
 	signInWithEmailAndPassword,
 	signInWithPopup,
@@ -13,13 +14,17 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { getFirebaseAuth } from "../firebase";
 import styles from "./Login.module.css";
 import googleLogo from "../assets/images/google-logo.png";
-import microsoftLogo from "../assets/images/microsoft-logo.png";
+import facebookLogo from "../assets/facebook-logo.svg"; // Changed to SVG
 
-const GmailIcon = () => <img src={googleLogo.src} alt='Google logo' />;
+const GmailIcon = () => <img src={googleLogo.src} alt='Google logo' style={{ width: '24px', height: '24px', marginRight: '10px' }} />; // Added style for consistency
 
-const MicrosoftButtonContent = () => (
-	<img src={microsoftLogo.src} alt='Microsoft logo' />
+const FacebookIcon = () => (
+	<img src={facebookLogo.src} alt='Facebook logo' style={{ width: '24px', height: '24px', marginRight: '10px' }} /> // Using SVG and consistent styling
 );
+
+// const MicrosoftButtonContent = () => (
+// 	<img src={microsoftLogo.src} alt='Microsoft logo' />
+// ); // Removed MicrosoftButtonContent
 
 interface LoginProps {
 	onSwitchToSignUp?: () => void;
@@ -251,13 +256,22 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 					</button>
 					<button
 						type='button'
-						onClick={handleMicrosoftSignIn}
+						onClick={handleFacebookSignIn} // Changed to handleFacebookSignIn
+						className={`${styles.socialButton} ${styles.facebookButton}`} // Added facebookButton class for styling (optional)
+						disabled={loading || !currentAuth}
+					>
+						<FacebookIcon />
+						<span className={styles.socialText}>Facebook</span>
+					</button>
+					{/* <button
+						type='button'
+						onClick={handleMicrosoftSignIn} // Removed Microsoft Button
 						className={`${styles.socialButton} ${styles.microsoftButton}`}
 						disabled={loading || !currentAuth}
 					>
 						<MicrosoftButtonContent />
 						<span className={styles.socialText}>Microsoft</span>
-					</button>
+					</button> */}
 				</div>
 
 				<div className={styles.authLinks}>
