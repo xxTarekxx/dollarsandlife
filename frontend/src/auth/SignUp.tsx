@@ -5,7 +5,6 @@ import {
 	AuthError,
 	GoogleAuthProvider,
 	OAuthProvider,
-	FacebookAuthProvider, // Added FacebookAuthProvider
 	User,
 	createUserWithEmailAndPassword,
 	onAuthStateChanged,
@@ -20,17 +19,14 @@ import styles from "./SignUp.module.css";
 
 import googleLogo from "../assets/images/google-logo.png";
 // import microsoftLogo from "../assets/images/microsoft-logo.png"; // Removed Microsoft logo
-import facebookLogo from "../assets/facebook-logo.svg"; // Changed to SVG
 
-const GmailIcon = () => <img src={googleLogo.src} alt='Google logo' style={{ width: '24px', height: '24px', marginRight: '10px' }} />; // Added style for consistency
-
-const FacebookIcon = () => (
-	<img src={facebookLogo.src} alt='Facebook logo' style={{ width: '24px', height: '24px', marginRight: '10px' }} /> // Using SVG and consistent styling
-);
-
-// const MicrosoftButtonContent = () => (
-// 	<img src={microsoftLogo.src} alt='Microsoft logo' />
-// ); // Removed MicrosoftButtonContent
+const GmailIcon = () => (
+	<img
+		src={googleLogo.src}
+		alt='Google logo'
+		style={{ width: "24px", height: "24px", marginRight: "10px" }}
+	/>
+); // Added style for consistency
 
 interface SignUpProps {
 	onSwitchToLogin?: () => void;
@@ -220,9 +216,6 @@ const SignUp: React.FC<SignUpProps> = ({
 	};
 
 	const handleGoogleSignIn = () => handleSocialLogin(new GoogleAuthProvider());
-	// const handleMicrosoftSignIn = () => // Removed Microsoft Sign-In
-	// 	handleSocialLogin(new OAuthProvider("microsoft.com"));
-	const handleFacebookSignIn = () => handleSocialLogin(new FacebookAuthProvider()); // Added Facebook Sign-In
 
 	const handleSwitchToLoginLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
@@ -335,24 +328,6 @@ const SignUp: React.FC<SignUpProps> = ({
 						<GmailIcon />
 						<span className={styles.socialText}>Gmail</span>
 					</button>
-					<button
-						type='button'
-						onClick={handleFacebookSignIn} // Changed to handleFacebookSignIn
-						className={`${styles.socialButton} ${styles.facebookButton}`} // Added facebookButton class for styling
-						disabled={loading || !currentAuth}
-					>
-						<FacebookIcon />
-						<span className={styles.socialText}>Facebook</span>
-					</button>
-					{/* <button
-						type='button'
-						onClick={handleMicrosoftSignIn} // Removed Microsoft Button
-						className={`${styles.socialButton} ${styles.microsoftButton}`}
-						disabled={loading || !currentAuth}
-					>
-						<MicrosoftButtonContent />
-						<span className={styles.socialText}>Microsoft</span>
-					</button> */}
 				</div>
 
 				<div className={styles.authLinks}>
