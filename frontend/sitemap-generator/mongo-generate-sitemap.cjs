@@ -47,10 +47,9 @@ function extractStaticRoutes() {
         "/shopping-deals",
         "/start-a-blog",
         "/breaking-news",
+        "/financial-calculators",
         "/ads.txt",
-        "/rss.xml",
-        "/signup",
-        "/login"
+        "/rss.xml"
     ];
 }
 

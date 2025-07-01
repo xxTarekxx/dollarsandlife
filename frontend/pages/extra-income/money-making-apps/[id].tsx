@@ -50,7 +50,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/money-making-apps/${encodeURIComponent(normalizedId)}`,
+			`${
+				process.env.NEXT_PUBLIC_REACT_APP_API_BASE
+			}/money-making-apps/${encodeURIComponent(normalizedId)}`,
 		);
 		if (!response.ok) {
 			if (response.status === 404) {
@@ -121,7 +123,12 @@ const MoneyMakingAppDetail: React.FC<MoneyMakingAppDetailProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>{post.headline} | Money Making Apps</title>
+				<title>
+					{Array.isArray(post.headline)
+						? post.headline.join("")
+						: post.headline}{" "}
+					| Money Making Apps
+				</title>
 				<meta
 					name='description'
 					content={generateMetaDescription(post.content)}

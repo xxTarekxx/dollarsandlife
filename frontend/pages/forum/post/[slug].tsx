@@ -12,7 +12,7 @@ import {
 	orderBy,
 	query,
 	serverTimestamp,
-	updateDoc
+	updateDoc,
 } from "firebase/firestore";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
@@ -303,12 +303,16 @@ const AuthenticatedViewPostPageContent: React.FC<{
 	return (
 		<>
 			<Head>
-				<title>{pageTitle}</title>
+				<title>{`${
+					Array.isArray(pageTitle) ? pageTitle.join("") : pageTitle
+				}`}</title>
 				<meta name='description' content={metaDescription} />
 				{post && (
 					<link
 						rel='canonical'
-						href={`https://www.dollarsandlife.com/forum/post/${slugify(post.title)}`}
+						href={`https://www.dollarsandlife.com/forum/post/${slugify(
+							post.title,
+						)}`}
 					/>
 				)}
 			</Head>
@@ -524,8 +528,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const { collection, getDocs, doc, getDoc } = await import("firebase/firestore");
-		const { initializeFirebaseAndGetServices } = await import("../../../src/firebase");
+		const { collection, getDocs, doc, getDoc } = await import(
+			"firebase/firestore"
+		);
+		const { initializeFirebaseAndGetServices } = await import(
+			"../../../src/firebase"
+		);
 		const { db } = await initializeFirebaseAndGetServices();
 
 		// If the slug param looks like a Firestore ID, fetch by ID and redirect
@@ -537,7 +545,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				const postData = postDoc.data();
 				const generatedSlug = slugify(postData.title || "");
 				if (generatedSlug) {
-					console.log("getServerSideProps: Redirecting from ID to slug:", generatedSlug);
+					console.log(
+						"getServerSideProps: Redirecting from ID to slug:",
+						generatedSlug,
+					);
 					return {
 						redirect: {
 							destination: `/forum/post/${generatedSlug}`,
@@ -574,9 +585,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		console.log("getServerSideProps: Post not found by slug");
 		return { notFound: true };
 	} catch (error) {
-		console.error("getServerSideProps: Error in getServerSideProps for forum post by slug:", error);
+		console.error(
+			"getServerSideProps: Error in getServerSideProps for forum post by slug:",
+			error,
+		);
 		return {
-			props: { initialPostData: null, error: "Server error fetching post by slug." },
+			props: {
+				initialPostData: null,
+				error: "Server error fetching post by slug.",
+			},
 		};
 	}
 };

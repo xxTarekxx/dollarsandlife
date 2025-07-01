@@ -51,7 +51,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/budget-data/${encodeURIComponent(normalizedId)}`,
+			`${
+				process.env.NEXT_PUBLIC_REACT_APP_API_BASE
+			}/budget-data/${encodeURIComponent(normalizedId)}`,
 		);
 		if (!response.ok) {
 			if (response.status === 404) {
@@ -123,7 +125,12 @@ const BudgetPostDetail: React.FC<BudgetPostDetailProps> = ({ post, error }) => {
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>{post.headline} | Budget Planning</title>
+				<title>
+					{Array.isArray(post.headline)
+						? post.headline.join("")
+						: post.headline}{" "}
+					| Budget Planning
+				</title>
 				<meta
 					name='description'
 					content={generateMetaDescription(post.content)}
