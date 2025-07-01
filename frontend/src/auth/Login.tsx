@@ -2,8 +2,6 @@
 import {
 	Auth,
 	GoogleAuthProvider,
-	OAuthProvider,
-	FacebookAuthProvider, // Added FacebookAuthProvider
 	onAuthStateChanged,
 	signInWithEmailAndPassword,
 	signInWithPopup,
@@ -11,20 +9,17 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, useEffect, useState } from "react";
+import googleLogo from "../assets/images/google-logo.png";
 import { getFirebaseAuth } from "../firebase";
 import styles from "./Login.module.css";
-import googleLogo from "../assets/images/google-logo.png";
-import facebookLogo from "../assets/facebook-logo.svg"; // Changed to SVG
 
-const GmailIcon = () => <img src={googleLogo.src} alt='Google logo' style={{ width: '24px', height: '24px', marginRight: '10px' }} />; // Added style for consistency
-
-const FacebookIcon = () => (
-	<img src={facebookLogo.src} alt='Facebook logo' style={{ width: '24px', height: '24px', marginRight: '10px' }} /> // Using SVG and consistent styling
-);
-
-// const MicrosoftButtonContent = () => (
-// 	<img src={microsoftLogo.src} alt='Microsoft logo' />
-// ); // Removed MicrosoftButtonContent
+const GmailIcon = () => (
+	<img
+		src={googleLogo.src}
+		alt='Google logo'
+		style={{ width: "24px", height: "24px", marginRight: "10px" }}
+	/>
+); // Added style for consistency
 
 interface LoginProps {
 	onSwitchToSignUp?: () => void;
@@ -155,35 +150,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		}
 	};
 
-	const handleMicrosoftSignIn = async () => {
-		if (!currentAuth) {
-			setError("Authentication service is not ready. Please try again.");
-			return;
-		}
-		setError("");
-		setLoading(true);
-		const provider = new OAuthProvider("microsoft.com");
-		try {
-			await signInWithPopup(currentAuth, provider);
-			if (router.pathname === "/login") {
-				handleLoginSuccess();
-			}
-		} catch (err: unknown) {
-			let errorMessage = "Failed to sign in with Microsoft.";
-			if (typeof err === "object" && err && "code" in err) {
-				const code = (err as { code?: string }).code;
-				if (code === "auth/popup-closed-by-user") {
-					errorMessage = "Sign-in popup was closed. Please try again.";
-				} else if (code === "auth/account-exists-with-different-credential") {
-					errorMessage =
-						"An account with this email already exists with a different sign-in method.";
-				}
-			}
-			setError(errorMessage);
-			setLoading(false);
-		}
-	};
-
 	const handleSwitchToSignUpClick = (
 		e: React.MouseEvent<HTMLAnchorElement>,
 	) => {
@@ -254,24 +220,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 						<GmailIcon />
 						<span className={styles.socialText}>Gmail</span>
 					</button>
-					<button
-						type='button'
-						onClick={handleFacebookSignIn} // Changed to handleFacebookSignIn
-						className={`${styles.socialButton} ${styles.facebookButton}`} // Added facebookButton class for styling (optional)
-						disabled={loading || !currentAuth}
-					>
-						<FacebookIcon />
-						<span className={styles.socialText}>Facebook</span>
-					</button>
-					{/* <button
-						type='button'
-						onClick={handleMicrosoftSignIn} // Removed Microsoft Button
-						className={`${styles.socialButton} ${styles.microsoftButton}`}
-						disabled={loading || !currentAuth}
-					>
-						<MicrosoftButtonContent />
-						<span className={styles.socialText}>Microsoft</span>
-					</button> */}
 				</div>
 
 				<div className={styles.authLinks}>
