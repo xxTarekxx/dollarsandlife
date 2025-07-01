@@ -155,7 +155,12 @@ const RemoteOnlineJobDetail: React.FC<RemoteOnlineJobDetailProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>{post.headline} | Remote Online Jobs</title>
+				<title>
+					{Array.isArray(post.headline)
+						? post.headline.join("")
+						: post.headline}{" "}
+					| Remote Online Jobs
+				</title>
 				<meta
 					name='description'
 					content={generateMetaDescription(post.content)}
@@ -167,7 +172,7 @@ const RemoteOnlineJobDetail: React.FC<RemoteOnlineJobDetailProps> = ({
 					...post,
 					author: post.author || { name: "Unknown" },
 					datePublished: post.datePublished || "",
-					image: post.image || { url: "", caption: "" }
+					image: post.image || { url: "", caption: "" },
 				}}
 			/>
 		</div>
