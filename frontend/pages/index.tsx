@@ -202,7 +202,9 @@ const HomePage: React.FC = () => {
 	return (
 		<div className='homepage-container'>
 			<Head>
-				<title>{mainTitle}</title>
+				<title>{`${
+					Array.isArray(mainTitle) ? mainTitle.join("") : mainTitle
+				}`}</title>
 				<meta name='description' content={mainDescription} />
 				<link rel='canonical' href={siteUrl} />
 				<meta

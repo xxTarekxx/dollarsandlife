@@ -33,7 +33,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/breaking-news/${encodeURIComponent(id)}`,
+			`${
+				process.env.NEXT_PUBLIC_REACT_APP_API_BASE
+			}/breaking-news/${encodeURIComponent(id)}`,
 		);
 		if (!response.ok) {
 			if (response.status === 404) {
@@ -101,7 +103,9 @@ const BreakingNewsDetailPage: React.FC<BreakingNewsDetailPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>{post.headline} | Breaking News</title>
+				<title>{`${
+					Array.isArray(post.headline) ? post.headline.join("") : post.headline
+				} | Breaking News`}</title>
 				<meta
 					name='description'
 					content={generateMetaDescription(post.content)}

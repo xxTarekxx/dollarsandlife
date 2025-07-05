@@ -49,7 +49,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/freelance-jobs/${encodeURIComponent(normalizedId)}`,
+			`${
+				process.env.NEXT_PUBLIC_REACT_APP_API_BASE
+			}/freelance-jobs/${encodeURIComponent(normalizedId)}`,
 		);
 		if (!response.ok) {
 			if (response.status === 404) {
@@ -120,7 +122,12 @@ const FreelanceJobDetail: React.FC<FreelanceJobDetailProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>{post.headline} | Freelance Jobs</title>
+				<title>
+					{Array.isArray(post.headline)
+						? post.headline.join("")
+						: post.headline}{" "}
+					| Freelance Jobs
+				</title>
 				<meta
 					name='description'
 					content={generateMetaDescription(post.content)}

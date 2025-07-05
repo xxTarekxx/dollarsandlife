@@ -18,13 +18,15 @@ import { getFirebaseAuth } from "../firebase";
 import styles from "./SignUp.module.css";
 
 import googleLogo from "../assets/images/google-logo.png";
-import microsoftLogo from "../assets/images/microsoft-logo.png";
+// import microsoftLogo from "../assets/images/microsoft-logo.png"; // Removed Microsoft logo
 
-const GmailIcon = () => <img src={googleLogo.src} alt='Google logo' />;
-
-const MicrosoftButtonContent = () => (
-	<img src={microsoftLogo.src} alt='Microsoft logo' />
-);
+const GmailIcon = () => (
+	<img
+		src={googleLogo.src}
+		alt='Google logo'
+		style={{ width: "24px", height: "24px", marginRight: "10px" }}
+	/>
+); // Added style for consistency
 
 interface SignUpProps {
 	onSwitchToLogin?: () => void;
@@ -214,8 +216,6 @@ const SignUp: React.FC<SignUpProps> = ({
 	};
 
 	const handleGoogleSignIn = () => handleSocialLogin(new GoogleAuthProvider());
-	const handleMicrosoftSignIn = () =>
-		handleSocialLogin(new OAuthProvider("microsoft.com"));
 
 	const handleSwitchToLoginLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
@@ -327,16 +327,6 @@ const SignUp: React.FC<SignUpProps> = ({
 					>
 						<GmailIcon />
 						<span className={styles.socialText}>Gmail</span>
-					</button>
-
-					<button
-						type='button'
-						onClick={handleMicrosoftSignIn}
-						className={`${styles.socialButton} ${styles.microsoftButton}`}
-						disabled={loading || !currentAuth}
-					>
-						<MicrosoftButtonContent />
-						<span className={styles.socialText}>Microsoft</span>
 					</button>
 				</div>
 
