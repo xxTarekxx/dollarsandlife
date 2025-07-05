@@ -2,7 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['www.dollarsandlife.com', 'dollarsandlife.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.dollarsandlife.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dollarsandlife.com',
+      },
+    ],
     formats: ['image/webp', 'image/avif'],
   },
   compiler: {

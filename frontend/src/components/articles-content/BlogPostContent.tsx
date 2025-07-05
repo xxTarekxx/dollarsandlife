@@ -1,4 +1,5 @@
 import parse from "html-react-parser";
+import Image from "next/image";
 import React, { memo, useCallback, useMemo } from "react"; // Removed useEffect, useState, useParams, useNavigate
 // import { Helmet } from "react-helmet-async"; // Removed Helmet
 
@@ -41,6 +42,7 @@ interface PostContent {
         text: string;
         additionalInsights?: string;
     };
+    images?: { url: string; caption?: string }[];
 }
 
 const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
@@ -101,13 +103,13 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
             <div className='blog-post-content'>
                 <h1>{postData.headline}</h1>
                 <div className='image-box'>
-                    <img
+                    <Image
                         src={postData.image.url}
                         alt={postData.image.caption}
                         className='main-image'
-                        loading='lazy'
-                        width='450px'
-                        height='354px'
+                        width={450}
+                        height={354}
+                        priority
                     />
                 </div>
                 <div className='author-date'>
@@ -125,12 +127,12 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                         rel='noopener noreferrer'
                         className='TopBanner'
                     >
-                        <img
+                        <Image
                             src='/images/Lyca-Mobile-728x90.webp'
                             alt='Lyca Mobile Banner'
                             className='TopBannerImage'
-                            width='730px'
-                            height='90px'
+                            width={730}
+                            height={90}
                             loading='lazy'
                         />
                     </a>
@@ -145,13 +147,33 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                             <p className='details'>{parseString(section.details)}</p>
                         )}
                         {section.image && (
-                            <img
+                            <Image
                                 src={section.image}
                                 alt='Section visual'
                                 className='section-image'
+                                width={600}
+                                height={400}
                                 loading='lazy'
+                                sizes='(max-width: 600px) 98vw, 600px'
                             />
                         )}
+                        {/* Render images array if present */}
+                        {Array.isArray(section.images) &&
+                            section.images.map((img, i) => (
+                                <figure key={i} className='section-image-figure'>
+                                    <Image
+                                        src={img.url}
+                                        alt={img.caption || `Section image ${i + 1}`}
+                                        className='section-image'
+                                        width={600}
+                                        height={400}
+                                        loading='lazy'
+                                        sizes='(max-width: 600px) 98vw, 600px'
+                                    />
+                                    {img.caption && <figcaption>{img.caption}</figcaption>}
+                                </figure>
+                            ))}
+
                         {section.bulletPoints && (
                             <ul>
                                 {section.bulletPoints.map((point, i) => (
@@ -170,7 +192,6 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
 
                         {section.caseStudies &&
                             renderArrayOrString(section.caseStudies, "case-study")}
-
                         {section.authorityLinks && (
                             <div className='authority-link'>
                                 {Array.isArray(section.authorityLinks)
