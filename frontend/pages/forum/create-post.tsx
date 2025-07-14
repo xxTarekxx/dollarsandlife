@@ -4,11 +4,11 @@ import Head from "next/head";
 import { useRouter } from "next/router"; // Added for navigation
 import React, { useEffect, useRef, useState } from "react";
 // import { auth } from "../../../firebase"; // REMOVE direct import - Auth is passed as prop or obtained via context
-import { Auth } from "firebase/auth"; // Import Auth type
+import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Import Auth type
 import { Firestore } from "firebase/firestore"; // Import Firestore type
 import { GetServerSideProps } from "next";
-import { useAuthState } from "react-firebase-hooks/auth"; // This might be re-evaluated if auth is from a global context
 import toast from "react-hot-toast";
+import { getFirebaseAuth, getFirebaseDb } from "../../src/firebase"; // Add this import
 import { createForumPost } from "../../src/services/forum/forumService"; // Adjusted path
 import styles from "./CreatePostForm.module.css";
 
@@ -43,10 +43,39 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 	const titleRef = useRef<HTMLInputElement>(null);
 
 	// Firebase services state - for standalone page behavior
-	const [auth] = useState<Auth | null>(authInput || null);
-	const [db] = useState<Firestore | null>(dbInput || null);
+	const [auth, setAuth] = useState<Auth | null>(authInput || null);
+	const [db, setDb] = useState<Firestore | null>(dbInput || null);
+	const [user, setUser] = useState<User | null>(null);
+	const [loadingUser, setLoadingUser] = useState(true);
+	const [errorUser, setErrorUser] = useState<Error | null>(null);
 
-	const [user, loadingUser, errorUser] = useAuthState(auth as Auth);
+	useEffect(() => {
+		if (!auth) {
+			getFirebaseAuth().then(setAuth);
+		}
+		if (!db) {
+			getFirebaseDb().then(setDb);
+		}
+	}, [auth, db]);
+
+	// Manual auth state listener to avoid useAuthState with null auth
+	useEffect(() => {
+		if (!auth) return;
+
+		const unsubscribe = onAuthStateChanged(
+			auth,
+			(user) => {
+				setUser(user);
+				setLoadingUser(false);
+			},
+			(error) => {
+				setErrorUser(error);
+				setLoadingUser(false);
+			}
+		);
+
+		return () => unsubscribe();
+	}, [auth]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -90,11 +119,12 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 		}
 	}, [auth]);
 
-	// Only render the form if auth is available
-	if (!auth) {
+	// Show loading state while Firebase services are initializing
+	if (!auth || !db) {
 		return <div>Loading authentication...</div>;
 	}
 
+	// Show loading state while user auth state is being determined
 	if (loadingUser) {
 		return <p>Loading page...</p>;
 	}
@@ -111,7 +141,7 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 	}
 
 	return (
-		<div className={`${styles["page-container"]} ${styles["create-post-page"]}`}>
+		<div>
 			<Head>
 				<title>Create New Forum Post | Dollars & Life</title>
 				<meta
@@ -120,7 +150,7 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 				/>
 				{/* Add other relevant meta tags like noindex if this page shouldn't be indexed directly without auth */}
 			</Head>
-			<form className='create-post-form' onSubmit={handleSubmit}>
+			<form className={styles["create-post-form"]} onSubmit={handleSubmit}>
 				<h1 className={styles["form-heading"]}>Ask a New Question</h1>{" "}
 				<label htmlFor='title'>Title</label>
 				<input
@@ -132,7 +162,6 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 					required
 					placeholder='Enter your question title...'
 					disabled={!user || !db}
-					className={styles["input"]}
 				/>
 				<label htmlFor='content'>Description</label>
 				<textarea
@@ -142,7 +171,6 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 					required
 					placeholder='Describe your question in detail...'
 					disabled={!user || !db}
-					className={styles["textarea"]}
 				/>
 				<label>Choose Tags (up to 3 recommended)</label>
 				<div className={styles["form-tag-options"]}>
@@ -154,7 +182,6 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 								if (tags.includes(tag)) {
 									setTags((prev) => prev.filter((t) => t !== tag));
 								} else if (tags.length < 3) {
-									// Limit to 3 tags
 									setTags((prev) => [...prev, tag]);
 								} else {
 									toast.error("You can select up to 3 tags.");

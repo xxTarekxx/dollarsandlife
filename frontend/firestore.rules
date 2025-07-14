@@ -53,7 +53,10 @@ service cloud.firestore {
 
     // Rules for userItemVotes collection
     match /userItemVotes/{voteDocId} {
-      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      // Allow reading if the user ID in the document ID prefix matches the authenticated user
+      // This allows checking for non-existent votes without permission errors
+      allow read: if request.auth != null && 
+                     voteDocId.split('_')[0] == request.auth.uid;
 
       allow create: if request.auth != null &&
                        // Corrected to use split():

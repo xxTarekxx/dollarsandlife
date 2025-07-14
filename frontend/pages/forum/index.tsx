@@ -1,8 +1,8 @@
 "use client"; // Stays client component due to heavy client-side logic, auth state, modals, etc.
-import { Auth, signOut } from "firebase/auth"; // FirebaseUser not explicitly used by this component
+import { Auth, onAuthStateChanged, signOut, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import {
-	Firestore,
 	collection,
+	Firestore,
 	getDocs,
 	orderBy,
 	query,
@@ -11,7 +11,7 @@ import {
 import { GetStaticProps } from "next"; // Added
 import Link from "next/link"; // Added for "Ask a Question" button
 import React, { useCallback, useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+// Remove useAuthState import
 import AuthPromptModal from "../../src/auth/AuthPromptModal";
 import PostCard, { PostData } from "../../src/components/forum/PostCard";
 import { initializeFirebaseAndGetServices } from "../../src/firebase";
@@ -37,7 +37,30 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	initialPosts?: PostData[]; // Added
 	staticGenError?: string; // Added
 }> = ({ firebaseAuth, firebaseDb, initialPosts, staticGenError }) => {
-	const [user, authLoadingHook, authErrorHook] = useAuthState(firebaseAuth);
+	// Replace useAuthState with manual state management
+	const [user, setUser] = useState<User | null>(null);
+	const [authLoadingHook, setAuthLoadingHook] = useState(true);
+	const [authErrorHook, setAuthErrorHook] = useState<Error | null>(null);
+
+	// Manual auth state listener
+	useEffect(() => {
+		if (!firebaseAuth) return;
+
+		const unsubscribe = onAuthStateChanged(
+			firebaseAuth,
+			(user) => {
+				setUser(user);
+				setAuthLoadingHook(false);
+				setAuthErrorHook(null);
+			},
+			(error) => {
+				setAuthErrorHook(error);
+				setAuthLoadingHook(false);
+			}
+		);
+
+		return () => unsubscribe();
+	}, [firebaseAuth]);
 
 	const [posts, setPosts] = useState<PostData[]>(initialPosts || []); // Initialize with static props
 	const [loadingPosts, setLoadingPosts] = useState<boolean>(!initialPosts); // Don't load if initialPosts exist
@@ -46,6 +69,8 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	);
 	const [activeTag, setActiveTag] = useState<string | null>(null);
 	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false);
+	// --- New state for sidebar expansion ---
+	const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
 	// Move modalRootElement creation inside component and add browser check
 	const closeAuthModal = useCallback(() => {
@@ -135,6 +160,12 @@ const AuthenticatedForumHomePageContent: React.FC<{
 		}
 	}, [sortBy, activeTag, firebaseDb, initialPosts, staticGenError]);
 
+	useEffect(() => {
+		if (activeTag) {
+			setSidebarExpanded(true);
+		}
+	}, [activeTag]);
+
 	if (authErrorHook) {
 		return (
 			<div className='page-error-indicator'>
@@ -222,122 +253,155 @@ const AuthenticatedForumHomePageContent: React.FC<{
 						</div>
 					</div>
 				</header>
-				<aside className='forum-sidebar'>
-					<h3>Popular Tags</h3>
-					<ul className='tag-filter-list'>
-						{[
-							"Budgeting",
-							"Saving",
-							"Investing",
-							"Credit",
-							"Side Hustles",
-							"Debt",
-							"Freelancing",
-							"Real Estate",
-							"Taxes",
-							"Retirement",
-						].map((tag) => {
-							const tagKey = tag.toLowerCase();
-							const T_color = tagColors[tagKey] || {
-								bg: "var(--muted-bg-color)",
-								text: "var(--secondary-text-color)",
-							};
-							return (
-								<li
-									key={tag}
-									style={{
-										backgroundColor: T_color.bg,
-										color: T_color.text,
-										// Border color can be dynamic or based on active state in CSS
-										borderColor:
-											T_color.bg !== "var(--muted-bg-color)"
-												? T_color.bg
-												: "var(--border-color)",
-									}}
-									className={`tag-pill ${
-										// Original class name
-										activeTag === tagKey ? "active-tag" : ""
-									}`}
-									onClick={() =>
-										setActiveTag((prevTag) =>
-											prevTag === tagKey ? null : tagKey,
-										)
-									}
-									role='button' // Make it behave like a button
-									tabIndex={0} // Make it focusable
-									onKeyPress={(e) => {
-										if (e.key === "Enter" || e.key === " ")
-											setActiveTag(tagKey === activeTag ? null : tagKey);
-									}}
-									aria-pressed={activeTag === tagKey}
-									aria-label={`Filter by tag: ${tag}`}
-								>
-									{tag}
-								</li>
-							);
-						})}
-						{activeTag && (
-							<li
-								className='clear-tag' // Original class name
-								onClick={() => setActiveTag(null)}
-								role='button'
-								tabIndex={0}
-								onKeyPress={(e) => {
-									if (e.key === "Enter" || e.key === " ") setActiveTag(null);
-								}}
-								aria-label='Clear active tag filter'
-							>
-								Clear Filter <span className='clear-tag-icon'>✕</span>
-							</li>
-						)}
-					</ul>
-				</aside>
-
-				<div className='sort-controls'>
-					<label htmlFor='sort-select'>Sort by:</label>
-					<select
-						id='sort-select'
-						value={sortBy}
-						onChange={(e) =>
-							setSortBy(e.target.value as "timestamp" | "helpfulVoteCount")
-						}
-						aria-label='Sort forum posts'
-					>
-						<option value='timestamp'>Newest</option>
-						<option value='helpfulVoteCount'>Most Helpful</option>
-					</select>
-				</div>
-
 				<div className='forum-content'>
-					<main className='post-feed-area'>
-						<h2>Recent Questions</h2>
-						{loadingPosts && (
-							<p className='no-posts-message'>Loading posts...</p>
-						)}
-						{!loadingPosts && posts.length === 0 && firebaseDb && (
-							<p className='no-posts-message'>
-								No posts yet. Be the first to ask a question!
-							</p>
-						)}
-						{!loadingPosts && posts.length === 0 && !firebaseDb && (
-							<p className='no-posts-message'>
-								Could not load posts. The forum database might be temporarily
-								unavailable.
-							</p>
-						)}
-						{!loadingPosts && posts.length > 0 && (
-							<div className='post-list'>
-								{posts.map((post) => (
-									<PostCard
-										key={post.id}
-										post={post}
-										auth={firebaseAuth} // firebaseAuth is guaranteed
-										db={firebaseDb} // db can be null, PostCard should handle
-									/>
-								))}
+					{/* --- Sidebar --- */}
+					<aside className={`forum-sidebar${sidebarExpanded ? " expanded" : " collapsed"}`} style={{ marginBottom: "0.5rem" }}>
+						<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+							<h3 style={{ marginBottom: 0 }}>Popular Tags</h3>
+							<button
+								style={{ fontSize: "1.2em", background: "none", border: "none", cursor: "pointer", padding: 0, marginLeft: "0.5em" }}
+								aria-label={sidebarExpanded ? "Collapse tags" : "Expand tags"}
+								onClick={() => setSidebarExpanded((prev) => !prev)}
+							>
+								{sidebarExpanded ? "−" : "+"}
+							</button>
+						</div>
+						<ul className='tag-filter-list'>
+							{[
+								"Budgeting",
+								"Saving",
+								"Investing",
+								"Credit",
+								"Side Hustles",
+								"Debt",
+								"Freelancing",
+								"Real Estate",
+								"Taxes",
+								"Retirement",
+							].map((tag) => {
+								const tagKey = tag.toLowerCase();
+								const T_color = tagColors[tagKey] || {
+									bg: "var(--muted-bg-color)",
+									text: "var(--secondary-text-color)",
+								};
+								return (
+									<li
+										key={tag}
+										style={{
+											backgroundColor: T_color.bg,
+											color: T_color.text,
+											// Border color can be dynamic or based on active state in CSS
+											borderColor:
+												T_color.bg !== "var(--muted-bg-color)"
+													? T_color.bg
+													: "var(--border-color)",
+										}}
+										className={`tag-pill ${
+											// Original class name
+											activeTag === tagKey ? "active-tag" : ""
+										}`}
+										onClick={() =>
+											setActiveTag((prevTag) =>
+												prevTag === tagKey ? null : tagKey,
+											)
+										}
+										role='button' // Make it behave like a button
+										tabIndex={0} // Make it focusable
+										onKeyPress={(e) => {
+											if (e.key === "Enter" || e.key === " ")
+												setActiveTag(tagKey === activeTag ? null : tagKey);
+										}}
+										aria-pressed={activeTag === tagKey}
+										aria-label={`Filter by tag: ${tag}`}
+									>
+										{tag}
+									</li>
+								);
+							})}
+							{activeTag && (
+								<li
+									className='clear-tag' // Original class name
+									onClick={() => setActiveTag(null)}
+									role='button'
+									tabIndex={0}
+									onKeyPress={(e) => {
+										if (e.key === "Enter" || e.key === " ") setActiveTag(null);
+									}}
+									aria-label='Clear active tag filter'
+								>
+									Clear Filter <span className='clear-tag-icon'>✕</span>
+								</li>
+							)}
+						</ul>
+						{/* --- Show filtered posts below tags when expanded and a tag is active --- */}
+						{sidebarExpanded && activeTag && (
+							<div style={{ marginTop: "1rem" }}>
+								<h4 style={{ margin: "0 0 0.5rem 0" }}>Questions tagged "{activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}"</h4>
+								{loadingPosts ? (
+									<p className='no-posts-message'>Loading posts...</p>
+								) : posts.length === 0 ? (
+									<p className='no-posts-message'>No posts found for this tag.</p>
+								) : (
+									<div className='post-list'>
+										{posts.map((post) => (
+											<PostCard
+												key={post.id}
+												post={post}
+												auth={firebaseAuth} // firebaseAuth is guaranteed
+												db={firebaseDb} // db can be null, PostCard should handle
+											/>
+										))}
+									</div>
+								)}
 							</div>
 						)}
-					</main>
+					</aside>
+					{/* --- Main Content --- */}
+					<div className='forum-content-main' style={{ flex: 1 }}>
+						<div className='sort-controls'>
+							<label htmlFor='sort-select'>Sort by:</label>
+							<select
+								id='sort-select'
+								value={sortBy}
+								onChange={(e) =>
+									setSortBy(e.target.value as "timestamp" | "helpfulVoteCount")
+								}
+								aria-label='Sort forum posts'
+							>
+								<option value='timestamp'>Newest</option>
+								<option value='helpfulVoteCount'>Most Helpful</option>
+							</select>
+						</div>
+						<main className='post-feed-area'>
+							<h2>Recent Questions</h2>
+							{loadingPosts && (
+								<p className='no-posts-message'>Loading posts...</p>
+							)}
+							{!loadingPosts && posts.length === 0 && firebaseDb && (
+								<p className='no-posts-message'>
+									No posts yet. Be the first to ask a question!
+								</p>
+							)}
+							{!loadingPosts && posts.length === 0 && !firebaseDb && (
+								<p className='no-posts-message'>
+									Could not load posts. The forum database might be temporarily
+									unavailable.
+								</p>
+							)}
+							{!loadingPosts && posts.length > 0 && (
+								<div className='post-list'>
+									{posts.map((post) => (
+										<PostCard
+											key={post.id}
+											post={post}
+											auth={firebaseAuth} // firebaseAuth is guaranteed
+											db={firebaseDb} // db can be null, PostCard should handle
+										/>
+									))}
+								</div>
+							)}
+						</main>
+					</div>
 				</div>
 			</div>
 
