@@ -56,7 +56,9 @@ export const castVote = async (
 		itemType === "post" ? "forumPosts" : `forumPosts/${postIdForItem}/answers`,
 		itemId,
 	);
-	const userVoteRef = doc(db, `users/${userId}/votes/${itemId}`);
+	// FIX: Use userItemVotes/{userId}_{itemId} for vote storage
+	const voteDocId = `${userId}_${itemId}`;
+	const userVoteRef = doc(db, "userItemVotes", voteDocId);
 	const authorRef = doc(db, "users", authorId);
 
 	await runTransaction(db, async (transaction) => {
@@ -125,6 +127,8 @@ export const castVote = async (
 					itemId: itemId,
 					itemType: itemType,
 					...(postIdForItem && { postId: postIdForItem }),
+					userId: userId, // Ensure userId is set for Firestore rules
+					timestamp: new Date(), // Add timestamp for Firestore rules
 				},
 				{ merge: true },
 			);

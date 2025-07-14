@@ -434,9 +434,8 @@ body {
 .forum-content {
     display: flex;
     flex-direction: column;
-    /* Mobile first: Stack feed and sidebar */
-    gap: 1.5rem;
-    /* Spacing between feed and sidebar on mobile */
+    gap: 0.5rem;
+    /* Reduced from 1.5rem for mobile */
 }
 
 .post-feed-area {
@@ -748,7 +747,8 @@ body {
 
     .forum-content {
         flex-direction: row;
-        gap: 2rem;
+        gap: 1rem;
+        /* Reduced from 2rem for desktop */
         align-items: flex-start;
     }
 
@@ -765,4 +765,17 @@ body {
         flex-basis: 320px;
         /* Wider sidebar for large desktops */
     }
+}
+
+/* Add a class for expanded sidebar (to be toggled in React) */
+.forum-sidebar.expanded {
+    max-height: 1000px;
+    transition: max-height 0.3s ease;
+    overflow: visible;
+}
+
+.forum-sidebar.collapsed {
+    max-height: 60px;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
 }

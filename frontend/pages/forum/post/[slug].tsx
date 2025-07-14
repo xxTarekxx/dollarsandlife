@@ -1,24 +1,23 @@
 // frontend/pages/forum/post/[postId].tsx
 "use client"; // Keep for client-side interactions like modals, answer submission, voting
-import { Auth } from "firebase/auth";
+import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import {
-	addDoc,
-	collection,
-	deleteDoc,
-	doc,
-	Firestore,
-	getDoc,
-	getDocs,
-	orderBy,
-	query,
-	serverTimestamp,
-	updateDoc,
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    Firestore,
+    getDoc,
+    getDocs,
+    orderBy,
+    query,
+    serverTimestamp,
+    updateDoc,
 } from "firebase/firestore";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
 import AuthPromptModal from "../../../src/auth/AuthPromptModal";
 import VoteButtons from "../../../src/components/forum/VoteButtons";
@@ -66,7 +65,28 @@ const AuthenticatedViewPostPageContent: React.FC<{
 	const [showAuthModal, setShowAuthModal] = useState(false);
 	const [isSubmittingAnswer, setIsSubmittingAnswer] = useState(false);
 
-	const [user, authLoadingHook] = useAuthState(firebaseAuth);
+	// Replace useAuthState with manual state management
+	const [user, setUser] = useState<User | null>(null);
+	const [authLoadingHook, setAuthLoadingHook] = useState(true);
+
+	// Manual auth state listener
+	useEffect(() => {
+		if (!firebaseAuth) return;
+
+		const unsubscribe = onAuthStateChanged(
+			firebaseAuth,
+			(user) => {
+				setUser(user);
+				setAuthLoadingHook(false);
+			},
+			(error) => {
+				console.error("Auth error:", error);
+				setAuthLoadingHook(false);
+			}
+		);
+
+		return () => unsubscribe();
+	}, [firebaseAuth]);
 
 	const isPostAuthor = user?.uid === post?.authorId;
 

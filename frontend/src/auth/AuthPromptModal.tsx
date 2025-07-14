@@ -1,25 +1,42 @@
 // frontend/src/components/auth/AuthPromptModal.tsx
+import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./AuthPromptModal.module.css";
 import Login from "./Login";
 import SignUp from "./SignUp";
-// import { auth } from "../firebase"; // REMOVE direct import of auth
-import { Auth } from "firebase/auth"; // Import Auth type
-import { useAuthState } from "react-firebase-hooks/auth";
 
 interface AuthPromptModalProps {
 	onClose: () => void;
-	auth: Auth; // Expect auth instance as a prop
+	auth: Auth;
 }
 
 const AuthPromptModal: React.FC<AuthPromptModalProps> = ({ onClose, auth }) => {
-	// Receive auth as prop
 	const [mode, setMode] = useState<"login" | "signup" | null>(null);
 	const [isVisible, setIsVisible] = useState(false);
-	// useAuthState hook now uses the passed 'auth' instance
-	const [user, loadingAuth] = useAuthState(auth); // auth is from props
+	// Manual auth state management
+	const [user, setUser] = useState<User | null>(null);
+	const [loadingAuth, setLoadingAuth] = useState(true);
 	const [keepModalOpenForMessage, setKeepModalOpenForMessage] = useState(false);
+
+	// Manual auth state listener
+	useEffect(() => {
+		if (!auth) return;
+
+		const unsubscribe = onAuthStateChanged(
+			auth,
+			(user) => {
+				setUser(user);
+				setLoadingAuth(false);
+			},
+			(error) => {
+				console.error("Auth error:", error);
+				setLoadingAuth(false);
+			}
+		);
+
+		return () => unsubscribe();
+	}, [auth]);
 
 	// Move modalRoot creation inside component and add browser check
 	const modalRoot = useMemo(() => {
