@@ -307,13 +307,45 @@ const AuthenticatedViewPostPageContent: React.FC<{
 	const pageTitle = post.title
 		? `${post.title} | Dollars & Life Forum`
 		: "Forum Post | Dollars & Life";
-	const metaDescription =
-		post.content
-			?.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-			.replace(/<[^>]*>/g, "")
-			.replace(/&[a-zA-Z0-9#]+;/g, "")
-			.substring(0, 160) ||
-		"View discussion on a forum post.";
+	const metaDescription = (() => {
+		if (!post.content) return "View discussion on a forum post.";
+		
+		// Comprehensive sanitization to remove ALL HTML and multi-character entities
+		const sanitized = (() => {
+			// First, remove script tags and their content completely
+			let clean = post.content.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+			
+			// Remove all HTML tags using a more robust approach
+			clean = clean
+				.replace(/<[^>]*>/g, "")  // Remove complete tags
+				.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
+				.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
+				.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
+				.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
+			
+			// Remove HTML entities (including numeric entities)
+			clean = clean
+				.replace(/&[a-zA-Z0-9#]+;/g, "")
+				.replace(/&#[0-9]+;/g, "")
+				.replace(/&#x[a-fA-F0-9]+;/g, "");
+			
+			// Remove Unicode control characters and other dangerous sequences
+			clean = clean.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+			
+			// Remove zero-width characters and other invisible characters
+			clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
+			
+			// Normalize whitespace
+			clean = clean.replace(/\s+/g, " ");
+			
+			return clean.trim();
+		})();
+		
+		// Use Array.from to handle Unicode characters properly and ensure complete sanitization
+		const truncated = Array.from(sanitized).slice(0, 160).join('');
+		
+		return truncated || "View discussion on a forum post.";
+	})();
 
 	function slugify(title: string): string {
 		return title
