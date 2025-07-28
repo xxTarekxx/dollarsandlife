@@ -26,6 +26,24 @@ const strictLimiter = rateLimit({
     legacyHeaders: false,
 });
 
+// Function to validate ID parameters and prevent regex injection
+const isValidId = (id) => {
+    // Check if ID is a string and not empty
+    if (typeof id !== 'string' || id.length === 0) {
+        return false;
+    }
+
+    // Check length limits
+    if (id.length > 100) {
+        return false;
+    }
+
+    // Only allow alphanumeric characters, hyphens, and underscores
+    // This prevents regex injection and ensures safe database queries
+    const validIdPattern = /^[a-zA-Z0-9_-]+$/;
+    return validIdPattern.test(id);
+};
+
 const createContentRoutes = (collectionName, basePath) => {
     if (!collectionName || !basePath) {
         console.error(`❌ Invalid route config: collectionName="${collectionName}", basePath="${basePath}"`);
@@ -54,8 +72,15 @@ const createContentRoutes = (collectionName, basePath) => {
             if (!db) return res.status(503).json({ error: "Database not available" });
 
             const requestedId = req.params.id.toLowerCase();
+
+            // Validate and sanitize the ID parameter to prevent regex injection
+            if (!isValidId(requestedId)) {
+                return res.status(400).json({ error: 'Invalid ID format' });
+            }
+
+            // Use exact match instead of regex to prevent injection
             const post = await db.collection(collectionName).findOne({
-                id: { $regex: new RegExp(`^${requestedId}$`, 'i') }
+                id: requestedId
             });
 
             if (!post) {
