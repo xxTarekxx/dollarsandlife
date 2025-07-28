@@ -77,20 +77,42 @@ const ContactUs: React.FC = () => {
 	}, [recaptchaSiteKey]);
 
 	const sanitizeInput = useCallback((input: string): string => {
-		// Basic sanitization
+		// Comprehensive sanitization
 		if (
 			input.includes("<") ||
 			input.includes(">") ||
 			input.includes("on") ||
 			input.includes("javascript:")
 		) {
-			return input
-				.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-				.replace(/<[^>]*>/g, "")
+			// First, remove script tags and their content completely
+			let clean = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+			
+			// Remove all HTML tags using a more robust approach
+			clean = clean
+				.replace(/<[^>]*>/g, "")  // Remove complete tags
+				.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
+				.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
+				.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
+				.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
+			
+			// Remove event handlers and JavaScript
+			clean = clean
 				.replace(/on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
-				.replace(/javascript:[^"']*/gi, "")
+				.replace(/javascript:[^"']*/gi, "");
+			
+			// Remove HTML entities (including numeric entities)
+			clean = clean
 				.replace(/&[a-zA-Z0-9#]+;/g, "")
-				.trim();
+				.replace(/&#[0-9]+;/g, "")
+				.replace(/&#x[a-fA-F0-9]+;/g, "");
+			
+			// Remove Unicode control characters and other dangerous sequences
+			clean = clean.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+			
+			// Remove zero-width characters and other invisible characters
+			clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
+			
+			return clean.trim();
 		}
 		return input;
 	}, []);
