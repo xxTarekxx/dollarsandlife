@@ -47,22 +47,40 @@ interface Product {
 const cleanText = (text: string): string => {
 	if (!text || typeof text !== 'string') return '';
 	
-	return text
+	// Comprehensive sanitization function to handle all edge cases
+	const sanitizeHtml = (input: string): string => {
+		// First, remove script tags and their content completely
+		let sanitized = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+		
+		// Remove all HTML tags using a more robust approach
+		// This handles nested tags, malformed tags, and edge cases better
+		sanitized = sanitized
+			.replace(/<[^>]*>/g, "")  // Remove complete tags
+			.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
+			.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
+			.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
+			.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
+		
+		// Remove HTML entities (including numeric and hexadecimal)
+		sanitized = sanitized
+			.replace(/&[a-zA-Z0-9#]+;/g, "")
+			.replace(/&#[0-9]+;/g, "")
+			.replace(/&#x[a-fA-F0-9]+;/g, "");
+		
+		// Remove any remaining angle brackets that might be part of incomplete tags
+		sanitized = sanitized.replace(/[<>]/g, "");
+		
+		return sanitized;
+	};
+	
+	return sanitizeHtml(text
 		// Remove emojis and symbols
 		.replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
-		// Remove script tags and their content completely
-		.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-		// Remove all HTML tags
-		.replace(/<[^>]*>/g, "")
-		// Remove HTML entities (including numeric entities)
-		.replace(/&[a-zA-Z0-9#]+;/g, "")
-		.replace(/&#[0-9]+;/g, "")
-		.replace(/&#x[a-fA-F0-9]+;/g, "")
 		// Remove Unicode control characters and other dangerous sequences
 		.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
 		// Remove zero-width characters and other invisible characters
 		.replace(/[\u200B-\u200D\uFEFF]/g, "")
-		.trim();
+		.trim());
 };
 
 const ProductCard: React.FC<Product> = ({
@@ -90,22 +108,35 @@ const ProductCard: React.FC<Product> = ({
 		if (!description) return "";
 		
 		// Comprehensive sanitization to remove ALL HTML and multi-character entities
-		const sanitized = description
-			// Remove script tags and their content completely
-			.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-			// Remove all HTML tags
-			.replace(/<[^>]*>/g, "")
+		const sanitized = (() => {
+			// First, remove script tags and their content completely
+			let clean = description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+			
+			// Remove all HTML tags using a more robust approach
+			clean = clean
+				.replace(/<[^>]*>/g, "")  // Remove complete tags
+				.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
+				.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
+				.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
+				.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
+			
 			// Remove HTML entities (including numeric entities)
-			.replace(/&[a-zA-Z0-9#]+;/g, "")
-			.replace(/&#[0-9]+;/g, "")
-			.replace(/&#x[a-fA-F0-9]+;/g, "")
+			clean = clean
+				.replace(/&[a-zA-Z0-9#]+;/g, "")
+				.replace(/&#[0-9]+;/g, "")
+				.replace(/&#x[a-fA-F0-9]+;/g, "");
+			
 			// Remove Unicode control characters and other dangerous sequences
-			.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+			clean = clean.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+			
 			// Remove zero-width characters and other invisible characters
-			.replace(/[\u200B-\u200D\uFEFF]/g, "")
+			clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
+			
 			// Normalize whitespace
-			.replace(/\s+/g, " ")
-			.trim();
+			clean = clean.replace(/\s+/g, " ");
+			
+			return clean.trim();
+		})();
 		
 		// Use Array.from to handle Unicode characters properly and ensure complete sanitization
 		const truncated = Array.from(sanitized).slice(0, 150).join('');
