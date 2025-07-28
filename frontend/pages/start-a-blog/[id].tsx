@@ -100,7 +100,11 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 		const firstTextSection = content.find((section) => section.text);
 		if (firstTextSection && typeof firstTextSection.text === "string") {
 			return (
-				firstTextSection.text.substring(0, 160).replace(/<[^>]*>/g, "") + "..."
+				firstTextSection.text
+					.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+					.replace(/<[^>]*>/g, "")
+					.replace(/&[a-zA-Z0-9#]+;/g, "")
+					.substring(0, 160) + "..."
 			);
 		}
 		return "Detailed start a blog post.";

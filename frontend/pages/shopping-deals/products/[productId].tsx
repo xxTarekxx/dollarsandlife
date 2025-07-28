@@ -108,7 +108,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const stockStatusClass = isInStock ? "in-stock" : "out-of-stock";
   const metaDesc =
     product.description
-      ?.replace(/<[^>]+>/g, "")
+      ?.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+      .replace(/<[^>]*>/g, "")
+      .replace(/&[a-zA-Z0-9#]+;/g, "")
       .replace(/\s+/g, " ")
       .trim()
       .substring(0, 160) ?? "";

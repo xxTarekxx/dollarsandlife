@@ -47,7 +47,9 @@ interface Product {
 const cleanText = (text: string): string =>
 	text
 		.replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
+		.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
 		.replace(/<[^>]*>/g, "")
+		.replace(/&[a-zA-Z0-9#]+;/g, "")
 		.trim();
 
 const ProductCard: React.FC<Product> = ({
@@ -73,7 +75,9 @@ const ProductCard: React.FC<Product> = ({
 
 	const descriptionSnippet =
 		description
-			?.replace(/<[^>]+>/g, "")
+			?.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+			.replace(/<[^>]*>/g, "")
+			.replace(/&[a-zA-Z0-9#]+;/g, "")
 			.replace(/\s+/g, " ")
 			.trim()
 			.substring(0, 150) + (description?.length > 150 ? "..." : "");
