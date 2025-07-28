@@ -308,7 +308,11 @@ const AuthenticatedViewPostPageContent: React.FC<{
 		? `${post.title} | Dollars & Life Forum`
 		: "Forum Post | Dollars & Life";
 	const metaDescription =
-		post.content?.substring(0, 160).replace(/<[^>]*>/g, "") ||
+		post.content
+			?.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+			.replace(/<[^>]*>/g, "")
+			.replace(/&[a-zA-Z0-9#]+;/g, "")
+			.substring(0, 160) ||
 		"View discussion on a forum post.";
 
 	function slugify(title: string): string {

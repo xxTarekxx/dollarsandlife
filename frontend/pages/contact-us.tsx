@@ -1,11 +1,11 @@
 "use client";
 import emailjs from "@emailjs/browser";
 import React, {
-	Suspense,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
+    Suspense,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
 } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import styles from "./contact-us.module.css";
@@ -85,9 +85,11 @@ const ContactUs: React.FC = () => {
 			input.includes("javascript:")
 		) {
 			return input
-				.replace(/<[^>]*>?/gm, "")
+				.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+				.replace(/<[^>]*>/g, "")
 				.replace(/on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
 				.replace(/javascript:[^"']*/gi, "")
+				.replace(/&[a-zA-Z0-9#]+;/g, "")
 				.trim();
 		}
 		return input;
