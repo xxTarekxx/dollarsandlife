@@ -99,13 +99,17 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 	const generateMetaDescription = (content: { text: string }[]): string => {
 		const firstTextSection = content.find((section) => section.text);
 		if (firstTextSection && typeof firstTextSection.text === "string") {
-			return (
-				firstTextSection.text
-					.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-					.replace(/<[^>]*>/g, "")
-					.replace(/&[a-zA-Z0-9#]+;/g, "")
-					.substring(0, 160) + "..."
-			);
+
+			// where truncating might create partial HTML elements that bypass sanitization.
+			const sanitized = firstTextSection.text
+				.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+				.replace(/<[^>]*>/g, "")
+				.replace(/&[a-zA-Z0-9#]+;/g, "");
+
+			// which can happen with `substring`. This fixes the incomplete sanitization issue.
+			const truncated = Array.from(sanitized).slice(0, 160).join('');
+
+			return `${truncated}...`;
 		}
 		return "Detailed start a blog post.";
 	};
