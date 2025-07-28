@@ -80,7 +80,53 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	const handleLoginSuccess = () => {
 		console.log("Login successful, preparing to navigate.");
 		const from = (router.query.from as string) || "/forum";
-		router.replace(from);
+		
+		// Validate and sanitize the redirect URL to prevent XSS
+		const sanitizedFrom = validateAndSanitizeRedirectUrl(from);
+		router.replace(sanitizedFrom);
+	};
+
+	// Function to validate and sanitize redirect URLs
+	const validateAndSanitizeRedirectUrl = (url: string): string => {
+		// Remove any protocol, domain, or port to prevent open redirects
+		const cleanUrl = url.replace(/^https?:\/\/[^\/]+/, '');
+		
+		// Remove any query parameters or fragments that could contain malicious code
+		const pathOnly = cleanUrl.split('?')[0].split('#')[0];
+		
+		// Ensure the path starts with a forward slash
+		const normalizedPath = pathOnly.startsWith('/') ? pathOnly : `/${pathOnly}`;
+		
+		// Whitelist of allowed paths to prevent directory traversal and other attacks
+		const allowedPaths = [
+			'/',
+			'/forum',
+			'/forum/',
+			'/shopping-deals',
+			'/shopping-deals/',
+			'/extra-income',
+			'/extra-income/',
+			'/breaking-news',
+			'/breaking-news/',
+			'/start-a-blog',
+			'/start-a-blog/',
+			'/about-us',
+			'/contact-us',
+			'/privacy-policy',
+			'/terms-of-service',
+			'/return-policy'
+		];
+		
+		// Check if the path is in our whitelist or is a valid sub-path
+		const isValidPath = allowedPaths.some(allowedPath => {
+			if (allowedPath === '/') {
+				return normalizedPath === '/';
+			}
+			return normalizedPath === allowedPath || normalizedPath.startsWith(allowedPath + '/');
+		});
+		
+		// Return the sanitized path or default to forum
+		return isValidPath ? normalizedPath : '/forum';
 	};
 
 	const handleEmailPasswordSubmit = async (
