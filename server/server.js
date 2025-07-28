@@ -3,6 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 const { MongoClient } = require('mongodb');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
@@ -27,6 +28,22 @@ async function connectDB() {
 app.use(cors());
 app.use(express.json());
 
+// Create rate limiter for frontend routes
+const frontendLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 200, // limit each IP to 200 requests per windowMs for frontend pages
+    message: {
+        error: 'Too many requests for frontend pages from this IP, please try again later.',
+        retryAfter: '15 minutes'
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: (req) => {
+        // Skip rate limiting for static files and API routes
+        return req.url.startsWith('/api/') || req.url.includes('.');
+    }
+});
+
 // Attach DB to each request
 app.use(async (req, res, next) => {
     if (!dbInstance) {
@@ -49,7 +66,7 @@ app.use(express.static(__dirname));
 
 // Wildcard route for React/SPA frontend (Express 5+ syntax)
 // Fallback route: only respond if not an API route or static file
-app.use((req, res, next) => {
+app.use(frontendLimiter, (req, res, next) => {
     if (req.url.startsWith('/api/') || req.url.includes('.')) {
         return next(); // pass to 404 or static handler
     }

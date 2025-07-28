@@ -1,6 +1,30 @@
 // /var/www/html/dollarsandlife/routes.js
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
+
+// Create rate limiters
+const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: {
+        error: 'Too many requests from this IP, please try again later.',
+        retryAfter: '15 minutes'
+    },
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
+const strictLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 30, // limit each IP to 30 requests per windowMs for individual posts
+    message: {
+        error: 'Too many requests for individual posts from this IP, please try again later.',
+        retryAfter: '15 minutes'
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 
 const createContentRoutes = (collectionName, basePath) => {
     if (!collectionName || !basePath) {
@@ -11,7 +35,7 @@ const createContentRoutes = (collectionName, basePath) => {
     console.log(`✅ Registering routes for collection: "${collectionName}" at base path: "/${basePath}"`);
 
     // GET all
-    router.get(`/${basePath}`, async (req, res) => {
+    router.get(`/${basePath}`, generalLimiter, async (req, res) => {
         try {
             const db = req.db;
             if (!db) return res.status(503).json({ error: "Database not available" });
@@ -24,7 +48,7 @@ const createContentRoutes = (collectionName, basePath) => {
     });
 
     // GET by ID
-    router.get(`/${basePath}/:id`, async (req, res) => {
+    router.get(`/${basePath}/:id`, strictLimiter, async (req, res) => {
         try {
             const db = req.db;
             if (!db) return res.status(503).json({ error: "Database not available" });
