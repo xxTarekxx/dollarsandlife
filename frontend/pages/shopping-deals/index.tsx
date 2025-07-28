@@ -44,13 +44,26 @@ interface Product {
 
 // cleanText and ProductCard component remain the same
 
-const cleanText = (text: string): string =>
-	text
+const cleanText = (text: string): string => {
+	if (!text || typeof text !== 'string') return '';
+	
+	return text
+		// Remove emojis and symbols
 		.replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
+		// Remove script tags and their content completely
 		.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+		// Remove all HTML tags
 		.replace(/<[^>]*>/g, "")
+		// Remove HTML entities (including numeric entities)
 		.replace(/&[a-zA-Z0-9#]+;/g, "")
+		.replace(/&#[0-9]+;/g, "")
+		.replace(/&#x[a-fA-F0-9]+;/g, "")
+		// Remove Unicode control characters and other dangerous sequences
+		.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+		// Remove zero-width characters and other invisible characters
+		.replace(/[\u200B-\u200D\uFEFF]/g, "")
 		.trim();
+};
 
 const ProductCard: React.FC<Product> = ({
 	id,
@@ -73,14 +86,32 @@ const ProductCard: React.FC<Product> = ({
 		.replace(/\s+/g, "-"); // Replace spaces with hyphens
 	const detailUrl = `/shopping-deals/products/${id}-${slug}`;
 
-	const descriptionSnippet =
-		description
-			?.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+	const descriptionSnippet = (() => {
+		if (!description) return "";
+		
+		// Comprehensive sanitization to remove ALL HTML and multi-character entities
+		const sanitized = description
+			// Remove script tags and their content completely
+			.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+			// Remove all HTML tags
 			.replace(/<[^>]*>/g, "")
+			// Remove HTML entities (including numeric entities)
 			.replace(/&[a-zA-Z0-9#]+;/g, "")
+			.replace(/&#[0-9]+;/g, "")
+			.replace(/&#x[a-fA-F0-9]+;/g, "")
+			// Remove Unicode control characters and other dangerous sequences
+			.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
+			// Remove zero-width characters and other invisible characters
+			.replace(/[\u200B-\u200D\uFEFF]/g, "")
+			// Normalize whitespace
 			.replace(/\s+/g, " ")
-			.trim()
-			.substring(0, 150) + (description?.length > 150 ? "..." : "");
+			.trim();
+		
+		// Use Array.from to handle Unicode characters properly and ensure complete sanitization
+		const truncated = Array.from(sanitized).slice(0, 150).join('');
+		
+		return truncated + (Array.from(sanitized).length > 150 ? "..." : "");
+	})();
 
 	const renderStars = (ratingValue: string | undefined): React.ReactNode => {
 		if (!ratingValue) return null;
@@ -294,7 +325,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 					"@type": "Product",
 					name: cleanText(p.headline),
 					image: p.image.url,
-					description: cleanText(p.description).slice(0, 200),
+					description: Array.from(cleanText(p.description)).slice(0, 200).join(''),
 					offers: {
 						"@type": "Offer",
 						priceCurrency: "USD",
