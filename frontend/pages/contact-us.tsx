@@ -1,11 +1,11 @@
 "use client";
 import emailjs from "@emailjs/browser";
 import React, {
-    Suspense,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
+	Suspense,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
 } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import styles from "./contact-us.module.css";
@@ -76,46 +76,33 @@ const ContactUs: React.FC = () => {
 		};
 	}, [recaptchaSiteKey]);
 
-	const sanitizeInput = useCallback((input: string): string => {
-		// Comprehensive sanitization
-		if (
-			input.includes("<") ||
-			input.includes(">") ||
-			input.includes("on") ||
-			input.includes("javascript:")
-		) {
-			// First, remove script tags and their content completely
-			let clean = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-			
-			// Remove all HTML tags using a more robust approach
-			clean = clean
-				.replace(/<[^>]*>/g, "")  // Remove complete tags
-				.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
-				.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
-				.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
-				.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
-			
-			// Remove event handlers and JavaScript
-			clean = clean
-				.replace(/on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
-				.replace(/javascript:[^"']*/gi, "");
-			
-			// Remove HTML entities (including numeric entities)
-			clean = clean
-				.replace(/&[a-zA-Z0-9#]+;/g, "")
-				.replace(/&#[0-9]+;/g, "")
-				.replace(/&#x[a-fA-F0-9]+;/g, "");
-			
-			// Remove Unicode control characters and other dangerous sequences
-			clean = clean.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
-			
-			// Remove zero-width characters and other invisible characters
-			clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
-			
-			return clean.trim();
-		}
-		return input;
-	}, []);
+    const sanitizeInput = useCallback((input: string): string => {
+        // Broader regex to find anything that looks like a tag, entity, or dangerous protocol
+        const maliciousContentRegex = /<[^>]*>|&[a-zA-Z0-9#]+;|javascript:|data:|vbscript:/gi;
+
+        // Replacement function to be absolutely sure no partial tags/entities remain
+        const deepClean = (value: string): string => {
+            let sanitized = value;
+            let previous;
+
+            // Apply the maliciousContentRegex replacement repeatedly until no more matches are found
+            do {
+                previous = sanitized;
+                sanitized = sanitized.replace(maliciousContentRegex, "");
+            } while (sanitized !== previous);
+
+            // Remove any stray angle brackets or ampersands that might be left
+            sanitized = sanitized.replace(/[<>&\s]/g, " ").trim(); // Replace with space and then trim
+
+            // Additionally, remove any non-alphanumeric characters for safety
+            // but keep spaces, hyphens, and at-symbols for valid inputs.
+            sanitized = sanitized.replace(/[^a-zA-Z0-9\s-@.]/g, "");
+
+            return sanitized;
+        };
+
+        return deepClean(input);
+    }, []);
 
 	const validateEmail = (email: string): boolean => {
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -302,9 +289,8 @@ const ContactUs: React.FC = () => {
 
 				{formStatus && (
 					<p
-						className={`${styles.formStatus} ${
-							formStatus.includes("success") ? "success" : styles.error
-						}`}
+						className={`${styles.formStatus} ${formStatus.includes("success") ? "success" : styles.error
+							}`}
 						role='alert'
 					>
 						{formStatus}

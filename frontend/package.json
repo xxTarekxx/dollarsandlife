@@ -4,7 +4,6 @@
 	"version": "0.0.0",
 	"scripts": {
 		"dev": "next dev",
-		"prebuild": "node sitemap-generator/mongo-generate-sitemap.cjs",
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -31,12 +30,15 @@
 		"react-google-recaptcha": "^3.1.0",
 		"react-hot-toast": "^2.5.2",
 		"sitemap": "^8.0.0",
-		"styled-components": "^6.1.11"
+		"styled-components": "^6.1.11",
+		"jsdom": "^24.1.1"
 	},
 	"devDependencies": {
 		"@eslint/config-array": "^0.18.0",
 		"@eslint/object-schema": "^2.1.4",
 		"@next/bundle-analyzer": "^15.3.4",
+		"@types/dompurify": "^3.0.5",
+		"@types/jsdom": "^21.1.7",
 		"@types/node": "^20.0.0",
 		"@types/react": "^18.2.66",
 		"@types/react-dom": "^18.2.22",

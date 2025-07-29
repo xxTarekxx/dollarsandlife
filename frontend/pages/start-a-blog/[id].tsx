@@ -4,6 +4,7 @@ import React from "react";
 // import { useRouter } from 'next/router'; // Removed
 import { GetServerSideProps } from "next";
 import BlogPostContent from "../../src/components/articles-content/BlogPostContent";
+import { sanitizeAndTruncateHTML } from "../../src/utils/sanitization.server";
 
 interface BlogPost {
 	// Ensure this interface matches the structure of your posts
@@ -15,6 +16,7 @@ interface BlogPost {
 	image: { url: string; caption: string };
 	content: { text: string }[];
 	canonicalUrl?: string;
+	metaDescription?: string;
 }
 
 interface StartABlogPostDetailProps {
@@ -55,6 +57,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			};
 		}
 		const post: BlogPost = await response.json();
+		const firstTextSection = post.content.find((section) => section.text);
+		if (firstTextSection && typeof firstTextSection.text === "string") {
+			post.metaDescription = sanitizeAndTruncateHTML(
+				firstTextSection.text,
+				160,
+			);
+		} else {
+			post.metaDescription = "Detailed start a blog post.";
+		}
 		return { props: { post } };
 	} catch (error) {
 		console.error(
@@ -96,34 +107,13 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 		);
 	}
 
-	const generateMetaDescription = (content: { text: string }[]): string => {
-		const firstTextSection = content.find((section) => section.text);
-		if (firstTextSection && typeof firstTextSection.text === "string") {
-
-			// where truncating might create partial HTML elements that bypass sanitization.
-			const sanitized = firstTextSection.text
-				.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-				.replace(/<[^>]*>/g, "")
-				.replace(/&[a-zA-Z0-9#]+;/g, "");
-
-			// which can happen with `substring`. This fixes the incomplete sanitization issue.
-			const truncated = Array.from(sanitized).slice(0, 160).join('');
-
-			return `${truncated}...`;
-		}
-		return "Detailed start a blog post.";
-	};
-
 	return (
 		<div className='page-container'>
 			<Head>
 				<title>{`${
 					Array.isArray(post.headline) ? post.headline.join("") : post.headline
 				} | Start a Blog`}</title>
-				<meta
-					name='description'
-					content={generateMetaDescription(post.content)}
-				/>
+				<meta name='description' content={post.metaDescription} />
 				{post.canonicalUrl && <link rel='canonical' href={post.canonicalUrl} />}
 			</Head>
 			<BlogPostContent postData={post} />
