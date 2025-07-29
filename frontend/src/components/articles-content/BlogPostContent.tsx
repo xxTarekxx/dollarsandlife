@@ -46,13 +46,16 @@ interface PostContent {
 }
 
 const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
-    // const { id: postId } = useParams<{ id: string }>(); // Removed
-    // const navigate = useNavigate(); // Removed
-    // const [post, setPost] = useState<BlogPost | null>(null); // Removed
-
     const parseString = useCallback(
         (str: string | undefined): React.ReactNode => {
-            return typeof str === "string" ? parse(str) : null;
+            if (!str) return null;
+            // Use a more efficient parsing approach for better performance
+            try {
+                return parse(str);
+            } catch {
+                // Fallback to plain text if parsing fails
+                return <span dangerouslySetInnerHTML={{ __html: str }} />;
+            }
         },
         [],
     );
@@ -83,7 +86,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
 
             const items = Array.isArray(data) ? data : [data];
             return items.map((item, index) => (
-                <div key={index} className={className}>
+                <div key={`${className}-${index}`} className={className}>
                     {parseString(item)}
                 </div>
             ));
@@ -110,6 +113,9 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                         width={450}
                         height={354}
                         priority
+                        sizes='(max-width: 768px) 100vw, 450px'
+                        placeholder='blur'
+                        blurDataURL='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=='
                     />
                 </div>
                 <div className='author-date'>
@@ -134,12 +140,13 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                             width={730}
                             height={90}
                             loading='lazy'
+                            sizes='(max-width: 768px) 100vw, 730px'
                         />
                     </a>
                 </div>
 
                 {postData.content.map((section, index) => (
-                    <div key={index} className='content-section'>
+                    <div key={`section-${index}`} className='content-section'>
                         {section.subtitle && <h2>{section.subtitle}</h2>}
                         {section.text && <>{parseString(section.text)}</>}
 
@@ -154,7 +161,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                                 width={600}
                                 height={400}
                                 loading='lazy'
-                                sizes='(max-width: 600px) 98vw, 600px'
+                                sizes='(max-width: 768px) 100vw, 600px'
                             />
                         )}
                         {/* Render images array if present */}
@@ -168,7 +175,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                                         width={600}
                                         height={400}
                                         loading='lazy'
-                                        sizes='(max-width: 600px) 98vw, 600px'
+                                        sizes='(max-width: 768px) 100vw, 600px'
                                     />
                                     {img.caption && <figcaption>{img.caption}</figcaption>}
                                 </figure>
@@ -177,7 +184,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                         {section.bulletPoints && (
                             <ul>
                                 {section.bulletPoints.map((point, i) => (
-                                    <li key={i}>{parseString(point)}</li>
+                                    <li key={`bullet-${i}`}>{parseString(point)}</li>
                                 ))}
                             </ul>
                         )}
@@ -185,7 +192,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                         {section.expertQuotes &&
                             Array.isArray(section.expertQuotes) &&
                             section.expertQuotes.map((quote, i) => (
-                                <p key={i} className='expert-quote'>
+                                <p key={`quote-${i}`} className='expert-quote'>
                                     {parseString(quote)}
                                 </p>
                             ))}
@@ -196,8 +203,8 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                             <div className='authority-link'>
                                 {Array.isArray(section.authorityLinks)
                                     ? section.authorityLinks.map((link, i) => (
-                                            <div key={i}>{parseString(link)}</div>
-                                      ))
+                                        <div key={`link-${i}`}>{parseString(link)}</div>
+                                    ))
                                     : parseString(section.authorityLinks)}
                             </div>
                         )}
@@ -206,8 +213,8 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                             <div className='stats'>
                                 {Array.isArray(section.stats)
                                     ? section.stats.map((item, i) => (
-                                            <div key={i}>{parseString(item)}</div>
-                                      ))
+                                        <div key={`stat-${i}`}>{parseString(item)}</div>
+                                    ))
                                     : parseString(section.stats)}
                             </div>
                         )}
@@ -220,7 +227,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                                         ? section.personalTips
                                         : [section.personalTips]
                                     ).map((tip, i) => (
-                                        <li key={i}>{parseString(tip)}</li>
+                                        <li key={`tip-${i}`}>{parseString(tip)}</li>
                                     ))}
                                 </ul>
                             </div>

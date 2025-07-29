@@ -178,7 +178,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				async
 				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079721341426198'
 				crossOrigin='anonymous'
-				strategy='afterInteractive'
+				strategy='lazyOnload'
 			/>
 			<Head>
 				<title>
