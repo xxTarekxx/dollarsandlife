@@ -83,21 +83,21 @@ const AboutUs: React.FC = () => {
 					<strong>MongoDB</strong> powers all dynamic content for blog posts and articles, while <strong>Firebase</strong> is used for forum user data, authentication, and storage. This hybrid approach lets me leverage the strengths of both platforms: MongoDB for flexible content management and Firebase for real-time, secure user interactions in the community forum.
 				</p>
 				<div className={styles.techIcons}>
-				<Image src={nextjsLogo} alt='Next.js Logo'  />
-				<Image src={reactLogo} alt='React Logo'  />
-				
+					<Image src={nextjsLogo} alt='Next.js Logo' />
+					<Image src={reactLogo} alt='React Logo' />
+
 					<Image src={mongoLogo} alt='MongoDB Logo' />
 					<Image
 						src={expressLogo}
 						alt='Express.js Logo'
 					/>
-								<Image
+					<Image
 						src={firebaseLogo}
 						alt='Firebase Logo'
-					
+
 					/>
 					<Image src={nodeLogo} alt='Node.js Logo' />
-				
+
 				</div>
 				<p>
 					The site now includes a live, full-featured{' '}
@@ -126,7 +126,7 @@ const AboutUs: React.FC = () => {
 				<p>
 					Want to chat or dive deeper into the build?{" "}
 					<a
-						href='https://www.linkedin.com/in/tarek-ismael-96777578/'
+						href='https://www.linkedin.com/in/tarek-ismail-96777578/'
 						target='_blank'
 						rel='noopener noreferrer'
 					>
