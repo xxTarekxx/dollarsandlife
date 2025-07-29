@@ -169,6 +169,26 @@
     color: #9ca3af;
 }
 
+/* NEW STYLE FOR THE LINKEDIN BUTTON */
+.socialLink {
+    display: inline-block;
+    margin-top: 1.25rem;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid #34d399;
+    color: #34d399;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.socialLink:hover {
+    background-color: #34d399;
+    color: #1f2937;
+}
+
+
 /* --- Tech Stack Section (NEW - Full Width) --- */
 .techSection {
     padding: 4rem 0;
