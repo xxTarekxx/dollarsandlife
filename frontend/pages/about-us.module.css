@@ -1,5 +1,12 @@
 .aboutUs {
-    padding-top: 1rem;
+    padding-top: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.7;
+    color: #2d3748;
 }
 
 /* Intro Section */
@@ -8,20 +15,42 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
-    margin: 2rem 0;
+    gap: 3rem;
+    margin: 3rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .aboutProfileImage {
-    width: 160px;
-    height: 160px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 4px solid #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.aboutProfileImage:hover {
+    transform: scale(1.05);
 }
 
 .aboutIntroText {
-    max-width: 600px;
+    max-width: 700px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.aboutIntroText p {
+    margin-bottom: 1.5rem;
+    color: #4a5568;
+}
+
+.aboutIntroText strong {
+    color: #2d3748;
+    font-weight: 700;
 }
 
 /* General Body Layout */
@@ -29,54 +58,76 @@
 .aboutMissionCard,
 .aboutTechCard,
 .aboutConnect {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
     text-align: left;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
 }
 
 .aboutBody h2,
 .aboutMissionCard h2 {
-    font-size: 1.4rem;
-    color: #6000ce;
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
     text-align: center;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.aboutBody p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #4a5568;
+    margin-bottom: 1.5rem;
 }
 
 /* Highlight Cards */
 .aboutMissionCard,
 .aboutTechCard {
-    background-color: #fff9e6;
-    border-left: 4px solid #6000ce;
-    border-radius: 8px;
-    padding: 1.5rem;
+    background: linear-gradient(135deg, #fff9e6 0%, #fef5e7 100%);
+    border-left: 5px solid #667eea;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.1);
 }
 
 .aboutMissionCard h2,
 .aboutTechCard h2 {
-    color: #6000ce;
-    font-size: 1.2rem;
+    color: #667eea;
+    font-size: 1.6rem;
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     text-align: center;
+    font-weight: 700;
 }
 
 .aboutTechCard p {
-    margin-bottom: 1rem;
-    font-size: 0.98rem;
-    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #4a5568;
+}
+
+.aboutTechCard strong {
+    color: #2d3748;
+    font-weight: 700;
 }
 
 /* Tech Logos Row */
 .techIcons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 8px;
-    row-gap: 16px;
+    column-gap: 1.5rem;
+    row-gap: 2rem;
     justify-items: center;
     align-items: center;
-    margin: 8px auto 8px auto;
-    max-width: 700px;
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 1rem;
 }
 
 .techIcons> :nth-child(n+5) {
@@ -87,8 +138,8 @@
 @media (max-width: 900px) {
     .techIcons {
         grid-template-columns: repeat(2, 1fr);
-        column-gap: 8px;
-        row-gap: 32px;
+        column-gap: 1.5rem;
+        row-gap: 2.5rem;
     }
 
     .techIcons> :nth-child(n+5) {
@@ -101,7 +152,7 @@
     .techIcons {
         grid-template-columns: 1fr;
         column-gap: 0;
-        row-gap: 32px;
+        row-gap: 2.5rem;
     }
 
     .techIcons> :nth-child(n+5) {
@@ -111,74 +162,125 @@
 }
 
 .techIcons img {
-    width: 120px;
+    width: 140px;
     height: auto;
     object-fit: contain;
     filter: none;
-    padding: 6px;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-    /* background: #fff; */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 1rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
 }
 
 .techIcons img:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .firebaseTechIcons {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1rem 0;
+    margin: 2rem 0;
 }
 
 .firebaseTechIcons img {
-    width: 160px;
+    width: 180px;
     height: auto;
     object-fit: contain;
     filter: none;
-    padding: 6px;
-    border-radius: 8px;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
 }
 
 /* Connect Section */
 .aboutConnect {
     text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 3rem 2rem;
+}
+
+.aboutConnect p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.aboutConnect strong {
+    color: #ffffff;
+    font-weight: 700;
 }
 
 .aboutConnect a {
-    color: #0073b1;
+    color: #ffd93d;
     font-weight: 600;
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: 2px solid #ffd93d;
+    transition: all 0.3s ease;
+    padding-bottom: 2px;
 }
 
 .aboutConnect a:hover {
-    color: #004182;
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+    transform: translateY(-1px);
 }
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
+    .aboutUs {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+    }
+
     .aboutIntro {
         flex-direction: column;
         text-align: center;
+        gap: 2rem;
+        margin: 2rem 0;
+        padding: 1.5rem;
+    }
+
+    .aboutProfileImage {
+        width: 150px;
+        height: 150px;
+    }
+
+    .aboutIntroText {
+        font-size: 1rem;
     }
 
     .aboutBody,
     .aboutMissionCard,
     .aboutTechCard,
     .aboutConnect {
-        padding: 0 1rem;
+        padding: 1.5rem;
+        margin: 2rem auto;
+    }
+
+    .aboutBody h2,
+    .aboutMissionCard h2,
+    .aboutTechCard h2 {
+        font-size: 1.5rem;
+    }
+
+    .aboutBody p,
+    .aboutTechCard p,
+    .aboutConnect p {
+        font-size: 1rem;
     }
 
     .techIcons img {
         width: 120px;
-        height: auto;
-        object-fit: contain;
-        filter: none;
-        padding: 6px;
-        border-radius: 8px;
-        transition: transform 0.3s ease;
+        padding: 0.75rem;
     }
 
     .techIcons {
@@ -188,5 +290,49 @@
         align-items: center;
         gap: 1.5rem;
         margin: 1.5rem 0;
+    }
+
+    .firebaseTechIcons img {
+        width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .aboutUs {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .aboutIntro,
+    .aboutBody,
+    .aboutMissionCard,
+    .aboutTechCard,
+    .aboutConnect {
+        padding: 1rem;
+        margin: 1.5rem auto;
+    }
+
+    .aboutProfileImage {
+        width: 120px;
+        height: 120px;
+    }
+
+    .aboutBody h2,
+    .aboutMissionCard h2,
+    .aboutTechCard h2 {
+        font-size: 1.3rem;
+    }
+
+    .techIcons {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .techIcons img {
+        width: 100px;
+    }
+
+    .firebaseTechIcons img {
+        width: 120px;
     }
 }

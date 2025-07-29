@@ -21,6 +21,367 @@
     --border-radius: 12px;
 }
 
+/* --- Loading Animation Styles --- */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    animation: fadeIn 0.5s ease-in-out;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    pointer-events: none;
+    visibility: visible;
+}
+
+.loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
+}
+
+.loading-container {
+    text-align: center;
+    color: white;
+}
+
+.loading-logo {
+    margin-bottom: 2rem;
+    animation: slideInDown 0.8s ease-out;
+}
+
+.logo-text {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    letter-spacing: -0.02em;
+}
+
+.loading-spinner {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 2rem;
+    animation: slideInUp 0.8s ease-out 0.2s both;
+}
+
+.spinner-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top: 3px solid #ffd93d;
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+}
+
+.spinner-ring:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border-top-color: #ff6b6b;
+    animation-delay: 0.2s;
+}
+
+.spinner-ring:nth-child(3) {
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    border-top-color: #6bcf7f;
+    animation-delay: 0.4s;
+}
+
+.loading-text {
+    animation: slideInUp 0.8s ease-out 0.4s both;
+}
+
+.loading-dots {
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.loading-dots .dot {
+    animation: dotPulse 1.5s infinite;
+    display: inline-block;
+}
+
+.loading-dots .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dots .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.loading-dots .dot:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+/* --- Home Page Content Animations --- */
+.homepage-container.animate-in {
+    animation: pageReveal 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0s both;
+}
+
+.animate-section {
+    opacity: 0;
+    transform: translateY(50px) rotateX(15deg);
+    animation: sectionSlideIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-section:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.animate-section:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.animate-section:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.animate-section:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.animate-section:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.animate-section:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.animate-section:nth-child(7) {
+    animation-delay: 0.7s;
+}
+
+.animate-card {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8) rotateY(20deg);
+    animation: cardReveal 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.animate-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.animate-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.animate-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.animate-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.animate-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.animate-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.animate-item {
+    opacity: 0;
+    transform: translateX(-40px) rotateZ(-5deg);
+    animation: itemSlideIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.animate-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.animate-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.animate-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Loading Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dotPulse {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    40% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Home Page Content Animations */
+@keyframes pageReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(180deg);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8) rotate(90deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes sectionSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) rotateX(15deg);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translateY(25px) rotateX(7deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+}
+
+@keyframes cardReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8) rotateY(20deg);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translateY(15px) scale(0.9) rotateY(10deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateY(0deg);
+    }
+}
+
+@keyframes itemSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px) rotateZ(-5deg);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: translateX(-20px) rotateZ(-2deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateZ(0deg);
+    }
+}
+
+/* Loading screen responsive adjustments */
+@media (max-width: 768px) {
+    .logo-text {
+        font-size: 2rem;
+    }
+
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+    }
+
+    .loading-dots {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1.8rem;
+    }
+
+    .loading-spinner {
+        width: 50px;
+        height: 50px;
+    }
+
+    .loading-dots {
+        font-size: 0.9rem;
+    }
+}
+
 /* Google Fonts are now imported via <link> in HomePage.tsx using Helmet */
 
 html {
@@ -231,8 +592,9 @@ a:focus {
 .topic-card:hover,
 .topic-card:focus-within {
     /* focus-within is great for keyboard nav */
-    transform: translateY(-8px);
+    transform: translateY(-8px) rotateY(5deg) scale(1.02);
     box-shadow: var(--box-shadow-hover);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 
 .topic-card-figure {
@@ -388,8 +750,9 @@ a:focus {
 .discover-item:hover,
 .discover-item:focus-within {
     /* Added focus-within */
-    transform: translateY(-5px);
+    transform: translateY(-5px) rotateZ(2deg) scale(1.03);
     box-shadow: var(--box-shadow-hover);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
 }
 
 .discover-item h4 {
