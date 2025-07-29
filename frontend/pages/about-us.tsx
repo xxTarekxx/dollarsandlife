@@ -125,29 +125,23 @@ const AboutUs: React.FC = () => {
 						<div className={styles.techCard}>
 							<Image src={nextjsLogo} alt='Next.js Logo' />
 							{/* Span restored for proper display */}
-							<span>Next.js</span>
 						</div>
 						<div className={styles.techCard}>
 							<Image src={reactLogo} alt='React Logo' />
-							<span>React</span>
 						</div>
 						<div className={styles.techCard}>
 							<Image src={nodeLogo} alt='Node.js Logo' />
-							<span>Node.js</span>
 						</div>
 					</div>
 					<div className={styles.techGrid}>
 						<div className={styles.techCard}>
 							<Image src={mongoLogo} alt='MongoDB Logo' />
-							<span>MongoDB</span>
 						</div>
 						<div className={styles.techCard}>
 							<Image src={firebaseLogo} alt='Firebase Logo' />
-							<span>Firebase</span>
 						</div>
 						<div className={styles.techCard}>
 							<Image src={expressLogo} alt='Express.js Logo' />
-							<span>Express.js</span>
 						</div>
 					</div>
 				</section>
