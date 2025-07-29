@@ -128,7 +128,7 @@ const Footer: React.FC = () => {
 					© {currentYear} All Rights Reserved Texas Connect LLC <br />
 					Developed And Designed By{" "}
 					<a
-						href='https://www.linkedin.com/in/tarek-ismael-96777578/'
+						href='https://www.linkedin.com/in/tarek-ismail-96777578/'
 						target='_blank'
 						rel='noopener noreferrer'
 					>
