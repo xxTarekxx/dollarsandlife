@@ -5,6 +5,7 @@ import BlogPostContent from "../../src/components/articles-content/BlogPostConte
 import { sanitizeAndTruncateHTML } from "../../src/utils/sanitization.server";
 
 interface BreakingNewsPost {
+	// Ensure this interface matches the structure of your posts
 	id: string;
 	headline: string;
 	author: { name: string };
@@ -16,7 +17,7 @@ interface BreakingNewsPost {
 	metaDescription?: string;
 }
 
-interface BreakingNewsDetailPageProps {
+interface BreakingNewsDetailProps {
 	post: BreakingNewsPost | null;
 	error?: string;
 }
@@ -55,23 +56,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		const post: BreakingNewsPost = await response.json();
 		const firstTextSection = post.content.find((section) => section.text);
 		if (firstTextSection && typeof firstTextSection.text === "string") {
-			post.metaDescription = sanitizeAndTruncateHTML(firstTextSection.text, 160);
+			post.metaDescription = sanitizeAndTruncateHTML(
+				firstTextSection.text,
+				160,
+			);
 		} else {
-			post.metaDescription = "Detailed breaking news article.";
+			post.metaDescription = "Detailed breaking news post.";
 		}
 		return { props: { post } };
 	} catch (error) {
 		console.error(
-			`Error in getServerSideProps for breaking news/${id}:`,
+			`Error in getServerSideProps for breaking news post ${id}:`,
 			error,
 		);
 		return {
-			props: { post: null, error: "Server error while fetching post." },
+			props: {
+				post: null,
+				error: "Server error while fetching breaking news post.",
+			},
 		};
 	}
 };
 
-const BreakingNewsDetailPage: React.FC<BreakingNewsDetailPageProps> = ({
+const BreakingNewsDetail: React.FC<BreakingNewsDetailProps> = ({
 	post,
 	error,
 }) => {
@@ -79,9 +86,9 @@ const BreakingNewsDetailPage: React.FC<BreakingNewsDetailPageProps> = ({
 		return (
 			<div className='page-container'>
 				<Head>
-					<title>Error</title>
+					<title>Error Loading Post</title>
 				</Head>
-				<p>Error loading post: {error}</p>
+				<p>Error: {error}</p>
 			</div>
 		);
 	}
@@ -92,7 +99,7 @@ const BreakingNewsDetailPage: React.FC<BreakingNewsDetailPageProps> = ({
 				<Head>
 					<title>Post Not Found</title>
 				</Head>
-				<p>The requested post could not be found.</p>
+				<p>The requested breaking news post could not be found.</p>
 			</div>
 		);
 	}
@@ -110,4 +117,4 @@ const BreakingNewsDetailPage: React.FC<BreakingNewsDetailPageProps> = ({
 	);
 };
 
-export default BreakingNewsDetailPage;
+export default BreakingNewsDetail;

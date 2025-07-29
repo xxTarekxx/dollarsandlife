@@ -103,4 +103,25 @@ createContentRoutes('money_making_apps', 'money-making-apps');
 createContentRoutes('products_list', 'shopping-deals');
 createContentRoutes('remote_jobs', 'remote-jobs');
 
+// Temporary endpoint to fix remote job ID
+router.post('/fix-remote-job-id', async (req, res) => {
+    try {
+        const db = req.db;
+        if (!db) return res.status(503).json({ error: "Database not available" });
+
+        const result = await db.collection('remote_jobs').updateOne(
+            { id: 'Remote-Job-Guide-2025' },
+            { $set: { id: 'remote-job-guide-2025' } }
+        );
+
+        res.json({
+            success: true,
+            modifiedCount: result.modifiedCount,
+            message: 'Updated remote job ID to lowercase'
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error', details: err.message });
+    }
+});
+
 module.exports = router;

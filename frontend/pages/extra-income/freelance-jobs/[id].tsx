@@ -1,4 +1,3 @@
-"use client";
 import Head from "next/head";
 import React from "react";
 // import { useRouter } from 'next/router'; // Removed
@@ -7,6 +6,7 @@ import BlogPostContent from "../../../src/components/articles-content/BlogPostCo
 import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
 
 interface FreelanceJobPost {
+	// Ensure this interface matches the structure of your posts
 	id: string;
 	headline: string;
 	author: { name: string };
@@ -35,31 +35,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!id || typeof id !== "string" || !isValidId(id)) {
 		return { notFound: true };
 	}
-
-	// Normalize the ID to lowercase for consistency
-	const normalizedId = id.toLowerCase();
-
-	// If the original ID is not lowercase, redirect to the lowercase version
-	if (id !== normalizedId) {
-		return {
-			redirect: {
-				destination: `/extra-income/freelance-jobs/${normalizedId}`,
-				permanent: false,
-			},
-		};
-	}
-
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE
-			}/freelance-jobs/${encodeURIComponent(normalizedId)}`,
+			}/freelance-jobs/${encodeURIComponent(id)}`,
 		);
 		if (!response.ok) {
 			if (response.status === 404) {
 				return { notFound: true };
 			}
 			console.error(
-				`Failed to fetch freelance job post ${normalizedId}: ${response.status} ${response.statusText}`,
+				`Failed to fetch freelance job post ${id}: ${response.status} ${response.statusText}`,
 			);
 			return {
 				props: {
@@ -81,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return { props: { post } };
 	} catch (error) {
 		console.error(
-			`Error in getServerSideProps for freelance job post ${normalizedId}:`,
+			`Error in getServerSideProps for freelance job post ${id}:`,
 			error,
 		);
 		return {
@@ -122,12 +108,8 @@ const FreelanceJobDetail: React.FC<FreelanceJobDetailProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>
-					{Array.isArray(post.headline)
-						? post.headline.join("")
-						: post.headline}{" "}
-					| Freelance Jobs
-				</title>
+				<title>{`${Array.isArray(post.headline) ? post.headline.join("") : post.headline
+					} | Freelance Jobs`}</title>
 				<meta name='description' content={post.metaDescription} />
 				{post.canonicalUrl && <link rel='canonical' href={post.canonicalUrl} />}
 			</Head>

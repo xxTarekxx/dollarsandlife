@@ -1,4 +1,3 @@
-"use client";
 import Head from "next/head";
 import React from "react";
 // import { useRouter } from 'next/router'; // Removed
@@ -7,13 +6,15 @@ import BlogPostContent from "../../../src/components/articles-content/BlogPostCo
 import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
 
 interface RemoteOnlineJobPost {
+	// Ensure this interface matches the structure of your posts
 	id: string;
 	headline: string;
+	author: { name: string };
+	datePublished: string;
+	dateModified?: string;
+	image: { url: string; caption: string };
 	content: { text: string }[];
 	canonicalUrl?: string;
-	author?: { name: string };
-	datePublished?: string;
-	image?: { url: string; caption: string };
 	metaDescription?: string;
 }
 
@@ -22,66 +23,29 @@ interface RemoteOnlineJobDetailProps {
 	error?: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	console.log("=== getServerSideProps Debug ===");
-	console.log(
-		"Environment variable:",
-		process.env.NEXT_PUBLIC_REACT_APP_API_BASE,
-	);
+// Validation function to ensure id is safe
+const isValidId = (id: string): boolean => {
+	// Only allow alphanumeric characters, hyphens, and underscores
+	// This prevents injection attacks and ensures the id is safe for URLs
+	return /^[a-zA-Z0-9_-]+$/.test(id) && id.length > 0 && id.length <= 100;
+};
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { id } = context.params || {};
-	if (!id || typeof id !== "string") {
-		console.log("No ID provided or ID is not a string");
+	if (!id || typeof id !== "string" || !isValidId(id)) {
 		return { notFound: true };
 	}
-
-	// Normalize the ID to lowercase for consistency
-	const normalizedId = id.toLowerCase();
-	console.log("Original ID:", id, "Normalized ID:", normalizedId);
-
-	// If the original ID is not lowercase, redirect to the lowercase version
-	if (id !== normalizedId) {
-		console.log("Redirecting from uppercase to lowercase URL");
-		return {
-			redirect: {
-				destination: `/extra-income/remote-online-jobs/${normalizedId}`,
-				permanent: false,
-			},
-		};
-	}
-
 	try {
-		// Use hardcoded API base for debugging - try IP address instead of localhost
-		const apiBase =
-			process.env.NEXT_PUBLIC_REACT_APP_API_BASE || "http://127.0.0.1:5001/api";
-		const apiUrl = `${apiBase}/remote-jobs/${normalizedId}`;
-		console.log("Fetching from API:", apiUrl);
-
-		// Add timeout and proper error handling
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-		const response = await fetch(apiUrl, {
-			signal: controller.signal,
-			headers: {
-				Accept: "application/json",
-			},
-		});
-
-		clearTimeout(timeoutId);
-		console.log("API Response status:", response.status);
-		console.log(
-			"API Response headers:",
-			Object.fromEntries(response.headers.entries()),
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE
+			}/remote-jobs/${encodeURIComponent(id)}`,
 		);
-
 		if (!response.ok) {
 			if (response.status === 404) {
-				console.log("API returned 404 for:", normalizedId);
 				return { notFound: true };
 			}
 			console.error(
-				`Failed to fetch remote job post ${normalizedId}: ${response.status} ${response.statusText}`,
+				`Failed to fetch remote job post ${id}: ${response.status} ${response.statusText}`,
 			);
 			return {
 				props: {
@@ -91,7 +55,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			};
 		}
 		const post: RemoteOnlineJobPost = await response.json();
-		console.log("Successfully fetched post:", post.headline);
 		const firstTextSection = post.content.find((section) => section.text);
 		if (firstTextSection && typeof firstTextSection.text === "string") {
 			post.metaDescription = sanitizeAndTruncateHTML(
@@ -99,25 +62,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				160,
 			);
 		} else {
-			post.metaDescription = "Detailed remote online job post.";
+			post.metaDescription = "Detailed remote job post.";
 		}
 		return { props: { post } };
 	} catch (error) {
 		console.error(
-			`Error in getServerSideProps for remote job post ${normalizedId}:`,
+			`Error in getServerSideProps for remote job post ${id}:`,
 			error,
 		);
-
-		// If it's a network error, return a more specific error message
-		if (error instanceof Error && error.name === "AbortError") {
-			return {
-				props: {
-					post: null,
-					error: "Request timeout - API server may be unavailable.",
-				},
-			};
-		}
-
 		return {
 			props: {
 				post: null,
@@ -156,23 +108,12 @@ const RemoteOnlineJobDetail: React.FC<RemoteOnlineJobDetailProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>
-					{Array.isArray(post.headline)
-						? post.headline.join("")
-						: post.headline}{" "}
-					| Remote Online Jobs
-				</title>
+				<title>{`${Array.isArray(post.headline) ? post.headline.join("") : post.headline
+					} | Remote Jobs`}</title>
 				<meta name='description' content={post.metaDescription} />
 				{post.canonicalUrl && <link rel='canonical' href={post.canonicalUrl} />}
 			</Head>
-			<BlogPostContent
-				postData={{
-					...post,
-					author: post.author || { name: "Unknown" },
-					datePublished: post.datePublished || "",
-					image: post.image || { url: "", caption: "" },
-				}}
-			/>
+			<BlogPostContent postData={post} />
 		</div>
 	);
 };
