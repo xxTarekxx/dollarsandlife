@@ -1,8 +1,17 @@
 import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import React from "react";
-import BlogPostContent from "../../src/components/articles-content/BlogPostContent";
 import { sanitizeAndTruncateHTML } from "../../src/utils/sanitization.server";
+
+// Dynamically import BlogPostContent to reduce initial bundle size
+const BlogPostContent = dynamic(
+	() => import("../../src/components/articles-content/BlogPostContent"),
+	{
+		loading: () => <div>Loading content...</div>,
+		ssr: true,
+	}
+);
 
 interface BreakingNewsPost {
 	// Ensure this interface matches the structure of your posts
@@ -111,6 +120,10 @@ const BreakingNewsDetail: React.FC<BreakingNewsDetailProps> = ({
 					} | Breaking News`}</title>
 				<meta name='description' content={post.metaDescription} />
 				{post.canonicalUrl && <link rel='canonical' href={post.canonicalUrl} />}
+				{/* Preload critical resources */}
+				<link rel='preload' href={post.image.url} as='image' />
+				<link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
+				<link rel='dns-prefetch' href='//www.googletagmanager.com' />
 			</Head>
 			<BlogPostContent postData={post} />
 		</div>
