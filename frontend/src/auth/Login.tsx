@@ -1,10 +1,10 @@
 // frontend/src/components/auth/Login.tsx
 import {
-	Auth,
-	GoogleAuthProvider,
-	onAuthStateChanged,
-	signInWithEmailAndPassword,
-	signInWithPopup,
+    Auth,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signInWithPopup,
 } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -89,7 +89,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	// Function to validate and sanitize redirect URLs
 	const validateAndSanitizeRedirectUrl = (url: string): string => {
 		// Remove any protocol, domain, or port to prevent open redirects
-		const cleanUrl = url.replace(/^https?:\/\/[^\/]+/, '');
+		const cleanUrl = url.replace(/^https?:\/\/[^/]+/, '');
 		
 		// Remove any query parameters or fragments that could contain malicious code
 		const pathOnly = cleanUrl.split('?')[0].split('#')[0];

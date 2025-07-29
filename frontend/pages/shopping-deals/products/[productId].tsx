@@ -2,6 +2,7 @@
 import parse from "html-react-parser";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
 
 interface Product {
   id: string;
@@ -18,6 +19,7 @@ interface Product {
     ratingValue: string;
     reviewCount: string;
   };
+  metaDescription?: string;
 }
 
 interface ProductDetailsProps {
@@ -63,6 +65,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
     const product: Product = await response.json();
+    product.metaDescription = sanitizeAndTruncateHTML(product.description, 160);
     return { props: { product, productSlug: productId } };
   } catch (error) {
     console.error("Error in getServerSideProps for product details:", error);
@@ -106,14 +109,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const isInStock = product.offers?.availability?.includes("InStock") ?? false;
   const stockStatusText = isInStock ? "In Stock" : "Out Of Stock";
   const stockStatusClass = isInStock ? "in-stock" : "out-of-stock";
-  const metaDesc =
-    product.description
-      ?.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-      .replace(/<[^>]*>/g, "")
-      .replace(/&[a-zA-Z0-9#]+;/g, "")
-      .replace(/\s+/g, " ")
-      .trim()
-      .substring(0, 160) ?? "";
 
   const renderStars = (ratingValue: string | undefined): React.ReactNode => {
     if (!ratingValue) return null;
@@ -138,7 +133,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             ? product.headline.join("")
             : product.headline
         } | Shopping Deals`}</title>
-        <meta name='description' content={metaDesc} />
+        <meta name='description' content={product.metaDescription} />
         <link
           rel='canonical'
           href={`https://www.dollarsandlife.com/shopping-deals/products/${productSlug}`}
@@ -149,7 +144,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             "@type": "Product",
             name: product.headline,
             image: product.image.url,
-            description: metaDesc,
+            description: product.metaDescription,
             brand: {
               "@type": "Brand",
               name: product.brand?.name || "Generic",

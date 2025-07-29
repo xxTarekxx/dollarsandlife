@@ -45,42 +45,32 @@ interface Product {
 // cleanText and ProductCard component remain the same
 
 const cleanText = (text: string): string => {
-	if (!text || typeof text !== 'string') return '';
-	
-	// Comprehensive sanitization function to handle all edge cases
-	const sanitizeHtml = (input: string): string => {
-		// First, remove script tags and their content completely
-		let sanitized = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-		
-		// Remove all HTML tags using a more robust approach
-		// This handles nested tags, malformed tags, and edge cases better
-		sanitized = sanitized
-			.replace(/<[^>]*>/g, "")  // Remove complete tags
-			.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
-			.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
-			.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
-			.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
-		
-		// Remove HTML entities (including numeric and hexadecimal)
-		sanitized = sanitized
-			.replace(/&[a-zA-Z0-9#]+;/g, "")
-			.replace(/&#[0-9]+;/g, "")
-			.replace(/&#x[a-fA-F0-9]+;/g, "");
-		
-		// Remove any remaining angle brackets that might be part of incomplete tags
-		sanitized = sanitized.replace(/[<>]/g, "");
-		
+	if (!text || typeof text !== "string") return "";
+
+	// Broader regex to find anything that looks like a tag or entity
+	const htmlEntitiesAndTagsRegex = /<[^>]*>|&[a-zA-Z0-9#]+;/g;
+
+	// Replacement function to be absolutely sure no partial tags/entities remain
+	const deepClean = (input: string): string => {
+		let sanitized = input;
+		let previous;
+		do {
+			previous = sanitized;
+			sanitized = sanitized.replace(htmlEntitiesAndTagsRegex, "");
+		} while (sanitized !== previous);
+
+		// Remove any stray angle brackets or ampersands that might be left
+		sanitized = sanitized.replace(/[<>&\s]/g, " ").trim(); // Replace with space and then trim
+
+		// Additionally, remove any non-alphanumeric characters for safety in slugs/URLs
+		// but keep spaces to be replaced by hyphens later.
+		sanitized = sanitized.replace(/[^a-zA-Z0-9\s-]/g, "");
+
 		return sanitized;
 	};
-	
-	return sanitizeHtml(text
-		// Remove emojis and symbols
-		.replace(/[\u{1F300}-\u{1FAFF}]/gu, "")
-		// Remove Unicode control characters and other dangerous sequences
-		.replace(/[\u0000-\u001F\u007F-\u009F]/g, "")
-		// Remove zero-width characters and other invisible characters
-		.replace(/[\u200B-\u200D\uFEFF]/g, "")
-		.trim());
+
+
+	return deepClean(text);
 };
 
 const ProductCard: React.FC<Product> = ({
@@ -104,45 +94,13 @@ const ProductCard: React.FC<Product> = ({
 		.replace(/\s+/g, "-"); // Replace spaces with hyphens
 	const detailUrl = `/shopping-deals/products/${id}-${slug}`;
 
-	const descriptionSnippet = (() => {
+	const descriptionSnippet = useMemo(() => {
 		if (!description) return "";
-		
-		// Comprehensive sanitization to remove ALL HTML and multi-character entities
-		const sanitized = (() => {
-			// First, remove script tags and their content completely
-			let clean = description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-			
-			// Remove all HTML tags using a more robust approach
-			clean = clean
-				.replace(/<[^>]*>/g, "")  // Remove complete tags
-				.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
-				.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
-				.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
-				.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
-			
-			// Remove HTML entities (including numeric entities)
-			clean = clean
-				.replace(/&[a-zA-Z0-9#]+;/g, "")
-				.replace(/&#[0-9]+;/g, "")
-				.replace(/&#x[a-fA-F0-9]+;/g, "");
-			
-			// Remove Unicode control characters and other dangerous sequences
-			clean = clean.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
-			
-			// Remove zero-width characters and other invisible characters
-			clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
-			
-			// Normalize whitespace
-			clean = clean.replace(/\s+/g, " ");
-			
-			return clean.trim();
-		})();
-		
-		// Use Array.from to handle Unicode characters properly and ensure complete sanitization
-		const truncated = Array.from(sanitized).slice(0, 150).join('');
-		
-		return truncated + (Array.from(sanitized).length > 150 ? "..." : "");
-	})();
+		const cleaned = cleanText(description);
+		// Use Array.from to correctly handle Unicode characters
+		const truncated = Array.from(cleaned).slice(0, 150).join('');
+		return truncated + (Array.from(cleaned).length > 150 ? "..." : "");
+	}, [description]);
 
 	const renderStars = (ratingValue: string | undefined): React.ReactNode => {
 		if (!ratingValue) return null;
@@ -184,11 +142,10 @@ const ProductCard: React.FC<Product> = ({
 						</span>
 					)}
 					<span
-						className={`sd-current-price ${
-							!currentPrice || currentPrice.trim() === ""
-								? "sd-unavailable-price"
-								: ""
-						}`}
+						className={`sd-current-price ${!currentPrice || currentPrice.trim() === ""
+							? "sd-unavailable-price"
+							: ""
+							}`}
 					>
 						{currentPrice && currentPrice.trim() !== ""
 							? currentPrice
@@ -266,8 +223,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 		const initialProducts: Product[] = Array.isArray(initialProductsData)
 			? initialProductsData
 			: initialProductsData
-			? [initialProductsData]
-			: [];
+				? [initialProductsData]
+				: [];
 		return { props: { initialProducts } };
 	} catch (error) {
 		console.error("SSR Exception fetching shopping deals:", error);

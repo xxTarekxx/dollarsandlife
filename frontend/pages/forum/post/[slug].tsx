@@ -2,17 +2,17 @@
 "use client"; // Keep for client-side interactions like modals, answer submission, voting
 import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    Firestore,
-    getDoc,
-    getDocs,
-    orderBy,
-    query,
-    serverTimestamp,
-    updateDoc,
+	addDoc,
+	collection,
+	deleteDoc,
+	doc,
+	Firestore,
+	getDoc,
+	getDocs,
+	orderBy,
+	query,
+	serverTimestamp,
+	updateDoc,
 } from "firebase/firestore";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
@@ -24,6 +24,7 @@ import VoteButtons from "../../../src/components/forum/VoteButtons";
 import { initializeFirebaseAndGetServices } from "../../../src/firebase";
 import { deleteForumPost as deleteForumPostService } from "../../../src/services/forum/forumService";
 import tagColors from "../../../src/utils/tagColors";
+import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
 
 interface PostData {
 	// Ensure this matches the structure from your Firestore and what PostCard expects
@@ -37,6 +38,7 @@ interface PostData {
 	helpfulVoteCount: number;
 	notHelpfulVoteCount: number;
 	answerCount: number;
+	metaDescription?: string;
 }
 interface AnswerData {
 	id: string;
@@ -307,45 +309,6 @@ const AuthenticatedViewPostPageContent: React.FC<{
 	const pageTitle = post.title
 		? `${post.title} | Dollars & Life Forum`
 		: "Forum Post | Dollars & Life";
-	const metaDescription = (() => {
-		if (!post.content) return "View discussion on a forum post.";
-		
-		// Comprehensive sanitization to remove ALL HTML and multi-character entities
-		const sanitized = (() => {
-			// First, remove script tags and their content completely
-			let clean = post.content.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-			
-			// Remove all HTML tags using a more robust approach
-			clean = clean
-				.replace(/<[^>]*>/g, "")  // Remove complete tags
-				.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
-				.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
-				.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
-				.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
-			
-			// Remove HTML entities (including numeric entities)
-			clean = clean
-				.replace(/&[a-zA-Z0-9#]+;/g, "")
-				.replace(/&#[0-9]+;/g, "")
-				.replace(/&#x[a-fA-F0-9]+;/g, "");
-			
-			// Remove Unicode control characters and other dangerous sequences
-			clean = clean.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
-			
-			// Remove zero-width characters and other invisible characters
-			clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
-			
-			// Normalize whitespace
-			clean = clean.replace(/\s+/g, " ");
-			
-			return clean.trim();
-		})();
-		
-		// Use Array.from to handle Unicode characters properly and ensure complete sanitization
-		const truncated = Array.from(sanitized).slice(0, 160).join('');
-		
-		return truncated || "View discussion on a forum post.";
-	})();
 
 	function slugify(title: string): string {
 		return title
@@ -359,10 +322,9 @@ const AuthenticatedViewPostPageContent: React.FC<{
 	return (
 		<>
 			<Head>
-				<title>{`${
-					Array.isArray(pageTitle) ? pageTitle.join("") : pageTitle
-				}`}</title>
-				<meta name='description' content={metaDescription} />
+				<title>{`${Array.isArray(pageTitle) ? pageTitle.join("") : pageTitle
+					}`}</title>
+				<meta name='description' content={post.metaDescription} />
 				{post && (
 					<link
 						rel='canonical'
@@ -635,6 +597,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			}
 		}
 		if (found) {
+			(found as PostData).metaDescription = sanitizeAndTruncateHTML((found as PostData).content, 160);
 			console.log("getServerSideProps: Found post by slug");
 			return { props: { initialPostData: found } };
 		}

@@ -4,6 +4,7 @@ import React from "react";
 // import { useRouter } from 'next/router'; // Removed
 import { GetServerSideProps } from "next";
 import BlogPostContent from "../../../src/components/articles-content/BlogPostContent";
+import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
 
 interface FreelanceJobPost {
 	id: string;
@@ -14,6 +15,7 @@ interface FreelanceJobPost {
 	image: { url: string; caption: string };
 	content: { text: string }[];
 	canonicalUrl?: string;
+	metaDescription?: string;
 }
 
 interface FreelanceJobDetailProps {
@@ -49,8 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		const response = await fetch(
-			`${
-				process.env.NEXT_PUBLIC_REACT_APP_API_BASE
+			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE
 			}/freelance-jobs/${encodeURIComponent(normalizedId)}`,
 		);
 		if (!response.ok) {
@@ -68,6 +69,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			};
 		}
 		const post: FreelanceJobPost = await response.json();
+		const firstTextSection = post.content.find((section) => section.text);
+		if (firstTextSection && typeof firstTextSection.text === "string") {
+			post.metaDescription = sanitizeAndTruncateHTML(
+				firstTextSection.text,
+				160,
+			);
+		} else {
+			post.metaDescription = "Detailed freelance job post.";
+		}
 		return { props: { post } };
 	} catch (error) {
 		console.error(
@@ -109,48 +119,6 @@ const FreelanceJobDetail: React.FC<FreelanceJobDetailProps> = ({
 		);
 	}
 
-	const generateMetaDescription = (content: { text: string }[]): string => {
-		const firstTextSection = content.find((section) => section.text);
-		if (firstTextSection && typeof firstTextSection.text === "string") {
-			// Comprehensive sanitization to remove ALL HTML and multi-character entities
-			const sanitized = (() => {
-				// First, remove script tags and their content completely
-				let clean = firstTextSection.text.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
-				
-				// Remove all HTML tags using a more robust approach
-				clean = clean
-					.replace(/<[^>]*>/g, "")  // Remove complete tags
-					.replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
-					.replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
-					.replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
-					.replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
-				
-				// Remove HTML entities (including numeric entities)
-				clean = clean
-					.replace(/&[a-zA-Z0-9#]+;/g, "")
-					.replace(/&#[0-9]+;/g, "")
-					.replace(/&#x[a-fA-F0-9]+;/g, "");
-				
-				// Remove Unicode control characters and other dangerous sequences
-				clean = clean.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
-				
-				// Remove zero-width characters and other invisible characters
-				clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
-				
-				// Normalize whitespace
-				clean = clean.replace(/\s+/g, " ");
-				
-				return clean.trim();
-			})();
-			
-			// Use Array.from to handle Unicode characters properly and ensure complete sanitization
-			const truncated = Array.from(sanitized).slice(0, 160).join('');
-			
-			return truncated + "...";
-		}
-		return "Detailed freelance job post.";
-	};
-
 	return (
 		<div className='page-container'>
 			<Head>
@@ -160,10 +128,7 @@ const FreelanceJobDetail: React.FC<FreelanceJobDetailProps> = ({
 						: post.headline}{" "}
 					| Freelance Jobs
 				</title>
-				<meta
-					name='description'
-					content={generateMetaDescription(post.content)}
-				/>
+				<meta name='description' content={post.metaDescription} />
 				{post.canonicalUrl && <link rel='canonical' href={post.canonicalUrl} />}
 			</Head>
 			<BlogPostContent postData={post} />
