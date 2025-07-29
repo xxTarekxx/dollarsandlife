@@ -38,8 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 	try {
 		const response = await fetch(
-			`${
-				process.env.NEXT_PUBLIC_REACT_APP_API_BASE
+			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE
 			}/start-blog/${encodeURIComponent(id)}`,
 		);
 		if (!response.ok) {
@@ -110,9 +109,8 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>{`${
-					Array.isArray(post.headline) ? post.headline.join("") : post.headline
-				} | Start a Blog`}</title>
+				<title>{`${Array.isArray(post.headline) ? post.headline.join("") : post.headline
+					} | Start a Blog`}</title>
 				<meta name='description' content={post.metaDescription} />
 				{post.canonicalUrl && <link rel='canonical' href={post.canonicalUrl} />}
 			</Head>
