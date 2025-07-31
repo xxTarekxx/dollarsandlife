@@ -43,7 +43,7 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 			},
 			{
 				apiPath: "freelance-jobs",
-				baseClientRoute: "/extra-income/freelancers",
+				baseClientRoute: "/extra-income/freelance-jobs",
 				identifier: "freelance-jobs",
 			},
 			{

@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
 		{
 			title: "Earning",
 			links: [
-				{ to: "/extra-income/freelancers", text: "Freelancer Opportunities" },
+				{ to: "/extra-income/freelance-jobs", text: "Freelancer Opportunities" },
 				{ to: "/extra-income/budget", text: "Budgeting" },
 				{ to: "/shopping-deals", text: "Deals & Saving" },
 				{ to: "/start-a-blog", text: "Start A Blog" },

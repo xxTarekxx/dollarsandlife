@@ -85,7 +85,7 @@ async function fetchDynamicRoutes() {
                     }
 
                     const urlBase = filename.includes("remotejobs") ? "/extra-income/remote-jobs"
-                        : filename.includes("freelancejobs") ? "/extra-income/freelancers"
+                        : filename.includes("freelancejobs") ? "/extra-income/freelance-jobs"
                             : filename.includes("moneymakingapps") ? "/extra-income/money-making-apps"
                                 : filename.includes("budgetdata") ? "/extra-income/budget"
                                     : filename.includes("startablogdata") ? "/start-a-blog"
