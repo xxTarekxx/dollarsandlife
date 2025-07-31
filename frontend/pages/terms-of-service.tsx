@@ -54,7 +54,7 @@ const TermsOfService: React.FC = () => {
 
 			{/* Main Content */}
 			<main className={styles.termsOfServiceContent} role='main'>
-				<h2>Terms of Service</h2>
+				<h1>Terms of Service</h1>
 
 				<section className='content-section'>
 					<p>

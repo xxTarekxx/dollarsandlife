@@ -50,7 +50,7 @@ const PrivacyPolicy: React.FC = () => {
 			</Head>
 
 			<main className={styles.privacyPolicyContent} role='main'>
-				<h2>Privacy Policy</h2>
+				<h1>Privacy Policy</h1>
 
 				<section className='content-section'>
 					<p>

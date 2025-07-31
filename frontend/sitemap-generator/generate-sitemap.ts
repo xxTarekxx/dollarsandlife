@@ -21,7 +21,7 @@ function extractRoutesFromApp(): string[] {
             }
         }
 
-      
+
         return routes;
     } catch (err) {
         console.error(` Error reading App.tsx:`, err);
@@ -40,7 +40,7 @@ function getJsonFiles(): string[] {
             .map(file => path.resolve(dataDir, file))
             .filter(file => !file.includes('products')); // Remove products and my-story
 
-        
+
         return files;
     } catch (err) {
         console.error(` Error reading data directory:`, err);
@@ -75,12 +75,12 @@ async function fetchDynamicRoutes() {
                 // Determine URL base from the file name
                 const filename = path.basename(filePath, '.json');
                 const urlBase = filename.includes('remotejobs') ? '/extra-income/remote-jobs'
-                    : filename.includes('freelancejobs') ? '/extra-income/freelancers'
-                    : filename.includes('moneymakingapps') ? '/extra-income/money-making-apps'
-                        : filename.includes('budgetdata') ? '/extra-income/budget'
-                            : filename.includes('startablogdata') ? '/start-a-blog'
-                                : filename.includes('breakingnews') ? '/breaking-news'
-                                    : '';
+                    : filename.includes('freelancejobs') ? '/extra-income/freelance-jobs'
+                        : filename.includes('moneymakingapps') ? '/extra-income/money-making-apps'
+                            : filename.includes('budgetdata') ? '/extra-income/budget'
+                                : filename.includes('startablogdata') ? '/start-a-blog'
+                                    : filename.includes('breakingnews') ? '/breaking-news'
+                                        : '';
 
                 if (urlBase) {
                     const route = {
@@ -118,8 +118,8 @@ async function generateSitemap() {
         // Extract static routes and add RSS feed
         const staticRoutes = [
             ...extractRoutesFromApp(),
-            '/ads.txt',  
-            '/rss.xml',   
+            '/ads.txt',
+            '/rss.xml',
         ];
 
         staticRoutes.forEach(route => {
@@ -132,7 +132,7 @@ async function generateSitemap() {
 
         sitemap.end();
         await streamToPromise(sitemap);
-        
+
     } catch (err) {
         console.error(` Error generating sitemap:`, err);
     }
