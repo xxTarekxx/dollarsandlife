@@ -42,19 +42,20 @@ const HomePage: React.FC = () => {
 			footer.style.display = isLoading ? 'none' : 'block';
 		}
 
-		// Show content immediately when component mounts
-		setShowContent(true);
+		// Don't show content until loading is complete
+		setShowContent(false);
 
 		// Simulate loading time and ensure all resources are loaded
 		const timer = setTimeout(() => {
 			setIsFadingOut(true);
-			// After fade out animation completes, hide loading screen completely
+			// After fade out animation completes, hide loading screen completely and show content
 			const fadeOutTimer = setTimeout(() => {
 				setIsLoading(false);
+				setShowContent(true);
 			}, 150); // 150ms for fade out animation
 
 			return () => clearTimeout(fadeOutTimer);
-		}, 1500); // Changed to 1.5 seconds
+		}, 2500); // Changed to 2.5 seconds
 
 		// Cleanup timer and restore footer
 		return () => {
@@ -63,7 +64,7 @@ const HomePage: React.FC = () => {
 				footer.style.display = 'block';
 			}
 		};
-	}, [isLoading]);
+	}, [isLoading]); // Include isLoading dependency as required by ESLint
 
 	// Cleanup effect for component unmount
 	useEffect(() => {
@@ -254,7 +255,7 @@ const HomePage: React.FC = () => {
 		<div className={`loading-screen ${isFadingOut ? 'fade-out' : ''}`}>
 			<div className="loading-container">
 				<div className="loading-logo">
-					<span className="logo-text">Dollars & Life</span>
+					<span className="logo-text">Budget. Save. Invest.</span>
 				</div>
 				<div className="loading-spinner">
 					<div className="spinner-ring"></div>
@@ -285,7 +286,7 @@ const HomePage: React.FC = () => {
 
 	return (
 		<>
-			<div className='homepage-container animate-in'>
+			<div className='homepage-container'>
 				<Head>
 					<title>{`${Array.isArray(mainTitle) ? mainTitle.join("") : mainTitle
 						}`}</title>
@@ -372,7 +373,7 @@ const HomePage: React.FC = () => {
 				</Head>
 
 				{/* --- Hero Section --- */}
-				<section className='hero-section animate-section' aria-labelledby='hero-title'>
+				<section className='hero-section' aria-labelledby='hero-title'>
 					<div className='hero-content'>
 						<h1 id='hero-title'>
 							Master Your Money,{" "}
@@ -392,7 +393,7 @@ const HomePage: React.FC = () => {
 
 				{/* --- Introduction to Core Topics --- */}
 				<section
-					className='core-topics-intro animate-section'
+					className='core-topics-intro'
 					aria-labelledby='core-topics-main-title'
 				>
 					<h2 id='core-topics-main-title' className='section-title'>
@@ -410,17 +411,16 @@ const HomePage: React.FC = () => {
 				{/* --- Core Topic Links --- */}
 				<section
 					id='core-topics-destination'
-					className='core-topics-grid animate-section'
+					className='core-topics-grid'
 					aria-label='Main financial categories'
 				>
-					{coreTopics.map((topic, index) => (
+					{coreTopics.map((topic) => (
 						<Link
-							className={`topic-card animate-card`}
+							className={`topic-card`}
 							key={topic.title}
 							href={topic.href}
 							aria-label={topic.ariaLabel}
 							title={`Learn more about ${topic.title}`}
-							style={{ animationDelay: `${index * 0.1}s` }}
 						>
 							<figure className='topic-card-figure'>
 								<img
@@ -443,7 +443,7 @@ const HomePage: React.FC = () => {
 					))}
 				</section>
 				<section
-					className='community-forum-section animate-section'
+					className='community-forum-section'
 					aria-labelledby='community-forum-title-id'
 				>
 					<h2 id='community-forum-title-id' className='section-title'>
@@ -465,7 +465,7 @@ const HomePage: React.FC = () => {
 				</section>
 
 				{/* --- Why Trust DollarsAndLife.com (EEAT) --- */}
-				<section className='why-trust-us animate-section' aria-labelledby='why-trust-title-id'>
+				<section className='why-trust-us' aria-labelledby='why-trust-title-id'>
 					<div className='why-trust-content'>
 						<h2 id='why-trust-title-id' className='section-title'>
 							Why Trust <span className='highlight'>{shortSiteName}</span>?
@@ -520,12 +520,12 @@ const HomePage: React.FC = () => {
 				</section>
 
 				{/* --- What You'll Discover (Content Teasers) --- */}
-				<section className='discover-section animate-section' aria-labelledby='discover-title-id'>
+				<section className='discover-section' aria-labelledby='discover-title-id'>
 					<h2 id='discover-title-id' className='section-title'>
 						What You'll <span className='highlight'>Discover Inside</span>
 					</h2>
 					<div className='discover-grid'>
-						<div className='discover-item animate-item' style={{ animationDelay: '0.05s' }}>
+						<div className='discover-item'>
 							<h4>In-Depth Budgeting Guides</h4>
 							<p>
 								From creating your first budget to advanced saving strategies.
@@ -539,7 +539,7 @@ const HomePage: React.FC = () => {
 								Explore Budgeting →
 							</Link>
 						</div>
-						<div className='discover-item animate-item' style={{ animationDelay: '0.1s' }}>
+						<div className='discover-item'>
 							<h4>Creative Income Boosters</h4>
 							<p>
 								Find legitimate side hustles, online job opportunities, and
@@ -553,7 +553,7 @@ const HomePage: React.FC = () => {
 								Explore Extra Income →
 							</Link>
 						</div>
-						<div className='discover-item animate-item' style={{ animationDelay: '0.15s' }}>
+						<div className='discover-item'>
 							<h4>Smart Shopping Secrets</h4>
 							<p>
 								Learn to find the best deals, use coupons wisely, and avoid
@@ -567,7 +567,7 @@ const HomePage: React.FC = () => {
 								Explore Shopping Deals →
 							</Link>
 						</div>
-						<div className='discover-item animate-item' style={{ animationDelay: '0.2s' }}>
+						<div className='discover-item'>
 							<h4>Blogging for Success</h4>
 							<p>
 								Step-by-step tutorials on starting, growing, and monetizing a blog
@@ -585,13 +585,13 @@ const HomePage: React.FC = () => {
 				</section>
 
 				{/* --- FAQ Section --- */}
-				<section className='faq-section animate-section' aria-labelledby='faq-title-id'>
+				<section className='faq-section' aria-labelledby='faq-title-id'>
 					<h2 id='faq-title-id' className='section-title'>
 						Frequently Asked <span className='highlight'>Questions</span>
 					</h2>
 					<div className='faq-list'>
 						{faqs.map((faq, index) => (
-							<details key={index} className='faq-item animate-item' name='faq-item' style={{ animationDelay: `${index * 0.05}s` }}>
+							<details key={index} className='faq-item' name='faq-item'>
 								{" "}
 								{/* Added name for potential analytics */}
 								<summary className='faq-question'>{faq.question}</summary>
@@ -606,7 +606,7 @@ const HomePage: React.FC = () => {
 
 				{/* --- Final Call to Action --- */}
 				<section
-					className='final-cta-section animate-section'
+					className='final-cta-section'
 					aria-labelledby='final-cta-title-id'
 				>
 					<h2 id='final-cta-title-id' className='section-title'>
