@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "next build && node sitemap-generator/mongo-generate-sitemap.cjs",
 		"start": "next start",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"generate-sitemap": "node dist/generate-sitemap.js"
