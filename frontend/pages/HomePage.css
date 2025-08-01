@@ -884,3 +884,126 @@ a:focus {
         font-size: 1.15rem;
     }
 }
+
+/* --- Animation Styles --- */
+.homepage-container.animate-in {
+    animation: pageReveal 0.8s ease-out;
+}
+
+.animate-section {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: sectionSlideIn 0.8s ease-out forwards;
+}
+
+.animate-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardReveal 0.6s ease-out forwards;
+}
+
+.animate-item {
+    opacity: 0;
+    transform: translateY(15px);
+    animation: itemSlideIn 0.5s ease-out forwards;
+}
+
+/* Animation Keyframes */
+@keyframes pageReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sectionSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes itemSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger animations for sections */
+.hero-section.animate-section {
+    animation-delay: 0.1s;
+}
+
+.core-topics-intro.animate-section {
+    animation-delay: 0.2s;
+}
+
+.core-topics-grid.animate-section {
+    animation-delay: 0.3s;
+}
+
+.community-forum-section.animate-section {
+    animation-delay: 0.4s;
+}
+
+.why-trust-us.animate-section {
+    animation-delay: 0.5s;
+}
+
+.discover-section.animate-section {
+    animation-delay: 0.6s;
+}
+
+.faq-section.animate-section {
+    animation-delay: 0.7s;
+}
+
+.final-cta-section.animate-section {
+    animation-delay: 0.8s;
+}
+
+/* Hover animations */
+.topic-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease-out;
+}
+
+.discover-item:hover {
+    transform: translateY(-3px);
+    transition: transform 0.3s ease-out;
+}
+
+/* Smooth transitions for all animated elements */
+.animate-section,
+.animate-card,
+.animate-item {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}

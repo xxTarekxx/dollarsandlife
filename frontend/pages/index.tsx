@@ -2,7 +2,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 
 // Keep your existing image imports
 import ShoppingDealsImg from "../src/assets/images/icons/img-dealsandsavings.webp";
@@ -26,48 +25,31 @@ interface FAQItem {
 }
 
 const HomePage: React.FC = () => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [isFadingOut, setIsFadingOut] = useState(false);
-	const [isMounted, setIsMounted] = useState(false);
 	const [showContent, setShowContent] = useState(false);
 
-	useEffect(() => {
-		setIsMounted(true);
-	}, []);
+
+
+
 
 	useEffect(() => {
-		// Hide the footer during loading
+		// Only run on client side
+		if (typeof window === 'undefined') return;
+
+		// Show content immediately
+		setShowContent(true);
+
+		// Show footer
 		const footer = document.querySelector('footer');
 		if (footer) {
-			footer.style.display = isLoading ? 'none' : 'block';
+			footer.style.display = 'block';
 		}
-
-		// Don't show content until loading is complete
-		setShowContent(false);
-
-		// Simulate loading time and ensure all resources are loaded
-		const timer = setTimeout(() => {
-			setIsFadingOut(true);
-			// After fade out animation completes, hide loading screen completely and show content
-			const fadeOutTimer = setTimeout(() => {
-				setIsLoading(false);
-				setShowContent(true);
-			}, 150); // 150ms for fade out animation
-
-			return () => clearTimeout(fadeOutTimer);
-		}, 2500); // Changed to 2.5 seconds
-
-		// Cleanup timer and restore footer
-		return () => {
-			clearTimeout(timer);
-			if (footer) {
-				footer.style.display = 'block';
-			}
-		};
-	}, [isLoading]); // Include isLoading dependency as required by ESLint
+	}, []);
 
 	// Cleanup effect for component unmount
 	useEffect(() => {
+		// Only run on client side
+		if (typeof window === 'undefined') return;
+
 		return () => {
 			const footer = document.querySelector('footer');
 			if (footer) {
@@ -250,380 +232,345 @@ const HomePage: React.FC = () => {
 		Depth of information should reside in the linked internal pages.
 	*/
 
-	// Loading Screen Component
-	const LoadingScreen = () => (
-		<div className={`loading-screen ${isFadingOut ? 'fade-out' : ''}`}>
-			<div className="loading-container">
-				<div className="loading-logo">
-					<span className="logo-text">Budget. Save. Invest.</span>
-				</div>
-				<div className="loading-spinner">
-					<div className="spinner-ring"></div>
-					<div className="spinner-ring"></div>
-					<div className="spinner-ring"></div>
-				</div>
-				<div className="loading-text">
-					<span className="loading-dots">
-						<span>Loading</span>
-						<span className="dot">.</span>
-						<span className="dot">.</span>
-						<span className="dot">.</span>
-					</span>
-				</div>
-			</div>
+
+
+	// Always render the main container structure for consistent hydration
+	return (
+		<div className='homepage-container animate-in'>
+			<Head>
+				<title>{mainTitle}</title>
+				<meta name='description' content={mainDescription} />
+				<link rel='canonical' href={siteUrl} />
+				<meta
+					name='keywords'
+					content='personal finance, budgeting, earn extra income, shopping deals, start a blog, financial freedom, money management, Tarek I'
+				/>
+				<meta property='og:locale' content='en_US' />
+				{/* Google Fonts - Moved from CSS for better performance */}
+				<link rel='preconnect' href='https://fonts.googleapis.com' />
+				<link
+					rel='preconnect'
+					href='https://fonts.gstatic.com'
+					crossOrigin='anonymous'
+				/>
+				{/* Open Graph / Facebook */}
+				<meta property='og:type' content='website' />
+				<meta property='og:url' content={siteUrl} />
+				<meta
+					property='og:title'
+					content={`${shortSiteName} | Smart Personal Finance & Online Income`}
+				/>
+				<meta property='og:description' content={mainDescription} />
+				<meta property='og:image' content={ogImageContent} />
+				<meta property='og:image:width' content='1200' />
+				<meta property='og:image:height' content='630' />
+				<meta property='og:site_name' content={siteName} />
+				{/* Twitter */}
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:url' content={siteUrl} />
+				<meta
+					name='twitter:title'
+					content={`${shortSiteName} | Actionable Finance Tips for a Better Life`}
+				/>
+				<meta name='twitter:description' content={mainDescription} />
+				<meta name='twitter:image' content={ogImageContent} />
+				{/* Preload priority images */}
+				{coreTopics
+					.filter((topic) => topic.priority)
+					.map((topic, i) => (
+						<link
+							key={`preload-link-${i}`}
+							rel='preload'
+							as='image'
+							href={topic.imgSrc}
+						/>
+					))}
+				{/* Structured Data Scripts */}
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(websiteSchema),
+					}}
+				/>
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(webpageSchema),
+					}}
+				/>
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(faqSchema),
+					}}
+				/>
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(breadcrumbSchema),
+					}}
+				/>
+			</Head>
+
+			{/* Show content only when loading is complete */}
+			{showContent && (
+				<>
+					{/* --- Hero Section --- */}
+					<section className='hero-section animate-section' aria-labelledby='hero-title'>
+						<div className='hero-content'>
+							<h1 id='hero-title'>
+								Master Your Money,{" "}
+								<span className='highlight'>Unlock Your Life</span>.
+							</h1>
+							<p className='hero-subtitle'>
+								Welcome to {siteName} – your friendly hub for practical financial
+								strategies designed for everyday people. Discover how to budget
+								effectively, boost your earnings, shop smarter, and even launch your
+								own successful blog.
+							</p>
+							<a href='#core-topics-destination' className='cta-button hero-cta'>
+								Explore Key Guides
+							</a>
+						</div>
+					</section>
+
+					{/* --- Introduction to Core Topics --- */}
+					<section
+						className='core-topics-intro animate-section'
+						aria-labelledby='core-topics-main-title'
+					>
+						<h2 id='core-topics-main-title' className='section-title'>
+							Your Journey to Financial Wellness Starts{" "}
+							<span className='highlight'>Here</span>
+						</h2>
+						<p className='section-subtitle'>
+							Navigating personal finance can feel overwhelming, but it doesn't have
+							to be. We break down complex topics into simple, actionable steps.
+							Whether you want to earn more, save better, or build an online
+							presence, we've got you covered.
+						</p>
+					</section>
+
+					{/* --- Core Topic Links --- */}
+					<section
+						id='core-topics-destination'
+						className='core-topics-grid animate-section'
+						aria-label='Main financial categories'
+					>
+						{coreTopics.map((topic, index) => (
+							<Link
+								className={`topic-card animate-card`}
+								key={topic.title}
+								href={topic.href}
+								aria-label={topic.ariaLabel}
+								title={`Learn more about ${topic.title}`}
+								style={{ animationDelay: `${index * 0.1}s` }}
+							>
+								<figure className='topic-card-figure'>
+									<img
+										src={topic.imgSrc}
+										alt={topic.altText}
+										width={200}
+										height={200}
+										loading={topic.priority ? "eager" : "lazy"}
+										// @ts-expect-error - fetchpriority is a newer attribute
+										fetchpriority={topic.priority ? "high" : "auto"}
+										decoding='async'
+									/>
+								</figure>
+								<div className='topic-card-content'>
+									<h3 className='topic-card-title'>{topic.title}</h3>
+									<p className='topic-card-description'>{topic.description}</p>
+									<span className='topic-card-link'>Learn More →</span>
+								</div>
+							</Link>
+						))}
+					</section>
+					<section
+						className='community-forum-section animate-section'
+						aria-labelledby='community-forum-title-id'
+					>
+						<h2 id='community-forum-title-id' className='section-title'>
+							Got Questions? <span className='highlight'>Join Our Community!</span>
+						</h2>
+						<p className='section-subtitle'>
+							Our active forum is the perfect place to ask your specific personal
+							finance questions, share experiences, and learn from fellow members.
+							Get answers, offer advice, and connect with like-minded individuals on
+							their financial journey.
+						</p>
+						<Link
+							href='/forum'
+							className='cta-button'
+							title='Visit the DollarsAndLife Community Forum'
+						>
+							Visit the Forum & Ask
+						</Link>
+					</section>
+
+					{/* --- Why Trust DollarsAndLife.com (EEAT) --- */}
+					<section className='why-trust-us animate-section' aria-labelledby='why-trust-title-id'>
+						<div className='why-trust-content'>
+							<h2 id='why-trust-title-id' className='section-title'>
+								Why Trust <span className='highlight'>{shortSiteName}</span>?
+							</h2>
+							<p>
+								We're committed to providing clear, reliable, and actionable
+								personal finance advice. Founded by{" "}
+								<strong>
+									<a
+										href={founderLinkedInUrl}
+										target='_blank'
+										rel='noopener noreferrer author'
+										title={`Connect with ${founderName} on LinkedIn`}
+									>
+										{founderName}
+									</a>
+								</strong>
+								, a self-taught developer and personal finance writer based in Texas
+								with years of hands-on experience in digital entrepreneurship and a
+								personal journey of mastering these financial principles.{" "}
+								{shortSiteName} is passionate about making money management
+								accessible to all. Our content is built on thorough research,
+								real-world application, and a genuine desire to help you succeed.
+							</p>
+							<ul>
+								<li>
+									<strong>Expert Insights:</strong> Articles crafted from tested
+									strategies and real-world experience in money management and
+									online business.
+								</li>
+								<li>
+									<strong>Practical & Actionable:</strong> We focus on tips you can
+									implement immediately for tangible results.
+								</li>
+								<li>
+									<strong>Beginner-Friendly:</strong> Complex topics explained
+									simply, no jargon, just clear guidance.
+								</li>
+								<li>
+									<strong>Community Focused:</strong> Every guide is written with
+									your real-world challenges and goals in mind.
+								</li>
+							</ul>
+							<Link
+								href='/about-us'
+								className='cta-button-secondary'
+								title='Learn more about our mission and team'
+							>
+								Learn More About Us
+							</Link>
+						</div>
+					</section>
+
+					{/* --- What You'll Discover (Content Teasers) --- */}
+					<section className='discover-section animate-section' aria-labelledby='discover-title-id'>
+						<h2 id='discover-title-id' className='section-title'>
+							What You'll <span className='highlight'>Discover Inside</span>
+						</h2>
+						<div className='discover-grid'>
+							<div className='discover-item animate-item' style={{ animationDelay: '0.05s' }}>
+								<h4>In-Depth Budgeting Guides</h4>
+								<p>
+									From creating your first budget to advanced saving strategies.
+									Conquer debt and build lasting wealth.
+								</p>
+								<Link
+									href='/extra-income/budget'
+									className='text-link'
+									title='Explore budgeting guides'
+								>
+									Explore Budgeting →
+								</Link>
+							</div>
+							<div className='discover-item animate-item' style={{ animationDelay: '0.1s' }}>
+								<h4>Creative Income Boosters</h4>
+								<p>
+									Find legitimate side hustles, online job opportunities, and
+									passive income ideas to grow your earnings.
+								</p>
+								<Link
+									href='/extra-income'
+									className='text-link'
+									title='Explore extra income opportunities'
+								>
+									Explore Extra Income →
+								</Link>
+							</div>
+							<div className='discover-item animate-item' style={{ animationDelay: '0.15s' }}>
+								<h4>Smart Shopping Secrets</h4>
+								<p>
+									Learn to find the best deals, use coupons wisely, and avoid
+									marketing traps to save big on every purchase.
+								</p>
+								<Link
+									href='/shopping-deals'
+									className='text-link'
+									title='Explore shopping deals and tips'
+								>
+									Explore Shopping Deals →
+								</Link>
+							</div>
+							<div className='discover-item animate-item' style={{ animationDelay: '0.2s' }}>
+								<h4>Blogging for Success</h4>
+								<p>
+									Step-by-step tutorials on starting, growing, and monetizing a blog
+									effectively in any niche.
+								</p>
+								<Link
+									href='/start-a-blog'
+									className='text-link'
+									title='Explore blogging guides and tutorials'
+								>
+									Explore Blogging Tips →
+								</Link>
+							</div>
+						</div>
+					</section>
+
+					{/* --- FAQ Section --- */}
+					<section className='faq-section animate-section' aria-labelledby='faq-title-id'>
+						<h2 id='faq-title-id' className='section-title'>
+							Frequently Asked <span className='highlight'>Questions</span>
+						</h2>
+						<div className='faq-list'>
+							{faqs.map((faq, index) => (
+								<details key={index} className='faq-item animate-item' name='faq-item' style={{ animationDelay: `${index * 0.05}s` }}>
+									{" "}
+									{/* Added name for potential analytics */}
+									<summary className='faq-question'>{faq.question}</summary>
+									<div
+										className='faq-answer'
+										dangerouslySetInnerHTML={{ __html: faq.answer }}
+									/>
+								</details>
+							))}
+						</div>
+					</section>
+
+					{/* --- Final Call to Action --- */}
+					<section
+						className='final-cta-section animate-section'
+						aria-labelledby='final-cta-title-id'
+					>
+						<h2 id='final-cta-title-id' className='section-title'>
+							Ready to Transform Your Finances?
+						</h2>
+						<p>
+							Take the first step towards a brighter financial future. Explore our
+							guides, tools, and resources today, and start building the life you
+							deserve.
+						</p>
+						<a href='#core-topics-destination' className='cta-button'>
+							Start Your Journey Now
+						</a>
+					</section>
+				</>
+			)}
 		</div>
 	);
 
-	// Render loading screen as portal to ensure it's on top
-	if (isLoading && isMounted) {
-		return createPortal(<LoadingScreen />, document.body);
-	}
 
-	// Don't render content until loading is complete
-	if (!showContent) {
-		return null;
-	}
-
-	return (
-		<>
-			<div className='homepage-container'>
-				<Head>
-					<title>{`${Array.isArray(mainTitle) ? mainTitle.join("") : mainTitle
-						}`}</title>
-					<meta name='description' content={mainDescription} />
-					<link rel='canonical' href={siteUrl} />
-					<meta
-						name='keywords'
-						content='personal finance, budgeting, earn extra income, shopping deals, start a blog, financial freedom, money management, Tarek I'
-					/>
-					<meta property='og:locale' content='en_US' />
-					{/* Google Fonts - Moved from CSS for better performance */}
-					<link rel='preconnect' href='https://fonts.googleapis.com' />
-					<link
-						rel='preconnect'
-						href='https://fonts.gstatic.com'
-						crossOrigin='anonymous'
-					/>
-					<link
-						href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap'
-						rel='stylesheet'
-					/>
-					{/* Open Graph / Facebook */}
-					<meta property='og:type' content='website' />
-					<meta property='og:url' content={siteUrl} />
-					<meta
-						property='og:title'
-						content={`${shortSiteName} | Smart Personal Finance & Online Income`}
-					/>
-					<meta property='og:description' content={mainDescription} />
-					<meta property='og:image' content={ogImageContent} />
-					<meta property='og:image:width' content='1200' />{" "}
-					{/* Optional: Specify image dimensions */}
-					<meta property='og:image:height' content='630' />{" "}
-					{/* Optional: Standard OG image size */}
-					<meta property='og:site_name' content={siteName} />
-					{/* Twitter */}
-					<meta name='twitter:card' content='summary_large_image' />
-					<meta name='twitter:url' content={siteUrl} />
-					<meta
-						name='twitter:title'
-						content={`${shortSiteName} | Actionable Finance Tips for a Better Life`}
-					/>
-					<meta name='twitter:description' content={mainDescription} />
-					<meta name='twitter:image' content={ogImageContent} />
-					{/* <meta name="twitter:site" content="@YourTwitterHandle"> Optional */}
-					{/* <meta name="twitter:creator" content="@FoundersTwitterHandle"> Optional */}
-					{/* Preload priority images */}
-					{coreTopics
-						.filter((topic) => topic.priority)
-						.map((topic, i) => (
-							<link
-								key={`preload-link-${i}`}
-								rel='preload'
-								as='image'
-								href={topic.imgSrc} // Ensure this path is correct from public dir or served
-							// type='image/webp' // Type can be helpful but not strictly required for preload
-							/>
-						))}
-					{/* Structured Data Scripts */}
-					<script
-						type='application/ld+json'
-						dangerouslySetInnerHTML={{
-							__html: JSON.stringify(websiteSchema),
-						}}
-					/>
-					<script
-						type='application/ld+json'
-						dangerouslySetInnerHTML={{
-							__html: JSON.stringify(webpageSchema),
-						}}
-					/>
-					<script
-						type='application/ld+json'
-						dangerouslySetInnerHTML={{
-							__html: JSON.stringify(faqSchema),
-						}}
-					/>
-					<script
-						type='application/ld+json'
-						dangerouslySetInnerHTML={{
-							__html: JSON.stringify(breadcrumbSchema),
-						}}
-					/>
-				</Head>
-
-				{/* --- Hero Section --- */}
-				<section className='hero-section' aria-labelledby='hero-title'>
-					<div className='hero-content'>
-						<h1 id='hero-title'>
-							Master Your Money,{" "}
-							<span className='highlight'>Unlock Your Life</span>.
-						</h1>
-						<p className='hero-subtitle'>
-							Welcome to {siteName} – your friendly hub for practical financial
-							strategies designed for everyday people. Discover how to budget
-							effectively, boost your earnings, shop smarter, and even launch your
-							own successful blog.
-						</p>
-						<a href='#core-topics-destination' className='cta-button hero-cta'>
-							Explore Key Guides
-						</a>
-					</div>
-				</section>
-
-				{/* --- Introduction to Core Topics --- */}
-				<section
-					className='core-topics-intro'
-					aria-labelledby='core-topics-main-title'
-				>
-					<h2 id='core-topics-main-title' className='section-title'>
-						Your Journey to Financial Wellness Starts{" "}
-						<span className='highlight'>Here</span>
-					</h2>
-					<p className='section-subtitle'>
-						Navigating personal finance can feel overwhelming, but it doesn't have
-						to be. We break down complex topics into simple, actionable steps.
-						Whether you want to earn more, save better, or build an online
-						presence, we've got you covered.
-					</p>
-				</section>
-
-				{/* --- Core Topic Links --- */}
-				<section
-					id='core-topics-destination'
-					className='core-topics-grid'
-					aria-label='Main financial categories'
-				>
-					{coreTopics.map((topic) => (
-						<Link
-							className={`topic-card`}
-							key={topic.title}
-							href={topic.href}
-							aria-label={topic.ariaLabel}
-							title={`Learn more about ${topic.title}`}
-						>
-							<figure className='topic-card-figure'>
-								<img
-									src={topic.imgSrc}
-									alt={topic.altText}
-									width={200} // Intrinsic size, CSS will control display size
-									height={200} // Intrinsic size
-									loading={topic.priority ? "eager" : "lazy"}
-									// @ts-expect-error - fetchpriority is a newer attribute
-									fetchpriority={topic.priority ? "high" : "auto"}
-									decoding='async' // Helps browsers prioritize image decoding
-								/>
-							</figure>
-							<div className='topic-card-content'>
-								<h3 className='topic-card-title'>{topic.title}</h3>
-								<p className='topic-card-description'>{topic.description}</p>
-								<span className='topic-card-link'>Learn More →</span>
-							</div>
-						</Link>
-					))}
-				</section>
-				<section
-					className='community-forum-section'
-					aria-labelledby='community-forum-title-id'
-				>
-					<h2 id='community-forum-title-id' className='section-title'>
-						Got Questions? <span className='highlight'>Join Our Community!</span>
-					</h2>
-					<p className='section-subtitle'>
-						Our active forum is the perfect place to ask your specific personal
-						finance questions, share experiences, and learn from fellow members.
-						Get answers, offer advice, and connect with like-minded individuals on
-						their financial journey.
-					</p>
-					<Link
-						href='/forum'
-						className='cta-button'
-						title='Visit the DollarsAndLife Community Forum'
-					>
-						Visit the Forum & Ask
-					</Link>
-				</section>
-
-				{/* --- Why Trust DollarsAndLife.com (EEAT) --- */}
-				<section className='why-trust-us' aria-labelledby='why-trust-title-id'>
-					<div className='why-trust-content'>
-						<h2 id='why-trust-title-id' className='section-title'>
-							Why Trust <span className='highlight'>{shortSiteName}</span>?
-						</h2>
-						<p>
-							We're committed to providing clear, reliable, and actionable
-							personal finance advice. Founded by{" "}
-							<strong>
-								<a
-									href={founderLinkedInUrl}
-									target='_blank'
-									rel='noopener noreferrer author'
-									title={`Connect with ${founderName} on LinkedIn`}
-								>
-									{founderName}
-								</a>
-							</strong>
-							, a self-taught developer and personal finance writer based in Texas
-							with years of hands-on experience in digital entrepreneurship and a
-							personal journey of mastering these financial principles.{" "}
-							{shortSiteName} is passionate about making money management
-							accessible to all. Our content is built on thorough research,
-							real-world application, and a genuine desire to help you succeed.
-						</p>
-						<ul>
-							<li>
-								<strong>Expert Insights:</strong> Articles crafted from tested
-								strategies and real-world experience in money management and
-								online business.
-							</li>
-							<li>
-								<strong>Practical & Actionable:</strong> We focus on tips you can
-								implement immediately for tangible results.
-							</li>
-							<li>
-								<strong>Beginner-Friendly:</strong> Complex topics explained
-								simply, no jargon, just clear guidance.
-							</li>
-							<li>
-								<strong>Community Focused:</strong> Every guide is written with
-								your real-world challenges and goals in mind.
-							</li>
-						</ul>
-						<Link
-							href='/about-us'
-							className='cta-button-secondary'
-							title='Learn more about our mission and team'
-						>
-							Learn More About Us
-						</Link>
-					</div>
-				</section>
-
-				{/* --- What You'll Discover (Content Teasers) --- */}
-				<section className='discover-section' aria-labelledby='discover-title-id'>
-					<h2 id='discover-title-id' className='section-title'>
-						What You'll <span className='highlight'>Discover Inside</span>
-					</h2>
-					<div className='discover-grid'>
-						<div className='discover-item'>
-							<h4>In-Depth Budgeting Guides</h4>
-							<p>
-								From creating your first budget to advanced saving strategies.
-								Conquer debt and build lasting wealth.
-							</p>
-							<Link
-								href='/extra-income/budget'
-								className='text-link'
-								title='Explore budgeting guides'
-							>
-								Explore Budgeting →
-							</Link>
-						</div>
-						<div className='discover-item'>
-							<h4>Creative Income Boosters</h4>
-							<p>
-								Find legitimate side hustles, online job opportunities, and
-								passive income ideas to grow your earnings.
-							</p>
-							<Link
-								href='/extra-income'
-								className='text-link'
-								title='Explore extra income opportunities'
-							>
-								Explore Extra Income →
-							</Link>
-						</div>
-						<div className='discover-item'>
-							<h4>Smart Shopping Secrets</h4>
-							<p>
-								Learn to find the best deals, use coupons wisely, and avoid
-								marketing traps to save big on every purchase.
-							</p>
-							<Link
-								href='/shopping-deals'
-								className='text-link'
-								title='Explore shopping deals and tips'
-							>
-								Explore Shopping Deals →
-							</Link>
-						</div>
-						<div className='discover-item'>
-							<h4>Blogging for Success</h4>
-							<p>
-								Step-by-step tutorials on starting, growing, and monetizing a blog
-								effectively in any niche.
-							</p>
-							<Link
-								href='/start-a-blog'
-								className='text-link'
-								title='Explore blogging guides and tutorials'
-							>
-								Explore Blogging Tips →
-							</Link>
-						</div>
-					</div>
-				</section>
-
-				{/* --- FAQ Section --- */}
-				<section className='faq-section' aria-labelledby='faq-title-id'>
-					<h2 id='faq-title-id' className='section-title'>
-						Frequently Asked <span className='highlight'>Questions</span>
-					</h2>
-					<div className='faq-list'>
-						{faqs.map((faq, index) => (
-							<details key={index} className='faq-item' name='faq-item'>
-								{" "}
-								{/* Added name for potential analytics */}
-								<summary className='faq-question'>{faq.question}</summary>
-								<div
-									className='faq-answer'
-									dangerouslySetInnerHTML={{ __html: faq.answer }}
-								/>
-							</details>
-						))}
-					</div>
-				</section>
-
-				{/* --- Final Call to Action --- */}
-				<section
-					className='final-cta-section'
-					aria-labelledby='final-cta-title-id'
-				>
-					<h2 id='final-cta-title-id' className='section-title'>
-						Ready to Transform Your Finances?
-					</h2>
-					<p>
-						Take the first step towards a brighter financial future. Explore our
-						guides, tools, and resources today, and start building the life you
-						deserve.
-					</p>
-					<a href='#core-topics-destination' className='cta-button'>
-						Start Your Journey Now
-					</a>
-				</section>
-			</div>
-		</>
-	);
 };
 
 export default HomePage;
