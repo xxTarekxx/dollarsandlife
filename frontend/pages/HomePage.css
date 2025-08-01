@@ -33,8 +33,7 @@
     justify-content: center;
     align-items: center;
     z-index: 99999;
-    animation: fadeIn 0.5s ease-in-out;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.15s ease-in-out, visibility 0.15s ease-in-out;
     pointer-events: none;
     visibility: visible;
 }
@@ -132,95 +131,7 @@
 }
 
 /* --- Home Page Content Animations --- */
-.homepage-container.animate-in {
-    animation: pageReveal 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0s both;
-}
-
-.animate-section {
-    opacity: 0;
-    transform: translateY(50px) rotateX(15deg);
-    animation: sectionSlideIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.animate-section:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.animate-section:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.animate-section:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.animate-section:nth-child(4) {
-    animation-delay: 0.4s;
-}
-
-.animate-section:nth-child(5) {
-    animation-delay: 0.5s;
-}
-
-.animate-section:nth-child(6) {
-    animation-delay: 0.6s;
-}
-
-.animate-section:nth-child(7) {
-    animation-delay: 0.7s;
-}
-
-.animate-card {
-    opacity: 0;
-    transform: translateY(30px) scale(0.8) rotateY(20deg);
-    animation: cardReveal 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-card:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.animate-card:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.animate-card:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.animate-card:nth-child(4) {
-    animation-delay: 0.4s;
-}
-
-.animate-card:nth-child(5) {
-    animation-delay: 0.5s;
-}
-
-.animate-card:nth-child(6) {
-    animation-delay: 0.6s;
-}
-
-.animate-item {
-    opacity: 0;
-    transform: translateX(-40px) rotateZ(-5deg);
-    animation: itemSlideIn 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.animate-item:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.animate-item:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.animate-item:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.animate-item:nth-child(4) {
-    animation-delay: 0.4s;
-}
+/* All animations removed to prevent flickering */
 
 /* Loading Animations */
 @keyframes fadeIn {
@@ -282,74 +193,7 @@
     }
 }
 
-/* Home Page Content Animations */
-@keyframes pageReveal {
-    0% {
-        opacity: 0;
-        transform: scale(0.3) rotate(180deg);
-    }
-
-    50% {
-        opacity: 0.5;
-        transform: scale(0.8) rotate(90deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
-}
-
-@keyframes sectionSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(50px) rotateX(15deg);
-    }
-
-    50% {
-        opacity: 0.7;
-        transform: translateY(25px) rotateX(7deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0) rotateX(0deg);
-    }
-}
-
-@keyframes cardReveal {
-    0% {
-        opacity: 0;
-        transform: translateY(30px) scale(0.8) rotateY(20deg);
-    }
-
-    50% {
-        opacity: 0.8;
-        transform: translateY(15px) scale(0.9) rotateY(10deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotateY(0deg);
-    }
-}
-
-@keyframes itemSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateX(-40px) rotateZ(-5deg);
-    }
-
-    50% {
-        opacity: 0.6;
-        transform: translateX(-20px) rotateZ(-2deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0) rotateZ(0deg);
-    }
-}
+/* Home Page Content Animations - Removed to prevent flickering */
 
 /* Loading screen responsive adjustments */
 @media (max-width: 768px) {
