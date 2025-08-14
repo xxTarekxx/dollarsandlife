@@ -1,5 +1,6 @@
 # Custom entries
 ads/
+_document.tsx
 ads.txt
 backup-vite.config.ts
 fixJsonFields.js
