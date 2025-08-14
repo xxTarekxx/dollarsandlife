@@ -1,4 +1,4 @@
-import FinancialCalculators from "../src/components/calculators/FinancialCalculators";
+import FinancialCalculators from "../../src/components/calculators/FinancialCalculators";
 
 const FinancialCalculatorsPage = () => {
 	return <FinancialCalculators />;
