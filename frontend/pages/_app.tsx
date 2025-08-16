@@ -20,8 +20,8 @@ import "./extra-income/ExtraIncome.css";
 import "./forum/ForumHomePage.css";
 import "./forum/post/ViewPostPage.css";
 import "./HomePage.css";
-import "./return-policy.css";
-import "./SentryPCLanding.css";
+import "./return-policy/return-policy.css";
+
 import "./shopping-deals/ProductDetails.css";
 import "./shopping-deals/ShoppingDeals.css";
 
@@ -116,7 +116,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			let isInternal = false;
 			if (
 				internalPrefixes.length > 0 &&
-				internalPrefixes[0] !== "http://localhost:5000"
+				!internalPrefixes.some(prefix => prefix.includes('localhost'))
 			) {
 				try {
 					const res = await fetch("https://api64.ipify.org?format=json");
@@ -136,7 +136,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			if (typeof window.gtag === "function") {
 				window.gtag("config", GA_MEASUREMENT_ID, {
 					page_path: router.asPath,
-					...(isInternal && { traffic_type: "internal" }),
+					...(isInternal && { traffic_type: "internal_traffic" }),
 				});
 				window.gtag("config", GOOGLE_ADS_ID);
 			}
@@ -158,7 +158,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					page_path: url,
 					send_to: GA_MEASUREMENT_ID,
 					...(isInternalUserRef.current === true && {
-						traffic_type: "internal",
+						traffic_type: "internal_traffic",
 					}),
 				});
 			}
