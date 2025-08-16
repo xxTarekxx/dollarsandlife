@@ -8,13 +8,13 @@ import React from "react";
 import styles from "./about-us.module.css";
 
 // Importing logos from /assets
-import expressLogo from "../src/assets/images/expressjs.webp";
-import firebaseLogo from "../src/assets/images/firebaselogo.png";
-import mongoLogo from "../src/assets/images/mongodb.webp";
-import nextjsLogo from "../src/assets/images/nextjs-logo.svg";
-import nodeLogo from "../src/assets/images/nodejslogo.webp";
-import profileImage from "../src/assets/images/profile-image.webp";
-import reactLogo from "../src/assets/images/reactlogo.webp";
+import expressLogo from "../../src/assets/images/expressjs.webp";
+import firebaseLogo from "../../src/assets/images/firebaselogo.png";
+import mongoLogo from "../../src/assets/images/mongodb.webp";
+import nextjsLogo from "../../src/assets/images/nextjs-logo.svg";
+import nodeLogo from "../../src/assets/images/nodejslogo.webp";
+import profileImage from "../../src/assets/images/profile-image.webp";
+import reactLogo from "../../src/assets/images/reactlogo.webp";
 
 const AboutUs: React.FC = () => {
 	return (
