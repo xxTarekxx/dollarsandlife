@@ -320,7 +320,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 						price: p.offers?.price || p.currentPrice.replace("$", ""),
 						availability:
 							p.offers?.availability || "https://schema.org/InStock",
-						url: `https://www.dollarsandlife.com${p.canonicalUrl}`,
+						url: p.canonicalUrl || '',
 					},
 					aggregateRating: p.aggregateRating && {
 						"@type": "AggregateRating",
