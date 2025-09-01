@@ -77,9 +77,7 @@ async function fetchDynamicRoutes() {
                     continue;
                 }
 
-                const fullUrl = doc.canonicalUrl.startsWith("/")
-                    ? BASE_URL + doc.canonicalUrl
-                    : doc.canonicalUrl;
+                const fullUrl = doc.canonicalUrl; // Use as-is since it's already a full URL
 
                 const rawDate = doc.dateModified?.trim() || doc.datePublished;
                 const parsedDate = new Date(rawDate);
