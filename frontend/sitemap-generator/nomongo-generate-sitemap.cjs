@@ -71,8 +71,11 @@ async function fetchDynamicRoutes() {
                     return;
                 }
 
+                // Convert absolute URL to relative for SitemapStream
+                const relativeUrl = url.toLowerCase().replace(/^https?:\/\/[^\/]+/, '');
+
                 const route = {
-                    url: url.toLowerCase(),
+                    url: relativeUrl,
                     changefreq: "monthly",
                     priority: 0.8,
                     lastmod: new Date(rawDate).toISOString(),

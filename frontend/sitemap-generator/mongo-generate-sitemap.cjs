@@ -83,8 +83,11 @@ async function fetchDynamicRoutes() {
                 const parsedDate = new Date(rawDate);
                 if (isNaN(parsedDate.getTime())) continue;
 
+                // Convert absolute URL to relative for SitemapStream
+                const relativeUrl = fullUrl.toLowerCase().replace(/^https?:\/\/[^\/]+/, '');
+
                 dynamicRoutes.push({
-                    url: fullUrl.toLowerCase(),
+                    url: relativeUrl,
                     changefreq: "monthly",
                     priority: 0.8,
                     lastmod: parsedDate.toISOString(),

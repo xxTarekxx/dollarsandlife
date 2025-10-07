@@ -70,44 +70,8 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/layoffs-and-employment-2025</loc>
-        <lastmod>2025-06-17T07:21:30.124Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://www.dollarsandlife.com/breaking-news/irs-tax-refund-schedule-2025</loc>
         <lastmod>2025-06-03T04:00:00.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/bitcoin-price-outlook</loc>
-        <lastmod>2025-05-08T04:00:00.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/social-security-payment-guide</loc>
-        <lastmod>2025-04-27T22:00:00.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/al-gore-trump-nazi-comparison-2025</loc>
-        <lastmod>2025-04-27T01:00:00.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/measles-usa-texas-latest-news-2025</loc>
-        <lastmod>2025-04-15T14:00:00.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/stock-market-2025-analysis</loc>
-        <lastmod>2025-04-03T05:00:00.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -118,20 +82,50 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/spacex-rescue-mission-astronauts-return</loc>
-        <lastmod>2025-03-22T08:30:00.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://www.dollarsandlife.com/breaking-news/social-security-fairness-act-benefits</loc>
         <lastmod>2025-03-22T04:30:00.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/lunar-eclipse-2025</loc>
-        <lastmod>2025-05-01T13:00:00.000Z</lastmod>
+        <loc>https://www.dollarsandlife.com/breaking-news/social-security-payment-guide</loc>
+        <lastmod>2025-04-27T22:00:00.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/breaking-news/stock-market-2025-analysis</loc>
+        <lastmod>2025-04-03T05:00:00.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/breaking-news/layoffs-and-employment-2025</loc>
+        <lastmod>2025-06-17T07:21:30.124Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/breaking-news/bitcoin-price-outlook</loc>
+        <lastmod>2025-05-08T04:00:00.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/breaking-news/spacex-rescue-mission-astronauts-return</loc>
+        <lastmod>2025-03-22T08:30:00.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/breaking-news/measles-usa-texas-latest-news-2025</loc>
+        <lastmod>2025-04-15T14:00:00.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/breaking-news/al-gore-trump-nazi-comparison-2025</loc>
+        <lastmod>2025-04-27T01:00:00.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -142,14 +136,20 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/stimulus-check-2025-payment-dates</loc>
-        <lastmod>2025-03-23T05:30:00.000Z</lastmod>
+        <loc>https://www.dollarsandlife.com/breaking-news/spacex-latest-launch</loc>
+        <lastmod>2025-03-23T05:40:00.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/spacex-latest-launch</loc>
-        <lastmod>2025-03-23T05:40:00.000Z</lastmod>
+        <loc>https://www.dollarsandlife.com/breaking-news/lunar-eclipse-2025</loc>
+        <lastmod>2025-05-01T13:00:00.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/breaking-news/stimulus-check-2025-payment-dates</loc>
+        <lastmod>2025-03-23T05:30:00.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -160,7 +160,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/breaking-news/high-noon-celsius-recall-2025</loc>
+        <loc>https://www.dollarsandlife.com/breaking-news/high-noon-celsius-recall</loc>
         <lastmod>2025-07-31T15:00:00.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -260,125 +260,6 @@
     </url>
     <url>
         <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/76-devoropa-boys-swim-jammers-racing-trunks-for-youth-swim-practice</loc>
-        <lastmod>2025-06-03T16:12:09.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/75-karrack-one-piece-rash-guard-for-kids-sun-safe-swimwear-for-boys-girls</loc>
-        <lastmod>2025-06-03T16:11:31.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/74-g-gradual-men-s-swim-trunks-quick-dry-beach-shorts-with-zipper-pockets-no-liner</loc>
-        <lastmod>2025-06-03T16:24:52.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/73-summer-3d-mini-stroller-lightweight-umbrella-travel-stroller-for-toddlers</loc>
-        <lastmod>2025-06-03T16:26:19.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/72-real-essentials-dry-fit-boys-tank-tops-5-pack-athletic-summer-shirts</loc>
-        <lastmod>2025-06-03T16:27:59.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/71-honest-co-coastal-surf-hand-sanitizer-plant-based-non-sticky-family-safe</loc>
-        <lastmod>2025-06-02T16:57:31.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/70-g2rise-full-face-snorkel-mask-for-kids-anti-leak-wide-view-easy-fit</loc>
-        <lastmod>2025-06-02T16:51:33.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/69-kibbit-language-bingo-descriptive-grammar-directions-game-for-kids</loc>
-        <lastmod>2025-06-02T16:52:13.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/68-neutrogena-clear-face-spf-50-lightweight-matte-acne-friendly-sunscreen-3-fl-oz</loc>
-        <lastmod>2025-05-26T15:33:02.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/67-proactiv-3-step-acne-kit-cleanser-toner-treatment-for-teen-adult-acne-30-day-set</loc>
-        <lastmod>2025-05-26T15:32:35.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/66-eltamd-uv-clear-spf-46-dermatologist-recommended-oil-free-face-sunscreen-1-7-oz</loc>
-        <lastmod>2025-05-26T15:31:58.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/65-eltamd-recovery-toner-soothing-hydrating-facial-toner-for-sensitive-skin-7-3-oz</loc>
-        <lastmod>2025-05-26T15:31:30.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/64-la-roche-posay-double-repair-moisturizer-barrier-boosting-cream-with-niacinamide-one-size</loc>
-        <lastmod>2025-05-26T15:31:01.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/63-laneige-water-sleeping-mask-deep-hydration-barrier-boost-overnight-70ml</loc>
-        <lastmod>2025-05-26T15:29:25.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/62-the-ordinary-moisturizing-factors-ha-skin-barrier-hydration-cream-100ml</loc>
-        <lastmod>2025-05-26T15:28:56.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/61-laneige-cream-skin-toner-moisturizer-hydrating-milky-formula-with-barrier-support-150ml</loc>
-        <lastmod>2025-05-26T15:28:32.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/60-the-ordinary-aha-bha-peeling-solution-pore-clearing-facial-for-brighter-skin-30ml</loc>
-        <lastmod>2025-05-26T15:28:09.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
             https://www.dollarsandlife.com/shopping-deals/products/59-laneige-lip-sleeping-mask-overnight-moisturizer-for-chapped-lips-20g</loc>
         <lastmod>2025-05-26T15:27:45.000Z</lastmod>
         <changefreq>monthly</changefreq>
@@ -386,113 +267,8 @@
     </url>
     <url>
         <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/58-the-ordinary-niacinamide-zinc-serum-blemish-control-smooth-texture-30ml</loc>
-        <lastmod>2025-05-26T15:27:14.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/57-the-ordinary-salicylic-acid-2-acne-serum-for-oily-blemish-prone-skin-30ml</loc>
-        <lastmod>2025-05-26T15:26:46.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
             https://www.dollarsandlife.com/shopping-deals/products/56-the-ordinary-retinol-1-in-squalane-anti-aging-skin-smoothing-serum</loc>
         <lastmod>2025-05-26T15:26:15.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/55-olly-beauty-gummies-biotin-keratin-vitamin-c-for-hair-skin-nails-60-count</loc>
-        <lastmod>2025-05-26T15:25:47.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/54-viking-sea-salt-hair-spray-for-men-natural-beach-look-with-volume-8-8-oz</loc>
-        <lastmod>2025-05-26T15:20:52.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/53-ion-hard-water-shampoo-removes-buildup-protects-color-10-5-oz</loc>
-        <lastmod>2025-05-26T15:20:11.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/52-bissell-pet-carpet-shampoo-48-oz-cleaner-with-febreze-stain-odor-remover</loc>
-        <lastmod>2025-05-26T15:15:37.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/51-bissell-little-green-portable-upholstery-carpet-cleaner-1400b</loc>
-        <lastmod>2025-05-26T15:10:13.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/50-softsoap-fresh-breeze-hand-soap-7-5-oz-6-pack-gentle-moisturizing</loc>
-        <lastmod>2025-05-24T16:35:25.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/49-nizoral-anti-dandruff-shampoo-1-ketoconazole-clinically-proven-relief</loc>
-        <lastmod>2025-05-24T16:34:14.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/48-eos-vanilla-cashmere-body-lotion-shea-butter-moisturizer-24h-hydration</loc>
-        <lastmod>2025-05-24T16:33:35.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/47-vicks-severe-cold-flu-medicine-dayquil-nyquil-combo-pack-2-x-12-oz</loc>
-        <lastmod>2025-05-24T16:22:39.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/46-ring-battery-video-doorbell-2024-smart-security-with-head-to-toe-video</loc>
-        <lastmod>2025-05-24T16:20:56.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/45-zevo-plug-in-bug-trap-cartridges-gnat-fly-catcher-for-home</loc>
-        <lastmod>2025-05-24T15:53:08.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/44-relief-sun-spf50-pa-organic-korean-sunscreen</loc>
-        <lastmod>2025-05-05T18:39:14.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/43-tractive-xl-real-time-gps-dog-tracker-adventure-edition</loc>
-        <lastmod>2025-05-05T18:31:49.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -519,6 +295,45 @@
     </url>
     <url>
         <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/33-carhartt-heavyweight-pocket-tee</loc>
+        <lastmod>2025-04-21T20:29:33.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/1-veepeak-obdcheck-ble</loc>
+        <lastmod>2025-04-05T20:20:20.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/24-lv-sprouse-limited-trunk</loc>
+        <lastmod>2025-04-05T20:21:29.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/5-bamboo-food-dispenser-2l</loc>
+        <lastmod>2025-04-05T20:23:43.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/64-la-roche-posay-double-repair-moisturizer-barrier-boosting-cream-with-niacinamide-one-size</loc>
+        <lastmod>2025-05-26T15:31:01.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/50-softsoap-fresh-breeze-hand-soap-7-5-oz-6-pack-gentle-moisturizing</loc>
+        <lastmod>2025-05-24T16:35:25.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
             https://www.dollarsandlife.com/shopping-deals/products/39-neutrogena-makeup-remover-facial-wipes</loc>
         <lastmod>2025-04-21T21:28:19.000Z</lastmod>
         <changefreq>monthly</changefreq>
@@ -528,41 +343,6 @@
         <loc>
             https://www.dollarsandlife.com/shopping-deals/products/38-artnaturals-kojic-acid-soap-with-african-net-sponge</loc>
         <lastmod>2025-04-21T21:11:22.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/37-mighty-patch-hydrocolloid-acne-patches</loc>
-        <lastmod>2025-04-21T21:02:58.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/36-euhomy-portable-ice-maker-machine-fast-quiet</loc>
-        <lastmod>2025-04-21T21:00:32.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/35-crocs-kids-classic-clogs-comfortable-fun</loc>
-        <lastmod>2025-04-21T20:59:01.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/34-crocs-unisex-classic-clogs-lightweight-cushioned</loc>
-        <lastmod>2025-04-21T20:55:07.000Z</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/33-carhartt-heavyweight-pocket-tee</loc>
-        <lastmod>2025-04-21T20:29:33.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -581,33 +361,84 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/16-lilyana-retinol-cream</loc>
-        <lastmod>2025-04-05T20:18:24.000Z</lastmod>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/11-anua-vegan-sunscreen</loc>
+        <lastmod>2025-04-05T20:23:20.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/21-mongoose-argus-st-fat-tire-mountain-bike</loc>
-        <lastmod>2025-04-05T20:18:41.000Z</lastmod>
+            https://www.dollarsandlife.com/shopping-deals/products/62-the-ordinary-moisturizing-factors-ha-skin-barrier-hydration-cream-100ml</loc>
+        <lastmod>2025-05-26T15:28:56.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/17-turmeric-brightening-soap</loc>
-        <lastmod>2025-04-05T20:18:51.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/60-the-ordinary-aha-bha-peeling-solution-pore-clearing-facial-for-brighter-skin-30ml</loc>
+        <lastmod>2025-05-26T15:28:09.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/2-cnp-propolis-lip-butter</loc>
-        <lastmod>2025-04-05T20:19:05.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/54-viking-sea-salt-hair-spray-for-men-natural-beach-look-with-volume-8-8-oz</loc>
+        <lastmod>2025-05-26T15:20:52.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/9-coutgo-raffia-slide-sandals</loc>
-        <lastmod>2025-04-05T20:19:25.000Z</lastmod>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/23-herm-s-kelly-32-crocodile</loc>
+        <lastmod>2025-04-05T20:20:07.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/73-summer-3d-mini-stroller-lightweight-umbrella-travel-stroller-for-toddlers</loc>
+        <lastmod>2025-06-03T16:26:19.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/72-real-essentials-dry-fit-boys-tank-tops-5-pack-athletic-summer-shirts</loc>
+        <lastmod>2025-06-03T16:27:59.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/69-kibbit-language-bingo-descriptive-grammar-directions-game-for-kids</loc>
+        <lastmod>2025-06-02T16:52:13.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/44-relief-sun-spf50-pa-organic-korean-sunscreen</loc>
+        <lastmod>2025-05-05T18:39:14.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/36-euhomy-portable-ice-maker-machine-fast-quiet</loc>
+        <lastmod>2025-04-21T21:00:32.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/61-laneige-cream-skin-toner-moisturizer-hydrating-milky-formula-with-barrier-support-150ml</loc>
+        <lastmod>2025-05-26T15:28:32.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/48-eos-vanilla-cashmere-body-lotion-shea-butter-moisturizer-24h-hydration</loc>
+        <lastmod>2025-05-24T16:33:35.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -619,33 +450,108 @@
     </url>
     <url>
         <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/55-olly-beauty-gummies-biotin-keratin-vitamin-c-for-hair-skin-nails-60-count</loc>
+        <lastmod>2025-05-26T15:25:47.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/52-bissell-pet-carpet-shampoo-48-oz-cleaner-with-febreze-stain-odor-remover</loc>
+        <lastmod>2025-05-26T15:15:37.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/46-ring-battery-video-doorbell-2024-smart-security-with-head-to-toe-video</loc>
+        <lastmod>2025-05-24T16:20:56.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/16-lilyana-retinol-cream</loc>
+        <lastmod>2025-04-05T20:18:24.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/9-coutgo-raffia-slide-sandals</loc>
+        <lastmod>2025-04-05T20:19:25.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/6-anrabess-premium-linen-short-set-babydoll-puff-sleeve-2-piece</loc>
+        <lastmod>2025-04-05T20:22:14.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/14-monpure-follicle-scrub</loc>
+        <lastmod>2025-04-05T20:22:59.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/76-devoropa-boys-swim-jammers-racing-trunks-for-youth-swim-practice</loc>
+        <lastmod>2025-06-03T16:12:09.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/49-nizoral-anti-dandruff-shampoo-1-ketoconazole-clinically-proven-relief</loc>
+        <lastmod>2025-05-24T16:34:14.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
             https://www.dollarsandlife.com/shopping-deals/products/7-yuoos-gold-seashell-rings-5pcs-beach--wave-design</loc>
         <lastmod>2025-04-05T20:19:54.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/23-herm-s-kelly-32-crocodile</loc>
-        <lastmod>2025-04-05T20:20:07.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/70-g2rise-full-face-snorkel-mask-for-kids-anti-leak-wide-view-easy-fit</loc>
+        <lastmod>2025-06-02T16:51:33.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/1-veepeak-obdcheck-ble</loc>
-        <lastmod>2025-04-05T20:20:20.000Z</lastmod>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/12-toppik-hair-building-fibers</loc>
+        <lastmod>2025-04-05T20:22:23.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/8-cushionaire-weston-woven-flats</loc>
-        <lastmod>2025-04-05T20:20:39.000Z</lastmod>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/3-saltair-shimmering-body-oil</loc>
+        <lastmod>2025-04-05T20:23:31.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/4-personalized-bunny-easter-basket</loc>
-        <lastmod>2025-04-05T20:20:51.000Z</lastmod>
+            https://www.dollarsandlife.com/shopping-deals/products/58-the-ordinary-niacinamide-zinc-serum-blemish-control-smooth-texture-30ml</loc>
+        <lastmod>2025-05-26T15:27:14.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/45-zevo-plug-in-bug-trap-cartridges-gnat-fly-catcher-for-home</loc>
+        <lastmod>2025-05-24T15:53:08.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/34-crocs-unisex-classic-clogs-lightweight-cushioned</loc>
+        <lastmod>2025-04-21T20:55:07.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -656,8 +562,29 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/24-lv-sprouse-limited-trunk</loc>
-        <lastmod>2025-04-05T20:21:29.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/75-karrack-one-piece-rash-guard-for-kids-sun-safe-swimwear-for-boys-girls</loc>
+        <lastmod>2025-06-03T16:11:31.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/68-neutrogena-clear-face-spf-50-lightweight-matte-acne-friendly-sunscreen-3-fl-oz</loc>
+        <lastmod>2025-05-26T15:33:02.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/21-mongoose-argus-st-fat-tire-mountain-bike</loc>
+        <lastmod>2025-04-05T20:18:41.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/8-cushionaire-weston-woven-flats</loc>
+        <lastmod>2025-04-05T20:20:39.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -675,32 +602,50 @@
     </url>
     <url>
         <loc>
-            https://www.dollarsandlife.com/shopping-deals/products/6-anrabess-premium-linen-short-set-babydoll-puff-sleeve-2-piece</loc>
-        <lastmod>2025-04-05T20:22:14.000Z</lastmod>
+            https://www.dollarsandlife.com/shopping-deals/products/74-g-gradual-men-s-swim-trunks-quick-dry-beach-shorts-with-zipper-pockets-no-liner</loc>
+        <lastmod>2025-06-03T16:24:52.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/12-toppik-hair-building-fibers</loc>
-        <lastmod>2025-04-05T20:22:23.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/71-honest-co-coastal-surf-hand-sanitizer-plant-based-non-sticky-family-safe</loc>
+        <lastmod>2025-06-02T16:57:31.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/30-laneige-lip-sleeping-mask</loc>
-        <lastmod>2025-04-05T20:22:37.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/67-proactiv-3-step-acne-kit-cleanser-toner-treatment-for-teen-adult-acne-30-day-set</loc>
+        <lastmod>2025-05-26T15:32:35.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/25-rolex-daytona-chronograph</loc>
-        <lastmod>2025-04-05T20:22:48.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/65-eltamd-recovery-toner-soothing-hydrating-facial-toner-for-sensitive-skin-7-3-oz</loc>
+        <lastmod>2025-05-26T15:31:30.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/14-monpure-follicle-scrub</loc>
-        <lastmod>2025-04-05T20:22:59.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/47-vicks-severe-cold-flu-medicine-dayquil-nyquil-combo-pack-2-x-12-oz</loc>
+        <lastmod>2025-05-24T16:22:39.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/43-tractive-xl-real-time-gps-dog-tracker-adventure-edition</loc>
+        <lastmod>2025-05-05T18:31:49.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/37-mighty-patch-hydrocolloid-acne-patches</loc>
+        <lastmod>2025-04-21T21:02:58.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -711,26 +656,81 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/11-anua-vegan-sunscreen</loc>
-        <lastmod>2025-04-05T20:23:20.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/51-bissell-little-green-portable-upholstery-carpet-cleaner-1400b</loc>
+        <lastmod>2025-05-26T15:10:13.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/3-saltair-shimmering-body-oil</loc>
-        <lastmod>2025-04-05T20:23:31.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/4-personalized-bunny-easter-basket</loc>
+        <lastmod>2025-04-05T20:20:51.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.dollarsandlife.com/shopping-deals/products/5-bamboo-food-dispenser-2l</loc>
-        <lastmod>2025-04-05T20:23:43.000Z</lastmod>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/53-ion-hard-water-shampoo-removes-buildup-protects-color-10-5-oz</loc>
+        <lastmod>2025-05-26T15:20:11.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/35-crocs-kids-classic-clogs-comfortable-fun</loc>
+        <lastmod>2025-04-21T20:59:01.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/17-turmeric-brightening-soap</loc>
+        <lastmod>2025-04-05T20:18:51.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/25-rolex-daytona-chronograph</loc>
+        <lastmod>2025-04-05T20:22:48.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://www.dollarsandlife.com/shopping-deals/products/18-chanel-classic-flap</loc>
         <lastmod>2025-04-05T20:24:03.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/66-eltamd-uv-clear-spf-46-dermatologist-recommended-oil-free-face-sunscreen-1-7-oz</loc>
+        <lastmod>2025-05-26T15:31:58.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/57-the-ordinary-salicylic-acid-2-acne-serum-for-oily-blemish-prone-skin-30ml</loc>
+        <lastmod>2025-05-26T15:26:46.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/2-cnp-propolis-lip-butter</loc>
+        <lastmod>2025-04-05T20:19:05.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dollarsandlife.com/shopping-deals/products/30-laneige-lip-sleeping-mask</loc>
+        <lastmod>2025-04-05T20:22:37.000Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>
+            https://www.dollarsandlife.com/shopping-deals/products/63-laneige-water-sleeping-mask-deep-hydration-barrier-boost-overnight-70ml</loc>
+        <lastmod>2025-05-26T15:29:25.000Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

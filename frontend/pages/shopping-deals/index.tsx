@@ -4,6 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import PaginationContainer from "src/components/pagination/PaginationContainer";
+import { getCanonicalUrl, getJsonLdUrl } from "../../src/utils/url";
 
 interface Product {
 	id: string;
@@ -305,7 +306,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 			"@type": "ItemList",
 			name: "Shopping Deals",
 			description: "Current deals and savings on various products.",
-			url: "https://www.dollarsandlife.com/shopping-deals",
+			url: getJsonLdUrl("/shopping-deals"),
 			itemListElement: products.map((p: Product, i: number) => ({
 				"@type": "ListItem",
 				position: i + 1,
@@ -320,7 +321,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 						price: p.offers?.price || p.currentPrice.replace("$", ""),
 						availability:
 							p.offers?.availability || "https://schema.org/InStock",
-						url: p.canonicalUrl || '',
+						url: p.canonicalUrl || getJsonLdUrl(`/shopping-deals/products/${p.id}`),
 					},
 					aggregateRating: p.aggregateRating && {
 						"@type": "AggregateRating",
@@ -343,7 +344,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/shopping-deals'
+					href={getCanonicalUrl("/shopping-deals")}
 				/>
 				<script
 					type='application/ld+json'
