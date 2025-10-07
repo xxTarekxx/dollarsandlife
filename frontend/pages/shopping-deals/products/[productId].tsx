@@ -3,6 +3,7 @@ import parse from "html-react-parser";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
+import { getCanonicalUrl } from "../../../src/utils/url";
 
 interface Product {
   id: string;
@@ -109,6 +110,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const isInStock = product.offers?.availability?.includes("InStock") ?? false;
   const stockStatusText = isInStock ? "In Stock" : "Out Of Stock";
   const stockStatusClass = isInStock ? "in-stock" : "out-of-stock";
+  const canonicalUrl = getCanonicalUrl(`/shopping-deals/products/${productSlug}`);
 
   const renderStars = (ratingValue: string | undefined): React.ReactNode => {
     if (!ratingValue) return null;
@@ -136,7 +138,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         <meta name='description' content={product.metaDescription} />
         <link
           rel='canonical'
-          href={`https://www.dollarsandlife.com/shopping-deals/products/${productSlug}`}
+          href={canonicalUrl}
         />
         <script type='application/ld+json'>
           {JSON.stringify({

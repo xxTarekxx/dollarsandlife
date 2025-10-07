@@ -1,19 +1,18 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { toAbsoluteUrl, getBaseUrl } from "../../utils/url";
 
 interface BreadcrumbProps {
 	paths: { title: string; url: string }[];
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
-	const [origin, setOrigin] = useState<string>(
-		"https://dev.dollarsandlife.com",
-	);
+	const [origin, setOrigin] = useState<string>(getBaseUrl());
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
 			// Use the actual origin for client-side rendering
-			setOrigin(window.location.origin);
+			setOrigin(getBaseUrl());
 		}
 	}, []);
 
@@ -26,7 +25,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 			"@type": "ListItem",
 			position: index + 1,
 			item: {
-				"@id": `${origin}${path.url}`,
+				"@id": toAbsoluteUrl(path.url, origin),
 				name: path.title || "Untitled",
 			},
 		})),
