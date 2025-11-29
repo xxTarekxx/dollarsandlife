@@ -30,6 +30,7 @@ import Footer from "../src/components/footer/Footer";
 import NavBar from "../src/components/navbar/NavBar";
 import RssTicker from "../src/components/rss-news/RssTicker";
 import ExtraIncomeController from "@/components/subscriptions/SubscribeController.extra";
+import DealsController from "@/components/subscriptions/SubscribeController.deals";
 
 declare global {
 	interface Window {
@@ -228,6 +229,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				</footer>
 			</div>
 			<ExtraIncomeController />
+			<DealsController />
 		</>
 	);
 }
