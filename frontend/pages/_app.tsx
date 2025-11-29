@@ -29,6 +29,7 @@ import BreadcrumbWrapper from "../src/components/breadcrumbs/BreadcrumbWrapper";
 import Footer from "../src/components/footer/Footer";
 import NavBar from "../src/components/navbar/NavBar";
 import RssTicker from "../src/components/rss-news/RssTicker";
+import ExtraIncomeController from "@/components/subscriptions/SubscribeController.extra";
 
 declare global {
 	interface Window {
@@ -226,6 +227,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					<Footer />
 				</footer>
 			</div>
+			<ExtraIncomeController />
 		</>
 	);
 }
