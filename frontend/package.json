@@ -21,6 +21,7 @@
 		"firebase": "^11.9.0",
 		"fs-extra": "^11.3.0",
 		"html-react-parser": "^5.2.2",
+		"jsdom": "^24.1.1",
 		"next": "15.3.4",
 		"react": "^18.2.0",
 		"react-adsense": "^0.1.0",
@@ -29,9 +30,9 @@
 		"react-firebase-hooks": "https://registry.npmjs.org/react-firebase-hooks/-/react-firebase-hooks-5.1.1.tgz",
 		"react-google-recaptcha": "^3.1.0",
 		"react-hot-toast": "^2.5.2",
+		"resend": "^6.5.2",
 		"sitemap": "^8.0.0",
-		"styled-components": "^6.1.11",
-		"jsdom": "^24.1.1"
+		"styled-components": "^6.1.11"
 	},
 	"devDependencies": {
 		"@eslint/config-array": "^0.18.0",
