@@ -99,7 +99,7 @@ const ExtraIncome: React.FC = () => {
 								name: "Dollars & Life",
 								logo: {
 									"@type": "ImageObject",
-									url: "/images/website-logo.webp",
+									url: "https://www.dollarsandlife.com/images/website-logo.webp",
 								},
 							},
 						}),
