@@ -136,7 +136,7 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/start-a-blog'
+					href='https://www.dollarsandlife.com/start-a-blog'
 				/>
 				<script
 					type='application/ld+json'
@@ -151,7 +151,7 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 								image: post.image.url,
 								author: { "@type": "Organization", name: post.author.name },
 								datePublished: post.datePublished,
-								url: `https://www.dollarsandlife.com/extra-income/start-a-blog/${post.id}`,
+								url: `https://www.dollarsandlife.com/start-a-blog/${post.id}`,
 							})),
 						}),
 					}}
