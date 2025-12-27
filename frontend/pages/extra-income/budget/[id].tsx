@@ -113,17 +113,39 @@ const BudgetDetail: React.FC<BudgetDetailProps> = ({
 		);
 	}
 
+	// Always use the correct canonical URL pattern, ignoring database value
+	const canonicalUrl = `https://www.dollarsandlife.com/extra-income/budget/${post.id}`;
+
 	return (
 		<div className='page-container'>
 			<Head>
 				<title>{`${Array.isArray(post.headline) ? post.headline.join("") : post.headline
 					} | Budget`}</title>
 				<meta name='description' content={post.metaDescription} />
-				{post.canonicalUrl && <link rel='canonical' href={post.canonicalUrl} />}
+				<link rel='canonical' href={canonicalUrl} />
 				{/* Preload critical resources */}
 				<link rel='preload' href={post.image.url} as='image' />
 				<link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
 				<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+				{/* Structured Data */}
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "Article",
+							headline: Array.isArray(post.headline) ? post.headline.join("") : post.headline,
+							image: post.image.url,
+							author: {
+								"@type": "Organization",
+								name: post.author.name,
+							},
+							datePublished: post.datePublished,
+							dateModified: post.dateModified || post.datePublished,
+							url: canonicalUrl,
+						}),
+					}}
+				/>
 			</Head>
 			<BlogPostContent postData={post} />
 		</div>
