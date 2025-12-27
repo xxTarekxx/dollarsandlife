@@ -46,8 +46,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 		const initialBlogPosts: BlogPost[] = Array.isArray(initialBlogPostsData)
 			? initialBlogPostsData
 			: initialBlogPostsData
-			? [initialBlogPostsData]
-			: [];
+				? [initialBlogPostsData]
+				: [];
 		return { props: { initialBlogPosts } };
 	} catch (error) {
 		console.error("SSR Exception fetching start-a-blog posts list:", error);
