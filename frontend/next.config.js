@@ -59,7 +59,36 @@ const nextConfig = {
   },
   // Add redirects for legacy routes
   async redirects() {
-    return [];
+    return [
+      // Redirect case-sensitive URLs to lowercase
+      {
+        source: '/Extra-Income/:path*',
+        destination: '/extra-income/:path*',
+        permanent: true,
+      },
+      {
+        source: '/extra-Income/:path*',
+        destination: '/extra-income/:path*',
+        permanent: true,
+      },
+      {
+        source: '/EXTRA-INCOME/:path*',
+        destination: '/extra-income/:path*',
+        permanent: true,
+      },
+      // Redirect forum URLs with query params to clean URL (handled by client-side redirect, but this helps)
+      {
+        source: '/forum',
+        has: [
+          {
+            type: 'query',
+            key: 'apiKey',
+          },
+        ],
+        destination: '/auth/action',
+        permanent: false,
+      },
+    ];
   },
   // Environment variables that should be available on the client
   env: {

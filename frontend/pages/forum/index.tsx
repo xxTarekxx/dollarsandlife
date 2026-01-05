@@ -9,7 +9,9 @@ import {
 	where,
 } from "firebase/firestore";
 import { GetStaticProps } from "next"; // Added
+import Head from "next/head";
 import Link from "next/link"; // Added for "Ask a Question" button
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 // Remove useAuthState import
 import AuthPromptModal from "../../src/auth/AuthPromptModal";
@@ -176,10 +178,19 @@ const AuthenticatedForumHomePageContent: React.FC<{
 
 	const isAnyModalEffectivelyOpen = isAuthModalInDom; // Only auth modal can blur now
 
+	// Always use clean canonical URL without query params
+	const canonicalUrl = "https://www.dollarsandlife.com/forum";
+
 	return (
 		<>
-			{/* Head component should be added here if this component is meant to control page metadata */}
-			{/* For now, assuming metadata is minimal or handled by _app.tsx for the forum index */}
+			<Head>
+				<title>Community Forum | Dollars & Life</title>
+				<meta
+					name="description"
+					content="Join our community forum to ask questions and share insights about budgeting, saving, investing, and more."
+				/>
+				<link rel="canonical" href={canonicalUrl} />
+			</Head>
 			<div
 				className={`forum-homepage-container ${
 					isAnyModalEffectivelyOpen ? "blurred" : ""
@@ -434,10 +445,28 @@ const ForumHomePage: React.FC<ForumHomePageProps> = ({
 	initialPosts,
 	error: staticGenError,
 }) => {
+	const router = useRouter();
 	const [firebaseAuth, setFirebaseAuth] = useState<Auth | null>(null);
 	const [firebaseDb, setFirebaseDb] = useState<Firestore | null>(null);
 	const [firebaseInitialized, setFirebaseInitialized] = useState(false);
 	const [firebaseError, setFirebaseError] = useState<Error | null>(null);
+	
+	// Redirect to /auth/action if Firebase auth callback params are present
+	useEffect(() => {
+		if (router.isReady) {
+			const { mode, oobCode, apiKey } = router.query;
+			if (mode && oobCode) {
+				// Firebase auth callback - redirect to proper handler
+				const params = new URLSearchParams();
+				if (mode) params.set("mode", mode as string);
+				if (oobCode) params.set("oobCode", oobCode as string);
+				if (apiKey) params.set("apiKey", apiKey as string);
+				if (router.query.continueUrl) params.set("continueUrl", router.query.continueUrl as string);
+				if (router.query.lang) params.set("lang", router.query.lang as string);
+				router.replace(`/auth/action?${params.toString()}`);
+			}
+		}
+	}, [router.isReady, router.query]);
 
 	useEffect(() => {
 		// This console log is helpful for debugging mount timing
