@@ -82,8 +82,10 @@ const AuthActionHandler: React.FC = () => {
 						toast.success("Email verified! Please log in.");
 						// Note: applyActionCode for verifyEmail does not sign the user in.
 						// It just marks their email as verified.
-						// Redirect to login or a page that prompts login.
-						router.push("/forum"); // User will see login prompt in forum if not logged in
+						// Redirect immediately to clean URL
+						setTimeout(() => {
+							router.replace("/forum");
+						}, 1500);
 						break;
 					case "signIn":
 						if (isSignInWithEmailLink(currentAuth, window.location.href)) {
@@ -107,7 +109,10 @@ const AuthActionHandler: React.FC = () => {
 									}!`,
 								);
 								toast.success("Successfully signed in!");
-								router.push("/forum");
+								// Redirect immediately to clean URL
+								setTimeout(() => {
+									router.replace("/forum");
+								}, 1500);
 							} else {
 								setError("Email not provided or link expired.");
 								setMessage("");
