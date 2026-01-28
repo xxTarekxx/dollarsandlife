@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_DB:dollarsandlife_data}
+
+logging:
+  level:
+    root: INFO
+    com.dollarsandlife.search: DEBUG
