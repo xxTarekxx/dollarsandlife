@@ -1,0 +1,6 @@
+com\dollarsandlife\search\SearchServiceApplication.class
+com\dollarsandlife\search\SearchController.class
+com\dollarsandlife\search\SearchController$HealthResponse.class
+com\dollarsandlife\search\SearchService.class
+com\dollarsandlife\search\SearchService$ScoredDocument.class
+com\dollarsandlife\search\SearchResultDto.class
