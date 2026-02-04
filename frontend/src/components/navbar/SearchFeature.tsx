@@ -1,16 +1,12 @@
 import { useRouter } from "next/router";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 
-interface Post {
+interface SearchResult {
 	id: string;
 	headline: string;
-	// 'identifier' is used to know the source/type of the post (e.g., "budget-data", "shopping-deals")
-	identifier: string;
-	// 'baseClientRoute' is the root path for this type of content (e.g., "/extra-income/budget")
-	baseClientRoute: string;
-	// Optional: For products, the API might provide a direct slug or full canonical URL
-	slug?: string;
-	canonicalUrl?: string;
+	url: string;
+	category: string;
+	snippet: string;
 }
 
 interface SearchFeatureProps {
@@ -20,123 +16,113 @@ interface SearchFeatureProps {
 
 const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [searchResults, setSearchResults] = useState<Post[]>([]);
-	const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
-	const [searchDataLoaded, setSearchDataLoaded] = useState(false);
+	const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
 	const searchRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const router = useRouter();
+	const abortControllerRef = useRef<AbortController | null>(null);
+	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-	const loadSearchData = useCallback(async () => {
-		if (searchDataLoaded || isLoadingSearch) return;
+	// Get search API base URL
+	const getSearchApiBase = () => {
+		return process.env.NEXT_PUBLIC_SEARCH_API_BASE || "https://api.dollarsandlife.com";
+	};
+
+	// Perform search API call
+	const performSearch = useCallback(async (query: string) => {
+		// Cancel previous request if exists
+		if (abortControllerRef.current) {
+			abortControllerRef.current.abort();
+		}
+
+		// Create new AbortController for this request
+		const abortController = new AbortController();
+		abortControllerRef.current = abortController;
+
 		setIsLoadingSearch(true);
 
-		const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "/api";
+		try {
+			const apiBase = getSearchApiBase();
+			const encodedQuery = encodeURIComponent(query);
+			const url = `${apiBase}/search?q=${encodedQuery}&limit=10`;
 
-		const endpointsToFetch = [
-			{
-				apiPath: "budget-data",
-				baseClientRoute: "/extra-income/budget",
-				identifier: "budget-data",
-			},
-			{
-				apiPath: "freelance-jobs",
-				baseClientRoute: "/extra-income/freelance-jobs",
-				identifier: "freelance-jobs",
-			},
-			{
-				apiPath: "money-making-apps",
-				baseClientRoute: "/extra-income/money-making-apps",
-				identifier: "money-making-apps",
-			},
-			{
-				apiPath: "shopping-deals",
-				baseClientRoute: "/shopping-deals",
-				identifier: "shopping-deals",
-			},
-			{
-				apiPath: "remote-jobs",
-				baseClientRoute: "/extra-income/remote-jobs",
-				identifier: "remote-jobs",
-			},
-			{
-				apiPath: "start-blog",
-				baseClientRoute: "/start-a-blog",
-				identifier: "start-blog",
-			},
-			{
-				apiPath: "breaking-news",
-				baseClientRoute: "/breaking-news",
-				identifier: "breaking-news",
-			},
-		];
+			const response = await fetch(url, {
+				signal: abortController.signal,
+			});
 
-		const allPostsPromises = endpointsToFetch.map(
-			async ({ apiPath, baseClientRoute, identifier }) => {
-				try {
-					const res = await fetch(`${API_BASE}/${apiPath}`);
-					if (!res.ok) {
-						console.warn(`Failed to fetch ${apiPath}: ${res.statusText}`);
-						return [];
-					}
-					const items = (await res.json()) as unknown[];
-					return items.map((item: unknown) => {
-						const typedItem = item as {
-							id: string;
-							headline: string;
-							identifier: string;
-							baseClientRoute: string;
-							slug?: string;
-							canonicalUrl?: string;
-						};
-						return {
-							id: typedItem.id,
-							headline: typedItem.headline,
-							identifier: identifier,
-							baseClientRoute: baseClientRoute,
-							slug: typedItem.slug,
-							canonicalUrl: typedItem.canonicalUrl,
-						};
-					});
-				} catch (err) {
-					console.warn(`Error processing or fetching ${apiPath}`, err);
-					return [];
-				}
-			},
-		);
+			// Check if request was aborted
+			if (abortController.signal.aborted) {
+				return;
+			}
 
-		const results = await Promise.all(allPostsPromises);
-		setSearchResults(results.flat());
-		setSearchDataLoaded(true);
-		setIsLoadingSearch(false);
-	}, [searchDataLoaded, isLoadingSearch]);
+			if (!response.ok) {
+				throw new Error(`Search API returned ${response.status}`);
+			}
 
-	useEffect(() => {
-		if (isOpen && !searchDataLoaded) {
-			loadSearchData();
+			const results = (await response.json()) as SearchResult[];
+			setSearchResults(results);
+		} catch (error) {
+			// Ignore abort errors
+			if (error instanceof Error && error.name === "AbortError") {
+				return;
+			}
+
+			// Handle other errors
+			console.error("Search API error:", error);
+			setSearchResults([]);
+		} finally {
+			// Only update loading state if this request wasn't aborted
+			if (!abortController.signal.aborted) {
+				setIsLoadingSearch(false);
+			}
 		}
+	}, []);
+
+	// Debounced search effect
+	useEffect(() => {
+		// Clear previous debounce timer
+		if (debounceTimerRef.current) {
+			clearTimeout(debounceTimerRef.current);
+		}
+
+		const trimmedQuery = searchQuery.trim();
+
+		// If query is less than 2 characters, clear results
+		if (trimmedQuery.length < 2) {
+			setSearchResults([]);
+			setIsLoadingSearch(false);
+			// Cancel any pending request
+			if (abortControllerRef.current) {
+				abortControllerRef.current.abort();
+				abortControllerRef.current = null;
+			}
+			return;
+		}
+
+		// Debounce API call by 300ms
+		debounceTimerRef.current = setTimeout(() => {
+			performSearch(trimmedQuery);
+		}, 300);
+
+		// Cleanup function
+		return () => {
+			if (debounceTimerRef.current) {
+				clearTimeout(debounceTimerRef.current);
+			}
+		};
+	}, [searchQuery, performSearch]);
+
+	// Focus input when search opens
+	useEffect(() => {
 		if (isOpen && inputRef.current) {
 			const timer = setTimeout(() => inputRef.current?.focus(), 50);
 			return () => clearTimeout(timer);
 		}
-	}, [isOpen, searchDataLoaded, loadSearchData]);
+	}, [isOpen]);
 
-	useEffect(() => {
-		if (searchQuery.trim() === "") {
-			setFilteredPosts([]);
-			return;
-		}
-		if (searchDataLoaded) {
-			const lowerCaseQuery = searchQuery.toLowerCase();
-			const filtered = searchResults.filter((post) =>
-				post.headline.toLowerCase().includes(lowerCaseQuery),
-			);
-			setFilteredPosts(filtered);
-		}
-	}, [searchQuery, searchResults, searchDataLoaded]);
-
+	// Click outside handler
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
@@ -150,42 +136,29 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 		return () => document.removeEventListener("mousedown", handleClickOutside);
 	}, [isOpen, onClose]);
 
-	const handlePostClick = useCallback(
-		(post: Post) => {
+	// Cleanup on unmount
+	useEffect(() => {
+		return () => {
+			if (abortControllerRef.current) {
+				abortControllerRef.current.abort();
+			}
+			if (debounceTimerRef.current) {
+				clearTimeout(debounceTimerRef.current);
+			}
+		};
+	}, []);
+
+	const handleResultClick = useCallback(
+		(result: SearchResult) => {
 			onClose();
 			setSearchQuery("");
-			setFilteredPosts([]);
+			setSearchResults([]);
 
-			let targetRoute = "";
-
-			if (post.identifier === "shopping-deals") {
-				if (post.canonicalUrl) {
-					// Prefer canonicalUrl if provided by API
-					targetRoute = post.canonicalUrl;
-				} else if (post.slug) {
-					// Then try slug if provided
-					targetRoute = `/shopping-deals/products/${post.slug}`;
-				} else {
-					// Fallback: attempt to create a basic slug if API doesn't provide one
-					// This requires post.id to be the numeric part for products.
-					const generatedSlug = `${post.id}-${post.headline
-						.toLowerCase()
-						.replace(/\s+/g, "-")
-						.replace(/[^a-z0-9-]/g, "")}`;
-					targetRoute = `/shopping-deals/products/${generatedSlug}`;
-					console.warn(
-						"Shopping deal slug generated on client, API should ideally provide it.",
-						post,
-					);
-				}
+			// Use URL directly from API response
+			if (result.url) {
+				router.push(result.url);
 			} else {
-				targetRoute = `${post.baseClientRoute}/${post.id}`;
-			}
-
-			if (targetRoute) {
-				router.push(targetRoute);
-			} else {
-				console.warn(`Could not determine route for post:`, post);
+				console.warn(`No URL found for result:`, result);
 			}
 		},
 		[router, onClose],
@@ -199,33 +172,35 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 			<input
 				ref={inputRef}
 				type='text'
-				placeholder={isLoadingSearch ? "Loading data..." : "Search posts..."}
+				placeholder={isLoadingSearch ? "Searching..." : "Search posts..."}
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
 				className='search-bar'
 				aria-label='Search posts'
-				disabled={isLoadingSearch || !searchDataLoaded}
+				disabled={isLoadingSearch}
 			/>
-			{!isLoadingSearch && searchDataLoaded && filteredPosts.length > 0 && (
+			{isLoadingSearch && (
+				<div className='search-loading'>Searching...</div>
+			)}
+			{!isLoadingSearch && searchResults.length > 0 && (
 				<ul className='suggestions-list'>
-					{filteredPosts.map((post) => (
+					{searchResults.map((result) => (
 						<li
-							key={`${post.identifier}-${post.id}`} // Use identifier and id for a unique key
-							onClick={() => handlePostClick(post)}
+							key={`${result.category}-${result.id}`}
+							onClick={() => handleResultClick(result)}
 						>
-							{post.headline}
+							<div className='search-result-headline'>{result.headline}</div>
+							{result.snippet && (
+								<div className='search-result-snippet'>{result.snippet}</div>
+							)}
 						</li>
 					))}
 				</ul>
 			)}
-			{isLoadingSearch && (
-				<div className='search-loading'>Loading search data...</div>
-			)}
 			{!isLoadingSearch &&
-				searchDataLoaded &&
-				searchQuery.trim() !== "" &&
-				filteredPosts.length === 0 && (
-					<div className='search-no-results'>No matches found.</div>
+				searchQuery.trim().length >= 2 &&
+				searchResults.length === 0 && (
+					<div className='search-no-results'>No results found.</div>
 				)}
 		</div>
 	);
