@@ -17,7 +17,6 @@ export const getUserVoteForItem = async (
 ): Promise<VoteType | null> => {
 	if (!db) throw new Error("Firestore instance is required to get user vote.");
 	if (!userId || !itemId) {
-		console.warn("getUserVoteForItem: Called with missing userId or itemId.");
 		return null;
 	}
 	const voteDocId = `${userId}_${itemId}`;
@@ -47,7 +46,6 @@ export const castVote = async (
 	postIdForItem?: string,
 ) => {
 	if (!authorId) {
-		console.warn("castVote: authorId is missing, cannot update author's stats.");
 		return;
 	}
 
