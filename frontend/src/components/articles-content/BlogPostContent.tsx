@@ -143,6 +143,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                             loading='lazy'
                             sizes='(max-width: 768px) 100vw, 730px'
                             style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
+                            unoptimized
                         />
                     </a>
                 </div>
