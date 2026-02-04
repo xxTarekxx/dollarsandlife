@@ -124,7 +124,6 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 					} | Start a Blog`}</title>
 				<meta name='description' content={post.metaDescription} />
 				<link rel='canonical' href={canonicalUrl} />
-				{/* Preload critical resources */}
 				<link rel='preload' href={post.image.url} as='image' />
 				<link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
 				<link rel='dns-prefetch' href='//www.googletagmanager.com' />
