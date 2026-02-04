@@ -40,14 +40,8 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 
 	useEffect(() => {
 		if (!propAuth && !authInitializedFromGetter) {
-			console.log(
-				"Login.tsx: Auth not provided via prop, attempting to get/initialize.",
-			);
 			getFirebaseAuth()
 				.then((initializedAuth) => {
-					console.log(
-						"Login.tsx: Auth initialized/retrieved via getFirebaseAuth.",
-					);
 					setCurrentAuth(initializedAuth);
 					setAuthInitializedFromGetter(true);
 				})
@@ -68,9 +62,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 
 		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
 			if (user && router.pathname === "/login") {
-				console.log(
-					"User already logged in on /login page, redirecting to /forum",
-				);
 				router.replace("/forum");
 			}
 		});
@@ -78,7 +69,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	}, [router, currentAuth]);
 
 	const handleLoginSuccess = () => {
-		console.log("Login successful, preparing to navigate.");
 		const from = (router.query.from as string) || "/forum";
 		
 		// Validate and sanitize the redirect URL to prevent XSS
@@ -139,7 +129,6 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		}
 		setError("");
 		setLoading(true);
-		console.log("Attempting Firebase Email/Pass Log In:", { email, password });
 		try {
 			await signInWithEmailAndPassword(currentAuth, email, password);
 			if (router.pathname === "/login") {

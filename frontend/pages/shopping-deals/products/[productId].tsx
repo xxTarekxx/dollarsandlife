@@ -40,7 +40,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // Extract the numeric ID from the beginning of the slug
   const numericId = productId.split("-")[0];
   if (!numericId || isNaN(parseInt(numericId, 10))) {
-    console.warn(`Could not parse numeric ID from slug: ${productId}`);
     return { notFound: true };
   }
 

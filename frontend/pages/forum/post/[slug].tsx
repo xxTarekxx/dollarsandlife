@@ -532,7 +532,6 @@ const AuthenticatedViewPostPageContent: React.FC<{
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { slug } = context.params || {};
 	if (!slug || typeof slug !== "string") {
-		console.log("getServerSideProps: No slug parameter provided");
 		return { notFound: true };
 	}
 
@@ -556,17 +555,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 		// If the slug param looks like a Firestore ID, fetch by ID and redirect
 		if (slug.length > 20 && /^[a-zA-Z0-9]+$/.test(slug)) {
-			console.log("getServerSideProps: Treating as Firestore ID:", slug);
 			const postDocRef = doc(db, "forumPosts", slug);
 			const postDoc = await getDoc(postDocRef);
 			if (postDoc.exists()) {
 				const postData = postDoc.data();
 				const generatedSlug = slugify(postData.title || "");
 				if (generatedSlug) {
-					console.log(
-						"getServerSideProps: Redirecting from ID to slug:",
-						generatedSlug,
-					);
 					return {
 						redirect: {
 							destination: `/forum/post/${generatedSlug}`,
@@ -578,13 +572,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				const initialPostData = { id: postDoc.id, ...postData };
 				return { props: { initialPostData } };
 			} else {
-				console.log("getServerSideProps: Post not found by ID");
 				return { notFound: true };
 			}
 		}
 
 		// Otherwise, treat as slug: fetch all posts, find by slugified title
-		console.log("getServerSideProps: Treating as slug, fetching all posts");
 		const postsRef = collection(db, "forumPosts");
 		const snapshot = await getDocs(postsRef);
 		let found = null;
@@ -598,10 +590,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		}
 		if (found) {
 			(found as PostData).metaDescription = sanitizeAndTruncateHTML((found as PostData).content, 160);
-			console.log("getServerSideProps: Found post by slug");
 			return { props: { initialPostData: found } };
 		}
-		console.log("getServerSideProps: Post not found by slug");
 		return { notFound: true };
 	} catch (error) {
 		console.error(

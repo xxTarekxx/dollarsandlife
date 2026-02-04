@@ -79,15 +79,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 		setIsAuthModalInDom(false);
 	}, []);
 
-	// This useEffect is primarily for logging; AuthPromptModal should handle its own closure on successful auth
-	useEffect(() => {
-		if (!authLoadingHook && user && isAuthModalInDom) {
-			console.log(
-				"ForumHomePage: User logged in, auth modal was open. AuthPromptModal's logic should close it.",
-			);
-		}
-	}, [user, authLoadingHook, isAuthModalInDom]);
-
 	const openAuthModal = () => {
 		setIsAuthModalInDom(true);
 	};
@@ -97,7 +88,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	const handleLogout = async () => {
 		try {
 			await signOut(firebaseAuth);
-			console.log("ForumHomePage: User logged out.");
 		} catch (error) {
 			console.error("ForumHomePage: Error signing out: ", error);
 		}
@@ -106,9 +96,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	useEffect(() => {
 		const fetchPostsClientSide = async () => {
 			if (!firebaseDb) {
-				console.warn(
-					"ForumHomePage: Firebase DB not available, cannot fetch posts client-side.",
-				);
 				setLoadingPosts(false);
 				if (!initialPosts || initialPosts.length === 0) setPosts([]); // Clear only if no initial posts
 				return;
@@ -470,10 +457,8 @@ const ForumHomePage: React.FC<ForumHomePageProps> = ({
 
 	useEffect(() => {
 		// This console log is helpful for debugging mount timing
-		// console.log("ForumHomePage Wrapper: Mounting. Attempting Firebase initialization.");
 		initializeFirebaseAndGetServices()
 			.then(({ auth: initializedAuth, db: initializedDb }) => {
-				// console.log("ForumHomePage Wrapper: Firebase initialized successfully.");
 				setFirebaseAuth(initializedAuth);
 				setFirebaseDb(initializedDb); // This can be null if Firestore is not enabled/configured
 				setFirebaseInitialized(true);

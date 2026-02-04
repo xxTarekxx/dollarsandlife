@@ -157,8 +157,6 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 			// Use URL directly from API response
 			if (result.url) {
 				router.push(result.url);
-			} else {
-				console.warn(`No URL found for result:`, result);
 			}
 		},
 		[router, onClose],
