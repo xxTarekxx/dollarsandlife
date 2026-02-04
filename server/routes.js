@@ -6,7 +6,7 @@ const router = express.Router();
 // Create rate limiters
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: process.env.NODE_ENV !== 'production' ? 1000 : 100, // relaxed when not in production
     message: {
         error: 'Too many requests from this IP, please try again later.',
         retryAfter: '15 minutes'
@@ -17,7 +17,7 @@ const generalLimiter = rateLimit({
 
 const strictLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 30, // limit each IP to 30 requests per windowMs for individual posts
+    max: process.env.NODE_ENV !== 'production' ? 500 : 30, // relaxed when not in production to avoid 429 during local testing
     message: {
         error: 'Too many requests for individual posts from this IP, please try again later.',
         retryAfter: '15 minutes'
