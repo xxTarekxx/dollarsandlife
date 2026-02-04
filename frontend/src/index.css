@@ -8,11 +8,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-image: url('/background.webp');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  /* Optional: add public/background.webp for a custom background image */
   min-height: 100vh;
   position: relative;
 }
