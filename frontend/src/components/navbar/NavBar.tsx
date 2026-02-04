@@ -208,11 +208,10 @@ const NavBar: React.FC = () => {
 			{searchOpen && (
 				<Suspense
 					fallback={
-						<div
-							className='search-bar-container open' // Ensure it has 'open' to be visible initially
-							style={{ minHeight: "40px", zIndex: 5 }} // zIndex might need adjustment
-						>
-							<div className='search-loading'>Loading Search...</div>
+						<div className='search-bar-overlay open'>
+							<div className='search-bar-container'>
+								<div className='search-loading'>Loading Search...</div>
+							</div>
 						</div>
 					}
 				>

@@ -19,7 +19,8 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 	const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
-	const searchRef = useRef<HTMLDivElement>(null);
+	const overlayRef = useRef<HTMLDivElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const router = useRouter();
 	const abortControllerRef = useRef<AbortController | null>(null);
@@ -122,18 +123,17 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 		}
 	}, [isOpen]);
 
-	// Click outside handler
+	// Close when clicking the backdrop (overlay) or outside the overlay
 	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				searchRef.current &&
-				!searchRef.current.contains(event.target as Node)
-			) {
+		const handleClick = (event: MouseEvent) => {
+			const target = event.target as Node;
+			// Close if click is outside the inner container (e.g. on backdrop or outside overlay)
+			if (containerRef.current && !containerRef.current.contains(target)) {
 				onClose();
 			}
 		};
-		if (isOpen) document.addEventListener("mousedown", handleClickOutside);
-		return () => document.removeEventListener("mousedown", handleClickOutside);
+		if (isOpen) document.addEventListener("mousedown", handleClick);
+		return () => document.removeEventListener("mousedown", handleClick);
 	}, [isOpen, onClose]);
 
 	// Cleanup on unmount
@@ -164,9 +164,12 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 
 	return (
 		<div
-			ref={searchRef}
-			className={`search-bar-container ${isOpen ? "open" : "closed"}`}
+			ref={overlayRef}
+			className={`search-bar-overlay ${isOpen ? "open" : "closed"}`}
+			role='dialog'
+			aria-label='Search'
 		>
+			<div ref={containerRef} className='search-bar-container'>
 			<input
 				ref={inputRef}
 				type='text'
@@ -175,7 +178,7 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 				onChange={(e) => setSearchQuery(e.target.value)}
 				className='search-bar'
 				aria-label='Search posts'
-				disabled={isLoadingSearch}
+				autoComplete='off'
 			/>
 			{isLoadingSearch && (
 				<div className='search-loading'>Searching...</div>
@@ -200,6 +203,7 @@ const SearchFeature: React.FC<SearchFeatureProps> = ({ isOpen, onClose }) => {
 				searchResults.length === 0 && (
 					<div className='search-no-results'>No results found.</div>
 				)}
+			</div>
 		</div>
 	);
 };
