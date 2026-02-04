@@ -2,9 +2,23 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Admin: set custom claim admin=true for admin UIDs in Firebase Auth
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Users: read needed for vote transaction (author stats); update only vote counts
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow update: if request.auth != null &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['totalHelpfulVotes', 'totalNotHelpfulVotes']);
+      allow create, delete: if false;
+    }
+
     match /forumPosts/{postId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow create, update: if request.auth != null;
+      allow delete: if request.auth != null && (resource.data.authorId == request.auth.uid || isAdmin());
 
       match /answers/{answerId} {
         allow read: if true;
@@ -47,7 +61,7 @@ service cloud.firestore {
                          );
 
         allow delete: if request.auth != null &&
-                         resource.data.authorId == request.auth.uid;
+                         (resource.data.authorId == request.auth.uid || isAdmin());
       }
     }
 
@@ -65,9 +79,10 @@ service cloud.firestore {
                        request.resource.data.itemId is string &&
                        request.resource.data.itemType in ['post', 'answer'] &&
                        request.resource.data.voteType in ['helpful', 'notHelpful'] &&
-                       request.resource.data.timestamp == request.time &&
+                       request.resource.data.timestamp != null &&
                        request.resource.data.keys().hasAll(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']) &&
-                       request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']);
+                       (request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']) ||
+                        request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp', 'postId']));
 
       allow update: if request.auth != null &&
                        resource.data.userId == request.auth.uid &&
@@ -75,8 +90,9 @@ service cloud.firestore {
                        request.resource.data.itemId == resource.data.itemId &&
                        request.resource.data.itemType == resource.data.itemType &&
                        request.resource.data.voteType in ['helpful', 'notHelpful'] &&
-                       request.resource.data.timestamp == request.time &&
-                       request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']);
+                       request.resource.data.timestamp != null &&
+                       (request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp']) ||
+                        request.resource.data.keys().hasOnly(['userId', 'itemId', 'itemType', 'voteType', 'timestamp', 'postId']));
 
       allow delete: if request.auth != null &&
                        resource.data.userId == request.auth.uid;
