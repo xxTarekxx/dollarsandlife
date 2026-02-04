@@ -1,21 +1,19 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { toAbsoluteUrl, getBaseUrl } from "../../utils/url";
+import React from "react";
+import { toAbsoluteUrl } from "../../utils/url";
+
+// Use a fixed base URL for JSON-LD so server and client render the same (avoids hydration mismatch).
+// NEXT_PUBLIC_ vars are inlined at build time, so same on server and client.
+const BREADCRUMB_BASE_URL =
+	typeof process.env.NEXT_PUBLIC_SITE_URL === "string" && process.env.NEXT_PUBLIC_SITE_URL
+		? process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "")
+		: "https://www.dollarsandlife.com";
 
 interface BreadcrumbProps {
 	paths: { title: string; url: string }[];
 }
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
-	const [origin, setOrigin] = useState<string>(getBaseUrl());
-
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			// Use the actual origin for client-side rendering
-			setOrigin(getBaseUrl());
-		}
-	}, []);
-
 	if (!paths || paths.length === 0) return null;
 
 	const structuredData = {
@@ -25,7 +23,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 			"@type": "ListItem",
 			position: index + 1,
 			item: {
-				"@id": toAbsoluteUrl(path.url, origin),
+				"@id": toAbsoluteUrl(path.url, BREADCRUMB_BASE_URL),
 				name: path.title || "Untitled",
 			},
 		})),
