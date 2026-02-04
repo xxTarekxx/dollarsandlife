@@ -70,6 +70,7 @@ const AuthenticatedViewPostPageContent: React.FC<{
 	// Replace useAuthState with manual state management
 	const [user, setUser] = useState<User | null>(null);
 	const [authLoadingHook, setAuthLoadingHook] = useState(true);
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	// Manual auth state listener
 	useEffect(() => {
@@ -77,8 +78,8 @@ const AuthenticatedViewPostPageContent: React.FC<{
 
 		const unsubscribe = onAuthStateChanged(
 			firebaseAuth,
-			(user) => {
-				setUser(user);
+			(u) => {
+				setUser(u);
 				setAuthLoadingHook(false);
 			},
 			(error) => {
@@ -90,7 +91,21 @@ const AuthenticatedViewPostPageContent: React.FC<{
 		return () => unsubscribe();
 	}, [firebaseAuth]);
 
+	// Resolve admin from custom claim (set in Firebase Auth for admin UIDs)
+	useEffect(() => {
+		if (!user) {
+			setIsAdmin(false);
+			return;
+		}
+		user.getIdTokenResult()
+			.then((token) => {
+				setIsAdmin(!!(token.claims.admin === true || token.claims.admin === "true"));
+			})
+			.catch(() => setIsAdmin(false));
+	}, [user]);
+
 	const isPostAuthor = user?.uid === post?.authorId;
+	const canDeletePost = isPostAuthor || isAdmin;
 
 	useEffect(() => {
 		if (!firebaseDb) {
@@ -360,7 +375,7 @@ const AuthenticatedViewPostPageContent: React.FC<{
 						<span className='post-meta-separator-mobile'> • </span>
 						<span>{post.answerCount || 0} Answers</span>
 					</div>
-					{isPostAuthor && (
+					{canDeletePost && (
 						<button
 							className='delete-post-button'
 							onClick={handleDeletePost}
@@ -486,7 +501,7 @@ const AuthenticatedViewPostPageContent: React.FC<{
 												}
 											})()}
 										</span>
-										{user?.uid === ans.authorId && (
+										{(user?.uid === ans.authorId || isAdmin) && (
 											<button
 												className='delete-answer-button'
 												onClick={() => handleDeleteAnswer(ans.id)}
