@@ -98,8 +98,6 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 
 	useEffect(() => {
 		if (initialBreakingNews && initialBreakingNews.length > 0) {
-			console.log("DEBUG: Breaking news data:", initialBreakingNews);
-			console.log("DEBUG: First post ID:", initialBreakingNews[0]?.id);
 			setBreakingNews(initialBreakingNews);
 			setLoading(false);
 			setClientError(null);
@@ -175,14 +173,6 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => {
 							const href = `/breaking-news/${post.id}`;
-							console.log(
-								"DEBUG: Generating href for post:",
-								post.headline,
-								"ID:",
-								post.id,
-								"HREF:",
-								href,
-							);
 							return (
 								<BlogPostCard
 									key={post.id}

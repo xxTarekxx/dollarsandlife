@@ -70,10 +70,6 @@ export function initializeFirebaseAndGetServices(): Promise<{
 							error,
 						);
 					}
-				} else {
-					console.log(
-						"Firebase: Production environment. Connecting to live services.",
-					);
 				}
 			}
 			if (!appInstance || !authInstance || !dbInstance) {

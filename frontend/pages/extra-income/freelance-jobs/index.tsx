@@ -178,14 +178,6 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => {
 							const href = `/extra-income/freelance-jobs/${post.id}`;
-							console.log(
-								"DEBUG: Generating href for post:",
-								post.headline,
-								"ID:",
-								post.id,
-								"HREF:",
-								href,
-							);
 							return (
 								<BlogPostCard
 									key={post.id}

@@ -50,8 +50,6 @@ const createContentRoutes = (collectionName, basePath) => {
         return;
     }
 
-    console.log(`✅ Registering routes for collection: "${collectionName}" at base path: "/${basePath}"`);
-
     // GET all
     router.get(`/${basePath}`, generalLimiter, async (req, res) => {
         try {

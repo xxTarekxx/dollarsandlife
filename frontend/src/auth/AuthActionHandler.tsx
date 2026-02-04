@@ -25,7 +25,6 @@ const AuthActionHandler: React.FC = () => {
 				// Explicitly type initializedAuth
 				setCurrentAuth(initializedAuth);
 				setAuthInitialized(true);
-				console.log("AuthActionHandler: Firebase Auth initialized.");
 			})
 			.catch((err) => {
 				console.error(
