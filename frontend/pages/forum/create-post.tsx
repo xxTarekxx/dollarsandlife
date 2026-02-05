@@ -9,7 +9,8 @@ import { Firestore } from "firebase/firestore"; // Import Firestore type
 import { GetServerSideProps } from "next";
 import toast from "react-hot-toast";
 import { getFirebaseAuth, getFirebaseDb } from "../../src/firebase"; // Add this import
-import { createForumPost } from "../../src/services/forum/forumService"; // Adjusted path
+import ForumHeader from "../../src/components/forum/ForumHeader";
+import { createForumPost } from "../../src/services/forum/forumService";
 import styles from "./CreatePostForm.module.css";
 
 // If this is a standalone page, onPostSuccess might not be passed as a prop.
@@ -141,16 +142,19 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 	}
 
 	return (
-		<div>
-			<Head>
-				<title>Create New Forum Post | Dollars & Life</title>
-				<meta
-					name='description'
-					content='Ask a question or start a new discussion in the Dollars & Life community forum.'
-				/>
-				{/* Add other relevant meta tags like noindex if this page shouldn't be indexed directly without auth */}
-			</Head>
-			<form className={styles["create-post-form"]} onSubmit={handleSubmit}>
+		<>
+			<ForumHeader />
+			<div className="forum-homepage-container">
+				<div>
+					<Head>
+						<title>Create New Forum Post | Dollars & Life</title>
+					<meta
+						name='description'
+						content='Ask a question or start a new discussion in the Dollars & Life community forum.'
+					/>
+					{/* Add other relevant meta tags like noindex if this page shouldn't be indexed directly without auth */}
+				</Head>
+				<form className={styles["create-post-form"]} onSubmit={handleSubmit}>
 				<h1 className={styles["form-heading"]}>Ask a New Question</h1>{" "}
 				<label htmlFor='title'>Title</label>
 				<input
@@ -199,8 +203,10 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 				>
 					Submit Post
 				</button>
-			</form>
-		</div>
+				</form>
+				</div>
+			</div>
+		</>
 	);
 };
 

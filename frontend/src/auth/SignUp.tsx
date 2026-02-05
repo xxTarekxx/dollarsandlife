@@ -162,7 +162,7 @@ const SignUp: React.FC<SignUpProps> = ({
 			await sendEmailVerification(user, actionCodeSettings);
 
 			setSuccessMessage(
-				"Sign up successful! A verification email has been sent.",
+				"A verification link has been sent to your email.",
 			);
 			setIsEmailSignUpSuccessDisplay(true);
 			onEmailSignUpPendingVerification?.();
@@ -239,6 +239,9 @@ const SignUp: React.FC<SignUpProps> = ({
 				<div className={styles.signupForm}>
 					<h3>Account Created</h3>
 					<p className={styles.successMessage}>{successMessage}</p>
+					<p className={styles.verificationHint}>
+						If you don&apos;t see it, check your junk or spam folder—the link sometimes lands there.
+					</p>
 					<p style={{ marginTop: "20px", textAlign: "center" }}>
 						Once verified, you can log in.
 					</p>
