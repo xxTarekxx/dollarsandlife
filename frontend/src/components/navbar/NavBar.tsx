@@ -95,9 +95,9 @@ const NavBar: React.FC = () => {
 		}
 	};
 
-	// Define menu items including the new "Ask a Question"
+	// Define menu items including the forum link
 	const menuItems = [
-		{ to: "/forum", text: "Ask a Question" },
+		{ to: "/forum", text: "Forum" },
 		{ to: "/extra-income", text: "Extra Income" },
 		{ to: "/shopping-deals", text: "Shopping Deals" },
 		{ to: "/start-a-blog", text: "Start A Blog" },
@@ -156,7 +156,7 @@ const NavBar: React.FC = () => {
 								key={i}
 								href={link.to}
 								className={`menu-item ${
-									// Special highlighting for "Ask a Question" if on any /forum path
+									// Special highlighting for Forum if on any /forum path
 									(link.to === "/forum" &&
 										currentPathname.startsWith("/forum")) ||
 									(currentPathname.startsWith(link.to) && link.to !== "/") || // Avoid highlighting all for "/"
