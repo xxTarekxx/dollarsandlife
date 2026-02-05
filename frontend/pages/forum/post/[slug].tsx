@@ -20,6 +20,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import AuthPromptModal from "../../../src/auth/AuthPromptModal";
+import ForumHeader from "../../../src/components/forum/ForumHeader";
 import VoteButtons from "../../../src/components/forum/VoteButtons";
 import { initializeFirebaseAndGetServices } from "../../../src/firebase";
 import { deleteForumPost as deleteForumPostService } from "../../../src/services/forum/forumService";
@@ -359,6 +360,13 @@ const AuthenticatedViewPostPageContent: React.FC<{
 					/>
 				)}
 			</Head>
+			<ForumHeader
+				firebaseAuth={firebaseAuth}
+				firebaseDb={firebaseDb}
+				user={user}
+				authLoading={authLoadingHook}
+				onAuthModalChange={setShowAuthModal}
+			/>
 			<div className={`view-post-container ${showAuthModal ? "blurred" : ""}`}>
 				<h1>{post.title}</h1>
 				<div className='post-meta-row'>
@@ -554,6 +562,17 @@ const AuthenticatedViewPostPageContent: React.FC<{
 };
 
 // PostData interface is defined above
+/** Make post data JSON-serializable for getServerSideProps (Firestore Timestamp -> plain object). */
+function serializePostData(data: PostData): PostData {
+	const out = { ...data } as Record<string, unknown>;
+	const t = out.timestamp;
+	if (t && typeof t === "object" && "seconds" in t) {
+		const ts = t as { seconds: number; nanoseconds?: number };
+		out.timestamp = { seconds: ts.seconds, nanoseconds: ts.nanoseconds ?? 0 };
+	}
+	return out as unknown as PostData;
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { slug } = context.params || {};
 	if (!slug || typeof slug !== "string") {
@@ -594,7 +613,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					};
 				}
 				// If no title, just show the post
-				const initialPostData = { id: postDoc.id, ...postData };
+				const raw = { id: postDoc.id, ...postData } as PostData;
+				const initialPostData = serializePostData(raw);
 				return { props: { initialPostData } };
 			} else {
 				return { notFound: true };
@@ -604,18 +624,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		// Otherwise, treat as slug: fetch all posts, find by slugified title
 		const postsRef = collection(db, "forumPosts");
 		const snapshot = await getDocs(postsRef);
-		let found = null;
+		let found: PostData | null = null;
 		for (const docSnap of snapshot.docs) {
 			const data = docSnap.data();
 			const generatedSlug = slugify(data.title || "");
 			if (generatedSlug === slug) {
-				found = { id: docSnap.id, ...data };
+				found = { id: docSnap.id, ...data } as PostData;
 				break;
 			}
 		}
 		if (found) {
-			(found as PostData).metaDescription = sanitizeAndTruncateHTML((found as PostData).content, 160);
-			return { props: { initialPostData: found } };
+			found.metaDescription = sanitizeAndTruncateHTML(found.content, 160);
+			const initialPostData = serializePostData(found);
+			return { props: { initialPostData } };
 		}
 		return { notFound: true };
 	} catch (error) {

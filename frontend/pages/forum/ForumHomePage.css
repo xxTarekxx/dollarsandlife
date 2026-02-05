@@ -1,781 +1,864 @@
-/* frontend/src/pages/forum/ForumHomePage.css */
-
+/* Forum Home - Redesign */
 :root {
-    /* Original Variables (with potential minor adjustments for theme) */
-    --page-bg-color: #f4f6f8;
-    /* Slightly lighter page background */
-    --card-bg-color: #ffffff;
-    --primary-text-color: #2c3e50;
-    /* Slightly softer primary text */
-    --secondary-text-color: #566573;
-    --muted-text-color: #7f8c8d;
-    --border-color: #e0e6ed;
-    /* Softer border */
-    --border-radius: 8px;
-    /* Consistent base radius */
-    --border-radius-lg: 12px;
-    --border-radius-pill: 20px;
-    /* Keep pill shape for tags */
-
-    /* Branding (Keep your primary brand) */
-    --primary-brand-color: #6a11cb;
-    --primary-brand-hover-color: #530ca7;
-    --primary-brand-light-accent: #f3e8ff;
-    /* For subtle backgrounds/hovers */
-    --text-on-primary-brand: #ffffff;
-
-    /* Shadows (Refined for subtlety) */
-    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
-
-    /* Typography (Using Inter as a modern fallback) */
-    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-        "Segoe UI Symbol";
-
-    /* Modal (Adjusted for smoother feel) */
-    --modal-overlay-bg: rgba(30, 30, 30, 0.75);
-    /* Slightly darker overlay */
-    --modal-animation-duration: 0.2s;
-    /* Faster animation */
-    --modal-backdrop-blur: 5px;
-    --muted-bg-color: #e9ecef;
-    /* Retain for consistency where used */
-}
-
-body {
-    /* Apply base font to body for better inheritance */
-    font-family: var(--font-sans);
+  --forum-bg: #f8f9fc;
+  --forum-card: #ffffff;
+  --forum-text: #1a1d24;
+  --forum-text-muted: #5c6370;
+  --forum-text-light: #8b92a0;
+  --forum-border: #e8eaef;
+  --forum-accent: #6366f1;
+  --forum-accent-hover: #4f46e5;
+  --forum-accent-soft: rgba(99, 102, 241, 0.08);
+  --forum-radius: 12px;
+  --forum-radius-sm: 8px;
+  --forum-radius-pill: 9999px;
+  --forum-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --forum-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --forum-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --forum-modal-overlay: rgba(26, 29, 36, 0.6);
+  --forum-muted-bg: #eef0f5;
 }
 
 .forum-homepage-container {
-    padding: 1.5rem 1rem;
-    max-width: 1200px;
-    margin: 1.5rem auto;
-    background-color: var(--page-bg-color);
-    color: var(--primary-text-color);
-    transition: filter var(--modal-animation-duration) ease-out;
+  min-height: 100vh;
+  background: var(--forum-bg);
+  padding: 1.25rem 1rem 3rem;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+  max-width: 1280px;
+  margin: 0 auto;
+  font-family: var(--forum-font);
+  color: var(--forum-text);
+  transition: filter 0.2s ease;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .forum-homepage-container.blurred {
-    filter: blur(var(--modal-backdrop-blur));
+  filter: blur(6px);
 }
 
-/* --- Forum Header & Actions --- */
+/* Login gate: shown on /forum when not logged in (no questions, no top bar) */
+.forum-login-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 55vh;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.forum-login-gate-card {
+  background: var(--forum-card);
+  border-radius: var(--forum-radius);
+  padding: 2.5rem 2rem;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: var(--forum-shadow-hover);
+  border: 1px solid var(--forum-border);
+}
+
+.forum-login-gate-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: var(--forum-text);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.forum-login-gate-text {
+  font-size: 1rem;
+  color: var(--forum-text-muted);
+  margin: 0 0 1.75rem;
+  line-height: 1.5;
+}
+
+.forum-login-gate-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--forum-accent);
+  border: 1px solid var(--forum-accent);
+  border-radius: var(--forum-radius-sm);
+  cursor: pointer;
+  font-family: var(--forum-font);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+.forum-login-gate-button:hover {
+  background: var(--forum-accent-hover);
+  border-color: var(--forum-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.forum-login-gate-button:focus-visible {
+  outline: 2px solid var(--forum-accent);
+  outline-offset: 2px;
+}
+
+/* Forum header wrapper: use on all /forum pages so header sits right below breadcrumb */
+/* Full-width bar across the page (same on /forum and /forum/create-post) */
+.forum-header-wrapper {
+  width: 100%;
+  margin-bottom: 1.25rem;
+  background: var(--forum-card);
+  border-bottom: 1px solid var(--forum-border);
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+  box-sizing: border-box;
+}
+
 .forum-header {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    /* Added padding for better spacing */
-    background-color: var(--card-bg-color);
-    /* Give header a card feel */
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-sm);
-    /* Original flex properties for desktop-first */
-    display: flex;
-    flex-wrap: wrap;
-    /* Allow wrapping for interactive area if needed */
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.5rem;
-    /* Increased gap */
+  width: 100%;
+  max-width: 100%;
+  min-height: 60px;
+  background: var(--forum-card);
+  border-radius: 0;
+  padding: 0 1.25rem;
+  margin: 0 auto;
+  margin-bottom: 0;
+  border: none;
+  border-bottom: 1px solid var(--forum-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-.forum-header h1 {
-    color: var(--primary-brand-color);
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    /* Slightly larger and responsive */
-    font-weight: 700;
-    margin: 0;
-    flex-shrink: 0;
-    line-height: 1.2;
+.forum-header-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--forum-text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
 }
 
-.forum-header-interactive-area {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    /* Allow buttons to wrap on smaller screens if needed */
+.forum-header-left,
+.forum-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.header-ask-question {
-    /* Specific styles for this instance if needed, else defaults apply */
+.forum-header-left {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.forum-header-right {
+  flex-shrink: 0;
+}
+
+/* Forum Home - minimal, no background, modern link style */
+.forum-header-home-link {
+  height: 36px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+  font-family: var(--forum-font);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--forum-text-muted);
+  text-decoration: none;
+  border-radius: var(--forum-radius-sm);
+  border: none;
+  background: transparent;
+  box-sizing: border-box;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.forum-header-home-link:hover {
+  color: var(--forum-accent);
+  background: var(--forum-accent-soft);
+}
+
+.forum-header-home-link:focus-visible {
+  outline: 2px solid var(--forum-accent);
+  outline-offset: 2px;
+}
+
+.forum-header-home-link.forum-header-link--current {
+  color: var(--forum-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .user-section {
-    display: flex;
-    align-items: center;
-    min-width: 0;
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .auth-loading-text {
-    font-style: italic;
-    color: var(--muted-text-color);
-    font-size: 0.9rem;
-    /* Slightly larger */
-    padding: 0.5rem 0;
+  font-size: 0.75rem;
+  color: var(--forum-text-light);
+  font-style: italic;
 }
 
 .user-actions-area {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    /* width: 100%; Removed, let content dictate width on desktop, handled by parent on mobile */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .user-profile-info {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
 }
 
 .profile-icon {
-    width: 40px;
-    /* Increased size */
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--border-color);
-    background-color: var(--primary-brand-light-accent);
-    /* Lighter bg */
-    flex-shrink: 0;
-    box-shadow: var(--shadow-xs);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--forum-border);
+  background: var(--forum-muted-bg);
+  flex-shrink: 0;
 }
 
 .profile-icon.default-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    /* SVG will fill */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .profile-icon.default-icon svg {
-    width: 60%;
-    /* Adjust icon size within the circle */
-    height: 60%;
-    fill: var(--primary-brand-color);
-    /* Use brand color for default icon */
+  width: 58%;
+  height: 58%;
+  fill: var(--forum-accent);
 }
 
 .display-name {
-    font-weight: 600;
-    color: var(--primary-text-color);
-    font-size: 0.95rem;
-    /* Slightly larger */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 120px;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--forum-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 
-/* --- Buttons (Reapplying styles directly) --- */
+/* Buttons */
 .create-post-button-main,
 .login-signup-button,
 .logout-button {
-    padding: 0.7rem 1.25rem;
-    /* Standardized padding */
-    border: 1px solid transparent;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease, color 0.2s ease;
-    white-space: nowrap;
-    line-height: 1.5;
-    text-decoration: none;
-    /* For Link components acting as buttons */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--forum-radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1px solid transparent;
+  font-family: inherit;
 }
 
 .create-post-button-main:focus-visible,
 .login-signup-button:focus-visible,
 .logout-button:focus-visible {
-    outline: 2px solid var(--primary-brand-color);
-    outline-offset: 2px;
+  outline: 2px solid var(--forum-accent);
+  outline-offset: 2px;
 }
 
-/* Primary Button Style */
 .create-post-button-main,
 .login-signup-button {
-    background-color: var(--primary-brand-color);
-    color: var(--text-on-primary-brand);
-    border-color: var(--primary-brand-color);
-    box-shadow: var(--shadow-sm);
+  background: var(--forum-accent);
+  color: #fff;
+  border-color: var(--forum-accent);
 }
 
-.create-post-button-main:hover:not(:disabled),
+.create-post-button-main:hover:not(.disabled-link):not([aria-disabled="true"]),
 .login-signup-button:hover:not(:disabled) {
-    background-color: var(--primary-brand-hover-color);
-    border-color: var(--primary-brand-hover-color);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+  background: var(--forum-accent-hover);
+  border-color: var(--forum-accent-hover);
+  transform: translateY(-1px);
 }
 
-.create-post-button-main:disabled,
+.create-post-button-main.disabled-link,
+.create-post-button-main[aria-disabled="true"],
 .login-signup-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/* Secondary/Logout Button Style */
 .logout-button {
-    background-color: var(--card-bg-color);
-    color: var(--secondary-text-color);
-    border-color: var(--border-color);
-    box-shadow: var(--shadow-xs);
+  background: var(--forum-card);
+  color: var(--forum-text-muted);
+  border-color: var(--forum-border);
 }
 
 .logout-button:hover:not(:disabled) {
-    background-color: var(--muted-bg-color);
-    border-color: #c8ced3;
-    /* Slightly darker border on hover */
-    color: var(--primary-text-color);
-    /* Darker text on hover */
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
+  background: var(--forum-muted-bg);
+  color: var(--forum-text);
+  border-color: var(--forum-border);
 }
 
-.header-logout-button {
-    /* Specific for header if smaller */
-    padding: 0.55rem 0.9rem;
-    font-size: 0.875rem;
+/* Header buttons - minimal, no fill, modern text/pill style */
+.forum-header .header-ask-question,
+.forum-header .header-logout-button,
+.forum-header .header-login-button {
+  height: 36px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  font-family: var(--forum-font);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: var(--forum-radius-sm);
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  color: var(--forum-text-muted);
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
-
-/* --- Modal Styles (Ensuring animations and backdrop blur work) --- */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: var(--modal-overlay-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    padding: 1rem;
-    opacity: 0;
-    pointer-events: none;
-    /* Apply backdrop blur directly to overlay for better performance if supported */
-    backdrop-filter: blur(var(--modal-backdrop-blur));
-    -webkit-backdrop-filter: blur(var(--modal-backdrop-blur));
+.forum-header .header-ask-question:hover:not(.disabled-link):not([aria-disabled="true"]),
+.forum-header .header-ask-question:focus,
+.forum-header .header-logout-button:hover:not(:disabled),
+.forum-header .header-login-button:hover:not(:disabled) {
+  color: var(--forum-accent);
+  background: var(--forum-accent-soft);
 }
 
-.modal-overlay.fade-in {
-    pointer-events: auto;
-    /* Must be set for interactions */
+.forum-header .header-logout-button {
+  padding: 0 0.75rem;
 }
 
-.modal-content {
-    background: var(--card-bg-color);
-    padding: 1.5rem 2rem;
-    /* Increased padding */
-    border-radius: var(--border-radius-lg);
-    width: 100%;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    /* For close button positioning */
-    overflow-y: auto;
-    max-height: 90vh;
-    transform: scale(0.95) translateY(10px);
-    /* Initial state for pop-in */
-    opacity: 0;
-    /* Initial state for fade-in */
-    z-index: 10001;
-    /* Above overlay */
+.forum-header .header-ask-question.forum-header-link--current {
+  color: var(--forum-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-.create-post-modal-content {
-    /* Original class from TSX */
-    max-width: 700px;
+.forum-header .header-ask-question:active:not(.disabled-link):not([aria-disabled="true"]) {
+  background: transparent;
 }
 
-.close-modal {
-    /* Original class from TSX */
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    background: transparent;
-    border: none;
-    font-size: 1.85rem;
-    /* Slightly larger */
-    font-weight: 300;
-    line-height: 1;
-    color: var(--muted-text-color);
-    cursor: pointer;
-    padding: 0.5rem;
-    /* Larger tap/click area */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-    z-index: 10;
-    /* Above modal content if needed */
+.forum-header .header-ask-question.disabled-link,
+.forum-header .header-ask-question[aria-disabled="true"] {
+  color: var(--forum-text-light);
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
-.close-modal:hover {
-    background-color: var(--muted-bg-color);
-    color: var(--primary-text-color);
-    transform: rotate(90deg) scale(1.1);
-    /* Added scale */
+/* Layout */
+.forum-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-/* Modal Animations (Original keyframes with variable duration) */
-@keyframes fadeInOverlay {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+.forum-content-main {
+  min-width: 0;
 }
 
-@keyframes fadeOutOverlay {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
+/* Feed header: title + sort in one bar */
+.forum-feed-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 
-@keyframes popInModalContent {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+.forum-feed-header h2 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--forum-text);
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
-@keyframes popOutModalContent {
-    from {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: scale(0.95) translateY(10px);
-    }
-}
-
-.modal-overlay.fade-in {
-    animation: fadeInOverlay var(--modal-animation-duration) ease-out forwards;
-}
-
-.modal-overlay.fade-in .modal-content {
-    animation: popInModalContent var(--modal-animation-duration) 0.05s ease-out forwards;
-}
-
-.modal-overlay.fade-out {
-    animation: fadeOutOverlay var(--modal-animation-duration) ease-in forwards;
-}
-
-.modal-overlay.fade-out .modal-content {
-    animation: popOutModalContent var(--modal-animation-duration) ease-in forwards;
-}
-
-
-/* --- Sort Controls --- */
+/* Sort */
 .sort-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    /* Removed background and shadow for cleaner integration with main content flow */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .sort-controls label {
-    font-weight: 600;
-    font-size: 0.9375rem;
-    color: var(--secondary-text-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--forum-text-muted);
 }
 
 .sort-controls select {
-    padding: 0.625rem 2.5rem 0.625rem 0.875rem;
-    font-size: 0.9375rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    background-color: var(--card-bg-color);
-    color: var(--primary-text-color);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    min-width: 180px;
-    /* Slightly wider */
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23718096' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    /* Muted arrow color */
-    background-repeat: no-repeat;
-    background-position: right 0.85rem center;
-    background-size: 14px 10px;
-    /* Adjusted size */
-    box-shadow: var(--shadow-xs);
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: var(--forum-radius-sm);
+  border: 1px solid var(--forum-border);
+  background: var(--forum-card);
+  color: var(--forum-text);
+  font-family: var(--forum-font);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238b92a0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 12px 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sort-controls select:hover {
+  border-color: var(--forum-text-light);
 }
 
 .sort-controls select:focus {
-    outline: none;
-    border-color: var(--primary-brand-color);
-    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.2);
-    /* Softer focus ring */
+  outline: none;
+  border-color: var(--forum-accent);
+  box-shadow: 0 0 0 3px var(--forum-accent-soft);
 }
 
-/* --- Main Forum Content Layout --- */
-.forum-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    /* Reduced from 1.5rem for mobile */
-}
-
+/* Feed */
 .post-feed-area {
-    flex: 1;
-    /* Allow feed to grow */
-    min-width: 0;
-    /* Prevent overflow */
+  margin-top: 0;
 }
 
-.post-feed-area>h2 {
-    /* "Recent Questions" */
-    font-size: 1.6rem;
-    /* More prominent */
-    color: var(--primary-text-color);
-    margin-bottom: 1.25rem;
-    font-weight: 600;
+.post-feed-area h2 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--forum-text);
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
 }
 
 .post-list {
-    display: grid;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .no-posts-message,
-.post-feed-area>p {
-    /* Loading/empty states */
-    text-align: center;
-    padding: 2.5rem 1.5rem;
-    color: var(--muted-text-color);
-    font-style: italic;
-    font-size: 1.05rem;
-    background-color: var(--card-bg-color);
-    border-radius: var(--border-radius-lg);
-    /* Larger radius for distinct card */
-    border: 1px dashed var(--border-color);
-    box-shadow: var(--shadow-sm);
+.post-feed-area > p {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--forum-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  background: var(--forum-card);
+  border-radius: var(--forum-radius);
+  border: 1px solid var(--forum-border);
+  box-shadow: var(--forum-shadow);
 }
 
-/* --- Forum Sidebar --- */
+/* Sidebar */
 .forum-sidebar {
-    margin-bottom: 16px;
-    background-color: var(--card-bg-color);
-    padding: 1.5rem;
-    /* Consistent padding */
-    border-radius: var(--border-radius-lg);
-    /* Match other cards */
-    box-shadow: var(--shadow-sm);
-    height: fit-content;
-    /* Important for sticky behavior */
+  background: var(--forum-card);
+  border-radius: var(--forum-radius);
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid var(--forum-border);
+  box-shadow: var(--forum-shadow);
+}
+
+.forum-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
 }
 
 .forum-sidebar h3 {
-    /* "Popular Tags" */
-    font-size: 1.2rem;
-    /* Slightly larger */
-    color: var(--primary-text-color);
-    margin-top: 0;
-    margin-bottom: 1.25rem;
-    font-weight: 600;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-color);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--forum-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.forum-sidebar-toggle {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--forum-muted-bg);
+  border: 1px solid var(--forum-border);
+  border-radius: var(--forum-radius-sm);
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--forum-text-muted);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.forum-sidebar-toggle:hover {
+  background: var(--forum-accent-soft);
+  color: var(--forum-accent);
+  border-color: var(--forum-accent);
+}
+
+.forum-sidebar-tagged-section {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--forum-border);
+}
+
+.forum-sidebar-tagged-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--forum-text-muted);
+  margin: 0 0 0.75rem;
 }
 
 .tag-filter-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    /* Slightly more gap */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .tag-filter-list .tag-pill {
-    /* Original class from TSX */
-    padding: 0.5rem 1rem;
-    /* Comfortable padding */
-    border-radius: var(--border-radius-pill);
-    /* Pill shape */
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid transparent;
-    /* Base border, color comes from tagColors or active */
-    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
-    line-height: 1.4;
-    /* background-color and color are applied via inline styles from tagColors.ts */
-    /* border-color can be set by tagColors.bg if desired or by active state */
+  padding: 0.4rem 0.875rem;
+  border-radius: var(--forum-radius-pill);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
 .tag-filter-list .tag-pill:hover {
-    transform: translateY(-2px) scale(1.03);
-    /* More pronounced hover */
-    box-shadow: var(--shadow-md);
-    /* Stronger shadow on hover */
-    opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--forum-shadow);
+  opacity: 0.92;
 }
 
 .tag-filter-list .tag-pill.active-tag {
-    /* Original class from TSX */
-    font-weight: 700;
-    /* Bold active tag */
-    box-shadow: 0 0 0 2.5px var(--primary-brand-color), var(--shadow-sm);
-    /* Distinct active outline */
-    opacity: 1;
-    transform: translateY(-1px);
-    /* Slight lift */
-    border-color: var(--primary-brand-color) !important;
-    /* Ensure active border overrides inline style if needed */
+  font-weight: 600;
+  box-shadow: 0 0 0 2px var(--forum-accent);
+  opacity: 1;
 }
 
 .clear-tag {
-    /* Original class from TSX */
-    background-color: var(--muted-bg-color);
-    color: var(--secondary-text-color);
-    padding: 0.5rem 1rem;
-    /* Match tag pill */
-    border-radius: var(--border-radius-pill);
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border-color);
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    box-shadow: var(--shadow-xs);
+  padding: 0.4rem 0.875rem;
+  border-radius: var(--forum-radius-pill);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--forum-muted-bg);
+  color: var(--forum-text-muted);
+  border: 1px solid var(--forum-border);
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s, color 0.2s;
 }
 
 .clear-tag:hover {
-    background-color: #d3d9df;
-    /* Darker muted */
-    color: var(--primary-text-color);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
+  background: var(--forum-border);
+  color: var(--forum-text);
 }
 
 .clear-tag .clear-tag-icon {
-    /* Original class from TSX */
-    margin-left: 0.4em;
-    font-weight: normal;
-    /* Keep icon light */
-    font-size: 0.9em;
-    opacity: 0.7;
+  margin-left: 0.35em;
+  opacity: 0.8;
 }
 
-/* Page level indicators - from original if they existed */
-.page-loading-indicator,
-.page-error-indicator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 70vh;
-    text-align: center;
-    font-size: 1.1rem;
-    color: var(--muted-text-color);
-    padding: 2rem;
-}
-
-.page-error-indicator {
-    color: #c0392b;
-    /* Stronger error red */
-    font-weight: 500;
-}
-
-/* --- Responsive Adjustments (Using original breakpoints) --- */
-
-/* Mobile styles (up to 767px) - Original logic was desktop-first, so this is for overrides */
-@media (max-width: 767px) {
-    .forum-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
-        /* Reduced gap for tighter mobile layout */
-        padding: 1rem;
-        /* Adjust padding for mobile */
-    }
-
-    .forum-header h1 {
-        text-align: center;
-        font-size: 1.75rem;
-        /* Adjust for mobile */
-        margin-bottom: 0.5rem;
-        /* Space below title */
-    }
-
-    .forum-header-interactive-area {
-        flex-direction: column;
-        align-items: stretch;
-        /* Make buttons full width */
-        width: 100%;
-        gap: 0.75rem;
-    }
-
-    .header-ask-question,
-    /* These are button class names from TSX */
-    .login-signup-button.header-login-button {
-        /* More specific for login button */
-        width: 100%;
-        /* Full width buttons on mobile */
-    }
-
-    .user-section {
-        width: 100%;
-        justify-content: center;
-        /* Center content (e.g., login button) */
-    }
-
-    .user-actions-area {
-        justify-content: space-between;
-        /* Profile left, logout right */
-        width: 100%;
-        /* Ensure it spans width if it contains a single button like "Login" */
-    }
-
-    .login-signup-button.header-login-button {
-        /* Make sure the login button is also full width */
-        flex-grow: 1;
-        /* If it's the only item in user-section */
-    }
-}
-
-/* Further refinements for very small screens */
-@media (max-width: 500px) {
-    .display-name {
-        max-width: 80px;
-        /* Adjust for very small screens */
-    }
-
-    .header-logout-button {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.7rem;
-    }
-
-    .forum-header h1 {
-        font-size: 1.5rem;
-        /* Further reduce title size */
-    }
-
-    .create-post-button-main,
-    .login-signup-button.header-login-button {
-        text-align: center;
-        width: auto;
-        padding-top: 0.8rem;
-        padding-bottom: 0.8rem;
-        font-size: 0.9rem;
-    }
-
-    .forum-sidebar {
-        padding: 1rem;
-        /* Reduce sidebar padding */
-    }
-}
-
-/* Tablet and Desktop (from 768px upwards) - Reverting/adjusting from mobile overrides */
-@media (min-width: 768px) {
-    .forum-header {
-        flex-direction: row;
-        /* Back to row layout */
-        justify-content: space-between;
-        align-items: center;
-        gap: 1.5rem;
-        /* Desktop gap */
-        padding: 1.5rem;
-    }
-
-    .forum-header h1 {
-        text-align: left;
-        /* Align title left */
-        margin-bottom: 0;
-        font-size: clamp(1.75rem, 4vw, 2.25rem);
-    }
-
-    .forum-header-interactive-area {
-        flex-direction: row;
-        /* Side-by-side */
-        align-items: center;
-        width: auto;
-        /* Content dictates width */
-        gap: 1rem;
-    }
-
-    .header-ask-question,
-    .login-signup-button.header-login-button {
-        width: auto;
-        /* Reset from mobile's 100% */
-    }
-
-    .user-section {
-        width: auto;
-        justify-content: flex-start;
-        /* Default alignment */
-    }
-
-    .user-actions-area {
-        justify-content: flex-start;
-        width: auto;
-    }
-
-    .display-name {
-        max-width: 150px;
-
-    }
-
-    .forum-homepage-container {
-        padding: 2rem 1.5rem;
-    }
-
-    .forum-content {
-        flex-direction: row;
-        gap: 1rem;
-        /* Reduced from 2rem for desktop */
-        align-items: flex-start;
-    }
-
-    .forum-sidebar {
-        flex-basis: 280px;
-        flex-shrink: 0;
-        position: sticky;
-        top: 1.5rem;
-    }
-}
-
-@media (min-width: 992px) {
-    .forum-sidebar {
-        flex-basis: 320px;
-        /* Wider sidebar for large desktops */
-    }
-}
-
-/* Add a class for expanded sidebar (to be toggled in React) */
+/* Sidebar expanded/collapsed */
 .forum-sidebar.expanded {
-    max-height: 1000px;
-    transition: max-height 0.3s ease;
-    overflow: visible;
+  max-height: 1200px;
+  overflow: visible;
+  transition: max-height 0.3s ease;
 }
 
 .forum-sidebar.collapsed {
-    max-height: 60px;
-    transition: max-height 0.3s ease;
-    overflow: hidden;
+  max-height: 56px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.forum-sidebar.collapsed .tag-filter-list,
+.forum-sidebar.collapsed .clear-tag,
+.forum-sidebar.collapsed .forum-sidebar-tagged-section {
+  display: none !important;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--forum-modal-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-overlay.fade-in {
+  pointer-events: auto;
+  animation: forumFadeIn 0.2s ease-out forwards;
+}
+
+.modal-overlay.fade-in .modal-content {
+  animation: forumPopIn 0.25s ease-out forwards;
+}
+
+.modal-content {
+  background: var(--forum-card);
+  padding: 1.5rem 2rem;
+  border-radius: var(--forum-radius);
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--forum-shadow-hover);
+  border: 1px solid var(--forum-border);
+  opacity: 0;
+  transform: scale(0.96) translateY(12px);
+}
+
+.create-post-modal-content {
+  max-width: 520px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--forum-radius-sm);
+  color: var(--forum-text-muted);
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: background 0.2s, color 0.2s;
+}
+
+.close-modal:hover {
+  background: var(--forum-muted-bg);
+  color: var(--forum-text);
+}
+
+@keyframes forumFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes forumPopIn {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.page-loading-indicator,
+.page-error-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1rem;
+  color: var(--forum-text-muted);
+}
+
+.page-error-indicator {
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+/* Responsive - tablets and below */
+@media (max-width: 767px) {
+  .forum-homepage-container {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .forum-header-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  .forum-header {
+    padding: 0.75rem 0.875rem;
+    gap: 0.5rem;
+    min-height: 56px;
+  }
+
+  .forum-header-left,
+  .forum-header-right {
+    gap: 0.5rem;
+  }
+
+  .forum-header-home-link,
+  .forum-header .header-ask-question,
+  .forum-header .header-logout-button,
+  .forum-header .header-login-button {
+    min-height: 44px;
+    height: 44px;
+    padding: 0 0.625rem;
+    font-size: 0.8125rem;
+  }
+
+  .forum-header .header-ask-question {
+    padding: 0 0.75rem;
+  }
+
+  .forum-header .header-logout-button {
+    padding: 0 0.5rem;
+  }
+
+  .display-name {
+    max-width: 70px;
+    font-size: 0.75rem;
+  }
+
+  .profile-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .forum-login-gate {
+    min-height: 40vh;
+    padding: 1.5rem 1rem;
+  }
+
+  .forum-login-gate-title {
+    font-size: 1.5rem;
+  }
+
+  .forum-login-gate-text {
+    font-size: 0.9375rem;
+  }
+
+  .forum-login-gate-button {
+    padding: 0.75rem 1.25rem;
+    min-height: 44px;
+  }
+
+  .forum-login-gate-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .forum-feed-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .forum-feed-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .post-list {
+    gap: 0.875rem;
+  }
+}
+
+/* Responsive - small phones */
+@media (max-width: 480px) {
+  .forum-homepage-container {
+    padding: 0.75rem 0.5rem 1.5rem;
+    padding-left: max(0.5rem, env(safe-area-inset-left));
+    padding-right: max(0.5rem, env(safe-area-inset-right));
+  }
+
+  .forum-header {
+    padding: 0.5rem 0.625rem;
+    gap: 0.375rem;
+  }
+
+  .forum-header-left,
+  .forum-header-right {
+    gap: 0.375rem;
+  }
+
+  .forum-header-home-link {
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .forum-header .header-ask-question {
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .forum-header .header-logout-button {
+    padding: 0 0.375rem;
+    font-size: 0.75rem;
+  }
+
+  .forum-header .header-login-button {
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .display-name {
+    max-width: 56px;
+    font-size: 0.6875rem;
+  }
+
+  .user-actions-area {
+    gap: 0.375rem;
+  }
+
+  .forum-login-gate-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .forum-feed-header h2 {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .forum-content {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .forum-sidebar {
+    flex: 0 0 260px;
+    position: sticky;
+    top: 1.25rem;
+  }
+
+  .forum-homepage-container {
+    padding: 1.5rem 1.5rem 3rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .forum-sidebar {
+    flex: 0 0 280px;
+  }
 }

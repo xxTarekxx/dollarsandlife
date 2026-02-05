@@ -1,5 +1,5 @@
 "use client"; // Stays client component due to heavy client-side logic, auth state, modals, etc.
-import { Auth, onAuthStateChanged, signOut, User } from "firebase/auth"; // Add onAuthStateChanged and User
+import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import {
 	collection,
 	Firestore,
@@ -14,24 +14,11 @@ import Link from "next/link"; // Added for "Ask a Question" button
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 // Remove useAuthState import
-import AuthPromptModal from "../../src/auth/AuthPromptModal";
 import PostCard, { PostData } from "../../src/components/forum/PostCard";
-import { initializeFirebaseAndGetServices } from "../../src/firebase";
+import ForumHeader from "../../src/components/forum/ForumHeader";
+import AuthPromptModal from "../../src/auth/AuthPromptModal";
+import { initializeFirebaseAndGetServices, verifyFirebaseInDev } from "../../src/firebase";
 import tagColors from "../../src/utils/tagColors";
-
-// DefaultProfileIcon and modalRootElement remain the same
-
-const DefaultProfileIcon = () => (
-	<svg
-		width='24'
-		height='24'
-		viewBox='0 0 24 24'
-		fill='currentColor'
-		className='default-profile-icon'
-	>
-		<path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' />
-	</svg>
-);
 
 const AuthenticatedForumHomePageContent: React.FC<{
 	firebaseAuth: Auth;
@@ -43,6 +30,11 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	const [user, setUser] = useState<User | null>(null);
 	const [authLoadingHook, setAuthLoadingHook] = useState(true);
 	const [authErrorHook, setAuthErrorHook] = useState<Error | null>(null);
+
+	// Dev-only: log Firebase status once on forum load
+	useEffect(() => {
+		verifyFirebaseInDev();
+	}, []);
 
 	// Manual auth state listener
 	useEffect(() => {
@@ -71,27 +63,11 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	);
 	const [activeTag, setActiveTag] = useState<string | null>(null);
 	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false);
-	// --- New state for sidebar expansion ---
 	const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
-	// Move modalRootElement creation inside component and add browser check
-	const closeAuthModal = useCallback(() => {
-		setIsAuthModalInDom(false);
+	const handleAuthModalChange = useCallback((open: boolean) => {
+		setIsAuthModalInDom(open);
 	}, []);
-
-	const openAuthModal = () => {
-		setIsAuthModalInDom(true);
-	};
-
-	// openCreatePostModal and closeCreatePostModal removed
-
-	const handleLogout = async () => {
-		try {
-			await signOut(firebaseAuth);
-		} catch (error) {
-			console.error("ForumHomePage: Error signing out: ", error);
-		}
-	};
 
 	useEffect(() => {
 		const fetchPostsClientSide = async () => {
@@ -155,6 +131,13 @@ const AuthenticatedForumHomePageContent: React.FC<{
 		}
 	}, [activeTag]);
 
+	// Clear blur/modal state when user logs in (modal may unmount without calling onClose)
+	useEffect(() => {
+		if (user) {
+			setIsAuthModalInDom(false);
+		}
+	}, [user]);
+
 	if (authErrorHook) {
 		return (
 			<div className='page-error-indicator'>
@@ -163,10 +146,58 @@ const AuthenticatedForumHomePageContent: React.FC<{
 		);
 	}
 
-	const isAnyModalEffectivelyOpen = isAuthModalInDom; // Only auth modal can blur now
+	const isAnyModalEffectivelyOpen = isAuthModalInDom;
+	const showLoginGate = !user; // Show gate whenever not logged in (including while auth is loading)
 
 	// Always use clean canonical URL without query params
 	const canonicalUrl = "https://www.dollarsandlife.com/forum";
+
+	// Not logged in: show only "Log in or Sign up" CTA; no header, no questions
+	if (showLoginGate) {
+		return (
+			<>
+				<Head>
+					<title>Community Forum | Dollars & Life</title>
+					<meta
+						name="description"
+						content="Join our community forum to ask questions and share insights about budgeting, saving, investing, and more."
+					/>
+					<link rel="canonical" href={canonicalUrl} />
+				</Head>
+				<div className={`forum-homepage-container ${isAuthModalInDom ? "blurred" : ""}`}>
+					<div className="forum-login-gate">
+						<div className="forum-login-gate-card">
+							{authLoadingHook ? (
+								<p className="forum-login-gate-text">Loading…</p>
+							) : (
+								<>
+									<h1 className="forum-login-gate-title">
+										Ask questions. Share ideas. Get answers.
+									</h1>
+									<p className="forum-login-gate-text">
+										Join the Dollars &amp; Life forum to discuss budgeting, saving, investing, and more with others who get it.
+									</p>
+									<button
+										type="button"
+										onClick={() => setIsAuthModalInDom(true)}
+										className="forum-login-gate-button"
+									>
+										Log in or Sign up
+									</button>
+								</>
+							)}
+						</div>
+					</div>
+				</div>
+				{isAuthModalInDom && (
+					<AuthPromptModal
+						onClose={() => setIsAuthModalInDom(false)}
+						auth={firebaseAuth}
+					/>
+				)}
+			</>
+		);
+	}
 
 	return (
 		<>
@@ -178,87 +209,28 @@ const AuthenticatedForumHomePageContent: React.FC<{
 				/>
 				<link rel="canonical" href={canonicalUrl} />
 			</Head>
+			<ForumHeader
+				firebaseAuth={firebaseAuth}
+				firebaseDb={firebaseDb}
+				user={user}
+				authLoading={authLoadingHook}
+				onAuthModalChange={handleAuthModalChange}
+			/>
 			<div
 				className={`forum-homepage-container ${
 					isAnyModalEffectivelyOpen ? "blurred" : ""
 				}`}
 			>
-				<header className='forum-header'>
-					<h1>Welcome To Our Community!</h1>
-					<div className='forum-header-interactive-area'>
-						<Link
-							href='/forum/create-post'
-							className={`create-post-button-main header-ask-question ${
-								!firebaseDb || authLoadingHook || !user ? "disabled-link" : ""
-							}`}
-							aria-disabled={!firebaseDb || authLoadingHook || !user}
-							onClick={(e) => {
-								if (!user) {
-									e.preventDefault(); // Prevent navigation
-									openAuthModal();
-								} else if (!firebaseDb || authLoadingHook) {
-									e.preventDefault();
-								}
-							}}
-						>
-							Ask a Question
-						</Link>
-						<div className='user-section'>
-							{authLoadingHook ? ( // Check authLoadingHook from useAuthState
-								<span className='auth-loading-text'>Loading user...</span>
-							) : user ? (
-								<div className='user-actions-area'>
-									<div className='user-profile-info'>
-										{user.photoURL ? (
-											<img
-												src={user.photoURL}
-												alt={`${user.displayName || "User"}'s profile`}
-												className='profile-icon'
-											/>
-										) : (
-											<span
-												className='profile-icon default-icon'
-												aria-label='Default user profile icon'
-											>
-												<DefaultProfileIcon />
-											</span>
-										)}
-										<span
-											className='display-name'
-											title={user.displayName || "User"}
-										>
-											{user.displayName || "User"}
-										</span>
-									</div>
-									<button
-										type='button'
-										onClick={handleLogout}
-										className='logout-button header-logout-button'
-									>
-										Logout
-									</button>
-								</div>
-							) : (
-								<button
-									type='button'
-									onClick={openAuthModal}
-									className='login-signup-button header-login-button' // Ensure this class is styled
-									disabled={authLoadingHook} // Disable while auth is loading
-								>
-									Login / Sign Up
-								</button>
-							)}
-						</div>
-					</div>
-				</header>
 				<div className='forum-content'>
 					{/* --- Sidebar --- */}
-					<aside className={`forum-sidebar${sidebarExpanded ? " expanded" : " collapsed"}`} style={{ marginBottom: "0.5rem" }}>
-						<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-							<h3 style={{ marginBottom: 0 }}>Popular Tags</h3>
+					<aside className={`forum-sidebar${sidebarExpanded ? " expanded" : " collapsed"}`}>
+						<div className="forum-sidebar-header">
+							<h3>Popular Tags</h3>
 							<button
-								style={{ fontSize: "1.2em", background: "none", border: "none", cursor: "pointer", padding: 0, marginLeft: "0.5em" }}
+								type="button"
+								className="forum-sidebar-toggle"
 								aria-label={sidebarExpanded ? "Collapse tags" : "Expand tags"}
+								aria-expanded={sidebarExpanded}
 								onClick={() => setSidebarExpanded((prev) => !prev)}
 							>
 								{sidebarExpanded ? "−" : "+"}
@@ -333,8 +305,8 @@ const AuthenticatedForumHomePageContent: React.FC<{
 						</ul>
 						{/* --- Show filtered posts below tags when expanded and a tag is active --- */}
 						{sidebarExpanded && activeTag && (
-							<div style={{ marginTop: "1rem" }}>
-								<h4 style={{ margin: "0 0 0.5rem 0" }}>Questions tagged "{activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}"</h4>
+							<div className="forum-sidebar-tagged-section">
+								<h4 className="forum-sidebar-tagged-title">Questions tagged &ldquo;{activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}&rdquo;</h4>
 								{loadingPosts ? (
 									<p className='no-posts-message'>Loading posts...</p>
 								) : posts.length === 0 ? (
@@ -356,22 +328,24 @@ const AuthenticatedForumHomePageContent: React.FC<{
 					</aside>
 					{/* --- Main Content --- */}
 					<div className='forum-content-main' style={{ flex: 1 }}>
-						<div className='sort-controls'>
-							<label htmlFor='sort-select'>Sort by:</label>
-							<select
-								id='sort-select'
-								value={sortBy}
-								onChange={(e) =>
-									setSortBy(e.target.value as "timestamp" | "helpfulVoteCount")
-								}
-								aria-label='Sort forum posts'
-							>
-								<option value='timestamp'>Newest</option>
-								<option value='helpfulVoteCount'>Most Helpful</option>
-							</select>
-						</div>
-						<main className='post-feed-area'>
+						<div className='forum-feed-header'>
 							<h2>Recent Questions</h2>
+							<div className='sort-controls'>
+								<label htmlFor='sort-select'>Sort by:</label>
+								<select
+									id='sort-select'
+									value={sortBy}
+									onChange={(e) =>
+										setSortBy(e.target.value as "timestamp" | "helpfulVoteCount")
+									}
+									aria-label='Sort forum posts'
+								>
+									<option value='timestamp'>Newest</option>
+									<option value='helpfulVoteCount'>Most Helpful</option>
+								</select>
+							</div>
+						</div>
+						<main className='post-feed-area' aria-label='Forum questions'>
 							{loadingPosts && (
 								<p className='no-posts-message'>Loading posts...</p>
 							)}
@@ -405,9 +379,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 
 			{/* createPostModalComponent and its portal removed */}
 
-			{isAuthModalInDom && (
-				<AuthPromptModal onClose={closeAuthModal} auth={firebaseAuth} />
-			)}
 		</>
 	);
 };
