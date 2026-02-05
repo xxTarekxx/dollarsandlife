@@ -234,6 +234,77 @@
     box-sizing: border-box;
 }
 
+/* Comment-style answer form */
+.answer-form.comment-style {
+    padding: 1rem 0;
+    margin-top: 1.5rem;
+    border: none;
+    border-bottom: 1px solid var(--border-color, #e9ecef);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.answer-form.comment-style textarea {
+    width: 100%;
+    min-height: 72px;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.9375rem;
+    font-family: var(--font-sans, sans-serif);
+    border: 1px solid var(--border-color, #dee2e6);
+    border-radius: 8px;
+    resize: vertical;
+    margin-bottom: 0.5rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    background: var(--card-bg-color, #fff);
+}
+
+.answer-form.comment-style textarea::placeholder {
+    color: var(--secondary-text-color, #6c757d);
+}
+
+.answer-form.comment-style textarea:focus {
+    outline: none;
+    border-color: var(--primary-brand-color, #6a11cb);
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.15);
+}
+
+.answer-form.comment-style .comment-submit {
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: var(--primary-brand-color, #6366f1);
+    color: var(--text-on-primary-brand, white);
+    border: none;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    display: inline-block;
+}
+
+.answer-form.comment-style .comment-submit:hover:not(:disabled) {
+    opacity: 0.9;
+    background-color: var(--primary-brand-hover-color, #4f46e5);
+}
+
+.answer-form.comment-style .comment-submit:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.answer-form.comment-style .answer-form-prompt {
+    padding: 0.75rem 0;
+    margin-top: 0;
+    background: transparent;
+    text-align: left;
+}
+
+.answer-form.comment-style .answer-form-prompt p {
+    font-size: 0.875rem;
+    color: var(--secondary-text-color, #6c757d);
+}
+
 .answer-form>h3 {
     font-size: 1.375rem;
     color: var(--primary-text-color, #212529);

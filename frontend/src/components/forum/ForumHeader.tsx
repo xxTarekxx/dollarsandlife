@@ -1,7 +1,15 @@
 "use client";
 
 import { Auth, onAuthStateChanged, signOut, User } from "firebase/auth";
-import { Firestore } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	Firestore,
+	getDoc,
+	getDocs,
+	query,
+	where,
+} from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
@@ -43,6 +51,9 @@ const ForumHeader: React.FC<ForumHeaderProps> = ({
 	const [internalUser, setInternalUser] = useState<User | null>(null);
 	const [internalAuthLoading, setInternalAuthLoading] = useState(true);
 	const [showAuthModal, setShowAuthModal] = useState(false);
+	const [postCount, setPostCount] = useState<number | null>(null);
+	const [voteHelpful, setVoteHelpful] = useState<number | null>(null);
+	const [voteNotHelpful, setVoteNotHelpful] = useState<number | null>(null);
 
 	const router = useRouter();
 	const auth = authProp ?? internalAuth;
@@ -79,6 +90,55 @@ const ForumHeader: React.FC<ForumHeaderProps> = ({
 		);
 		return () => unsubscribe();
 	}, [internalAuth, authProp]);
+
+	// Fetch post count and vote counts when user and db are available
+	useEffect(() => {
+		if (!db || !user?.uid) {
+			setPostCount(null);
+			setVoteHelpful(null);
+			setVoteNotHelpful(null);
+			return;
+		}
+		let cancelled = false;
+		Promise.all([
+			getDocs(
+				query(
+					collection(db, "forumPosts"),
+					where("authorId", "==", user.uid)
+				)
+			).then((snap) => (cancelled ? null : snap.size)),
+			getDoc(doc(db, "users", user.uid)).then((snap) => {
+				if (cancelled) return null;
+				const d = snap.data();
+				return {
+					helpful: d?.totalHelpfulVotes ?? 0,
+					notHelpful: d?.totalNotHelpfulVotes ?? 0,
+				};
+			}),
+		])
+			.then(([posts, votes]) => {
+				if (!cancelled) {
+					setPostCount(posts ?? 0);
+					if (votes && typeof votes === "object" && "helpful" in votes) {
+						setVoteHelpful(votes.helpful);
+						setVoteNotHelpful(votes.notHelpful);
+					} else {
+						setVoteHelpful(0);
+						setVoteNotHelpful(0);
+					}
+				}
+			})
+			.catch(() => {
+				if (!cancelled) {
+					setPostCount(0);
+					setVoteHelpful(0);
+					setVoteNotHelpful(0);
+				}
+			});
+		return () => {
+			cancelled = true;
+		};
+	}, [db, user?.uid]);
 
 	const openAuthModal = useCallback(() => {
 		setShowAuthModal(true);
@@ -141,7 +201,7 @@ const ForumHeader: React.FC<ForumHeaderProps> = ({
 								}
 							}}
 						>
-							Ask a Question
+							Create A Post
 						</Link>
 					</div>
 					<div className="forum-header-right">
@@ -150,6 +210,18 @@ const ForumHeader: React.FC<ForumHeaderProps> = ({
 								<span className="auth-loading-text">Loading user…</span>
 							) : user ? (
 								<div className="user-actions-area">
+									<Link
+										href="/forum/my-posts"
+										className="forum-header-stat-link"
+									>
+										Created Posts: {postCount !== null ? postCount : "…"}
+									</Link>
+									<span className="forum-header-stat">
+										Your Helpful Posts: {voteHelpful !== null ? voteHelpful : "…"}
+									</span>
+									<span className="forum-header-stat">
+										Not Helpful Posts: {voteNotHelpful !== null ? voteNotHelpful : "…"}
+									</span>
 									<button
 										type="button"
 										onClick={handleLogout}
