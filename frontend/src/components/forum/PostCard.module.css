@@ -11,6 +11,7 @@
   gap: 0.75rem;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .postCard::before {
@@ -45,12 +46,11 @@
 }
 
 .postCardTitleLink {
-  text-decoration: none;
   color: #1a1d24;
   transition: color 0.2s ease;
 }
 
-.postCardTitleLink:hover {
+.postCard:hover .postCardTitleLink {
   color: #6366f1;
 }
 
@@ -109,6 +109,7 @@
   margin-top: 0.25rem;
   border-top: 1px solid #e8eaef;
   gap: 1rem;
+  cursor: default;
 }
 
 .postCardViewLink {

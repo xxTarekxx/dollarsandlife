@@ -10,7 +10,6 @@ import {
 } from "firebase/firestore";
 import { GetStaticProps } from "next"; // Added
 import Head from "next/head";
-import Link from "next/link"; // Added for "Ask a Question" button
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 // Remove useAuthState import
@@ -19,6 +18,8 @@ import ForumHeader from "../../src/components/forum/ForumHeader";
 import AuthPromptModal from "../../src/auth/AuthPromptModal";
 import { initializeFirebaseAndGetServices, verifyFirebaseInDev } from "../../src/firebase";
 import tagColors from "../../src/utils/tagColors";
+
+const PINNED_POST_TITLE = "Welcome To Our Community! Please Read The Rules Before Asking A Question.";
 
 const AuthenticatedForumHomePageContent: React.FC<{
 	firebaseAuth: Auth;
@@ -63,7 +64,7 @@ const AuthenticatedForumHomePageContent: React.FC<{
 	);
 	const [activeTag, setActiveTag] = useState<string | null>(null);
 	const [isAuthModalInDom, setIsAuthModalInDom] = useState(false);
-	const [sidebarExpanded, setSidebarExpanded] = useState(false);
+	const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
 	const handleAuthModalChange = useCallback((open: boolean) => {
 		setIsAuthModalInDom(open);
@@ -148,6 +149,13 @@ const AuthenticatedForumHomePageContent: React.FC<{
 
 	const isAnyModalEffectivelyOpen = isAuthModalInDom;
 	const showLoginGate = !user; // Show gate whenever not logged in (including while auth is loading)
+
+	// Pinned welcome post always first, then the rest in current sort order
+	const displayPosts = React.useMemo(() => {
+		const pinned = posts.find((p) => p.title === PINNED_POST_TITLE);
+		const rest = posts.filter((p) => p.title !== PINNED_POST_TITLE);
+		return pinned ? [pinned, ...rest] : posts;
+	}, [posts]);
 
 	// Always use clean canonical URL without query params
 	const canonicalUrl = "https://www.dollarsandlife.com/forum";
@@ -362,12 +370,12 @@ const AuthenticatedForumHomePageContent: React.FC<{
 							)}
 							{!loadingPosts && posts.length > 0 && (
 								<div className='post-list'>
-									{posts.map((post) => (
+									{displayPosts.map((post) => (
 										<PostCard
 											key={post.id}
 											post={post}
-											auth={firebaseAuth} // firebaseAuth is guaranteed
-											db={firebaseDb} // db can be null, PostCard should handle
+											auth={firebaseAuth}
+											db={firebaseDb}
 										/>
 									))}
 								</div>
@@ -424,7 +432,7 @@ const ForumHomePage: React.FC<ForumHomePageProps> = ({
 				router.replace(`/auth/action?${params.toString()}`);
 			}
 		}
-	}, [router.isReady, router.query]);
+	}, [router]);
 
 	useEffect(() => {
 		// This console log is helpful for debugging mount timing

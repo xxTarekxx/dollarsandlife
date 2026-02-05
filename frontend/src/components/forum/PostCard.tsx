@@ -1,8 +1,9 @@
-import { Auth } from "firebase/auth"; // Import Auth type
-import { Firestore } from "firebase/firestore"; // Import Firestore type
-import Link from "next/link"; // Changed import
+import { Auth } from "firebase/auth";
+import { Firestore } from "firebase/firestore";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import tagColors from "../../utils/tagColors"; // Adjusted path
+import tagColors from "../../utils/tagColors";
 import styles from "./PostCard.module.css";
 import VoteButtons from "./VoteButtons";
 
@@ -27,27 +28,34 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, auth, db }) => {
-	const formatTimestamp = (ts: unknown) => {
-		// Changed from any
+	const router = useRouter();
+
+	const formatTimestamp = (ts: unknown): string => {
 		if (!ts) return "Some time ago";
-		// Check if 'ts' is a Firebase Timestamp object
+		let date: Date;
 		if (ts && typeof (ts as { toDate?: () => Date }).toDate === "function") {
-			return (ts as { toDate: () => Date }).toDate().toLocaleDateString();
-		}
-		// Check if 'ts' is already a Date object
-		if (ts instanceof Date) {
-			return ts.toLocaleDateString();
-		}
-		// Try to parse if it's a string or number
-		try {
-			const date = new Date(ts as string | number | Date);
-			if (!isNaN(date.getTime())) {
-				return date.toLocaleDateString();
+			date = (ts as { toDate: () => Date }).toDate();
+		} else if (ts instanceof Date) {
+			date = ts;
+		} else {
+			try {
+				date = new Date(ts as string | number | Date);
+				if (isNaN(date.getTime())) return "Date unavailable";
+			} catch {
+				return "Date unavailable";
 			}
-		} catch {
-			// Fallback if Date constructor fails
 		}
-		return "Date unavailable";
+		const dateStr = date.toLocaleDateString(undefined, {
+			month: "short",
+			day: "numeric",
+			year: "numeric",
+		});
+		const timeStr = date.toLocaleTimeString(undefined, {
+			hour: "numeric",
+			minute: "2-digit",
+			hour12: true,
+		});
+		return `${dateStr}, ${timeStr}`;
 	};
 
 	function slugify(title: string): string {
@@ -59,17 +67,28 @@ const PostCard: React.FC<PostCardProps> = ({ post, auth, db }) => {
 			.replace(/^-+|-+$/g, ""); // Trim leading/trailing dashes
 	}
 
-	const postUrl = `/forum/post/${slugify(post.title)}`;
+	const postUrl = `/forum/post/${post.slug || slugify(post.title)}`;
+
+	const handleCardClick = (e: React.MouseEvent) => {
+		if ((e.target as HTMLElement).closest("a")) return;
+		router.push(postUrl);
+	};
 
 	return (
-		<article className={styles.postCard}>
+		<article
+			className={styles.postCard}
+			onClick={handleCardClick}
+			role="button"
+			tabIndex={0}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					router.push(postUrl);
+				}
+			}}
+		>
 			<h3 className={styles.postCardTitle}>
-				<Link
-					href={postUrl}
-					className={styles.postCardTitleLink}
-				>
-					{post.title}
-				</Link>
+				<span className={styles.postCardTitleLink}>{post.title}</span>
 			</h3>
 			<div className={styles.postCardMeta}>
 				<span>By: {post.authorDisplayName || "Anonymous"}</span>
@@ -101,8 +120,12 @@ const PostCard: React.FC<PostCardProps> = ({ post, auth, db }) => {
 				)}
 			</div>
 			{post.snippet && <p className={styles.postCardSnippet}>{post.snippet}</p>}
-			<div className={styles.postCardActions}>
-				{auth && db ? ( // Only render VoteButtons if auth and db are available
+			<div
+				className={styles.postCardActions}
+				onClick={(e) => e.stopPropagation()}
+				onKeyDown={(e) => e.stopPropagation()}
+			>
+				{auth && db ? (
 					<VoteButtons
 						itemId={post.id}
 						initialHelpfulVotes={post.helpfulVoteCount}
@@ -118,6 +141,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, auth, db }) => {
 				<Link
 					href={`${postUrl}#answers`}
 					className={styles.postCardViewLink}
+					onClick={(e) => e.stopPropagation()}
 				>
 					{post.answerCount || 0} Answers
 				</Link>

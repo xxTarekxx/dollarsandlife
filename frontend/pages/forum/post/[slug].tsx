@@ -446,46 +446,43 @@ const AuthenticatedViewPostPageContent: React.FC<{
 					/>
 				</div>
 
-				<div className='answer-form'>
-					<h3>Post Your Answer</h3>
+				<div className='answer-form comment-style'>
 					{user ? (
 						<>
 							<textarea
-								placeholder='Share your knowledge...'
+								placeholder='Write a comment...'
 								value={newAnswerContent}
 								onChange={(e) => setNewAnswerContent(e.target.value)}
-								rows={5}
+								rows={3}
 								disabled={isSubmittingAnswer || !firebaseDb}
 							/>
 							<button
+								className='comment-submit'
 								onClick={handleSubmitAnswer}
 								disabled={
 									!newAnswerContent.trim() || isSubmittingAnswer || !firebaseDb
 								}
 							>
-								{isSubmittingAnswer ? "Submitting..." : "Post Answer"}
+								{isSubmittingAnswer ? "Sending..." : "Comment"}
 							</button>
 						</>
 					) : (
 						<div className='answer-form-prompt'>
 							<p>
-								Please{" "}
 								<button
 									className='link-button'
 									onClick={() => setShowAuthModal(true)}
 								>
-									{" "}
-									log in{" "}
-								</button>{" "}
-								or{" "}
+									Log in
+								</button>
+								{" or "}
 								<button
 									className='link-button'
 									onClick={() => setShowAuthModal(true)}
 								>
-									{" "}
-									sign up{" "}
-								</button>{" "}
-								to post an answer.
+									sign up
+								</button>
+								{" to comment."}
 							</p>
 						</div>
 					)}
