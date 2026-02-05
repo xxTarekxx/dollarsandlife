@@ -3,9 +3,9 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build && node sitemap-generator/mongo-generate-sitemap.cjs",
-		"start": "next start",
+		"dev": "node node_modules/next/dist/bin/next dev",
+		"build": "node node_modules/next/dist/bin/next build && node sitemap-generator/mongo-generate-sitemap.cjs",
+		"start": "node node_modules/next/dist/bin/next start",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"generate-sitemap": "node dist/generate-sitemap.js"
 	},
@@ -21,7 +21,7 @@
 		"firebase": "^11.9.0",
 		"fs-extra": "^11.3.0",
 		"html-react-parser": "^5.2.2",
-		"next": "15.3.4",
+		"next": "15.3.8",
 		"react": "^18.2.0",
 		"react-adsense": "^0.1.0",
 		"react-device-detect": "^2.2.3",
@@ -36,7 +36,7 @@
 	"devDependencies": {
 		"@eslint/config-array": "^0.18.0",
 		"@eslint/object-schema": "^2.1.4",
-		"@next/bundle-analyzer": "^15.3.4",
+		"@next/bundle-analyzer": "^15.3.8",
 		"@types/dompurify": "^3.0.5",
 		"@types/jsdom": "^21.1.7",
 		"@types/node": "^20.0.0",
