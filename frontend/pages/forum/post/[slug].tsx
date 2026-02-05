@@ -91,18 +91,28 @@ const AuthenticatedViewPostPageContent: React.FC<{
 		return () => unsubscribe();
 	}, [firebaseAuth]);
 
-	// Resolve admin from custom claim (set in Firebase Auth for admin UIDs)
+	// Admin = email in Firestore config/app.adminEmails only (list-based, no admin page)
 	useEffect(() => {
-		if (!user) {
+		if (!user || !firebaseDb || !user.email) {
 			setIsAdmin(false);
 			return;
 		}
-		user.getIdTokenResult()
-			.then((token) => {
-				setIsAdmin(!!(token.claims.admin === true || token.claims.admin === "true"));
+		let cancelled = false;
+		getDoc(doc(firebaseDb, "config", "app"))
+			.then((snap) => {
+				if (cancelled) return;
+				const data = snap.exists() ? snap.data() : null;
+				const emails: string[] = Array.isArray(data?.adminEmails) ? data.adminEmails : [];
+				const email = user.email!.trim().toLowerCase();
+				setIsAdmin(emails.some((e) => String(e).toLowerCase() === email));
 			})
-			.catch(() => setIsAdmin(false));
-	}, [user]);
+			.catch(() => {
+				if (!cancelled) setIsAdmin(false);
+			});
+		return () => {
+			cancelled = true;
+		};
+	}, [user, firebaseDb]);
 
 	const isPostAuthor = user?.uid === post?.authorId;
 	const canDeletePost = isPostAuthor || isAdmin;
