@@ -31,8 +31,12 @@ const COLLECTIONS = [
     "start_a_blog"
 ];
 
-// ✅ Excluded routes
-const EXCLUDED_ROUTE = "/sentrypc-landing";
+// ✅ Excluded routes (never add to sitemap)
+const EXCLUDED_ROUTES = [
+    "/sentrypc-landing",
+    "/forum/create-post",  // Form page; noindex, not for SEO
+    "/forum/my-posts",     // User-specific; noindex, not for SEO
+];
 
 // ✅ Static routes
 function extractStaticRoutes() {
@@ -72,8 +76,8 @@ async function fetchDynamicRoutes() {
                 if (!doc.canonicalUrl || !doc.datePublished) continue;
 
                 const urlPath = doc.canonicalUrl.toLowerCase();
-                if (urlPath === EXCLUDED_ROUTE.toLowerCase()) {
-                    console.log(`🚫 Skipping excluded dynamic route: ${urlPath}`);
+                if (EXCLUDED_ROUTES.some(r => urlPath === r.toLowerCase())) {
+                    console.log(`🚫 Skipping excluded route: ${urlPath}`);
                     continue;
                 }
 
@@ -113,7 +117,9 @@ async function generateSitemap() {
 
         // Static routes
         let staticRoutes = extractStaticRoutes();
-        staticRoutes = staticRoutes.filter(route => route.toLowerCase() !== EXCLUDED_ROUTE.toLowerCase());
+        staticRoutes = staticRoutes.filter(route =>
+            !EXCLUDED_ROUTES.some(r => route.toLowerCase() === r.toLowerCase())
+        );
         console.log("📝 Adding static routes:", staticRoutes.length);
 
         staticRoutes.forEach(route => {
