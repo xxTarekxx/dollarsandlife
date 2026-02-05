@@ -132,11 +132,16 @@ export const castVote = async (
 			);
 		}
 
-		transaction.update(authorRef, {
-			totalHelpfulVotes:
-				(authorData.totalHelpfulVotes || 0) + authorHelpfulIncrement,
-			totalNotHelpfulVotes:
-				(authorData.totalNotHelpfulVotes || 0) + authorNotHelpfulIncrement,
-		});
+		// set with merge: true so author doc is created if it doesn't exist yet
+		transaction.set(
+			authorRef,
+			{
+				totalHelpfulVotes:
+					(authorData.totalHelpfulVotes || 0) + authorHelpfulIncrement,
+				totalNotHelpfulVotes:
+					(authorData.totalNotHelpfulVotes || 0) + authorNotHelpfulIncrement,
+			},
+			{ merge: true },
+		);
 	});
 };

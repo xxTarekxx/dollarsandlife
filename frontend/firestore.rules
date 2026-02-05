@@ -2,17 +2,23 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Admin: set custom claim admin=true for admin UIDs in Firebase Auth
+    // Admin: email in config/app adminEmails array, or custom claim admin=true
     function isAdmin() {
-      return request.auth != null && request.auth.token.admin == true;
+      return request.auth != null && (
+        request.auth.token.admin == true ||
+        exists(/databases/$(database)/documents/config/app) &&
+        request.auth.token.email in get(/databases/$(database)/documents/config/app).data.get('adminEmails', [])
+      );
     }
 
-    // Users: read needed for vote transaction (author stats); update only vote counts
+    // Users: read for vote; update/set vote counts; create allowed so first vote can create author doc
     match /users/{userId} {
       allow read: if request.auth != null;
       allow update: if request.auth != null &&
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['totalHelpfulVotes', 'totalNotHelpfulVotes']);
-      allow create, delete: if false;
+      allow create: if request.auth != null &&
+        request.resource.data.keys().hasOnly(['totalHelpfulVotes', 'totalNotHelpfulVotes']);
+      allow delete: if false;
     }
 
     match /forumPosts/{postId} {
@@ -96,6 +102,12 @@ service cloud.firestore {
 
       allow delete: if request.auth != null &&
                        resource.data.userId == request.auth.uid;
+    }
+
+    // Config: admin emails list (read by logged-in users for UI; write via Console only)
+    match /config/app {
+      allow read: if request.auth != null;
+      allow write: if false;
     }
 
     match /{document=**} {
