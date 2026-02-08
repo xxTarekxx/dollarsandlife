@@ -139,6 +139,18 @@ const AuthenticatedForumHomePageContent: React.FC<{
 		}
 	}, [user]);
 
+	const isAnyModalEffectivelyOpen = isAuthModalInDom;
+	const showLoginGate = !user;
+
+	// Pinned welcome post always first, then the rest in current sort order (must be before any conditional return)
+	const displayPosts = React.useMemo(() => {
+		const pinned = posts.find((p) => p.title === PINNED_POST_TITLE);
+		const rest = posts.filter((p) => p.title !== PINNED_POST_TITLE);
+		return pinned ? [pinned, ...rest] : posts;
+	}, [posts]);
+
+	const canonicalUrl = "https://www.dollarsandlife.com/forum";
+
 	if (authErrorHook) {
 		return (
 			<div className='page-error-indicator'>
@@ -146,19 +158,6 @@ const AuthenticatedForumHomePageContent: React.FC<{
 			</div>
 		);
 	}
-
-	const isAnyModalEffectivelyOpen = isAuthModalInDom;
-	const showLoginGate = !user; // Show gate whenever not logged in (including while auth is loading)
-
-	// Pinned welcome post always first, then the rest in current sort order
-	const displayPosts = React.useMemo(() => {
-		const pinned = posts.find((p) => p.title === PINNED_POST_TITLE);
-		const rest = posts.filter((p) => p.title !== PINNED_POST_TITLE);
-		return pinned ? [pinned, ...rest] : posts;
-	}, [posts]);
-
-	// Always use clean canonical URL without query params
-	const canonicalUrl = "https://www.dollarsandlife.com/forum";
 
 	// Not logged in: show only "Log in or Sign up" CTA; no header, no questions
 	if (showLoginGate) {

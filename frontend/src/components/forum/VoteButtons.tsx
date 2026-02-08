@@ -19,8 +19,10 @@ interface VoteButtonsProps {
 	itemType: ItemType;
 	itemAuthorId?: string;
 	postIdForItem?: string;
-	auth: Auth; // Expect auth instance as a prop
-	db: Firestore; // Expect db instance as a prop
+	auth: Auth;
+	db: Firestore;
+	/** When provided, called instead of toast when a guest clicks vote; use to open login modal */
+	onLoginRequired?: () => void;
 }
 
 const VoteButtons: React.FC<VoteButtonsProps> = ({
@@ -30,8 +32,9 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 	itemType,
 	itemAuthorId,
 	postIdForItem,
-	auth, // Use prop
-	db, // Use prop
+	auth,
+	db,
+	onLoginRequired,
 }) => {
 	const [helpfulVotes, setHelpfulVotes] = useState<number>(initialHelpfulVotes);
 	const [notHelpfulVotes, setNotHelpfulVotes] = useState<number>(
@@ -78,7 +81,8 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 	const handleFeedback = useCallback(
 		async (feedbackType: VoteType) => {
 			if (!currentUser) {
-				toast.error("Please log in to vote.");
+				if (onLoginRequired) onLoginRequired();
+				else toast.error("Please log in to vote.");
 				return;
 			}
 			if (currentUser.uid === itemAuthorId) {
@@ -157,7 +161,8 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 			currentUserVote,
 			itemId,
 			postIdForItem,
-			db, // Add db to dependency array
+			db,
+			onLoginRequired,
 		],
 	);
 
@@ -195,7 +200,11 @@ const VoteButtons: React.FC<VoteButtonsProps> = ({
 	}
 
 	const commonButtonProps = {
-		disabled: isSubmittingVote || isLoadingVote || !currentUser || !db, // Add !db
+		disabled:
+			isSubmittingVote ||
+			isLoadingVote ||
+			!db ||
+			(!currentUser && !onLoginRequired),
 	};
 
 	return (

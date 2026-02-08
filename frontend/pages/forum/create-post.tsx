@@ -1,16 +1,16 @@
 // frontend/pages/forum/create-post.tsx - Adapted to be a page
 "use client";
 import Head from "next/head";
-import { useRouter } from "next/router"; // Added for navigation
-import React, { useEffect, useRef, useState } from "react";
-// import { auth } from "../../../firebase"; // REMOVE direct import - Auth is passed as prop or obtained via context
-import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Import Auth type
-import { Firestore } from "firebase/firestore"; // Import Firestore type
+import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Auth, onAuthStateChanged, User } from "firebase/auth";
+import { Firestore } from "firebase/firestore";
 import { GetServerSideProps } from "next";
 import toast from "react-hot-toast";
-import { getFirebaseAuth, getFirebaseDb } from "../../src/firebase"; // Add this import
+import { getFirebaseAuth, getFirebaseDb } from "../../src/firebase";
 import ForumHeader from "../../src/components/forum/ForumHeader";
 import { createForumPost } from "../../src/services/forum/forumService";
+import { COUNTRY_NAMES } from "../../src/data/countries";
 import styles from "./CreatePostForm.module.css";
 
 // If this is a standalone page, onPostSuccess might not be passed as a prop.
@@ -41,7 +41,38 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [tags, setTags] = useState<string[]>([]);
+	const [country, setCountry] = useState("");
+	const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
+	const [countrySearch, setCountrySearch] = useState("");
+	const [countryHighlightIndex, setCountryHighlightIndex] = useState(0);
 	const titleRef = useRef<HTMLInputElement>(null);
+	const countryWrapRef = useRef<HTMLDivElement>(null);
+
+	const filteredCountries = useMemo(() => {
+		const q = countrySearch.trim().toLowerCase();
+		if (!q) return COUNTRY_NAMES;
+		return COUNTRY_NAMES.filter((name) =>
+			name.toLowerCase().includes(q)
+		);
+	}, [countrySearch]);
+
+	const closeCountryDropdown = useCallback(() => {
+		setCountryDropdownOpen(false);
+		setCountrySearch("");
+		setCountryHighlightIndex(0);
+	}, []);
+
+	useEffect(() => {
+		function handleClickOutside(e: MouseEvent) {
+			if (countryWrapRef.current && !countryWrapRef.current.contains(e.target as Node)) {
+				closeCountryDropdown();
+			}
+		}
+		if (countryDropdownOpen) {
+			document.addEventListener("mousedown", handleClickOutside);
+			return () => document.removeEventListener("mousedown", handleClickOutside);
+		}
+	}, [countryDropdownOpen, closeCountryDropdown]);
 
 	// Firebase services state - for standalone page behavior
 	const [auth, setAuth] = useState<Auth | null>(authInput || null);
@@ -89,20 +120,31 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 			return;
 		}
 
+		const missing: string[] = [];
+		if (!title.trim()) missing.push("Title");
+		if (!content.trim()) missing.push("Description");
+		if (!country.trim()) missing.push("Country");
+		if (tags.length === 0) missing.push("Tags (select at least one)");
+		if (missing.length > 0) {
+			toast.error(`Please fill in: ${missing.join(", ")}.`);
+			return;
+		}
+
 		try {
 			await createForumPost(db, {
 				title,
 				content,
 				tags,
+				country: country.trim(),
 				authorId: user.uid,
 				authorDisplayName: user.displayName || "Anonymous",
 			});
 			toast.success("✅ Post submitted successfully!");
-			// onPostSuccess?.(); // Replaced with router push
-			router.push("/forum"); // Navigate to forum index after successful post
+			router.push("/forum");
 			setTitle("");
 			setContent("");
 			setTags([]);
+			setCountry("");
 		} catch (error) {
 			console.error("Failed to submit post", error);
 			toast.error("Something went wrong. Try again.");
@@ -148,12 +190,12 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 				<div>
 					<Head>
 						<title>Create New Forum Post | Dollars & Life</title>
-					<meta
-						name='description'
-						content='Ask a question or start a new discussion in the Dollars & Life community forum.'
-					/>
-					{/* Add other relevant meta tags like noindex if this page shouldn't be indexed directly without auth */}
-				</Head>
+						<meta
+							name='description'
+							content='Ask a question or start a new discussion in the Dollars & Life community forum.'
+						/>
+						<meta name="robots" content="noindex, nofollow" />
+					</Head>
 				<form className={styles["create-post-form"]} onSubmit={handleSubmit}>
 				<h1 className={styles["form-heading"]}>Ask a New Question</h1>{" "}
 				<label htmlFor='title'>Title</label>
@@ -176,7 +218,87 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 					placeholder='Describe your question in detail...'
 					disabled={!user || !db}
 				/>
-				<label>Choose Tags (up to 3 recommended)</label>
+				<label htmlFor='country-select'>
+					Country <span className={styles["country-hint"]}>(Each country has its own finance rules and laws.)</span>
+				</label>
+				<div
+					className={styles["country-dropdown-wrap"]}
+					ref={countryWrapRef}
+				>
+					<input
+						id='country-select'
+						type='text'
+						className={styles["country-input"]}
+						placeholder='Search or select country...'
+						value={countryDropdownOpen ? countrySearch : country}
+						onChange={(e) => {
+							setCountrySearch(e.target.value);
+							setCountryDropdownOpen(true);
+							setCountryHighlightIndex(0);
+						}}
+						onFocus={() => setCountryDropdownOpen(true)}
+						onKeyDown={(e) => {
+							if (!countryDropdownOpen) {
+								if (e.key === "ArrowDown" || e.key === "Enter") setCountryDropdownOpen(true);
+								return;
+							}
+							if (e.key === "ArrowDown") {
+								e.preventDefault();
+								setCountryHighlightIndex((i) => Math.min(i + 1, filteredCountries.length - 1));
+								return;
+							}
+							if (e.key === "ArrowUp") {
+								e.preventDefault();
+								setCountryHighlightIndex((i) => Math.max(i - 1, 0));
+								return;
+							}
+							if (e.key === "Enter") {
+								e.preventDefault();
+								const selected = filteredCountries[countryHighlightIndex];
+								if (selected) {
+									setCountry(selected);
+									closeCountryDropdown();
+								}
+								return;
+							}
+							if (e.key === "Escape") {
+								e.preventDefault();
+								closeCountryDropdown();
+							}
+						}}
+						disabled={!user || !db}
+						autoComplete='off'
+					/>
+					{countryDropdownOpen && (
+						<ul
+							className={styles["country-dropdown-list"]}
+							role='listbox'
+							id='country-listbox'
+							aria-label='Countries'
+						>
+							{filteredCountries.length === 0 ? (
+								<li className={styles["country-dropdown-empty"]}>No countries match</li>
+							) : (
+								filteredCountries.map((name, idx) => (
+									<li
+										key={name}
+										role='option'
+										aria-selected={country === name}
+										className={`${styles["country-dropdown-item"]} ${idx === countryHighlightIndex ? styles["highlighted"] : ""}`}
+										onClick={() => {
+											setCountry(name);
+											closeCountryDropdown();
+										}}
+										onMouseEnter={() => setCountryHighlightIndex(idx)}
+									>
+										{name}
+									</li>
+								))
+							)}
+						</ul>
+					)}
+				</div>
+				<label>Choose Tags (select at least one, up to 3)</label>
 				<div className={styles["form-tag-options"]}>
 					{availableTags.map((tag) => (
 						<span
@@ -199,7 +321,7 @@ const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 				<button
 					type='submit'
 					className={styles["submit-post-button"]}
-					disabled={!user || !db || !title.trim() || !content.trim()} // Basic validation
+					disabled={!user || !db}
 				>
 					Submit Post
 				</button>

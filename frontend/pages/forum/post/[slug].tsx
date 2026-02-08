@@ -351,6 +351,7 @@ const AuthenticatedViewPostPageContent: React.FC<{
 				<title>{`${Array.isArray(pageTitle) ? pageTitle.join("") : pageTitle
 					}`}</title>
 				<meta name='description' content={post.metaDescription} />
+				<meta name='robots' content='index, follow' />
 				{post && (
 					<link
 						rel='canonical'
@@ -443,49 +444,32 @@ const AuthenticatedViewPostPageContent: React.FC<{
 						itemAuthorId={post.authorId}
 						auth={firebaseAuth}
 						db={firebaseDb!}
+						onLoginRequired={() => setShowAuthModal(true)}
 					/>
 				</div>
 
 				<div className='answer-form comment-style'>
-					{user ? (
-						<>
-							<textarea
-								placeholder='Write a comment...'
-								value={newAnswerContent}
-								onChange={(e) => setNewAnswerContent(e.target.value)}
-								rows={3}
-								disabled={isSubmittingAnswer || !firebaseDb}
-							/>
-							<button
-								className='comment-submit'
-								onClick={handleSubmitAnswer}
-								disabled={
-									!newAnswerContent.trim() || isSubmittingAnswer || !firebaseDb
-								}
-							>
-								{isSubmittingAnswer ? "Sending..." : "Comment"}
-							</button>
-						</>
-					) : (
-						<div className='answer-form-prompt'>
-							<p>
-								<button
-									className='link-button'
-									onClick={() => setShowAuthModal(true)}
-								>
-									Log in
-								</button>
-								{" or "}
-								<button
-									className='link-button'
-									onClick={() => setShowAuthModal(true)}
-								>
-									sign up
-								</button>
-								{" to comment."}
-							</p>
-						</div>
-					)}
+					<textarea
+						placeholder='Write a comment...'
+						value={user ? newAnswerContent : ''}
+						onChange={(e) => user && setNewAnswerContent(e.target.value)}
+						rows={3}
+						disabled={!user || isSubmittingAnswer || !firebaseDb}
+					/>
+					<button
+						type='button'
+						className='comment-submit'
+						onClick={() => {
+							if (!user) {
+								setShowAuthModal(true);
+								return;
+							}
+							handleSubmitAnswer();
+						}}
+						disabled={user ? (!newAnswerContent.trim() || isSubmittingAnswer || !firebaseDb) : false}
+					>
+						{isSubmittingAnswer ? "Sending..." : "Comment"}
+					</button>
 				</div>
 
 				<div className='answers-section' id='answers'>
@@ -536,6 +520,7 @@ const AuthenticatedViewPostPageContent: React.FC<{
 											postIdForItem={postId}
 											auth={firebaseAuth}
 											db={firebaseDb!}
+											onLoginRequired={() => setShowAuthModal(true)}
 										/>
 									</div>
 								</div>
