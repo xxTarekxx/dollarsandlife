@@ -72,6 +72,71 @@
     /* Wrapper for label and tags if needed, or just apply margin to .form-tag-options */
 }
 
+.country-hint {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #666;
+}
+
+/* Country searchable dropdown */
+.country-dropdown-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.country-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.country-input:focus {
+    border-color: #0077cc;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.2);
+}
+
+.country-dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    max-height: 260px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+}
+
+.country-dropdown-item {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.country-dropdown-item:hover,
+.country-dropdown-item.highlighted {
+    background: #e8f4fc;
+}
+
+.country-dropdown-empty {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    color: #666;
+}
+
 .form-tag-options {
     display: flex;
     flex-wrap: wrap;

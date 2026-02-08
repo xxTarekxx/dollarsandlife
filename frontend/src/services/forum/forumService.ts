@@ -6,6 +6,7 @@ interface NewPostData {
 	title: string;
 	content: string;
 	tags: string[];
+	country: string;
 	authorId?: string;
 	authorDisplayName?: string;
 }
