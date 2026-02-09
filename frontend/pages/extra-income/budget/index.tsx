@@ -144,7 +144,7 @@ const Budget: React.FC<BudgetPageProps> = ({
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/budget/'
+					href='https://www.dollarsandlife.com/extra-income/budget'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({

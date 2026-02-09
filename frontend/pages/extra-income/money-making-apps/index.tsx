@@ -130,7 +130,7 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 				/>
 				<link
 					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/money-making-apps/'
+					href='https://www.dollarsandlife.com/extra-income/money-making-apps'
 				/>
 				<script type='application/ld+json'>
 					{JSON.stringify({
