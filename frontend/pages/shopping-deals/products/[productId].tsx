@@ -8,6 +8,7 @@ import { getCanonicalUrl } from "../../../src/utils/url";
 interface Product {
   id: string;
   headline: string;
+  canonicalUrl?: string;
   image: { url: string; caption: string };
   description: string;
   currentPrice: string;
@@ -21,6 +22,21 @@ interface Product {
     reviewCount: string;
   };
   metaDescription?: string;
+}
+
+/** Extract product slug from canonicalUrl (full URL or path). Returns null if invalid. */
+function getProductSlugFromCanonicalUrl(canonicalUrl: string): string | null {
+  if (!canonicalUrl || typeof canonicalUrl !== "string") return null;
+  let pathname = canonicalUrl.trim();
+  if (pathname.startsWith("http://") || pathname.startsWith("https://")) {
+    try {
+      pathname = new URL(canonicalUrl).pathname;
+    } catch {
+      return null;
+    }
+  }
+  const match = pathname.match(/\/shopping-deals\/products\/(.+)/);
+  return match ? match[1].replace(/\/+$/, "") : null;
 }
 
 interface ProductDetailsProps {
@@ -66,7 +82,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     const product: Product = await response.json();
     product.metaDescription = sanitizeAndTruncateHTML(product.description, 160);
-    return { props: { product, productSlug: productId } };
+
+    const canonicalSlug = product.canonicalUrl
+      ? getProductSlugFromCanonicalUrl(product.canonicalUrl)
+      : null;
+
+    if (canonicalSlug && productId !== canonicalSlug) {
+      return {
+        redirect: {
+          destination: `/shopping-deals/products/${canonicalSlug}`,
+          permanent: true,
+        },
+      };
+    }
+
+    const slugForPage = canonicalSlug || productId;
+    return { props: { product, productSlug: slugForPage } };
   } catch (error) {
     console.error("Error in getServerSideProps for product details:", error);
     return {
@@ -109,7 +140,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const isInStock = product.offers?.availability?.includes("InStock") ?? false;
   const stockStatusText = isInStock ? "In Stock" : "Out Of Stock";
   const stockStatusClass = isInStock ? "in-stock" : "out-of-stock";
-  const canonicalUrl = getCanonicalUrl(`/shopping-deals/products/${productSlug}`);
+  const canonicalUrl =
+    product.canonicalUrl && product.canonicalUrl.startsWith("http")
+      ? product.canonicalUrl
+      : getCanonicalUrl(`/shopping-deals/products/${productSlug}`);
 
   const renderStars = (ratingValue: string | undefined): React.ReactNode => {
     if (!ratingValue) return null;
@@ -158,6 +192,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 product.offers?.availability || "https://schema.org/InStock",
               url: product.purchaseUrl,
             },
+            url: canonicalUrl,
             aggregateRating: product.aggregateRating
               ? {
                   "@type": "AggregateRating",

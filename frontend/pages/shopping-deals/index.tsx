@@ -85,15 +85,23 @@ const ProductCard: React.FC<Product> = ({
 	specialOffer,
 	aggregateRating,
 	offers,
+	canonicalUrl,
 }) => {
-	// Use shortName if available, otherwise fallback to headline
-	const nameForSlug = shortName || headline;
-	// Sanitize the name for the URL slug
-	const slug = nameForSlug
-		.toLowerCase()
-		.replace(/[^a-z0-9\s-]/g, "") // Remove special characters
-		.replace(/\s+/g, "-"); // Replace spaces with hyphens
-	const detailUrl = `/shopping-deals/products/${id}-${slug}`;
+	// Use canonicalUrl from DB when present; otherwise build from id + shortName/headline
+	const detailUrl = canonicalUrl
+		? (canonicalUrl.startsWith("http")
+			? new URL(canonicalUrl).pathname
+			: canonicalUrl.startsWith("/")
+				? canonicalUrl
+				: `/${canonicalUrl}`)
+		: (() => {
+				const nameForSlug = shortName || headline;
+				const slug = nameForSlug
+					.toLowerCase()
+					.replace(/[^a-z0-9\s-]/g, "")
+					.replace(/\s+/g, "-");
+				return `/shopping-deals/products/${id}-${slug}`;
+			})();
 
 	const descriptionSnippet = useMemo(() => {
 		if (!description) return "";
