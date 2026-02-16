@@ -145,19 +145,23 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 					href='https://www.dollarsandlife.com/breaking-news'
 				/>
 				<script type='application/ld+json'>
-					{JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ItemList",
-						itemListElement: breakingNews.map((post, index) => ({
-							"@type": "Article",
-							position: index + 1,
-							headline: post.headline,
-							image: post.image.url,
-							author: { "@type": "Organization", name: post.author.name },
-							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/breaking-news/${post.id}`,
-						})),
-					})}
+					{(() => {
+						const json = {
+							"@context": "https://schema.org",
+							"@type": "ItemList",
+							itemListElement: breakingNews.map((post, index) => ({
+								"@type": "Article",
+								position: index + 1,
+								headline: typeof post.headline === "string" ? post.headline : "",
+								image: post.image?.url ?? "",
+								author: { "@type": "Organization", name: typeof post.author?.name === "string" ? post.author.name : "" },
+								datePublished: typeof post.datePublished === "string" ? post.datePublished : "",
+								url: `https://www.dollarsandlife.com/breaking-news/${post.id ?? ""}`,
+							})),
+						};
+						const str = JSON.stringify(json);
+						return str.replace(/<\/script/gi, "<\\/script");
+					})()}
 				</script>
 			</Head>
 
