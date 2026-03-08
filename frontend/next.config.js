@@ -57,6 +57,17 @@ const nextConfig = {
       },
     ];
   },
+  // Headers: tell search engines not to index sitemap as a page (prevents "Crawled - not indexed" validation)
+  async headers() {
+    return [
+      {
+        source: '/sitemap.xml',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+        ],
+      },
+    ];
+  },
   // Add redirects for legacy routes
   async redirects() {
     return [
