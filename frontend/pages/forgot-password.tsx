@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { FormEvent, useEffect, useState } from "react";
 import { getFirebaseAuth } from "../src/firebase";
-import styles from "../src/auth/Login.module.css";
+import styles from "./forgot-password.module.css";
 
 const ForgotPasswordPage: React.FC = () => {
 	const [email, setEmail] = useState("");
@@ -62,8 +62,11 @@ const ForgotPasswordPage: React.FC = () => {
 					<title>Forgot Password | Dollars &amp; Life</title>
 					<meta name="robots" content="noindex, nofollow" />
 				</Head>
-				<div className={styles.loginContentWrapper} style={{ padding: "40px 20px" }}>
-					<p>Loading...</p>
+				<div className={styles.loadingWrap}>
+					<div style={{ textAlign: "center" }}>
+						<div className={styles.spinner} aria-hidden />
+						<p className={styles.loadingText}>Loading…</p>
+					</div>
 				</div>
 			</>
 		);
@@ -75,65 +78,77 @@ const ForgotPasswordPage: React.FC = () => {
 				<title>Forgot Password | Dollars &amp; Life</title>
 				<meta name="robots" content="noindex, nofollow" />
 			</Head>
-			<div className={styles.loginContainer} style={{ padding: "40px 20px", minHeight: "40vh" }}>
-				<div className={styles.loginContentWrapper}>
+			<section className={styles.wrapper} aria-labelledby="forgot-password-title">
+				<div className={styles.card}>
 					{success ? (
-						<div
-							className={styles.loginForm}
-							style={{ textAlign: "center", padding: "24px" }}
-						>
-							<h3>Check your email</h3>
-							<p style={{ color: "#333", marginBottom: "16px" }}>
-								If an account exists for <strong>{email}</strong>, we&apos;ve sent a link to reset your password.
+						<div className={styles.successCard}>
+							<div className={styles.successIcon} aria-hidden>✓</div>
+							<h1 id="forgot-password-title" className={styles.successTitle}>
+								Check your email
+							</h1>
+							<p className={styles.successText}>
+								If an account exists for <span className={styles.successEmail}>{email}</span>, we&apos;ve sent a link to reset your password.
 							</p>
-							<p style={{ color: "#666", fontSize: "13px", marginBottom: "16px" }}>
+							<p className={styles.successHint}>
 								Click the link in the email to set a new password. The link may take a few minutes to arrive and can expire after a short time.
 							</p>
-							<Link href="/forum" style={{ color: "#007bff", marginRight: "12px" }}>
-								Back to Forum
-							</Link>
-							<span style={{ marginLeft: "8px" }}>
-								<Link href="/forum" className={styles.submitButton} style={{ display: "inline-block", padding: "8px 16px", textDecoration: "none" }}>
-									Continue
+							<div className={styles.successActions}>
+								<Link href="/forum" className={styles.primaryLink}>
+									Continue to Forum
 								</Link>
-							</span>
+								<Link href="/forum" className={styles.secondaryLink}>
+									Back to Forum
+								</Link>
+							</div>
 						</div>
 					) : (
-						<form onSubmit={handleSubmit} className={styles.loginForm}>
-							<h3>Forgot Password</h3>
-							<p style={{ color: "#555", fontSize: "13px", marginBottom: "12px", textAlign: "center" }}>
+						<>
+							<h1 id="forgot-password-title" className={styles.title}>
+								Forgot password?
+							</h1>
+							<p className={styles.subtitle}>
 								Enter your email and we&apos;ll send you a link to reset your password.
 							</p>
-							{error && <p className={styles.errorMessage}>{error}</p>}
-							<div className={styles.formGroup}>
-								<label htmlFor="forgot-email">Email</label>
-								<input
-									type="email"
-									id="forgot-email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									required
+							<form onSubmit={handleSubmit} noValidate>
+								{error && (
+									<div id="forgot-error" className={styles.errorBox} role="alert">
+										{error}
+									</div>
+								)}
+								<div className={styles.formGroup}>
+									<label htmlFor="forgot-email">Email</label>
+									<input
+										type="email"
+										id="forgot-email"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+										required
+										disabled={loading}
+										placeholder="you@example.com"
+										autoComplete="email"
+										className={styles.input}
+										aria-invalid={!!error}
+										aria-describedby={error ? "forgot-error" : undefined}
+									/>
+								</div>
+								<button
+									type="submit"
+									className={styles.submitBtn}
 									disabled={loading}
-									placeholder="you@example.com"
-									autoComplete="email"
-								/>
-							</div>
-							<button
-								type="submit"
-								className={styles.submitButton}
-								disabled={loading}
-							>
-								{loading ? "Sending..." : "Send reset link"}
-							</button>
-							<div className={styles.authLinks} style={{ marginTop: "16px" }}>
-								<Link href="/forum">Back to Forum</Link>
-								<span> | </span>
-								<Link href="/forum">Log in</Link>
-							</div>
-						</form>
+									aria-busy={loading}
+								>
+									{loading ? "Sending…" : "Send reset link"}
+								</button>
+								<nav className={styles.links} aria-label="Account links">
+									<Link href="/forum">Back to Forum</Link>
+									<span className={styles.sep}>·</span>
+									<Link href="/forum">Log in</Link>
+								</nav>
+							</form>
+						</>
 					)}
 				</div>
-			</div>
+			</section>
 		</>
 	);
 };

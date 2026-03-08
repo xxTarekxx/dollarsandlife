@@ -72,13 +72,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       console.error(
         `Failed to fetch product ${numericId}: ${response.status} ${response.statusText}`,
       );
-      return {
-        props: {
-          product: null,
-          productSlug: productId,
-          error: `Failed to fetch product: ${response.status}`,
-        },
-      };
+      return { notFound: true };
     }
     const product: Product = await response.json();
     product.metaDescription = sanitizeAndTruncateHTML(product.description, 160);
@@ -100,13 +94,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { product, productSlug: slugForPage } };
   } catch (error) {
     console.error("Error in getServerSideProps for product details:", error);
-    return {
-      props: {
-        product: null,
-        productSlug: productId,
-        error: "Server error while fetching product details.",
-      },
-    };
+    return { notFound: true };
   }
 };
 
@@ -115,26 +103,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   productSlug,
   error,
 }) => {
-  if (error) {
-    return (
-      <div className='pdf-status-container'>
-        <Head>
-          <title>Error Loading Product</title>
-        </Head>
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className='pdf-status-container'>
-        <Head>
-          <title>Product Not Found</title>
-        </Head>
-        <p>The requested product could not be found.</p>
-      </div>
-    );
+  if (error || !product) {
+    return null;
   }
 
   const isInStock = product.offers?.availability?.includes("InStock") ?? false;
@@ -168,6 +138,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             ? product.headline.join("")
             : product.headline
         } | Shopping Deals`}</title>
+        <meta name='robots' content='index, follow' />
         <meta name='description' content={product.metaDescription} />
         <link
           rel='canonical'
