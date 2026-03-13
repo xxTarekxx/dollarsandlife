@@ -1,7 +1,6 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
-import Script from "next/script";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -174,12 +173,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<>
-			<Script
-				async
-				src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079721341426198'
-				crossOrigin='anonymous'
-				strategy='lazyOnload'
-			/>
 			<Head>
 				<title>
 					Dollars And Life - Personal Finance, Extra Income & Savings
