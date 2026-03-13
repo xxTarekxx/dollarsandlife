@@ -44,8 +44,12 @@ export default class MyDocument extends Document {
               `,
             }}
           />
-          {/* Favicon links and other static head elements can go here if not in _app.js Head */}
-          {/* For example, if you have specific font links that must be in _document */}
+          {/* AdSense: plain script avoids Next.js data-nscript attribute (AdSense rejects it) */}
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079721341426198"
+            crossOrigin="anonymous"
+          />
         </Head>
         <body>
           <Main />
