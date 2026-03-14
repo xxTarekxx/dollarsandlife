@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  skipTrailingSlashRedirect: true,
   images: {
     remotePatterns: [
       {
@@ -48,14 +49,12 @@ const nextConfig = {
     }
     return config;
   },
-  // Handle static file serving and redirects
   async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: '/api/:path*',
-      },
-    ];
+    return {
+      beforeFiles: [
+        { source: '/extra-income/', destination: '/extra-income' },
+      ],
+    };
   },
   // Headers: tell search engines not to index sitemap as a page (prevents "Crawled - not indexed" validation)
   async headers() {
@@ -85,6 +84,28 @@ const nextConfig = {
       {
         source: '/EXTRA-INCOME/:path*',
         destination: '/extra-income/:path*',
+        permanent: true,
+      },
+      // Redirect old remote job guide slugs to canonical URL
+      {
+        source: '/extra-income/remote-online-jobs/Trending-Remote-Jobs-2025',
+        destination: '/extra-income/remote-online-jobs/remote-job-guide-2025',
+        permanent: true,
+      },
+      {
+        source: '/extra-income/remote-online-jobs/trending-remote-jobs-2025',
+        destination: '/extra-income/remote-online-jobs/remote-job-guide-2025',
+        permanent: true,
+      },
+      {
+        source: '/extra-income/remote-online-jobs/Remote-Job-Guide-2025',
+        destination: '/extra-income/remote-online-jobs/remote-job-guide-2025',
+        permanent: true,
+      },
+      // Redirect old money-making-apps slug (mixed case) to canonical lowercase
+      {
+        source: '/extra-income/money-making-apps/Money-Making-Apps-2025',
+        destination: '/extra-income/money-making-apps/money-making-apps-2025',
         permanent: true,
       },
       // Redirect forum URLs with query params to clean URL (handled by client-side redirect, but this helps)
