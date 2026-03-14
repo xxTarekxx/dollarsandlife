@@ -101,22 +101,50 @@ createContentRoutes('money_making_apps', 'money-making-apps');
 createContentRoutes('products_list', 'shopping-deals');
 createContentRoutes('remote_jobs', 'remote-jobs');
 
-// Temporary endpoint to fix remote job ID
+// One-time fix: ensure the main "How to Find a Remote Job in 2025" guide uses slug remote-job-guide-2025
 router.post('/fix-remote-job-id', async (req, res) => {
     try {
         const db = req.db;
         if (!db) return res.status(503).json({ error: "Database not available" });
 
+        // Update the main guide by headline so we don't change a different article
         const result = await db.collection('remote_jobs').updateOne(
-            { id: 'Remote-Job-Guide-2025' },
+            { headline: /How to Find a Remote Job in 2025/i },
             { $set: { id: 'remote-job-guide-2025' } }
         );
 
         res.json({
             success: true,
             modifiedCount: result.modifiedCount,
-            message: 'Updated remote job ID to lowercase'
+            message: 'Set remote job guide id to remote-job-guide-2025'
         });
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error', details: err.message });
+    }
+});
+
+// One-time fix: normalize all document ids to lowercase in content collections (so GET /:id with lowercased id finds them)
+const CONTENT_COLLECTIONS = ['breaking_news', 'budget_data', 'freelance_jobs', 'money_making_apps', 'remote_jobs', 'start_a_blog'];
+router.post('/fix-normalize-ids-lowercase', async (req, res) => {
+    try {
+        const db = req.db;
+        if (!db) return res.status(503).json({ error: "Database not available" });
+
+        const summary = {};
+        for (const collName of CONTENT_COLLECTIONS) {
+            const coll = db.collection(collName);
+            const docs = await coll.find({}).toArray();
+            let count = 0;
+            for (const doc of docs) {
+                if (doc.id && doc.id !== doc.id.toLowerCase()) {
+                    await coll.updateOne({ _id: doc._id }, { $set: { id: doc.id.toLowerCase() } });
+                    count++;
+                }
+            }
+            summary[collName] = count;
+        }
+
+        res.json({ success: true, message: 'Normalized ids to lowercase', modified: summary });
     } catch (err) {
         res.status(500).json({ error: 'Internal server error', details: err.message });
     }
