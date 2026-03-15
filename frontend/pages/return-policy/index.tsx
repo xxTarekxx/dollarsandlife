@@ -6,10 +6,47 @@ const ReturnPolicy: React.FC = () => {
 	return (
 		<div className='return-policy-wrapper'>
 			<Head>
-				<title>Return Policy | Dollars & Life</title>
+				<title>Return Policy | Dollars &amp; Life - Affiliate Returns Guide</title>
 				<meta
 					name='description'
 					content='We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted. See our policy for full guidance.'
+				/>
+				<link rel='canonical' href='https://www.dollarsandlife.com/return-policy' />
+				<meta property='og:title' content='Return Policy | Dollars & Life - Affiliate Returns Guide' />
+				<meta
+					property='og:description'
+					content='We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted. See our policy for full guidance.'
+				/>
+				<meta property='og:url' content='https://www.dollarsandlife.com/return-policy' />
+				<meta property='og:type' content='article' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Return Policy | Dollars & Life - Affiliate Returns Guide' />
+				<meta
+					name='twitter:description'
+					content='We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted. See our policy for full guidance.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='robots' content='index, follow' />
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "WebPage",
+							name: "Return Policy | Dollars & Life",
+							description: "We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted.",
+							url: "https://www.dollarsandlife.com/return-policy",
+							publisher: {
+								"@type": "Organization",
+								name: "Dollars And Life",
+								logo: {
+									"@type": "ImageObject",
+									url: "https://www.dollarsandlife.com/images/website-logo.webp",
+								},
+							},
+						}),
+					}}
 				/>
 			</Head>
 

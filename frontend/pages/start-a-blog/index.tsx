@@ -129,7 +129,7 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>How to Start a Blog in 2025 Step-by-Step Guide</title>
+				<title>How to Start a Blog in 2025 | Step-by-Step Beginner Guide</title>
 				<meta
 					name='description'
 					content='Learn how to start a successful blog in 2025 with our step-by-step guide. Discover the best blogging platforms, tools, and strategies for monetization.'
@@ -156,6 +156,21 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 						}),
 					}}
 				/>
+						<meta property='og:title' content='How to Start a Blog in 2025 | Step-by-Step Beginner Guide' />
+			<meta
+				property='og:description'
+				content='Learn how to start a successful blog in 2025 with our step-by-step guide. Discover the best blogging platforms, tools, and strategies for monetization.'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/start-a-blog' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='How to Start a Blog in 2025 | Step-by-Step Beginner Guide' />
+			<meta
+				name='twitter:description'
+				content='Learn how to start a successful blog in 2025 with our step-by-step guide. Discover the best blogging platforms, tools, and strategies for monetization.'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			{/* Routing refactored to list view here, detail view in start-a-blog-[id].tsx */}

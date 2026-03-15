@@ -1,5 +1,6 @@
 "use client";
 import emailjs from "@emailjs/browser";
+import Head from "next/head";
 import React, {
 	Suspense,
 	useCallback,
@@ -169,7 +170,51 @@ const ContactUs: React.FC = () => {
 	};
 
 	return (
-		<section className={styles.contactUsContainer}>
+		<>
+			<Head>
+				<title>Contact Dollars &amp; Life | Questions, Feedback &amp; Support</title>
+				<meta
+					name='description'
+					content='Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message and we will respond promptly.'
+				/>
+				<link rel='canonical' href='https://www.dollarsandlife.com/contact-us' />
+				<meta property='og:title' content='Contact Dollars & Life | Questions, Feedback & Support' />
+				<meta
+					property='og:description'
+					content='Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message and we will respond promptly.'
+				/>
+				<meta property='og:url' content='https://www.dollarsandlife.com/contact-us' />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Contact Dollars & Life | Questions, Feedback & Support' />
+				<meta
+					name='twitter:description'
+					content='Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message and we will respond promptly.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "ContactPage",
+							name: "Contact Dollars & Life",
+							description: "Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message.",
+							url: "https://www.dollarsandlife.com/contact-us",
+							publisher: {
+								"@type": "Organization",
+								name: "Dollars And Life",
+								logo: {
+									"@type": "ImageObject",
+									url: "https://www.dollarsandlife.com/images/website-logo.webp",
+								},
+							},
+						}),
+					}}
+				/>
+			</Head>
+			<section className={styles.contactUsContainer}>
 			<h1>Contact Us</h1>
 			<p>Have questions or feedback? Reach out and we'll respond promptly.</p>
 
@@ -298,6 +343,7 @@ const ContactUs: React.FC = () => {
 				)}
 			</form>
 		</section>
+		</>
 	);
 };
 

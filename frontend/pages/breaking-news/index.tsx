@@ -163,7 +163,22 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 						return str.replace(/<\/script/gi, "<\\/script");
 					})()}
 				</script>
-			</Head>
+						<meta property='og:title' content='Breaking News - Latest Financial and Economic Updates' />
+			<meta
+				property='og:description'
+				content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/breaking-news' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='Breaking News - Latest Financial and Economic Updates' />
+			<meta
+				name='twitter:description'
+				content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+		</Head>
 
 			{loading && (
 				<p className='sd-loading-indicator'>Loading breaking news...</p>

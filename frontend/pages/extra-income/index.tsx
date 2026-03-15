@@ -58,7 +58,7 @@ const ExtraIncome: React.FC = () => {
 	return (
 		<>
 			<Head>
-				<title>Extra Income Opportunities | Earn More Money</title>
+				<title>Extra Income Ideas | Freelancing, Remote Jobs &amp; Budgeting Tips</title>
 				<meta
 					name='description'
 					content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
@@ -105,6 +105,21 @@ const ExtraIncome: React.FC = () => {
 						}),
 					}}
 				/>
+						<meta property='og:title' content='Extra Income Ideas | Freelancing, Remote Jobs & Budgeting Tips' />
+			<meta
+				property='og:description'
+				content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='Extra Income Ideas | Freelancing, Remote Jobs & Budgeting Tips' />
+			<meta
+				name='twitter:description'
+				content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			<div className='page-container'>

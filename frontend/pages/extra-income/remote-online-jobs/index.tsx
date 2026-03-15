@@ -134,7 +134,7 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Remote & Online Jobs - Work From Anywhere</title>
+				<title>Remote &amp; Online Jobs | Work-From-Home Opportunities 2025</title>
 				<meta
 					name='description'
 					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
@@ -158,6 +158,21 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 						})),
 					})}
 				</script>
+						<meta property='og:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
+			<meta
+				property='og:description'
+				content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/remote-online-jobs' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
+			<meta
+				name='twitter:description'
+				content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			{/* Routing refactored to list view here, detail view in remote-online-jobs-[id].tsx */}

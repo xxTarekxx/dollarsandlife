@@ -8,14 +8,15 @@ const TermsOfService: React.FC = () => {
 		<>
 			{/* SEO: Head for metadata */}
 			<Head>
-				<title>Terms of Service - Dollars And Life</title>
+				<title>Terms of Service | Dollars And Life - Legal Agreements</title>
 				<meta
 					name='description'
 					content='Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.'
 				/>
+				<link rel='canonical' href='https://www.dollarsandlife.com/terms-of-service' />
 				<meta
 					property='og:title'
-					content='Terms of Service - Dollars And Life'
+					content='Terms of Service | Dollars And Life - Legal Agreements'
 				/>
 				<meta
 					property='og:description'
@@ -26,6 +27,14 @@ const TermsOfService: React.FC = () => {
 					content='https://www.dollarsandlife.com/terms-of-service'
 				/>
 				<meta property='og:type' content='article' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Terms of Service | Dollars And Life - Legal Agreements' />
+				<meta
+					name='twitter:description'
+					content='Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='robots' content='index, follow' />
 
 				{/* Schema Markup for SEO */}
@@ -43,7 +52,7 @@ const TermsOfService: React.FC = () => {
 								name: "Dollars And Life",
 								logo: {
 									"@type": "ImageObject",
-									url: "/images/website-logo.webp",
+									url: "https://www.dollarsandlife.com/images/website-logo.webp",
 								},
 							},
 							url: "https://www.dollarsandlife.com/terms-of-service",

@@ -20,19 +20,27 @@ const AboutUs: React.FC = () => {
 	return (
 		<div className={styles.pageWrapper}>
 			<Head>
-				<title>The Build | About Dollars & Life</title>
+				<title>About Dollars &amp; Life | Developer-Built Personal Finance Platform</title>
 				<meta
 					name='description'
 					content='The story behind Dollars & Life: A custom-built platform by developer Tarek I. to decode personal finance through technology and real-world experience.'
 				/>
 				<link rel='canonical' href='https://www.dollarsandlife.com/about-us' />
-				<meta property='og:title' content='The Build | About Dollars & Life' />
+				<meta property='og:title' content='About Dollars & Life | Developer-Built Personal Finance Platform' />
 				<meta
 					property='og:description'
 					content='Learn how a developer obsession with real-world financial problems led to a custom-built platform for everyone.'
 				/>
 				<meta property='og:type' content='website' />
 				<meta property='og:url' content='https://www.dollarsandlife.com/about-us' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='About Dollars & Life | Developer-Built Personal Finance Platform' />
+				<meta
+					name='twitter:description'
+					content='Learn how a developer obsession with real-world financial problems led to a custom-built platform for everyone.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			<header className={styles.hero}>

@@ -170,7 +170,42 @@ const AuthenticatedForumHomePageContent: React.FC<{
 						content="Join our community forum to ask questions and share insights about budgeting, saving, investing, and more."
 					/>
 					<link rel="canonical" href={canonicalUrl} />
-				</Head>
+								<meta property='og:title' content='Community Forum | Dollars & Life' />
+				<meta
+					name='og:description'
+					content='Join our community forum to ask questions and share insights about budgeting, saving, investing, and more.'
+				/>
+				<meta property='og:url' content='https://www.dollarsandlife.com/forum' />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Community Forum | Dollars & Life' />
+				<meta
+					name='twitter:description'
+					content='Join our community forum to ask questions and share insights about budgeting, saving, investing, and more.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "CollectionPage",
+							name: "Community Forum | Dollars & Life",
+							description: "Join our community forum to ask questions and share insights about budgeting, saving, investing, and more.",
+							url: "https://www.dollarsandlife.com/forum",
+							publisher: {
+								"@type": "Organization",
+								name: "Dollars And Life",
+								logo: {
+									"@type": "ImageObject",
+									url: "https://www.dollarsandlife.com/images/website-logo.webp",
+								},
+							},
+						}),
+					}}
+				/>
+			</Head>
 				<div className={`forum-homepage-container ${isAuthModalInDom ? "blurred" : ""}`}>
 					<div className="forum-login-gate">
 						<div className="forum-login-gate-card">
@@ -215,6 +250,41 @@ const AuthenticatedForumHomePageContent: React.FC<{
 					content="Join our community forum to ask questions and share insights about budgeting, saving, investing, and more."
 				/>
 				<link rel="canonical" href={canonicalUrl} />
+							<meta property='og:title' content='Community Forum | Dollars & Life' />
+				<meta
+					name='og:description'
+					content='Join our community forum to ask questions and share insights about budgeting, saving, investing, and more.'
+				/>
+				<meta property='og:url' content='https://www.dollarsandlife.com/forum' />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Community Forum | Dollars & Life' />
+				<meta
+					name='twitter:description'
+					content='Join our community forum to ask questions and share insights about budgeting, saving, investing, and more.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "CollectionPage",
+							name: "Community Forum | Dollars & Life",
+							description: "Join our community forum to ask questions and share insights about budgeting, saving, investing, and more.",
+							url: "https://www.dollarsandlife.com/forum",
+							publisher: {
+								"@type": "Organization",
+								name: "Dollars And Life",
+								logo: {
+									"@type": "ImageObject",
+									url: "https://www.dollarsandlife.com/images/website-logo.webp",
+								},
+							},
+						}),
+					}}
+				/>
 			</Head>
 			<ForumHeader
 				firebaseAuth={firebaseAuth}
