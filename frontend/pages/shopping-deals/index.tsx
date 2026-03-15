@@ -345,10 +345,10 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 	return (
 		<div className='sd-page-container'>
 			<Head>
-				<title>Deals and Savings - Best Shopping Discounts</title>
+				<title>Deals and Savings | Best Online Shopping Discounts 2025</title>
 				<meta
 					name='description'
-					content='Find the best deals and savings on top products.'
+					content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'
 				/>
 				<link
 					rel='canonical'
@@ -362,6 +362,21 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 							.replace(/[\u2028\u2029]/g, ""),
 					}}
 				/>
+						<meta property='og:title' content='Deals and Savings | Best Online Shopping Discounts 2025' />
+			<meta
+				property='og:description'
+				content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/shopping-deals' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='Deals and Savings | Best Online Shopping Discounts 2025' />
+			<meta
+				name='twitter:description'
+				content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 			<h1 className='sd-page-title'>Deals and Savings</h1>
 			{loading && <div className='sd-loading-indicator'>Loading Deals...</div>}

@@ -62,8 +62,8 @@ const HomePage: React.FC = () => {
 	const siteUrl = "https://www.dollarsandlife.com/"; // Ensure trailing slash
 	const siteName = "DollarsAndLife.com";
 	const shortSiteName = "Dollars & Life";
-	const mainTitle = `${shortSiteName} | Master Your Money: Budgeting, Earning, Saving & Blogging`;
-	const mainDescription = `Your ultimate guide to personal finance. Learn smart budgeting, how to earn extra income, savvy shopping deals, and starting a profitable blog with DollarsAndLife.com. Take control of your financial future today.`;
+	const mainTitle = `${shortSiteName} | Smart Personal Finance & Extra Income`;
+	const mainDescription = `Smart budgeting guides, extra income strategies, shopping deals, and blogging tips to help you take control of your financial future.`;
 	const ogImageContent = `${siteUrl}og-image-homepage.jpg`; // Use absolute URL
 	const logoUrl = `${siteUrl}logo-512x512.png`; // Use absolute URL
 	const founderLinkedInUrl =

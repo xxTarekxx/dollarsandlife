@@ -139,7 +139,7 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Freelance Jobs - Find Your Next Gig</title>
+				<title>Freelance Jobs | Find Your Next Remote or Gig Opportunity</title>
 				<meta
 					name='description'
 					content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
@@ -163,6 +163,21 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 						})),
 					})}
 				</script>
+						<meta property='og:title' content='Freelance Jobs | Find Your Next Remote or Gig Opportunity' />
+			<meta
+				property='og:description'
+				content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/freelance-jobs' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='Freelance Jobs | Find Your Next Remote or Gig Opportunity' />
+			<meta
+				name='twitter:description'
+				content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			{/* Routing refactored to list view here, detail view in freelance-jobs-[id].tsx */}

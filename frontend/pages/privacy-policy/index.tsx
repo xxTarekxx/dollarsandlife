@@ -7,12 +7,13 @@ const PrivacyPolicy: React.FC = () => {
 	return (
 		<>
 			<Head>
-				<title>Privacy Policy - Dollars And Life</title>
+				<title>Privacy Policy | Dollars And Life - Your Data Rights</title>
 				<meta
 					name='description'
 					content='Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.'
 				/>
-				<meta property='og:title' content='Privacy Policy - Dollars And Life' />
+				<link rel='canonical' href='https://www.dollarsandlife.com/privacy-policy' />
+				<meta property='og:title' content='Privacy Policy | Dollars And Life - Your Data Rights' />
 				<meta
 					property='og:description'
 					content='Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.'
@@ -22,6 +23,14 @@ const PrivacyPolicy: React.FC = () => {
 					content='https://www.dollarsandlife.com/privacy-policy'
 				/>
 				<meta property='og:type' content='article' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Privacy Policy | Dollars And Life - Your Data Rights' />
+				<meta
+					name='twitter:description'
+					content='Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='robots' content='index, follow' />
 
 				<script
@@ -38,15 +47,13 @@ const PrivacyPolicy: React.FC = () => {
 								name: "Dollars And Life",
 								logo: {
 									"@type": "ImageObject",
-									url: "/images/website-logo.webp",
+									url: "https://www.dollarsandlife.com/images/website-logo.webp",
 								},
 							},
 							url: "https://www.dollarsandlife.com/privacy-policy",
 						}),
 					}}
 				/>
-
-				<meta name='robots' content='index, follow' />
 			</Head>
 
 			<main className={styles.privacyPolicyContent} role='main'>

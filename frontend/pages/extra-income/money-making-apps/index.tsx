@@ -123,7 +123,7 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Money Making Apps - Earn on the Go</title>
+				<title>Money Making Apps | Best Apps to Earn Cash in 2025</title>
 				<meta
 					name='description'
 					content='Discover the best money-making apps to earn cash, gift cards, and rewards from your smartphone.'
@@ -147,6 +147,21 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 						})),
 					})}
 				</script>
+						<meta property='og:title' content='Money Making Apps | Best Apps to Earn Cash in 2025' />
+			<meta
+				property='og:description'
+				content='Discover the best money-making apps to earn cash, gift cards, and rewards from your smartphone.'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/money-making-apps' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='Money Making Apps | Best Apps to Earn Cash in 2025' />
+			<meta
+				name='twitter:description'
+				content='Discover the best money-making apps to earn cash, gift cards, and rewards from your smartphone.'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			{/* Routing refactored to list view here, detail view in money-making-apps-[id].tsx */}

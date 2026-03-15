@@ -137,7 +137,7 @@ const Budget: React.FC<BudgetPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Budget Guides - Smart Financial Planning</title>
+				<title>Budget Guides | Smart Financial Planning Tips &amp; Strategies</title>
 				<meta
 					name='description'
 					content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
@@ -161,6 +161,21 @@ const Budget: React.FC<BudgetPageProps> = ({
 						})),
 					})}
 				</script>
+						<meta property='og:title' content='Budget Guides | Smart Financial Planning Tips & Strategies' />
+			<meta
+				property='og:description'
+				content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
+			/>
+			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/budget' />
+			<meta property='og:type' content='website' />
+			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			<meta name='twitter:card' content='summary_large_image' />
+			<meta name='twitter:title' content='Budget Guides | Smart Financial Planning Tips & Strategies' />
+			<meta
+				name='twitter:description'
+				content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
+			/>
+			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			{/* Routing refactored to list view here, detail view in budget-[id].tsx */}
