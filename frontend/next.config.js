@@ -67,34 +67,14 @@ const nextConfig = {
   // Add redirects for legacy routes
   async redirects() {
     return [
-      // NOTE: Case-variant redirects (/Extra-Income, /extra-Income, /EXTRA-INCOME) were removed.
-      // Next.js caseSensitive:false routing already serves the correct page for any capitalisation
-      // without redirecting. Keeping those rules here caused self-redirect 308 loops on all
-      // /extra-income/* routes because Next.js matched them case-insensitively and redirected
-      // each URL back to itself.
+      // NOTE: All case-variant and old-slug redirects for remote-online-jobs and money-making-apps
+      // were removed. Both trending-remote-jobs-2025 and remote-job-guide-2025 are real articles
+      // in the database, and money-making-apps-2025 is also a real article. The slug redirects were
+      // either sending visitors to the wrong article or creating self-redirect 308 loops because
+      // Next.js caseSensitive:false routing matched the lowercase URLs against mixed-case redirect
+      // sources and redirected them back to themselves.
+      // caseSensitive:false routing handles all capitalisation variants natively without redirects.
 
-      // Redirect old remote job guide slugs to canonical URL
-      {
-        source: '/extra-income/remote-online-jobs/Trending-Remote-Jobs-2025',
-        destination: '/extra-income/remote-online-jobs/remote-job-guide-2025',
-        permanent: true,
-      },
-      {
-        source: '/extra-income/remote-online-jobs/trending-remote-jobs-2025',
-        destination: '/extra-income/remote-online-jobs/remote-job-guide-2025',
-        permanent: true,
-      },
-      {
-        source: '/extra-income/remote-online-jobs/Remote-Job-Guide-2025',
-        destination: '/extra-income/remote-online-jobs/remote-job-guide-2025',
-        permanent: true,
-      },
-      // Redirect old money-making-apps slug (mixed case) to canonical lowercase
-      {
-        source: '/extra-income/money-making-apps/Money-Making-Apps-2025',
-        destination: '/extra-income/money-making-apps/money-making-apps-2025',
-        permanent: true,
-      },
       // Redirect forum URLs with query params to clean URL (handled by client-side redirect, but this helps)
       {
         source: '/forum',
