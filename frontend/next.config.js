@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  trailingSlash: false,
   skipTrailingSlashRedirect: true,
+  skipMiddlewareUrlNormalize: true,
   images: {
     remotePatterns: [
       {
@@ -49,13 +52,7 @@ const nextConfig = {
     }
     return config;
   },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        { source: '/extra-income/', destination: '/extra-income' },
-      ],
-    };
-  },
+
   // Headers: tell search engines not to index sitemap as a page (prevents "Crawled - not indexed" validation)
   async headers() {
     return [
@@ -72,18 +69,18 @@ const nextConfig = {
     return [
       // Redirect case-sensitive URLs to lowercase
       {
-        source: '/Extra-Income/:path*',
-        destination: '/extra-income/:path*',
+        source: '/Extra-Income/:path+',
+        destination: '/extra-income/:path+',
         permanent: true,
       },
       {
-        source: '/extra-Income/:path*',
-        destination: '/extra-income/:path*',
+        source: '/extra-Income/:path+',
+        destination: '/extra-income/:path+',
         permanent: true,
       },
       {
-        source: '/EXTRA-INCOME/:path*',
-        destination: '/extra-income/:path*',
+        source: '/EXTRA-INCOME/:path+',
+        destination: '/extra-income/:path+',
         permanent: true,
       },
       // Redirect old remote job guide slugs to canonical URL
