@@ -67,22 +67,12 @@ const nextConfig = {
   // Add redirects for legacy routes
   async redirects() {
     return [
-      // Redirect case-sensitive URLs to lowercase
-      {
-        source: '/Extra-Income/:path+',
-        destination: '/extra-income/:path+',
-        permanent: true,
-      },
-      {
-        source: '/extra-Income/:path+',
-        destination: '/extra-income/:path+',
-        permanent: true,
-      },
-      {
-        source: '/EXTRA-INCOME/:path+',
-        destination: '/extra-income/:path+',
-        permanent: true,
-      },
+      // NOTE: Case-variant redirects (/Extra-Income, /extra-Income, /EXTRA-INCOME) were removed.
+      // Next.js caseSensitive:false routing already serves the correct page for any capitalisation
+      // without redirecting. Keeping those rules here caused self-redirect 308 loops on all
+      // /extra-income/* routes because Next.js matched them case-insensitively and redirected
+      // each URL back to itself.
+
       // Redirect old remote job guide slugs to canonical URL
       {
         source: '/extra-income/remote-online-jobs/Trending-Remote-Jobs-2025',
