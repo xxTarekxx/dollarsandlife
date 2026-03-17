@@ -1,4 +1,6 @@
 # Custom entries
+# Translation cache — auto-generated, persists across restarts, not source code
+.translation-cache/
 ads/
 _document.tsx
 ads.txt
