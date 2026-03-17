@@ -1,4 +1,4 @@
-/* CommonStyles.css - Flex layout version for centered 3-card rows */
+/* CommonStyles.css — Extra-income listing pages */
 
 html {
 	overflow-y: scroll;
@@ -11,29 +11,146 @@ html {
 	flex-direction: column;
 }
 
+/* ── Page wrapper ───────────────────────────────────────────────────────── */
+
 .page-container {
 	width: 100%;
 	max-width: 1280px;
 	margin: 0 auto;
-	padding: 0 24px;
+	padding: 0 24px 56px;
 	display: flex;
 	flex-direction: column;
 	flex: 1;
 	box-sizing: border-box;
 }
 
-/* Flex container for cards */
+/* ── Section hero header ────────────────────────────────────────────────── */
+
+.section-hero {
+	position: relative;
+	padding: 40px 0 36px;
+	margin-bottom: 36px;
+	overflow: hidden;
+}
+
+/* Decorative gradient orb — top-right */
+.section-hero::before {
+	content: "";
+	position: absolute;
+	top: -60px;
+	right: -80px;
+	width: 340px;
+	height: 340px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(112, 8, 119, 0.12) 0%, transparent 70%);
+	pointer-events: none;
+}
+
+/* Bottom divider line */
+.section-hero::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: linear-gradient(90deg, #700877 0%, #ff2759 40%, transparent 100%);
+}
+
+.section-hero-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: linear-gradient(135deg, rgba(112, 8, 119, 0.10) 0%, rgba(255, 39, 89, 0.10) 100%);
+	border: 1px solid rgba(112, 8, 119, 0.20);
+	color: #700877;
+	font-size: 0.72rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	padding: 5px 12px;
+	border-radius: 20px;
+	margin-bottom: 14px;
+}
+
+.section-hero-title {
+	font-size: clamp(1.8rem, 4vw, 2.6rem);
+	font-weight: 800;
+	color: #1a1a2e;
+	margin: 0 0 10px;
+	line-height: 1.15;
+	letter-spacing: -0.03em;
+}
+
+/* Gradient on the last word / accent */
+.section-hero-title span {
+	background: linear-gradient(90deg, #700877 0%, #ff2759 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.section-hero-sub {
+	font-size: 1rem;
+	color: #5a5a72;
+	margin: 0;
+	max-width: 540px;
+	line-height: 1.6;
+}
+
+.section-hero-count {
+	display: inline-block;
+	margin-top: 16px;
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: #9a9ab0;
+	letter-spacing: 0.02em;
+}
+
+/* ── Card grid ──────────────────────────────────────────────────────────── */
+
 .content-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	gap: 24px;
 	width: 100%;
 	box-sizing: border-box;
-	margin-top: 20px;
 }
 
-/* Responsive title */
+/* ── Loading / error states ─────────────────────────────────────────────── */
+
+.sd-loading-indicator,
+.sd-error-indicator {
+	text-align: center;
+	padding: 60px 24px;
+	color: #5a5a72;
+	font-size: 1rem;
+}
+
+.sd-error-indicator { color: #cc2244; }
+
+/* ── Legacy helpers (kept for other pages) ──────────────────────────────── */
+
+.page-container > h1 {
+	font-size: clamp(1.6rem, 3vw, 2.2rem);
+	font-weight: 800;
+	color: #1a1a2e;
+	margin: 32px 0;
+	letter-spacing: -0.02em;
+	position: relative;
+	display: inline-block;
+}
+
+.page-container > h1::after {
+	content: "";
+	display: block;
+	margin-top: 10px;
+	height: 4px;
+	width: 56px;
+	border-radius: 2px;
+	background: linear-gradient(90deg, #700877 0%, #ff2759 100%);
+}
+
 .title-heading {
 	word-wrap: break-word;
 	text-align: center;
@@ -44,10 +161,7 @@ html {
 }
 
 @media (max-width: 768px) {
-	.title-heading {
-		width: 100%;
-		font-size: 1.4em;
-	}
+	.title-heading { font-size: 1.4em; }
 }
 
 .row-container {
@@ -59,9 +173,24 @@ html {
 	margin-bottom: 20px;
 }
 
+/* ── Responsive ─────────────────────────────────────────────────────────── */
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
 	.page-container {
-		padding: 4px;
+		padding: 0 16px 40px;
+	}
+	.section-hero {
+		padding: 28px 0 24px;
+		margin-bottom: 24px;
+	}
+	.content-wrapper {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+}
+
+@media (min-width: 641px) and (max-width: 960px) {
+	.content-wrapper {
+		grid-template-columns: repeat(2, 1fr);
 	}
 }

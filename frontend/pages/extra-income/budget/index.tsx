@@ -188,7 +188,19 @@ const Budget: React.FC<BudgetPageProps> = ({
 			)}
 			{!loading && !clientError && (
 				<>
-					<h1>Budget Guides</h1>
+					<div className="section-hero">
+					<p className="section-hero-eyebrow">Extra Income</p>
+					<h1 className="section-hero-title">
+						Budget <span>Guides</span>
+					</h1>
+					<p className="section-hero-sub">
+						Smart budgeting tips and financial planning strategies to help you
+						save more, spend less, and build lasting wealth.
+					</p>
+					{budgetPosts.length > 0 && (
+						<span className="section-hero-count">{budgetPosts.length} articles</span>
+					)}
+				</div>
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => (
 							<BlogPostCard
