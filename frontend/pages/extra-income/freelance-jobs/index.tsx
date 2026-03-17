@@ -190,7 +190,19 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 			)}
 			{!loading && !clientError && (
 				<>
-					<h1>Freelance Jobs</h1>
+					<div className="section-hero">
+					<p className="section-hero-eyebrow">Extra Income</p>
+					<h1 className="section-hero-title">
+						Freelance <span>Jobs</span>
+					</h1>
+					<p className="section-hero-sub">
+						Discover remote gigs and freelance opportunities in writing, design,
+						development, and more — work on your own terms.
+					</p>
+					{freelanceJobs.length > 0 && (
+						<span className="section-hero-count">{freelanceJobs.length} articles</span>
+					)}
+				</div>
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => {
 							const href = `/extra-income/freelance-jobs/${post.id}`;

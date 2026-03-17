@@ -172,7 +172,19 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 			)}
 			{!loading && !clientError && (
 				<>
-					<h1>Money Making Apps</h1>
+					<div className="section-hero">
+					<p className="section-hero-eyebrow">Extra Income</p>
+					<h1 className="section-hero-title">
+						Money Making <span>Apps</span>
+					</h1>
+					<p className="section-hero-sub">
+						Discover the best apps to earn cash, gift cards, and rewards
+						directly from your smartphone.
+					</p>
+					{apps.length > 0 && (
+						<span className="section-hero-count">{apps.length} articles</span>
+					)}
+				</div>
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => (
 							<BlogPostCard

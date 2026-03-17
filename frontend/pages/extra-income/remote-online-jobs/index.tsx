@@ -185,7 +185,19 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 			)}
 			{!loading && !clientError && (
 				<>
-					<h1>Remote & Online Jobs</h1>
+					<div className="section-hero">
+					<p className="section-hero-eyebrow">Extra Income</p>
+					<h1 className="section-hero-title">
+						Remote &amp; Online <span>Jobs</span>
+					</h1>
+					<p className="section-hero-sub">
+						Find the best work-from-home and remote opportunities — explore
+						customer service, data entry, virtual assistance, and more.
+					</p>
+					{remoteJobs.length > 0 && (
+						<span className="section-hero-count">{remoteJobs.length} articles</span>
+					)}
+				</div>
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => (
 							<BlogPostCard
