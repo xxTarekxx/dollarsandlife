@@ -1,11 +1,423 @@
+/* ProductDetails.css — modernised with brand palette */
+
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
 .pdf-container {
     max-width: 1100px;
     margin: 2rem auto;
-    padding: 1rem;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 0 16px 48px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* --- Loading / Error States --- */
+/* ── Card shell ───────────────────────────────────────────────────────────── */
+.pdf-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow:
+        0 8px 48px rgba(112, 8, 119, 0.11),
+        0 2px 10px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(112, 8, 119, 0.10);
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .pdf-card {
+        grid-template-columns: 2fr 3fr;
+    }
+}
+
+/* ── Image section ────────────────────────────────────────────────────────── */
+.pdf-image-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1.2rem;
+    background: linear-gradient(145deg, #f7f0ff 0%, #fff0f8 100%);
+    min-height: 260px;
+    border-bottom: 1px solid rgba(112, 8, 119, 0.08);
+}
+
+@media (min-width: 768px) {
+    .pdf-image-section {
+        border-bottom: none;
+        border-right: 1px solid rgba(112, 8, 119, 0.08);
+    }
+}
+
+.pdf-image {
+    display: block;
+    max-width: 100%;
+    max-height: 440px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 28px rgba(112, 8, 119, 0.13));
+    transition: transform 0.35s ease;
+}
+
+.pdf-image:hover {
+    transform: scale(1.04);
+}
+
+/* Discount badge on image */
+.pdf-discount-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: linear-gradient(135deg, #e53935 0%, #ff5252 100%);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 5px 13px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(229, 57, 53, 0.38);
+    text-transform: uppercase;
+}
+
+/* ── Info section ─────────────────────────────────────────────────────────── */
+.pdf-info-section {
+    padding: 1.1rem 1.5rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 767px) {
+    .pdf-info-section {
+        padding: 1rem 1rem 1.1rem;
+    }
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.pdf-header {
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid rgba(112, 8, 119, 0.09);
+}
+
+.pdf-header h1 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 0 0 0.2rem 0;
+    color: #2d0057;
+    line-height: 1.3;
+    text-align: left;
+}
+
+@media (max-width: 767px) {
+    .pdf-header h1 {
+        font-size: 1.1rem;
+    }
+}
+
+.pdf-brand {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    display: block;
+    font-style: italic;
+}
+
+/* ── Description ──────────────────────────────────────────────────────────── */
+.pdf-description {
+    color: #374151;
+    line-height: 1.55;
+    font-size: 0.86rem;
+    flex-grow: 1;
+    overflow-wrap: break-word;
+    margin-bottom: 0.4rem;
+}
+
+.pdf-description h3 {
+    font-size: 0.93rem;
+    font-weight: 700;
+    margin: 0.7rem 0 0.3rem 0;
+    color: #2d0057;
+    text-align: left;
+}
+
+.pdf-description h3:first-child {
+    margin-top: 0;
+}
+
+.pdf-description p {
+    margin: 0 0 0.35rem 0;
+    text-align: left;
+}
+
+.pdf-description strong {
+    display: block;
+    font-weight: 700;
+    font-size: 0.93em;
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+    color: #1f2937;
+    text-align: left;
+}
+
+.feature-section {
+    display: block;
+    font-weight: 700;
+    font-size: 0.93em;
+    color: #1f2937;
+}
+
+.pdf-description ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.4rem 0;
+}
+
+.pdf-description li {
+    padding: 1px 0;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.pdf-description br {
+    display: block;
+    content: "";
+    margin-top: 0.3rem;
+}
+
+.pdf-description a {
+    color: #700877;
+    text-decoration: underline;
+}
+
+.pdf-description a:hover {
+    color: #b0196b;
+}
+
+/* ── Rating ───────────────────────────────────────────────────────────────── */
+.pdf-rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+    font-size: 0.83rem;
+    color: #6b7280;
+}
+
+.pdf-stars {
+    font-size: 1.1rem;
+    line-height: 1;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.pdf-star {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1px;
+    color: #d1d5db;
+    position: relative;
+}
+
+.pdf-star-filled { color: #f59e0b; }
+
+.pdf-star-half {
+    display: inline-block;
+    position: relative;
+    color: #d1d5db;
+}
+
+.pdf-star-half::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #f59e0b;
+}
+
+.pdf-star-empty { color: #d1d5db; }
+
+.pdf-rating-value {
+    font-weight: 700;
+    color: #374151;
+}
+
+.pdf-review-count {
+    color: #9ca3af;
+}
+
+/* ── Shipping info ────────────────────────────────────────────────────────── */
+.pdf-shipping-info {
+    font-size: 0.8rem;
+    color: #374151;
+    margin: 0 0 7px 0;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(112, 8, 119, 0.04) 0%, rgba(176, 25, 107, 0.04) 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(112, 8, 119, 0.10);
+}
+
+.pdf-shipping-info a {
+    color: #700877;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pdf-shipping-info a:hover {
+    text-decoration: underline;
+}
+
+/* ── Special offer ────────────────────────────────────────────────────────── */
+.pdf-special-offer {
+    font-size: 0.8rem;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%);
+    padding: 6px 12px;
+    border-left: 3px solid #f59e0b;
+    border-radius: 0 8px 8px 0;
+    margin: 0 0 7px 0;
+    color: #92400e;
+    font-weight: 600;
+}
+
+/* ── Price & stock row ────────────────────────────────────────────────────── */
+.pdf-price-stock-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(112, 8, 119, 0.09);
+    margin-top: 2px;
+}
+
+.pdf-price {
+    font-size: 1.8rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #700877 0%, #b0196b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+@media (max-width: 767px) {
+    .pdf-price { font-size: 1.5rem; }
+}
+
+.pdf-stock-status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 13px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.pdf-stock-in-stock {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.09) 100%);
+    color: #059669;
+    border: 1px solid rgba(5, 150, 105, 0.28);
+}
+
+.pdf-stock-out-of-stock {
+    background: rgba(231, 76, 60, 0.10);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.22);
+}
+
+/* ── Action buttons ───────────────────────────────────────────────────────── */
+.pdf-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+@media (min-width: 500px) {
+    .pdf-actions {
+        flex-direction: row;
+    }
+}
+
+.pdf-button {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    flex-grow: 1;
+    border: none;
+    cursor: pointer;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 0.02em;
+}
+
+.pdf-button:hover {
+    transform: translateY(-2px);
+}
+
+.pdf-button:active {
+    transform: translateY(0);
+}
+
+/* Buy Now */
+.pdf-button-buy {
+    background: linear-gradient(135deg, #700877 0%, #b0196b 55%, #ff2759 100%);
+    color: #fff !important;
+    box-shadow: 0 4px 18px rgba(112, 8, 119, 0.30);
+}
+
+.pdf-button-buy:hover {
+    opacity: 0.88;
+    box-shadow: 0 8px 28px rgba(112, 8, 119, 0.42);
+    color: #fff !important;
+}
+
+/* Out of stock */
+.pdf-button-oos {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* Back to Deals */
+.pdf-button-back {
+    background: transparent;
+    color: #700877;
+    border: 2px solid rgba(112, 8, 119, 0.30);
+    box-shadow: none;
+    flex-grow: 0.6;
+}
+
+.pdf-button-back:hover {
+    background: rgba(112, 8, 119, 0.06);
+    border-color: #700877;
+    color: #700877;
+}
+
+/* ── Trust signals row ────────────────────────────────────────────────────── */
+.pdf-trust-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3px 12px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(112, 8, 119, 0.08);
+}
+
+.pdf-trust-item {
+    font-size: 0.76rem;
+    color: #6b7280;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+/* ── Loading / Error states ───────────────────────────────────────────────── */
 .pdf-status-container {
     display: flex;
     flex-direction: column;
@@ -17,19 +429,17 @@
 }
 
 .pdf-spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
+    border: 4px solid rgba(112, 8, 119, 0.12);
     border-radius: 50%;
-    border-top-color: #3498db;
-    width: 35px;
-    height: 35px;
+    border-top-color: #700877;
+    width: 36px;
+    height: 36px;
     animation: pdf-spin 1s linear infinite;
     margin-bottom: 1rem;
 }
 
 @keyframes pdf-spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 .pdf-error h2 {
@@ -40,337 +450,4 @@
 .pdf-error p {
     color: #555;
     margin-bottom: 1.5rem;
-}
-
-.pdf-error .pdf-button-back {
-    margin-top: 1rem;
-}
-
-/* Ensure button style applies */
-
-/* --- Card Layout --- */
-.pdf-card {
-    display: grid;
-    grid-template-columns: 1fr;
-
-    gap: 1.5rem;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
-    overflow: hidden;
-}
-
-@media (min-width: 768px) {
-    .pdf-card {
-        grid-template-columns: 2fr 3fr;
-        gap: 2rem;
-    }
-}
-
-/* --- Image Section --- */
-.pdf-image-section {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    background-color: #ffffff;
-    min-height: 300px;
-
-}
-
-.pdf-image {
-    display: block;
-    max-width: 100%;
-    max-height: 400px;
-    height: auto;
-    object-fit: contain;
-}
-
-.pdf-discount-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background-color: #e74c3c;
-    color: white;
-    padding: 0.3rem 0.7rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-
-/* --- Info Section --- */
-.pdf-info-section {
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-
-
-}
-
-
-
-
-
-
-/* --- Header --- */
-.pdf-header {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 1rem;
-}
-
-.pdf-header h1 {
-    font-size: 1.7rem;
-    margin: 0 0 0.25rem 0;
-    color: #6000ce;
-    line-height: 1;
-}
-
-.pdf-brand {
-    font-size: 0.95rem;
-    color: #666;
-    display: block;
-}
-
-/* --- Description (Targets elements rendered by parser) --- */
-.pdf-description {
-    color: #444;
-    line-height: 1.65;
-    font-size: 0.95rem;
-    flex-grow: 1;
-    overflow-wrap: break-word;
-}
-
-.pdf-description h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 1.5rem 0 0.7rem 0;
-    color: #333;
-}
-
-.pdf-description h3:first-child {
-    margin-top: 0;
-}
-
-.pdf-description p {
-    margin: 0;
-}
-
-.pdf-description strong {
-    display: block;
-    font-weight: 600;
-    font-size: 1.10em;
-    margin-top: 0.8em;
-    margin-bottom: 0.5;
-    color: #000000;
-}
-
-.feature-section {
-    display: block;
-    font-weight: 600;
-    font-size: 1.10em;
-    color: #000000;
-}
-
-.pdf-description ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1rem 0;
-}
-
-.pdf-description li {
-    padding-left: 0;
-}
-
-.pdf-description br {
-    display: block;
-    content: "";
-    margin-top: 0.8rem;
-}
-
-.pdf-description a {
-    color: #3498db;
-    text-decoration: underline;
-}
-
-.pdf-description a:hover {
-    color: #2980b9;
-}
-
-/* --- Price & Stock --- */
-.pdf-price-stock-section {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-top: 1px solid #eee;
-}
-
-.pdf-price {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #27ae60;
-}
-
-.pdf-stock-status {
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    text-transform: uppercase;
-}
-
-/* Match class names used in component state */
-.pdf-stock-in-stock {
-    background-color: rgba(39, 174, 96, 0.1);
-    color: #27ae60;
-}
-
-.pdf-stock-out-of-stock {
-    background-color: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-}
-
-/* --- Rating --- */
-.pdf-rating {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    color: #777;
-    font-size: 0.9rem;
-}
-
-.pdf-star {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 1px;
-    color: #ccc;
-
-    position: relative;
-
-}
-
-.pdf-star {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 1px;
-    color: #ccc;
-}
-
-.pdf-star-filled {
-    color: #f39c12;
-
-}
-
-.pdf-star-half {
-    display: inline-block;
-    position: relative;
-
-    color: #ccc;
-
-}
-
-.pdf-star-half::before {
-    content: '★';
-
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 50%;
-
-    overflow: hidden;
-    color: #f39c12;
-
-}
-
-/* Simple half star */
-.pdf-star-empty {
-    color: #ccc;
-}
-
-.pdf-rating-value {
-    font-weight: bold;
-    color: #555;
-    margin-left: 0.35rem;
-
-}
-
-.pdf-review-count {
-    color: #777;
-    margin-left: 0.35rem;
-}
-
-/* --- Special Offer --- */
-.pdf-special-offer {
-    font-size: 0.9rem;
-    background-color: #eaf5ff;
-    padding: 0.7rem 1rem;
-    border-left: 3px solid #3498db;
-    margin: 1rem 0;
-}
-
-/* --- Actions --- */
-.pdf-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: auto;
-
-}
-
-@media (min-width: 500px) {
-    .pdf-actions {
-        flex-direction: row;
-    }
-}
-
-.pdf-button {
-    padding: 0.7rem 1rem;
-    border-radius: 5px;
-    font-weight: 600;
-    text-align: center;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    flex-grow: 1;
-    border: none;
-    cursor: pointer;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.pdf-button:hover {
-    transform: translateY(-1px);
-}
-
-.pdf-button:active {
-    transform: translateY(0px);
-}
-
-.pdf-button-buy {
-    background-color: #27ae60;
-    color: white;
-}
-
-.pdf-button-buy:hover {
-    background-color: #229954;
-}
-
-.pdf-button-oos {
-    background-color: #95a5a6;
-    color: #ecf0f1;
-    cursor: not-allowed;
-}
-
-.pdf-button-back {
-    background-color: #f0f0f0;
-    color: #555;
-    border: 1px solid #ccc;
-}
-
-.pdf-button-back:hover {
-    background-color: #e5e5e5;
 }

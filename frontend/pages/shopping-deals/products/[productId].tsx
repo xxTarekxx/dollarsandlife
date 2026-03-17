@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import parse from "html-react-parser";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -263,8 +264,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               onClick={() => window.history.back()}
               className='pdf-button pdf-button-back'
             >
-              Back to Deals
+              ← Back to Deals
             </button>
+          </div>
+          <div className='pdf-trust-row'>
+            <span className='pdf-trust-item'>🔒 Secure Checkout</span>
+            <span className='pdf-trust-item'>↩ Easy Returns</span>
+            <span className='pdf-trust-item'>✓ Verified Product</span>
+            <span className='pdf-trust-item'>⭐ Amazon Reviews</span>
           </div>
         </div>
       </article>
