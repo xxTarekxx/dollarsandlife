@@ -13,7 +13,7 @@ const BlogPostContent = dynamic(
 	}
 );
 
-interface BreakingNewsPost {
+export interface BreakingNewsPost {
 	// Ensure this interface matches the structure of your posts
 	id: string;
 	headline: string;

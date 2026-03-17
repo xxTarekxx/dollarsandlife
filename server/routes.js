@@ -44,48 +44,70 @@ const isValidId = (id) => {
     return validIdPattern.test(id);
 };
 
+/**
+ * Resolve a MongoDB document into a flat, frontend-ready object.
+ *
+ * NEW multilingual structure:
+ *   { articleId: "slug", sortOrder: 1, languages: { en: {...}, ar: {...} } }
+ *   → returns { id: "slug", ...languages[locale] }  (falls back to "en")
+ *
+ * LEGACY flat structure:
+ *   { id: "slug", headline: "...", content: [...], ... }
+ *   → returned unchanged
+ */
+function resolveLocale(doc, locale) {
+    if (!doc) return null;
+    if (doc.languages && typeof doc.languages === 'object') {
+        const localized = (doc.languages[locale] && Object.keys(doc.languages[locale]).length)
+            ? doc.languages[locale]
+            : (doc.languages['en'] || {});
+        return { id: doc.articleId || doc.id || '', sortOrder: doc.sortOrder, ...localized };
+    }
+    return doc; // legacy: return as-is
+}
+
 const createContentRoutes = (collectionName, basePath) => {
     if (!collectionName || !basePath) {
         console.error(`❌ Invalid route config: collectionName="${collectionName}", basePath="${basePath}"`);
         return;
     }
 
-    // GET all
+    // GET all — optional ?lang=ar returns content in that locale, falls back to "en"
     router.get(`/${basePath}`, generalLimiter, async (req, res) => {
         try {
             const db = req.db;
             if (!db) return res.status(503).json({ error: "Database not available" });
 
-            const items = await db.collection(collectionName).find().sort({ sortOrder: -1 }).toArray();
-            res.json(items);
+            const locale = (typeof req.query.lang === 'string' && req.query.lang.trim())
+                ? req.query.lang.trim().toLowerCase() : 'en';
+
+            const docs = await db.collection(collectionName).find().sort({ sortOrder: -1 }).toArray();
+            res.json(docs.map(doc => resolveLocale(doc, locale)).filter(Boolean));
         } catch (err) {
             res.status(500).json({ error: 'Internal server error', details: err.message });
         }
     });
 
-    // GET by ID
+    // GET by ID — optional ?lang=ar returns content in that locale, falls back to "en"
     router.get(`/${basePath}/:id`, strictLimiter, async (req, res) => {
         try {
             const db = req.db;
             if (!db) return res.status(503).json({ error: "Database not available" });
 
             const requestedId = req.params.id.toLowerCase();
-
-            // Validate and sanitize the ID parameter to prevent regex injection
             if (!isValidId(requestedId)) {
                 return res.status(400).json({ error: 'Invalid ID format' });
             }
 
-            // Use exact match instead of regex to prevent injection
-            const post = await db.collection(collectionName).findOne({
-                id: requestedId
-            });
+            const locale = (typeof req.query.lang === 'string' && req.query.lang.trim())
+                ? req.query.lang.trim().toLowerCase() : 'en';
 
-            if (!post) {
-                return res.status(404).json({ error: 'Post not found' });
-            }
+            // Try new structure (articleId) first, then legacy (id)
+            let doc = await db.collection(collectionName).findOne({ articleId: requestedId });
+            if (!doc) doc = await db.collection(collectionName).findOne({ id: requestedId });
+            if (!doc) return res.status(404).json({ error: 'Post not found' });
 
-            res.json(post);
+            res.json(resolveLocale(doc, locale));
         } catch (err) {
             res.status(500).json({ error: 'Internal server error', details: err.message });
         }
@@ -136,8 +158,10 @@ router.post('/fix-normalize-ids-lowercase', async (req, res) => {
             const docs = await coll.find({}).toArray();
             let count = 0;
             for (const doc of docs) {
-                if (doc.id && doc.id !== doc.id.toLowerCase()) {
-                    await coll.updateOne({ _id: doc._id }, { $set: { id: doc.id.toLowerCase() } });
+                // Handle both new (articleId) and legacy (id) field names
+                const idField = doc.articleId !== undefined ? 'articleId' : 'id';
+                if (doc[idField] && doc[idField] !== doc[idField].toLowerCase()) {
+                    await coll.updateOne({ _id: doc._id }, { $set: { [idField]: doc[idField].toLowerCase() } });
                     count++;
                 }
             }

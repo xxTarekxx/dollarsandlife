@@ -30,7 +30,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
 	};
 
 	return (
-		<nav aria-label='Breadcrumb Navigation' className='breadcrumb-wrapper'>
+		<nav aria-label='Breadcrumb Navigation' className='breadcrumb-wrapper' style={{ flex: 1, minWidth: 0 }}>
 			{/* JSON-LD Structured Data for SEO */}
 			<script
 				type='application/ld+json'

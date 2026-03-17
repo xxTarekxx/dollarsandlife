@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import PaginationContainer from "src/components/pagination/PaginationContainer";
 import { getCanonicalUrl, getJsonLdUrl } from "../../src/utils/url";
+import { getClientApiBase } from "@/lib/api-base";
 
 interface Product {
 	id: string;
@@ -128,7 +129,7 @@ const ProductCard: React.FC<Product> = ({
 
 	return (
 		<div className='sd-product-card' data-id={id}>
-			<Link href={detailUrl} aria-label={`View details for ${headline}`}>
+			<Link href={detailUrl} prefetch={false} aria-label={`View details for ${headline}`}>
 				<img
 					src={image.url}
 					alt={image.caption || headline}
@@ -138,7 +139,7 @@ const ProductCard: React.FC<Product> = ({
 			</Link>
 			<div className='sd-product-details'>
 				<h2 className='sd-product-title'>
-					<Link href={detailUrl} className='sd-product-title-link'>
+					<Link href={detailUrl} prefetch={false} className='sd-product-title-link'>
 						{headline}
 					</Link>
 				</h2>
@@ -200,7 +201,7 @@ const ProductCard: React.FC<Product> = ({
 				)}
 
 				<div className='sd-product-actions'>
-					<Link href={detailUrl} className='sd-view-details-button'>
+					<Link href={detailUrl} prefetch={false} className='sd-view-details-button'>
 						View Details
 					</Link>
 				</div>
@@ -261,7 +262,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 		setError(null);
 		try {
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/shopping-deals`,
+				`${getClientApiBase()}/shopping-deals`,
 			);
 			if (!response.ok)
 				throw new Error(`HTTP error! Status: ${response.status}`);

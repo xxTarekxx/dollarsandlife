@@ -1,25 +1,42 @@
+/* ── Breadcrumb bar ─────────────────────────────────────────────────────────
+   Full-width row that holds the breadcrumb trail (left) and the language
+   switcher (right). Always rendered so the language picker is reachable on
+   every page, including the home page where no trail is shown.
+──────────────────────────────────────────────────────────────────────────── */
+.breadcrumb-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 4px 20px 4px 20px;
+    box-sizing: border-box;
+    min-height: 36px;
+}
+
+/* ── Breadcrumb trail ─────────────────────────────────────────────────────── */
+
 .breadcrumb-container {
     background: transparent;
     margin-top: 0px;
-    padding-left: 20px;
-    width: 100%;
+    padding-left: 0;
+    flex: 1;
     display: flex;
     justify-content: flex-start;
 }
 
 .breadcrumb-list {
     list-style-type: none;
-    padding: 0px 0px 0px 16px;
+    padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .breadcrumb-item {
     font-size: 16px;
     display: flex;
     align-items: center;
-
 
     @media (max-width: 768px) {
         font-size: 8px;
@@ -61,5 +78,9 @@
         width: 8px;
         height: 4px;
         margin: 0 3px;
+    }
+
+    .breadcrumb-bar {
+        padding: 4px 12px;
     }
 }

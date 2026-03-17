@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
 import BlogPostCard from "../../src/components/articles-postcards/BlogPostCard";
+import { getClientApiBase } from "@/lib/api-base";
 import PaginationContainer from "../../src/components/pagination/PaginationContainer";
 
 interface BreakingNewsPost {
@@ -76,7 +77,7 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 		setLoading(true);
 		setClientError(null);
 		try {
-			const apiUrl = `${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/breaking-news`;
+			const apiUrl = `${getClientApiBase()}/breaking-news`;
 			const response = await fetch(apiUrl);
 			if (!response.ok)
 				throw new Error("Failed to fetch breaking news (client-side)");

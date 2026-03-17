@@ -68,6 +68,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 			className='blog-post-link-container'
 			style={{ textDecoration: "none", display: "block" }}
 			aria-label={`Read more about ${headline}`}
+			prefetch={false}
 		>
 			<figure className='card-container'>
 				<div className='card-image-wrapper'>

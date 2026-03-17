@@ -4,6 +4,7 @@ import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { getClientApiBase } from "@/lib/api-base";
 
 // Assuming MoneyMakingApp is structurally similar to BlogPost for BlogPostCard usage
 interface MoneyMakingApp {
@@ -72,7 +73,7 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 		setClientError(null);
 		try {
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/money-making-apps`,
+				`${getClientApiBase()}/money-making-apps`,
 			);
 			if (!response.ok)
 				throw new Error("Failed to fetch money making apps (client-side)");

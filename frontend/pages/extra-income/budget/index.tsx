@@ -4,6 +4,7 @@ import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { getClientApiBase } from "@/lib/api-base";
 
 interface BlogPost {
 	// Ensure this interface matches the structure of your posts
@@ -77,7 +78,7 @@ const Budget: React.FC<BudgetPageProps> = ({
 		setClientError(null);
 		try {
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/budget-data`,
+				`${getClientApiBase()}/budget-data`,
 			);
 			if (!response.ok)
 				throw new Error("Failed to fetch budget data (client-side)");
