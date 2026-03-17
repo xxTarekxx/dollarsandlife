@@ -1,0 +1,169 @@
+/* ── Language Switcher ───────────────────────────────────────────────────── */
+
+.language-switcher {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Trigger button ─────────────────────────────────────────────────────── */
+
+.language-switcher-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  background: rgba(151, 26, 225, 0.06);
+  border: 1px solid rgba(151, 26, 225, 0.25);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #555;
+  white-space: nowrap;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  line-height: 1;
+}
+
+.language-switcher-trigger:hover,
+.language-switcher-trigger[aria-expanded="true"] {
+  background: rgba(151, 26, 225, 0.12);
+  border-color: #971ae1;
+  color: #971ae1;
+}
+
+.language-switcher-globe {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.language-switcher-code {
+  letter-spacing: 0.04em;
+}
+
+.language-switcher-chevron {
+  font-size: 0.65rem;
+  display: inline-block;
+  transition: transform 0.2s ease;
+  margin-left: 1px;
+  opacity: 0.7;
+}
+
+.language-switcher-trigger[aria-expanded="true"] .language-switcher-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown panel ─────────────────────────────────────────────────────── */
+
+@keyframes ls-open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.language-switcher-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 252px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  padding: 6px;
+
+  /* 2-column grid — fits all languages in a compact panel */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+
+  animation: ls-open 0.15s ease forwards;
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #ddd transparent;
+}
+
+.language-switcher-dropdown::-webkit-scrollbar {
+  width: 4px;
+}
+
+.language-switcher-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.language-switcher-dropdown::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 4px;
+}
+
+/* ── Individual language option ─────────────────────────────────────────── */
+
+.language-switcher-option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 7px 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #444;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.language-switcher-option:hover {
+  background: rgba(151, 26, 225, 0.08);
+  color: #971ae1;
+}
+
+.language-switcher-option.active {
+  background: rgba(151, 26, 225, 0.12);
+  color: #971ae1;
+  font-weight: 600;
+}
+
+.language-switcher-check {
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  color: #971ae1;
+}
+
+/* ── RTL support ────────────────────────────────────────────────────────── */
+/* Keep dropdown right-aligned so it always opens left into the page (never off right edge). */
+[dir="rtl"] .language-switcher-dropdown {
+  right: 0;
+  left: auto;
+}
+
+[dir="rtl"] .language-switcher-option {
+  text-align: right;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1076px) {
+  .language-switcher-trigger {
+    padding: 5px 8px;
+    gap: 3px;
+  }
+
+  .language-switcher-dropdown {
+    width: 220px;
+    right: 0;
+  }
+}

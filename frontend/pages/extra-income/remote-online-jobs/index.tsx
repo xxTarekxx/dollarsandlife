@@ -4,6 +4,7 @@ import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { getClientApiBase } from "@/lib/api-base";
 
 // Assuming RemoteJob is structurally similar to BlogPost for BlogPostCard usage
 interface RemoteJob {
@@ -45,8 +46,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 		const initialRemoteJobs: RemoteJob[] = Array.isArray(initialRemoteJobsData)
 			? initialRemoteJobsData
 			: initialRemoteJobsData
-			? [initialRemoteJobsData]
-			: [];
+				? [initialRemoteJobsData]
+				: [];
 		return { props: { initialRemoteJobs } };
 	} catch (error) {
 		console.error("SSR Exception fetching remote jobs list:", error);
@@ -78,7 +79,7 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 		setClientError(null);
 		try {
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/remote-jobs`,
+				`${getClientApiBase()}/remote-jobs`,
 			);
 			if (!response.ok)
 				throw new Error("Failed to fetch remote jobs (client-side)");
@@ -158,21 +159,21 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 						})),
 					})}
 				</script>
-						<meta property='og:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
-			<meta
-				property='og:description'
-				content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
-			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/remote-online-jobs' />
-			<meta property='og:type' content='website' />
-			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
-			<meta
-				name='twitter:description'
-				content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
-			/>
-			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta property='og:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
+				<meta
+					property='og:description'
+					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
+				/>
+				<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/remote-online-jobs' />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
+				<meta
+					name='twitter:description'
+					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			{/* Routing refactored to list view here, detail view in remote-online-jobs-[id].tsx */}

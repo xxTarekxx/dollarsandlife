@@ -4,6 +4,7 @@ import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react";
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { getClientApiBase } from "@/lib/api-base";
 
 // Assuming FreelanceJob is structurally similar to BlogPost for BlogPostCard usage
 interface FreelanceJob {
@@ -81,7 +82,7 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 		setLoading(true);
 		setClientError(null);
 		try {
-			const apiUrl = `${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/freelance-jobs`;
+			const apiUrl = `${getClientApiBase()}/freelance-jobs`;
 			const response = await fetch(apiUrl);
 			if (!response.ok)
 				throw new Error("Failed to fetch freelance jobs (client-side)");

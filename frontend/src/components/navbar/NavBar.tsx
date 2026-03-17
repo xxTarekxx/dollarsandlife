@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import React, { Suspense, lazy, memo, useEffect, useState } from "react";
+import { prefixLang } from "@/lib/i18n/prefixLang";
+import type { NavLabels } from "@/lib/i18n/ui-translations";
 import searchIcon from "../../assets/images/favicon/searchicon.svg";
 import logoImagePath from "../../assets/images/website-logo.webp";
 
@@ -10,7 +14,7 @@ const SearchFeature = lazy(() => import("./SearchFeature"));
 // Define the breakpoint constant
 const MOBILE_BREAKPOINT = 1076;
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC<{ lang?: string; labels?: NavLabels }> = ({ lang, labels }) => {
 	// State for menu and search visibility
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isClosing, setIsClosing] = useState(false); // For menu animation
@@ -18,6 +22,7 @@ const NavBar: React.FC = () => {
 	const [isClient, setIsClient] = useState(false);
 
 	const router = useRouter();
+	const pathname = usePathname() ?? "";
 
 	// Ensure we're on the client side
 	useEffect(() => {
@@ -63,16 +68,16 @@ const NavBar: React.FC = () => {
 					// Use setTimeout to allow animation to play
 					setMenuOpen(false);
 					setIsClosing(false);
-					router.push(to);
+					router.push(prefixLang(to, lang));
 				}, 500); // Match CSS animation duration
 			} else {
 				// If menu isn't open on mobile, just navigate (e.g. logo click)
 				// Or if it's already closing, the navigation will happen after animation.
-				if (!menuOpen) router.push(to);
+				if (!menuOpen) router.push(prefixLang(to, lang));
 			}
 		} else {
 			// Desktop: just navigate
-			router.push(to);
+			router.push(prefixLang(to, lang));
 		}
 	};
 
@@ -95,26 +100,26 @@ const NavBar: React.FC = () => {
 		}
 	};
 
-	// Define menu items including the forum link
+	// Define menu items — use translated labels when provided, else fall back to English
 	const menuItems = [
-		{ to: "/forum", text: "Forum" },
-		{ to: "/extra-income", text: "Extra Income" },
-		{ to: "/shopping-deals", text: "Shopping Deals" },
-		{ to: "/start-a-blog", text: "Start A Blog" },
-		{ to: "/breaking-news", text: "Breaking News" },
-		{ to: "/financial-calculators", text: "Financial Calculators" },
-		{ to: "/about-us", text: "About Us" },
+		{ to: "/forum", text: labels?.forum ?? "Forum" },
+		{ to: "/extra-income", text: labels?.extraIncome ?? "Extra Income" },
+		{ to: "/shopping-deals", text: labels?.shoppingDeals ?? "Shopping Deals" },
+		{ to: "/start-a-blog", text: labels?.startABlog ?? "Start A Blog" },
+		{ to: "/breaking-news", text: labels?.breakingNews ?? "Breaking News" },
+		{ to: "/financial-calculators", text: labels?.financialCalculators ?? "Financial Calculators" },
+		{ to: "/about-us", text: labels?.aboutUs ?? "About Us" },
 	];
 
 	// Get current pathname safely
-	const currentPathname = isClient ? router.pathname : "";
+	const currentPathname = isClient ? pathname : "";
 
 	return (
 		<nav className='nav'>
 			{/* Logo */}
 			<div className='logo'>
 				<Link
-					href='/'
+					href={prefixLang("/", lang)}
 					aria-label='Home'
 					onClick={(e) => {
 						// Ensure menu closes if logo is clicked on mobile
@@ -124,7 +129,7 @@ const NavBar: React.FC = () => {
 							window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches
 						) {
 							e.preventDefault();
-							closeMenuAndNavigate("/");
+							closeMenuAndNavigate(prefixLang("/", lang));
 						}
 						// For desktop, default Link behavior is fine, or use closeMenuAndNavigate if preferred
 					}}
@@ -154,19 +159,17 @@ const NavBar: React.FC = () => {
 						) => (
 							<Link
 								key={i}
-								href={link.to}
+								href={prefixLang(link.to, lang)}
 								className={`menu-item ${
-									// Special highlighting for Forum if on any /forum path
-									(link.to === "/forum" &&
-										currentPathname.startsWith("/forum")) ||
-									(currentPathname.startsWith(link.to) && link.to !== "/") || // Avoid highlighting all for "/"
-									(currentPathname === "/" && link.to === "/") // Explicitly for home if needed
+									(currentPathname === prefixLang("/", lang) && link.to === "/") ||
+									(link.to !== "/" &&
+										currentPathname.startsWith(prefixLang(link.to, lang)))
 										? "active"
 										: ""
 								}`}
 								onClick={(e) => {
 									e.preventDefault();
-									closeMenuAndNavigate(link.to);
+									closeMenuAndNavigate(prefixLang(link.to, lang));
 								}}
 								style={{ animationDelay: `${i * 0.1}s` }}
 							>

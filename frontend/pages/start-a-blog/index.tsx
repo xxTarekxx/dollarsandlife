@@ -4,6 +4,7 @@ import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../src/components/pagination/PaginationContainer";
+import { getClientApiBase } from "@/lib/api-base";
 
 interface BlogPost {
 	// Ensure this interface matches the structure of your posts
@@ -79,7 +80,7 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 		setClientError(null);
 		try {
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/start-blog`,
+				`${getClientApiBase()}/start-blog`,
 			);
 			if (!response.ok)
 				throw new Error("Failed to fetch start-a-blog posts (client-side)");
