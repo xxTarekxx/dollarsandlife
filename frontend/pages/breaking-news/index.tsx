@@ -189,7 +189,19 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 			)}
 			{!loading && !clientError && (
 				<>
-					<h1 className='title-heading'>Breaking News</h1>
+					<div className='section-hero'>
+						<p className='section-hero-eyebrow'>Latest News</p>
+						<h1 className='section-hero-title'>
+							Breaking <span>News</span>
+						</h1>
+						<p className='section-hero-sub'>
+							Stay updated with the latest financial, business, and economic
+							news — real-time insights on the stories that matter most.
+						</p>
+						{breakingNews.length > 0 && (
+							<span className='section-hero-count'>{breakingNews.length} articles</span>
+						)}
+					</div>
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => {
 							const href = `/breaking-news/${post.id}`;

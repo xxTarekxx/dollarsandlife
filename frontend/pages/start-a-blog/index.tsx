@@ -181,10 +181,19 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 			)}
 			{!loading && !clientError && (
 				<>
-					<h1>
-						How to Start a Successful Blog <br /> in 2025 Step-by-Step Guide for
-						Beginners
-					</h1>
+					<div className='section-hero'>
+						<p className='section-hero-eyebrow'>Start A Blog</p>
+						<h1 className='section-hero-title'>
+							How to Start a <span>Blog</span>
+						</h1>
+						<p className='section-hero-sub'>
+							A step-by-step 2025 guide — from picking your niche to
+							launching and growing a successful blog.
+						</p>
+						{blogPosts.length > 0 && (
+							<span className='section-hero-count'>{blogPosts.length} articles</span>
+						)}
+					</div>
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => (
 							<BlogPostCard

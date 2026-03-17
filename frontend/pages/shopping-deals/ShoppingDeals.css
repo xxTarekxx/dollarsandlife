@@ -1,48 +1,18 @@
-/* ShoppingDeals.css - Rewritten with sd- prefix */
+/* ShoppingDeals.css — modernised with brand palette */
 
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
 .sd-page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    padding: 20px 15px;
-
+    padding: 0 15px 40px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     max-width: 1400px;
-
     margin: 0 auto;
-
     box-sizing: border-box;
 }
 
-.sd-page-title {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-
-    color: #6000ce;
-
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-family: 'Playfair Display', serif;
-
-}
-
-/* --- Optional Banner --- */
-.sd-top-banner-container {
-    width: 100%;
-    max-width: 728px;
-
-    margin: 0 auto 2rem auto;
-
-}
-
-.sd-top-banner-container img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-/* --- Loading / Error Indicators --- */
+/* ── Loading / Error / Empty ──────────────────────────────────────────────── */
 .sd-loading-indicator,
 .sd-error-indicator,
 .sd-no-products {
@@ -58,75 +28,91 @@
     font-weight: bold;
 }
 
-/* --- Products Grid --- */
+/* ── Products grid ────────────────────────────────────────────────────────── */
 .sd-products-grid {
     display: grid;
-
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
     width: 100%;
     max-width: 1300px;
-
-    margin: 1rem 0 2rem 0;
-
+    margin: 0 0 2rem 0;
 }
 
-/* --- Product Card --- */
+/* ── Product card ─────────────────────────────────────────────────────────── */
 .sd-product-card {
     background: #fff;
-    border-radius: 8px;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
+    border-radius: 16px;
+    box-shadow:
+        0 4px 24px rgba(112, 8, 119, 0.07),
+        0 1px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(112, 8, 119, 0.10);
     overflow: hidden;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     display: flex;
     flex-direction: column;
-
 }
 
 .sd-product-card:hover {
     transform: translateY(-5px);
-
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    box-shadow:
+        0 10px 32px rgba(112, 8, 119, 0.14),
+        0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
-/* Card Image */
+/* ── Image area ───────────────────────────────────────────────────────────── */
+.sd-product-image-wrap {
+    position: relative;
+    background: #f8f5ff;
+    border-bottom: 1px solid rgba(112, 8, 119, 0.08);
+    overflow: hidden;
+}
+
 .sd-product-image {
     display: block;
     width: 100%;
     aspect-ratio: 1 / 1;
-
     object-fit: contain;
-
-    background-color: #f9f9f9;
-
-    border-bottom: 1px solid #eee;
-
-    padding: 10px;
-
+    padding: 16px;
     box-sizing: border-box;
+    transition: transform 0.35s ease;
 }
 
-/* Card Details Container */
+.sd-product-card:hover .sd-product-image {
+    transform: scale(1.04);
+}
+
+/* ── Discount badge (overlay on image) ───────────────────────────────────── */
+.sd-discount-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, #e53935 0%, #ff5252 100%);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 4px 9px;
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(229, 57, 53, 0.35);
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+/* ── Card body ────────────────────────────────────────────────────────────── */
 .sd-product-details {
-    padding: 15px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-
-    text-align: left;
-
 }
 
-/* Card Title */
+/* ── Title ────────────────────────────────────────────────────────────────── */
 .sd-product-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #6000ce;
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: #2d0057;
     margin: 0 0 8px 0;
-    line-height: 1.3;
+    line-height: 1.4;
     font-family: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -134,7 +120,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-clamp: 2;
-    box-orient: vertical;
+    /* no text-align override — App.css center is fine */
 }
 
 .sd-product-title a {
@@ -143,42 +129,41 @@
 }
 
 .sd-product-title a:hover {
-    color: #6000ce;
+    color: #700877;
     text-decoration: underline;
 }
 
-
-/* Card Description Snippet */
+/* ── Description snippet ──────────────────────────────────────────────────── */
 .sd-product-description-snippet {
-    font-size: 0.85rem;
-    color: #666;
+    font-size: 0.82rem;
+    color: #6b7280;
     margin: 0 0 12px 0;
-    line-height: 1.5;
+    line-height: 1.55;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     line-clamp: 3;
-    box-orient: vertical;
     flex-grow: 1;
 }
 
-/* Card Price Section */
+/* ── Price row ────────────────────────────────────────────────────────────── */
 .sd-product-price-section {
-    margin: 8px 0;
+    margin: 8px 0 10px;
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 8px;
     flex-wrap: wrap;
-
 }
 
 .sd-current-price {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #1a936f;
-
+    font-size: 1.35rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #700877 0%, #b0196b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .sd-unavailable-price {
@@ -186,38 +171,59 @@
     color: #c0392b;
     font-style: italic;
     font-weight: 500;
+    -webkit-text-fill-color: #c0392b;
 }
 
+/* inline discount pill (below price, no longer on image) — kept for fallback */
 .sd-discount-percentage {
-    font-size: 0.8rem;
-    color: #e74c3c;
-    background-color: rgba(231, 76, 60, 0.1);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-weight: 500;
+    font-size: 0.72rem;
+    color: #e53935;
+    background-color: rgba(229, 57, 53, 0.10);
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
 }
 
+/* ── Special offer pill ───────────────────────────────────────────────────── */
 .sd-special-offer-badge {
-    font-size: 0.8rem;
-    color: #c85a04;
-    background-color: #fff8e1;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-weight: 500;
-    margin: 0 0 8px 0;
-    border: 1px solid #ffecc1;
+    display: inline-block;
+    font-size: 0.75rem;
+    color: #b45309;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    border: 1px solid #f5c842;
 }
 
+/* ── Shipping info ────────────────────────────────────────────────────────── */
+.sd-shipping-info {
+    font-size: 0.78rem;
+    color: #374151;
+    margin: 0 0 8px 0;
+}
 
-/* Card Rating Section (Matches ProductDetails styles) */
+.sd-shipping-info a {
+    color: #700877;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sd-shipping-info a:hover {
+    text-decoration: underline;
+}
+
+/* ── Rating row ───────────────────────────────────────────────────────────── */
 .sd-product-rating {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
-    margin: 0 0 12px 0;
-    color: #777;
-    font-size: 0.85rem;
+    gap: 4px;
+    margin: 0 0 10px 0;
+    font-size: 0.8rem;
+    color: #6b7280;
 }
 
 .sd-stars {
@@ -228,22 +234,19 @@
 }
 
 .sd-star {
-    /* Base empty */
     display: inline-block;
     vertical-align: middle;
     margin-right: 1px;
-    color: #ccc;
+    color: #d1d5db;
     position: relative;
 }
 
-.sd-star-filled {
-    color: #f39c12;
-}
+.sd-star-filled { color: #f59e0b; }
 
 .sd-star-half {
     display: inline-block;
     position: relative;
-    color: #ccc;
+    color: #d1d5db;
 }
 
 .sd-star-half::before {
@@ -253,57 +256,76 @@
     top: 0;
     width: 50%;
     overflow: hidden;
-    color: #f39c12;
+    color: #f59e0b;
 }
 
-.sd-star-empty {
-    color: #ccc;
-}
+.sd-star-empty { color: #d1d5db; }
 
 .sd-rating-value {
-    font-weight: bold;
-    color: #555;
-    margin-left: 3px;
+    font-weight: 700;
+    color: #374151;
 }
 
-/* .sd-review-count { color: #777; margin-left: 3px; } */
-
-
-/* Card Action Button */
+/* ── CTA button ───────────────────────────────────────────────────────────── */
 .sd-product-actions {
     margin-top: auto;
-
     padding-top: 12px;
-
-    border-top: 1px solid #f0f0f0;
-
+    border-top: 1px solid rgba(112, 8, 119, 0.08);
 }
 
 .sd-view-details-button {
     display: block;
-    padding: 8px 15px;
-    background-color: #007bff;
-    color: white;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #700877 0%, #b0196b 55%, #ff2759 100%);
+    color: #fff !important;
     text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    border-radius: 10px;
+    transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
     text-align: center;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    box-shadow: 0 3px 12px rgba(112, 8, 119, 0.25);
 }
 
 .sd-view-details-button:hover {
-    background-color: #6000ce;
-    color: white;
-    transform: translateY(-1px);
+    opacity: 0.88;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(112, 8, 119, 0.35);
+    color: #fff !important;
 }
 
-/* --- Ad Container (Basic Styling) --- */
+/* ── Ad container ─────────────────────────────────────────────────────────── */
 .sd-ad-container {
     display: flex;
     justify-content: center;
     width: 100%;
     margin: 2rem 0;
     min-height: 90px;
+}
 
+/* ── Optional top banner ──────────────────────────────────────────────────── */
+.sd-top-banner-container {
+    width: 100%;
+    max-width: 728px;
+    margin: 0 auto 2rem auto;
+}
+
+.sd-top-banner-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .sd-products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    .sd-current-price {
+        font-size: 1.15rem;
+    }
 }

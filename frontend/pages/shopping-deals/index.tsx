@@ -129,14 +129,20 @@ const ProductCard: React.FC<Product> = ({
 
 	return (
 		<div className='sd-product-card' data-id={id}>
-			<Link href={detailUrl} prefetch={false} aria-label={`View details for ${headline}`}>
-				<img
-					src={image.url}
-					alt={image.caption || headline}
-					className='sd-product-image'
-					loading='lazy'
-				/>
-			</Link>
+			{/* Image area with optional discount badge overlay */}
+			<div className='sd-product-image-wrap'>
+				<Link href={detailUrl} prefetch={false} aria-label={`View details for ${headline}`}>
+					<img
+						src={image.url}
+						alt={image.caption || headline}
+						className='sd-product-image'
+						loading='lazy'
+					/>
+				</Link>
+				{discountPercentage && (
+					<span className='sd-discount-badge'>{discountPercentage}% OFF</span>
+				)}
+			</div>
 			<div className='sd-product-details'>
 				<h2 className='sd-product-title'>
 					<Link href={detailUrl} prefetch={false} className='sd-product-title-link'>
@@ -146,11 +152,6 @@ const ProductCard: React.FC<Product> = ({
 				<p className='sd-product-description-snippet'>{descriptionSnippet}</p>
 
 				<div className='sd-product-price-section'>
-					{discountPercentage && (
-						<span className='sd-discount-percentage'>
-							{discountPercentage}% OFF
-						</span>
-					)}
 					<span
 						className={`sd-current-price ${!currentPrice || currentPrice.trim() === ""
 							? "sd-unavailable-price"
@@ -379,7 +380,18 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 			/>
 			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
-			<h1 className='sd-page-title'>Deals and Savings</h1>
+			<div className='section-hero'>
+		<p className='section-hero-eyebrow'>Shopping</p>
+		<h1 className='section-hero-title'>
+			Deals &amp; <span>Savings</span>
+		</h1>
+		<p className='section-hero-sub'>
+			Curated deals and discounts on top-rated products — hand-picked to help you save more every day.
+		</p>
+		{products.length > 0 && (
+			<span className='section-hero-count'>{products.length} deals</span>
+		)}
+	</div>
 			{loading && <div className='sd-loading-indicator'>Loading Deals...</div>}
 			{error && <div className='sd-error-indicator'>Error: {error}</div>}
 			{!loading && !error && currentProducts.length > 0 && (
