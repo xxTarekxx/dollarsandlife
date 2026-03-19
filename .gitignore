@@ -5,6 +5,11 @@
 .env.test.local
 .env.production.local
 deploy.ps1
+frontend/deploy.ps1
+deploy.env.ps1
+deploy.env.ps1.example
+frontend/deploy.env.ps1
+frontend/deploy.env.ps1.example
 # Dependencies
 node_modules/
 frontend/node_modules/
