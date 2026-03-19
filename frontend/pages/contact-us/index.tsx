@@ -204,7 +204,7 @@ const ContactUs: React.FC = () => {
 							url: "https://www.dollarsandlife.com/contact-us",
 							publisher: {
 								"@type": "Organization",
-								name: "Dollars And Life",
+								name: "Dollars & Life",
 								logo: {
 									"@type": "ImageObject",
 									url: "https://www.dollarsandlife.com/images/website-logo.webp",

@@ -150,7 +150,7 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 								position: index + 1,
 								headline: post.headline,
 								image: post.image.url,
-								author: { "@type": "Organization", name: post.author.name },
+								author: { "@type": "Person", name: post.author.name },
 								datePublished: post.datePublished,
 								url: `https://www.dollarsandlife.com/start-a-blog/${post.id}`,
 							})),

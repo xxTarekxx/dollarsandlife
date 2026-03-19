@@ -38,13 +38,13 @@ const PrivacyPolicy: React.FC = () => {
 					dangerouslySetInnerHTML={{
 						__html: JSON.stringify({
 							"@context": "https://schema.org",
-							"@type": "Article",
-							headline: "Privacy Policy - Dollars And Life",
+							"@type": "WebPage",
+							name: "Privacy Policy | Dollars & Life",
 							description:
 								"Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.",
 							publisher: {
 								"@type": "Organization",
-								name: "Dollars And Life",
+								name: "Dollars & Life",
 								logo: {
 									"@type": "ImageObject",
 									url: "https://www.dollarsandlife.com/images/website-logo.webp",

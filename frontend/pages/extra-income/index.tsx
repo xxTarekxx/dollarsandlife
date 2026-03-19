@@ -58,7 +58,7 @@ const ExtraIncome: React.FC = () => {
 	return (
 		<>
 			<Head>
-				<title>Extra Income Ideas | Freelancing, Remote Jobs &amp; Budgeting Tips</title>
+				<title>Extra Income Hub | Dollars &amp; Life</title>
 				<meta
 					name='description'
 					content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
@@ -105,7 +105,7 @@ const ExtraIncome: React.FC = () => {
 						}),
 					}}
 				/>
-						<meta property='og:title' content='Extra Income Ideas | Freelancing, Remote Jobs & Budgeting Tips' />
+						<meta property='og:title' content='Extra Income Hub | Dollars & Life' />
 			<meta
 				property='og:description'
 				content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
@@ -114,7 +114,7 @@ const ExtraIncome: React.FC = () => {
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:title' content='Extra Income Ideas | Freelancing, Remote Jobs & Budgeting Tips' />
+			<meta name='twitter:title' content='Extra Income Hub | Dollars & Life' />
 			<meta
 				name='twitter:description'
 				content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
@@ -123,7 +123,27 @@ const ExtraIncome: React.FC = () => {
 			</Head>
 
 			<div className='page-container'>
-				<h1>Explore Extra Income Opportunities</h1>
+				<div className='section-hero'>
+					<p className='section-hero-eyebrow'>Extra Income</p>
+					<h1 className='section-hero-title'>
+						Extra <span>Income</span> Hub
+					</h1>
+					<p className='section-hero-sub'>
+						Practical strategies to earn more money — on your own schedule, from anywhere.
+					</p>
+				</div>
+
+				<section className='page-intro' aria-label='About Extra Income'>
+					<p>
+						Building extra income is one of the most reliable ways to accelerate your financial goals — whether you want to pay off debt faster, build an emergency fund, or simply create more breathing room in your budget. The good news: you have more options than ever before.
+					</p>
+					<p>
+						At Dollars &amp; Life, we cover the full spectrum of legitimate income opportunities. From landing your first freelance client to finding a fully remote full-time role, from discovering the best money-making apps to launching a side business that generates passive revenue — every guide here is built on real-world experience, not theory.
+					</p>
+					<p>
+						Explore our four core categories below. Each one is packed with step-by-step guides, curated job listings, and practical tips you can act on today. Whether you have five hours a week or fifty, there is a strategy here that fits your life.
+					</p>
+				</section>
 
 				{/* Category Links */}
 				<div
@@ -150,7 +170,7 @@ const ExtraIncome: React.FC = () => {
 									loading={linkBox.priority ? "eager" : "lazy"}
 									width='220'
 									height='220'
-									{...(linkBox.priority ? { fetchpriority: "high" } : {})} // No warning
+									fetchPriority={linkBox.priority ? "high" : "auto"}
 								/>
 								<figcaption className='extraincome-figcaption'>
 									{linkBox.captionText}

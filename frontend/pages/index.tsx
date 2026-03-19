@@ -25,7 +25,7 @@ interface FAQItem {
 }
 
 const HomePage: React.FC = () => {
-	const [showContent, setShowContent] = useState(false);
+	const [showContent, setShowContent] = useState(true); // SSR-safe: initialize to true so content renders server-side
 
 
 
@@ -61,11 +61,12 @@ const HomePage: React.FC = () => {
 	// --- Page Specific Configuration ---
 	const siteUrl = "https://www.dollarsandlife.com/"; // Ensure trailing slash
 	const siteName = "DollarsAndLife.com";
+	const publisherName = "Dollars & Life";
 	const shortSiteName = "Dollars & Life";
 	const mainTitle = `${shortSiteName} | Smart Personal Finance & Extra Income`;
 	const mainDescription = `Smart budgeting guides, extra income strategies, shopping deals, and blogging tips to help you take control of your financial future.`;
 	const ogImageContent = `${siteUrl}og-image-homepage.jpg`; // Use absolute URL
-	const logoUrl = `${siteUrl}logo-512x512.png`; // Use absolute URL
+	const logoUrl = `${siteUrl}images/website-logo.webp`; // Use absolute URL
 	const founderLinkedInUrl =
 		"https://www.linkedin.com/in/tarek-ismael-96777578/";
 	const founderName = "Tarek I.";
@@ -128,7 +129,7 @@ const HomePage: React.FC = () => {
 				"Many options exist! Freelancing (writing, design, virtual assistance), online surveys, selling crafts, or starting a niche blog are popular. Our <a href='/extra-income' title='Extra income strategies'>extra income section</a> has detailed guides for getting started with minimal investment.",
 		},
 		{
-			question: "Is starting a blog still a good way to make money in 2024?",
+			question: "Is starting a blog still a good way to make money in 2025/2026?",
 			answer:
 				"Absolutely! While competitive, there's always room for authentic voices and valuable content. Success hinges on choosing the right niche, consistent effort, and smart monetization. Check out our <a href='/start-a-blog' title='Guide to starting a blog'>guide to starting a blog</a> to see if it's right for you.",
 		},
@@ -152,7 +153,7 @@ const HomePage: React.FC = () => {
 		},
 		publisher: {
 			"@type": "Organization",
-			name: siteName,
+			name: publisherName,
 			logo: {
 				"@type": "ImageObject",
 				url: logoUrl,
@@ -246,19 +247,12 @@ const HomePage: React.FC = () => {
 					content='personal finance, budgeting, earn extra income, shopping deals, start a blog, financial freedom, money management, Tarek I'
 				/>
 				<meta property='og:locale' content='en_US' />
-				{/* Google Fonts - Moved from CSS for better performance */}
-				<link rel='preconnect' href='https://fonts.googleapis.com' />
-				<link
-					rel='preconnect'
-					href='https://fonts.gstatic.com'
-					crossOrigin='anonymous'
-				/>
 				{/* Open Graph / Facebook */}
 				<meta property='og:type' content='website' />
 				<meta property='og:url' content={siteUrl} />
 				<meta
 					property='og:title'
-					content={`${shortSiteName} | Smart Personal Finance & Online Income`}
+					content={mainTitle}
 				/>
 				<meta property='og:description' content={mainDescription} />
 				<meta property='og:image' content={ogImageContent} />
@@ -270,7 +264,7 @@ const HomePage: React.FC = () => {
 				<meta name='twitter:url' content={siteUrl} />
 				<meta
 					name='twitter:title'
-					content={`${shortSiteName} | Actionable Finance Tips for a Better Life`}
+					content={mainTitle}
 				/>
 				<meta name='twitter:description' content={mainDescription} />
 				<meta name='twitter:image' content={ogImageContent} />
@@ -373,8 +367,7 @@ const HomePage: React.FC = () => {
 										width={200}
 										height={200}
 										loading={topic.priority ? "eager" : "lazy"}
-										// @ts-expect-error - fetchpriority is a newer attribute
-										fetchpriority={topic.priority ? "high" : "auto"}
+										fetchPriority={topic.priority ? "high" : "auto"}
 										decoding='async'
 									/>
 								</figure>

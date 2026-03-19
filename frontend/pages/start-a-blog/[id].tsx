@@ -2,6 +2,7 @@
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Link from "next/link";
 import React from "react";
 import { sanitizeAndTruncateHTML } from "../../src/utils/sanitization.server";
 
@@ -25,11 +26,13 @@ interface BlogPost {
 	content: { text: string }[];
 	canonicalUrl?: string;
 	metaDescription?: string;
+	availableLangs?: string[];
 }
 
 interface StartABlogPostDetailProps {
 	post: BlogPost | null;
 	error?: string;
+	locale?: string;
 }
 
 // Validation function to ensure id is safe
@@ -74,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		} else {
 			post.metaDescription = "Detailed start a blog post.";
 		}
-		return { props: { post } };
+		return { props: { post, locale } };
 	} catch (error) {
 		console.error(
 			`Error in getServerSideProps for start-a-blog post ${id}:`,
@@ -92,6 +95,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 	post,
 	error,
+	locale = 'en',
 }) => {
 	if (error) {
 		return (
@@ -116,7 +120,8 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 	}
 
 	// Always use the correct canonical URL pattern, ignoring database value
-	const canonicalUrl = `https://www.dollarsandlife.com/start-a-blog/${post.id}`;
+	const langPrefix = locale && locale !== 'en' ? `/${locale}` : '';
+	const canonicalUrl = `https://www.dollarsandlife.com${langPrefix}/start-a-blog/${post.id}`;
 
 	return (
 		<div className='page-container'>
@@ -125,6 +130,29 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 					} | Start a Blog`}</title>
 				<meta name='description' content={post.metaDescription} />
 				<link rel='canonical' href={canonicalUrl} />
+				{/* Hreflang: one tag per translated language + x-default */}
+				{(post.availableLangs ?? ['en']).map((lang) => (
+					<link key={lang} rel='alternate' hrefLang={lang}
+						href={lang === 'en'
+							? `https://www.dollarsandlife.com/start-a-blog/${post.id}`
+							: `https://www.dollarsandlife.com/${lang}/start-a-blog/${post.id}`
+						} />
+				))}
+				<link rel='alternate' hrefLang='x-default' href={`https://www.dollarsandlife.com/start-a-blog/${post.id}`} />
+				{/* Open Graph */}
+				<meta property='og:type' content='article' />
+				<meta property='og:title' content={Array.isArray(post.headline) ? post.headline.join("") : post.headline} />
+				<meta property='og:description' content={post.metaDescription} />
+				<meta property='og:url' content={canonicalUrl} />
+				<meta property='og:image' content={post.image.url} />
+				<meta property='og:image:width' content='1200' />
+				<meta property='og:image:height' content='630' />
+				<meta property='og:site_name' content='Dollars & Life' />
+				{/* Twitter */}
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content={Array.isArray(post.headline) ? post.headline.join("") : post.headline} />
+				<meta name='twitter:description' content={post.metaDescription} />
+				<meta name='twitter:image' content={post.image.url} />
 				<link rel='preload' href={post.image.url} as='image' />
 				<link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
 				<link rel='dns-prefetch' href='//www.googletagmanager.com' />
@@ -135,11 +163,17 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 						__html: JSON.stringify({
 							"@context": "https://schema.org",
 							"@type": "Article",
+							mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
 							headline: Array.isArray(post.headline) ? post.headline.join("") : post.headline,
-							image: post.image.url,
+							image: { "@type": "ImageObject", url: post.image.url },
 							author: {
-								"@type": "Organization",
+								"@type": "Person",
 								name: post.author.name,
+							},
+							publisher: {
+								"@type": "Organization",
+								name: "Dollars & Life",
+								logo: { "@type": "ImageObject", url: "https://www.dollarsandlife.com/images/website-logo.webp" },
 							},
 							datePublished: post.datePublished,
 							dateModified: post.dateModified || post.datePublished,
@@ -149,6 +183,14 @@ const StartABlogPostDetail: React.FC<StartABlogPostDetailProps> = ({
 				/>
 			</Head>
 			<BlogPostContent postData={post} />
+			<nav className='related-reading' aria-label='Related reading'>
+				<h3 className='related-reading-title'>Related Reading</h3>
+				<ul className='related-reading-list'>
+					<li><Link href='/extra-income/freelance-jobs' className='related-reading-link'>Freelance Jobs</Link></li>
+					<li><Link href='/extra-income/money-making-apps' className='related-reading-link'>Money-Making Apps</Link></li>
+					<li><Link href='/extra-income' className='related-reading-link'>Extra Income Strategies</Link></li>
+				</ul>
+			</nav>
 		</div>
 	);
 };

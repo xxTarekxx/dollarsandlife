@@ -41,7 +41,7 @@ const STATIC_PATHS = new Set([
     "/terms-of-service", "/financial-calculators", "/shopping-deals",
     "/start-a-blog", "/extra-income", "/extra-income/budget",
     "/extra-income/freelance-jobs", "/extra-income/remote-online-jobs",
-    "/extra-income/money-making-apps", "/breaking-news", "/forum",
+    "/extra-income/money-making-apps", "/breaking-news",
 ]);
 
 /** Languages to emit for a static path — only default (en); no URL without translation. */
@@ -258,6 +258,7 @@ const COLLECTIONS = [
 // ✅ Excluded routes (never add to sitemap)
 const EXCLUDED_ROUTES = [
     "/sentrypc-landing",
+    "/forum",
     "/forum/create-post",
     "/forum/my-posts",
 ];
@@ -390,6 +391,32 @@ async function generateSitemap() {
         };
         console.log("📝 Adding static routes (default language only)...");
 
+        const STATIC_FREQ = {
+            "/": "daily",
+            "/breaking-news": "daily",
+            "/shopping-deals": "daily",
+            "/extra-income": "weekly",
+            "/start-a-blog": "weekly",
+            "/financial-calculators": "weekly",
+            "/about-us": "monthly",
+            "/contact-us": "monthly",
+            "/return-policy": "monthly",
+            "/privacy-policy": "monthly",
+            "/terms-of-service": "monthly",
+        };
+        const STATIC_PRIORITY = {
+            "/": 1.0,
+            "/breaking-news": 0.9,
+            "/shopping-deals": 0.9,
+            "/extra-income": 0.9,
+            "/start-a-blog": 0.9,
+            "/financial-calculators": 0.8,
+            "/about-us": 0.6,
+            "/contact-us": 0.5,
+            "/return-policy": 0.3,
+            "/privacy-policy": 0.3,
+            "/terms-of-service": 0.3,
+        };
         staticRoutes.forEach((route) => {
             const normalizedPath = pathNorm(route);
             const langs = getLanguagesForStaticPath(normalizedPath);
@@ -397,8 +424,8 @@ async function generateSitemap() {
             langs.forEach((lang) => {
                 sitemap.write({
                     url: sitemapUrl(lang, normalizedPath),
-                    changefreq: "hourly",
-                    priority: 0.8,
+                    changefreq: STATIC_FREQ[normalizedPath] || "monthly",
+                    priority: STATIC_PRIORITY[normalizedPath] ?? 0.7,
                     links,
                 });
             });

@@ -107,7 +107,12 @@ const createContentRoutes = (collectionName, basePath) => {
             if (!doc) doc = await db.collection(collectionName).findOne({ id: requestedId });
             if (!doc) return res.status(404).json({ error: 'Post not found' });
 
-            res.json(resolveLocale(doc, locale));
+            const resolved = resolveLocale(doc, locale);
+            // Attach available language keys so the frontend can emit hreflang tags
+            if (doc.languages && typeof doc.languages === 'object') {
+                resolved.availableLangs = Object.keys(doc.languages);
+            }
+            res.json(resolved);
         } catch (err) {
             res.status(500).json({ error: 'Internal server error', details: err.message });
         }

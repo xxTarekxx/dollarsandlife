@@ -1,0 +1,102 @@
+{
+  "version": 2,
+  "files": {
+    "breakingnews.json": {
+      "fileHash": "9796647f71700993d546e44d6ed1ff0e8593ab35a7bbb342617e8070c8903461",
+      "itemHashes": {
+        "articleId:is-netanyahu-dead-or-alive-iran-conspiracy-2026": "5ce8ee94a21cf035c326086f955609971d0cb178cc12899e6b6e0a233d2c5281",
+        "articleId:fbi-iran-drone-threat-california-2026": "12ed7886bff52570817516653d86360eea93c0e2f1d24b821d7e092e7d0296d0",
+        "articleId:us-israel-iran-war-world-war-3": "e132795b691ae94deb144b04809cbbb15c130c58a0b80b82d27f71d40c75c9be",
+        "articleId:2026-winter-olympics-womens-free-skate-alysa-liu-gold-results": "d7f7f2a87e73d9c2984e9b1071ce140ac88e3c5c7f6958caf99639113c3333a7",
+        "articleId:global-tensions-war-risks": "c1f65d91adcdf53ce201db802bf3bb68985721e5c83dd561234ad871f9e9b996",
+        "articleId:us-venezuela-strike-maduro-capture-kidnapping-claims": "44fc0de0fb07b2655059aa5f2526adfb7d048d0830dadc85035d52ce5ddbab08",
+        "articleId:louvre-museum-heist-2025": "e6047bb90bd6d1b07dd5812748274a85dbbe2205de2ed6e9e0e4023b598e4e2d",
+        "articleId:market-crash-2025": "fc14b8102dcec1f4d8349aa0f789be9503bc4824b16731183b242b1f1169ff9e",
+        "articleId:high-noon-celsius-recall": "023223b8a808b7ea7a97ea16b7eb8fe21969a0896ba507a957a6b07f7fe1c347",
+        "articleId:layoffs-and-employment-2025": "c804374a7c5918beef11a1dad9e40c1bb57537dec7dbe98eedf86d52a616c57a",
+        "articleId:irs-tax-refund-schedule-2025": "fd6cfd406614f7711c64a1f493b2d9399b7ce34ca9efa904e7c42cf0a4c65cff",
+        "articleId:bitcoin-price-outlook": "08eb696d88ca5e03b911f67dc4610c704cf76107f70f2f73964b78656609f17e",
+        "articleId:social-security-payment-guide": "ce938c65a4a58baeeab5653850feda1330c99055f78191d1eea1be7fe9148899",
+        "articleId:al-gore-trump-nazi-comparison-2025": "85c2e1f3612ab38f90462531648e6291ef5ebd8526f0bd6d80a119bab44a41c0",
+        "articleId:measles-usa-texas-latest-news-2025": "b149eb6ba0b550779c020818b5a5efd3922df52b89053763e39dc480d5b247dc",
+        "articleId:stock-market-2025-analysis": "ac34cd39d28fa25ef9b9c6c8bf19d42d38cc94acb9ff3194a0e0482a117d4c83",
+        "articleId:barkley-marathons-2025-recent-news": "74ead2d92314fa483662d7100ab2479c8a3cb652341aa1f40ba79e3f543c729d",
+        "articleId:spacex-rescue-mission-astronauts-return": "385de42ef0f198c1ece1435d53139db1ef59d79eb896f18b11e7cb93c22235b5",
+        "articleId:social-security-fairness-act-benefits": "160cbb11e3b3abc682c7172dd73c93c09660cb19af547bdd1bc090ca92b3b87a",
+        "articleId:lunar-eclipse-2025": "45bf8b8c565eff516143874e3c1b21e699524a9079e3d65fa9174cb44fb8fef8",
+        "articleId:claremont-mckenna-shooting": "285d0069eca264fecaec26355d70c215bce4adc08900351906c2e5986ace3067",
+        "articleId:stimulus-check-2025-payment-dates": "67427f56494785bdf1c53dd076e82b15202361e3dcbae8f4e20b05e315669c06",
+        "articleId:gerber-products-company-announces-voluntary-recall-of-limited-batches-of-arrowro": "1472eed10c99d1a9f545f431853f89be281a4738179c9214cf5e2ed7881f8629",
+        "articleId:spacex-latest-launch": "2f7d77b80707af5fd55441992dffecf4bf6287539d5fae01e3b2c8e15e6af949"
+      },
+      "lastSyncedAt": "2026-03-19T08:50:24.115Z",
+      "collectionName": "breaking_news"
+    },
+    "budgetdata.json": {
+      "fileHash": "dbe45ffdbec4bea4727e30dc2e84a1487784add57eb6f3702350983d1efc9419",
+      "itemHashes": {
+        "id:ai-budgeting-tools-2025-guide": "fa1c13ea5a46bfe40798c2593f1eff6241605c6b00c11107ffac31f7ba2836d3",
+        "id:election-financial-impact": "1e3fe644e1483331124a6a52f1daf00c6dc43ef522c1742701a55d6e821bcbce",
+        "id:recession-guide": "2c38ff45c61b0ef3f594d412d446e301c84a22138f6446e925be9f1608894cb3",
+        "id:financial-saving-strategies": "806ed0139d3c68d6737c10b8392c6e22c4a3e2e6f21cd9772ebea0490f339b6a",
+        "id:best-cashback-apps-and-credit-cards": "321efc8c43257bc7b8836a1a8fba628f468ea123625c19508a43835e5fa186a9"
+      },
+      "lastSyncedAt": "2026-03-19T08:50:24.303Z",
+      "collectionName": "budget_data"
+    },
+    "freelancejobs.json": {
+      "fileHash": "c00e666fa89960ecccb6b97d33388527ba30e41b5207c9c602546ac1b2d368ec",
+      "itemHashes": {
+        "id:virtual-assistant-jobs": "89d7b41a27bd18324cdcc3c6fbf54e807a0fcca99919a507d606ef26681f1ed2",
+        "id:real-estate-freelance-opportunity": "5fd40370a0203a108e0542203242c9d4d58d5e5fccecd069243656394ce536a8",
+        "id:freelance-web-app-development-guide": "e6965d3cff3351a1b91ffd09e1ea872b836f93ee139a67e400f573357f78934c",
+        "id:uber-driving-gig-economy": "40e9490af668888cf9b8f0e0b633e19c38517c3bb152f37b00cf112665abc7ab",
+        "id:fiverr-seller": "294e828484408e4ea979cd63491543a886e985bc1a50502b82f0b987eeea465e",
+        "id:doordash-delivery-gig": "c51c38718e074f34ef58efe4ed4ed27075d78468d72640f9961aa854a4e4a651"
+      },
+      "lastSyncedAt": "2026-03-19T08:50:24.527Z",
+      "collectionName": "freelance_jobs"
+    },
+    "remotejobs.json": {
+      "fileHash": "a6eb6f1e5a13d73584608c49aa5d144eee3f256ace568668510ba91d6e09882f",
+      "itemHashes": {
+        "id:remote-job-guide-2025": "9cc0b05bf65e84623bc7132c333b17872bb6289995587413a705b336fc20905f",
+        "id:trending-remote-jobs-2025": "79735e37643ab81f86fcd97d0125598ccc272c97ca38cad67000c14a22f7b867",
+        "id:software-developer-jobs-2025": "9cf024a3797f2ffea27acbf04386c7165c48be5bb545950698582f01036b0991",
+        "id:digital-marketing-jobs-2025": "ab72ae610ec178612fa9bc4297e2b447ba8c14aacfc1ef00d33baefe004ad934",
+        "id:virtual-assistant-jobs-2025": "0069d4ad8db799a0288a15925da3019cc1552358af575b1e0efee3984af7d7d0",
+        "id:project-manager-jobs-2025": "4b7f86bb5b5d0a9a35a3d954d7d6f0b0871a3d279551260718cdc330d09d8f41",
+        "id:customer-service-jobs-2024": "4906b48fdbb8751922422550d856a2c8bbed3ad9f308a4712077e94265b638a6",
+        "id:healthcare-jobs-2024": "baa57f905ac1beda0d2beebafc1bb99221ad4460e15e9adc789a7d49d27ae69f"
+      },
+      "lastSyncedAt": "2026-03-19T08:50:25.078Z",
+      "collectionName": "remote_jobs"
+    },
+    "startablogdata.json": {
+      "fileHash": "d31d9dc9fab029557bc5bce05bb05210d2314143824a8322cf1571a753ec03a8",
+      "itemHashes": {
+        "id:choose-your-niche": "41432e5a25db47bf53270e57731fa05ffd40eb2c06090cd8eec65362c42839ee",
+        "id:select-a-blogging-platform": "3f4343d8b9ac6314b8a3a29d3230eb1f374f5d8e57cf1c3a0c77cc9cad3c70ed",
+        "id:get-domain-and-hosting": "a664d6fcc223d71bf852048b34698ff851a2950b338ce2ab2b9e035c03d21a03",
+        "id:install-wordpress-and-choose-a-theme": "9520d2b2f89951d2e0d24544ce1dc51c5baf5ade717088caa58945792d6a06dd",
+        "id:create-essential-pages": "9cea4b46151633e669ea19a55b434d34e5c0b40e84dca0a6005ebfd811e2f77d",
+        "id:start-creating-content": "0a8cbf32c02efbd9824aab845b9c5ab94baf6ae9ad14695d35b559a6c4505419",
+        "id:promote-your-blog": "c98ccfcb6664472016378f6ea7aa2ac37482185b168647de724e7c503ec29dc8",
+        "id:monetize-your-blog": "d7c50546d076393ac393d5d3f5df05ef6db51799f8226f5933c506523024815a"
+      },
+      "lastSyncedAt": "2026-03-19T08:50:25.369Z",
+      "collectionName": "start_a_blog"
+    },
+    "moneymakingapps.json": {
+      "fileHash": "3dd1a64e3ef0dd702d31004aa50d8e9360fd9a37d775e219f78e7f417a07d04d",
+      "itemHashes": {
+        "articleId:money-making-apps-2025": "0b1899159809d5977fd3a21b16b701a8e3d2eb8259c95eaaa5f8049188480cd4",
+        "articleId:data-sharing-apps-2024": "5123ecb7591c67529260ff34232b7e0d0b0f7291f5a4ccfaaba393ff3063cd30",
+        "articleId:investment-savings-apps-2024": "cb37dd4f700f6ab2acbb144461966aea453753d8848224e1e8de2e3c93b0afc3",
+        "articleId:cashback-reward-apps-2024": "8f23af9cf677b3ea275e5feb8228495261a2566afa6fd61bafeb92eb444bda26"
+      },
+      "lastSyncedAt": "2026-03-19T08:52:53.112Z",
+      "collectionName": "money_making_apps"
+    }
+  }
+}

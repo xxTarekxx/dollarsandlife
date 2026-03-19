@@ -1,4 +1,6 @@
 # Custom entries
+# Deployment secrets — contains VPS IP and paths, never commit
+deploy.env.ps1
 # Translation cache — auto-generated, persists across restarts, not source code
 .translation-cache/
 ads/

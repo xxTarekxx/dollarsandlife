@@ -1,4 +1,3 @@
-"use client"; // Stays client component due to heavy client-side logic, auth state, modals, etc.
 import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import {
 	collection,
@@ -170,6 +169,7 @@ const AuthenticatedForumHomePageContent: React.FC<{
 						content="Join our community forum to ask questions and share insights about budgeting, saving, investing, and more."
 					/>
 					<link rel="canonical" href={canonicalUrl} />
+				<meta name="robots" content="noindex, follow" />
 								<meta property='og:title' content='Community Forum | Dollars & Life' />
 				<meta
 					name='og:description'
@@ -250,6 +250,7 @@ const AuthenticatedForumHomePageContent: React.FC<{
 					content="Join our community forum to ask questions and share insights about budgeting, saving, investing, and more."
 				/>
 				<link rel="canonical" href={canonicalUrl} />
+				<meta name="robots" content="noindex, follow" />
 							<meta property='og:title' content='Community Forum | Dollars & Life' />
 				<meta
 					name='og:description'

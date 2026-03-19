@@ -76,6 +76,7 @@ const NewPasswordPage: React.FC = () => {
 				<Head>
 					<title>Set New Password | Dollars &amp; Life</title>
 					<meta name="robots" content="noindex, nofollow" />
+					<link rel="canonical" href="https://www.dollarsandlife.com/new-password" />
 				</Head>
 				<div className={styles.loginContentWrapper} style={{ padding: "40px 20px" }}>
 					<p>Loading...</p>
@@ -89,6 +90,7 @@ const NewPasswordPage: React.FC = () => {
 			<Head>
 				<title>Set New Password | Dollars &amp; Life</title>
 				<meta name="robots" content="noindex, nofollow" />
+					<link rel="canonical" href="https://www.dollarsandlife.com/new-password" />
 			</Head>
 			<div className={styles.loginContainer} style={{ padding: "40px 20px", minHeight: "40vh" }}>
 				<div className={styles.loginContentWrapper}>

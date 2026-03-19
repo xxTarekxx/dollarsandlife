@@ -1,8 +1,17 @@
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
+import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-export default class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
+const SUPPORTED_LANGS = new Set([
+  'es', 'de', 'ja', 'fr', 'pt', 'ru', 'it', 'nl', 'pl', 'tr',
+  'fa', 'zh', 'vi', 'id', 'cs', 'ko', 'uk', 'hu', 'ar',
+]);
+
+interface MyDocumentProps extends DocumentInitialProps {
+  lang: string;
+}
+
+export default class MyDocument extends Document<MyDocumentProps> {
+  static async getInitialProps(ctx: DocumentContext): Promise<MyDocumentProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
@@ -14,6 +23,12 @@ export default class MyDocument extends Document {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+
+      // Detect language from URL path — e.g. /ar/breaking-news/slug → 'ar'
+      const pathname = ctx.asPath || '';
+      const firstSegment = pathname.split('/').filter(Boolean)[0] ?? '';
+      const lang = SUPPORTED_LANGS.has(firstSegment) ? firstSegment : 'en';
+
       return {
         ...initialProps,
         styles: (
@@ -22,6 +37,7 @@ export default class MyDocument extends Document {
             {sheet.getStyleElement()}
           </>
         ),
+        lang,
       };
     } finally {
       sheet.seal();
@@ -30,8 +46,15 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="en"> {/* Optional: Add a lang attribute */}
+      <Html lang={this.props.lang || 'en'}>
         <Head>
+          {/* Google Fonts preconnect + stylesheet */}
+          <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
+          <link
+            rel='stylesheet'
+            href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Source+Serif+Pro:wght@400;600&display=swap'
+          />
           {/* Google tag (gtag.js) */}
           <script async src="https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P"></script>
           <script

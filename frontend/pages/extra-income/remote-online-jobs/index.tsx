@@ -144,8 +144,9 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 					rel='canonical'
 					href='https://www.dollarsandlife.com/extra-income/remote-online-jobs'
 				/>
-				<script type='application/ld+json'>
-					{JSON.stringify({
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{ __html: JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "ItemList",
 						itemListElement: remoteJobs.map((post, index) => ({
@@ -153,12 +154,12 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 							position: index + 1,
 							headline: post.headline,
 							image: post.image.url,
-							author: { "@type": "Organization", name: post.author.name },
+							author: { "@type": "Person", name: post.author.name },
 							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/extra-income/remote-online-jobs/${post.id}`,
 						})),
-					})}
-				</script>
+					}) }}
+				/>
 				<meta property='og:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
 				<meta
 					property='og:description'
@@ -198,7 +199,20 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 						<span className="section-hero-count">{remoteJobs.length} articles</span>
 					)}
 				</div>
-					<div className='content-wrapper'>
+
+				<section className='page-intro' aria-label='About Remote Online Jobs'>
+					<p>
+						The remote work revolution is not slowing down. Millions of companies — from Fortune 500s to fast-growing startups — now actively hire for fully remote positions across every skill level. Whether you are looking for a stable full-time role with benefits or a flexible part-time position you can fit around existing commitments, the remote job market has expanded dramatically in recent years.
+					</p>
+					<p>
+						Remote and online jobs span far more categories than most people realize. Beyond the obvious tech roles, there is strong demand for remote customer service agents, data entry specialists, virtual assistants, online tutors, bookkeepers, and social media managers. Many of these positions require no formal degree — just reliable internet, solid communication skills, and a willingness to learn.
+					</p>
+					<p>
+						The articles below highlight the best legitimate platforms for finding remote work, what employers are actually looking for in remote candidates, and how to structure your application to stand out in a competitive inbox. Start with whichever category matches your current skills and go from there.
+					</p>
+				</section>
+
+				<div className='content-wrapper'>
 						{currentPosts.map((post) => (
 							<BlogPostCard
 								key={post.id}

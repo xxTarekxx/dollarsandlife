@@ -61,6 +61,7 @@ const ForgotPasswordPage: React.FC = () => {
 				<Head>
 					<title>Forgot Password | Dollars &amp; Life</title>
 					<meta name="robots" content="noindex, nofollow" />
+					<link rel="canonical" href="https://www.dollarsandlife.com/forgot-password" />
 				</Head>
 				<div className={styles.loadingWrap}>
 					<div style={{ textAlign: "center" }}>
@@ -77,6 +78,7 @@ const ForgotPasswordPage: React.FC = () => {
 			<Head>
 				<title>Forgot Password | Dollars &amp; Life</title>
 				<meta name="robots" content="noindex, nofollow" />
+					<link rel="canonical" href="https://www.dollarsandlife.com/forgot-password" />
 			</Head>
 			<section className={styles.wrapper} aria-labelledby="forgot-password-title">
 				<div className={styles.card}>

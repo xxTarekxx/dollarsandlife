@@ -1,5 +1,3 @@
-"use client";
-
 import { Auth, onAuthStateChanged, signOut, User } from "firebase/auth";
 import {
 	collection,
@@ -11,7 +9,7 @@ import {
 	where,
 } from "firebase/firestore";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import AuthPromptModal from "../../auth/AuthPromptModal";
 import { initializeFirebaseAndGetServices } from "../../firebase";
@@ -56,7 +54,7 @@ const ForumHeader: React.FC<ForumHeaderProps> = ({
 	const [voteNotHelpful, setVoteNotHelpful] = useState<number | null>(null);
 
 	const router = useRouter();
-	const pathname = usePathname() ?? "";
+	const pathname = router.pathname ?? "";
 	const auth = authProp ?? internalAuth;
 	const db = dbProp ?? internalDb;
 	const user = userProp ?? internalUser;
