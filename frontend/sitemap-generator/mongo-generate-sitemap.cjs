@@ -29,19 +29,17 @@ const ALL_LANGS = [
     "ko", "uk", "hu", "ar",
 ];
 
+const ALL_LANGS_SET = new Set(ALL_LANGS);
+
 /**
  * PATH_LANGUAGES — mirrors lib/i18n/translationStatus.ts PATH_LANGUAGES.
- * Kept in sync manually since this is a CJS script that cannot import TypeScript.
+ * Only used for STATIC pages (home, about, etc.) which are always fully
+ * translated via the UI translation system.
  *
- * Keys:
- *   Exact path  : "/about-us"          → specific page only
- *   Wildcard    : "/breaking-news/*"   → all slugs under that prefix
- *
- * Values: array of language codes that have translated content for that path.
- * All routes use ALL_LANGS — runtime translation covers every language.
+ * Article/product detail pages use the actual languages stored in MongoDB
+ * (doc.languages keys) so we never emit a URL for an untranslated article.
  */
 const PATH_LANGUAGES = Object.freeze({
-    // ── Static pages ─────────────────────────────────────────────────────────
     "/":                                    ALL_LANGS,
     "/about-us":                            ALL_LANGS,
     "/contact-us":                          ALL_LANGS,
@@ -58,45 +56,15 @@ const PATH_LANGUAGES = Object.freeze({
     "/extra-income/money-making-apps":      ALL_LANGS,
     "/breaking-news":                       ALL_LANGS,
     "/forum":                               ALL_LANGS,
-    // ── Wildcard routes (article / product detail pages) ─────────────────────
-    "/breaking-news/*":                     ALL_LANGS,
-    "/extra-income/budget/*":               ALL_LANGS,
-    "/extra-income/freelance-jobs/*":       ALL_LANGS,
-    "/extra-income/remote-online-jobs/*":   ALL_LANGS,
-    "/extra-income/money-making-apps/*":    ALL_LANGS,
-    "/shopping-deals/products/*":           ALL_LANGS,
-    "/start-a-blog/*":                      ALL_LANGS,
-    "/forum/post/*":                        ALL_LANGS,
 });
 
 /**
- * Precomputed wildcard rules from PATH_LANGUAGES, sorted longest-first.
- * Mirrors translationStatus.ts WILDCARD_RULES — same safe-match algorithm.
+ * Return the languages for a STATIC path.
+ * Article detail pages should NOT use this — they read from doc.languages instead.
  */
-const WILDCARD_RULES = Object.keys(PATH_LANGUAGES)
-    .filter(p => p.endsWith("/*"))
-    .sort((a, b) => b.length - a.length)
-    .map(rule => ({ rule, prefix: rule.slice(0, -2) }));
-
-/**
- * Return the languages available for a given path (without lang prefix).
- * Uses the same exact-then-wildcard logic as translationStatus.ts.
- */
-function getLanguagesForPath(rawPath) {
+function getLanguagesForStaticPath(rawPath) {
     const normalized = rawPath.split("?")[0].replace(/\/$/, "") || "/";
-
-    // 1. Exact match
-    if (PATH_LANGUAGES[normalized]) return PATH_LANGUAGES[normalized];
-
-    // 2. Wildcard match (safe boundary: /breaking-newsletters ≠ /breaking-news/*)
-    for (const { rule, prefix } of WILDCARD_RULES) {
-        if (normalized === prefix || normalized.startsWith(prefix + "/")) {
-            return PATH_LANGUAGES[rule] || [DEFAULT_LANG];
-        }
-    }
-
-    // 3. Fallback
-    return [DEFAULT_LANG];
+    return PATH_LANGUAGES[normalized] || [DEFAULT_LANG];
 }
 
 /**
@@ -112,13 +80,11 @@ function langUrl(lang, p) {
 }
 
 /**
- * Build hreflang links for a path (without lang prefix), e.g. "/about-us" or "/".
- * Only emits languages returned by getLanguagesForPath() — not all languages.
- * English href uses no prefix; x-default also points at the English (no-prefix) URL.
+ * Build hreflang links for a given path using the provided langs array.
+ * x-default always points at the English (no-prefix) URL.
  */
-function buildHreflangLinks(pathWithoutLangArg) {
+function buildHreflangLinks(pathWithoutLangArg, langs) {
     const p = pathWithoutLangArg === "/" ? "" : pathWithoutLangArg;
-    const langs = getLanguagesForPath(pathWithoutLangArg);
 
     const links = langs.map((lang) => ({
         lang,
@@ -143,6 +109,156 @@ function sitemapUrl(lang, normalizedPath) {
     return normalizedPath === "/" ? `/${lang}` : `/${lang}${normalizedPath}`;
 }
 
+/**
+ * Pretty-print XML: insert newlines and indent each tag.
+ * Applied after SitemapStream writes its compact single-line output.
+ */
+function prettifyXml(xml) {
+    const INDENT = "  ";
+    let depth = 0;
+    let output = "";
+
+    // Split on tag boundaries while keeping the delimiters
+    const tokens = xml.split(/(<[^>]+>)/g);
+
+    for (const token of tokens) {
+        if (!token) continue;
+
+        if (token.startsWith("</")) {
+            // Closing tag — dedent first
+            depth = Math.max(0, depth - 1);
+            output += INDENT.repeat(depth) + token + "\n";
+        } else if (token.startsWith("<?") || token.startsWith("<!")) {
+            // Declaration or processing instruction
+            output += token + "\n";
+        } else if (token.startsWith("<") && token.endsWith("/>")) {
+            // Self-closing tag
+            output += INDENT.repeat(depth) + token + "\n";
+        } else if (token.startsWith("<")) {
+            // Opening tag
+            output += INDENT.repeat(depth) + token + "\n";
+            depth++;
+        } else {
+            // Text content — skip pure whitespace
+            const trimmed = token.trim();
+            if (trimmed) {
+                output += INDENT.repeat(depth) + trimmed + "\n";
+            }
+        }
+    }
+
+    return output.trimEnd();
+}
+
+// ── XSL stylesheet content ────────────────────────────────────────────────────
+// Generated alongside sitemap.xml so the browser renders a styled table view.
+// Google's crawler ignores the stylesheet and reads the raw XML.
+const SITEMAP_XSL = `<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="2.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
+
+  <xsl:template match="/">
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+      <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Sitemap — Dollars &amp; Life</title>
+        <style>
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f7f5ff; color: #333; padding: 0 0 60px; }
+          .header { background: linear-gradient(135deg, #700877 0%, #b0196b 55%, #ff2759 100%); color: #fff; padding: 28px 40px 24px; display: flex; align-items: center; gap: 18px; }
+          .header-logo { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; }
+          .header-logo span { color: #ffd966; }
+          .header-sub { font-size: 0.9rem; opacity: 0.85; margin-top: 3px; }
+          .header-right { margin-left: auto; text-align: right; }
+          .header-count { font-size: 2rem; font-weight: 700; line-height: 1; }
+          .header-count-label { font-size: 0.78rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.06em; }
+          .info-bar { background: #fff; border-bottom: 1px solid #e8e0f5; padding: 12px 40px; font-size: 0.82rem; color: #777; }
+          .info-bar a { color: #700877; text-decoration: none; }
+          .info-bar a:hover { text-decoration: underline; }
+          .container { max-width: 1100px; margin: 32px auto 0; padding: 0 20px; }
+          table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 24px rgba(112,8,119,0.08); }
+          thead tr { background: linear-gradient(135deg, #700877 0%, #b0196b 100%); color: #fff; }
+          thead th { padding: 13px 18px; text-align: left; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; }
+          tbody tr { border-bottom: 1px solid #f0eaff; transition: background 0.12s; }
+          tbody tr:last-child { border-bottom: none; }
+          tbody tr:hover { background: #faf7ff; }
+          tbody td { padding: 11px 18px; font-size: 0.85rem; vertical-align: middle; }
+          .url-cell a { color: #700877; text-decoration: none; word-break: break-all; }
+          .url-cell a:hover { color: #ff2759; text-decoration: underline; }
+          .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; background: #f0eaff; color: #700877; }
+          .priority-bar-wrap { display: flex; align-items: center; gap: 8px; }
+          .priority-bar { flex: 1; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; min-width: 60px; }
+          .priority-bar-fill { height: 100%; background: linear-gradient(90deg, #700877, #ff2759); border-radius: 3px; }
+          .priority-val { font-size: 0.8rem; color: #555; min-width: 24px; }
+          .lastmod { color: #888; white-space: nowrap; font-size: 0.8rem; }
+          @media (max-width: 640px) {
+            .header { padding: 20px 16px; } .info-bar { padding: 10px 16px; } .container { padding: 0 10px; }
+            thead th:nth-child(3), tbody td:nth-child(3) { display: none; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div>
+            <div class="header-logo">Dollars <span>&amp;</span> Life</div>
+            <div class="header-sub">XML Sitemap — indexed pages for search engines</div>
+          </div>
+          <div class="header-right">
+            <div class="header-count"><xsl:value-of select="count(sitemap:urlset/sitemap:url)"/></div>
+            <div class="header-count-label">URLs</div>
+          </div>
+        </div>
+        <div class="info-bar">
+          This sitemap is intended for search engine crawlers. &#183;
+          <a href="https://www.dollarsandlife.com">&#8592; Back to Dollars &amp; Life</a>
+        </div>
+        <div class="container">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>URL</th>
+                <th>Last Modified</th>
+                <th>Change Freq</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <xsl:for-each select="sitemap:urlset/sitemap:url">
+                <tr>
+                  <td style="color:#aaa;font-size:0.75rem;"><xsl:value-of select="position()"/></td>
+                  <td class="url-cell">
+                    <a href="{sitemap:loc}" target="_blank" rel="noopener"><xsl:value-of select="sitemap:loc"/></a>
+                  </td>
+                  <td class="lastmod"><xsl:if test="sitemap:lastmod"><xsl:value-of select="substring(sitemap:lastmod,1,10)"/></xsl:if></td>
+                  <td><xsl:if test="sitemap:changefreq"><span class="badge"><xsl:value-of select="sitemap:changefreq"/></span></xsl:if></td>
+                  <td>
+                    <xsl:if test="sitemap:priority">
+                      <div class="priority-bar-wrap">
+                        <div class="priority-bar">
+                          <div class="priority-bar-fill">
+                            <xsl:attribute name="style">width: <xsl:value-of select="sitemap:priority * 100"/>%</xsl:attribute>
+                          </div>
+                        </div>
+                        <span class="priority-val"><xsl:value-of select="sitemap:priority"/></span>
+                      </div>
+                    </xsl:if>
+                  </td>
+                </tr>
+              </xsl:for-each>
+            </tbody>
+          </table>
+        </div>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>`;
+
 const DB_NAME = "dollarsandlife_data";
 const COLLECTIONS = [
     "breaking_news",
@@ -157,8 +273,8 @@ const COLLECTIONS = [
 // ✅ Excluded routes (never add to sitemap)
 const EXCLUDED_ROUTES = [
     "/sentrypc-landing",
-    "/forum/create-post",  // Form page; noindex, not for SEO
-    "/forum/my-posts",     // User-specific; noindex, not for SEO
+    "/forum/create-post",
+    "/forum/my-posts",
 ];
 
 // ✅ Static routes (without lang prefix — lang prefix is added during write)
@@ -181,6 +297,8 @@ function extractStaticRoutes() {
 }
 
 // ✅ Fetch dynamic routes from MongoDB
+// Each route now includes `availableLangs` — only the languages actually
+// present in doc.languages (or ['en'] for legacy flat-structure documents).
 async function fetchDynamicRoutes() {
     if (!MONGO_URI) return [];
 
@@ -196,7 +314,8 @@ async function fetchDynamicRoutes() {
             const documents = await collection.find({}).toArray();
 
             for (const doc of documents) {
-                // Support both new multilingual structure (doc.languages.en.*) and legacy flat structure
+                // Support both new multilingual structure (doc.languages.en.*)
+                // and legacy flat structure (doc.canonicalUrl etc.)
                 const langEn = doc.languages?.en;
                 const canonicalUrl = langEn?.canonicalUrl || doc.canonicalUrl;
                 const datePublished = langEn?.datePublished || doc.datePublished;
@@ -210,20 +329,44 @@ async function fetchDynamicRoutes() {
                     continue;
                 }
 
-                const fullUrl = canonicalUrl; // Use as-is since it's already a full URL
-
                 const rawDate = dateModified?.trim() || datePublished;
                 const parsedDate = new Date(rawDate);
                 if (isNaN(parsedDate.getTime())) continue;
 
                 // Convert absolute URL to relative for SitemapStream
-                const relativeUrl = fullUrl.toLowerCase().replace(/^https?:\/\/[^\/]+/, '');
+                let relativeUrl = canonicalUrl.toLowerCase().replace(/^https?:\/\/[^/]+/, "");
+
+                // Strip any lang prefix stored in the DB
+                // (e.g. /en/breaking-news/slug → /breaking-news/slug)
+                const langPrefixRe = new RegExp(`^/(${ALL_LANGS.join("|")})/`);
+                const langPrefixMatch = relativeUrl.match(langPrefixRe);
+                if (langPrefixMatch) {
+                    relativeUrl = relativeUrl.slice(langPrefixMatch[1].length + 1);
+                }
+
+                // ── ACTUAL languages for this document ──────────────────────
+                // Only emit sitemap entries for languages that have real content.
+                // New multilingual docs: use the keys of doc.languages.
+                // Legacy flat docs: English only.
+                let availableLangs;
+                if (doc.languages && typeof doc.languages === "object") {
+                    availableLangs = Object.keys(doc.languages)
+                        .filter(l => ALL_LANGS_SET.has(l));
+                    // Always ensure English is included (it's the canonical version)
+                    if (!availableLangs.includes(DEFAULT_LANG)) {
+                        availableLangs.unshift(DEFAULT_LANG);
+                    }
+                } else {
+                    // Legacy flat structure — English only
+                    availableLangs = [DEFAULT_LANG];
+                }
 
                 dynamicRoutes.push({
                     url: relativeUrl,
                     changefreq: "monthly",
                     priority: 0.8,
                     lastmod: parsedDate.toISOString(),
+                    availableLangs,
                 });
             }
         }
@@ -240,14 +383,15 @@ async function fetchDynamicRoutes() {
 async function generateSitemap() {
     try {
         const sitemapPath = path.resolve(__dirname, "../public/sitemap.xml");
+
+        // streamToPromise collects the entire stream into a Buffer — use it
+        // directly instead of manually collecting chunks via .on("data").
         const sitemap = new SitemapStream({
             hostname: BASE_URL,
             xmlns: { xhtml: true },
         });
-        const writeStream = fs.createWriteStream(sitemapPath);
-        sitemap.pipe(writeStream);
 
-        // Static routes: one URL per language with hreflang links
+        // ── Static routes: all 20 languages (UI is always translated) ──────
         let staticRoutes = extractStaticRoutes();
         staticRoutes = staticRoutes.filter(route =>
             !EXCLUDED_ROUTES.some(r => route.toLowerCase() === r.toLowerCase())
@@ -257,10 +401,8 @@ async function generateSitemap() {
 
         staticRoutes.forEach((route) => {
             const normalizedPath = pathNorm(route);
-            const langs = getLanguagesForPath(normalizedPath);
-            const links = buildHreflangLinks(normalizedPath);
-            // Emit one URL entry per available language
-            // English: /about-us (no /en/ prefix)   Others: /ar/about-us
+            const langs = getLanguagesForStaticPath(normalizedPath);
+            const links = buildHreflangLinks(normalizedPath, langs);
             langs.forEach((lang) => {
                 sitemap.write({
                     url: sitemapUrl(lang, normalizedPath),
@@ -271,14 +413,16 @@ async function generateSitemap() {
             });
         });
 
-        // Dynamic routes: one URL per language with hreflang links
+        // ── Dynamic routes: only languages with real translated content ─────
         const dynamicRoutes = await fetchDynamicRoutes();
         console.log(`📝 Adding dynamic routes: ${dynamicRoutes.length} articles`);
+
+        let totalLangEntries = 0;
         dynamicRoutes.forEach((route) => {
             const articlePath = route.url.startsWith("/") ? route.url : `/${route.url}`;
-            const langs = getLanguagesForPath(articlePath);
-            const links = buildHreflangLinks(articlePath);
-            // English: /breaking-news/slug (no /en/ prefix)   Others: /ar/breaking-news/slug
+            const langs = route.availableLangs; // ← actual langs from DB, not assumed
+            const links = buildHreflangLinks(articlePath, langs);
+
             langs.forEach((lang) => {
                 sitemap.write({
                     url: sitemapUrl(lang, articlePath),
@@ -287,11 +431,33 @@ async function generateSitemap() {
                     lastmod: route.lastmod,
                     links,
                 });
+                totalLangEntries++;
             });
         });
 
+        console.log(`📊 Total article lang entries: ${totalLangEntries}`);
+
         sitemap.end();
-        await streamToPromise(sitemap);
+
+        // ── Prettify and write ──────────────────────────────────────────────
+        // streamToPromise resolves with the full Buffer of the sitemap output
+        const buffer = await streamToPromise(sitemap);
+        let rawXml = buffer.toString("utf8");
+
+        // Inject XSL stylesheet reference so browsers render a styled table view.
+        // Insert after the <?xml ...?> declaration on the first line.
+        rawXml = rawXml.replace(
+            /(<\?xml[^?]*\?>)/,
+            '$1\n<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>'
+        );
+
+        const prettyXml = prettifyXml(rawXml);
+        fs.writeFileSync(sitemapPath, prettyXml, "utf8");
+
+        // Write the XSL stylesheet so browsers render a styled view
+        const xslPath = path.resolve(__dirname, "../public/sitemap.xsl");
+        fs.writeFileSync(xslPath, SITEMAP_XSL, "utf8");
+
         console.log("✅ Sitemap generated successfully!");
     } catch (err) {
         console.error("❌ Error generating sitemap:", err);

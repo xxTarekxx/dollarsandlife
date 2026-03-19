@@ -40,6 +40,9 @@ scp ..\server\routes.js root@216.225.194.194:/var/www/html/dollarsandlife/server
 Write-Host "Uploading sitemap.xml..."
 scp public\sitemap.xml root@216.225.194.194:/var/www/html/dollarsandlife/public/
 
+Write-Host "Uploading sitemap.xsl..."
+scp public\sitemap.xsl root@216.225.194.194:/var/www/html/dollarsandlife/public/
+
 Write-Host "Restarting server..."
 ssh root@216.225.194.194 "pm2 restart all"
 
