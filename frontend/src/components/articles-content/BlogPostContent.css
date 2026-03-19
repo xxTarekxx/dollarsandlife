@@ -307,3 +307,58 @@
         max-width: 90vw !important;
     }
 }
+
+/* ── RTL support (Arabic, Persian) ──────────────────────────────────────────
+   When <html dir="rtl"> is active, flip text alignment and swap decorative
+   left-borders to right-borders so the layout reads naturally right-to-left.
+───────────────────────────────────────────────────────────────────────────── */
+[dir="rtl"] .blog-post-content {
+    text-align: right;
+}
+
+[dir="rtl"] .blog-post-content h2,
+[dir="rtl"] .blog-post-content h3,
+[dir="rtl"] .blog-post-content h4 {
+    text-align: right;
+}
+
+[dir="rtl"] .blog-post-content ul,
+[dir="rtl"] .blog-post-content ol {
+    padding-left: 0;
+    padding-right: 30px;
+}
+
+[dir="rtl"] .blog-post-content .author-date {
+    text-align: right;
+}
+
+/* Flip decorative left-borders to right side */
+[dir="rtl"] .blog-post-content .expert-quote {
+    border-left: none;
+    border-right: 4px solid #6000ce;
+}
+
+[dir="rtl"] .blog-post-content .case-study {
+    border-left: none;
+    border-right: 4px solid #0077cc;
+}
+
+[dir="rtl"] .blog-post-content .authority-link {
+    border-left: none;
+    border-right: 4px solid #0077cc;
+}
+
+[dir="rtl"] .blog-post-content .personal-tips-section {
+    border-left: none;
+    border-right: 4px solid #8bc34a;
+}
+
+[dir="rtl"] .blog-post-content .personal-tips-section ul {
+    padding-left: 0;
+    padding-right: 1.2em;
+}
+
+[dir="rtl"] .blog-post-content .stats {
+    border-left: none;
+    border-right: 4px solid #4682b4;
+}

@@ -43,10 +43,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!id || typeof id !== "string" || !isValidId(id)) {
 		return { notFound: true };
 	}
+	const locale = ((context.req.cookies['NEXT_LOCALE'] as string) || 'en').toLowerCase();
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE
-			}/money-making-apps/${encodeURIComponent(id)}`,
+			}/money-making-apps/${encodeURIComponent(id)}?lang=${locale}`,
 		);
 		if (!response.ok) {
 			if (response.status === 404) {

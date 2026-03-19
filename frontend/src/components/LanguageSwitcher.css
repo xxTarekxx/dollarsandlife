@@ -4,6 +4,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  margin-left: auto; /* always push to right edge, even when no breadcrumb trail */
 }
 
 /* ── Trigger button ─────────────────────────────────────────────────────── */
@@ -144,10 +145,11 @@
 }
 
 /* ── RTL support ────────────────────────────────────────────────────────── */
-/* Keep dropdown right-aligned so it always opens left into the page (never off right edge). */
+/* In RTL mode the switcher sits on the LEFT side (margin-left: auto reverses).
+   Open the dropdown rightward (left: 0) so it stays on-screen. */
 [dir="rtl"] .language-switcher-dropdown {
-  right: 0;
-  left: auto;
+  left: 0;
+  right: auto;
 }
 
 [dir="rtl"] .language-switcher-option {
@@ -165,5 +167,10 @@
   .language-switcher-dropdown {
     width: 220px;
     right: 0;
+  }
+
+  [dir="rtl"] .language-switcher-dropdown {
+    left: 0;
+    right: auto;
   }
 }
