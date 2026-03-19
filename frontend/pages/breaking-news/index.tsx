@@ -22,6 +22,7 @@ interface BreakingNewsPost {
 
 interface BreakingNewsPageProps {
 	initialBreakingNews?: BreakingNewsPost[];
+	initialSchemaJson?: string;
 	error?: string;
 }
 
@@ -47,12 +48,28 @@ export const getServerSideProps: GetServerSideProps = async () => {
 			: initialBreakingNewsData
 			? [initialBreakingNewsData]
 			: [];
-		return { props: { initialBreakingNews } };
+			const initialSchemaJson = JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			name: "Breaking News",
+			url: "https://www.dollarsandlife.com/breaking-news",
+			itemListElement: initialBreakingNews.slice(0, 20).map((post, index) => ({
+				"@type": "Article",
+				position: index + 1,
+				headline: typeof post.headline === 'string' ? post.headline : '',
+				image: post.image?.url ?? '',
+				author: { "@type": "Person", name: typeof post.author?.name === "string" ? post.author.name : "" },
+				datePublished: typeof post.datePublished === 'string' ? post.datePublished : '',
+				url: `https://www.dollarsandlife.com/breaking-news/${post.id ?? ''}`,
+			})),
+		}).replace(/<\/script/gi, '<\\/script');
+		return { props: { initialBreakingNews, initialSchemaJson } };
 	} catch (error) {
 		console.error("SSR Exception fetching breaking news:", error);
 		return {
 			props: {
 				initialBreakingNews: [],
+				initialSchemaJson: "",
 				error: "Server exception when loading breaking news.",
 			},
 		};
@@ -61,6 +78,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 	initialBreakingNews,
+	initialSchemaJson = "",
 	error: ssrError,
 }) => {
 	const [breakingNews, setBreakingNews] = useState<BreakingNewsPost[]>(
@@ -145,25 +163,12 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 					rel='canonical'
 					href='https://www.dollarsandlife.com/breaking-news'
 				/>
-				<script type='application/ld+json'>
-					{(() => {
-						const json = {
-							"@context": "https://schema.org",
-							"@type": "ItemList",
-							itemListElement: breakingNews.map((post, index) => ({
-								"@type": "Article",
-								position: index + 1,
-								headline: typeof post.headline === "string" ? post.headline : "",
-								image: post.image?.url ?? "",
-								author: { "@type": "Organization", name: typeof post.author?.name === "string" ? post.author.name : "" },
-								datePublished: typeof post.datePublished === "string" ? post.datePublished : "",
-								url: `https://www.dollarsandlife.com/breaking-news/${post.id ?? ""}`,
-							})),
-						};
-						const str = JSON.stringify(json);
-						return str.replace(/<\/script/gi, "<\\/script");
-					})()}
-				</script>
+				{initialSchemaJson && (
+					<script
+						type='application/ld+json'
+						dangerouslySetInnerHTML={{ __html: initialSchemaJson }}
+					/>
+				)}
 						<meta property='og:title' content='Breaking News - Latest Financial and Economic Updates' />
 			<meta
 				property='og:description'

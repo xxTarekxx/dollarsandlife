@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import PaginationContainer from "src/components/pagination/PaginationContainer";
-import { getCanonicalUrl, getJsonLdUrl } from "../../src/utils/url";
+import { getCanonicalUrl } from "../../src/utils/url";
 import { getClientApiBase } from "@/lib/api-base";
 
 interface Product {
@@ -144,11 +144,11 @@ const ProductCard: React.FC<Product> = ({
 				)}
 			</div>
 			<div className='sd-product-details'>
-				<h2 className='sd-product-title'>
+				<h3 className='sd-product-title'>
 					<Link href={detailUrl} prefetch={false} className='sd-product-title-link'>
 						{headline}
 					</Link>
-				</h2>
+				</h3>
 				<p className='sd-product-description-snippet'>{descriptionSnippet}</p>
 
 				<div className='sd-product-price-section'>
@@ -213,6 +213,7 @@ const ProductCard: React.FC<Product> = ({
 
 interface ShoppingDealsPageProps {
 	initialProducts?: Product[];
+	initialSchemaJson?: string;
 	error?: string;
 }
 
@@ -236,12 +237,35 @@ export const getServerSideProps: GetServerSideProps = async () => {
 			: initialProductsData
 				? [initialProductsData]
 				: [];
-		return { props: { initialProducts } };
+			const initialSchemaJson = JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			name: "Shopping Deals",
+			url: "https://www.dollarsandlife.com/shopping-deals",
+			itemListElement: initialProducts.slice(0, 20).map((p, i) => ({
+				"@type": "ListItem",
+				position: i + 1,
+				item: {
+					"@type": "Product",
+					name: (p.headline || '').replace(/<[^>]*>/g, '').slice(0, 200),
+					image: p.image?.url ?? '',
+					offers: {
+						"@type": "Offer",
+						priceCurrency: "USD",
+						price: p.offers?.price || (p.currentPrice || '').replace('$', ''),
+						availability: p.offers?.availability || "https://schema.org/InStock",
+						url: p.canonicalUrl || `https://www.dollarsandlife.com/shopping-deals/products/${p.id}`,
+					},
+				},
+			})),
+		}).replace(/<\/script/gi, '<\\/script');
+		return { props: { initialProducts, initialSchemaJson } };
 	} catch (error) {
 		console.error("SSR Exception fetching shopping deals:", error);
 		return {
 			props: {
 				initialProducts: [],
+				initialSchemaJson: "",
 				error: "Server exception when loading deals.",
 			},
 		};
@@ -250,6 +274,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 	initialProducts,
+	initialSchemaJson = "",
 	error: ssrError,
 }) => {
 	const [products, setProducts] = useState<Product[]>(initialProducts || []);
@@ -257,6 +282,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 	const [error, setError] = useState<string | null>(ssrError || null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 12;
+	const currentYear = new Date().getFullYear();
 
 	const fetchClientSideDeals = useCallback(async () => {
 		setLoading(true);
@@ -310,44 +336,10 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 		return products.slice(startIndex, endIndex);
 	}, [products, currentPage, postsPerPage]);
 
-	const schemaData = useMemo(
-		() => ({
-			"@context": "https://schema.org",
-			"@type": "ItemList",
-			name: "Shopping Deals",
-			description: "Current deals and savings on various products.",
-			url: getJsonLdUrl("/shopping-deals"),
-			itemListElement: products.map((p: Product, i: number) => ({
-				"@type": "ListItem",
-				position: i + 1,
-				item: {
-					"@type": "Product",
-					name: cleanText(p.headline),
-					image: p.image.url,
-					description: Array.from(cleanText(p.description)).slice(0, 200).join(''),
-					offers: {
-						"@type": "Offer",
-						priceCurrency: "USD",
-						price: p.offers?.price || p.currentPrice.replace("$", ""),
-						availability:
-							p.offers?.availability || "https://schema.org/InStock",
-						url: p.canonicalUrl || getJsonLdUrl(`/shopping-deals/products/${p.id}`),
-					},
-					aggregateRating: p.aggregateRating && {
-						"@type": "AggregateRating",
-						ratingValue: p.aggregateRating.ratingValue,
-						reviewCount: p.aggregateRating.reviewCount,
-					},
-				},
-			})),
-		}),
-		[products],
-	);
-
 	return (
 		<div className='sd-page-container'>
 			<Head>
-				<title>Deals and Savings | Best Online Shopping Discounts 2025</title>
+				<title>Deals and Savings | Best Online Shopping Discounts {currentYear}</title>
 				<meta
 					name='description'
 					content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'
@@ -356,15 +348,13 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 					rel='canonical'
 					href={getCanonicalUrl("/shopping-deals")}
 				/>
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(schemaData)
-							.replace(/<\/script>/g, "<\\/script>")
-							.replace(/[\u2028\u2029]/g, ""),
-					}}
-				/>
-						<meta property='og:title' content='Deals and Savings | Best Online Shopping Discounts 2025' />
+				{initialSchemaJson && (
+					<script
+						type='application/ld+json'
+						dangerouslySetInnerHTML={{ __html: initialSchemaJson }}
+					/>
+				)}
+						<meta property='og:title' content={`Deals and Savings | Best Online Shopping Discounts ${currentYear}`} />
 			<meta
 				property='og:description'
 				content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'
@@ -373,7 +363,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:title' content='Deals and Savings | Best Online Shopping Discounts 2025' />
+			<meta name='twitter:title' content={`Deals and Savings | Best Online Shopping Discounts ${currentYear}`} />
 			<meta
 				name='twitter:description'
 				content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'

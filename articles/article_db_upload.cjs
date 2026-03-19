@@ -68,11 +68,18 @@ function stableStringify(value) {
 
 function getItemKey(item) {
     if (item && typeof item === "object") {
+        // Prefer stable IDs for multilingual wrapper format:
+        // { articleId, languages: { en: { ... } } }
+        if (item.articleId) return { field: "articleId", value: String(item.articleId) };
+        if (item.languages?.en?.id) return { field: "articleId", value: String(item.languages.en.id) };
+        if (item.id) return { field: "id", value: String(item.id) };
+        if (item.canonicalUrl) return { field: "canonicalUrl", value: String(item.canonicalUrl) };
+        if (item.languages?.en?.canonicalUrl)
+            return { field: "canonicalUrl", value: String(item.languages.en.canonicalUrl) };
+        if (item.url) return { field: "url", value: String(item.url) };
+        // sortOrder is less stable and should be the last fallback
         if (item.sortOrder !== undefined && item.sortOrder !== null && item.sortOrder !== "")
             return { field: "sortOrder", value: item.sortOrder };
-        if (item.canonicalUrl) return { field: "canonicalUrl", value: String(item.canonicalUrl) };
-        if (item.url) return { field: "url", value: String(item.url) };
-        if (item.id) return { field: "id", value: String(item.id) };
     }
     return null;
 }
@@ -84,11 +91,14 @@ function getItemHash(item) {
 function getItemDisplayName(item) {
     if (!item || typeof item !== "object") return "Unknown item";
     return (
+        item.articleId ||
         item.headline ||
+        item.languages?.en?.headline ||
         item.title ||
         item.name ||
         item.id ||
         item.canonicalUrl ||
+        item.languages?.en?.canonicalUrl ||
         item.url ||
         "Unknown item"
     );
@@ -120,12 +130,11 @@ function saveUploadStatuses(statuses) {
 }
 
 function discoverJsonFilesInDir(dirPath) {
-    return fs
-        .readdirSync(dirPath, { withFileTypes: true })
-        .filter((d) => d.isFile())
-        .map((d) => d.name)
-        .filter((name) => name.toLowerCase().endsWith(".json"))
-        .filter((name) => name !== path.basename(STATUS_FILE_PATH));
+    // Only process known article data files so we don't accidentally scan
+    // unrelated JSON files (package.json, status files, etc.).
+    return FILE_COLLECTION_MAPPINGS
+        .map((m) => m.fileName)
+        .filter((fileName) => fs.existsSync(path.resolve(dirPath, fileName)));
 }
 
 function getCollectionNameForFile(fileName) {

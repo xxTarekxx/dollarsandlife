@@ -149,8 +149,9 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 					rel='canonical'
 					href='https://www.dollarsandlife.com/extra-income/freelance-jobs'
 				/>
-				<script type='application/ld+json'>
-					{JSON.stringify({
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{ __html: JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "ItemList",
 						itemListElement: freelanceJobs.map((post, index) => ({
@@ -158,12 +159,12 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 							position: index + 1,
 							headline: post.headline,
 							image: post.image.url,
-							author: { "@type": "Organization", name: post.author.name },
+							author: { "@type": "Person", name: post.author.name },
 							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/extra-income/freelance-jobs/${post.id}`,
 						})),
-					})}
-				</script>
+					}) }}
+				/>
 						<meta property='og:title' content='Freelance Jobs | Find Your Next Remote or Gig Opportunity' />
 			<meta
 				property='og:description'
@@ -203,7 +204,20 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 						<span className="section-hero-count">{freelanceJobs.length} articles</span>
 					)}
 				</div>
-					<div className='content-wrapper'>
+
+				<section className='page-intro' aria-label='About Freelance Jobs'>
+					<p>
+						Freelancing has moved from a niche hustle to a mainstream career path — and for good reason. With remote work now normalized across industries, skilled professionals can land clients from anywhere in the world without ever leaving their home office. Whether you specialize in writing, graphic design, web development, video editing, or virtual assistance, there is a growing market looking for exactly what you offer.
+					</p>
+					<p>
+						Getting started does not require a fancy portfolio or years of experience. Many of the most successful freelancers began by taking on small projects, building relationships, and letting their work speak for itself. The key is knowing where to look, how to pitch, and how to price your services competitively while still protecting your time.
+					</p>
+					<p>
+						The guides and articles below walk you through everything: the best platforms to find paid freelance work, how to write a winning proposal, how to handle contracts and payments, and how to scale from side income to full-time freedom. Dig in and find your next opportunity.
+					</p>
+				</section>
+
+				<div className='content-wrapper'>
 						{currentPosts.map((post) => {
 							const href = `/extra-income/freelance-jobs/${post.id}`;
 							return (

@@ -147,8 +147,9 @@ const Budget: React.FC<BudgetPageProps> = ({
 					rel='canonical'
 					href='https://www.dollarsandlife.com/extra-income/budget'
 				/>
-				<script type='application/ld+json'>
-					{JSON.stringify({
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{ __html: JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "ItemList",
 						itemListElement: budgetPosts.map((post, index) => ({
@@ -156,12 +157,12 @@ const Budget: React.FC<BudgetPageProps> = ({
 							position: index + 1,
 							headline: post.headline,
 							image: post.image.url,
-							author: { "@type": "Organization", name: post.author.name },
+							author: { "@type": "Person", name: post.author.name },
 							datePublished: post.datePublished,
 							url: `https://www.dollarsandlife.com/extra-income/budget/${post.id}`,
 						})),
-					})}
-				</script>
+					}) }}
+				/>
 						<meta property='og:title' content='Budget Guides | Smart Financial Planning Tips & Strategies' />
 			<meta
 				property='og:description'
