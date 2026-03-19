@@ -32,39 +32,22 @@ const ALL_LANGS = [
 const ALL_LANGS_SET = new Set(ALL_LANGS);
 
 /**
- * PATH_LANGUAGES — mirrors lib/i18n/translationStatus.ts PATH_LANGUAGES.
- * Only used for STATIC pages (home, about, etc.) which are always fully
- * translated via the UI translation system.
- *
- * Article/product detail pages use the actual languages stored in MongoDB
- * (doc.languages keys) so we never emit a URL for an untranslated article.
+ * Sitemap rule: only include a URL when translation exists.
+ * - Static pages: only the default (en) URL — no /es, /de, etc. until translated.
+ * - MongoDB pages: only languages present in doc.languages (no URL if no translation).
  */
-const PATH_LANGUAGES = Object.freeze({
-    "/":                                    ALL_LANGS,
-    "/about-us":                            ALL_LANGS,
-    "/contact-us":                          ALL_LANGS,
-    "/privacy-policy":                      ALL_LANGS,
-    "/return-policy":                       ALL_LANGS,
-    "/terms-of-service":                    ALL_LANGS,
-    "/financial-calculators":               ALL_LANGS,
-    "/shopping-deals":                      ALL_LANGS,
-    "/start-a-blog":                        ALL_LANGS,
-    "/extra-income":                        ALL_LANGS,
-    "/extra-income/budget":                 ALL_LANGS,
-    "/extra-income/freelance-jobs":         ALL_LANGS,
-    "/extra-income/remote-online-jobs":     ALL_LANGS,
-    "/extra-income/money-making-apps":      ALL_LANGS,
-    "/breaking-news":                       ALL_LANGS,
-    "/forum":                               ALL_LANGS,
-});
+const STATIC_PATHS = new Set([
+    "/", "/about-us", "/contact-us", "/privacy-policy", "/return-policy",
+    "/terms-of-service", "/financial-calculators", "/shopping-deals",
+    "/start-a-blog", "/extra-income", "/extra-income/budget",
+    "/extra-income/freelance-jobs", "/extra-income/remote-online-jobs",
+    "/extra-income/money-making-apps", "/breaking-news", "/forum",
+]);
 
-/**
- * Return the languages for a STATIC path.
- * Article detail pages should NOT use this — they read from doc.languages instead.
- */
+/** Languages to emit for a static path — only default (en); no URL without translation. */
 function getLanguagesForStaticPath(rawPath) {
     const normalized = rawPath.split("?")[0].replace(/\/$/, "") || "/";
-    return PATH_LANGUAGES[normalized] || [DEFAULT_LANG];
+    return STATIC_PATHS.has(normalized) ? [DEFAULT_LANG] : [DEFAULT_LANG];
 }
 
 /**
@@ -99,14 +82,16 @@ function buildHreflangLinks(pathWithoutLangArg, langs) {
 
 /**
  * Sitemap URL entry for a given lang + normalizedPath.
+ * Root is "/" → final URL ends as …/ ; all other paths have no trailing slash.
  * English: /breaking-news/slug  (no /en/ prefix)
  * Others:  /ar/breaking-news/slug
  */
 function sitemapUrl(lang, normalizedPath) {
+    const path = normalizedPath === "/" ? "/" : normalizedPath.replace(/\/+$/, "");
     if (lang === DEFAULT_LANG) {
-        return normalizedPath === "/" ? "/" : normalizedPath;
+        return path === "/" ? "/" : path;
     }
-    return normalizedPath === "/" ? `/${lang}` : `/${lang}${normalizedPath}`;
+    return path === "/" ? `/${lang}` : `/${lang}${path}`;
 }
 
 /**
@@ -277,7 +262,7 @@ const EXCLUDED_ROUTES = [
     "/forum/my-posts",
 ];
 
-// ✅ Static routes (without lang prefix — lang prefix is added during write)
+// ✅ Static page routes only (no ads.txt, rss.xml — not indexable pages)
 function extractStaticRoutes() {
     return [
         "/",
@@ -291,8 +276,6 @@ function extractStaticRoutes() {
         "/start-a-blog",
         "/breaking-news",
         "/financial-calculators",
-        "/ads.txt",
-        "/rss.xml"
     ];
 }
 
@@ -343,6 +326,10 @@ async function fetchDynamicRoutes() {
                 if (langPrefixMatch) {
                     relativeUrl = relativeUrl.slice(langPrefixMatch[1].length + 1);
                 }
+                // No trailing slash (except root): …/start-a-blog not …/start-a-blog/
+                if (relativeUrl !== "/" && relativeUrl.endsWith("/")) {
+                    relativeUrl = relativeUrl.replace(/\/+$/, "");
+                }
 
                 // ── ACTUAL languages for this document ──────────────────────
                 // Only emit sitemap entries for languages that have real content.
@@ -391,13 +378,17 @@ async function generateSitemap() {
             xmlns: { xhtml: true },
         });
 
-        // ── Static routes: all 20 languages (UI is always translated) ──────
+        // ── Static: only default (en) URL per path — no URL if no translation ─────────────
         let staticRoutes = extractStaticRoutes();
         staticRoutes = staticRoutes.filter(route =>
             !EXCLUDED_ROUTES.some(r => route.toLowerCase() === r.toLowerCase())
         );
-        const pathNorm = (r) => (!r || r === "/") ? "/" : (r.startsWith("/") ? r : "/" + r).toLowerCase();
-        console.log("📝 Adding static routes (multilingual)...");
+        // Root stays "/"; all other paths normalized to no trailing slash (e.g. /start-a-blog not /start-a-blog/)
+        const pathNorm = (r) => {
+            const raw = (!r || r === "/") ? "/" : (r.startsWith("/") ? r : "/" + r).toLowerCase();
+            return raw !== "/" && raw.endsWith("/") ? raw.replace(/\/+$/, "") : raw;
+        };
+        console.log("📝 Adding static routes (default language only)...");
 
         staticRoutes.forEach((route) => {
             const normalizedPath = pathNorm(route);
@@ -413,7 +404,7 @@ async function generateSitemap() {
             });
         });
 
-        // ── Dynamic routes: only languages with real translated content ─────
+        // ── Dynamic (MongoDB): only languages in doc.languages — no URL if no translation ─
         const dynamicRoutes = await fetchDynamicRoutes();
         console.log(`📝 Adding dynamic routes: ${dynamicRoutes.length} articles`);
 
