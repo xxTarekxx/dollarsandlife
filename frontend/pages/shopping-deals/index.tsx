@@ -1,4 +1,5 @@
 "use client"; // Still needed for useState, useEffect, useMemo for pagination and client-side interactions
+import "./ShoppingDeals.css";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
 import Link from "next/link";

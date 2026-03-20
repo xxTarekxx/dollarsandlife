@@ -53,5 +53,13 @@
 	},
 	"sideEffects": [
 		"**/*.css"
+	],
+	"browserslist": [
+		"chrome >= 93",
+		"firefox >= 90",
+		"safari >= 15",
+		"edge >= 93",
+		"ios_saf >= 15",
+		"not dead"
 	]
 }

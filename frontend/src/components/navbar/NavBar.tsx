@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { Suspense, lazy, memo, useEffect, useState } from "react";
@@ -134,12 +135,13 @@ const NavBar: React.FC<{ lang?: string; labels?: NavLabels }> = ({ lang, labels 
 						// For desktop, default Link behavior is fine, or use closeMenuAndNavigate if preferred
 					}}
 				>
-					<img
-						src={logoImagePath.src}
+					<Image
+						src={logoImagePath}
 						alt='Logo'
 						className='logo'
-						width='240'
-						height='46'
+						width={240}
+						height={46}
+						priority
 					/>
 				</Link>
 			</div>

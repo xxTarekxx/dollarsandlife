@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -39,11 +40,14 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 			<figure className="card-container">
 				{/* Full-bleed background image */}
 				<div className="card-image-wrapper">
-					<img
+					<Image
 						className="card-image"
 						src={image.url || "/images/placeholder.webp"}
 						alt={image.caption || headline || "Article image"}
+						fill
+						sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) calc(50vw - 32px), 420px"
 						loading="lazy"
+						style={{ objectFit: "cover" }}
 					/>
 				</div>
 

@@ -1,4 +1,5 @@
 "use client";
+import "./ForumHomePage.css";
 
 import { Auth, onAuthStateChanged, User } from "firebase/auth";
 import {

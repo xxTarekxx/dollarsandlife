@@ -4,8 +4,8 @@
     /* Vibrant Purple */
     --secondary-color: #8E2DE2;
     /* Lighter Purple */
-    --accent-color: #00c6ff;
-    /* Bright Blue for accents */
+    --accent-color: #006694;
+    /* Accessible teal-blue — contrast ≥5.7:1 on page bg, ≥6.3:1 on white */
     --text-color: #333;
     --text-light: #555;
     --background-color: #f9faff;
@@ -278,6 +278,13 @@ a {
 a:hover,
 a:focus {
     color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* WCAG 1.4.1 — links within body text must be distinguishable without relying on color alone */
+.homepage-container p a,
+.why-trust-us p a,
+.faq-answer a {
     text-decoration: underline;
 }
 
@@ -599,7 +606,7 @@ a:focus {
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
 }
 
-.discover-item h4 {
+.discover-item h3 {
     color: var(--primary-color);
     font-size: 1.15rem;
     /* Slightly larger */

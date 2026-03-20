@@ -1,4 +1,5 @@
 import { AppProps } from "next/app";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -8,26 +9,23 @@ import "../src/App.css";
 import "../src/components/articles-content/BlogPostContent.css";
 import "../src/components/articles-postcards/BlogPostCard.css";
 import "../src/components/breadcrumbs/Breadcrumb.css";
-import "../src/components/calculators/FinancialCalculators.css";
 import "../src/components/footer/Footer.css";
 import "../src/components/navbar/NavBar.css";
 import "../src/components/pagination/PaginationContainer.css";
 import "../src/components/rss-news/RssTicker.css";
 import "../src/index.css";
-import "./extra-income/CommonStyles.css";
-import "./extra-income/ExtraIncome.css";
-import "./forum/ForumHomePage.css";
-import "./forum/post/ViewPostPage.css";
-import "./HomePage.css";
-import "./return-policy/return-policy.css";
-
-import "./shopping-deals/ProductDetails.css";
-import "./shopping-deals/ShoppingDeals.css";
+// NOTE: Page-specific CSS is imported in their respective page files to avoid
+// loading unused styles on every page (reduces render-blocking CSS bundle size).
 
 import BreadcrumbWrapper from "../src/components/breadcrumbs/BreadcrumbWrapper";
 import Footer from "../src/components/footer/Footer";
 import NavBar from "../src/components/navbar/NavBar";
-import RssTicker from "../src/components/rss-news/RssTicker";
+// Load RssTicker dynamically — it fetches external data and returns null on SSR anyway,
+// so there's no benefit to including it in the initial JS bundle.
+const RssTicker = dynamic(
+	() => import("../src/components/rss-news/RssTicker"),
+	{ ssr: false }
+);
 
 declare global {
 	interface Window {
@@ -183,6 +181,29 @@ function MyApp({ Component, pageProps }: AppProps) {
 				/>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' type='image/png' href='/website-logo-icon.png' />
+				<link rel='preconnect' href='https://api.rss2json.com' />
+				<script
+					type='application/ld+json'
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "Organization",
+							name: "Dollars And Life",
+							url: "https://www.dollarsandlife.com",
+							logo: "/images/website-logo.webp",
+							sameAs: [
+								"https://www.facebook.com/profile.php?id=61552256902083",
+								"https://www.instagram.com/dollarsnlife/",
+								"https://www.youtube.com/channel/UCIV08RQSLOnOCFMe7Kj5-iA",
+							],
+							contactPoint: {
+								"@type": "ContactPoint",
+								email: "contact@dollarsandlife.com",
+								contactType: "Customer Service",
+							},
+						}),
+					}}
+				/>
 			</Head>
 
 			<Toaster
@@ -205,7 +226,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				<header>
 					<NavBar />
 				</header>
-				<aside>
+				<aside style={{ minHeight: '40px' }}>
 					<RssTicker />
 				</aside>
 
@@ -215,9 +236,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					<Component {...pageProps} />
 				</main>
 
-				<footer>
-					<Footer />
-				</footer>
+				<Footer />
 			</div>
 		</>
 	);
