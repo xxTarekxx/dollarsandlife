@@ -1,3 +1,5 @@
+"use client";
+
 // frontend/src/components/auth/Login.tsx
 import {
     Auth,
@@ -7,7 +9,7 @@ import {
     signInWithPopup,
 } from "firebase/auth";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { FormEvent, useEffect, useState } from "react";
 import googleLogo from "../assets/images/google-logo.png";
 import { getFirebaseAuth } from "../firebase";
@@ -32,6 +34,8 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 	const [error, setError] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
 
 	const [currentAuth, setCurrentAuth] = useState<Auth | null>(propAuth || null);
 	const [authInitializedFromGetter, setAuthInitializedFromGetter] = useState(
@@ -61,15 +65,15 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		if (!currentAuth) return;
 
 		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
-			if (user && router.pathname === "/login") {
+			if (user && pathname === "/login") {
 				router.replace("/forum");
 			}
 		});
 		return () => unsubscribe();
-	}, [router, currentAuth]);
+	}, [router, pathname, currentAuth]);
 
 	const handleLoginSuccess = () => {
-		const from = (router.query.from as string) || "/forum";
+		const from = searchParams?.get("from") || "/forum";
 		
 		// Validate and sanitize the redirect URL to prevent XSS
 		const sanitizedFrom = validateAndSanitizeRedirectUrl(from);
@@ -131,7 +135,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		setLoading(true);
 		try {
 			await signInWithEmailAndPassword(currentAuth, email, password);
-			if (router.pathname === "/login") {
+			if (pathname === "/login") {
 				handleLoginSuccess();
 			}
 		} catch (err: unknown) {
@@ -166,7 +170,7 @@ const Login: React.FC<LoginProps> = ({ onSwitchToSignUp, auth: propAuth }) => {
 		const provider = new GoogleAuthProvider();
 		try {
 			await signInWithPopup(currentAuth, provider);
-			if (router.pathname === "/login") {
+			if (pathname === "/login") {
 				handleLoginSuccess();
 			}
 		} catch (err: unknown) {

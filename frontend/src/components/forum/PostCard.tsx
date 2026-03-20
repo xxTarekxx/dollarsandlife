@@ -1,7 +1,7 @@
 import { Auth } from "firebase/auth";
 import { Firestore } from "firebase/firestore";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import tagColors from "../../utils/tagColors";
 import styles from "./PostCard.module.css";
