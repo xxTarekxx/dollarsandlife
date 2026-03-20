@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { GetStaticProps } from "next"; // Added
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 // Remove useAuthState import
 import PostCard, { PostData } from "../../src/components/forum/PostCard";
@@ -488,19 +488,23 @@ const ForumHomePage: React.FC<ForumHomePageProps> = ({
 	const [firebaseError, setFirebaseError] = useState<Error | null>(null);
 	
 	// Redirect to /auth/action if Firebase auth callback params are present
+	// (use window URL — works under App Router rewrites where next/router is not mounted)
 	useEffect(() => {
-		if (router.isReady) {
-			const { mode, oobCode, apiKey } = router.query;
-			if (mode && oobCode) {
-				// Firebase auth callback - redirect to proper handler
-				const params = new URLSearchParams();
-				if (mode) params.set("mode", mode as string);
-				if (oobCode) params.set("oobCode", oobCode as string);
-				if (apiKey) params.set("apiKey", apiKey as string);
-				if (router.query.continueUrl) params.set("continueUrl", router.query.continueUrl as string);
-				if (router.query.lang) params.set("lang", router.query.lang as string);
-				router.replace(`/auth/action?${params.toString()}`);
-			}
+		if (typeof window === "undefined") return;
+		const sp = new URLSearchParams(window.location.search);
+		const mode = sp.get("mode");
+		const oobCode = sp.get("oobCode");
+		if (mode && oobCode) {
+			const params = new URLSearchParams();
+			params.set("mode", mode);
+			params.set("oobCode", oobCode);
+			const apiKey = sp.get("apiKey");
+			if (apiKey) params.set("apiKey", apiKey);
+			const continueUrl = sp.get("continueUrl");
+			if (continueUrl) params.set("continueUrl", continueUrl);
+			const lang = sp.get("lang");
+			if (lang) params.set("lang", lang);
+			router.replace(`/auth/action?${params.toString()}`);
 		}
 	}, [router]);
 

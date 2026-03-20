@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import AuthPromptModal from "../../../src/auth/AuthPromptModal";
@@ -59,7 +59,7 @@ const AuthenticatedViewPostPageContent: React.FC<{
 	initialPostData?: PostData | null; // Added
 	ssrError?: string; // Added
 }> = ({ postId, firebaseAuth, firebaseDb, initialPostData, ssrError }) => {
-	const router = useRouter();
+	const router = useRouter(); // next/navigation
 	const [post, setPost] = useState<PostData | null>(initialPostData || null); // Initialize with SSR data
 	const [answers, setAnswers] = useState<AnswerData[]>([]);
 	const [newAnswerContent, setNewAnswerContent] = useState("");
@@ -644,8 +644,14 @@ const ViewPostPage: React.FC<ViewPostPageProps> = ({
 	initialPostData,
 	error: ssrError,
 }) => {
-	const router = useRouter();
-	const { postId } = router.query; // Still needed for client-side logic like answer submission if postId isn't passed down further
+	const params = useParams();
+	const slugParam = params?.slug;
+	const urlSegment =
+		typeof slugParam === "string"
+			? slugParam
+			: Array.isArray(slugParam)
+				? slugParam[0]
+				: undefined;
 
 	const [firebaseAuth, setFirebaseAuth] = useState<Auth | null>(null);
 	const [firebaseDb, setFirebaseDb] = useState<Firestore | null>(null);
@@ -675,13 +681,9 @@ const ViewPostPage: React.FC<ViewPostPageProps> = ({
 			});
 	}, []);
 
-	if (!router.isReady && !initialPostData && !ssrError) {
-		// If no SSR data, wait for router
-		return <div className='page-loading-indicator'>Loading router...</div>;
-	}
-
+	// App Router: slug comes from useParams. Pages Router [slug] dynamic segment (legacy).
 	const currentPostId =
-		typeof postId === "string" ? postId : initialPostData?.id;
+		urlSegment ?? initialPostData?.id;
 
 	if (!currentPostId) {
 		// This case should ideally be caught by getServerSideProps notFound,

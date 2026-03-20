@@ -9,7 +9,7 @@ import {
 	where,
 } from "firebase/firestore";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import PostCard, { PostData } from "../../src/components/forum/PostCard";
 import ForumHeader from "../../src/components/forum/ForumHeader";

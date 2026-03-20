@@ -1,7 +1,7 @@
 // frontend/pages/forum/create-post.tsx - Adapted to be a page
 "use client";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Auth, onAuthStateChanged, User } from "firebase/auth";
 import { Firestore } from "firebase/firestore";

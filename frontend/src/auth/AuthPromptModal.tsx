@@ -1,3 +1,5 @@
+"use client";
+
 // frontend/src/components/auth/AuthPromptModal.tsx
 import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import React, { useCallback, useEffect, useMemo, useState } from "react";

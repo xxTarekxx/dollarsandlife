@@ -1,3 +1,5 @@
+"use client";
+
 // frontend/src/components/auth/SignUp.tsx
 import {
 	ActionCodeSettings,
@@ -12,7 +14,7 @@ import {
 	signInWithPopup,
 	updateProfile,
 } from "firebase/auth";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import React, { FormEvent, useEffect, useState } from "react";
 import { getFirebaseAuth } from "../firebase";
 import styles from "./SignUp.module.css";
@@ -56,6 +58,7 @@ const SignUp: React.FC<SignUpProps> = ({
 		!!propAuth,
 	);
 	const router = useRouter();
+	const pathname = usePathname();
 
 	useEffect(() => {
 		if (!propAuth && !authInitializedFromGetter) {
@@ -100,17 +103,17 @@ const SignUp: React.FC<SignUpProps> = ({
 	useEffect(() => {
 		if (!currentAuth) return;
 		const unsubscribe = onAuthStateChanged(currentAuth, (user) => {
-			if (user && router.pathname === "/signup") {
+			if (user && pathname === "/signup") {
 				router.replace("/forum");
 			}
 		});
 		return () => unsubscribe();
-	}, [router, currentAuth]);
+	}, [router, pathname, currentAuth]);
 
 	const handleSuccessfulSocialLoginInternal = (user: User) => {
 		if (onSuccessfulSocialLogin) {
 			onSuccessfulSocialLogin();
-		} else if (router.pathname === "/signup") {
+		} else if (pathname === "/signup") {
 			setSuccessMessage(
 				`Welcome, ${user.displayName || "User"}! Redirecting...`,
 			);
