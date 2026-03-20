@@ -1,4 +1,6 @@
 "use client"; // Retained for useState, useEffect for dynamic posts and existing interactions
+import "./CommonStyles.css";
+import "./ExtraIncome.css";
 import Head from "next/head";
 import type { StaticImageData } from "next/image";
 import Link from "next/link";
@@ -135,13 +137,7 @@ const ExtraIncome: React.FC = () => {
 
 				<section className='page-intro' aria-label='About Extra Income'>
 					<p>
-						Building extra income is one of the most reliable ways to accelerate your financial goals — whether you want to pay off debt faster, build an emergency fund, or simply create more breathing room in your budget. The good news: you have more options than ever before.
-					</p>
-					<p>
-						At Dollars &amp; Life, we cover the full spectrum of legitimate income opportunities. From landing your first freelance client to finding a fully remote full-time role, from discovering the best money-making apps to launching a side business that generates passive revenue — every guide here is built on real-world experience, not theory.
-					</p>
-					<p>
-						Explore our four core categories below. Each one is packed with step-by-step guides, curated job listings, and practical tips you can act on today. Whether you have five hours a week or fifty, there is a strategy here that fits your life.
+						Explore practical guides on freelancing, remote jobs, money-making apps, and smart budgeting — everything you need to earn more and keep more of what you make.
 					</p>
 				</section>
 
@@ -192,8 +188,8 @@ const ExtraIncome: React.FC = () => {
 							src='/images/Lyca-Mobile-728x90.webp'
 							alt='Lyca Mobile Banner - Affordable International Calling'
 							className='TopBannerImage'
-							width='730px'
-							height='90px'
+							width={728}
+							height={90}
 							loading='eager' // Keep LCP image eager
 						/>
 					</a>

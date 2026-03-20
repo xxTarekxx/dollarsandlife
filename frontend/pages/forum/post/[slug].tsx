@@ -1,5 +1,7 @@
-// frontend/pages/forum/post/[postId].tsx
 "use client"; // Keep for client-side interactions like modals, answer submission, voting
+// frontend/pages/forum/post/[postId].tsx
+import "../ForumHomePage.css";
+import "./ViewPostPage.css";
 import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import {
 	addDoc,

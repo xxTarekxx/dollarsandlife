@@ -27,25 +27,49 @@ const nextConfig = {
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendor',
+          // Firebase is only used in forum/auth pages.
+          // chunks:'all' ensures firebase ALWAYS goes to its own named chunk
+          // regardless of whether it's imported sync or async — prevents it
+          // from leaking into the vendor chunk via the chunks:'all' catch-all.
+          firebase: {
+            test: /[\\/]node_modules[\\/](firebase|@firebase)[\\/]/,
+            name: 'firebase',
             chunks: 'all',
+            priority: 30,
+            enforce: true,
+          },
+          // Heavy packages used only on specific pages — async only
+          forumLibs: {
+            test: /[\\/]node_modules[\\/](dompurify|html-react-parser|browser-image-compression)[\\/]/,
+            name: 'forum-libs',
+            chunks: 'async',
+            priority: 25,
           },
           recaptcha: {
             test: /[\\/]node_modules[\\/]react-google-recaptcha[\\/]/,
             name: 'recaptcha',
-            chunks: 'all',
+            chunks: 'async',
+            priority: 20,
           },
           emailjs: {
-            test: /[\\/]node_modules[\\/]emailjs-com[\\/]/,
+            test: /[\\/]node_modules[\\/](@emailjs)[\\/]/,
             name: 'emailjs',
-            chunks: 'all',
+            chunks: 'async',
+            priority: 20,
           },
           fortawesome: {
             test: /[\\/]node_modules[\\/]@fortawesome[\\/]/,
             name: 'fortawesome',
-            chunks: 'all',
+            chunks: 'async',
+            priority: 20,
+          },
+          // Shared vendor chunk — initial-only so async-only packages
+          // (firebase, forum libs, etc.) don't get pulled into the initial bundle
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+            chunks: 'initial',
+            priority: 10,
           },
         },
       };
@@ -74,6 +98,13 @@ const nextConfig = {
       // Next.js caseSensitive:false routing matched the lowercase URLs against mixed-case redirect
       // sources and redirected them back to themselves.
       // caseSensitive:false routing handles all capitalisation variants natively without redirects.
+
+      // Redirect /earn/* → /extra-income/* (old URL structure)
+      { source: '/earn/remote-online-jobs', destination: '/extra-income/remote-online-jobs', permanent: true },
+      { source: '/earn/freelance-jobs',     destination: '/extra-income/freelance-jobs',     permanent: true },
+      { source: '/earn/budget',             destination: '/extra-income/budget',             permanent: true },
+      { source: '/earn/money-making-apps',  destination: '/extra-income/money-making-apps',  permanent: true },
+      { source: '/earn',                    destination: '/extra-income',                    permanent: true },
 
       // Redirect forum URLs with query params to clean URL (handled by client-side redirect, but this helps)
       {

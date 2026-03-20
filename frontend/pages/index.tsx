@@ -1,4 +1,5 @@
 "use client";
+import "./HomePage.css";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -32,30 +33,10 @@ const HomePage: React.FC = () => {
 
 
 	useEffect(() => {
-		// Only run on client side
+		// Only run on client side — no footer manipulation needed
+		// (footer.style.display was causing CLS by overriding CSS display:flex)
 		if (typeof window === 'undefined') return;
-
-		// Show content immediately
 		setShowContent(true);
-
-		// Show footer
-		const footer = document.querySelector('footer');
-		if (footer) {
-			footer.style.display = 'block';
-		}
-	}, []);
-
-	// Cleanup effect for component unmount
-	useEffect(() => {
-		// Only run on client side
-		if (typeof window === 'undefined') return;
-
-		return () => {
-			const footer = document.querySelector('footer');
-			if (footer) {
-				footer.style.display = 'block';
-			}
-		};
 	}, []);
 
 	// --- Page Specific Configuration ---
@@ -463,7 +444,7 @@ const HomePage: React.FC = () => {
 						</h2>
 						<div className='discover-grid'>
 							<div className='discover-item animate-item' style={{ animationDelay: '0.05s' }}>
-								<h4>In-Depth Budgeting Guides</h4>
+								<h3>In-Depth Budgeting Guides</h3>
 								<p>
 									From creating your first budget to advanced saving strategies.
 									Conquer debt and build lasting wealth.
@@ -477,7 +458,7 @@ const HomePage: React.FC = () => {
 								</Link>
 							</div>
 							<div className='discover-item animate-item' style={{ animationDelay: '0.1s' }}>
-								<h4>Creative Income Boosters</h4>
+								<h3>Creative Income Boosters</h3>
 								<p>
 									Find legitimate side hustles, online job opportunities, and
 									passive income ideas to grow your earnings.
@@ -491,7 +472,7 @@ const HomePage: React.FC = () => {
 								</Link>
 							</div>
 							<div className='discover-item animate-item' style={{ animationDelay: '0.15s' }}>
-								<h4>Smart Shopping Secrets</h4>
+								<h3>Smart Shopping Secrets</h3>
 								<p>
 									Learn to find the best deals, use coupons wisely, and avoid
 									marketing traps to save big on every purchase.
@@ -505,7 +486,7 @@ const HomePage: React.FC = () => {
 								</Link>
 							</div>
 							<div className='discover-item animate-item' style={{ animationDelay: '0.2s' }}>
-								<h4>Blogging for Success</h4>
+								<h3>Blogging for Success</h3>
 								<p>
 									Step-by-step tutorials on starting, growing, and monetizing a blog
 									effectively in any niche.

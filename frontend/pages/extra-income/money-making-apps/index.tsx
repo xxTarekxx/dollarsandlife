@@ -1,4 +1,5 @@
 "use client";
+import "../CommonStyles.css";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react"; // Added useCallback

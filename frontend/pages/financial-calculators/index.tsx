@@ -1,3 +1,4 @@
+import "../../src/components/calculators/FinancialCalculators.css";
 import Head from "next/head";
 import FinancialCalculators from "../../src/components/calculators/FinancialCalculators";
 

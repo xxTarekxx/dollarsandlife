@@ -1,5 +1,6 @@
-// frontend/pages/forum/create-post.tsx - Adapted to be a page
 "use client";
+// frontend/pages/forum/create-post.tsx - Adapted to be a page
+import "./ForumHomePage.css";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";

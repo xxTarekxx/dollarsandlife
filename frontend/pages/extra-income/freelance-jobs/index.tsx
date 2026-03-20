@@ -1,4 +1,5 @@
 "use client";
+import "../CommonStyles.css";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react";
@@ -207,13 +208,7 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 
 				<section className='page-intro' aria-label='About Freelance Jobs'>
 					<p>
-						Freelancing has moved from a niche hustle to a mainstream career path — and for good reason. With remote work now normalized across industries, skilled professionals can land clients from anywhere in the world without ever leaving their home office. Whether you specialize in writing, graphic design, web development, video editing, or virtual assistance, there is a growing market looking for exactly what you offer.
-					</p>
-					<p>
-						Getting started does not require a fancy portfolio or years of experience. Many of the most successful freelancers began by taking on small projects, building relationships, and letting their work speak for itself. The key is knowing where to look, how to pitch, and how to price your services competitively while still protecting your time.
-					</p>
-					<p>
-						The guides and articles below walk you through everything: the best platforms to find paid freelance work, how to write a winning proposal, how to handle contracts and payments, and how to scale from side income to full-time freedom. Dig in and find your next opportunity.
+						Browse guides on the best freelance platforms, writing winning proposals, setting competitive rates, and turning side projects into steady freelance income.
 					</p>
 				</section>
 

@@ -1,3 +1,4 @@
+import "./ForumHomePage.css";
 import { Auth, onAuthStateChanged, User } from "firebase/auth"; // Add onAuthStateChanged and User
 import {
 	collection,
