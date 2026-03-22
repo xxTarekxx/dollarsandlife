@@ -98,7 +98,7 @@ export default function HomePageClient() {
 					<section className="why-trust-us animate-section" aria-labelledby="why-trust-title-id">
 						<div className="why-trust-content">
 							<h2 id="why-trust-title-id" className="section-title">Why Trust <span className="highlight">{shortSiteName}</span>?</h2>
-							<p>We're committed to providing clear, reliable, and actionable personal finance advice. Founded by <strong><a href="https://www.linkedin.com/in/tarek-ismael-96777578/" target="_blank" rel="noopener noreferrer author">Tarek I.</a></strong>, a self-taught developer and personal finance writer based in Texas with years of hands-on experience.</p>
+							<p>We're committed to providing clear, reliable, and actionable personal finance advice. Founded by <strong><a href="https://www.linkedin.com/in/tarek-ismail-96777578/" target="_blank" rel="noopener noreferrer author">Tarek I.</a></strong>, a self-taught developer and personal finance writer based in Texas with years of hands-on experience.</p>
 							<Link href={prefixLang("/about-us", lang)} className="cta-button-secondary" title="Learn more about our mission and team">Learn More About Us</Link>
 						</div>
 					</section>
