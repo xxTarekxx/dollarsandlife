@@ -42,7 +42,7 @@ declare global {
 }
 
 const GA_MEASUREMENT_ID =
-	process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-76XESXFFJP";
+	process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-S7FWNHSD7P";
 const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-16613104907";
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 
 import { isRtl, supportedLanguages } from "@/lib/i18n/languages";
@@ -34,6 +35,18 @@ export default async function RootLayout({
 			<head>
 				<link rel="icon" type="image/png" href="/website-logo-icon.png" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				{/* Google Analytics */}
+				<script async src="https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P" />
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
+							window.dataLayer = window.dataLayer || [];
+							function gtag(){dataLayer.push(arguments);}
+							gtag('js', new Date());
+							gtag('config', 'G-S7FWNHSD7P');
+						`,
+					}}
+				/>
 			</head>
 			<body>
 				<Toaster
@@ -45,6 +58,13 @@ export default async function RootLayout({
 					}}
 				/>
 				{children}
+				{/* Google AdSense — loads after page is interactive, never blocks rendering */}
+				<Script
+					async
+					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079721341426198"
+					crossOrigin="anonymous"
+					strategy="afterInteractive"
+				/>
 			</body>
 		</html>
 	);
