@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
 	const ogImageContent = `${siteUrl}og-image-homepage.jpg`; // Use absolute URL
 	const logoUrl = `${siteUrl}images/website-logo.webp`; // Use absolute URL
 	const founderLinkedInUrl =
-		"https://www.linkedin.com/in/tarek-ismael-96777578/";
+		"https://www.linkedin.com/in/tarek-ismail-96777578/";
 	const founderName = "Tarek I.";
 
 	// --- Content Definitions ---
@@ -218,7 +218,7 @@ const HomePage: React.FC = () => {
 
 	// Always render the main container structure for consistent hydration
 	return (
-		<div className='homepage-container animate-in'>
+		<>
 			<Head>
 				<title>{mainTitle}</title>
 				<meta name='description' content={mainDescription} />
@@ -290,8 +290,8 @@ const HomePage: React.FC = () => {
 			{/* Show content only when loading is complete */}
 			{showContent && (
 				<>
-					{/* --- Hero Section --- */}
-					<section className='hero-section animate-section' aria-labelledby='hero-title'>
+					{/* --- Hero — full viewport width, outside max-width container --- */}
+					<section className='hero-section' aria-labelledby='hero-title'>
 						<div className='hero-content'>
 							<h1 id='hero-title'>
 								Master Your Money,{" "}
@@ -309,7 +309,7 @@ const HomePage: React.FC = () => {
 						</div>
 					</section>
 
-					{/* --- Stats Strip --- */}
+					{/* --- Stats Strip — self-centering, overlaps hero bottom --- */}
 					<div className='stats-strip' role='list' aria-label='Site highlights'>
 						<div className='stat-item' role='listitem'>
 							<span className='stat-icon' aria-hidden='true'>📚</span>
@@ -332,6 +332,9 @@ const HomePage: React.FC = () => {
 							<span className='stat-label'>Free Content</span>
 						</div>
 					</div>
+
+					{/* --- Remaining sections inside max-width container --- */}
+					<div className='homepage-container animate-in'>
 
 					{/* --- Introduction to Core Topics --- */}
 					<section
@@ -563,9 +566,10 @@ const HomePage: React.FC = () => {
 							Start Your Journey Now
 						</a>
 					</section>
+					</div>{/* end homepage-container */}
 				</>
 			)}
-		</div>
+		</>
 	);
 
 
