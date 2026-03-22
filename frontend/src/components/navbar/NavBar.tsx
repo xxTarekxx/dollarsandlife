@@ -8,6 +8,7 @@ import { prefixLang } from "@/lib/i18n/prefixLang";
 import type { NavLabels } from "@/lib/i18n/ui-translations";
 import searchIcon from "../../assets/images/favicon/searchicon.svg";
 import logoImagePath from "../../assets/images/website-logo.webp";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 // Lazily import the SearchFeature component
 const SearchFeature = lazy(() => import("./SearchFeature"));
@@ -193,6 +194,9 @@ const NavBar: React.FC<{ lang?: string; labels?: NavLabels }> = ({ lang, labels 
 					<div></div>
 					<div></div>
 				</div>
+
+				{/* Language Switcher */}
+				<LanguageSwitcher />
 
 				{/* Search Icon */}
 				<div

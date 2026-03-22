@@ -13,7 +13,7 @@ import RssTicker from "@/components/rss-news/RssTicker";
 import "@/components/articles-content/BlogPostContent.css";
 import "@/components/articles-postcards/BlogPostCard.css";
 import "@/components/breadcrumbs/Breadcrumb.css";
-import "@/components/LanguageSwitcher.css";
+import "@/components/LanguageSwitcher.css"; // bundled here so styles are ready on first paint
 import "@/components/calculators/FinancialCalculators.css";
 import "@/components/footer/Footer.css";
 import "@/components/navbar/NavBar.css";
