@@ -5,10 +5,6 @@ import React from "react";
 import { pathWithoutLang, prefixLang } from "@/lib/i18n/prefixLang";
 import type { BreadcrumbLabels } from "@/lib/i18n/ui-translations";
 import Breadcrumb from "./Breadcrumb";
-// Eager import — LanguageSwitcher is visible on every page so lazy-loading it
-// causes a CSS flash (styles arrive a tick after the element). Importing directly
-// bundles it with BreadcrumbWrapper so styles are ready on first paint.
-import LanguageSwitcher from "../LanguageSwitcher";
 
 /**
  * Build the breadcrumb name map from translated labels.
@@ -64,12 +60,12 @@ const BreadcrumbWrapper: React.FC<{ lang?: string; labels?: BreadcrumbLabels }> 
 		breadcrumbPaths.length <= 1 &&
 		breadcrumbPaths[0]?.title === (labels?.home ?? "Home");
 
-	// Always render the bar so the language switcher is accessible on every page.
-	// On the home page the breadcrumb trail is hidden but the switcher still shows.
+	// Don't render anything on the home page — no breadcrumb trail needed.
+	if (isHomePage) return null;
+
 	return (
 		<div className="breadcrumb-bar">
-			{!isHomePage && <Breadcrumb paths={breadcrumbPaths} />}
-			{lang != null && <LanguageSwitcher />}
+			<Breadcrumb paths={breadcrumbPaths} />
 		</div>
 	);
 };

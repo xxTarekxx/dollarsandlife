@@ -35,6 +35,10 @@ export default async function RootLayout({
 			<head>
 				<link rel="icon" type="image/png" href="/website-logo-icon.png" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				{/* Google Fonts — Poppins (headings/nav) + Inter (body) */}
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;700&display=swap" />
 				{/* Google Analytics */}
 				<script async src="https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P" />
 				<script

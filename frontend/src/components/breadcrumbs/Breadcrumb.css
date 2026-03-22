@@ -1,16 +1,13 @@
 /* ── Breadcrumb bar ─────────────────────────────────────────────────────────
-   Full-width row that holds the breadcrumb trail (left) and the language
-   switcher (right). Always rendered so the language picker is reachable on
-   every page, including the home page where no trail is shown.
+   Full-width row that holds the breadcrumb trail.
+   Not rendered on the home page (BreadcrumbWrapper returns null there).
 ──────────────────────────────────────────────────────────────────────────── */
 .breadcrumb-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
-    padding: 4px 20px 4px 20px;
+    padding: 4px 20px;
     box-sizing: border-box;
-    min-height: 36px;
 }
 
 /* ── Breadcrumb trail ─────────────────────────────────────────────────────── */

@@ -53,7 +53,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
           <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
           <link
             rel='stylesheet'
-            href='https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Source+Serif+Pro:wght@400;600&display=swap'
+            href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;700&display=swap'
           />
           {/* Google tag (gtag.js) */}
           <script async src="https://www.googletagmanager.com/gtag/js?id=G-S7FWNHSD7P"></script>
