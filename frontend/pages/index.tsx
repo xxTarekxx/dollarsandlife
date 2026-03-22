@@ -309,6 +309,30 @@ const HomePage: React.FC = () => {
 						</div>
 					</section>
 
+					{/* --- Stats Strip --- */}
+					<div className='stats-strip' role='list' aria-label='Site highlights'>
+						<div className='stat-item' role='listitem'>
+							<span className='stat-icon' aria-hidden='true'>📚</span>
+							<span className='stat-number'>500+</span>
+							<span className='stat-label'>Guides &amp; Articles</span>
+						</div>
+						<div className='stat-item' role='listitem'>
+							<span className='stat-icon' aria-hidden='true'>💡</span>
+							<span className='stat-number'>4</span>
+							<span className='stat-label'>Core Topics</span>
+						</div>
+						<div className='stat-item' role='listitem'>
+							<span className='stat-icon' aria-hidden='true'>🌍</span>
+							<span className='stat-number'>20</span>
+							<span className='stat-label'>Languages</span>
+						</div>
+						<div className='stat-item' role='listitem'>
+							<span className='stat-icon' aria-hidden='true'>✅</span>
+							<span className='stat-number'>100%</span>
+							<span className='stat-label'>Free Content</span>
+						</div>
+					</div>
+
 					{/* --- Introduction to Core Topics --- */}
 					<section
 						className='core-topics-intro animate-section'
