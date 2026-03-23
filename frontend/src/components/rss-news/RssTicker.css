@@ -2,7 +2,7 @@
 .rss-ticker {
     width: 100%;
     min-height: 40px;
-    background: transparent;
+    background: #4C1D95; /* brand purple — default for all pages */
     color: white;
     overflow: hidden;
     font-size: 16px;
@@ -11,6 +11,11 @@
     border-top: none;
     display: flex;
     align-items: center;
+}
+
+/* Homepage: hero gradient covers this area — no separate background needed */
+.is-homepage .rss-ticker {
+    background: transparent;
 }
 
 /* Outer wrapper for smooth scrolling */

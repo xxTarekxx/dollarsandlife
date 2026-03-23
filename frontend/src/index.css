@@ -3,7 +3,10 @@ html {
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* prevent horizontal scroll when hero uses 100vw */
+  overflow-x: hidden;
+  /* prevent horizontal scroll when hero uses 100vw */
+  background-color: #EDE9F8;
+  /* ghost purple — matches brand, applies to entire page */
 }
 
 body {
