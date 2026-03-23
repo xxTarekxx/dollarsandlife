@@ -168,6 +168,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	}, [router]);
 
 	const showBreadcrumbs = router.pathname !== "/";
+	const isHomePage = router.pathname === "/";
 
 	return (
 		<>
@@ -215,7 +216,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				}}
 			/>
 
-			<div className={`app-container ${showAdBlockPrompt ? "blurred" : ""}`}>
+			<div className={`app-container ${showAdBlockPrompt ? "blurred" : ""} ${isHomePage ? "is-homepage" : ""}`}>
 				{showAdBlockPrompt && (
 					<div className='adblock-warning'>
 						<h2>We Rely on Ads to Keep Our Content Free</h2>

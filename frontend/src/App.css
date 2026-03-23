@@ -12,7 +12,7 @@ body {
   z-index: 1;
   min-height: 100vh;
   overflow-y: auto;
-  background-color: #ffffff;
+  background-color: #EDE9F8;
   font-size: 1rem;
   line-height: 1.6;
   color: #333;
@@ -20,13 +20,19 @@ body {
 }
 
 /* Ensure layout elements have no default spacing */
-main, header, aside, footer, section, article, nav {
+main,
+header,
+aside,
+footer,
+section,
+article,
+nav {
   padding: 0;
   margin: 0;
 }
 
 /* RSS ticker aside floats above the hero background */
-.app-container > aside {
+.app-container>aside {
   position: relative;
   z-index: 1;
 }
