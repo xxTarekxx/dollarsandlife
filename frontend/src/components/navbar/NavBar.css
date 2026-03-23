@@ -177,6 +177,11 @@
         display: flex;
     }
 
+    .logo {
+        width: 160px;
+        height: 38px;
+    }
+
     .right-controls {
         flex-direction: row-reverse;
         gap: 0.25rem;

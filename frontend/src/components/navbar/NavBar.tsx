@@ -182,7 +182,7 @@ const NavBar: React.FC<{ lang?: string; labels?: NavLabels }> = ({ lang, labels 
 					)}
 				</div>
 
-				{/* Hamburger Icon */}
+				{/* Hamburger Icon — always rightmost on mobile (row-reverse keeps it last visually) */}
 				<div
 					className={`hamburger ${menuOpen ? "open" : ""}`}
 					onClick={toggleMobileMenu}
@@ -194,9 +194,6 @@ const NavBar: React.FC<{ lang?: string; labels?: NavLabels }> = ({ lang, labels 
 					<div></div>
 					<div></div>
 				</div>
-
-				{/* Language Switcher */}
-				<LanguageSwitcher />
 
 				{/* Search Icon */}
 				<div
@@ -211,6 +208,9 @@ const NavBar: React.FC<{ lang?: string; labels?: NavLabels }> = ({ lang, labels 
 						className='search-icon-image'
 					/>
 				</div>
+
+				{/* Language Switcher */}
+				<LanguageSwitcher />
 			</div>
 
 			{/* Lazy Search Feature */}

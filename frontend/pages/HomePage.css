@@ -1020,7 +1020,19 @@ a:focus {
 
 @media (max-width: 768px) {
     .hero-section {
-        padding: 3rem 1.25rem;
+        /* Keep full-bleed on mobile — overflow-x: hidden on html prevents scroll */
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        /* Keep RSS ticker offset, reduce vertical padding */
+        padding: calc(var(--rss-height) + 2rem) 1.5rem 3rem;
+        box-sizing: border-box;
+    }
+
+    .hero-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     .stats-strip {
@@ -1059,6 +1071,21 @@ a:focus {
 @media (max-width: 480px) {
     .homepage-container {
         padding: 0 1rem;
+    }
+
+    /* Scale down decorative blobs so they don't overflow on small screens */
+    .hero-section::before {
+        width: 220px;
+        height: 220px;
+        right: -40px;
+        top: -50px;
+    }
+
+    .hero-section::after {
+        width: 160px;
+        height: 160px;
+        left: -30px;
+        bottom: -40px;
     }
 
     .hero-section h1 {
