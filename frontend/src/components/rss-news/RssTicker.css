@@ -2,8 +2,8 @@
 .rss-ticker {
     width: 100%;
     min-height: 40px;
-    background: #4C1D95; /* brand purple — default for all pages */
-    color: white;
+    background: transparent;
+    color: #6D28D9; /* default: purple — safe on light page background */
     overflow: hidden;
     font-size: 16px;
     font-weight: 500;
@@ -13,10 +13,7 @@
     align-items: center;
 }
 
-/* Homepage: hero gradient covers this area — no separate background needed */
-.is-homepage .rss-ticker {
-    background: transparent;
-}
+/* Homepage only: gold matches hero accent — placed early but lower specificity than link rule below */
 
 /* Outer wrapper for smooth scrolling */
 .rss-ticker-wrapper {
@@ -51,14 +48,19 @@
     }
 }
 
-/* Links inside the ticker */
+/* Links inside ticker — explicit purple on all pages */
 .rss-ticker-content a {
-    color: white;
+    color: #6D28D9;
     text-decoration: none;
     padding: 0 20px;
     transition: all 0.3s ease-in-out;
     font-size: 16px;
     font-weight: 500;
+}
+
+/* Homepage: gold text — higher specificity wins over the rule above */
+.is-homepage .rss-ticker-content a {
+    color: #D97706;
 }
 
 /* Hover effect */
