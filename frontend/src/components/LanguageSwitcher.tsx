@@ -33,6 +33,30 @@ const LANGUAGE_NAMES: Record<SupportedLang, string> = {
 	ar: "العربية",
 };
 
+// Maps language code → self-hosted SVG filename in /public/images/flags/
+const LANGUAGE_FLAGS: Record<SupportedLang, string> = {
+	en: "us",
+	es: "es",
+	de: "de",
+	ja: "jp",
+	fr: "fr",
+	pt: "br",
+	ru: "ru",
+	it: "it",
+	nl: "nl",
+	pl: "pl",
+	tr: "tr",
+	fa: "ir",
+	zh: "cn",
+	vi: "vn",
+	id: "id",
+	cs: "cz",
+	ko: "kr",
+	uk: "ua",
+	hu: "hu",
+	ar: "sa",
+};
+
 const COOKIE_NAME = "NEXT_LOCALE";
 
 function getCurrentLangFromPath(pathname: string): string {
@@ -98,7 +122,14 @@ export default function LanguageSwitcher() {
 				aria-haspopup="listbox"
 				aria-label="Select language"
 			>
-				<span className="language-switcher-globe" aria-hidden>🌐</span>
+				<img
+					src={`/images/flags/${LANGUAGE_FLAGS[currentLang as SupportedLang] ?? "us"}.svg`}
+					alt=""
+					className="language-switcher-globe"
+					width={18}
+					height={14}
+					aria-hidden
+				/>
 				<span className="language-switcher-code">{currentLang.toUpperCase()}</span>
 				<span className="language-switcher-chevron" aria-hidden>▾</span>
 			</button>
@@ -117,10 +148,18 @@ export default function LanguageSwitcher() {
 							className={`language-switcher-option ${code === currentLang ? "active" : ""}`}
 							onClick={() => selectLang(code)}
 						>
+							<img
+							src={`/images/flags/${LANGUAGE_FLAGS[code]}.svg`}
+							alt=""
+							className="language-switcher-flag"
+							width={18}
+							height={14}
+							aria-hidden
+						/>
+							{LANGUAGE_NAMES[code]}
 							{code === currentLang && (
 								<span className="language-switcher-check" aria-hidden>✓</span>
 							)}
-							{LANGUAGE_NAMES[code]}
 						</button>
 					))}
 				</div>

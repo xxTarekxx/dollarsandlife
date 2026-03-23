@@ -58,9 +58,9 @@
     font-weight: 500;
 }
 
-/* Homepage: gold text — higher specificity wins over the rule above */
+/* Homepage: amber-300 — passes WCAG AA across all hero gradient sections */
 .is-homepage .rss-ticker-content a {
-    color: #D97706;
+    color: #FCD34D;
 }
 
 /* Hover effect */
