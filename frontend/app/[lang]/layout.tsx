@@ -9,6 +9,7 @@ import BreadcrumbWrapper from "@/components/breadcrumbs/BreadcrumbWrapper";
 import Footer from "@/components/footer/Footer";
 import NavBar from "@/components/navbar/NavBar";
 import RssTicker from "@/components/rss-news/RssTicker";
+import AppContainer from "./AppContainer";
 
 import "@/components/articles-content/BlogPostContent.css";
 import "@/components/articles-postcards/BlogPostCard.css";
@@ -75,7 +76,9 @@ export default async function LangLayout({
 	return (
 		<>
 			<LangHtml />
-			<div className="app-container">
+			{/* AppContainer is a client component — it uses usePathname() so
+			    is-homepage updates on every client-side navigation */}
+			<AppContainer lang={lang}>
 				<header>
 					<NavBar lang={lang} labels={navLabels} />
 				</header>
@@ -87,7 +90,7 @@ export default async function LangLayout({
 				<footer>
 					<Footer lang={lang} labels={footerLabels} />
 				</footer>
-			</div>
+			</AppContainer>
 		</>
 	);
 }
