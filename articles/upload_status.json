@@ -2,7 +2,7 @@
   "version": 2,
   "files": {
     "breakingnews.json": {
-      "fileHash": "3491f9bd58e247b3fbf96912495872413fd41e1329de17ac5ba0565d51b569ab",
+      "fileHash": "9de9f63293fecdde5a02d0af0b710ce0e0e64cab7eeb4694b0750e0a9bf2e8dc",
       "itemHashes": {
         "articleId:is-netanyahu-dead-or-alive-iran-conspiracy-2026": "24679d9284dd40e6fa21a4ee7fe634c1f2c6c7acadfcb7ffba9487a5e1c33466",
         "articleId:fbi-iran-drone-threat-california-2026": "b5d300921d6772f100590e6560112f213bc26e54cec4c542f35713661c914609",
@@ -13,7 +13,7 @@
         "articleId:louvre-museum-heist-2025": "124ba2991be6b6bf1d61720ad377bdb264b800e812c48abf52fc36b48ef97d33",
         "articleId:market-crash-2025": "dd12bc0846f418ffcc4453f11b2c66f80f2b28f3c77842f96c8fe09e0d0e1357",
         "articleId:high-noon-celsius-recall": "0dac723f3137f4cefe7a677cdb5231be0b55bb2a5270ad5c7d0a5d39d2379ba6",
-        "articleId:layoffs-and-employment-2025": "f0a86ee50339438b04d71b4833ac628d21183b959ca8383b22b23f1eac14f8a3",
+        "articleId:layoffs-and-employment-2025": "192166884354f80f966e353f8a69f214061c2b9c80b782f9020427c6c3e569f6",
         "articleId:irs-tax-refund-schedule-2025": "8f3ce5d0f109574ce38d90555ca0cdb0e21d7ad2141384ab3d01335e96198594",
         "articleId:bitcoin-price-outlook": "56094f2e803641a4138814f943db3b02b7d95f0c5e61c1c5f8ad28eb3da2cfd1",
         "articleId:social-security-payment-guide": "34e740ce0a15d101067d5e695d1ee1e039b453a1e480dd764f84c7159ccc37e2",
@@ -29,7 +29,7 @@
         "articleId:gerber-products-company-announces-voluntary-recall-of-limited-batches-of-arrowro": "8d8c8ca4fee5695f92a62a1d8e3da3ed4d12e9455a7015432cd9441049e6295e",
         "articleId:spacex-latest-launch": "f186d7481d6453911d4e76ab3e5879a56151390d6ebb37e804e0f5d9fed0a435"
       },
-      "lastSyncedAt": "2026-03-25T04:24:00.152Z",
+      "lastSyncedAt": "2026-03-25T05:37:54.607Z",
       "collectionName": "breaking_news"
     },
     "budgetdata.json": {
