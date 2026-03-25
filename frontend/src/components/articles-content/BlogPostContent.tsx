@@ -167,23 +167,35 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                                 style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
                             />
                         )}
-                        {/* Render images array if present */}
+                        {/* Render images array if present (skip empty urls — avoids broken <img> if DB/JSON is partial) */}
                         {Array.isArray(section.images) &&
-                            section.images.map((img, i) => (
-                                <figure key={i} className='section-image-figure'>
-                                    <Image
-                                        src={img.url}
-                                        alt={img.caption || `Section image ${i + 1}`}
-                                        className='section-image'
-                                        width={600}
-                                        height={400}
-                                        loading='lazy'
-                                        sizes='(max-width: 768px) 100vw, 600px'
-                                        style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
-                                    />
-                                    {img.caption && <figcaption>{img.caption}</figcaption>}
-                                </figure>
-                            ))}
+                            section.images.map((img, i) => {
+                                const src =
+                                    typeof img?.url === "string" ? img.url.trim() : "";
+                                if (!src) return null;
+                                return (
+                                    <figure key={i} className='section-image-figure'>
+                                        <Image
+                                            src={src}
+                                            alt={img.caption || `Section image ${i + 1}`}
+                                            className='section-image'
+                                            width={600}
+                                            height={400}
+                                            loading='lazy'
+                                            sizes='(max-width: 768px) 100vw, 600px'
+                                            style={{
+                                                width: "auto",
+                                                height: "auto",
+                                                maxWidth: "100%",
+                                            }}
+                                            unoptimized
+                                        />
+                                        {img.caption && (
+                                            <figcaption>{img.caption}</figcaption>
+                                        )}
+                                    </figure>
+                                );
+                            })}
 
                         {section.bulletPoints && (
                             <ul>
