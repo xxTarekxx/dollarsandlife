@@ -1,10 +1,10 @@
-const BASE_URL = "https://www.dollarsandlife.com";
+const BASE_URL = "https://dollarsandlife.com";
 
 /**
  * Build the canonical URL for the current language and path.
  *
  * @param pathname  Full path including language prefix, e.g. /en/about-us or /es/contact-us
- * @returns         Absolute canonical URL, e.g. https://www.dollarsandlife.com/es/about-us
+ * @returns         Absolute canonical URL, e.g. https://dollarsandlife.com//es/about-us
  *
  * The canonical URL matches the language version of the page so that
  * /es/about-us canonicalises to https://…/es/about-us (not the English version).
