@@ -19,7 +19,7 @@ if (!MONGO_URI) {
 }
 
 // ✅ Config
-const BASE_URL = "https://dollarsandlife.com";
+const BASE_URL = "https://www.dollarsandlife.com";
 const DEFAULT_LANG = "en";
 
 /** Top 20 languages — mirrors lib/i18n/languages.ts supportedLanguages. */
@@ -200,7 +200,7 @@ const SITEMAP_XSL = `<?xml version="1.0" encoding="UTF-8"?>
         </div>
         <div class="info-bar">
           This sitemap is intended for search engine crawlers. &#183;
-          <a href="https://dollarsandlife.com">&#8592; Back to Dollars &amp; Life</a>
+          <a href="https://www.dollarsandlife.com">&#8592; Back to Dollars &amp; Life</a>
         </div>
         <div class="container">
           <table>

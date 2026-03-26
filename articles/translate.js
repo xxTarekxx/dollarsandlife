@@ -2,7 +2,7 @@
 
 /**
  * Translates article JSON files into multiple languages via OpenAI.
- * Preserves HTML, URLs, emojis, and icons; uses RTL-friendly output for Arabic and Persian.
+ * Preserves HTML, URLs, emojis, and icons; uses RTL-friendly output for Arabic.
  *
  * Supported input files (set INPUT_FILE env or default breakingnews.json):
  *   budgetdata.json, freelancejobs.json, remotejobs.json, moneymakingapps.json, startablogdata.json, breakingnews.json
@@ -10,6 +10,12 @@
  * Usage:
  *   node translate.js
  *   INPUT_FILE=budgetdata.json node translate.js
+ *
+ * Idempotency:
+ *   - Skips a target language if that locale already looks complete (headline + content
+ *     section count matches English). Does not query MongoDB.
+ *   - On load, removes `languages` keys not listed in SUPPORTED_LANGUAGES (drops retired
+ *     locales so you do not keep duplicate/orphan translations).
  */
 
 const fs = require("fs");
@@ -76,29 +82,21 @@ const TRANSLATABLE_KEYS = new Set([
     "articleSection"
 ]);
 
-const RTL_LANG_CODES = new Set(["ar", "fa"]);
+const RTL_LANG_CODES = new Set(["ar"]);
 
+/** Source (en) + target locales only. */
 const SUPPORTED_LANGUAGES = [
     { code: "en", name: "English" },
+    { code: "zh", name: "Chinese (Simplified)" },
     { code: "es", name: "Spanish" },
-    { code: "de", name: "German" },
-    { code: "ja", name: "Japanese" },
-    { code: "fr", name: "French" },
-    { code: "pt", name: "Portuguese" },
+    { code: "ar", name: "Arabic" },
+    { code: "hi", name: "Hindi" },
+    { code: "pt", name: "Portuguese (Brazil)" },
     { code: "ru", name: "Russian" },
-    { code: "it", name: "Italian" },
-    { code: "nl", name: "Dutch" },
-    { code: "pl", name: "Polish" },
-    { code: "tr", name: "Turkish" },
-    { code: "fa", name: "Persian" },
-    { code: "zh", name: "Chinese" },
-    { code: "vi", name: "Vietnamese" },
-    { code: "id", name: "Indonesian" },
-    { code: "cs", name: "Czech" },
-    { code: "ko", name: "Korean" },
-    { code: "uk", name: "Ukrainian" },
-    { code: "hu", name: "Hungarian" },
-    { code: "ar", name: "Arabic" }
+    { code: "fr", name: "French" },
+    { code: "ja", name: "Japanese" },
+    { code: "de", name: "German" },
+    { code: "vi", name: "Vietnamese" }
 ];
 
 /* -------------------------------------------------- */
@@ -147,9 +145,49 @@ function getTargetLanguages() {
     return SUPPORTED_LANGUAGES.filter(l => l.code !== "en").map(l => l.code);
 }
 
-function hasRealLanguageContent(article, langCode) {
+const ALLOWED_LANG_CODES = new Set(SUPPORTED_LANGUAGES.map(l => l.code));
+
+/**
+ * Drop languages.* keys not in SUPPORTED_LANGUAGES (e.g. old it, fa, hu).
+ * Prevents carrying duplicate/orphan locales alongside the current set.
+ */
+function stripUnsupportedLanguages(articles) {
+    if (!Array.isArray(articles)) return;
+    let removed = 0;
+    for (const wrapper of articles) {
+        if (!wrapper.languages || typeof wrapper.languages !== "object") continue;
+        for (const code of Object.keys(wrapper.languages)) {
+            if (!ALLOWED_LANG_CODES.has(code)) {
+                delete wrapper.languages[code];
+                removed++;
+            }
+        }
+    }
+    if (removed > 0) {
+        console.log(
+            `🧹 Removed ${removed} language block(s) not in SUPPORTED_LANGUAGES`
+        );
+    }
+}
+
+/**
+ * True only if we should skip API translation for this locale (already done).
+ * Stricter than "any headline": content section count must match English when English has sections.
+ */
+function hasCompletedTranslation(article, langCode, english) {
     const lang = article.languages?.[langCode];
-    return lang && (lang.headline || lang.description || lang.content?.length);
+    if (!lang || typeof lang !== "object") return false;
+
+    if (typeof lang.headline !== "string" || !lang.headline.trim()) return false;
+
+    const enContent = english.content;
+    if (Array.isArray(enContent) && enContent.length > 0) {
+        if (!Array.isArray(lang.content) || lang.content.length !== enContent.length) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /**
@@ -443,6 +481,8 @@ async function main() {
         workingData = normalizeToWrapperFormat(workingData);
     }
 
+    stripUnsupportedLanguages(workingData);
+
     console.log(`📂 Input: ${INPUT_BASENAME} (${workingData.length} articles)`);
 
     const languages = getTargetLanguages();
@@ -467,7 +507,12 @@ async function main() {
 
         for (const langCode of languages) {
 
-            if (hasRealLanguageContent(wrapper, langCode)) {
+            if (hasCompletedTranslation(wrapper, langCode, english)) {
+                if (process.env.VERBOSE) {
+                    console.log(
+                        `  ⏭ skip ${langCode} (already complete for ${wrapper.articleId})`
+                    );
+                }
                 progressState.languageIndex++;
                 continue;
             }
