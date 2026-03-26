@@ -1,3 +1,4 @@
+import { normalizeTrailingSlashPath } from "@/lib/seo/canonical";
 import { defaultLanguage } from "./languages";
 import { pathWithoutLang } from "./prefixLang";
 import { getLanguagesForPath } from "./translationStatus";
@@ -48,7 +49,7 @@ function langUrl(lang: string, path: string): string {
  */
 export function generateHreflangLinks(pathname: string): HreflangLink[] {
 	// Strip any lang prefix → /about-us, /breaking-news/slug, /  etc.
-	const path = pathWithoutLang(pathname);
+	const path = pathWithoutLang(normalizeTrailingSlashPath(pathname));
 	// Only emit languages that have actual content for this path
 	const langs = getLanguagesForPath(path);
 	const links: HreflangLink[] = [];
