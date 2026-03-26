@@ -2,7 +2,7 @@ import { defaultLanguage } from "./languages";
 import { pathWithoutLang } from "./prefixLang";
 import { getLanguagesForPath } from "./translationStatus";
 
-const BASE_URL = "https://dollarsandlife.com";
+const BASE_URL = "https://www.dollarsandlife.com";
 
 export type HreflangLink = { hreflang: string; href: string };
 
@@ -10,12 +10,12 @@ export type HreflangLink = { hreflang: string; href: string };
  * Build the absolute URL for a given lang + path combination.
  *
  * English (defaultLanguage) has NO prefix:
- *   en + /about-us  →  https://dollarsandlife.com/about-us
- *   en + /          →  https://dollarsandlife.com
+ *   en + /about-us  →  https://www.dollarsandlife.com/about-us
+ *   en + /          →  https://www.dollarsandlife.com
  *
  * Other languages have a /{lang}/ prefix:
- *   ar + /about-us  →  https://dollarsandlife.com/ar/about-us
- *   ar + /          →  https://dollarsandlife.com/ar
+ *   ar + /about-us  →  https://www.dollarsandlife.com/ar/about-us
+ *   ar + /          →  https://www.dollarsandlife.com/ar
  */
 function langUrl(lang: string, path: string): string {
 	if (lang === defaultLanguage) {
@@ -33,8 +33,8 @@ function langUrl(lang: string, path: string): string {
  * Behaviour:
  *   - Strips any lang prefix to get the canonical content path (/about-us)
  *   - Calls getLanguagesForPath() so only languages with actual content are emitted
- *   - English href uses NO prefix:  https://dollarsandlife.com/about-us
- *   - Other langs use /{lang}/ prefix: https://dollarsandlife.com/ar/about-us
+ *   - English href uses NO prefix:  https://www.dollarsandlife.com/about-us
+ *   - Other langs use /{lang}/ prefix: https://www.dollarsandlife.com/ar/about-us
  *   - x-default always points at the English (no-prefix) URL
  *
  * Reciprocity guarantee: every language variant of a path produces the same
