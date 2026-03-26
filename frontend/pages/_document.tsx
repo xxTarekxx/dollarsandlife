@@ -48,6 +48,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
     return (
       <Html lang={this.props.lang || 'en'}>
         <Head>
+          <meta name="yandex-verification" content="7395766208810911" />
           {/* Google Fonts preconnect + stylesheet */}
           <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />

@@ -12,6 +12,9 @@ export const metadata: Metadata = {
 	title: "Dollars And Life - Personal Finance, Extra Income & Savings",
 	description:
 		"Dollars And Life offers advice on extra income, budgeting, and saving deals.",
+	verification: {
+		yandex: "7395766208810911",
+	},
 };
 
 function getLangFromPathname(pathname: string): string {
