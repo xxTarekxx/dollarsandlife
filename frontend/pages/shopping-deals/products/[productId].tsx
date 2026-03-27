@@ -1,15 +1,18 @@
 "use client";
 import "../ProductDetails.css";
-import React from "react";
+import React, { useEffect } from "react";
 import parse from "html-react-parser";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
+import { useBreadcrumbLastCrumb } from "../../../src/components/breadcrumbs/BreadcrumbContext";
 import { getCanonicalUrl } from "../../../src/utils/url";
 
 interface Product {
   id: string;
   headline: string;
+  /** Short label for nav/breadcrumb; from product JSON / API when present. */
+  shortName?: string;
   canonicalUrl?: string;
   image: { url: string; caption: string };
   description: string;
@@ -105,6 +108,15 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   productSlug,
   error,
 }) => {
+  const { setLastCrumbTitle } = useBreadcrumbLastCrumb();
+
+  useEffect(() => {
+    if (!product) return;
+    const label = product.shortName?.trim();
+    setLastCrumbTitle(label && label.length > 0 ? label : null);
+    return () => setLastCrumbTitle(null);
+  }, [product, setLastCrumbTitle]);
+
   if (error || !product) {
     return null;
   }

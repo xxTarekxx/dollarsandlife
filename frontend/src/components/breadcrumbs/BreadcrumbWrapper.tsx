@@ -5,6 +5,29 @@ import React from "react";
 import { pathWithoutLang, prefixLang } from "@/lib/i18n/prefixLang";
 import type { BreadcrumbLabels } from "@/lib/i18n/ui-translations";
 import Breadcrumb from "./Breadcrumb";
+import { useBreadcrumbLastCrumb } from "./BreadcrumbContext";
+
+/** Visible + JSON-LD name length for slug-derived segments. */
+const MAX_BREADCRUMB_LABEL_CHARS = 56;
+
+function slugSegmentToTitle(segment: string): string {
+	let s = decodeURIComponent(segment);
+	s = s.replace(/^\d+-/, "");
+	return s
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ");
+}
+
+function truncateBreadcrumbLabel(text: string): string {
+	const t = text.trim();
+	if (t.length <= MAX_BREADCRUMB_LABEL_CHARS) return t;
+	const cut = t.slice(0, MAX_BREADCRUMB_LABEL_CHARS);
+	const lastSpace = cut.lastIndexOf(" ");
+	const head =
+		lastSpace > MAX_BREADCRUMB_LABEL_CHARS * 0.4 ? cut.slice(0, lastSpace) : cut;
+	return `${head.trimEnd()}…`;
+}
 
 /**
  * Build the breadcrumb name map from translated labels.
@@ -33,6 +56,7 @@ function buildNameMap(labels?: BreadcrumbLabels): Record<string, string> {
 }
 
 const BreadcrumbWrapper: React.FC<{ lang?: string; labels?: BreadcrumbLabels }> = ({ lang, labels }) => {
+	const { lastCrumbTitle } = useBreadcrumbLastCrumb();
 	const pathname = usePathname() ?? "";
 	const withoutLang = pathWithoutLang(pathname);
 	const paths = withoutLang.split("/").filter(Boolean);
@@ -45,16 +69,32 @@ const BreadcrumbWrapper: React.FC<{ lang?: string; labels?: BreadcrumbLabels }> 
 			const url = `/${paths.slice(0, index + 1).join("/")}`;
 			let title = breadcrumbNameMap[url];
 			if (!title) {
-				title = decodeURIComponent(path)
-					.split("-")
-					.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-					.join(" ");
+				title = slugSegmentToTitle(path);
 			}
 			acc.push({ title, url: prefixLang(url, lang) });
 			return acc;
 		},
 		[{ title: labels?.home ?? "Home", url: prefixLang("/", lang) }],
 	);
+
+	/** Only `/shopping-deals/products/:slug` uses `shortName` from context (ProductDetails). */
+	const isShoppingProductDetail =
+		paths[0] === "shopping-deals" &&
+		paths[1] === "products" &&
+		paths.length >= 3;
+
+	if (breadcrumbPaths.length > 1) {
+		const i = breadcrumbPaths.length - 1;
+		const last = breadcrumbPaths[i];
+		const rawTitle =
+			isShoppingProductDetail && lastCrumbTitle
+				? lastCrumbTitle
+				: last.title;
+		breadcrumbPaths[i] = {
+			...last,
+			title: truncateBreadcrumbLabel(rawTitle),
+		};
+	}
 
 	const isHomePage =
 		breadcrumbPaths.length <= 1 &&

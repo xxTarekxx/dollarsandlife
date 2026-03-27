@@ -17,6 +17,7 @@ import "../src/index.css";
 // NOTE: Page-specific CSS is imported in their respective page files to avoid
 // loading unused styles on every page (reduces render-blocking CSS bundle size).
 
+import { BreadcrumbProvider } from "../src/components/breadcrumbs/BreadcrumbContext";
 import BreadcrumbWrapper from "../src/components/breadcrumbs/BreadcrumbWrapper";
 import Footer from "../src/components/footer/Footer";
 import NavBar from "../src/components/navbar/NavBar";
@@ -216,29 +217,31 @@ function MyApp({ Component, pageProps }: AppProps) {
 				}}
 			/>
 
-			<div className={`app-container ${showAdBlockPrompt ? "blurred" : ""} ${isHomePage ? "is-homepage" : ""}`}>
-				{showAdBlockPrompt && (
-					<div className='adblock-warning'>
-						<h2>We Rely on Ads to Keep Our Content Free</h2>
-						<p>Please consider pausing AdBlock for our site to support us.</p>
-						<button onClick={handleDismissAdBlockPrompt}>I Understand</button>
-					</div>
-				)}
-				<header>
-					<NavBar />
-				</header>
-				<aside style={{ minHeight: '40px' }}>
-					<RssTicker />
-				</aside>
+			<BreadcrumbProvider>
+				<div className={`app-container ${showAdBlockPrompt ? "blurred" : ""} ${isHomePage ? "is-homepage" : ""}`}>
+					{showAdBlockPrompt && (
+						<div className='adblock-warning'>
+							<h2>We Rely on Ads to Keep Our Content Free</h2>
+							<p>Please consider pausing AdBlock for our site to support us.</p>
+							<button onClick={handleDismissAdBlockPrompt}>I Understand</button>
+						</div>
+					)}
+					<header>
+						<NavBar />
+					</header>
+					<aside style={{ minHeight: '40px' }}>
+						<RssTicker />
+					</aside>
 
-				{showBreadcrumbs && <BreadcrumbWrapper />}
+					{showBreadcrumbs && <BreadcrumbWrapper />}
 
-				<main>
-					<Component {...pageProps} />
-				</main>
+					<main>
+						<Component {...pageProps} />
+					</main>
 
-				<Footer />
-			</div>
+					<Footer />
+				</div>
+			</BreadcrumbProvider>
 		</>
 	);
 }
