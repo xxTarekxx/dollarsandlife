@@ -5,6 +5,7 @@ import { buildCanonicalUrl } from "@/lib/seo/canonical";
 import { generateHreflangLinks } from "@/lib/i18n/hreflang";
 import { getBreadcrumbLabels, getFooterLabels, getNavLabels } from "@/lib/i18n/ui-translations";
 import { LangHtml } from "@/components/LangHtml";
+import { BreadcrumbProvider } from "@/components/breadcrumbs/BreadcrumbContext";
 import BreadcrumbWrapper from "@/components/breadcrumbs/BreadcrumbWrapper";
 import Footer from "@/components/footer/Footer";
 import NavBar from "@/components/navbar/NavBar";
@@ -76,21 +77,24 @@ export default async function LangLayout({
 	return (
 		<>
 			<LangHtml />
-			{/* AppContainer is a client component — it uses usePathname() so
-			    is-homepage updates on every client-side navigation */}
-			<AppContainer lang={lang}>
-				<header>
-					<NavBar lang={lang} labels={navLabels} />
-				</header>
-				<aside>
-					<RssTicker />
-				</aside>
-				<BreadcrumbWrapper lang={lang} labels={breadcrumbLabels} />
-				<main>{children}</main>
-				<footer>
-					<Footer lang={lang} labels={footerLabels} />
-				</footer>
-			</AppContainer>
+			{/* BreadcrumbProvider lets product pages set last crumb label (e.g. shortName). */}
+			<BreadcrumbProvider>
+				{/* AppContainer is a client component — it uses usePathname() so
+				    is-homepage updates on every client-side navigation */}
+				<AppContainer lang={lang}>
+					<header>
+						<NavBar lang={lang} labels={navLabels} />
+					</header>
+					<aside>
+						<RssTicker />
+					</aside>
+					<BreadcrumbWrapper lang={lang} labels={breadcrumbLabels} />
+					<main>{children}</main>
+					<footer>
+						<Footer lang={lang} labels={footerLabels} />
+					</footer>
+				</AppContainer>
+			</BreadcrumbProvider>
 		</>
 	);
 }

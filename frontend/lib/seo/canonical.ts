@@ -28,7 +28,7 @@ export function normalizeTrailingSlashPath(pathname: string): string {
  * a different canonical than `/extra-income` in the same HTML.
  */
 export function buildCanonicalUrl(pathname: string): string {
-	let path = normalizeTrailingSlashPath(pathname);
+	const path = normalizeTrailingSlashPath(pathname);
 	// Guard: if somehow passed an absolute URL, return as-is
 	if (path.startsWith("http")) return path;
 	if (path === "/" || path === "") {
