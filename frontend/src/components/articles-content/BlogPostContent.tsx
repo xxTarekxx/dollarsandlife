@@ -110,10 +110,10 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                         src={postData.image.url}
                         alt={postData.image.caption}
                         className='main-image'
-                        width={450}
-                        height={354}
+                        width={540}
+                        height={340}
                         priority
-                        sizes='(max-width: 768px) 100vw, 450px'
+                        sizes='(max-width: 768px) 100vw, 540px'
                         style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
                         unoptimized
                     />
@@ -160,10 +160,10 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                                 src={section.image}
                                 alt='Section visual'
                                 className='section-image'
-                                width={600}
-                                height={400}
+                                width={540}
+                                height={340}
                                 loading='lazy'
-                                sizes='(max-width: 768px) 100vw, 600px'
+                                sizes='(max-width: 768px) 100vw, 540px'
                                 style={{ width: 'auto', height: 'auto', maxWidth: '100%' }}
                             />
                         )}
@@ -179,10 +179,10 @@ const BlogPostContent: React.FC<BlogPostContentProps> = memo(({ postData }) => {
                                             src={src}
                                             alt={img.caption || `Section image ${i + 1}`}
                                             className='section-image'
-                                            width={600}
-                                            height={400}
+                                            width={540}
+                                            height={340}
                                             loading='lazy'
-                                            sizes='(max-width: 768px) 100vw, 600px'
+                                            sizes='(max-width: 768px) 100vw, 540px'
                                             style={{
                                                 width: "auto",
                                                 height: "auto",
