@@ -248,18 +248,18 @@ export const getServerSideProps: GetServerSideProps = async () => {
 				position: i + 1,
 				item: {
 					"@type": "Product",
-					name: (p.headline || '').replace(/<[^>]*>/g, '').slice(0, 200),
-					image: p.image?.url ?? '',
+					name: (p.headline || "").slice(0, 200).trim(),
+					image: p.image?.url ?? "",
 					offers: {
 						"@type": "Offer",
 						priceCurrency: "USD",
-						price: p.offers?.price || (p.currentPrice || '').replace('$', ''),
+						price: p.offers?.price || (p.currentPrice || "").replace("$", ""),
 						availability: p.offers?.availability || "https://schema.org/InStock",
 						url: p.canonicalUrl || `https://www.dollarsandlife.com/shopping-deals/products/${p.id}`,
 					},
 				},
 			})),
-		}).replace(/<\/script/gi, '<\\/script');
+		}).replace(/</g, '\\u003c');
 		return { props: { initialProducts, initialSchemaJson } };
 	} catch (error) {
 		console.error("SSR Exception fetching shopping deals:", error);
