@@ -129,7 +129,7 @@ createContentRoutes('products_list', 'shopping-deals');
 createContentRoutes('remote_jobs', 'remote-jobs');
 
 // One-time fix: ensure the main "How to Find a Remote Job in 2025" guide uses slug remote-job-guide-2025
-router.post('/fix-remote-job-id', async (req, res) => {
+router.post('/fix-remote-job-id', strictLimiter, async (req, res) => {
     try {
         const db = req.db;
         if (!db) return res.status(503).json({ error: "Database not available" });
@@ -152,7 +152,7 @@ router.post('/fix-remote-job-id', async (req, res) => {
 
 // One-time fix: normalize all document ids to lowercase in content collections (so GET /:id with lowercased id finds them)
 const CONTENT_COLLECTIONS = ['breaking_news', 'budget_data', 'freelance_jobs', 'money_making_apps', 'remote_jobs', 'start_a_blog'];
-router.post('/fix-normalize-ids-lowercase', async (req, res) => {
+router.post('/fix-normalize-ids-lowercase', strictLimiter, async (req, res) => {
     try {
         const db = req.db;
         if (!db) return res.status(503).json({ error: "Database not available" });

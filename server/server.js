@@ -2,6 +2,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const { MongoClient } = require('mongodb');
@@ -61,8 +62,12 @@ app.use(async (req, res, next) => {
 const routes = require('./routes.js');
 app.use('/api', routes);
 
-// Serve static files
-app.use(express.static(__dirname));
+// Serve static files only from ./public — never the project root (avoids exposing .env, routes.js, etc.)
+const staticRoot = path.join(__dirname, 'public');
+fs.mkdirSync(staticRoot, { recursive: true });
+app.use(express.static(staticRoot, { dotfiles: 'deny', index: false }));
+
+const spaIndexPath = path.join(staticRoot, 'index.html');
 
 // Wildcard route for React/SPA frontend (Express 5+ syntax)
 // Fallback route: only respond if not an API route or static file
@@ -70,7 +75,10 @@ app.use(frontendLimiter, (req, res, next) => {
     if (req.url.startsWith('/api/') || req.url.includes('.')) {
         return next(); // pass to 404 or static handler
     }
-    res.sendFile(path.join(__dirname, 'index.html'));
+    if (!fs.existsSync(spaIndexPath)) {
+        return res.status(404).send('Not found');
+    }
+    res.sendFile(spaIndexPath);
 });
 
 

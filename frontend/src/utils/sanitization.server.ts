@@ -1,114 +1,87 @@
 /**
- * Centralized sanitization utility for server-side rendering
- * Handles HTML tag removal, entity removal, and Unicode character sanitization
+ * Centralized sanitization for server-side rendering (getServerSideProps, etc.)
+ * Uses DOMPurify + JSDOM - avoids fragile regex-based HTML stripping flagged by CodeQL.
  */
 
+import createDOMPurify from "dompurify";
+import { JSDOM } from "jsdom";
+
+const purifyWindow = new JSDOM("").window;
+// JSDOM Window is compatible at runtime; @types/dompurify expects a narrower WindowLike.
+const DOMPurify = createDOMPurify(purifyWindow as Parameters<typeof createDOMPurify>[0]);
+
+/** Strip all HTML to plain text (no tags / script content). */
+function stripHtmlToPlainText(input: string): string {
+	if (!input || typeof input !== "string") {
+		return "";
+	}
+	let text = DOMPurify.sanitize(input, {
+		ALLOWED_TAGS: [],
+		ALLOWED_ATTR: [],
+		KEEP_CONTENT: true,
+	});
+	text = text.replace(/\p{Cc}/gu, "");
+	text = text.replace(/[\u200B-\u200D\uFEFF]/g, "");
+	text = text.replace(/\s+/g, " ");
+	return text.trim();
+}
+
 export function sanitizeAndTruncateHTML(input: string, maxLength: number = 160): string {
-  if (!input || typeof input !== 'string') {
-    return '';
-  }
+	if (!input || typeof input !== "string") {
+		return "";
+	}
 
-  // Comprehensive sanitization to remove ALL HTML and multi-character entities
-  const sanitized = (() => {
-    // First, remove script tags and their content completely
-    let clean = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+	const sanitized = stripHtmlToPlainText(input);
+	const truncated = Array.from(sanitized).slice(0, maxLength).join("");
 
-    // Remove all HTML tags using a more robust approach
-    clean = clean
-      .replace(/<[^>]*>/g, "")  // Remove complete tags
-      .replace(/<[^>]*$/g, "")  // Remove incomplete opening tags at end
-      .replace(/^[^<]*>/g, "")  // Remove incomplete closing tags at start
-      .replace(/<[^>]*/g, "")   // Remove any remaining incomplete opening tags
-      .replace(/[^<]*>/g, "");  // Remove any remaining incomplete closing tags
-
-    // Remove HTML entities (including numeric entities)
-    clean = clean
-      .replace(/&[a-zA-Z0-9#]+;/g, "")
-      .replace(/&#[0-9]+;/g, "")
-      .replace(/&#x[a-fA-F0-9]+;/g, "");
-
-    // Remove Unicode control characters and other dangerous sequences
-    clean = clean.replace(/\p{Cc}/gu, "");
-
-    // Remove zero-width characters and other invisible characters
-    clean = clean.replace(/[\u200B-\u200D\uFEFF]/g, "");
-
-    // Normalize whitespace
-    clean = clean.replace(/\s+/g, " ");
-
-    return clean.trim();
-  })();
-
-  // Use Array.from to handle Unicode characters properly and ensure complete sanitization
-  const truncated = Array.from(sanitized).slice(0, maxLength).join('');
-
-  return truncated || '';
+	return truncated || "";
 }
 
 /**
  * Enhanced sanitization for form inputs that need stricter cleaning
  */
 export function sanitizeFormInput(input: string): string {
-  if (!input || typeof input !== 'string') {
-    return '';
-  }
+	if (!input || typeof input !== "string") {
+		return "";
+	}
 
-  // Broader regex to find anything that looks like a tag, entity, or dangerous protocol
-  const maliciousContentRegex = /<[^>]*>|&[a-zA-Z0-9#]+;|javascript:|data:|vbscript:/gi;
+	let sanitized = stripHtmlToPlainText(input);
 
-  // Replacement function to be absolutely sure no partial tags/entities remain
-  const deepClean = (value: string): string => {
-    let sanitized = value;
-    let previous;
+	const maliciousContentRegex =
+		/<[^>]*>|&[a-zA-Z0-9#]+;|javascript:|data:|vbscript:/gi;
 
-    // Apply the maliciousContentRegex replacement repeatedly until no more matches are found
-    do {
-      previous = sanitized;
-      sanitized = sanitized.replace(maliciousContentRegex, "");
-    } while (sanitized !== previous);
+	let previous: string;
+	do {
+		previous = sanitized;
+		sanitized = sanitized.replace(maliciousContentRegex, "");
+	} while (sanitized !== previous);
 
-    // Remove any stray angle brackets or ampersands that might be left
-    sanitized = sanitized.replace(/[<>&\s]/g, " ").trim(); // Replace with space and then trim
+	sanitized = sanitized.replace(/[<>&\s]/g, " ").trim();
+	sanitized = sanitized.replace(/[^a-zA-Z0-9\s-@.]/g, "");
 
-    // Additionally, remove any non-alphanumeric characters for safety
-    // but keep spaces, hyphens, and at-symbols for valid inputs.
-    sanitized = sanitized.replace(/[^a-zA-Z0-9\s-@.]/g, "");
-
-    return sanitized;
-  };
-
-  return deepClean(input);
+	return sanitized;
 }
 
 /**
  * Sanitization for URL slugs and identifiers
  */
 export function sanitizeSlug(input: string): string {
-  if (!input || typeof input !== 'string') {
-    return '';
-  }
+	if (!input || typeof input !== "string") {
+		return "";
+	}
 
-  // Broader regex to find anything that looks like a tag or entity
-  const htmlEntitiesAndTagsRegex = /<[^>]*>|&[a-zA-Z0-9#]+;/g;
+	let sanitized = stripHtmlToPlainText(input);
 
-  // Replacement function to be absolutely sure no partial tags/entities remain
-  const deepClean = (input: string): string => {
-    let sanitized = input;
-    let previous;
-    do {
-      previous = sanitized;
-      sanitized = sanitized.replace(htmlEntitiesAndTagsRegex, "");
-    } while (sanitized !== previous);
+	const htmlEntitiesAndTagsRegex = /<[^>]*>|&[a-zA-Z0-9#]+;/g;
 
-    // Remove any stray angle brackets or ampersands that might be left
-    sanitized = sanitized.replace(/[<>&\s]/g, " ").trim(); // Replace with space and then trim
+	let previous: string;
+	do {
+		previous = sanitized;
+		sanitized = sanitized.replace(htmlEntitiesAndTagsRegex, "");
+	} while (sanitized !== previous);
 
-    // Additionally, remove any non-alphanumeric characters for safety in slugs/URLs
-    // but keep spaces to be replaced by hyphens later.
-    sanitized = sanitized.replace(/[^a-zA-Z0-9\s-]/g, "");
+	sanitized = sanitized.replace(/[<>&\s]/g, " ").trim();
+	sanitized = sanitized.replace(/[^a-zA-Z0-9\s-]/g, "");
 
-    return sanitized;
-  };
-
-  return deepClean(input);
+	return sanitized;
 }

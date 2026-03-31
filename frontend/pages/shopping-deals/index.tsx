@@ -219,6 +219,9 @@ interface ShoppingDealsPageProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
+	const { sanitizeAndTruncateHTML } = await import(
+		"../../src/utils/sanitization.server"
+	);
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/shopping-deals`,
@@ -248,7 +251,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 				position: i + 1,
 				item: {
 					"@type": "Product",
-					name: (p.headline || '').replace(/<[^>]*>/g, '').slice(0, 200),
+					name: sanitizeAndTruncateHTML(p.headline || "", 200),
 					image: p.image?.url ?? '',
 					offers: {
 						"@type": "Offer",
