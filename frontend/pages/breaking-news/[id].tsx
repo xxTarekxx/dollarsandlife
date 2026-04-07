@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import { getLocaleFromGsspContext } from "@/lib/i18n/getLocaleFromGsspContext";
 import { sanitizeAndTruncateHTML } from "../../src/utils/sanitization.server";
 
 // Dynamically import BlogPostContent to reduce initial bundle size
@@ -46,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!id || typeof id !== "string" || !isValidId(id)) {
 		return { notFound: true };
 	}
-	const locale = ((context.req.cookies['NEXT_LOCALE'] as string) || 'en').toLowerCase();
+	const locale = getLocaleFromGsspContext(context);
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE

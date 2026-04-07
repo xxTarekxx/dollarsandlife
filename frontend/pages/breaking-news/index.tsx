@@ -1,9 +1,13 @@
-import { GetServerSideProps } from "next";
+"use client";
+
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BlogPostCard from "../../src/components/articles-postcards/BlogPostCard";
 import { getClientApiBase } from "@/lib/api-base";
 import PaginationContainer from "../../src/components/pagination/PaginationContainer";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { buildCanonicalUrl } from "@/lib/seo/canonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
 
 interface BreakingNewsPost {
 	id: string;
@@ -20,76 +24,41 @@ interface BreakingNewsPost {
 	dateModified?: string;
 }
 
-interface BreakingNewsPageProps {
-	initialBreakingNews?: BreakingNewsPost[];
-	initialSchemaJson?: string;
-	error?: string;
-}
+const BreakingNews: React.FC = () => {
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
+	const [breakingNews, setBreakingNews] = useState<BreakingNewsPost[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [clientError, setClientError] = useState<string | null>(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const postsPerPage = 9;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	try {
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/breaking-news`,
-		);
-		if (!response.ok) {
-			console.error(`SSR Error fetching breaking news: ${response.status}`);
-			return {
-				props: {
-					initialBreakingNews: [],
-					error: "Failed to load breaking news from server.",
-				},
-			};
-		}
-		const initialBreakingNewsData = await response.json();
-		const initialBreakingNews: BreakingNewsPost[] = Array.isArray(
-			initialBreakingNewsData,
-		)
-			? initialBreakingNewsData
-			: initialBreakingNewsData
-			? [initialBreakingNewsData]
-			: [];
-			const initialSchemaJson = JSON.stringify({
+	const listSchemaJson = useMemo(() => {
+		if (breakingNews.length === 0) return "";
+		const payload = {
 			"@context": "https://schema.org",
 			"@type": "ItemList",
 			name: "Breaking News",
-			url: "https://www.dollarsandlife.com/breaking-news",
-			itemListElement: initialBreakingNews.slice(0, 20).map((post, index) => ({
+			url: canonical,
+			itemListElement: breakingNews.slice(0, 20).map((post, index) => ({
 				"@type": "Article",
 				position: index + 1,
-				headline: typeof post.headline === 'string' ? post.headline : '',
-				image: post.image?.url ?? '',
-				author: { "@type": "Person", name: typeof post.author?.name === "string" ? post.author.name : "" },
-				datePublished: typeof post.datePublished === 'string' ? post.datePublished : '',
-				url: `https://www.dollarsandlife.com/breaking-news/${post.id ?? ''}`,
+				headline: typeof post.headline === "string" ? post.headline : "",
+				image: post.image?.url ?? "",
+				author: {
+					"@type": "Person",
+					name:
+						typeof post.author?.name === "string" ? post.author.name : "",
+				},
+				datePublished:
+					typeof post.datePublished === "string" ? post.datePublished : "",
+				url: buildCanonicalUrl(
+					prefixLang(`/breaking-news/${post.id ?? ""}`, lang),
+				),
 			})),
-		}).replace(/<\/script/gi, '<\\/script');
-		return { props: { initialBreakingNews, initialSchemaJson } };
-	} catch (error) {
-		console.error("SSR Exception fetching breaking news:", error);
-		return {
-			props: {
-				initialBreakingNews: [],
-				initialSchemaJson: "",
-				error: "Server exception when loading breaking news.",
-			},
 		};
-	}
-};
-
-const BreakingNews: React.FC<BreakingNewsPageProps> = ({
-	initialBreakingNews,
-	initialSchemaJson = "",
-	error: ssrError,
-}) => {
-	const [breakingNews, setBreakingNews] = useState<BreakingNewsPost[]>(
-		initialBreakingNews || [],
-	);
-	const [loading, setLoading] = useState<boolean>(!initialBreakingNews);
-	const [clientError, setClientError] = useState<string | null>(
-		ssrError || null,
-	);
-	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 9;
+		return JSON.stringify(payload).replace(/<\/script/gi, "<\\/script");
+	}, [breakingNews, canonical, lang]);
 
 	const fetchClientSideBreakingNews = useCallback(async () => {
 		setLoading(true);
@@ -108,30 +77,15 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 					? error.message
 					: "Failed to load breaking news client-side.",
 			);
-			if (!initialBreakingNews || initialBreakingNews.length === 0)
-				setBreakingNews([]);
+			setBreakingNews([]);
 		} finally {
 			setLoading(false);
 		}
-	}, [initialBreakingNews]);
+	}, []);
 
 	useEffect(() => {
-		if (initialBreakingNews && initialBreakingNews.length > 0) {
-			setBreakingNews(initialBreakingNews);
-			setLoading(false);
-			setClientError(null);
-		} else if (ssrError) {
-			console.error("SSR Error for BreakingNews page:", ssrError);
-			setLoading(false);
-		} else if (breakingNews.length === 0) {
-			fetchClientSideBreakingNews();
-		}
-	}, [
-		initialBreakingNews,
-		ssrError,
-		breakingNews.length,
-		fetchClientSideBreakingNews,
-	]);
+		fetchClientSideBreakingNews();
+	}, [fetchClientSideBreakingNews]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
@@ -159,32 +113,29 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 					name='description'
 					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
 				/>
-				<link
-					rel='canonical'
-					href='https://www.dollarsandlife.com/breaking-news'
-				/>
-				{initialSchemaJson && (
+				<link rel='canonical' href={canonical} />
+				{listSchemaJson ? (
 					<script
 						type='application/ld+json'
-						dangerouslySetInnerHTML={{ __html: initialSchemaJson }}
+						dangerouslySetInnerHTML={{ __html: listSchemaJson }}
 					/>
-				)}
-						<meta property='og:title' content='Breaking News - Latest Financial and Economic Updates' />
-			<meta
-				property='og:description'
-				content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
-			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/breaking-news' />
-			<meta property='og:type' content='website' />
-			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:title' content='Breaking News - Latest Financial and Economic Updates' />
-			<meta
-				name='twitter:description'
-				content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
-			/>
-			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-		</Head>
+				) : null}
+				<meta property='og:title' content='Breaking News - Latest Financial and Economic Updates' />
+				<meta
+					property='og:description'
+					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
+				/>
+				<meta property='og:url' content={canonical} />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content='Breaking News - Latest Financial and Economic Updates' />
+				<meta
+					name='twitter:description'
+					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
+				/>
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+			</Head>
 
 			{loading && (
 				<p className='sd-loading-indicator'>Loading breaking news...</p>
@@ -209,7 +160,7 @@ const BreakingNews: React.FC<BreakingNewsPageProps> = ({
 					</div>
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => {
-							const href = `/breaking-news/${post.id}`;
+							const href = prefixLang(`/breaking-news/${post.id}`, lang);
 							return (
 								<BlogPostCard
 									key={post.id}

@@ -1,9 +1,32 @@
 "use client";
 import Head from "next/head";
-import React from "react";
+import React, { useMemo } from "react";
+import { usePageCanonical } from "@/hooks/usePageCanonical";
 import styles from "./privacy-policy.module.css";
 
 const PrivacyPolicy: React.FC = () => {
+	const canonical = usePageCanonical();
+	const schemaJson = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "WebPage",
+				name: "Privacy Policy | Dollars & Life",
+				description:
+					"Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.",
+				publisher: {
+					"@type": "Organization",
+					name: "Dollars & Life",
+					logo: {
+						"@type": "ImageObject",
+						url: "https://www.dollarsandlife.com/images/website-logo.webp",
+					},
+				},
+				url: canonical,
+			}),
+		[canonical],
+	);
+
 	return (
 		<>
 			<Head>
@@ -12,16 +35,13 @@ const PrivacyPolicy: React.FC = () => {
 					name='description'
 					content='Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.'
 				/>
-				<link rel='canonical' href='https://www.dollarsandlife.com/privacy-policy' />
+				<link rel='canonical' href={canonical} />
 				<meta property='og:title' content='Privacy Policy | Dollars And Life - Your Data Rights' />
 				<meta
 					property='og:description'
 					content='Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.'
 				/>
-				<meta
-					property='og:url'
-					content='https://www.dollarsandlife.com/privacy-policy'
-				/>
+				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='article' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
@@ -33,27 +53,7 @@ const PrivacyPolicy: React.FC = () => {
 				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='robots' content='index, follow' />
 
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "WebPage",
-							name: "Privacy Policy | Dollars & Life",
-							description:
-								"Read our Privacy Policy, including information on data collection, usage, advertisements, and user rights.",
-							publisher: {
-								"@type": "Organization",
-								name: "Dollars & Life",
-								logo: {
-									"@type": "ImageObject",
-									url: "https://www.dollarsandlife.com/images/website-logo.webp",
-								},
-							},
-							url: "https://www.dollarsandlife.com/privacy-policy",
-						}),
-					}}
-				/>
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: schemaJson }} />
 			</Head>
 
 			<main className={styles.privacyPolicyContent} role='main'>

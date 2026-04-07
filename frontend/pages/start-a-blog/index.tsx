@@ -1,10 +1,13 @@
 "use client";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
-import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
+import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../src/components/pagination/PaginationContainer";
 import { getClientApiBase } from "@/lib/api-base";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { buildCanonicalUrl } from "@/lib/seo/canonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
 
 interface BlogPost {
 	// Ensure this interface matches the structure of your posts
@@ -65,6 +68,8 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 	initialBlogPosts,
 	error: ssrError,
 }) => {
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
 	const [blogPosts, setBlogPosts] = useState<BlogPost[]>(
 		initialBlogPosts || [],
 	);
@@ -127,6 +132,27 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
+	const listSchemaJson = useMemo(() => {
+		if (blogPosts.length === 0) return "";
+		const payload = {
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			url: canonical,
+			itemListElement: blogPosts.map((post, index) => ({
+				"@type": "Article",
+				position: index + 1,
+				headline: post.headline,
+				image: post.image.url,
+				author: { "@type": "Person", name: post.author.name },
+				datePublished: post.datePublished,
+				url: buildCanonicalUrl(
+					prefixLang(`/start-a-blog/${post.id}`, lang),
+				),
+			})),
+		};
+		return JSON.stringify(payload).replace(/<\/script/gi, "<\\/script");
+	}, [blogPosts, canonical, lang]);
+
 	return (
 		<div className='page-container'>
 			<Head>
@@ -135,34 +161,19 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 					name='description'
 					content='Learn how to start a successful blog in 2025 with our step-by-step guide. Discover the best blogging platforms, tools, and strategies for monetization.'
 				/>
-				<link
-					rel='canonical'
-					href='https://www.dollarsandlife.com/start-a-blog'
-				/>
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "ItemList",
-							itemListElement: blogPosts.map((post, index) => ({
-								"@type": "Article",
-								position: index + 1,
-								headline: post.headline,
-								image: post.image.url,
-								author: { "@type": "Person", name: post.author.name },
-								datePublished: post.datePublished,
-								url: `https://www.dollarsandlife.com/start-a-blog/${post.id}`,
-							})),
-						}),
-					}}
-				/>
+				<link rel='canonical' href={canonical} />
+				{listSchemaJson ? (
+					<script
+						type='application/ld+json'
+						dangerouslySetInnerHTML={{ __html: listSchemaJson }}
+					/>
+				) : null}
 						<meta property='og:title' content='How to Start a Blog in 2025 | Step-by-Step Beginner Guide' />
 			<meta
 				property='og:description'
 				content='Learn how to start a successful blog in 2025 with our step-by-step guide. Discover the best blogging platforms, tools, and strategies for monetization.'
 			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/start-a-blog' />
+			<meta property='og:url' content={canonical} />
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
@@ -205,7 +216,7 @@ const StartABlog: React.FC<StartABlogPageProps> = ({
 								author={post.author}
 								datePublished={post.datePublished}
 								dateModified={post.dateModified}
-								href={`/start-a-blog/${post.id}`}
+								href={prefixLang(`/start-a-blog/${post.id}`, lang)}
 							/>
 						))}
 					</div>

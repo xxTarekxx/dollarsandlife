@@ -33,7 +33,7 @@ export default async function RemoteJobDetailPage({
 				? sanitizeAndTruncateHTML(first.text, 160)
 				: "Detailed remote job post.";
 		const Component = (await import("@pages/extra-income/remote-online-jobs/[id]")).default;
-		return <Component post={post} />;
+		return <Component post={post} locale={lang} />;
 	} catch {
 		notFound();
 	}

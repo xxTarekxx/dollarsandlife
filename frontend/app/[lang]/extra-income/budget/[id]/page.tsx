@@ -33,7 +33,7 @@ export default async function BudgetDetailPage({
 				? sanitizeAndTruncateHTML(first.text, 160)
 				: "Detailed budgeting post.";
 		const Component = (await import("@pages/extra-income/budget/[id]")).default;
-		return <Component post={post} />;
+		return <Component post={post} locale={lang} />;
 	} catch {
 		notFound();
 	}

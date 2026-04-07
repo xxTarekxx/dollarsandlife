@@ -2,9 +2,11 @@
 import "../CommonStyles.css";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
-import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
+import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
 import { getClientApiBase } from "@/lib/api-base";
 
 // Assuming MoneyMakingApp is structurally similar to BlogPost for BlogPostCard usage
@@ -68,6 +70,26 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 	);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
+
+	const listJsonLd = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "ItemList",
+				itemListElement: apps.map((post, index) => ({
+					"@type": "Article",
+					position: index + 1,
+					headline: post.headline,
+					image: post.image.url,
+					author: { "@type": "Person", name: post.author.name },
+					datePublished: post.datePublished,
+					url: `${canonical}/${post.id}`,
+				})),
+			}),
+		[apps, canonical],
+	);
 
 	const fetchClientSideApps = useCallback(async () => {
 		setLoading(true);
@@ -130,32 +152,14 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 					name='description'
 					content='Discover the best money-making apps to earn cash, gift cards, and rewards from your smartphone.'
 				/>
-				<link
-					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/money-making-apps'
-				/>
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{ __html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ItemList",
-						itemListElement: apps.map((post, index) => ({
-							"@type": "Article",
-							position: index + 1,
-							headline: post.headline,
-							image: post.image.url,
-							author: { "@type": "Person", name: post.author.name },
-							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/extra-income/money-making-apps/${post.id}`,
-						})),
-					}) }}
-				/>
+				<link rel='canonical' href={canonical} />
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: listJsonLd }} />
 						<meta property='og:title' content='Money Making Apps | Best Apps to Earn Cash in 2025' />
 			<meta
 				property='og:description'
 				content='Discover the best money-making apps to earn cash, gift cards, and rewards from your smartphone.'
 			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/money-making-apps' />
+			<meta property='og:url' content={canonical} />
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
@@ -198,7 +202,10 @@ const MoneyMakingApps: React.FC<MoneyMakingAppsPageProps> = ({
 								author={post.author}
 								datePublished={post.datePublished}
 								dateModified={post.dateModified}
-								href={`/extra-income/money-making-apps/${post.id}`}
+								href={prefixLang(
+									`/extra-income/money-making-apps/${post.id}`,
+									lang,
+								)}
 							/>
 						))}
 					</div>

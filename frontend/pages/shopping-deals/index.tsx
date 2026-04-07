@@ -5,8 +5,10 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import PaginationContainer from "src/components/pagination/PaginationContainer";
-import { getCanonicalUrl } from "../../src/utils/url";
 import { getClientApiBase } from "@/lib/api-base";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { prefixLang, pathWithoutLang } from "@/lib/i18n/prefixLang";
+import { buildCanonicalUrl } from "@/lib/seo/canonical";
 
 interface Product {
 	id: string;
@@ -76,7 +78,7 @@ const cleanText = (text: string): string => {
 	return deepClean(text);
 };
 
-const ProductCard: React.FC<Product> = ({
+const ProductCard: React.FC<Product & { lang: string }> = ({
 	id,
 	headline,
 	shortName,
@@ -88,22 +90,34 @@ const ProductCard: React.FC<Product> = ({
 	aggregateRating,
 	offers,
 	canonicalUrl,
+	lang,
 }) => {
-	// Use canonicalUrl from DB when present; otherwise build from id + shortName/headline
-	const detailUrl = canonicalUrl
-		? (canonicalUrl.startsWith("http")
-			? new URL(canonicalUrl).pathname
-			: canonicalUrl.startsWith("/")
-				? canonicalUrl
-				: `/${canonicalUrl}`)
-		: (() => {
+	let basePath: string;
+	if (canonicalUrl) {
+		if (canonicalUrl.startsWith("http")) {
+			try {
+				basePath = pathWithoutLang(new URL(canonicalUrl).pathname);
+			} catch {
 				const nameForSlug = shortName || headline;
 				const slug = nameForSlug
 					.toLowerCase()
 					.replace(/[^a-z0-9\s-]/g, "")
 					.replace(/\s+/g, "-");
-				return `/shopping-deals/products/${id}-${slug}`;
-			})();
+				basePath = `/shopping-deals/products/${id}-${slug}`;
+			}
+		} else {
+			const p = canonicalUrl.startsWith("/") ? canonicalUrl : `/${canonicalUrl}`;
+			basePath = pathWithoutLang(p);
+		}
+	} else {
+		const nameForSlug = shortName || headline;
+		const slug = nameForSlug
+			.toLowerCase()
+			.replace(/[^a-z0-9\s-]/g, "")
+			.replace(/\s+/g, "-");
+		basePath = `/shopping-deals/products/${id}-${slug}`;
+	}
+	const detailUrl = prefixLang(basePath, lang);
 
 	const descriptionSnippet = useMemo(() => {
 		if (!description) return "";
@@ -214,14 +228,10 @@ const ProductCard: React.FC<Product> = ({
 
 interface ShoppingDealsPageProps {
 	initialProducts?: Product[];
-	initialSchemaJson?: string;
 	error?: string;
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-	const { sanitizeAndTruncateHTML } = await import(
-		"../../src/utils/sanitization.server"
-	);
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/shopping-deals`,
@@ -241,35 +251,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
 			: initialProductsData
 				? [initialProductsData]
 				: [];
-			const initialSchemaJson = JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "ItemList",
-			name: "Shopping Deals",
-			url: "https://www.dollarsandlife.com/shopping-deals",
-			itemListElement: initialProducts.slice(0, 20).map((p, i) => ({
-				"@type": "ListItem",
-				position: i + 1,
-				item: {
-					"@type": "Product",
-					name: sanitizeAndTruncateHTML(p.headline || "", 200),
-					image: p.image?.url ?? '',
-					offers: {
-						"@type": "Offer",
-						priceCurrency: "USD",
-						price: p.offers?.price || (p.currentPrice || '').replace('$', ''),
-						availability: p.offers?.availability || "https://schema.org/InStock",
-						url: p.canonicalUrl || `https://www.dollarsandlife.com/shopping-deals/products/${p.id}`,
-					},
-				},
-			})),
-		}).replace(/<\/script/gi, '<\\/script');
-		return { props: { initialProducts, initialSchemaJson } };
+		return { props: { initialProducts } };
 	} catch (error) {
 		console.error("SSR Exception fetching shopping deals:", error);
 		return {
 			props: {
 				initialProducts: [],
-				initialSchemaJson: "",
 				error: "Server exception when loading deals.",
 			},
 		};
@@ -278,9 +265,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 	initialProducts,
-	initialSchemaJson = "",
 	error: ssrError,
 }) => {
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
 	const [products, setProducts] = useState<Product[]>(initialProducts || []);
 	const [loading, setLoading] = useState<boolean>(!initialProducts); // True if no initialProducts
 	const [error, setError] = useState<string | null>(ssrError || null);
@@ -340,6 +328,36 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 		return products.slice(startIndex, endIndex);
 	}, [products, currentPage, postsPerPage]);
 
+	const listSchemaJson = useMemo(() => {
+		if (products.length === 0) return "";
+		const itemListElement = products.slice(0, 20).map((p, i) => ({
+			"@type": "ListItem",
+			position: i + 1,
+			item: {
+				"@type": "Product",
+				name: cleanText(p.headline || "").slice(0, 200),
+				image: p.image?.url ?? "",
+				offers: {
+					"@type": "Offer",
+					priceCurrency: "USD",
+					price: p.offers?.price || (p.currentPrice || "").replace("$", ""),
+					availability: p.offers?.availability || "https://schema.org/InStock",
+					url: buildCanonicalUrl(
+						prefixLang(`/shopping-deals/products/${p.id}`, lang),
+					),
+				},
+			},
+		}));
+		const payload = {
+			"@context": "https://schema.org",
+			"@type": "ItemList",
+			name: "Shopping Deals",
+			url: canonical,
+			itemListElement,
+		};
+		return JSON.stringify(payload).replace(/<\/script/gi, "<\\/script");
+	}, [products, canonical, lang]);
+
 	return (
 		<div className='sd-page-container'>
 			<Head>
@@ -348,22 +366,19 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 					name='description'
 					content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'
 				/>
-				<link
-					rel='canonical'
-					href={getCanonicalUrl("/shopping-deals")}
-				/>
-				{initialSchemaJson && (
+				<link rel='canonical' href={canonical} />
+				{listSchemaJson ? (
 					<script
 						type='application/ld+json'
-						dangerouslySetInnerHTML={{ __html: initialSchemaJson }}
+						dangerouslySetInnerHTML={{ __html: listSchemaJson }}
 					/>
-				)}
+				) : null}
 						<meta property='og:title' content={`Deals and Savings | Best Online Shopping Discounts ${currentYear}`} />
 			<meta
 				property='og:description'
 				content='Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.'
 			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/shopping-deals' />
+			<meta property='og:url' content={canonical} />
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
@@ -391,7 +406,7 @@ const ShoppingDeals: React.FC<ShoppingDealsPageProps> = ({
 			{!loading && !error && currentProducts.length > 0 && (
 				<div className='sd-products-grid'>
 					{currentProducts.map((product: Product) => (
-						<ProductCard key={product.id} {...product} />
+						<ProductCard key={product.id} {...product} lang={lang} />
 					))}
 				</div>
 			)}

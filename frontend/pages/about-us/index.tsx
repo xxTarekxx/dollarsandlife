@@ -4,7 +4,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
+import { usePageCanonical } from "@/hooks/usePageCanonical";
 import styles from "./about-us.module.css";
 
 // Importing logos from /assets
@@ -17,6 +18,42 @@ import profileImage from "../../src/assets/images/profile-image.webp";
 import reactLogo from "../../src/assets/images/reactlogo.webp";
 
 const AboutUs: React.FC = () => {
+	const canonical = usePageCanonical();
+	const schemaJson = useMemo(
+		() =>
+			JSON.stringify([
+				{
+					"@context": "https://schema.org",
+					"@type": "Organization",
+					name: "Dollars & Life",
+					url: "https://www.dollarsandlife.com",
+					logo: {
+						"@type": "ImageObject",
+						url: "https://www.dollarsandlife.com/images/website-logo.webp",
+					},
+					description:
+						"A developer-built personal finance platform offering tools, news, and strategies to help people build better financial futures.",
+					founder: {
+						"@type": "Person",
+						name: "Tarek I.",
+					},
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "Person",
+					name: "Tarek I.",
+					jobTitle: "Founder & Full-Stack Developer",
+					url: canonical,
+					sameAs: ["https://www.linkedin.com/in/tarek-ismail-96777578/"],
+					worksFor: {
+						"@type": "Organization",
+						name: "Dollars & Life",
+					},
+				},
+			]),
+		[canonical],
+	);
+
 	return (
 		<div className={styles.pageWrapper}>
 			<Head>
@@ -25,14 +62,14 @@ const AboutUs: React.FC = () => {
 					name='description'
 					content='The story behind Dollars & Life: A custom-built platform by developer Tarek I. to decode personal finance through technology and real-world experience.'
 				/>
-				<link rel='canonical' href='https://www.dollarsandlife.com/about-us' />
+				<link rel='canonical' href={canonical} />
 				<meta property='og:title' content='About Us | Dollars & Life' />
 				<meta
 					property='og:description'
 					content='Learn how a developer obsession with real-world financial problems led to a custom-built platform for everyone.'
 				/>
 				<meta property='og:type' content='website' />
-				<meta property='og:url' content='https://www.dollarsandlife.com/about-us' />
+				<meta property='og:url' content={canonical} />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
 				<meta name='twitter:title' content='About Us | Dollars & Life' />
@@ -41,40 +78,7 @@ const AboutUs: React.FC = () => {
 					content='Learn how a developer obsession with real-world financial problems led to a custom-built platform for everyone.'
 				/>
 				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify([
-							{
-								"@context": "https://schema.org",
-								"@type": "Organization",
-								name: "Dollars & Life",
-								url: "https://www.dollarsandlife.com",
-								logo: {
-									"@type": "ImageObject",
-									url: "https://www.dollarsandlife.com/images/website-logo.webp",
-								},
-								description: "A developer-built personal finance platform offering tools, news, and strategies to help people build better financial futures.",
-								founder: {
-									"@type": "Person",
-									name: "Tarek I.",
-								},
-							},
-							{
-								"@context": "https://schema.org",
-								"@type": "Person",
-								name: "Tarek I.",
-								jobTitle: "Founder & Full-Stack Developer",
-								url: "https://www.dollarsandlife.com/about-us",
-								sameAs: ["https://www.linkedin.com/in/tarek-ismail-96777578/"],
-								worksFor: {
-									"@type": "Organization",
-									name: "Dollars & Life",
-								},
-							},
-						]),
-					}}
-				/>
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: schemaJson }} />
 			</Head>
 
 			<header className={styles.hero}>

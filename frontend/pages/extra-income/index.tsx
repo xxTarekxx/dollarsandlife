@@ -4,7 +4,9 @@ import "./ExtraIncome.css";
 import Head from "next/head";
 import type { StaticImageData } from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
 import Budgettingimg from "../../src/assets/images/icons/img-budgetting.webp";
 import FreeLancerimg from "../../src/assets/images/icons/img-freelancer.webp";
 import MoneyMakingAppsimg from "../../src/assets/images/icons/img-moneymakingapps.webp";
@@ -57,6 +59,29 @@ const linkBoxes: LinkBoxData[] = [
 ];
 
 const ExtraIncome: React.FC = () => {
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
+	const webPageJsonLd = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "WebPage",
+				name: "Extra Income Opportunities",
+				url: canonical,
+				description:
+					"Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.",
+				publisher: {
+					"@type": "Organization",
+					name: "Dollars & Life",
+					logo: {
+						"@type": "ImageObject",
+						url: "https://www.dollarsandlife.com/images/website-logo.webp",
+					},
+				},
+			}),
+		[canonical],
+	);
+
 	return (
 		<>
 			<Head>
@@ -65,10 +90,7 @@ const ExtraIncome: React.FC = () => {
 					name='description'
 					content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
 				/>
-				<link
-					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income'
-				/>
+				<link rel='canonical' href={canonical} />
 
 				{/* Preload only LCP image */}
 				{linkBoxes
@@ -88,31 +110,14 @@ const ExtraIncome: React.FC = () => {
 				{/* Structured Data */}
 				<script
 					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "WebPage",
-							name: "Extra Income Opportunities",
-							url: "https://www.dollarsandlife.com/extra-income",
-							description:
-								"Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.",
-							publisher: {
-								"@type": "Organization",
-								name: "Dollars & Life",
-								logo: {
-									"@type": "ImageObject",
-									url: "https://www.dollarsandlife.com/images/website-logo.webp",
-								},
-							},
-						}),
-					}}
+					dangerouslySetInnerHTML={{ __html: webPageJsonLd }}
 				/>
 						<meta property='og:title' content='Extra Income Hub | Dollars & Life' />
 			<meta
 				property='og:description'
 				content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
 			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income' />
+			<meta property='og:url' content={canonical} />
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
@@ -153,7 +158,7 @@ const ExtraIncome: React.FC = () => {
 							<Link
 								className='link-box'
 								key={linkBox.href} // Use a unique prop like href for key
-								href={linkBox.href}
+								href={prefixLang(linkBox.href, lang)}
 								aria-label={linkBox.ariaLabel}
 							>
 								<img

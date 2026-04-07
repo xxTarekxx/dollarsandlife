@@ -34,7 +34,7 @@ export default async function BreakingNewsDetailPage({
 				? sanitizeAndTruncateHTML(first.text, 160)
 				: "Detailed breaking news post.";
 		const Component = (await import("@pages/breaking-news/[id]")).default;
-		return <Component post={post} />;
+		return <Component post={post} locale={lang} />;
 	} catch {
 		notFound();
 	}

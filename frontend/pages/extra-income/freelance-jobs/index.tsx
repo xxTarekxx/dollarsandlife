@@ -2,9 +2,11 @@
 import "../CommonStyles.css";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
 import { getClientApiBase } from "@/lib/api-base";
 
 // Assuming FreelanceJob is structurally similar to BlogPost for BlogPostCard usage
@@ -78,6 +80,26 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 	);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
+
+	const listJsonLd = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "ItemList",
+				itemListElement: freelanceJobs.map((post, index) => ({
+					"@type": "Article",
+					position: index + 1,
+					headline: post.headline,
+					image: post.image.url,
+					author: { "@type": "Person", name: post.author.name },
+					datePublished: post.datePublished,
+					url: `${canonical}/${post.id}`,
+				})),
+			}),
+		[freelanceJobs, canonical],
+	);
 
 	const fetchClientSideFreelanceJobs = useCallback(async () => {
 		setLoading(true);
@@ -146,32 +168,14 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 					name='description'
 					content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
 				/>
-				<link
-					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/freelance-jobs'
-				/>
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{ __html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ItemList",
-						itemListElement: freelanceJobs.map((post, index) => ({
-							"@type": "Article",
-							position: index + 1,
-							headline: post.headline,
-							image: post.image.url,
-							author: { "@type": "Person", name: post.author.name },
-							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/extra-income/freelance-jobs/${post.id}`,
-						})),
-					}) }}
-				/>
+				<link rel='canonical' href={canonical} />
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: listJsonLd }} />
 						<meta property='og:title' content='Freelance Jobs | Find Your Next Remote or Gig Opportunity' />
 			<meta
 				property='og:description'
 				content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
 			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/freelance-jobs' />
+			<meta property='og:url' content={canonical} />
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
@@ -213,9 +217,7 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 				</section>
 
 				<div className='content-wrapper'>
-						{currentPosts.map((post) => {
-							const href = `/extra-income/freelance-jobs/${post.id}`;
-							return (
+						{currentPosts.map((post) => (
 								<BlogPostCard
 									key={post.id}
 									id={post.id}
@@ -225,10 +227,12 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 									author={post.author}
 									datePublished={post.datePublished}
 									dateModified={post.dateModified}
-									href={href}
+									href={prefixLang(
+										`/extra-income/freelance-jobs/${post.id}`,
+										lang,
+									)}
 								/>
-							);
-						})}
+							))}
 					</div>
 					{freelanceJobs.length > postsPerPage && (
 						<PaginationContainer

@@ -33,7 +33,7 @@ export default async function MoneyMakingAppDetailPage({
 				? sanitizeAndTruncateHTML(first.text, 160)
 				: "Detailed money-making app post.";
 		const Component = (await import("@pages/extra-income/money-making-apps/[id]")).default;
-		return <Component post={post} />;
+		return <Component post={post} locale={lang} />;
 	} catch {
 		notFound();
 	}

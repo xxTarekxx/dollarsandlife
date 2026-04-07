@@ -5,9 +5,11 @@ import React, {
 	Suspense,
 	useCallback,
 	useEffect,
+	useMemo,
 	useRef,
 	useState,
 } from "react";
+import { usePageCanonical } from "@/hooks/usePageCanonical";
 import ReCAPTCHA from "react-google-recaptcha";
 import styles from "./contact-us.module.css";
 
@@ -19,6 +21,28 @@ interface FormData {
 }
 
 const ContactUs: React.FC = () => {
+	const canonical = usePageCanonical();
+	const schemaJson = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "ContactPage",
+				name: "Contact Dollars & Life",
+				description:
+					"Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message.",
+				url: canonical,
+				publisher: {
+					"@type": "Organization",
+					name: "Dollars & Life",
+					logo: {
+						"@type": "ImageObject",
+						url: "https://www.dollarsandlife.com/images/website-logo.webp",
+					},
+				},
+			}),
+		[canonical],
+	);
+
 	const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
 	const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
 	const userId = process.env.NEXT_PUBLIC_EMAILJS_USER_ID;
@@ -177,13 +201,13 @@ const ContactUs: React.FC = () => {
 					name='description'
 					content='Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message and we will respond promptly.'
 				/>
-				<link rel='canonical' href='https://www.dollarsandlife.com/contact-us' />
+				<link rel='canonical' href={canonical} />
 				<meta property='og:title' content='Contact Dollars & Life | Questions, Feedback & Support' />
 				<meta
 					property='og:description'
 					content='Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message and we will respond promptly.'
 				/>
-				<meta property='og:url' content='https://www.dollarsandlife.com/contact-us' />
+				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='website' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
@@ -193,26 +217,7 @@ const ContactUs: React.FC = () => {
 					content='Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message and we will respond promptly.'
 				/>
 				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "ContactPage",
-							name: "Contact Dollars & Life",
-							description: "Have questions or feedback about personal finance, budgeting, or the Dollars & Life platform? Send us a message.",
-							url: "https://www.dollarsandlife.com/contact-us",
-							publisher: {
-								"@type": "Organization",
-								name: "Dollars & Life",
-								logo: {
-									"@type": "ImageObject",
-									url: "https://www.dollarsandlife.com/images/website-logo.webp",
-								},
-							},
-						}),
-					}}
-				/>
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: schemaJson }} />
 			</Head>
 			<section className={styles.contactUsContainer}>
 			<h1>Contact Us</h1>
