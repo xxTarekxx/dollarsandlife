@@ -33,7 +33,8 @@ const ALL_LANGS_SET = new Set(ALL_LANGS);
 
 /**
  * Sitemap rule: only include a URL when translation exists.
- * - Static pages: only the default (en) URL — no /es, /de, etc. until translated.
+ * - Most static pages: English-only URL (no /fr/... prefix).
+ * - Privacy + Terms: all LEGAL_TRANSLATED_LANGS (in-code translations).
  * - MongoDB pages: only languages present in doc.languages (no URL if no translation).
  */
 const STATIC_PATHS = new Set([
@@ -44,9 +45,21 @@ const STATIC_PATHS = new Set([
     "/extra-income/money-making-apps", "/breaking-news",
 ]);
 
-/** Languages to emit for a static path — only default (en); no URL without translation. */
+/**
+ * Legal pages with in-code translations (see lib/i18n/legal-page-content.ts).
+ * Emit one sitemap URL per language (en unprefixed, others /{lang}/...).
+ */
+const LEGAL_TRANSLATED_STATIC_PATHS = new Set(["/privacy-policy", "/terms-of-service"]);
+const LEGAL_TRANSLATED_LANGS = [
+    "en", "zh", "es", "ar", "pt", "id", "fr", "ja", "ru", "de",
+];
+
+/** Languages to emit for a static path — default en-only unless fully translated in code. */
 function getLanguagesForStaticPath(rawPath) {
     const normalized = rawPath.split("?")[0].replace(/\/$/, "") || "/";
+    if (LEGAL_TRANSLATED_STATIC_PATHS.has(normalized)) {
+        return LEGAL_TRANSLATED_LANGS;
+    }
     return STATIC_PATHS.has(normalized) ? [DEFAULT_LANG] : [DEFAULT_LANG];
 }
 
@@ -389,7 +402,7 @@ async function generateSitemap() {
             const raw = (!r || r === "/") ? "/" : (r.startsWith("/") ? r : "/" + r).toLowerCase();
             return raw !== "/" && raw.endsWith("/") ? raw.replace(/\/+$/, "") : raw;
         };
-        console.log("📝 Adding static routes (default language only)...");
+        console.log("📝 Adding static routes (en-only except privacy/terms = all legal langs)...");
 
         const STATIC_FREQ = {
             "/": "daily",

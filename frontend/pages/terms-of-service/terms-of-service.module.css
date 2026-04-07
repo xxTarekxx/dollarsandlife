@@ -13,7 +13,7 @@
 }
 
 .termsOfServiceContent h2 {
-    text-align: left;
+    text-align: start;
     margin-top: 2.5em;
     margin-bottom: 1em;
     color: #6000ce;
@@ -59,14 +59,14 @@
     margin-bottom: 0.8em;
     color: #444;
     line-height: 1.3;
-    text-align: left;
+    text-align: start;
     font-weight: 600;
 }
 
 @media (max-width: 768px) {
     .termsOfServiceContent h3 {
         font-size: 1.2em;
-        text-align: left;
+        text-align: start;
     }
 }
 
@@ -75,7 +75,7 @@
     margin: 1em 0;
     color: #555;
     line-height: 1.7;
-    text-align: left;
+    text-align: start;
     word-wrap: break-word;
 }
 
@@ -83,22 +83,22 @@
     .termsOfServiceContent p {
         font-size: 0.95em;
         margin: 0.8em 0;
-        text-align: left;
+        text-align: start;
     }
 }
 
 .termsOfServiceContent ul {
     margin: 1.2em 0;
-    padding-left: 25px;
-    text-align: left;
+    padding-inline-start: 25px;
+    text-align: start;
     list-style-type: disc;
     box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
     .termsOfServiceContent ul {
-        text-align: left;
-        padding-left: 20px;
+        text-align: start;
+        padding-inline-start: 20px;
     }
 }
 

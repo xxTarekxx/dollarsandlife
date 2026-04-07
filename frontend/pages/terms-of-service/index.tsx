@@ -2,18 +2,24 @@
 import Head from "next/head"; // Import Head for SEO
 import React, { useMemo } from "react";
 import { usePageCanonical } from "@/hooks/usePageCanonical";
+import { useLangFromPath } from "@/hooks/usePageCanonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
+import { resolveLegalLang, TERMS_PAGE_CONTENT } from "@/lib/i18n/legal-page-content";
 import styles from "./terms-of-service.module.css";
 
 const TermsOfService: React.FC = () => {
 	const canonical = usePageCanonical();
+	const langFromPath = useLangFromPath();
+	const lang = resolveLegalLang(langFromPath);
+	const copy = TERMS_PAGE_CONTENT[lang];
+	const privacyPolicyLink = prefixLang("/privacy-policy", lang);
 	const schemaJson = useMemo(
 		() =>
 			JSON.stringify({
 				"@context": "https://schema.org",
 				"@type": "WebPage",
-				name: "Terms of Service - Dollars And Life",
-				description:
-					"Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.",
+				name: copy.seoTitle,
+				description: copy.seoDescription,
 				publisher: {
 					"@type": "Organization",
 					name: "Dollars And Life",
@@ -24,36 +30,24 @@ const TermsOfService: React.FC = () => {
 				},
 				url: canonical,
 			}),
-		[canonical],
+		[canonical, copy.seoDescription, copy.seoTitle],
 	);
 
 	return (
 		<>
 			{/* SEO: Head for metadata */}
 			<Head>
-				<title>Terms of Service | Dollars And Life - Legal Agreements</title>
-				<meta
-					name='description'
-					content='Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.'
-				/>
+				<title>{copy.seoTitle}</title>
+				<meta name='description' content={copy.seoDescription} />
 				<link rel='canonical' href={canonical} />
-				<meta
-					property='og:title'
-					content='Terms of Service | Dollars And Life - Legal Agreements'
-				/>
-				<meta
-					property='og:description'
-					content='Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.'
-				/>
+				<meta property='og:title' content={copy.seoTitle} />
+				<meta property='og:description' content={copy.seoDescription} />
 				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='article' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
-				<meta name='twitter:title' content='Terms of Service | Dollars And Life - Legal Agreements' />
-				<meta
-					name='twitter:description'
-					content='Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.'
-				/>
+				<meta name='twitter:title' content={copy.seoTitle} />
+				<meta name='twitter:description' content={copy.seoDescription} />
 				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='robots' content='index, follow' />
 
@@ -63,77 +57,28 @@ const TermsOfService: React.FC = () => {
 
 			{/* Main Content */}
 			<main className={styles.termsOfServiceContent} role='main'>
-				<h1>Terms of Service</h1>
+				<h1>{copy.title}</h1>
 
 				<section className='content-section'>
+					<p>{copy.intro}</p>
+
+					<h2>{copy.acceptanceHeading}</h2>
 					<p>
-						<strong>Dollars And Life</strong> is owned and operated by Texas
-						Connect LLC ("we," "us," or "our"). By accessing or using our
-						website, you agree to comply with and be bound by these Terms of
-						Use.
+						{copy.acceptanceTextBeforeLink}{" "}
+						<a href={privacyPolicyLink}>Privacy Policy</a>.{" "}
+						{copy.acceptanceTextAfterLink}
 					</p>
 
-					<h2>Acceptance of Terms</h2>
-					<p>
-						By using{" "}
-						<a href='https://www.dollarsandlife.com'>www.dollarsandlife.com</a>,
-						you agree to these Terms of Use and our{" "}
-						<a href='/privacy-policy'>Privacy Policy</a>. If you do not agree,
-						please discontinue use.
-					</p>
+					{copy.sections.map((section) => (
+						<React.Fragment key={section.heading}>
+							<h2>{section.heading}</h2>
+							<p>{section.text}</p>
+						</React.Fragment>
+					))}
 
-					<h2>Changes to Terms</h2>
-					<p>
-						We reserve the right to modify these Terms at any time. Changes will
-						take effect immediately upon posting.
-					</p>
-
-					<h2>Use of the Site</h2>
-					<p>
-						Users must only use this site for lawful purposes and must not
-						engage in activities that may cause harm to the website or other
-						users.
-					</p>
-
-					<h2>FTC Disclosure and Affiliate Marketing</h2>
-					<p>
-						We may participate in affiliate marketing programs. Clicking on some
-						links may earn us a commission at no extra cost to you.
-					</p>
-
-					<h2>Disclaimer</h2>
-					<p>
-						All information on this website is provided for informational
-						purposes only. We do not guarantee accuracy or completeness.
-					</p>
-
-					<h2>Limitation of Liability</h2>
-					<p>
-						To the fullest extent permitted by law, Texas Connect LLC disclaims
-						all warranties related to this site.
-					</p>
-
-					<h2>Indemnification</h2>
-					<p>
-						Users agree to indemnify Texas Connect LLC from all claims, damages,
-						and expenses resulting from misuse of this site.
-					</p>
-
-					<h2>Governing Law</h2>
-					<p>These Terms are governed by the laws of the State of Texas.</p>
-
-					<h2>Contact Information</h2>
-					<p>
-						For questions, contact us at{" "}
-						<a href='mailto:contact@dollarsandlife.com'>
-							contact@dollarsandlife.com
-						</a>{" "}
-						or mail us at:
-					</p>
-					<p>
-						Texas Connect LLC, 4364 Western Center Blvd, #2296, Fort Worth, TX
-						76137
-					</p>
+					<h2>{copy.contactHeading}</h2>
+					<p>{copy.contactText}</p>
+					<p>{copy.address}</p>
 				</section>
 			</main>
 		</>
