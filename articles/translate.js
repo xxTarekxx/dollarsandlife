@@ -59,10 +59,22 @@ if (!OPENAI_API_KEY) throw new Error("Missing OPENAI_API_KEY");
 
 const MODEL = "gpt-4.1-mini";
 const RATE_LIMIT_MS = 50;
+const BATCH_SIZE = Math.max(1, Number(process.env.BATCH_SIZE || "12"));
+const INPUT_FILES = (process.env.INPUT_FILES
+    ? process.env.INPUT_FILES.split(",")
+    : [
+        "budgetdata.json",
+        "freelancejobs.json",
+        "remotejobs.json",
+        "moneymakingapps.json",
+        "startablogdata.json",
+        "breakingnews.json",
+    ]
+).map(s => s.trim()).filter(Boolean);
 
-const INPUT_BASENAME = process.env.INPUT_FILE || "breakingnews.json";
-const INPUT_FILE = path.join(__dirname, INPUT_BASENAME);
-const PARTIAL_FILE = path.join(__dirname, INPUT_BASENAME.replace(/\.json$/, "") + ".partial.json");
+let CURRENT_INPUT_BASENAME = "";
+let CURRENT_INPUT_FILE = "";
+let CURRENT_PARTIAL_FILE = "";
 
 const TRANSLATABLE_KEYS = new Set([
     "headline",
@@ -132,9 +144,9 @@ function delay(ms) {
 
 function saveProgress() {
     if (!workingData) return;
-
-    fs.writeFileSync(PARTIAL_FILE, JSON.stringify(workingData, null, 2));
-    fs.writeFileSync(INPUT_FILE, JSON.stringify(workingData, null, 2));
+    if (!CURRENT_PARTIAL_FILE || !CURRENT_INPUT_FILE) return;
+    fs.writeFileSync(CURRENT_PARTIAL_FILE, JSON.stringify(workingData, null, 2));
+    fs.writeFileSync(CURRENT_INPUT_FILE, JSON.stringify(workingData, null, 2));
 }
 
 function getLanguageName(code) {
@@ -142,7 +154,15 @@ function getLanguageName(code) {
 }
 
 function getTargetLanguages() {
-    return SUPPORTED_LANGUAGES.filter(l => l.code !== "en").map(l => l.code);
+    const requested = (process.env.TARGET_LANGS || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
+    if (requested.length === 0) {
+        return SUPPORTED_LANGUAGES.filter(l => l.code !== "en").map(l => l.code);
+    }
+    const set = new Set(requested);
+    return SUPPORTED_LANGUAGES.filter(l => l.code !== "en" && set.has(l.code)).map(l => l.code);
 }
 
 const ALLOWED_LANG_CODES = new Set(SUPPORTED_LANGUAGES.map(l => l.code));
@@ -371,6 +391,59 @@ async function translateText(text, language, langCode) {
     }
 }
 
+async function translateTextsBatch(texts, language, langCode) {
+    if (!Array.isArray(texts) || texts.length === 0) return [];
+    const rtlNote = RTL_LANG_CODES.has(langCode)
+        ? " Use natural right-to-left ordering for this language. "
+        : "";
+    const preserveNote = " Preserve all emojis, icons, and Unicode symbols exactly; do not translate or remove them. ";
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 25000);
+    try {
+        const payload = texts.map((t, i) => ({ i, text: t }));
+        const res = await fetch("https://api.openai.com/v1/responses", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: MODEL,
+                input:
+                    `Translate each item into ${language}. Keep HTML and URLs unchanged.${preserveNote}${rtlNote}\n` +
+                    `Return ONLY a valid JSON array where each element is {"i":number,"text":string}.\n` +
+                    `Do not skip items. Do not add extra keys.\n\n` +
+                    JSON.stringify(payload)
+            }),
+            signal: controller.signal
+        });
+        clearTimeout(timeout);
+        if (!res.ok) return texts;
+        const data = await res.json();
+        const raw =
+            data.output?.[0]?.content?.[0]?.text ||
+            data.output_text ||
+            "";
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return texts;
+        const out = [...texts];
+        for (const item of parsed) {
+            if (
+                item &&
+                typeof item.i === "number" &&
+                item.i >= 0 &&
+                item.i < out.length &&
+                typeof item.text === "string"
+            ) {
+                out[item.i] = item.text.trim();
+            }
+        }
+        return out;
+    } catch {
+        return texts;
+    }
+}
+
 /* -------------------------------------------------- */
 /* RECURSIVE */
 /* -------------------------------------------------- */
@@ -381,25 +454,32 @@ async function translateRecursive(node, language, langCode, articleId) {
 
     if (Array.isArray(node)) {
 
+        const stringIndexes = [];
+        const stringValues = [];
         for (let i = 0; i < node.length; i++) {
-
             if (typeof node[i] === "string") {
-
-                await delay(RATE_LIMIT_MS);
-
-                node[i] = await translateText(node[i], language, langCode);
-
+                stringIndexes.push(i);
+                stringValues.push(node[i]);
+            }
+        }
+        for (let start = 0; start < stringValues.length; start += BATCH_SIZE) {
+            await delay(RATE_LIMIT_MS);
+            const chunkValues = stringValues.slice(start, start + BATCH_SIZE);
+            const translatedChunk = await translateTextsBatch(chunkValues, language, langCode);
+            for (let j = 0; j < translatedChunk.length; j++) {
+                const originalIndex = stringIndexes[start + j];
+                node[originalIndex] = translatedChunk[j];
                 progressState.translatedElements++;
-
-                const now = Date.now();
-                if (now - lastRenderTime > RENDER_INTERVAL) {
-                    showStatus(articleId);
-                    lastRenderTime = now;
-                }
-
-                saveProgress();
-
-            } else {
+            }
+            const now = Date.now();
+            if (now - lastRenderTime > RENDER_INTERVAL) {
+                showStatus(articleId);
+                lastRenderTime = now;
+            }
+            saveProgress();
+        }
+        for (let i = 0; i < node.length; i++) {
+            if (typeof node[i] !== "string") {
                 await translateRecursive(node[i], language, langCode, articleId);
             }
         }
@@ -438,25 +518,32 @@ async function translateRecursive(node, language, langCode, articleId) {
 
         } else if (Array.isArray(val)) {
 
+            const stringIndexes = [];
+            const stringValues = [];
             for (let i = 0; i < val.length; i++) {
-
                 if (typeof val[i] === "string") {
-
-                    await delay(RATE_LIMIT_MS);
-
-                    val[i] = await translateText(val[i], language, langCode);
-
+                    stringIndexes.push(i);
+                    stringValues.push(val[i]);
+                }
+            }
+            for (let start = 0; start < stringValues.length; start += BATCH_SIZE) {
+                await delay(RATE_LIMIT_MS);
+                const chunkValues = stringValues.slice(start, start + BATCH_SIZE);
+                const translatedChunk = await translateTextsBatch(chunkValues, language, langCode);
+                for (let j = 0; j < translatedChunk.length; j++) {
+                    const originalIndex = stringIndexes[start + j];
+                    val[originalIndex] = translatedChunk[j];
                     progressState.translatedElements++;
-
-                    const now = Date.now();
-                    if (now - lastRenderTime > RENDER_INTERVAL) {
-                        showStatus(articleId);
-                        lastRenderTime = now;
-                    }
-
-                    saveProgress();
-
-                } else {
+                }
+                const now = Date.now();
+                if (now - lastRenderTime > RENDER_INTERVAL) {
+                    showStatus(articleId);
+                    lastRenderTime = now;
+                }
+                saveProgress();
+            }
+            for (let i = 0; i < val.length; i++) {
+                if (typeof val[i] !== "string") {
                     await translateRecursive(val[i], language, langCode, articleId);
                 }
             }
@@ -469,84 +556,91 @@ async function translateRecursive(node, language, langCode, articleId) {
 /* -------------------------------------------------- */
 
 async function main() {
-
-    if (fs.existsSync(PARTIAL_FILE)) {
-        workingData = JSON.parse(fs.readFileSync(PARTIAL_FILE, "utf8"));
-        console.log("⚡ Resuming from partial file");
-    } else {
-        if (!fs.existsSync(INPUT_FILE)) {
-            throw new Error(`Input file not found: ${INPUT_FILE}. Set INPUT_FILE env to e.g. budgetdata.json, freelancejobs.json, remotejobs.json, moneymakingapps.json, startablogdata.json`);
-        }
-        workingData = JSON.parse(fs.readFileSync(INPUT_FILE, "utf8"));
-        workingData = normalizeToWrapperFormat(workingData);
-    }
-
-    stripUnsupportedLanguages(workingData);
-
-    console.log(`📂 Input: ${INPUT_BASENAME} (${workingData.length} articles)`);
-
     const languages = getTargetLanguages();
+    if (languages.length === 0) {
+        throw new Error("No target languages selected. Check TARGET_LANGS.");
+    }
+    for (const basename of INPUT_FILES) {
+        CURRENT_INPUT_BASENAME = basename;
+        CURRENT_INPUT_FILE = path.join(__dirname, basename);
+        CURRENT_PARTIAL_FILE = path.join(__dirname, basename.replace(/\.json$/, "") + ".partial.json");
 
-    progressState.totalArticles = workingData.length;
-    progressState.totalLanguages = languages.length;
-
-    for (let i = 0; i < workingData.length; i++) {
-
-        const wrapper = workingData[i];
-
-        progressState.articleIndex = i;
-        progressState.languageIndex = 0;
-
-        if (!wrapper.languages) wrapper.languages = {};
-        if (!wrapper.languages.en) {
-            console.warn(`⚠ Skipping article ${i + 1}: no English source (languages.en)`);
-            continue;
+        if (fs.existsSync(CURRENT_PARTIAL_FILE)) {
+            workingData = JSON.parse(fs.readFileSync(CURRENT_PARTIAL_FILE, "utf8"));
+            console.log(`⚡ Resuming from partial file for ${basename}`);
+        } else {
+            if (!fs.existsSync(CURRENT_INPUT_FILE)) {
+                console.warn(`⚠ Input file not found: ${CURRENT_INPUT_FILE}. Skipping.`);
+                continue;
+            }
+            workingData = JSON.parse(fs.readFileSync(CURRENT_INPUT_FILE, "utf8"));
+            workingData = normalizeToWrapperFormat(workingData);
         }
 
-        const english = deepClone(wrapper.languages.en);
+        stripUnsupportedLanguages(workingData);
+        console.log(`📂 Input: ${basename} (${workingData.length} articles)`);
+        progressState.totalArticles = workingData.length;
+        progressState.totalLanguages = languages.length;
 
-        for (const langCode of languages) {
+        for (let i = 0; i < workingData.length; i++) {
 
-            if (hasCompletedTranslation(wrapper, langCode, english)) {
-                if (process.env.VERBOSE) {
-                    console.log(
-                        `  ⏭ skip ${langCode} (already complete for ${wrapper.articleId})`
-                    );
-                }
-                progressState.languageIndex++;
+            const wrapper = workingData[i];
+
+            progressState.articleIndex = i;
+            progressState.languageIndex = 0;
+
+            if (!wrapper.languages) wrapper.languages = {};
+            if (!wrapper.languages.en) {
+                console.warn(`⚠ Skipping article ${i + 1}: no English source (languages.en)`);
                 continue;
             }
 
-            const languageName = getLanguageName(langCode);
+            const english = deepClone(wrapper.languages.en);
 
-            progressState.translatedElements = 0;
-            progressState.totalElements =
-                countTranslatableElements(english) + 10;
+            for (const langCode of languages) {
 
-            progressState.currentLanguage = `${languageName} (${langCode})`;
+                if (hasCompletedTranslation(wrapper, langCode, english)) {
+                    if (process.env.VERBOSE) {
+                        console.log(
+                            `  ⏭ skip ${langCode} (already complete for ${wrapper.articleId})`
+                        );
+                    }
+                    progressState.languageIndex++;
+                    continue;
+                }
 
-            const translated = deepClone(english);
+                const languageName = getLanguageName(langCode);
 
-            await translateRecursive(translated, languageName, langCode, wrapper.articleId);
+                progressState.translatedElements = 0;
+                progressState.totalElements =
+                    countTranslatableElements(english) + 10;
 
-            showStatus(wrapper.articleId);
-            console.log(`✔ Finished ${langCode}`);
+                progressState.currentLanguage = `${languageName} (${langCode})`;
 
-            translated.language = langCode;
+                const translated = deepClone(english);
 
-            wrapper.languages[langCode] = translated;
+                await translateRecursive(translated, languageName, langCode, wrapper.articleId);
 
-            progressState.languageIndex++;
+                showStatus(wrapper.articleId);
+                console.log(`✔ Finished ${langCode}`);
 
-            saveProgress();
+                translated.language = langCode;
+
+                wrapper.languages[langCode] = translated;
+
+                progressState.languageIndex++;
+
+                saveProgress();
+            }
         }
+
+        saveProgress();
+
+        if (fs.existsSync(CURRENT_PARTIAL_FILE)) fs.unlinkSync(CURRENT_PARTIAL_FILE);
+        console.log(`✅ Finished file: ${basename}`);
     }
 
-    saveProgress();
-
-    if (fs.existsSync(PARTIAL_FILE)) fs.unlinkSync(PARTIAL_FILE);
-
-    console.log("\n✅ COMPLETE");
+    console.log("\n✅ COMPLETE (all input files)");
 }
 
 /* -------------------------------------------------- */
