@@ -1,7 +1,9 @@
 import { defaultLanguage, supportedLanguages } from "./languages";
+import { LEGAL_LANGS } from "./legal-page-content";
 
 /** All language codes as a plain array — used to populate PATH_LANGUAGES below. */
 const ALL_LANGS = [...supportedLanguages];
+const LEGAL_PAGE_LANGS = [...LEGAL_LANGS];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PATH NORMALIZATION
@@ -60,9 +62,9 @@ export const PATH_LANGUAGES: Readonly<Record<string, readonly string[]>> = Objec
 	"/": ALL_LANGS,
 	"/about-us": ALL_LANGS,
 	"/contact-us": ALL_LANGS,
-	"/privacy-policy": ALL_LANGS,
+	"/privacy-policy": LEGAL_PAGE_LANGS,
 	"/return-policy": ALL_LANGS,
-	"/terms-of-service": ALL_LANGS,
+	"/terms-of-service": LEGAL_PAGE_LANGS,
 	"/financial-calculators": ALL_LANGS,
 	"/shopping-deals": ALL_LANGS,
 	"/start-a-blog": ALL_LANGS,

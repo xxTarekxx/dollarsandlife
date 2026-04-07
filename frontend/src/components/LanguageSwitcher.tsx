@@ -9,6 +9,7 @@ import {
 	type SupportedLang,
 } from "@/lib/i18n/languages";
 import { pathWithoutLang, prefixLang } from "@/lib/i18n/prefixLang";
+import { getLanguagesForPath } from "@/lib/i18n/translationStatus";
 
 const LANGUAGE_NAMES: Record<SupportedLang, string> = {
 	en: "English",
@@ -58,6 +59,16 @@ const LANGUAGE_FLAGS: Record<SupportedLang, string> = {
 };
 
 const COOKIE_NAME = "NEXT_LOCALE";
+const ARTICLE_PATH_PREFIXES = [
+	"/breaking-news/",
+	"/start-a-blog/",
+	"/extra-income/budget/",
+	"/extra-income/freelance-jobs/",
+	"/extra-income/remote-online-jobs/",
+	"/extra-income/money-making-apps/",
+	"/shopping-deals/products/",
+	"/forum/post/",
+];
 
 function getCurrentLangFromPath(pathname: string): string {
 	const segments = pathname.split("/").filter(Boolean);
@@ -79,6 +90,7 @@ export default function LanguageSwitcher() {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const basePath = pathWithoutLang(pathname);
 	const isForumPath = basePath === "/forum" || basePath.startsWith("/forum/");
+	const [articleAvailableLangs, setArticleAvailableLangs] = useState<SupportedLang[] | null>(null);
 
 	const currentLang = getCurrentLangFromPath(pathname);
 
@@ -114,10 +126,38 @@ export default function LanguageSwitcher() {
 		}
 	}, [open]);
 
+	useEffect(() => {
+		const isArticlePath = ARTICLE_PATH_PREFIXES.some((p) => basePath.startsWith(p));
+		if (!isArticlePath) {
+			setArticleAvailableLangs(null);
+			return;
+		}
+		const nextData = (window as Window & {
+			__NEXT_DATA__?: {
+				props?: { pageProps?: { post?: { availableLangs?: string[] } } };
+			};
+		}).__NEXT_DATA__;
+		const langs = nextData?.props?.pageProps?.post?.availableLangs;
+		if (Array.isArray(langs) && langs.length > 0) {
+			const filtered = langs.filter((l): l is SupportedLang =>
+				supportedLanguages.includes(l as SupportedLang),
+			);
+			setArticleAvailableLangs(filtered.length > 0 ? filtered : null);
+		} else {
+			setArticleAvailableLangs(null);
+		}
+	}, [basePath]);
+
 	// Forum content is English-only for now; hide switcher on forum root and subpages.
 	if (isForumPath) {
 		return null;
 	}
+
+	const availableLanguages = articleAvailableLangs ?? getLanguagesForPath(basePath);
+	const dropdownLanguages = availableLanguages.filter((l): l is SupportedLang =>
+		supportedLanguages.includes(l as SupportedLang),
+	);
+	if (dropdownLanguages.length <= 1) return null;
 
 	return (
 		<div className="language-switcher" ref={containerRef}>
@@ -146,7 +186,7 @@ export default function LanguageSwitcher() {
 					role="listbox"
 					aria-label="Language options"
 				>
-					{supportedLanguages.map((code) => (
+					{dropdownLanguages.map((code) => (
 						<button
 							key={code}
 							type="button"
