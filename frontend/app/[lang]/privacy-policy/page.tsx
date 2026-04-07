@@ -1,4 +1,8 @@
-"use client";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { buildCanonicalUrl } from "@/lib/seo/canonical";
+import { generateHreflangLinks } from "@/lib/i18n/hreflang";
+import { PRIVACY_PAGE_CONTENT, resolveLegalLang } from "@/lib/i18n/legal-page-content";
 
 import dynamic from "next/dynamic";
 
@@ -7,6 +11,41 @@ import dynamic from "next/dynamic";
  * Dynamically imports the privacy-policy page component from the pages/ directory.
  */
 const PrivacyPolicyPage = dynamic(() => import("@pages/privacy-policy"), { ssr: true });
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+	const { lang } = await params;
+	const legalLang = resolveLegalLang(lang);
+	const copy = PRIVACY_PAGE_CONTENT[legalLang];
+	const headersList = await headers();
+	const pathname = headersList.get("x-pathname") ?? `/${lang}/privacy-policy`;
+	const canonical = buildCanonicalUrl(pathname);
+	const hreflangLinks = generateHreflangLinks(pathname);
+	const languages: Record<string, string> = {};
+	for (const { hreflang, href } of hreflangLinks) languages[hreflang] = href;
+
+	return {
+		title: copy.seoTitle,
+		description: copy.seoDescription,
+		alternates: { canonical, languages },
+		openGraph: {
+			title: copy.seoTitle,
+			description: copy.seoDescription,
+			type: "article",
+			url: canonical,
+			images: ["https://www.dollarsandlife.com/og-image-homepage.jpg"],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: copy.seoTitle,
+			description: copy.seoDescription,
+			images: ["https://www.dollarsandlife.com/og-image-homepage.jpg"],
+		},
+	};
+}
 
 export default function Page() {
 	return <PrivacyPolicyPage />;

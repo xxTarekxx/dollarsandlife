@@ -3,6 +3,7 @@ import * as path from 'path';
 import { SitemapStream, streamToPromise } from 'sitemap';
 
 const BASE_URL = 'https://www.dollarsandlife.com';
+const LEGAL_LANGS = ['zh', 'es', 'ar', 'pt', 'id', 'fr', 'ja', 'ru', 'de'];
 
 /**
  * Extracts route paths from App.tsx by scanning for <Route path="..."> entries.
@@ -116,11 +117,20 @@ async function generateSitemap() {
         sitemap.pipe(writeStream);
 
         // Extract static routes and add RSS feed
-        const staticRoutes = [
-            ...extractRoutesFromApp(),
-            '/ads.txt',
-            '/rss.xml',
-        ];
+        const legalRoutes = ['/privacy-policy', '/terms-of-service'];
+        const localizedLegalRoutes = legalRoutes.flatMap((route) =>
+            LEGAL_LANGS.map((lang) => `/${lang}${route}`)
+        );
+
+        const staticRoutes = Array.from(
+            new Set([
+                ...extractRoutesFromApp(),
+                ...legalRoutes,
+                ...localizedLegalRoutes,
+                '/ads.txt',
+                '/rss.xml',
+            ])
+        );
 
         staticRoutes.forEach(route => {
             sitemap.write({ url: route, changefreq: 'hourly', priority: 0.8 });
