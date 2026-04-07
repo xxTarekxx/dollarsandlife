@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanitizeAndTruncateHTML } from "@/utils/sanitization.server";
 
@@ -5,6 +6,43 @@ export const revalidate = 3600;
 
 const isValidId = (id: string) =>
 	/^[a-zA-Z0-9_-]+$/.test(id) && id.length > 0 && id.length <= 100;
+
+const cleanHeadline = (headline: unknown): string => {
+	if (Array.isArray(headline)) return headline.join("").trim();
+	if (typeof headline === "string") return headline.trim();
+	return "";
+};
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ lang: string; id: string }>;
+}): Promise<Metadata> {
+	const { lang, id } = await params;
+	if (!isValidId(id)) return {};
+	const base = process.env.NEXT_PUBLIC_REACT_APP_API_BASE;
+	if (!base) return {};
+	try {
+		const res = await fetch(
+			`${base}/money-making-apps/${encodeURIComponent(id)}?lang=${lang}`,
+			{ next: { revalidate: 3600 } },
+		);
+		if (!res.ok) return {};
+		const post = await res.json();
+		const title = cleanHeadline(post?.headline);
+		const first = post?.content?.find((s: { text?: string }) => s?.text);
+		const description =
+			first && typeof first.text === "string"
+				? sanitizeAndTruncateHTML(first.text, 160)
+				: "Detailed money-making app post.";
+		return {
+			title: title ? `${title} | Money-Making Apps` : "Money-Making Apps",
+			description,
+		};
+	} catch {
+		return {};
+	}
+}
 
 export default async function MoneyMakingAppDetailPage({
 	params,

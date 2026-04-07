@@ -77,6 +77,8 @@ export default function LanguageSwitcher() {
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
+	const basePath = pathWithoutLang(pathname);
+	const isForumPath = basePath === "/forum" || basePath.startsWith("/forum/");
 
 	const currentLang = getCurrentLangFromPath(pathname);
 
@@ -111,6 +113,11 @@ export default function LanguageSwitcher() {
 			return () => document.removeEventListener("click", handleClickOutside);
 		}
 	}, [open]);
+
+	// Forum content is English-only for now; hide switcher on forum root and subpages.
+	if (isForumPath) {
+		return null;
+	}
 
 	return (
 		<div className="language-switcher" ref={containerRef}>
