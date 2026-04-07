@@ -1,9 +1,32 @@
 "use client";
 import "./return-policy.css";
 import Head from "next/head";
-import React from "react";
+import React, { useMemo } from "react";
+import { usePageCanonical } from "@/hooks/usePageCanonical";
 
 const ReturnPolicy: React.FC = () => {
+	const canonical = usePageCanonical();
+	const schemaJson = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "WebPage",
+				name: "Return Policy | Dollars & Life",
+				description:
+					"We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted.",
+				url: canonical,
+				publisher: {
+					"@type": "Organization",
+					name: "Dollars And Life",
+					logo: {
+						"@type": "ImageObject",
+						url: "https://www.dollarsandlife.com/images/website-logo.webp",
+					},
+				},
+			}),
+		[canonical],
+	);
+
 	return (
 		<div className='return-policy-wrapper'>
 			<Head>
@@ -12,13 +35,13 @@ const ReturnPolicy: React.FC = () => {
 					name='description'
 					content='We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted. See our policy for full guidance.'
 				/>
-				<link rel='canonical' href='https://www.dollarsandlife.com/return-policy' />
+				<link rel='canonical' href={canonical} />
 				<meta property='og:title' content='Return Policy | Dollars & Life - Affiliate Returns Guide' />
 				<meta
 					property='og:description'
 					content='We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted. See our policy for full guidance.'
 				/>
-				<meta property='og:url' content='https://www.dollarsandlife.com/return-policy' />
+				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='article' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
@@ -29,26 +52,7 @@ const ReturnPolicy: React.FC = () => {
 				/>
 				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='robots' content='index, follow' />
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "WebPage",
-							name: "Return Policy | Dollars & Life",
-							description: "We accept returns only for defective products purchased through our affiliate partners. Exchanges are not accepted.",
-							url: "https://www.dollarsandlife.com/return-policy",
-							publisher: {
-								"@type": "Organization",
-								name: "Dollars And Life",
-								logo: {
-									"@type": "ImageObject",
-									url: "https://www.dollarsandlife.com/images/website-logo.webp",
-								},
-							},
-						}),
-					}}
-				/>
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: schemaJson }} />
 			</Head>
 
 			<section className='return-policy'>

@@ -33,7 +33,7 @@ export default async function StartABlogDetailPage({
 				? sanitizeAndTruncateHTML(first.text, 160)
 				: "Detailed start a blog post.";
 		const Component = (await import("@pages/start-a-blog/[id]")).default;
-		return <Component post={post} />;
+		return <Component post={post} locale={lang} />;
 	} catch {
 		notFound();
 	}

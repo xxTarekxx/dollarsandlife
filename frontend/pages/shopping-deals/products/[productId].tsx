@@ -4,9 +4,10 @@ import React, { useEffect } from "react";
 import parse from "html-react-parser";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { usePathname } from "next/navigation";
 import { sanitizeAndTruncateHTML } from "../../../src/utils/sanitization.server";
 import { useBreadcrumbLastCrumb } from "../../../src/components/breadcrumbs/BreadcrumbContext";
-import { getCanonicalUrl } from "../../../src/utils/url";
+import { buildCanonicalUrl } from "@/lib/seo/canonical";
 
 interface Product {
   id: string;
@@ -105,10 +106,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
   product,
-  productSlug,
   error,
 }) => {
   const { setLastCrumbTitle } = useBreadcrumbLastCrumb();
+  const pathname = usePathname() ?? "";
+  /** Must match the URL Google crawls (incl. /{lang}/...), not DB English-only canonicalUrl. */
+  const canonicalUrl = buildCanonicalUrl(pathname || "/");
 
   useEffect(() => {
     if (!product) return;
@@ -124,10 +127,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const isInStock = product.offers?.availability?.includes("InStock") ?? false;
   const stockStatusText = isInStock ? "In Stock" : "Out Of Stock";
   const stockStatusClass = isInStock ? "in-stock" : "out-of-stock";
-  const canonicalUrl =
-    product.canonicalUrl && product.canonicalUrl.startsWith("http")
-      ? product.canonicalUrl
-      : getCanonicalUrl(`/shopping-deals/products/${productSlug}`);
 
   const renderStars = (ratingValue: string | undefined): React.ReactNode => {
     if (!ratingValue) return null;

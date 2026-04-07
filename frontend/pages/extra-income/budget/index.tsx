@@ -2,9 +2,11 @@
 import "../CommonStyles.css";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
-import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
+import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
 import { getClientApiBase } from "@/lib/api-base";
 
 interface BlogPost {
@@ -73,6 +75,26 @@ const Budget: React.FC<BudgetPageProps> = ({
 	); // Added clientError state, initialized with ssrError
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
+
+	const listJsonLd = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "ItemList",
+				itemListElement: budgetPosts.map((post, index) => ({
+					"@type": "Article",
+					position: index + 1,
+					headline: post.headline,
+					image: post.image.url,
+					author: { "@type": "Person", name: post.author.name },
+					datePublished: post.datePublished,
+					url: `${canonical}/${post.id}`,
+				})),
+			}),
+		[budgetPosts, canonical],
+	);
 
 	const fetchClientSideBudgetPosts = useCallback(async () => {
 		setLoading(true);
@@ -144,32 +166,14 @@ const Budget: React.FC<BudgetPageProps> = ({
 					name='description'
 					content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
 				/>
-				<link
-					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/budget'
-				/>
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{ __html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ItemList",
-						itemListElement: budgetPosts.map((post, index) => ({
-							"@type": "Article",
-							position: index + 1,
-							headline: post.headline,
-							image: post.image.url,
-							author: { "@type": "Person", name: post.author.name },
-							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/extra-income/budget/${post.id}`,
-						})),
-					}) }}
-				/>
+				<link rel='canonical' href={canonical} />
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: listJsonLd }} />
 						<meta property='og:title' content='Budget Guides | Smart Financial Planning Tips & Strategies' />
 			<meta
 				property='og:description'
 				content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
 			/>
-			<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/budget' />
+			<meta property='og:url' content={canonical} />
 			<meta property='og:type' content='website' />
 			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			<meta name='twitter:card' content='summary_large_image' />
@@ -214,7 +218,7 @@ const Budget: React.FC<BudgetPageProps> = ({
 								author={post.author}
 								datePublished={post.datePublished}
 								dateModified={post.dateModified}
-								href={`/extra-income/budget/${post.id}`}
+								href={prefixLang(`/extra-income/budget/${post.id}`, lang)}
 							/>
 						))}
 					</div>

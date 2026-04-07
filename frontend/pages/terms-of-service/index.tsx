@@ -1,9 +1,32 @@
 "use client";
 import Head from "next/head"; // Import Head for SEO
-import React from "react";
+import React, { useMemo } from "react";
+import { usePageCanonical } from "@/hooks/usePageCanonical";
 import styles from "./terms-of-service.module.css";
 
 const TermsOfService: React.FC = () => {
+	const canonical = usePageCanonical();
+	const schemaJson = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "WebPage",
+				name: "Terms of Service - Dollars And Life",
+				description:
+					"Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.",
+				publisher: {
+					"@type": "Organization",
+					name: "Dollars And Life",
+					logo: {
+						"@type": "ImageObject",
+						url: "https://www.dollarsandlife.com/images/website-logo.webp",
+					},
+				},
+				url: canonical,
+			}),
+		[canonical],
+	);
+
 	return (
 		<>
 			{/* SEO: Head for metadata */}
@@ -13,7 +36,7 @@ const TermsOfService: React.FC = () => {
 					name='description'
 					content='Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.'
 				/>
-				<link rel='canonical' href='https://www.dollarsandlife.com/terms-of-service' />
+				<link rel='canonical' href={canonical} />
 				<meta
 					property='og:title'
 					content='Terms of Service | Dollars And Life - Legal Agreements'
@@ -22,10 +45,7 @@ const TermsOfService: React.FC = () => {
 					property='og:description'
 					content='Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.'
 				/>
-				<meta
-					property='og:url'
-					content='https://www.dollarsandlife.com/terms-of-service'
-				/>
+				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='article' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
@@ -38,27 +58,7 @@ const TermsOfService: React.FC = () => {
 				<meta name='robots' content='index, follow' />
 
 				{/* Schema Markup for SEO */}
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "WebPage",
-							name: "Terms of Service - Dollars And Life",
-							description:
-								"Read the terms of service for Dollars And Life, including information on affiliate links, disclaimers, and legal agreements.",
-							publisher: {
-								"@type": "Organization",
-								name: "Dollars And Life",
-								logo: {
-									"@type": "ImageObject",
-									url: "https://www.dollarsandlife.com/images/website-logo.webp",
-								},
-							},
-							url: "https://www.dollarsandlife.com/terms-of-service",
-						}),
-					}}
-				/>
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: schemaJson }} />
 			</Head>
 
 			{/* Main Content */}

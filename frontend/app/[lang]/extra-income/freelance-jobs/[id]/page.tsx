@@ -33,7 +33,7 @@ export default async function FreelanceJobDetailPage({
 				? sanitizeAndTruncateHTML(first.text, 160)
 				: "Detailed freelance job post.";
 		const Component = (await import("@pages/extra-income/freelance-jobs/[id]")).default;
-		return <Component post={post} />;
+		return <Component post={post} locale={lang} />;
 	} catch {
 		notFound();
 	}

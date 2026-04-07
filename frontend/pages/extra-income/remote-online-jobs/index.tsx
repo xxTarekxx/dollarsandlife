@@ -2,9 +2,11 @@
 import "../CommonStyles.css";
 import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
-import React, { useCallback, useEffect, useState } from "react"; // Added useCallback
+import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
+import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
+import { prefixLang } from "@/lib/i18n/prefixLang";
 import { getClientApiBase } from "@/lib/api-base";
 
 // Assuming RemoteJob is structurally similar to BlogPost for BlogPostCard usage
@@ -74,6 +76,26 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 	);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
+	const canonical = usePageCanonical();
+	const lang = useLangFromPath();
+
+	const listJsonLd = useMemo(
+		() =>
+			JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "ItemList",
+				itemListElement: remoteJobs.map((post, index) => ({
+					"@type": "Article",
+					position: index + 1,
+					headline: post.headline,
+					image: post.image.url,
+					author: { "@type": "Person", name: post.author.name },
+					datePublished: post.datePublished,
+					url: `${canonical}/${post.id}`,
+				})),
+			}),
+		[remoteJobs, canonical],
+	);
 
 	const fetchClientSideRemoteJobs = useCallback(async () => {
 		setLoading(true);
@@ -141,32 +163,14 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 					name='description'
 					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
 				/>
-				<link
-					rel='canonical'
-					href='https://www.dollarsandlife.com/extra-income/remote-online-jobs'
-				/>
-				<script
-					type='application/ld+json'
-					dangerouslySetInnerHTML={{ __html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ItemList",
-						itemListElement: remoteJobs.map((post, index) => ({
-							"@type": "Article",
-							position: index + 1,
-							headline: post.headline,
-							image: post.image.url,
-							author: { "@type": "Person", name: post.author.name },
-							datePublished: post.datePublished,
-							url: `https://www.dollarsandlife.com/extra-income/remote-online-jobs/${post.id}`,
-						})),
-					}) }}
-				/>
+				<link rel='canonical' href={canonical} />
+				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: listJsonLd }} />
 				<meta property='og:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
 				<meta
 					property='og:description'
 					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
 				/>
-				<meta property='og:url' content='https://www.dollarsandlife.com/extra-income/remote-online-jobs' />
+				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='website' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
@@ -218,7 +222,10 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 								author={post.author}
 								datePublished={post.datePublished}
 								dateModified={post.dateModified}
-								href={`/extra-income/remote-online-jobs/${post.id}`}
+								href={prefixLang(
+									`/extra-income/remote-online-jobs/${post.id}`,
+									lang,
+								)}
 							/>
 						))}
 					</div>
