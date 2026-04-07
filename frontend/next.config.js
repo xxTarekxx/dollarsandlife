@@ -101,10 +101,10 @@ const nextConfig = {
 
       // Redirect /earn/* → /extra-income/* (old URL structure)
       { source: '/earn/remote-online-jobs', destination: '/extra-income/remote-online-jobs', permanent: true },
-      { source: '/earn/freelance-jobs',     destination: '/extra-income/freelance-jobs',     permanent: true },
-      { source: '/earn/budget',             destination: '/extra-income/budget',             permanent: true },
-      { source: '/earn/money-making-apps',  destination: '/extra-income/money-making-apps',  permanent: true },
-      { source: '/earn',                    destination: '/extra-income',                    permanent: true },
+      { source: '/earn/freelance-jobs', destination: '/extra-income/freelance-jobs', permanent: true },
+      { source: '/earn/budget', destination: '/extra-income/budget', permanent: true },
+      { source: '/earn/money-making-apps', destination: '/extra-income/money-making-apps', permanent: true },
+      { source: '/earn', destination: '/extra-income', permanent: true },
 
       // Redirect forum URLs with query params to clean URL (handled by client-side redirect, but this helps)
       {
@@ -125,7 +125,7 @@ const nextConfig = {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
     NEXT_PUBLIC_REACT_APP_API_BASE: process.env.NEXT_PUBLIC_REACT_APP_API_BASE || 'http://localhost:5000',
     NEXT_PUBLIC_RSS2JSON_API_KEY: process.env.NEXT_PUBLIC_RSS2JSON_API_KEY || '',
-    NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-76XESXFFJP',
+    NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-S7FWNHSD7P',
     NEXT_PUBLIC_GOOGLE_ADS_ID: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-16613104907',
     NEXT_PUBLIC_EMAILJS_SERVICE_ID: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
     NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
