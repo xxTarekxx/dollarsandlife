@@ -203,9 +203,9 @@ a:focus {
 /* ── Hero Section ────────────────────────────────────────── */
 .hero-section {
     position: relative;
-    /* ── True full-viewport width ── */
+    /* ── True full-viewport width (margin-inline-start flips automatically in RTL) ── */
     width: 100vw;
-    margin-left: calc(50% - 50vw);
+    margin-inline-start: calc(50% - 50vw);
 
     /* ── Pull up behind the RSS ticker so the gradient covers both ── */
     margin-top: calc(-1 * var(--rss-height));
@@ -243,7 +243,7 @@ a:focus {
     height: 420px;
     background: var(--gold-light);
     top: -100px;
-    right: -80px;
+    inset-inline-end: -80px;  /* right in LTR, left in RTL */
 }
 
 .hero-section::after {
@@ -251,7 +251,7 @@ a:focus {
     height: 300px;
     background: var(--primary-light);
     bottom: -80px;
-    left: -60px;
+    inset-inline-start: -60px;  /* left in LTR, right in RTL */
 }
 
 .hero-content {
