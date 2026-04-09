@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE =
-	process.env.NEXT_PUBLIC_REACT_APP_API_BASE ||
-	process.env.API_INTERNAL_BASE ||
-	"http://localhost:5000";
+  process.env.API_INTERNAL_BASE ||
+  "http://127.0.0.1:5001/api";
 
 export async function GET(
 	_request: NextRequest,

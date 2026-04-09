@@ -123,7 +123,7 @@ const nextConfig = {
   // Environment variables that should be available on the client
   env: {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
-    NEXT_PUBLIC_REACT_APP_API_BASE: process.env.NEXT_PUBLIC_REACT_APP_API_BASE || 'http://localhost:5000',
+    NEXT_PUBLIC_REACT_APP_API_BASE: process.env.NEXT_PUBLIC_REACT_APP_API_BASE || 'https://www.dollarsandlife.com/api',
     NEXT_PUBLIC_RSS2JSON_API_KEY: process.env.NEXT_PUBLIC_RSS2JSON_API_KEY || '',
     NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-S7FWNHSD7P',
     NEXT_PUBLIC_GOOGLE_ADS_ID: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-16613104907',
