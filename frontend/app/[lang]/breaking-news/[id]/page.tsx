@@ -5,6 +5,9 @@ import type { BreakingNewsPost } from "@pages/breaking-news/[id]";
 
 export const revalidate = 3600;
 
+const INTERNAL_API =
+	process.env.API_INTERNAL_BASE || "http://127.0.0.1:5001/api";
+
 const isValidId = (id: string) =>
 	/^[a-zA-Z0-9_-]+$/.test(id) && id.length > 0 && id.length <= 100;
 
@@ -21,11 +24,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { lang, id } = await params;
 	if (!isValidId(id)) return {};
-	const base = process.env.NEXT_PUBLIC_REACT_APP_API_BASE;
-	if (!base) return {};
 	try {
 		const res = await fetch(
-			`${base}/breaking-news/${encodeURIComponent(id)}?lang=${lang}`,
+			`${INTERNAL_API}/breaking-news/${encodeURIComponent(id)}?lang=${lang}`,
 			{ next: { revalidate: 3600 } },
 		);
 		if (!res.ok) return {};
@@ -52,13 +53,11 @@ export default async function BreakingNewsDetailPage({
 }) {
 	const { lang, id } = await params;
 	if (!isValidId(id)) notFound();
-	const base = process.env.NEXT_PUBLIC_REACT_APP_API_BASE;
-	if (!base) notFound();
 	try {
 		// Pass ?lang= so the API returns pre-translated content from MongoDB.
 		// Falls back to English automatically when the locale is unavailable.
 		const res = await fetch(
-			`${base}/breaking-news/${encodeURIComponent(id)}?lang=${lang}`,
+			`${INTERNAL_API}/breaking-news/${encodeURIComponent(id)}?lang=${lang}`,
 			{ next: { revalidate: 3600 } },
 		);
 		if (!res.ok) {

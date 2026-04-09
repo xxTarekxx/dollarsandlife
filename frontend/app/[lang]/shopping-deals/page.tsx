@@ -46,6 +46,28 @@ export async function generateMetadata({
 	};
 }
 
-export default function Page() {
-	return <ShoppingDealsPage />;
+const INTERNAL_API =
+	process.env.API_INTERNAL_BASE || "http://127.0.0.1:5001/api";
+
+async function fetchShoppingDeals() {
+	try {
+		const res = await fetch(`${INTERNAL_API}/shopping-deals`, {
+			next: { revalidate: 3600 },
+		});
+		if (!res.ok) {
+			console.error(`[shopping-deals] API returned ${res.status}`);
+			return { initialProducts: [], error: `API error ${res.status}` };
+		}
+		const data = await res.json();
+		return { initialProducts: Array.isArray(data) ? data : [] };
+	} catch (err) {
+		console.error("[shopping-deals] fetch failed:", err);
+		return { initialProducts: [], error: "Failed to load deals from server." };
+	}
+}
+
+// Server Component — fetches data before rendering, no client-side waterfall
+export default async function Page() {
+	const { initialProducts, error } = await fetchShoppingDeals();
+	return <ShoppingDealsPage initialProducts={initialProducts} error={error} />;
 }

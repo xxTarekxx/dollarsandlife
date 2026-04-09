@@ -4,6 +4,9 @@ import { sanitizeAndTruncateHTML } from "@/utils/sanitization.server";
 // ISR: cache per language — pre-translated content served from MongoDB via ?lang=
 export const revalidate = 3600;
 
+const INTERNAL_API =
+	process.env.API_INTERNAL_BASE || "http://127.0.0.1:5001/api";
+
 function getProductSlugFromCanonicalUrl(canonicalUrl: string): string | null {
 	if (!canonicalUrl || typeof canonicalUrl !== "string") return null;
 	let pathname = canonicalUrl.trim();
@@ -28,11 +31,9 @@ export default async function ProductDetailPage({
 		notFound();
 	const numericId = productId.split("-")[0];
 	if (!numericId || isNaN(parseInt(numericId, 10))) notFound();
-	const base = process.env.NEXT_PUBLIC_REACT_APP_API_BASE;
-	if (!base) notFound();
 	try {
 		const res = await fetch(
-			`${base}/shopping-deals/${encodeURIComponent(numericId)}?lang=${lang}`,
+			`${INTERNAL_API}/shopping-deals/${encodeURIComponent(numericId)}?lang=${lang}`,
 			{ next: { revalidate: 3600 } },
 		);
 		if (!res.ok) {

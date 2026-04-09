@@ -24,12 +24,24 @@ interface BreakingNewsPost {
 	dateModified?: string;
 }
 
-const BreakingNews: React.FC = () => {
+interface BreakingNewsProps {
+	initialBreakingNews?: BreakingNewsPost[];
+	error?: string;
+}
+
+const BreakingNews: React.FC<BreakingNewsProps> = ({
+	initialBreakingNews,
+	error: serverError,
+}) => {
 	const canonical = usePageCanonical();
 	const lang = useLangFromPath();
-	const [breakingNews, setBreakingNews] = useState<BreakingNewsPost[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [clientError, setClientError] = useState<string | null>(null);
+	const [breakingNews, setBreakingNews] = useState<BreakingNewsPost[]>(
+		initialBreakingNews ?? [],
+	);
+	const [loading, setLoading] = useState<boolean>(!initialBreakingNews);
+	const [clientError, setClientError] = useState<string | null>(
+		serverError ?? null,
+	);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
 
@@ -84,8 +96,10 @@ const BreakingNews: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
+		// Skip client-side fetch when server already provided initial data
+		if (initialBreakingNews && initialBreakingNews.length > 0) return;
 		fetchClientSideBreakingNews();
-	}, [fetchClientSideBreakingNews]);
+	}, [fetchClientSideBreakingNews, initialBreakingNews]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
 		const firstSection = content[0];
