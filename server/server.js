@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const { MongoClient } = require('mongodb');
+const cache = require('./cache');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const app = express();
@@ -81,12 +82,19 @@ app.use(frontendLimiter, (req, res, next) => {
     res.sendFile(spaIndexPath);
 });
 
-
 const port = process.env.PORT || 5001;
 
-// Start server
-connectDB().then(() => {
+// Start server — connect to DB and cache before accepting requests
+async function start() {
+    await connectDB();
+    await cache.init(); // connects to Redis, or silently falls back to in-memory
     app.listen(port, '0.0.0.0', () => {
         console.log(`🚀 Server running at http://0.0.0.0:${port}`);
+        console.log(`💾 Cache backend: ${cache.isRedis() ? 'Redis' : 'in-memory (Redis not available)'}`);
     });
+}
+
+start().catch((err) => {
+    console.error('❌ Failed to start server:', err);
+    process.exit(1);
 });
