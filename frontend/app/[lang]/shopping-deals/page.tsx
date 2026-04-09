@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import { buildCanonicalUrl } from "@/lib/seo/canonical";
 import { generateHreflangLinks } from "@/lib/i18n/hreflang";
+import ShoppingDealsPage from "@pages/shopping-deals";
 
 const TITLE = "Deals and Savings | Best Online Shopping Discounts";
 const DESC =
 	"Find the best deals and savings on top-rated products. Discover curated discounts, coupons, and money-saving picks to stretch your budget further.";
 const OG_IMAGE = "https://www.dollarsandlife.com/og-image-homepage.jpg";
-
-const ShoppingDealsPage = dynamic(() => import("@pages/shopping-deals"), {
-	ssr: true,
-});
 
 export async function generateMetadata({
 	params,
