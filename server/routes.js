@@ -72,6 +72,20 @@ function resolveLocale(doc, locale) {
     return doc; // legacy: return as-is
 }
 
+// ── List trimmer ──────────────────────────────────────────────────────────────
+// Card views only render a 120-char excerpt from content[0].text.
+// Returning all content blocks for every article in a 200-doc list wastes
+// bandwidth and is the primary cause of slow list-page SSR (especially
+// breaking-news which has large per-article content arrays).
+// Detail pages always fetch individually so they still get full content.
+function trimForList(doc) {
+    if (!doc) return null;
+    if (Array.isArray(doc.content) && doc.content.length > 1) {
+        return { ...doc, content: [doc.content[0]] };
+    }
+    return doc;
+}
+
 // ── Response helper ───────────────────────────────────────────────────────────
 // Sets Cache-Control so browsers and CDNs also cache the response.
 // X-Cache: HIT / MISS lets you verify caching is working (visible in DevTools).
@@ -106,12 +120,20 @@ const createContentRoutes = (collectionName, basePath) => {
             }
 
             // ── Cache miss: query MongoDB ──
+            // maxTimeMS: kills the query if MongoDB takes > 8 s (prevents SSR hangs).
+            // trimForList: strips content to first element — cards only need a 120-char
+            // excerpt, not 20+ paragraphs per article × 200 documents.
             const docs = await db.collection(collectionName)
                 .find()
                 .sort({ sortOrder: -1 })
+                .limit(200)
+                .maxTimeMS(8000)
                 .toArray();
 
-            const result = docs.map(doc => resolveLocale(doc, locale)).filter(Boolean);
+            const result = docs
+                .map(doc => resolveLocale(doc, locale))
+                .filter(Boolean)
+                .map(trimForList);
 
             // Write to cache (fire-and-forget — never block the response)
             cache.set(key, result, TTL_LIST).catch(() => {});

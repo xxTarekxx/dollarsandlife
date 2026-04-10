@@ -84,13 +84,73 @@ app.use(frontendLimiter, (req, res, next) => {
 
 const port = process.env.PORT || 5001;
 
+// ── Ensure sort indexes exist on all content collections ─────────────────────
+// sortOrder index makes .sort({ sortOrder: -1 }).limit(N) fast even on large
+// collections — without it MongoDB does a full collection scan.
+const CONTENT_COLLECTIONS = [
+    'breaking_news',
+    'budget_data',
+    'freelance_jobs',
+    'money_making_apps',
+    'remote_jobs',
+    'start_a_blog',
+    'products_list',
+];
+async function ensureIndexes(db) {
+    await Promise.all(
+        CONTENT_COLLECTIONS.map(col =>
+            db.collection(col)
+                .createIndex({ sortOrder: -1 }, { background: true })
+                .catch(() => {}) // ignore if already exists or collection absent
+        )
+    );
+    console.log('📑 MongoDB sortOrder indexes ensured');
+}
+
+// ── Cache warm-up ─────────────────────────────────────────────────────────────
+// Runs in the background after the server starts listening.
+// Hits every list endpoint so the first real user request is always a cache HIT.
+// MongoDB Atlas cold-start queries can take 10–15 s; this hides that latency.
+const WARM_ENDPOINTS = [
+    '/freelance-jobs',
+    '/budget-data',
+    '/breaking-news',
+    '/start-blog',
+    '/money-making-apps',
+    '/shopping-deals',
+    '/remote-jobs',
+];
+
+async function warmCache(listenPort) {
+    const base = `http://127.0.0.1:${listenPort}/api`;
+    const results = await Promise.allSettled(
+        WARM_ENDPOINTS.map(async (ep) => {
+            const res = await fetch(`${base}${ep}`, { signal: AbortSignal.timeout(20_000) });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            await res.json(); // consume body
+            return ep;
+        })
+    );
+    for (const r of results) {
+        if (r.status === 'fulfilled') {
+            console.log(`🔥 Cache warmed: ${r.value}`);
+        } else {
+            console.warn(`⚠️  Cache warm failed: ${r.reason?.message}`);
+        }
+    }
+    console.log('✅ Cache warm-up complete — all list pages will serve instantly');
+}
+
 // Start server — connect to DB and cache before accepting requests
 async function start() {
-    await connectDB();
+    const db = await connectDB();
+    await ensureIndexes(db);
     await cache.init(); // connects to Redis, or silently falls back to in-memory
     app.listen(port, '0.0.0.0', () => {
         console.log(`🚀 Server running at http://0.0.0.0:${port}`);
         console.log(`💾 Cache backend: ${cache.isRedis() ? 'Redis' : 'in-memory (Redis not available)'}`);
+        // Fire-and-forget — warms MongoDB → in-memory cache in background
+        warmCache(port).catch(() => {});
     });
 }
 

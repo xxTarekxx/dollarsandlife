@@ -1,13 +1,9 @@
 import FreelanceJobsPage from "@pages/extra-income/freelance-jobs";
-
-const INTERNAL_API =
-	process.env.API_INTERNAL_BASE || "http://127.0.0.1:5001/api";
+import { fetchInternal } from "@/lib/fetchInternal";
 
 async function fetchData() {
 	try {
-		const res = await fetch(`${INTERNAL_API}/freelance-jobs`, {
-			next: { revalidate: 3600 },
-		});
+		const res = await fetchInternal("/freelance-jobs");
 		if (!res.ok) return { initialFreelanceJobs: [], error: `API error ${res.status}` };
 		const data = await res.json();
 		return { initialFreelanceJobs: Array.isArray(data) ? data : [] };
