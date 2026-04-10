@@ -1,13 +1,9 @@
 import RemoteOnlineJobsPage from "@pages/extra-income/remote-online-jobs";
-
-const INTERNAL_API =
-	process.env.API_INTERNAL_BASE || "http://127.0.0.1:5001/api";
+import { fetchInternal } from "@/lib/fetchInternal";
 
 async function fetchData() {
 	try {
-		const res = await fetch(`${INTERNAL_API}/remote-jobs`, {
-			next: { revalidate: 3600 },
-		});
+		const res = await fetchInternal("/remote-jobs");
 		if (!res.ok) return { initialRemoteJobs: [], error: `API error ${res.status}` };
 		const data = await res.json();
 		return { initialRemoteJobs: Array.isArray(data) ? data : [] };

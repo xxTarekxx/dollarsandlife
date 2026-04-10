@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { buildCanonicalUrl } from "@/lib/seo/canonical";
 import { generateHreflangLinks } from "@/lib/i18n/hreflang";
 import ShoppingDealsPage from "@pages/shopping-deals";
+import { fetchInternal } from "@/lib/fetchInternal";
 
 const TITLE = "Deals and Savings | Best Online Shopping Discounts";
 const DESC =
@@ -42,22 +43,13 @@ export async function generateMetadata({
 	};
 }
 
-const INTERNAL_API =
-	process.env.API_INTERNAL_BASE || "http://127.0.0.1:5001/api";
-
 async function fetchShoppingDeals() {
 	try {
-		const res = await fetch(`${INTERNAL_API}/shopping-deals`, {
-			next: { revalidate: 3600 },
-		});
-		if (!res.ok) {
-			console.error(`[shopping-deals] API returned ${res.status}`);
-			return { initialProducts: [], error: `API error ${res.status}` };
-		}
+		const res = await fetchInternal("/shopping-deals");
+		if (!res.ok) return { initialProducts: [], error: `API error ${res.status}` };
 		const data = await res.json();
 		return { initialProducts: Array.isArray(data) ? data : [] };
-	} catch (err) {
-		console.error("[shopping-deals] fetch failed:", err);
+	} catch {
 		return { initialProducts: [], error: "Failed to load deals from server." };
 	}
 }

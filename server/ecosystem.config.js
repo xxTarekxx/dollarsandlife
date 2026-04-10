@@ -1,13 +1,15 @@
-// /var/www/html/dollarsandlife/ecosystem.config.js
+// PM2 config for the Express API deployed by frontend/deploy.ps1.
+// The API files are uploaded into /var/www/html/dollarsandlife/server
+// and Apache proxies /api -> localhost:5001.
 module.exports = {
     apps: [{
-        name: "dollarsandlife",
-        script: "./server.js", // <--- Ensure it's this
-        cwd: "/var/www/html/dollarsandlife/",
+        name: "dollarsandlife-api",
+        script: "./server.js",
+        cwd: "/var/www/html/dollarsandlife/server",
         watch: false,
         env_production: {
-            "NODE_ENV": "production",
-            "PORT": 5000,
+            NODE_ENV: "production",
+            PORT: 5001,
         }
     }]
-}
+};
