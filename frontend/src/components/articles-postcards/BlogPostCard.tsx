@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { getListingPageTranslations } from "@/lib/i18n/listing-page-translations";
 
 interface BlogPostCardProps {
 	id: string;
@@ -12,12 +13,8 @@ interface BlogPostCardProps {
 	dateModified?: string;
 	onClick?: () => void;
 	href: string;
+	lang?: string;
 }
-
-const MONTHS = [
-	"JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-	"JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
-];
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	headline,
@@ -25,16 +22,20 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 	content,
 	datePublished,
 	href,
+	lang = "en",
 }) => {
+	const { common } = getListingPageTranslations(lang);
 	const published = new Date(datePublished);
-	const day   = published.getDate();
-	const month = MONTHS[published.getMonth()];
+	const day = published.getDate();
+	const month = new Intl.DateTimeFormat(lang, { month: "short" })
+		.format(published)
+		.toUpperCase();
 
 	return (
 		<Link
 			href={href}
 			className="blog-post-link-container"
-			aria-label={`Read more about ${headline}`}
+			aria-label={`${common.readMoreAriaPrefix} ${headline}`}
 			prefetch={false}
 		>
 			<figure className="card-container">
@@ -62,7 +63,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
 					<h2 className="card-title">{headline}</h2>
 					{content && <p className="card-text">{content}</p>}
 					<div className="card-footer">
-						<span className="card-read-more">Read more &rarr;</span>
+						<span className="card-read-more">{common.readMore} &rarr;</span>
 					</div>
 				</figcaption>
 			</figure>

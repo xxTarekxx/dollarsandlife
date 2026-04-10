@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import { sanitizeAndTruncateHTML } from "@/utils/sanitization.server";
 
 export const revalidate = 3600;
@@ -16,6 +17,18 @@ const cleanHeadline = (headline: unknown): string => {
 	return "";
 };
 
+const getPost = cache(async (lang: string, id: string) => {
+	const res = await fetch(
+		`${INTERNAL_API}/money-making-apps/${encodeURIComponent(id)}?lang=${lang}`,
+		{ next: { revalidate: 3600 } },
+	);
+	if (!res.ok) {
+		return { ok: false as const, status: res.status, post: null };
+	}
+	const post = await res.json();
+	return { ok: true as const, status: res.status, post };
+});
+
 export async function generateMetadata({
 	params,
 }: {
@@ -24,12 +37,9 @@ export async function generateMetadata({
 	const { lang, id } = await params;
 	if (!isValidId(id)) return {};
 	try {
-		const res = await fetch(
-			`${INTERNAL_API}/money-making-apps/${encodeURIComponent(id)}?lang=${lang}`,
-			{ next: { revalidate: 3600 } },
-		);
-		if (!res.ok) return {};
-		const post = await res.json();
+		const result = await getPost(lang, id);
+		if (!result.ok || !result.post) return {};
+		const post = result.post;
 		const title = cleanHeadline(post?.headline);
 		const first = post?.content?.find((s: { text?: string }) => s?.text);
 		const description =
@@ -53,17 +63,12 @@ export default async function MoneyMakingAppDetailPage({
 	const { lang, id } = await params;
 	if (!isValidId(id)) notFound();
 	try {
-		// Pass ?lang= so the API returns pre-translated content from MongoDB.
-		// Falls back to English automatically when the locale is unavailable.
-		const res = await fetch(
-			`${INTERNAL_API}/money-making-apps/${encodeURIComponent(id)}?lang=${lang}`,
-			{ next: { revalidate: 3600 } },
-		);
-		if (!res.ok) {
-			if (res.status === 404) notFound();
-			throw new Error(`Fetch failed: ${res.status}`);
+		const result = await getPost(lang, id);
+		if (!result.ok || !result.post) {
+			if (result.status === 404) notFound();
+			throw new Error(`Fetch failed: ${result.status}`);
 		}
-		const post = await res.json();
+		const post = result.post;
 		const first = post.content?.find((s: { text?: string }) => s?.text);
 		post.metaDescription =
 			first && typeof first.text === "string"

@@ -1,6 +1,5 @@
 "use client";
 import "../CommonStyles.css";
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
@@ -8,10 +7,9 @@ import PaginationContainer from "../../../src/components/pagination/PaginationCo
 import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
 import { prefixLang } from "@/lib/i18n/prefixLang";
 import { getClientApiBase } from "@/lib/api-base";
+import { getListingPageTranslations } from "@/lib/i18n/listing-page-translations";
 
-// Assuming FreelanceJob is structurally similar to BlogPost for BlogPostCard usage
 interface FreelanceJob {
-	// Or BlogPost, if that's the actual type from API
 	id: string;
 	headline: string;
 	image: {
@@ -31,57 +29,21 @@ interface FreelanceJobsPageProps {
 	error?: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	try {
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/freelance-jobs`,
-		);
-		if (!response.ok) {
-			console.error(
-				`SSR Error fetching freelance jobs list: ${response.status}`,
-			);
-			return {
-				props: {
-					initialFreelanceJobs: [],
-					error: "Failed to load jobs from server.",
-				},
-			};
-		}
-		const initialFreelanceJobsData = await response.json();
-		const initialFreelanceJobs: FreelanceJob[] = Array.isArray(
-			initialFreelanceJobsData,
-		)
-			? initialFreelanceJobsData
-			: initialFreelanceJobsData
-			? [initialFreelanceJobsData]
-			: [];
-		return { props: { initialFreelanceJobs } };
-	} catch (error) {
-		console.error("SSR Exception fetching freelance jobs list:", error);
-		return {
-			props: {
-				initialFreelanceJobs: [],
-				error: "Server exception when loading jobs.",
-			},
-		};
-	}
-};
-
 const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 	initialFreelanceJobs,
 	error: ssrError,
 }) => {
+	const lang = useLangFromPath();
+	const canonical = usePageCanonical();
+	const copy = getListingPageTranslations(lang).freelanceJobs;
+	const common = getListingPageTranslations(lang).common;
 	const [freelanceJobs, setFreelanceJobs] = useState<FreelanceJob[]>(
 		initialFreelanceJobs || [],
 	);
 	const [loading, setLoading] = useState<boolean>(!initialFreelanceJobs);
-	const [clientError, setClientError] = useState<string | null>(
-		ssrError || null,
-	);
+	const [clientError, setClientError] = useState<string | null>(ssrError || null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const canonical = usePageCanonical();
-	const lang = useLangFromPath();
 
 	const listJsonLd = useMemo(
 		() =>
@@ -105,25 +67,25 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 		setLoading(true);
 		setClientError(null);
 		try {
-			const apiUrl = `${getClientApiBase()}/freelance-jobs`;
+			const apiUrl = `${getClientApiBase()}/freelance-jobs?lang=${encodeURIComponent(lang)}`;
 			const response = await fetch(apiUrl);
-			if (!response.ok)
+			if (!response.ok) {
 				throw new Error("Failed to fetch freelance jobs (client-side)");
+			}
 			const data: FreelanceJob[] = await response.json();
 			setFreelanceJobs(data);
 		} catch (error) {
 			console.error("Error fetching freelance jobs (client-side):", error);
 			setClientError(
-				error instanceof Error
-					? error.message
-					: "Failed to load jobs client-side.",
+				error instanceof Error ? error.message : "Failed to load jobs client-side.",
 			);
-			if (!initialFreelanceJobs || initialFreelanceJobs.length === 0)
+			if (!initialFreelanceJobs || initialFreelanceJobs.length === 0) {
 				setFreelanceJobs([]);
+			}
 		} finally {
 			setLoading(false);
 		}
-	}, [initialFreelanceJobs]);
+	}, [initialFreelanceJobs, lang]);
 
 	useEffect(() => {
 		if (initialFreelanceJobs && initialFreelanceJobs.length > 0) {
@@ -136,15 +98,14 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 			fetchClientSideFreelanceJobs();
 		}
 	}, [
+		fetchClientSideFreelanceJobs,
+		freelanceJobs.length,
 		initialFreelanceJobs,
 		ssrError,
-		freelanceJobs.length,
-		fetchClientSideFreelanceJobs,
 	]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
-		const firstSection = content[0];
-		const excerpt = firstSection?.text || "";
+		const excerpt = content[0]?.text || "";
 		return excerpt.length > 120 ? `${excerpt.substring(0, 120)}...` : excerpt;
 	};
 
@@ -154,86 +115,67 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 	);
 
 	useEffect(() => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Freelance Jobs | Find Your Next Remote or Gig Opportunity</title>
-				<meta
-					name='description'
-					content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
-				/>
+				<title>{copy.title}</title>
+				<meta name='description' content={copy.description} />
 				<link rel='canonical' href={canonical} />
 				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: listJsonLd }} />
-						<meta property='og:title' content='Freelance Jobs | Find Your Next Remote or Gig Opportunity' />
-			<meta
-				property='og:description'
-				content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
-			/>
-			<meta property='og:url' content={canonical} />
-			<meta property='og:type' content='website' />
-			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:title' content='Freelance Jobs | Find Your Next Remote or Gig Opportunity' />
-			<meta
-				name='twitter:description'
-				content='Explore a variety of freelance jobs and opportunities. Find your next gig in writing, design, development, and more.'
-			/>
-			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta property='og:title' content={copy.ogTitle} />
+				<meta property='og:description' content={copy.ogDescription} />
+				<meta property='og:url' content={canonical} />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content={copy.ogTitle} />
+				<meta name='twitter:description' content={copy.ogDescription} />
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
-			{/* Routing refactored to list view here, detail view in freelance-jobs-[id].tsx */}
-			{loading && (
-				<p className='sd-loading-indicator'>Loading freelance jobs...</p>
-			)}
+			{loading && <p className='sd-loading-indicator'>{copy.loadingLabel}</p>}
 			{clientError && (
-				<p className='sd-error-indicator'>Error loading jobs: {clientError}</p>
+				<p className='sd-error-indicator'>{copy.errorPrefix} {clientError}</p>
 			)}
 			{!loading && !clientError && (
 				<>
-					<div className="section-hero">
-					<p className="section-hero-eyebrow">Extra Income</p>
-					<h1 className="section-hero-title">
-						Freelance <span>Jobs</span>
-					</h1>
-					<p className="section-hero-sub">
-						Discover remote gigs and freelance opportunities in writing, design,
-						development, and more — work on your own terms.
-					</p>
-					{freelanceJobs.length > 0 && (
-						<span className="section-hero-count">{freelanceJobs.length} articles</span>
-					)}
-				</div>
-
-				<section className='page-intro' aria-label='About Freelance Jobs'>
-					<p>
-						Browse guides on the best freelance platforms, writing winning proposals, setting competitive rates, and turning side projects into steady freelance income.
-					</p>
-				</section>
-
-				<div className='content-wrapper'>
-						{currentPosts.map((post) => (
-								<BlogPostCard
-									key={post.id}
-									id={post.id}
-									headline={post.headline}
-									image={post.image}
-									content={getExcerpt(post.content)}
-									author={post.author}
-									datePublished={post.datePublished}
-									dateModified={post.dateModified}
-									href={prefixLang(
-										`/extra-income/freelance-jobs/${post.id}`,
-										lang,
-									)}
-								/>
-							))}
+					<div className='section-hero'>
+						<p className='section-hero-eyebrow'>{copy.eyebrow}</p>
+						<h1 className='section-hero-title'>
+							{copy.headingLead} <span>{copy.headingAccent}</span>
+						</h1>
+						<p className='section-hero-sub'>{copy.subtitle}</p>
+						{freelanceJobs.length > 0 && (
+							<span className='section-hero-count'>
+								{freelanceJobs.length} {common.articlesLabel}
+							</span>
+						)}
 					</div>
+
+					<section className='page-intro' aria-label={copy.introAriaLabel}>
+						<p>{copy.intro}</p>
+					</section>
+
+					<div className='content-wrapper'>
+						{currentPosts.map((post) => (
+							<BlogPostCard
+								key={post.id}
+								id={post.id}
+								headline={post.headline}
+								image={post.image}
+								content={getExcerpt(post.content)}
+								author={post.author}
+								datePublished={post.datePublished}
+								dateModified={post.dateModified}
+								href={prefixLang(`/extra-income/freelance-jobs/${post.id}`, lang)}
+								lang={lang}
+							/>
+						))}
+					</div>
+
 					{freelanceJobs.length > postsPerPage && (
 						<PaginationContainer
 							totalItems={freelanceJobs.length}
@@ -242,9 +184,7 @@ const FreelanceJobs: React.FC<FreelanceJobsPageProps> = ({
 							setCurrentPage={setCurrentPage}
 						/>
 					)}
-					{currentPosts.length === 0 && (
-						<p>No freelance jobs found at the moment.</p>
-					)}
+					{currentPosts.length === 0 && <p>{copy.emptyLabel}</p>}
 				</>
 			)}
 		</div>

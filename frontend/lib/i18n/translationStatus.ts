@@ -1,5 +1,6 @@
 import { defaultLanguage, supportedLanguages } from "./languages";
 import { LEGAL_LANGS } from "./legal-page-content";
+import { GENERATED_CONTENT_ROUTE_LANGUAGES } from "./generated-content-language-manifest";
 
 /** All language codes as a plain array — used to populate PATH_LANGUAGES below. */
 const ALL_LANGS = [...supportedLanguages];
@@ -51,9 +52,9 @@ export function getNormalizedPath(path: string): string {
  *     Safe match: path === prefix OR path.startsWith(prefix + "/")
  *     This prevents "/breaking-newsletters" from matching "/breaking-news/*".
  *
- * All routes support every language in supportedLanguages.
- * Article content is pre-translated and stored in MongoDB under languages[locale].
- * The API returns the correct locale via the ?lang= query param passed by each page.
+ * Route availability here must reflect real content availability.
+ * Do not advertise a locale for a page/article unless the page copy or backing
+ * content actually exists in that language.
  *
  * IMMUTABLE: Object.freeze() prevents accidental runtime mutation.
  */
@@ -67,25 +68,37 @@ export const PATH_LANGUAGES: Readonly<Record<string, readonly string[]>> = Objec
 	"/terms-of-service": LEGAL_PAGE_LANGS,
 	"/financial-calculators": ALL_LANGS,
 	"/shopping-deals": ALL_LANGS,
-	"/start-a-blog": ALL_LANGS,
-	"/extra-income": ALL_LANGS,
-	"/extra-income/budget": ALL_LANGS,
-	"/extra-income/freelance-jobs": ALL_LANGS,
-	"/extra-income/remote-online-jobs": ALL_LANGS,
-	"/extra-income/money-making-apps": ALL_LANGS,
-	"/breaking-news": ALL_LANGS,
+	"/start-a-blog": GENERATED_CONTENT_ROUTE_LANGUAGES["/start-a-blog"] ?? [defaultLanguage],
+	"/extra-income":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income"] ?? ALL_LANGS,
+	"/extra-income/budget":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/budget"] ?? [defaultLanguage],
+	"/extra-income/freelance-jobs":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/freelance-jobs"] ?? [defaultLanguage],
+	"/extra-income/remote-online-jobs":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/remote-online-jobs"] ?? [defaultLanguage],
+	"/extra-income/money-making-apps":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/money-making-apps"] ?? [defaultLanguage],
+	"/breaking-news":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/breaking-news"] ?? [defaultLanguage],
 	"/forum": ALL_LANGS,
 
 	// ── Wildcard routes (article / product / post detail pages) ───────────────
 	// Each wildcard covers slugs under that prefix.
 	// Example: "/breaking-news/*" matches /breaking-news/article-slug
-	"/breaking-news/*": ALL_LANGS,
-	"/extra-income/budget/*": ALL_LANGS,
-	"/extra-income/freelance-jobs/*": ALL_LANGS,
-	"/extra-income/remote-online-jobs/*": ALL_LANGS,
-	"/extra-income/money-making-apps/*": ALL_LANGS,
+	"/breaking-news/*":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/breaking-news/*"] ?? [defaultLanguage],
+	"/extra-income/budget/*":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/budget/*"] ?? [defaultLanguage],
+	"/extra-income/freelance-jobs/*":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/freelance-jobs/*"] ?? [defaultLanguage],
+	"/extra-income/remote-online-jobs/*":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/remote-online-jobs/*"] ?? [defaultLanguage],
+	"/extra-income/money-making-apps/*":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/money-making-apps/*"] ?? [defaultLanguage],
 	"/shopping-deals/products/*": ALL_LANGS,
-	"/start-a-blog/*": ALL_LANGS,
+	"/start-a-blog/*":
+		GENERATED_CONTENT_ROUTE_LANGUAGES["/start-a-blog/*"] ?? [defaultLanguage],
 	"/forum/post/*": ALL_LANGS,
 });
 

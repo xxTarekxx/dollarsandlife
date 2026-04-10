@@ -3,11 +3,14 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
+		"predev": "node scripts/generate-content-language-manifest.cjs",
+		"prebuild": "node scripts/generate-content-language-manifest.cjs",
 		"dev": "node node_modules/next/dist/bin/next dev",
 		"build": "node node_modules/next/dist/bin/next build && node sitemap-generator/mongo-generate-sitemap.cjs",
 		"start": "node node_modules/next/dist/bin/next start",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-		"generate-sitemap": "node dist/generate-sitemap.js"
+		"generate-sitemap": "node dist/generate-sitemap.js",
+		"generate-content-language-manifest": "node scripts/generate-content-language-manifest.cjs"
 	},
 	"dependencies": {
 		"@emailjs/browser": "^4.4.1",

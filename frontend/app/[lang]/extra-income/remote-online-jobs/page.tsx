@@ -1,9 +1,9 @@
 import RemoteOnlineJobsPage from "@pages/extra-income/remote-online-jobs";
 import { fetchInternal } from "@/lib/fetchInternal";
 
-async function fetchData() {
+async function fetchData(lang: string) {
 	try {
-		const res = await fetchInternal("/remote-jobs");
+		const res = await fetchInternal(`/remote-jobs?lang=${encodeURIComponent(lang)}`);
 		if (!res.ok) return { initialRemoteJobs: [], error: `API error ${res.status}` };
 		const data = await res.json();
 		return { initialRemoteJobs: Array.isArray(data) ? data : [] };
@@ -12,7 +12,18 @@ async function fetchData() {
 	}
 }
 
-export default async function Page() {
-	const { initialRemoteJobs, error } = await fetchData();
-	return <RemoteOnlineJobsPage initialRemoteJobs={initialRemoteJobs} error={error} />;
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ lang: string }>;
+}) {
+	const { lang } = await params;
+	const { initialRemoteJobs, error } = await fetchData(lang);
+	return (
+		<RemoteOnlineJobsPage
+			key={lang}
+			initialRemoteJobs={initialRemoteJobs}
+			error={error}
+		/>
+	);
 }
