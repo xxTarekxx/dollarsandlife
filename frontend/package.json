@@ -19,7 +19,7 @@
 		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@types/react-google-recaptcha": "^2.1.9",
 		"browser-image-compression": "^2.0.2",
-		"dompurify": "^3.2.4",
+		"dompurify": "^3.3.2",
 		"dotenv": "^16.5.0",
 		"firebase": "^11.9.0",
 		"fs-extra": "^11.3.0",
