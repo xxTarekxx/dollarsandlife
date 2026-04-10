@@ -1,4 +1,4 @@
-"use client"; // Retained for useState, useEffect for dynamic posts and existing interactions
+"use client";
 import "./CommonStyles.css";
 import "./ExtraIncome.css";
 import Head from "next/head";
@@ -7,12 +7,12 @@ import Link from "next/link";
 import React, { useMemo } from "react";
 import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
 import { prefixLang } from "@/lib/i18n/prefixLang";
+import { getListingPageTranslations } from "@/lib/i18n/listing-page-translations";
 import Budgettingimg from "../../src/assets/images/icons/img-budgetting.webp";
 import FreeLancerimg from "../../src/assets/images/icons/img-freelancer.webp";
 import MoneyMakingAppsimg from "../../src/assets/images/icons/img-moneymakingapps.webp";
 import RemoteJobimg from "../../src/assets/images/icons/img-remotejobs.webp";
 
-// Interface for the statically defined link boxes
 interface LinkBoxData {
 	href: string;
 	ariaLabel: string;
@@ -22,54 +22,46 @@ interface LinkBoxData {
 	priority: boolean;
 }
 
-// Static link boxes data - moved outside component to prevent hydration issues
-const linkBoxes: LinkBoxData[] = [
-	{
-		href: "/extra-income/freelance-jobs",
-		ariaLabel: "Explore freelance opportunities",
-		imgSrc: FreeLancerimg,
-		altText: "Freelance job opportunities",
-		captionText: "Freelance Opportunities",
-		priority: true,
-	},
-	{
-		href: "/extra-income/budget",
-		ariaLabel: "Learn budgeting strategies",
-		imgSrc: Budgettingimg,
-		altText: "Budgeting and financial planning",
-		captionText: "Budgeting",
-		priority: false,
-	},
-	{
-		href: "/extra-income/remote-online-jobs",
-		ariaLabel: "Find remote job opportunities",
-		imgSrc: RemoteJobimg,
-		altText: "Remote jobs and online work",
-		captionText: "Remote Jobs",
-		priority: false,
-	},
-	{
-		href: "/extra-income/money-making-apps",
-		ariaLabel: "Earn money using apps",
-		imgSrc: MoneyMakingAppsimg,
-		altText: "Apps to earn money online",
-		captionText: "Make Money On Apps",
-		priority: false,
-	},
-];
-
 const ExtraIncome: React.FC = () => {
 	const canonical = usePageCanonical();
 	const lang = useLangFromPath();
+	const copy = getListingPageTranslations(lang);
+
+	const linkBoxes: LinkBoxData[] = [
+		{
+			href: "/extra-income/freelance-jobs",
+			imgSrc: FreeLancerimg,
+			priority: true,
+			...copy.extraIncome.cards.freelanceJobs,
+		},
+		{
+			href: "/extra-income/budget",
+			imgSrc: Budgettingimg,
+			priority: false,
+			...copy.extraIncome.cards.budget,
+		},
+		{
+			href: "/extra-income/remote-online-jobs",
+			imgSrc: RemoteJobimg,
+			priority: false,
+			...copy.extraIncome.cards.remoteOnlineJobs,
+		},
+		{
+			href: "/extra-income/money-making-apps",
+			imgSrc: MoneyMakingAppsimg,
+			priority: false,
+			...copy.extraIncome.cards.moneyMakingApps,
+		},
+	];
+
 	const webPageJsonLd = useMemo(
 		() =>
 			JSON.stringify({
 				"@context": "https://schema.org",
 				"@type": "WebPage",
-				name: "Extra Income Opportunities",
+				name: copy.extraIncome.title,
 				url: canonical,
-				description:
-					"Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.",
+				description: copy.extraIncome.description,
 				publisher: {
 					"@type": "Organization",
 					name: "Dollars & Life",
@@ -79,20 +71,16 @@ const ExtraIncome: React.FC = () => {
 					},
 				},
 			}),
-		[canonical],
+		[canonical, copy.extraIncome.description, copy.extraIncome.title],
 	);
 
 	return (
 		<>
 			<Head>
-				<title>Extra Income Hub | Dollars &amp; Life</title>
-				<meta
-					name='description'
-					content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
-				/>
+				<title>{copy.extraIncome.title}</title>
+				<meta name='description' content={copy.extraIncome.description} />
 				<link rel='canonical' href={canonical} />
 
-				{/* Preload only LCP image */}
 				{linkBoxes
 					.filter((link) => link.priority)
 					.map((link, i) => (
@@ -100,88 +88,66 @@ const ExtraIncome: React.FC = () => {
 							key={i}
 							rel='preload'
 							as='image'
-							href={
-								typeof link.imgSrc === "string" ? link.imgSrc : link.imgSrc.src
-							}
+							href={typeof link.imgSrc === "string" ? link.imgSrc : link.imgSrc.src}
 							type='image/webp'
 						/>
 					))}
 
-				{/* Structured Data */}
 				<script
 					type='application/ld+json'
 					dangerouslySetInnerHTML={{ __html: webPageJsonLd }}
 				/>
-						<meta property='og:title' content='Extra Income Hub | Dollars & Life' />
-			<meta
-				property='og:description'
-				content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
-			/>
-			<meta property='og:url' content={canonical} />
-			<meta property='og:type' content='website' />
-			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:title' content='Extra Income Hub | Dollars & Life' />
-			<meta
-				name='twitter:description'
-				content='Explore various ways to earn extra income, including freelancing, remote jobs, budgeting, and money-making apps.'
-			/>
-			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta property='og:title' content={copy.extraIncome.ogTitle} />
+				<meta property='og:description' content={copy.extraIncome.ogDescription} />
+				<meta property='og:url' content={canonical} />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content={copy.extraIncome.ogTitle} />
+				<meta name='twitter:description' content={copy.extraIncome.ogDescription} />
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
 			<div className='page-container'>
 				<div className='section-hero'>
-					<p className='section-hero-eyebrow'>Extra Income</p>
+					<p className='section-hero-eyebrow'>{copy.extraIncome.eyebrow}</p>
 					<h1 className='section-hero-title'>
-						Extra <span>Income</span> Hub
+						{copy.extraIncome.headingLead}{" "}
+						<span>{copy.extraIncome.headingAccent}</span> Hub
 					</h1>
-					<p className='section-hero-sub'>
-						Practical strategies to earn more money — on your own schedule, from anywhere.
-					</p>
+					<p className='section-hero-sub'>{copy.extraIncome.subtitle}</p>
 				</div>
 
-				<section className='page-intro' aria-label='About Extra Income'>
-					<p>
-						Explore practical guides on freelancing, remote jobs, money-making apps, and smart budgeting — everything you need to earn more and keep more of what you make.
-					</p>
+				<section className='page-intro' aria-label={copy.extraIncome.introAriaLabel}>
+					<p>{copy.extraIncome.intro}</p>
 				</section>
 
-				{/* Category Links */}
 				<div
 					className='category-links-container'
-					aria-label='Extra income categories'
+					aria-label={copy.extraIncome.categoryLinksAriaLabel}
 				>
-					{linkBoxes.map(
-						(
-							linkBox, // index removed as key is now linkBox.href
-						) => (
-							<Link
-								className='link-box'
-								key={linkBox.href} // Use a unique prop like href for key
-								href={prefixLang(linkBox.href, lang)}
-								aria-label={linkBox.ariaLabel}
-							>
-								<img
-									src={
-										typeof linkBox.imgSrc === "string"
-											? linkBox.imgSrc
-											: linkBox.imgSrc.src
-									}
-									alt={linkBox.altText}
-									loading={linkBox.priority ? "eager" : "lazy"}
-									width='220'
-									height='220'
-									fetchPriority={linkBox.priority ? "high" : "auto"}
-								/>
-								<figcaption className='extraincome-figcaption'>
-									{linkBox.captionText}
-								</figcaption>
-							</Link>
-						),
-					)}
+					{linkBoxes.map((linkBox) => (
+						<Link
+							className='link-box'
+							key={linkBox.href}
+							href={prefixLang(linkBox.href, lang)}
+							aria-label={linkBox.ariaLabel}
+						>
+							<img
+								src={typeof linkBox.imgSrc === "string" ? linkBox.imgSrc : linkBox.imgSrc.src}
+								alt={linkBox.altText}
+								loading={linkBox.priority ? "eager" : "lazy"}
+								width='220'
+								height='220'
+								fetchPriority={linkBox.priority ? "high" : "auto"}
+							/>
+							<figcaption className='extraincome-figcaption'>
+								{linkBox.captionText}
+							</figcaption>
+						</Link>
+					))}
 				</div>
 
-				{/* Advertisement Section */}
 				<div className='top-banner-container'>
 					<a
 						href='https://lycamobileusa.sjv.io/c/5513478/2107177/25589'
@@ -195,7 +161,7 @@ const ExtraIncome: React.FC = () => {
 							className='TopBannerImage'
 							width={728}
 							height={90}
-							loading='eager' // Keep LCP image eager
+							loading='eager'
 						/>
 					</a>
 				</div>

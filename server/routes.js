@@ -1,11 +1,30 @@
 // /var/www/html/dollarsandlife/routes.js
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const cache = require('./cache');
 
 const router = express.Router();
+
+function loadSiteSupportedLangs() {
+    try {
+        const languagesPath = path.resolve(__dirname, '../frontend/lib/i18n/languages.ts');
+        const source = fs.readFileSync(languagesPath, 'utf8');
+        const match = source.match(/supportedLanguages\s*=\s*\[([\s\S]*?)\]\s*as const/);
+        if (!match) throw new Error('supportedLanguages array not found');
+        return new Set(Array.from(match[1].matchAll(/"([^"]+)"/g), (entry) => entry[1]));
+    } catch (_err) {
+        return new Set([
+            'en', 'zh', 'es', 'ar', 'pt', 'id', 'fr', 'ja', 'ru', 'de',
+            'ko', 'vi', 'it', 'tr', 'fa', 'nl', 'pl', 'uk', 'cs', 'hu',
+        ]);
+    }
+}
+
+const SITE_SUPPORTED_LANGS = loadSiteSupportedLangs();
 
 // ── TTL constants ─────────────────────────────────────────────────────────────
 const TTL_LIST    = 60 * 60;   //  1 hour  — article list pages
@@ -72,6 +91,38 @@ function resolveLocale(doc, locale) {
     return doc; // legacy: return as-is
 }
 
+function buildListProjection(locale) {
+    return {
+        _id: 0,
+        id: 1,
+        articleId: 1,
+        sortOrder: 1,
+        headline: 1,
+        image: 1,
+        content: 1,
+        author: 1,
+        datePublished: 1,
+        dateModified: 1,
+        [`languages.${locale}.headline`]: 1,
+        [`languages.${locale}.image`]: 1,
+        [`languages.${locale}.content`]: 1,
+        [`languages.${locale}.author`]: 1,
+        [`languages.${locale}.datePublished`]: 1,
+        [`languages.${locale}.dateModified`]: 1,
+        'languages.en.headline': 1,
+        'languages.en.image': 1,
+        'languages.en.content': 1,
+        'languages.en.author': 1,
+        'languages.en.datePublished': 1,
+        'languages.en.dateModified': 1,
+    };
+}
+
+function parsePositiveInt(value, fallback) {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
 // ── List trimmer ──────────────────────────────────────────────────────────────
 // Card views only render a 120-char excerpt from content[0].text.
 // Returning all content blocks for every article in a 200-doc list wastes
@@ -80,8 +131,14 @@ function resolveLocale(doc, locale) {
 // Detail pages always fetch individually so they still get full content.
 function trimForList(doc) {
     if (!doc) return null;
-    if (Array.isArray(doc.content) && doc.content.length > 1) {
-        return { ...doc, content: [doc.content[0]] };
+    if (Array.isArray(doc.content) && doc.content.length > 0) {
+        const firstBlock = doc.content[0] || {};
+        const firstText = typeof firstBlock.text === 'string' ? firstBlock.text : '';
+        const trimmedText = firstText.length > 220 ? `${firstText.slice(0, 220)}...` : firstText;
+        return {
+            ...doc,
+            content: [{ ...firstBlock, text: trimmedText }],
+        };
     }
     return doc;
 }
@@ -111,7 +168,19 @@ const createContentRoutes = (collectionName, basePath) => {
             const locale = typeof req.query.lang === 'string' && req.query.lang.trim()
                 ? req.query.lang.trim().toLowerCase() : 'en';
 
-            const key = cacheKey(`/${basePath}`, { lang: locale });
+            const requestedPage = typeof req.query.page === 'string'
+                ? parsePositiveInt(req.query.page, 1)
+                : null;
+            const requestedLimit = typeof req.query.limit === 'string'
+                ? parsePositiveInt(req.query.limit, 20)
+                : null;
+            const isPaginated = requestedPage !== null || requestedLimit !== null;
+            const page = requestedPage || 1;
+            const limit = Math.min(requestedLimit || 20, 100);
+            const skip = isPaginated ? (page - 1) * limit : 0;
+            const key = cacheKey(`/${basePath}`, isPaginated
+                ? { lang: locale, page, limit }
+                : { lang: locale });
 
             // ── Cache read ──
             const cached = await cache.get(key);
@@ -123,17 +192,34 @@ const createContentRoutes = (collectionName, basePath) => {
             // maxTimeMS: kills the query if MongoDB takes > 8 s (prevents SSR hangs).
             // trimForList: strips content to first element — cards only need a 120-char
             // excerpt, not 20+ paragraphs per article × 200 documents.
-            const docs = await db.collection(collectionName)
-                .find()
-                .sort({ sortOrder: -1 })
-                .limit(200)
-                .maxTimeMS(8000)
-                .toArray();
+            const collection = db.collection(collectionName);
+            const [docs, total] = await Promise.all([
+                collection
+                    .find()
+                    .project(buildListProjection(locale))
+                    .sort({ sortOrder: -1 })
+                    .skip(skip)
+                    .limit(isPaginated ? limit : 200)
+                    .maxTimeMS(8000)
+                    .toArray(),
+                isPaginated
+                    ? collection.countDocuments({}, { maxTimeMS: 8000 })
+                    : Promise.resolve(null),
+            ]);
 
-            const result = docs
+            const items = docs
                 .map(doc => resolveLocale(doc, locale))
                 .filter(Boolean)
                 .map(trimForList);
+            const result = isPaginated
+                ? {
+                    items,
+                    total: total || 0,
+                    totalPages: total ? Math.ceil(total / limit) : 1,
+                    page,
+                    limit,
+                }
+                : items;
 
             // Write to cache (fire-and-forget — never block the response)
             cache.set(key, result, TTL_LIST).catch(() => {});
@@ -176,7 +262,8 @@ const createContentRoutes = (collectionName, basePath) => {
 
             // Attach available language keys so the frontend can emit hreflang tags
             if (doc.languages && typeof doc.languages === 'object') {
-                resolved.availableLangs = Object.keys(doc.languages);
+                resolved.availableLangs = Object.keys(doc.languages)
+                    .filter((lang) => SITE_SUPPORTED_LANGS.has(lang));
             }
 
             // Write to cache

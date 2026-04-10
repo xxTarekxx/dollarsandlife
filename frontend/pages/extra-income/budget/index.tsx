@@ -1,16 +1,15 @@
 "use client";
 import "../CommonStyles.css";
-import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
-import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
 import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
 import { prefixLang } from "@/lib/i18n/prefixLang";
 import { getClientApiBase } from "@/lib/api-base";
+import { getListingPageTranslations } from "@/lib/i18n/listing-page-translations";
 
 interface BlogPost {
-	// Ensure this interface matches the structure of your posts
 	id: string;
 	headline: string;
 	image: {
@@ -27,56 +26,24 @@ interface BlogPost {
 
 interface BudgetPageProps {
 	initialBudgetPosts?: BlogPost[];
-	error?: string; // Renamed to ssrError in component props
+	error?: string;
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	try {
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/budget-data`,
-		);
-		if (!response.ok) {
-			console.error(`SSR Error fetching budget posts list: ${response.status}`);
-			return {
-				props: {
-					initialBudgetPosts: [],
-					error: "Failed to load posts from server.",
-				},
-			};
-		}
-		const initialBudgetPostsData = await response.json();
-		const initialBudgetPosts: BlogPost[] = Array.isArray(initialBudgetPostsData)
-			? initialBudgetPostsData
-			: initialBudgetPostsData
-			? [initialBudgetPostsData]
-			: [];
-		return { props: { initialBudgetPosts } };
-	} catch (error) {
-		console.error("SSR Exception fetching budget posts list:", error);
-		return {
-			props: {
-				initialBudgetPosts: [],
-				error: "Server exception when loading posts.",
-			},
-		};
-	}
-};
 
 const Budget: React.FC<BudgetPageProps> = ({
 	initialBudgetPosts,
 	error: ssrError,
 }) => {
+	const lang = useLangFromPath();
+	const canonical = usePageCanonical();
+	const copy = getListingPageTranslations(lang).budget;
+	const common = getListingPageTranslations(lang).common;
 	const [budgetPosts, setBudgetPosts] = useState<BlogPost[]>(
 		initialBudgetPosts || [],
 	);
-	const [loading, setLoading] = useState<boolean>(!initialBudgetPosts); // Added loading state
-	const [clientError, setClientError] = useState<string | null>(
-		ssrError || null,
-	); // Added clientError state, initialized with ssrError
+	const [loading, setLoading] = useState<boolean>(!initialBudgetPosts);
+	const [clientError, setClientError] = useState<string | null>(ssrError || null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const canonical = usePageCanonical();
-	const lang = useLangFromPath();
 
 	const listJsonLd = useMemo(
 		() =>
@@ -101,25 +68,25 @@ const Budget: React.FC<BudgetPageProps> = ({
 		setClientError(null);
 		try {
 			const response = await fetch(
-				`${getClientApiBase()}/budget-data`,
+				`${getClientApiBase()}/budget-data?lang=${encodeURIComponent(lang)}`,
 			);
-			if (!response.ok)
+			if (!response.ok) {
 				throw new Error("Failed to fetch budget data (client-side)");
+			}
 			const data: BlogPost[] = await response.json();
 			setBudgetPosts(data);
 		} catch (error) {
 			console.error("Error fetching budget posts (client-side):", error);
 			setClientError(
-				error instanceof Error
-					? error.message
-					: "Failed to load posts client-side.",
+				error instanceof Error ? error.message : "Failed to load posts client-side.",
 			);
-			if (!initialBudgetPosts || initialBudgetPosts.length === 0)
+			if (!initialBudgetPosts || initialBudgetPosts.length === 0) {
 				setBudgetPosts([]);
+			}
 		} finally {
 			setLoading(false);
 		}
-	}, [initialBudgetPosts]);
+	}, [initialBudgetPosts, lang]);
 
 	useEffect(() => {
 		if (initialBudgetPosts && initialBudgetPosts.length > 0) {
@@ -127,25 +94,19 @@ const Budget: React.FC<BudgetPageProps> = ({
 			setLoading(false);
 			setClientError(null);
 		} else if (ssrError) {
-			console.error("SSR Error for Budget page:", ssrError);
-			// clientError is already set from ssrError
 			setLoading(false);
-			// Optionally, trigger client-side fetch as fallback or show error
-			// if (budgetPosts.length === 0) fetchClientSideBudgetPosts(); // Example: fallback
 		} else if (budgetPosts.length === 0) {
-			// No initial posts, no SSR error, and no local posts yet
 			fetchClientSideBudgetPosts();
 		}
 	}, [
-		initialBudgetPosts,
-		ssrError,
 		budgetPosts.length,
 		fetchClientSideBudgetPosts,
+		initialBudgetPosts,
+		ssrError,
 	]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
-		const firstSection = content[0];
-		const excerpt = firstSection?.text || "";
+		const excerpt = content[0]?.text || "";
 		return excerpt.length > 120 ? `${excerpt.substring(0, 120)}...` : excerpt;
 	};
 
@@ -161,52 +122,44 @@ const Budget: React.FC<BudgetPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Budget Guides | Smart Financial Planning Tips &amp; Strategies</title>
-				<meta
-					name='description'
-					content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
-				/>
+				<title>{copy.title}</title>
+				<meta name='description' content={copy.description} />
 				<link rel='canonical' href={canonical} />
 				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: listJsonLd }} />
-						<meta property='og:title' content='Budget Guides | Smart Financial Planning Tips & Strategies' />
-			<meta
-				property='og:description'
-				content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
-			/>
-			<meta property='og:url' content={canonical} />
-			<meta property='og:type' content='website' />
-			<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
-			<meta name='twitter:card' content='summary_large_image' />
-			<meta name='twitter:title' content='Budget Guides | Smart Financial Planning Tips & Strategies' />
-			<meta
-				name='twitter:description'
-				content='Discover expert budgeting tips, financial planning strategies, and money-saving techniques. Manage your finances smarter with our guides!'
-			/>
-			<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta property='og:title' content={copy.ogTitle} />
+				<meta property='og:description' content={copy.ogDescription} />
+				<meta property='og:url' content={canonical} />
+				<meta property='og:type' content='website' />
+				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:title' content={copy.ogTitle} />
+				<meta name='twitter:description' content={copy.ogDescription} />
+				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
-			{/* Routing refactored to list view here, detail view in budget-[id].tsx */}
-			{loading && (
-				<p className='sd-loading-indicator'>Loading budget posts...</p>
-			)}
+			{loading && <p className='sd-loading-indicator'>{copy.loadingLabel}</p>}
 			{clientError && (
-				<p className='sd-error-indicator'>Error loading posts: {clientError}</p>
+				<p className='sd-error-indicator'>{copy.errorPrefix} {clientError}</p>
 			)}
 			{!loading && !clientError && (
 				<>
-					<div className="section-hero">
-					<p className="section-hero-eyebrow">Extra Income</p>
-					<h1 className="section-hero-title">
-						Budget <span>Guides</span>
-					</h1>
-					<p className="section-hero-sub">
-						Smart budgeting tips and financial planning strategies to help you
-						save more, spend less, and build lasting wealth.
-					</p>
-					{budgetPosts.length > 0 && (
-						<span className="section-hero-count">{budgetPosts.length} articles</span>
-					)}
-				</div>
+					<div className='section-hero'>
+						<p className='section-hero-eyebrow'>{copy.eyebrow}</p>
+						<h1 className='section-hero-title'>
+							{copy.headingLead} <span>{copy.headingAccent}</span>
+						</h1>
+						<p className='section-hero-sub'>{copy.subtitle}</p>
+						{budgetPosts.length > 0 && (
+							<span className='section-hero-count'>
+								{budgetPosts.length} {common.articlesLabel}
+							</span>
+						)}
+					</div>
+
+					<section className='page-intro' aria-label={copy.introAriaLabel}>
+						<p>{copy.intro}</p>
+					</section>
+
 					<div className='content-wrapper'>
 						{currentPosts.map((post) => (
 							<BlogPostCard
@@ -219,9 +172,11 @@ const Budget: React.FC<BudgetPageProps> = ({
 								datePublished={post.datePublished}
 								dateModified={post.dateModified}
 								href={prefixLang(`/extra-income/budget/${post.id}`, lang)}
+								lang={lang}
 							/>
 						))}
 					</div>
+
 					{budgetPosts.length > postsPerPage && (
 						<PaginationContainer
 							totalItems={budgetPosts.length}
@@ -230,9 +185,7 @@ const Budget: React.FC<BudgetPageProps> = ({
 							setCurrentPage={setCurrentPage}
 						/>
 					)}
-					{currentPosts.length === 0 && (
-						<p>No budget posts found at the moment.</p>
-					)}
+					{currentPosts.length === 0 && <p>{copy.emptyLabel}</p>}
 				</>
 			)}
 		</div>

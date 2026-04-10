@@ -8,6 +8,7 @@ import PaginationContainer from "../../src/components/pagination/PaginationConta
 import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
 import { buildCanonicalUrl } from "@/lib/seo/canonical";
 import { prefixLang } from "@/lib/i18n/prefixLang";
+import { getListingPageTranslations } from "@/lib/i18n/listing-page-translations";
 
 interface BreakingNewsPost {
 	id: string;
@@ -25,9 +26,17 @@ interface BreakingNewsPost {
 }
 
 interface BreakingNewsProps {
-	initialBreakingNews?: BreakingNewsPost[];
+	initialBreakingNews?: {
+		items: BreakingNewsPost[];
+		total: number;
+		totalPages: number;
+		page: number;
+		limit: number;
+	};
 	error?: string;
 }
+
+const POSTS_PER_PAGE = 6;
 
 const BreakingNews: React.FC<BreakingNewsProps> = ({
 	initialBreakingNews,
@@ -35,22 +44,24 @@ const BreakingNews: React.FC<BreakingNewsProps> = ({
 }) => {
 	const canonical = usePageCanonical();
 	const lang = useLangFromPath();
+	const copy = getListingPageTranslations(lang).breakingNews;
+	const common = getListingPageTranslations(lang).common;
 	const [breakingNews, setBreakingNews] = useState<BreakingNewsPost[]>(
-		initialBreakingNews ?? [],
+		initialBreakingNews?.items ?? [],
 	);
 	const [loading, setLoading] = useState<boolean>(!initialBreakingNews);
 	const [clientError, setClientError] = useState<string | null>(
 		serverError ?? null,
 	);
-	const [currentPage, setCurrentPage] = useState(1);
-	const postsPerPage = 9;
+	const [currentPage, setCurrentPage] = useState(initialBreakingNews?.page ?? 1);
+	const [totalItems, setTotalItems] = useState(initialBreakingNews?.total ?? 0);
 
 	const listSchemaJson = useMemo(() => {
 		if (breakingNews.length === 0) return "";
 		const payload = {
 			"@context": "https://schema.org",
 			"@type": "ItemList",
-			name: "Breaking News",
+			name: copy.title,
 			url: canonical,
 			itemListElement: breakingNews.slice(0, 20).map((post, index) => ({
 				"@type": "Article",
@@ -59,29 +70,35 @@ const BreakingNews: React.FC<BreakingNewsProps> = ({
 				image: post.image?.url ?? "",
 				author: {
 					"@type": "Person",
-					name:
-						typeof post.author?.name === "string" ? post.author.name : "",
+					name: typeof post.author?.name === "string" ? post.author.name : "",
 				},
 				datePublished:
 					typeof post.datePublished === "string" ? post.datePublished : "",
-				url: buildCanonicalUrl(
-					prefixLang(`/breaking-news/${post.id ?? ""}`, lang),
-				),
+				url: buildCanonicalUrl(prefixLang(`/breaking-news/${post.id ?? ""}`, lang)),
 			})),
 		};
 		return JSON.stringify(payload).replace(/<\/script/gi, "<\\/script");
-	}, [breakingNews, canonical, lang]);
+	}, [breakingNews, canonical, copy.title, lang]);
 
-	const fetchClientSideBreakingNews = useCallback(async () => {
+	const fetchClientSideBreakingNews = useCallback(async (page: number) => {
 		setLoading(true);
 		setClientError(null);
 		try {
-			const apiUrl = `${getClientApiBase()}/breaking-news`;
+			const apiUrl = `${getClientApiBase()}/breaking-news?lang=${encodeURIComponent(lang)}&page=${page}&limit=${POSTS_PER_PAGE}`;
 			const response = await fetch(apiUrl);
-			if (!response.ok)
+			if (!response.ok) {
 				throw new Error("Failed to fetch breaking news (client-side)");
-			const data: BreakingNewsPost[] = await response.json();
-			setBreakingNews(data);
+			}
+			const data: {
+				items?: BreakingNewsPost[];
+				total?: number;
+				page?: number;
+			} = await response.json();
+			setBreakingNews(Array.isArray(data.items) ? data.items : []);
+			setTotalItems(typeof data.total === "number" ? data.total : 0);
+			if (typeof data.page === "number" && data.page !== page) {
+				setCurrentPage(data.page);
+			}
 		} catch (error) {
 			console.error("Error fetching breaking news (client-side):", error);
 			setClientError(
@@ -90,43 +107,41 @@ const BreakingNews: React.FC<BreakingNewsProps> = ({
 					: "Failed to load breaking news client-side.",
 			);
 			setBreakingNews([]);
+			setTotalItems(0);
 		} finally {
 			setLoading(false);
 		}
-	}, []);
+	}, [lang]);
 
 	useEffect(() => {
-		// Skip client-side fetch when server already provided initial data
-		if (initialBreakingNews && initialBreakingNews.length > 0) return;
-		fetchClientSideBreakingNews();
-	}, [fetchClientSideBreakingNews, initialBreakingNews]);
+		if (
+			initialBreakingNews &&
+			!serverError &&
+			currentPage === initialBreakingNews.page
+		) {
+			setBreakingNews(initialBreakingNews.items);
+			setTotalItems(initialBreakingNews.total);
+			setLoading(false);
+			setClientError(null);
+			return;
+		}
+		fetchClientSideBreakingNews(currentPage);
+	}, [currentPage, fetchClientSideBreakingNews, initialBreakingNews, serverError]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
-		const firstSection = content[0];
-		const excerpt = firstSection?.text || "";
+		const excerpt = content[0]?.text || "";
 		return excerpt.length > 120 ? `${excerpt.substring(0, 120)}...` : excerpt;
 	};
 
-	const currentPosts = breakingNews.slice(
-		(currentPage - 1) * postsPerPage,
-		currentPage * postsPerPage,
-	);
-
 	useEffect(() => {
-		window.scrollTo({
-			top: 0,
-			behavior: "smooth",
-		});
+		window.scrollTo({ top: 0, behavior: "smooth" });
 	}, [currentPage]);
 
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Breaking News - Latest Financial and Economic Updates</title>
-				<meta
-					name='description'
-					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
-				/>
+				<title>{copy.title}</title>
+				<meta name='description' content={copy.description} />
 				<link rel='canonical' href={canonical} />
 				{listSchemaJson ? (
 					<script
@@ -134,46 +149,37 @@ const BreakingNews: React.FC<BreakingNewsProps> = ({
 						dangerouslySetInnerHTML={{ __html: listSchemaJson }}
 					/>
 				) : null}
-				<meta property='og:title' content='Breaking News - Latest Financial and Economic Updates' />
-				<meta
-					property='og:description'
-					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
-				/>
+				<meta property='og:title' content={copy.ogTitle} />
+				<meta property='og:description' content={copy.ogDescription} />
 				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='website' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
-				<meta name='twitter:title' content='Breaking News - Latest Financial and Economic Updates' />
-				<meta
-					name='twitter:description'
-					content='Stay updated with the latest financial, business, and economic breaking news. Get insights, analysis, and top trending stories.'
-				/>
+				<meta name='twitter:title' content={copy.ogTitle} />
+				<meta name='twitter:description' content={copy.ogDescription} />
 				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
-			{loading && (
-				<p className='sd-loading-indicator'>Loading breaking news...</p>
-			)}
+			{loading && <p className='sd-loading-indicator'>{copy.loadingLabel}</p>}
 			{clientError && (
-				<p className='sd-error-indicator'>Error loading news: {clientError}</p>
+				<p className='sd-error-indicator'>{copy.errorPrefix} {clientError}</p>
 			)}
 			{!loading && !clientError && (
 				<>
 					<div className='section-hero'>
-						<p className='section-hero-eyebrow'>Latest News</p>
+						<p className='section-hero-eyebrow'>{copy.eyebrow}</p>
 						<h1 className='section-hero-title'>
-							Breaking <span>News</span>
+							{copy.headingLead} <span>{copy.headingAccent}</span>
 						</h1>
-						<p className='section-hero-sub'>
-							Stay updated with the latest financial, business, and economic
-							news — real-time insights on the stories that matter most.
-						</p>
-						{breakingNews.length > 0 && (
-							<span className='section-hero-count'>{breakingNews.length} articles</span>
+						<p className='section-hero-sub'>{copy.subtitle}</p>
+						{totalItems > 0 && (
+							<span className='section-hero-count'>
+								{totalItems} {common.articlesLabel}
+							</span>
 						)}
 					</div>
 					<div className='content-wrapper'>
-						{currentPosts.map((post) => {
+						{breakingNews.map((post) => {
 							const href = prefixLang(`/breaking-news/${post.id}`, lang);
 							return (
 								<BlogPostCard
@@ -186,14 +192,15 @@ const BreakingNews: React.FC<BreakingNewsProps> = ({
 									datePublished={post.datePublished}
 									dateModified={post.dateModified}
 									href={href}
+									lang={lang}
 								/>
 							);
 						})}
 					</div>
 
 					<PaginationContainer
-						totalItems={breakingNews.length}
-						itemsPerPage={postsPerPage}
+						totalItems={totalItems}
+						itemsPerPage={POSTS_PER_PAGE}
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
 					/>

@@ -1,17 +1,15 @@
 "use client";
 import "../CommonStyles.css";
-import { GetServerSideProps } from "next"; // Added
 import Head from "next/head";
-import React, { useCallback, useEffect, useMemo, useState } from "react"; // Added useCallback
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BlogPostCard from "../../../src/components/articles-postcards/BlogPostCard";
 import PaginationContainer from "../../../src/components/pagination/PaginationContainer";
 import { useLangFromPath, usePageCanonical } from "@/hooks/usePageCanonical";
 import { prefixLang } from "@/lib/i18n/prefixLang";
 import { getClientApiBase } from "@/lib/api-base";
+import { getListingPageTranslations } from "@/lib/i18n/listing-page-translations";
 
-// Assuming RemoteJob is structurally similar to BlogPost for BlogPostCard usage
 interface RemoteJob {
-	// Or BlogPost, if that's the actual type from API
 	id: string;
 	headline: string;
 	image: {
@@ -31,53 +29,19 @@ interface RemoteOnlineJobsPageProps {
 	error?: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	try {
-		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_REACT_APP_API_BASE}/remote-jobs`,
-		);
-		if (!response.ok) {
-			console.error(`SSR Error fetching remote jobs list: ${response.status}`);
-			return {
-				props: {
-					initialRemoteJobs: [],
-					error: "Failed to load jobs from server.",
-				},
-			};
-		}
-		const initialRemoteJobsData = await response.json();
-		const initialRemoteJobs: RemoteJob[] = Array.isArray(initialRemoteJobsData)
-			? initialRemoteJobsData
-			: initialRemoteJobsData
-				? [initialRemoteJobsData]
-				: [];
-		return { props: { initialRemoteJobs } };
-	} catch (error) {
-		console.error("SSR Exception fetching remote jobs list:", error);
-		return {
-			props: {
-				initialRemoteJobs: [],
-				error: "Server exception when loading jobs.",
-			},
-		};
-	}
-};
-
 const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 	initialRemoteJobs,
 	error: ssrError,
 }) => {
-	const [remoteJobs, setRemoteJobs] = useState<RemoteJob[]>(
-		initialRemoteJobs || [],
-	);
+	const lang = useLangFromPath();
+	const canonical = usePageCanonical();
+	const copy = getListingPageTranslations(lang).remoteOnlineJobs;
+	const common = getListingPageTranslations(lang).common;
+	const [remoteJobs, setRemoteJobs] = useState<RemoteJob[]>(initialRemoteJobs || []);
 	const [loading, setLoading] = useState<boolean>(!initialRemoteJobs);
-	const [clientError, setClientError] = useState<string | null>(
-		ssrError || null,
-	);
+	const [clientError, setClientError] = useState<string | null>(ssrError || null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const postsPerPage = 9;
-	const canonical = usePageCanonical();
-	const lang = useLangFromPath();
 
 	const listJsonLd = useMemo(
 		() =>
@@ -94,7 +58,7 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 					url: `${canonical}/${post.id}`,
 				})),
 			}),
-		[remoteJobs, canonical],
+		[canonical, remoteJobs],
 	);
 
 	const fetchClientSideRemoteJobs = useCallback(async () => {
@@ -102,25 +66,25 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 		setClientError(null);
 		try {
 			const response = await fetch(
-				`${getClientApiBase()}/remote-jobs`,
+				`${getClientApiBase()}/remote-jobs?lang=${encodeURIComponent(lang)}`,
 			);
-			if (!response.ok)
+			if (!response.ok) {
 				throw new Error("Failed to fetch remote jobs (client-side)");
+			}
 			const data: RemoteJob[] = await response.json();
 			setRemoteJobs(data);
 		} catch (error) {
 			console.error("Error fetching remote jobs (client-side):", error);
 			setClientError(
-				error instanceof Error
-					? error.message
-					: "Failed to load jobs client-side.",
+				error instanceof Error ? error.message : "Failed to load jobs client-side.",
 			);
-			if (!initialRemoteJobs || initialRemoteJobs.length === 0)
+			if (!initialRemoteJobs || initialRemoteJobs.length === 0) {
 				setRemoteJobs([]);
+			}
 		} finally {
 			setLoading(false);
 		}
-	}, [initialRemoteJobs]);
+	}, [initialRemoteJobs, lang]);
 
 	useEffect(() => {
 		if (initialRemoteJobs && initialRemoteJobs.length > 0) {
@@ -128,21 +92,14 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 			setLoading(false);
 			setClientError(null);
 		} else if (ssrError) {
-			console.error("SSR Error for RemoteOnlineJobs page:", ssrError);
 			setLoading(false);
 		} else if (remoteJobs.length === 0) {
 			fetchClientSideRemoteJobs();
 		}
-	}, [
-		initialRemoteJobs,
-		ssrError,
-		remoteJobs.length,
-		fetchClientSideRemoteJobs,
-	]);
+	}, [fetchClientSideRemoteJobs, initialRemoteJobs, remoteJobs.length, ssrError]);
 
 	const getExcerpt = (content: { text: string }[]): string => {
-		const firstSection = content[0];
-		const excerpt = firstSection?.text || "";
+		const excerpt = content[0]?.text || "";
 		return excerpt.length > 120 ? `${excerpt.substring(0, 120)}...` : excerpt;
 	};
 
@@ -158,60 +115,45 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 	return (
 		<div className='page-container'>
 			<Head>
-				<title>Remote &amp; Online Jobs | Work-From-Home Opportunities 2025</title>
-				<meta
-					name='description'
-					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
-				/>
+				<title>{copy.title}</title>
+				<meta name='description' content={copy.description} />
 				<link rel='canonical' href={canonical} />
 				<script type='application/ld+json' dangerouslySetInnerHTML={{ __html: listJsonLd }} />
-				<meta property='og:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
-				<meta
-					property='og:description'
-					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
-				/>
+				<meta property='og:title' content={copy.ogTitle} />
+				<meta property='og:description' content={copy.ogDescription} />
 				<meta property='og:url' content={canonical} />
 				<meta property='og:type' content='website' />
 				<meta property='og:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 				<meta name='twitter:card' content='summary_large_image' />
-				<meta name='twitter:title' content='Remote & Online Jobs | Work-From-Home Opportunities 2025' />
-				<meta
-					name='twitter:description'
-					content='Find the best remote and online jobs. Explore opportunities in customer service, data entry, virtual assistance, and more.'
-				/>
+				<meta name='twitter:title' content={copy.ogTitle} />
+				<meta name='twitter:description' content={copy.ogDescription} />
 				<meta name='twitter:image' content='https://www.dollarsandlife.com/og-image-homepage.jpg' />
 			</Head>
 
-			{/* Routing refactored to list view here, detail view in remote-online-jobs-[id].tsx */}
-			{loading && (
-				<p className='sd-loading-indicator'>Loading remote jobs...</p>
-			)}
+			{loading && <p className='sd-loading-indicator'>{copy.loadingLabel}</p>}
 			{clientError && (
-				<p className='sd-error-indicator'>Error loading jobs: {clientError}</p>
+				<p className='sd-error-indicator'>{copy.errorPrefix} {clientError}</p>
 			)}
 			{!loading && !clientError && (
 				<>
-					<div className="section-hero">
-					<p className="section-hero-eyebrow">Extra Income</p>
-					<h1 className="section-hero-title">
-						Remote &amp; Online <span>Jobs</span>
-					</h1>
-					<p className="section-hero-sub">
-						Find the best work-from-home and remote opportunities — explore
-						customer service, data entry, virtual assistance, and more.
-					</p>
-					{remoteJobs.length > 0 && (
-						<span className="section-hero-count">{remoteJobs.length} articles</span>
-					)}
-				</div>
+					<div className='section-hero'>
+						<p className='section-hero-eyebrow'>{copy.eyebrow}</p>
+						<h1 className='section-hero-title'>
+							{copy.headingLead} <span>{copy.headingAccent}</span>
+						</h1>
+						<p className='section-hero-sub'>{copy.subtitle}</p>
+						{remoteJobs.length > 0 && (
+							<span className='section-hero-count'>
+								{remoteJobs.length} {common.articlesLabel}
+							</span>
+						)}
+					</div>
 
-				<section className='page-intro' aria-label='About Remote Online Jobs'>
-					<p>
-						Explore legitimate remote and online job opportunities — from full-time roles with benefits to flexible part-time positions across customer service, data entry, virtual assistance, and more.
-					</p>
-				</section>
+					<section className='page-intro' aria-label={copy.introAriaLabel}>
+						<p>{copy.intro}</p>
+					</section>
 
-				<div className='content-wrapper'>
+					<div className='content-wrapper'>
 						{currentPosts.map((post) => (
 							<BlogPostCard
 								key={post.id}
@@ -222,13 +164,12 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 								author={post.author}
 								datePublished={post.datePublished}
 								dateModified={post.dateModified}
-								href={prefixLang(
-									`/extra-income/remote-online-jobs/${post.id}`,
-									lang,
-								)}
+								href={prefixLang(`/extra-income/remote-online-jobs/${post.id}`, lang)}
+								lang={lang}
 							/>
 						))}
 					</div>
+
 					{remoteJobs.length > postsPerPage && (
 						<PaginationContainer
 							totalItems={remoteJobs.length}
@@ -237,9 +178,7 @@ const RemoteOnlineJobs: React.FC<RemoteOnlineJobsPageProps> = ({
 							setCurrentPage={setCurrentPage}
 						/>
 					)}
-					{currentPosts.length === 0 && (
-						<p>No remote jobs found at the moment.</p>
-					)}
+					{currentPosts.length === 0 && <p>{copy.emptyLabel}</p>}
 				</>
 			)}
 		</div>

@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const { SitemapStream, streamToPromise } = require("sitemap");
 const { MongoClient } = require("mongodb");
+const GENERATED_CONTENT_ROUTE_LANGUAGES = require("../lib/i18n/generated-content-language-manifest.json");
 
 // ✅ Load environment variables from server and frontend .env
 const serverDotenvPath = path.resolve(__dirname, "../../server/.env");
@@ -22,12 +23,18 @@ if (!MONGO_URI) {
 const BASE_URL = "https://www.dollarsandlife.com";
 const DEFAULT_LANG = "en";
 
-/** Top 20 languages — mirrors lib/i18n/languages.ts supportedLanguages. */
-const ALL_LANGS = [
-    "en", "es", "de", "ja", "fr", "pt", "ru", "it",
-    "nl", "pl", "tr", "fa", "zh", "vi", "id", "cs",
-    "ko", "uk", "hu", "ar",
-];
+function extractSupportedLanguages() {
+    const languagesPath = path.resolve(__dirname, "../lib/i18n/languages.ts");
+    const source = fs.readFileSync(languagesPath, "utf8");
+    const match = source.match(/supportedLanguages\s*=\s*\[([\s\S]*?)\]\s*as const/);
+    if (!match) {
+        throw new Error("Could not parse supportedLanguages from languages.ts");
+    }
+    return Array.from(match[1].matchAll(/"([^"]+)"/g), (entry) => entry[1]);
+}
+
+/** Mirrors lib/i18n/languages.ts supportedLanguages. */
+const ALL_LANGS = extractSupportedLanguages();
 
 const ALL_LANGS_SET = new Set(ALL_LANGS);
 
@@ -37,30 +44,28 @@ const ALL_LANGS_SET = new Set(ALL_LANGS);
  * - Privacy + Terms: all LEGAL_TRANSLATED_LANGS (in-code translations).
  * - MongoDB pages: only languages present in doc.languages (no URL if no translation).
  */
-const STATIC_PATHS = new Set([
-    "/", "/about-us", "/contact-us", "/privacy-policy", "/return-policy",
-    "/terms-of-service", "/financial-calculators", "/shopping-deals",
-    "/start-a-blog", "/extra-income", "/extra-income/budget",
-    "/extra-income/freelance-jobs", "/extra-income/remote-online-jobs",
-    "/extra-income/money-making-apps", "/breaking-news",
-]);
+const STATIC_PATH_LANGS = Object.freeze({
+    "/": ALL_LANGS,
+    "/about-us": ALL_LANGS,
+    "/contact-us": ALL_LANGS,
+    "/return-policy": ALL_LANGS,
+    "/privacy-policy": ["en", "zh", "es", "ar", "pt", "id", "fr", "ja", "ru", "de"],
+    "/terms-of-service": ["en", "zh", "es", "ar", "pt", "id", "fr", "ja", "ru", "de"],
+    "/financial-calculators": ALL_LANGS,
+    "/shopping-deals": ALL_LANGS,
+    "/extra-income": GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income"] || [DEFAULT_LANG],
+    "/extra-income/budget": GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/budget"] || [DEFAULT_LANG],
+    "/extra-income/freelance-jobs": GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/freelance-jobs"] || [DEFAULT_LANG],
+    "/extra-income/remote-online-jobs": GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/remote-online-jobs"] || [DEFAULT_LANG],
+    "/extra-income/money-making-apps": GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/money-making-apps"] || [DEFAULT_LANG],
+    "/breaking-news": GENERATED_CONTENT_ROUTE_LANGUAGES["/breaking-news"] || [DEFAULT_LANG],
+    "/start-a-blog": GENERATED_CONTENT_ROUTE_LANGUAGES["/start-a-blog"] || [DEFAULT_LANG],
+});
 
-/**
- * Legal pages with in-code translations (see lib/i18n/legal-page-content.ts).
- * Emit one sitemap URL per language (en unprefixed, others /{lang}/...).
- */
-const LEGAL_TRANSLATED_STATIC_PATHS = new Set(["/privacy-policy", "/terms-of-service"]);
-const LEGAL_TRANSLATED_LANGS = [
-    "en", "zh", "es", "ar", "pt", "id", "fr", "ja", "ru", "de",
-];
-
-/** Languages to emit for a static path — default en-only unless fully translated in code. */
+/** Languages to emit for a static path — only when that route really exists in that locale. */
 function getLanguagesForStaticPath(rawPath) {
     const normalized = rawPath.split("?")[0].replace(/\/$/, "") || "/";
-    if (LEGAL_TRANSLATED_STATIC_PATHS.has(normalized)) {
-        return LEGAL_TRANSLATED_LANGS;
-    }
-    return STATIC_PATHS.has(normalized) ? [DEFAULT_LANG] : [DEFAULT_LANG];
+    return STATIC_PATH_LANGS[normalized] || [DEFAULT_LANG];
 }
 
 /**

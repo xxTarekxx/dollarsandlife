@@ -1,9 +1,9 @@
 import FreelanceJobsPage from "@pages/extra-income/freelance-jobs";
 import { fetchInternal } from "@/lib/fetchInternal";
 
-async function fetchData() {
+async function fetchData(lang: string) {
 	try {
-		const res = await fetchInternal("/freelance-jobs");
+		const res = await fetchInternal(`/freelance-jobs?lang=${encodeURIComponent(lang)}`);
 		if (!res.ok) return { initialFreelanceJobs: [], error: `API error ${res.status}` };
 		const data = await res.json();
 		return { initialFreelanceJobs: Array.isArray(data) ? data : [] };
@@ -12,7 +12,18 @@ async function fetchData() {
 	}
 }
 
-export default async function Page() {
-	const { initialFreelanceJobs, error } = await fetchData();
-	return <FreelanceJobsPage initialFreelanceJobs={initialFreelanceJobs} error={error} />;
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ lang: string }>;
+}) {
+	const { lang } = await params;
+	const { initialFreelanceJobs, error } = await fetchData(lang);
+	return (
+		<FreelanceJobsPage
+			key={lang}
+			initialFreelanceJobs={initialFreelanceJobs}
+			error={error}
+		/>
+	);
 }
