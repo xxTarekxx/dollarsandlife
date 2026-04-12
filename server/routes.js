@@ -118,6 +118,47 @@ function buildListProjection(locale) {
     };
 }
 
+/** Extra fields for shopping product cards (list API was stripping price / ratings). */
+function buildProductListProjection(locale) {
+    const base = buildListProjection(locale);
+    const productExtras = {
+        currentPrice: 1,
+        discountPercentage: 1,
+        specialOffer: 1,
+        offers: 1,
+        aggregateRating: 1,
+        purchaseUrl: 1,
+        description: 1,
+        shortName: 1,
+        canonicalUrl: 1,
+        brand: 1,
+        mainEntityOfPage: 1,
+        [`languages.${locale}.currentPrice`]: 1,
+        [`languages.${locale}.discountPercentage`]: 1,
+        [`languages.${locale}.specialOffer`]: 1,
+        [`languages.${locale}.offers`]: 1,
+        [`languages.${locale}.aggregateRating`]: 1,
+        [`languages.${locale}.purchaseUrl`]: 1,
+        [`languages.${locale}.description`]: 1,
+        [`languages.${locale}.shortName`]: 1,
+        [`languages.${locale}.canonicalUrl`]: 1,
+        [`languages.${locale}.brand`]: 1,
+        [`languages.${locale}.mainEntityOfPage`]: 1,
+        'languages.en.currentPrice': 1,
+        'languages.en.discountPercentage': 1,
+        'languages.en.specialOffer': 1,
+        'languages.en.offers': 1,
+        'languages.en.aggregateRating': 1,
+        'languages.en.purchaseUrl': 1,
+        'languages.en.description': 1,
+        'languages.en.shortName': 1,
+        'languages.en.canonicalUrl': 1,
+        'languages.en.brand': 1,
+        'languages.en.mainEntityOfPage': 1,
+    };
+    return { ...base, ...productExtras };
+}
+
 function parsePositiveInt(value, fallback) {
     const parsed = Number.parseInt(value, 10);
     return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
@@ -135,10 +176,14 @@ function trimForList(doc) {
         const firstBlock = doc.content[0] || {};
         const firstText = typeof firstBlock.text === 'string' ? firstBlock.text : '';
         const trimmedText = firstText.length > 220 ? `${firstText.slice(0, 220)}...` : firstText;
-        return {
+        const next = {
             ...doc,
             content: [{ ...firstBlock, text: trimmedText }],
         };
+        if (!next.description || String(next.description).trim() === '') {
+            next.description = trimmedText;
+        }
+        return next;
     }
     return doc;
 }
@@ -193,10 +238,13 @@ const createContentRoutes = (collectionName, basePath) => {
             // trimForList: strips content to first element — cards only need a 120-char
             // excerpt, not 20+ paragraphs per article × 200 documents.
             const collection = db.collection(collectionName);
+            const listProjection = collectionName === 'products_list'
+                ? buildProductListProjection(locale)
+                : buildListProjection(locale);
             const [docs, total] = await Promise.all([
                 collection
                     .find()
-                    .project(buildListProjection(locale))
+                    .project(listProjection)
                     .sort({ sortOrder: -1 })
                     .skip(skip)
                     .limit(isPaginated ? limit : 200)
