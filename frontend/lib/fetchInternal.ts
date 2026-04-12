@@ -6,9 +6,19 @@
  * the timeout promise wins even on Windows where AbortController alone may not
  * interrupt an in-progress TCP read fast enough).
  */
+
+export type FetchInternalOptions = {
+	/**
+	 * Default 3600. Use `false` for `cache: 'no-store'`.
+	 * Short values (e.g. 60) help listing pages that must reflect API changes (prices) soon after deploy.
+	 */
+	revalidate?: number | false;
+};
+
 export async function fetchInternal(
 	path: string,
 	timeoutMs = 15_000,
+	options?: FetchInternalOptions,
 ): Promise<Response> {
 	const base =
 		process.env.API_INTERNAL_BASE || "http://127.0.0.1:5001/api";
@@ -23,10 +33,16 @@ export async function fetchInternal(
 		}, timeoutMs),
 	);
 
-	const fetchPromise = fetch(url, {
-		next: { revalidate: 3600 },
-		signal: controller.signal,
-	});
+	const revalidate = options?.revalidate;
+	const fetchInit: RequestInit =
+		revalidate === false
+			? { cache: "no-store", signal: controller.signal }
+			: {
+					next: { revalidate: revalidate ?? 3600 },
+					signal: controller.signal,
+				};
+
+	const fetchPromise = fetch(url, fetchInit);
 
 	return Promise.race([fetchPromise, timeoutPromise]);
 }

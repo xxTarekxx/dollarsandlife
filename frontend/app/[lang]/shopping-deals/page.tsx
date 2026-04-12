@@ -45,7 +45,8 @@ export async function generateMetadata({
 
 async function fetchShoppingDeals() {
 	try {
-		const res = await fetchInternal("/shopping-deals");
+		// Short cache / fresh prices: list API + cards must not stay stale for 1h after backend fixes.
+		const res = await fetchInternal("/shopping-deals", 15_000, { revalidate: 60 });
 		if (!res.ok) return { initialProducts: [], error: `API error ${res.status}` };
 		const data = await res.json();
 		return { initialProducts: Array.isArray(data) ? data : [] };

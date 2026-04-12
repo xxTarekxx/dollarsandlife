@@ -78,6 +78,19 @@ const cleanText = (text: string): string => {
 	return deepClean(text);
 };
 
+/** Prefer currentPrice; if list API omitted it, use offers.price (Mongo often has both). */
+function getDisplayPriceLabel(
+	currentPrice: string | undefined,
+	offers: Product["offers"],
+): string {
+	const cp = typeof currentPrice === "string" ? currentPrice.trim() : "";
+	if (cp) return cp;
+	const raw = typeof offers?.price === "string" ? offers.price.trim() : "";
+	if (!raw) return "";
+	if (/^[$\u00a3\u20ac]/.test(raw)) return raw;
+	return `$${raw}`;
+}
+
 const ProductCard: React.FC<Product & { lang: string }> = ({
 	id,
 	headline,
@@ -118,6 +131,11 @@ const ProductCard: React.FC<Product & { lang: string }> = ({
 		basePath = `/shopping-deals/products/${id}-${slug}`;
 	}
 	const detailUrl = prefixLang(basePath, lang);
+
+	const displayPriceLabel = useMemo(
+		() => getDisplayPriceLabel(currentPrice, offers),
+		[currentPrice, offers],
+	);
 
 	const descriptionSnippet = useMemo(() => {
 		if (!description) return "";
@@ -168,14 +186,12 @@ const ProductCard: React.FC<Product & { lang: string }> = ({
 
 				<div className='sd-product-price-section'>
 					<span
-						className={`sd-current-price ${!currentPrice || currentPrice.trim() === ""
+						className={`sd-current-price ${!displayPriceLabel
 							? "sd-unavailable-price"
 							: ""
 							}`}
 					>
-						{currentPrice && currentPrice.trim() !== ""
-							? currentPrice
-							: "Currently Not Available"}
+						{displayPriceLabel || "Currently Not Available"}
 					</span>
 				</div>
 
