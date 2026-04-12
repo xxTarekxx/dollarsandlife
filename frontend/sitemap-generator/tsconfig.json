@@ -7,7 +7,7 @@
     "esModuleInterop": true,  // Allows default imports for CommonJS modules
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "outDir": "../dist"  // Output directory for compiled JS files
   },

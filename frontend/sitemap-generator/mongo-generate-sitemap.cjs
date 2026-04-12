@@ -306,6 +306,16 @@ async function fetchDynamicRoutes() {
 
     const client = new MongoClient(MONGO_URI);
     const dynamicRoutes = [];
+    const projection = {
+        _id: 0,
+        canonicalUrl: 1,
+        datePublished: 1,
+        dateModified: 1,
+        languages: 1,
+        "languages.en.canonicalUrl": 1,
+        "languages.en.datePublished": 1,
+        "languages.en.dateModified": 1,
+    };
 
     try {
         await client.connect();
@@ -313,7 +323,10 @@ async function fetchDynamicRoutes() {
 
         for (const collectionName of COLLECTIONS) {
             const collection = db.collection(collectionName);
-            const documents = await collection.find({}).toArray();
+            const documents = await collection
+                .find({}, { projection })
+                .maxTimeMS(15000)
+                .toArray();
 
             for (const doc of documents) {
                 // Support both new multilingual structure (doc.languages.en.*)
@@ -378,6 +391,115 @@ async function fetchDynamicRoutes() {
         }
     } catch (err) {
         console.error("❌ MongoDB error:", err);
+    } finally {
+        await client.close();
+    }
+
+    return dynamicRoutes;
+}
+
+async function fetchDynamicRoutesFast() {
+    if (!MONGO_URI) return [];
+
+    const client = new MongoClient(MONGO_URI);
+    const dynamicRoutes = [];
+    const supportedLangLiterals = ALL_LANGS.map((lang) => ({ $literal: lang }));
+
+    try {
+        await client.connect();
+        const db = client.db(DB_NAME);
+
+        for (const collectionName of COLLECTIONS) {
+            const collection = db.collection(collectionName);
+            const documents = await collection.aggregate([
+                {
+                    $project: {
+                        _id: 0,
+                        canonicalUrl: {
+                            $ifNull: ["$languages.en.canonicalUrl", "$canonicalUrl"],
+                        },
+                        datePublished: {
+                            $ifNull: ["$languages.en.datePublished", "$datePublished"],
+                        },
+                        dateModified: {
+                            $ifNull: ["$languages.en.dateModified", "$dateModified"],
+                        },
+                        availableLangs: {
+                            $cond: [
+                                { $eq: [{ $type: "$languages" }, "object"] },
+                                {
+                                    $filter: {
+                                        input: supportedLangLiterals,
+                                        as: "lang",
+                                        cond: {
+                                            $ne: [
+                                                {
+                                                    $type: {
+                                                        $getField: {
+                                                            field: "$$lang",
+                                                            input: "$languages",
+                                                        },
+                                                    },
+                                                },
+                                                "missing",
+                                            ],
+                                        },
+                                    },
+                                },
+                                [DEFAULT_LANG],
+                            ],
+                        },
+                    },
+                },
+            ])
+                .maxTimeMS(15000)
+                .toArray();
+
+            for (const doc of documents) {
+                const canonicalUrl = doc.canonicalUrl;
+                const datePublished = doc.datePublished;
+                const dateModified = doc.dateModified;
+
+                if (!canonicalUrl || !datePublished) continue;
+
+                const urlPath = canonicalUrl.toLowerCase();
+                if (EXCLUDED_ROUTES.some((r) => urlPath === r.toLowerCase())) {
+                    console.log(`Skipping excluded route: ${urlPath}`);
+                    continue;
+                }
+
+                const rawDate = typeof dateModified === "string" && dateModified.trim()
+                    ? dateModified.trim()
+                    : datePublished;
+                const parsedDate = new Date(rawDate);
+                if (isNaN(parsedDate.getTime())) continue;
+
+                let relativeUrl = canonicalUrl.toLowerCase().replace(/^https?:\/\/[^/]+/, "");
+
+                const langPrefixRe = new RegExp(`^/(${ALL_LANGS.join("|")})/`);
+                const langPrefixMatch = relativeUrl.match(langPrefixRe);
+                if (langPrefixMatch) {
+                    relativeUrl = relativeUrl.slice(langPrefixMatch[1].length + 1);
+                }
+                if (relativeUrl !== "/" && relativeUrl.endsWith("/")) {
+                    relativeUrl = relativeUrl.replace(/\/+$/, "");
+                }
+
+                const availableLangs = Array.isArray(doc.availableLangs) && doc.availableLangs.length > 0
+                    ? (doc.availableLangs.includes(DEFAULT_LANG) ? doc.availableLangs : [DEFAULT_LANG, ...doc.availableLangs])
+                    : [DEFAULT_LANG];
+
+                dynamicRoutes.push({
+                    url: relativeUrl,
+                    changefreq: "monthly",
+                    priority: 0.8,
+                    lastmod: parsedDate.toISOString(),
+                    availableLangs,
+                });
+            }
+        }
+    } catch (err) {
+        console.error("MongoDB error:", err);
     } finally {
         await client.close();
     }
@@ -450,7 +572,7 @@ async function generateSitemap() {
         });
 
         // ── Dynamic (MongoDB): only languages in doc.languages — no URL if no translation ─
-        const dynamicRoutes = await fetchDynamicRoutes();
+        const dynamicRoutes = await fetchDynamicRoutesFast();
         console.log(`📝 Adding dynamic routes: ${dynamicRoutes.length} articles`);
 
         let totalLangEntries = 0;
