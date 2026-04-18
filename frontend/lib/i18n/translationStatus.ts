@@ -81,7 +81,7 @@ export const PATH_LANGUAGES: Readonly<Record<string, readonly string[]>> = Objec
 		GENERATED_CONTENT_ROUTE_LANGUAGES["/extra-income/money-making-apps"] ?? [defaultLanguage],
 	"/breaking-news":
 		GENERATED_CONTENT_ROUTE_LANGUAGES["/breaking-news"] ?? [defaultLanguage],
-	"/forum": ALL_LANGS,
+	"/forum": [defaultLanguage],
 
 	// ── Wildcard routes (article / product / post detail pages) ───────────────
 	// Each wildcard covers slugs under that prefix.
@@ -99,7 +99,7 @@ export const PATH_LANGUAGES: Readonly<Record<string, readonly string[]>> = Objec
 	"/shopping-deals/products/*": ALL_LANGS,
 	"/start-a-blog/*":
 		GENERATED_CONTENT_ROUTE_LANGUAGES["/start-a-blog/*"] ?? [defaultLanguage],
-	"/forum/post/*": ALL_LANGS,
+	"/forum/post/*": [defaultLanguage],
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -179,6 +179,11 @@ export const TRANSLATED_PATHS: ReadonlySet<string> = new Set(
  */
 export function isTranslated(path: string, lang: string): boolean {
 	if (lang === defaultLanguage) return false; // English is always the default, not a "translation"
+	const normalized = getNormalizedPath(path);
+	return getLanguagesForPath(normalized).includes(lang);
+}
+
+export function isLanguageAllowedForPath(path: string, lang: string): boolean {
 	const normalized = getNormalizedPath(path);
 	return getLanguagesForPath(normalized).includes(lang);
 }
