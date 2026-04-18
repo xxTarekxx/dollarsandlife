@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 import React from "react";
 import { buildCanonicalUrl } from "@/lib/seo/canonical";
 import { generateHreflangLinks } from "@/lib/i18n/hreflang";
+import { pathWithoutLang } from "@/lib/i18n/prefixLang";
+import { isLanguageAllowedForPath } from "@/lib/i18n/translationStatus";
 import { getBreadcrumbLabels, getFooterLabels, getNavLabels } from "@/lib/i18n/ui-translations";
 import { LangHtml } from "@/components/LangHtml";
 import { BreadcrumbProvider } from "@/components/breadcrumbs/BreadcrumbContext";
@@ -64,6 +67,13 @@ export default async function LangLayout({
 	params: Promise<{ lang: string }>;
 }) {
 	const { lang } = await params;
+	const headersList = await headers();
+	const pathname = headersList.get("x-pathname") ?? (lang === "en" ? "/" : `/${lang}`);
+	const contentPath = pathWithoutLang(pathname);
+
+	if (!isLanguageAllowedForPath(contentPath, lang)) {
+		notFound();
+	}
 
 	// Translate all UI labels server-side in parallel, then pass as props.
 	// Client components (NavBar, Footer, BreadcrumbWrapper) receive pre-translated
