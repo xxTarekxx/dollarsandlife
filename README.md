@@ -1,34 +1,35 @@
-# 🌟 Dollars & Life 💰
-*A production-ready, SEO-focused personal finance platform*
+# Dollars & Life — Personal Finance Platform
+
+A production-ready full-stack platform designed to deliver SEO-optimized financial content at scale.
+
+Built with a focus on performance, backend systems, and real-world traffic handling.
 
 [![Website Status](https://img.shields.io/website?url=https%3A%2F%2Fdollarsandlife.com&label=Live%20Website)](https://www.dollarsandlife.com)
 [![GitHub License](https://img.shields.io/github/license/xxTarekxx/dollarsandlife)](https://github.com/xxTarekxx/dollarsandlife/blob/main/LICENSE)
 [![GitHub Issues](https://img.shields.io/github/issues/xxTarekxx/dollarsandlife)](https://github.com/xxTarekxx/dollarsandlife/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/xxTarekxx/dollarsandlife?style=social)](https://github.com/xxTarekxx/dollarsandlife/stargazers)
 
-💸 **Dollars & Life** is a full-stack personal finance platform designed to help people **make money, save smarter, and build sustainable income streams**.  
-Built with a strong focus on **SEO, performance, and scalability**, and deployed in a real production environment.
+---
+
+## Key Highlights
+
+- 🚀 Next.js platform with SSR for high-performance SEO  
+- 📊 Programmatic SEO using structured data (JSON-LD)  
+- 🔍 Custom Java-based search service for scalable content indexing  
+- 🔐 Firebase Authentication (Google & Microsoft login)  
+- ⚙️ Backend APIs using Node.js and Express  
+- 📈 Optimized for Core Web Vitals and organic traffic growth  
+- ☁️ Deployed on Ubuntu VPS with PM2 and CI/CD workflows  
 
 ---
 
-## 🚀 Features
-
-✅ Money-making & side-hustle guides (remote jobs, freelancing, online income)  
-✅ Investing & savings content (budgeting tools, apps, explainers)  
-✅ SEO-first architecture (SSR, structured data, metadata optimization)  
-✅ High-performance site search powered by a **Java backend search service**  
-✅ Google AdSense & affiliate monetization  
-✅ Production deployment on Ubuntu with CI/CD and process management  
-
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |------|-----------|
 | Frontend | Next.js (React), TypeScript |
 | Backend APIs | Node.js, Express.js |
-| Search Service | Java (dedicated backend search service) |
+| Search Service | Java (custom indexing + search) |
 | Databases | MongoDB, Firestore |
 | Authentication | Firebase Authentication |
 | SEO | SSR, JSON-LD, Open Graph |
@@ -39,7 +40,13 @@ Built with a strong focus on **SEO, performance, and scalability**, and deployed
 
 ---
 
-## 🏗️ Setup & Installation
+## Architecture
+
+Frontend (Next.js) → Backend APIs (Node.js) → Search Service (Java) → Databases (MongoDB / Firestore)
+
+---
+
+## Setup & Installation
 
 Prerequisites:
 - Node.js >= 18
@@ -48,69 +55,48 @@ Prerequisites:
 - Git
 
 Install dependencies:
-    npm install
-    or
-    yarn install
+
+npm install
+
 
 Run development server:
-    yarn dev
+
+npm run dev
+
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
-    /frontend
-     ├── /src
-     │   ├── /components
-     │   ├── /pages
-     │   ├── /styles
-     │   ├── /utils
-     │
-     ├── /public
-     ├── package.json
-     └── README.md
 
-    /search-service
-     ├── /src
-     ├── build.gradle / pom.xml
-     └── README.md
+/frontend
+/search-service
+/server
+
 
 ---
 
-## 🤝 Contributing
+## Roadmap
 
-1. Fork the repository  
-2. Create a feature branch  
-   git checkout -b feature/your-feature  
-3. Commit your changes  
-   git commit -m "Add new feature"  
-4. Push to your branch  
-   git push origin feature/your-feature  
-5. Open a Pull Request  
+- Improve search indexing and ranking algorithms  
+- Expand SEO automation pipelines  
+- Optimize performance and Core Web Vitals  
+- Add analytics and growth tooling  
 
 ---
 
-## 🎯 Roadmap
+## Live
 
-- Improve Java search indexing & ranking  
-- Expand SEO automation & content tooling  
-- Performance & Core Web Vitals optimization  
-- Email capture & marketing workflows  
+🌐 https://www.dollarsandlife.com
 
 ---
 
-## 📝 License
+## License
 
-Licensed under the **MIT License**.
-
----
-
-## 📬 Contact
-
-📧 Email: contact@dollarsandlife.com  
-🌐 Website: https://www.dollarsandlife.com  
-📘 Facebook Group: https://www.facebook.com/profile.php?id=61552256902083  
+MIT License
 
 ---
 
-💡 *Dollars & Life — built, deployed, and scaled as a real-world full-stack platform.*
+## Contact
+
+📧 contact@dollarsandlife.com  
