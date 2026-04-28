@@ -140,8 +140,28 @@ const AuthenticatedViewPostPageContent: React.FC<{
 							...postSnapshot.data(),
 						} as PostData);
 					} else {
-						toast.error("Post not found (client-side).");
-						setPost(null);
+						// App Router often passes slug in URL, not Firestore doc ID.
+						// Fallback: resolve slug against forum post titles.
+						const postsRef = collection(firebaseDb, "forumPosts");
+						const snapshot = await getDocs(postsRef);
+						let matchedPost: PostData | null = null;
+						for (const docSnap of snapshot.docs) {
+							const data = docSnap.data() as { title?: string };
+							const generatedSlug = slugify(data.title || "");
+							if (generatedSlug === postId) {
+								matchedPost = {
+									id: docSnap.id,
+									...(docSnap.data() as Omit<PostData, "id">),
+								};
+								break;
+							}
+						}
+						if (matchedPost) {
+							setPost(matchedPost);
+						} else {
+							toast.error("Post not found (client-side).");
+							setPost(null);
+						}
 						// router.replace('/forum/not-found'); // Or handle differently
 					}
 				} catch {
@@ -685,7 +705,7 @@ const ViewPostPage: React.FC<ViewPostPageProps> = ({
 
 	// App Router: slug comes from useParams. Pages Router [slug] dynamic segment (legacy).
 	const currentPostId =
-		urlSegment ?? initialPostData?.id;
+		initialPostData?.id ?? urlSegment;
 
 	if (!currentPostId) {
 		// This case should ideally be caught by getServerSideProps notFound,
