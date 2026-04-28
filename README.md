@@ -14,7 +14,8 @@ Built with a focus on performance, backend systems, and real-world traffic handl
 ## Key Highlights
 
 - 🚀 Next.js platform with SSR for high-performance SEO  
-- 📊 Programmatic SEO using structured data (JSON-LD)  
+- 📊 Programmatic SEO using structured data (JSON-LD)
+- 🌐 Cloudflare CDN and caching layer for performance and security
 - 🔍 Custom Java-based search service for scalable content indexing  
 - 🔐 Firebase Authentication (Google & Microsoft login)  
 - ⚙️ Backend APIs using Node.js and Express  
@@ -33,7 +34,7 @@ Built with a focus on performance, backend systems, and real-world traffic handl
 | Databases | MongoDB, Firestore |
 | Authentication | Firebase Authentication |
 | SEO | SSR, JSON-LD, Open Graph |
-| Infrastructure | Ubuntu VPS |
+| Infrastructure | Ubuntu VPS, Cloudflare (CDN, caching, security) |
 | Process Manager | PM2 |
 | CI/CD | GitHub Actions |
 | Monetization | Google AdSense |
