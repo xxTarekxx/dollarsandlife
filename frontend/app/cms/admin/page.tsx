@@ -17,6 +17,21 @@ interface Draft {
   reviewNote?: string;
 }
 
+interface ArticleEditRequestRow {
+  _id: string;
+  collectionName: string;
+  articleId: string;
+  originalHeadline: string;
+  proposedHeadline: string;
+  submittedByName: string;
+  submittedByEmail: string;
+  isOwnArticle: boolean;
+  status: "pending" | "approved" | "rejected";
+  submittedAt: string;
+  reviewedAt?: string;
+  reviewNote?: string;
+}
+
 interface Contributor {
   _id: string;
   name: string;
@@ -56,7 +71,10 @@ export default function AdminPage() {
   const authorId = searchParams?.get("authorId") || "";
   const section = sectionParam === "contributors" || sectionParam === "authors" ? sectionParam : "articles";
   const tab = statusParam === "approved" || statusParam === "rejected" ? statusParam : "pending";
+  const queueParam = searchParams?.get("queue");
+  const articleQueue: "new" | "edits" = queueParam === "edits" ? "edits" : "new";
   const [drafts, setDrafts] = useState<Draft[]>([]);
+  const [editRequests, setEditRequests] = useState<ArticleEditRequestRow[]>([]);
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [authors, setAuthors] = useState<PublicAuthor[]>([]);
   const [selectedAuthor, setSelectedAuthor] = useState<PublicAuthor | null>(null);
@@ -68,20 +86,26 @@ export default function AdminPage() {
   function setAdminView(
     nextSection: "articles" | "contributors" | "authors",
     nextTab?: "pending" | "approved" | "rejected",
-    nextAuthorId?: string
+    nextAuthorId?: string,
+    opts?: { articleQueue?: "new" | "edits" }
   ) {
     const params = new URLSearchParams(searchParams?.toString() || "");
     params.set("section", nextSection);
     if (nextSection === "articles") {
-      params.set("status", nextTab || tab);
+      params.set("status", nextTab !== undefined ? nextTab : tab);
+      const q = opts?.articleQueue !== undefined ? opts.articleQueue : articleQueue;
+      if (q === "edits") params.set("queue", "edits");
+      else params.delete("queue");
       params.delete("authorId");
     } else if (nextSection === "authors") {
       if (nextAuthorId) params.set("authorId", nextAuthorId);
       else params.delete("authorId");
       params.delete("status");
+      params.delete("queue");
     } else {
       params.delete("status");
       params.delete("authorId");
+      params.delete("queue");
     }
     router.replace(`/cms/admin?${params.toString()}`);
   }
@@ -97,14 +121,24 @@ export default function AdminPage() {
   }, [router]);
 
   useEffect(() => {
-    if (!me || section !== "articles") return;
+    if (!me || section !== "articles" || articleQueue !== "new") return;
     setLoading(true);
     setError("");
     cmsGet(`/drafts?status=${tab}`)
       .then(setDrafts)
       .catch(() => setError("Failed to load drafts"))
       .finally(() => setLoading(false));
-  }, [me, tab, section]);
+  }, [me, tab, section, articleQueue]);
+
+  useEffect(() => {
+    if (!me || section !== "articles" || articleQueue !== "edits") return;
+    setLoading(true);
+    setError("");
+    cmsGet(`/admin/article-edit-requests?status=${tab}`)
+      .then(setEditRequests)
+      .catch(() => setError("Failed to load edit requests"))
+      .finally(() => setLoading(false));
+  }, [me, tab, section, articleQueue]);
 
   async function loadContributors() {
     setContributorsLoading(true);
@@ -164,7 +198,7 @@ export default function AdminPage() {
         {error && <div className="cms-error">{error}</div>}
 
         <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.25rem", flexWrap: "wrap" }}>
-          <button type="button" onClick={() => setAdminView("articles")} className={`cms-btn cms-btn-sm ${section === "articles" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
+          <button type="button" onClick={() => setAdminView("articles", "pending", undefined, { articleQueue: "new" })} className={`cms-btn cms-btn-sm ${section === "articles" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
             Articles
           </button>
           <button type="button" onClick={() => setAdminView("contributors")} className={`cms-btn cms-btn-sm ${section === "contributors" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
@@ -177,15 +211,24 @@ export default function AdminPage() {
 
         {section === "articles" && (
           <>
+            <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+              <button type="button" onClick={() => setAdminView("articles", "pending", undefined, { articleQueue: "new" })} className={`cms-btn cms-btn-sm ${articleQueue === "new" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
+                New drafts
+              </button>
+              <button type="button" onClick={() => setAdminView("articles", "pending", undefined, { articleQueue: "edits" })} className={`cms-btn cms-btn-sm ${articleQueue === "edits" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
+                Article edits
+              </button>
+            </div>
+
             <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.25rem" }}>
               {STATUS_TABS.map((s) => (
-                <button key={s} type="button" onClick={() => setAdminView("articles", s)} className={`cms-btn cms-btn-sm ${tab === s ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto", textTransform: "capitalize" }}>
+                <button key={s} type="button" onClick={() => setAdminView("articles", s, undefined, { articleQueue })} className={`cms-btn cms-btn-sm ${tab === s ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto", textTransform: "capitalize" }}>
                   {s}
                 </button>
               ))}
             </div>
 
-            {drafts.length === 0 && !loading ? (
+            {articleQueue === "new" && (drafts.length === 0 && !loading ? (
               <div className="cms-card">
                 <div className="cms-empty">
                   <h3>No {tab} articles</h3>
@@ -218,7 +261,7 @@ export default function AdminPage() {
                         <td><span className={`cms-status cms-status-${d.status}`}>{d.status}</span></td>
                         <td>
                           <Link href={`/cms/admin/${d._id}`} className="cms-btn cms-btn-secondary cms-btn-sm" style={{ textDecoration: "none", whiteSpace: "nowrap" }}>
-                            Review -
+                            Review
                           </Link>
                         </td>
                       </tr>
@@ -227,15 +270,63 @@ export default function AdminPage() {
                 </table>
                 {loading && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#9a9ab0" }}>Updating...</div>}
               </div>
-            )}
+            ))}
 
-            <div className="cms-card" style={{ marginTop: "2rem" }}>
-              <div className="cms-card-title">Add New Contributor</div>
-              <AddAuthorForm onAdded={() => {
-                setAdminView("contributors");
-                loadContributors();
-              }} />
-            </div>
+            {articleQueue === "edits" && (editRequests.length === 0 && !loading ? (
+              <div className="cms-card">
+                <div className="cms-empty">
+                  <h3>No {tab} edit requests</h3>
+                  <p>Nothing here yet.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="cms-card">
+                <table className="cms-table">
+                  <thead>
+                    <tr>
+                      <th>Proposed headline</th>
+                      <th>Was</th>
+                      <th>Editor</th>
+                      <th>Collection</th>
+                      <th>Submitted</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {editRequests.map((r) => (
+                      <tr key={r._id}>
+                        <td style={{ maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.proposedHeadline}</td>
+                        <td style={{ maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: "0.82rem", color: "#6b6578" }}>{r.originalHeadline}</td>
+                        <td>
+                          <div style={{ fontSize: "0.85rem" }}>{r.submittedByName}</div>
+                          <div style={{ fontSize: "0.72rem", color: "#9a9ab0" }}>{r.submittedByEmail}</div>
+                        </td>
+                        <td><span className="cms-tag" style={{ margin: 0 }}>{r.collectionName}</span></td>
+                        <td style={{ whiteSpace: "nowrap", fontSize: "0.82rem" }}>{new Date(r.submittedAt).toLocaleDateString()}</td>
+                        <td><span className={`cms-status cms-status-${r.status}`}>{r.status}</span></td>
+                        <td>
+                          <Link href={`/cms/admin/edit-request/${r._id}`} className="cms-btn cms-btn-secondary cms-btn-sm" style={{ textDecoration: "none", whiteSpace: "nowrap" }}>
+                            Review
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {loading && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#9a9ab0" }}>Updating...</div>}
+              </div>
+            ))}
+
+            {articleQueue === "new" && (
+              <div className="cms-card" style={{ marginTop: "2rem" }}>
+                <div className="cms-card-title">Add New Contributor</div>
+                <AddAuthorForm onAdded={() => {
+                  setAdminView("contributors");
+                  loadContributors();
+                }} />
+              </div>
+            )}
           </>
         )}
 

@@ -116,6 +116,180 @@ const CATEGORY_MAP = {
 
 const ARTICLE_COLLECTIONS = Object.values(CATEGORY_MAP);
 
+const COLLECTION_TO_CATEGORY_SLUG = Object.fromEntries(
+    Object.entries(CATEGORY_MAP).map(([slug, col]) => [col, slug])
+);
+
+const COLLECTION_LABEL = {
+    breaking_news:      'Breaking News',
+    budget_data:        'Budget',
+    freelance_jobs:     'Freelance Jobs',
+    money_making_apps:  'Money Making Apps',
+    remote_jobs:        'Remote / Online Jobs',
+    start_a_blog:       'Start a Blog',
+};
+
+function findArticleFilter(articleId) {
+    return { $or: [{ articleId }, { id: articleId }] };
+}
+
+function getArticleAuthorName(doc) {
+    const en = doc.languages?.en || {};
+    return (en.author && en.author.name) || (doc.author && doc.author.name) || '';
+}
+
+function imageFieldToUrl(img) {
+    if (!img) return '';
+    if (typeof img === 'string') return img;
+    return img.url || '';
+}
+
+/** Merge cover image: DB often uses `{ url, caption }`; CMS forms use a URL string. */
+function mergeArticleImage(proposedUrlStr, existing) {
+    if (proposedUrlStr === undefined || proposedUrlStr === null || proposedUrlStr === '') {
+        return existing;
+    }
+    const cap = typeof existing === 'object' && existing?.caption != null ? String(existing.caption) : '';
+    return { url: String(proposedUrlStr), caption: cap };
+}
+
+function imageFieldCaption(img) {
+    if (!img || typeof img === 'string') return '';
+    return img.caption != null ? String(img.caption) : '';
+}
+
+/** Same shape as `resolveLocale` in routes.js — flat EN slice for preview. */
+function cmsResolveLocaleFlat(doc, locale = 'en') {
+    if (!doc) return null;
+    if (doc.languages && typeof doc.languages === 'object') {
+        const localized =
+            doc.languages[locale] && Object.keys(doc.languages[locale]).length
+                ? doc.languages[locale]
+                : doc.languages.en || {};
+        return { id: doc.articleId || doc.id || '', sortOrder: doc.sortOrder, ...localized };
+    }
+    return { ...doc, id: doc.articleId || doc.id || '' };
+}
+
+function normalizeImageForBlog(img) {
+    const url = imageFieldToUrl(img);
+    const caption = imageFieldCaption(img);
+    return { url, caption };
+}
+
+/** CMS block format → sections `BlogPostContent` understands. */
+function contentBlocksToBlogSections(content) {
+    if (!Array.isArray(content) || content.length === 0) return [];
+    const first = content[0];
+    if (!first || typeof first !== 'object' || !('type' in first)) {
+        return content;
+    }
+    return content.map((block) => {
+        if (!block || typeof block !== 'object') return {};
+        if (block.authorityLinks !== undefined) return { authorityLinks: block.authorityLinks };
+        if (block.stats !== undefined) return { stats: block.stats };
+        if (!('type' in block)) return block;
+        if (block.type === 'list') {
+            return { bulletPoints: Array.isArray(block.items) ? block.items : [] };
+        }
+        if (block.type === 'heading' || block.type === 'subheading') {
+            return { subtitle: block.text || '' };
+        }
+        if (block.type === 'quote') {
+            return block.text ? { expertQuotes: [block.text] } : {};
+        }
+        return { text: block.text || '' };
+    });
+}
+
+function buildPublicViewFromDoc(doc) {
+    const resolved = cmsResolveLocaleFlat(doc, 'en');
+    if (!resolved) return null;
+    const rawImg = doc.languages?.en?.image !== undefined ? doc.languages.en.image : doc.image;
+    const author = resolved.author || { name: getArticleAuthorName(doc) };
+    const authorNorm = typeof author === 'object' && author && author.name
+        ? author
+        : { name: String(author || getArticleAuthorName(doc) || '') };
+    return {
+        id: resolved.id,
+        headline: resolved.headline || '',
+        author: authorNorm,
+        datePublished: resolved.datePublished || '',
+        dateModified: resolved.dateModified || '',
+        image: normalizeImageForBlog(rawImg),
+        content: contentBlocksToBlogSections(resolved.content || []),
+        metaDescription: resolved.metaDescription || '',
+        canonicalUrl: resolved.canonicalUrl,
+    };
+}
+
+function mergeArticleImageForApprove(proposedUrlStr, proposedCaption, existing) {
+    const url = (proposedUrlStr !== undefined && proposedUrlStr !== null && String(proposedUrlStr).trim() !== '')
+        ? String(proposedUrlStr).trim()
+        : imageFieldToUrl(existing);
+    if (!url) return existing;
+    let caption = '';
+    if (proposedCaption !== undefined && String(proposedCaption).trim() !== '') {
+        caption = String(proposedCaption).trim();
+    } else if (typeof existing === 'object' && existing?.caption != null) {
+        caption = String(existing.caption);
+    }
+    return { url, caption };
+}
+
+function validateArticleContentBlocks(content) {
+    if (!Array.isArray(content) || content.length === 0) {
+        return 'At least one content section is required';
+    }
+    let hasSubstantial = false;
+    for (const section of content) {
+        if (!section || typeof section !== 'object') {
+            return 'Invalid content section';
+        }
+        if (section.authorityLinks !== undefined) {
+            const v = section.authorityLinks;
+            const ok = typeof v === 'string'
+                ? v.trim().length >= 2
+                : Array.isArray(v) && v.some((x) => String(x).trim().length >= 2);
+            if (!ok) return 'Authority links section must have content';
+            hasSubstantial = true;
+            continue;
+        }
+        if (section.stats !== undefined) {
+            const v = section.stats;
+            const ok = typeof v === 'string'
+                ? v.trim().length >= 2
+                : Array.isArray(v) && v.some((x) => String(x).trim().length >= 2);
+            if (!ok) return 'Stats section must have content';
+            hasSubstantial = true;
+            continue;
+        }
+        if (section.type === 'list') {
+            const items = Array.isArray(section.items) ? section.items : [];
+            if (!items.some((i) => String(i).trim().length > 0)) {
+                return 'List sections must have at least one non-empty item';
+            }
+            hasSubstantial = true;
+            continue;
+        }
+        if (section.type && section.type !== 'list') {
+            if (!section.text || section.text.trim().length < 50) {
+                return 'Each text section must have at least 50 characters';
+            }
+            hasSubstantial = true;
+            continue;
+        }
+        if (section.text !== undefined && !section.type) {
+            if (!section.text || section.text.trim().length < 50) {
+                return 'Each text section must have at least 50 characters';
+            }
+            hasSubstantial = true;
+        }
+    }
+    if (!hasSubstantial) return 'Article body cannot be empty';
+    return null;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // AUTH
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -326,6 +500,7 @@ router.get('/my-articles', requireAuth, async (req, res) => {
                     headline:      lang.headline || doc.headline,
                     datePublished: lang.datePublished || doc.datePublished,
                     collection:    col,
+                    category:      COLLECTION_TO_CATEGORY_SLUG[col] || col,
                     status:        'published',
                 });
             }
@@ -355,6 +530,206 @@ router.get('/my-articles', requireAuth, async (req, res) => {
     }
 });
 
+// GET /api/cms/browse-articles — catalog for proposing edits (grouped by collection)
+router.get('/browse-articles', requireAuth, async (req, res) => {
+    try {
+        const groups = [];
+        for (const col of ARTICLE_COLLECTIONS) {
+            const docs = await req.db.collection(col).find({}, {
+                projection: {
+                    _id: 0,
+                    articleId: 1,
+                    id: 1,
+                    sortOrder: 1,
+                    headline: 1,
+                    'languages.en.headline': 1,
+                    'languages.en.author.name': 1,
+                    author: 1,
+                },
+            }).sort({ sortOrder: -1 }).limit(400).toArray();
+
+            const articles = docs.map((doc) => {
+                const lang = doc.languages?.en || {};
+                return {
+                    id:          doc.articleId || doc.id,
+                    headline:    lang.headline || doc.headline || '(Untitled)',
+                    authorName:  lang.author?.name || doc.author?.name || '',
+                };
+            }).filter((a) => a.id);
+
+            groups.push({
+                collection:   col,
+                categorySlug: COLLECTION_TO_CATEGORY_SLUG[col] || col,
+                label:        COLLECTION_LABEL[col] || col,
+                articles,
+            });
+        }
+        res.json({ groups });
+    } catch (err) {
+        console.error('[cms] browse-articles:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// GET /api/cms/published-article/:collection/:articleId — EN fields + same-shape payload as public article API (read-only; Mongo unchanged)
+router.get('/published-article/:collection/:articleId', requireAuth, async (req, res) => {
+    try {
+        const { collection: col, articleId } = req.params;
+        if (!ARTICLE_COLLECTIONS.includes(col)) {
+            return res.status(400).json({ error: 'Invalid collection' });
+        }
+        const doc = await req.db.collection(col).findOne(findArticleFilter(articleId));
+        if (!doc) return res.status(404).json({ error: 'Article not found' });
+
+        const en = doc.languages?.en || {};
+        const headline = en.headline || doc.headline || '';
+        const content = en.content || doc.content || [];
+        const metaDescription = en.metaDescription || doc.metaDescription || '';
+        const imageRaw = en.image !== undefined ? en.image : doc.image;
+        const imageUrl = imageFieldToUrl(imageRaw);
+        const imageCaption = imageFieldCaption(imageRaw);
+        const publicView = buildPublicViewFromDoc(doc);
+        let availableLangs = ['en'];
+        if (doc.languages && typeof doc.languages === 'object') {
+            availableLangs = Object.keys(doc.languages);
+        }
+
+        res.json({
+            articleId: doc.articleId || doc.id,
+            collection: col,
+            categorySlug: COLLECTION_TO_CATEGORY_SLUG[col] || col,
+            headline,
+            content,
+            image: imageUrl,
+            imageCaption,
+            metaDescription,
+            authorName: getArticleAuthorName(doc),
+            publicView: publicView
+                ? { ...publicView, availableLangs }
+                : null,
+        });
+    } catch (err) {
+        console.error('[cms] published-article:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/cms/article-edit-requests
+router.post('/article-edit-requests', requireAuth, async (req, res) => {
+    try {
+        const { collection: collectionName, articleId, headline, content, image, imageCaption, metaDescription } = req.body;
+
+        if (!collectionName || !articleId || !headline) {
+            return res.status(400).json({ error: 'collection, articleId and headline are required' });
+        }
+        if (!ARTICLE_COLLECTIONS.includes(collectionName)) {
+            return res.status(400).json({ error: 'Invalid collection' });
+        }
+        if (!Array.isArray(content) || content.length === 0) {
+            return res.status(400).json({ error: 'content is required' });
+        }
+        const contentErr = validateArticleContentBlocks(content);
+        if (contentErr) return res.status(400).json({ error: contentErr });
+
+        const article = await req.db.collection(collectionName).findOne(findArticleFilter(String(articleId)));
+        if (!article) return res.status(404).json({ error: 'Article not found' });
+
+        const originalAuthorName = getArticleAuthorName(article);
+        const isOwnArticle = originalAuthorName.trim().toLowerCase() === String(req.cmsUser.name || '').trim().toLowerCase();
+
+        const dup = await req.db.collection('cms_article_edit_requests').findOne({
+            collectionName,
+            articleId: String(articleId),
+            submittedByEmail: req.cmsUser.email,
+            status: 'pending',
+        });
+        if (dup) {
+            return res.status(400).json({ error: 'You already have a pending edit request for this article.' });
+        }
+
+        const en = article.languages?.en || {};
+        const originalHeadline = en.headline || article.headline || '';
+
+        const imgExisting = en.image !== undefined ? en.image : article.image;
+        const proposedEn = {
+            headline: String(headline).trim(),
+            content,
+            image: image !== undefined && image !== null ? String(image) : imageFieldToUrl(imgExisting),
+            imageCaption: imageCaption !== undefined ? String(imageCaption) : imageFieldCaption(imgExisting),
+            metaDescription: metaDescription !== undefined ? String(metaDescription) : (en.metaDescription || article.metaDescription || ''),
+        };
+
+        const row = {
+            collectionName,
+            articleId: String(articleId),
+            originalHeadline,
+            originalAuthorName,
+            isOwnArticle,
+            proposedEn,
+            submittedByEmail: req.cmsUser.email,
+            submittedByName:  req.cmsUser.name,
+            status:             'pending',
+            submittedAt:      new Date().toISOString(),
+            reviewedAt:       null,
+            reviewNote:       null,
+        };
+
+        await req.db.collection('cms_article_edit_requests').insertOne(row);
+
+        sendEmailSafe({
+            from:    'CMS Notifications <contact@dollarsandlife.com>',
+            to:      ADMIN_EMAIL,
+            subject: `✏️ Article edit proposed: "${proposedEn.headline}"`,
+            html: `
+                <h2>Edit request</h2>
+                <p><strong>Proposed by:</strong> ${req.cmsUser.name} (${req.cmsUser.email})</p>
+                <p><strong>Collection:</strong> ${collectionName}</p>
+                <p><strong>Article ID:</strong> ${articleId}</p>
+                <p><strong>Original headline:</strong> ${originalHeadline}</p>
+                <br>
+                <a href="https://www.dollarsandlife.com/cms/admin?section=articles&queue=edits&status=pending" style="background:#700877;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;">
+                    Review in Admin →
+                </a>
+            `,
+        });
+
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('[cms] article-edit-requests POST:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// GET /api/cms/article-edit-requests — current user's requests
+router.get('/article-edit-requests', requireAuth, async (req, res) => {
+    try {
+        const selfOnly = req.query.selfOnly === '1' || req.query.selfOnly === 'true';
+        const q = { submittedByEmail: req.cmsUser.email };
+        if (selfOnly) q.isOwnArticle = true;
+
+        const rows = await req.db.collection('cms_article_edit_requests')
+            .find(q)
+            .sort({ submittedAt: -1 })
+            .limit(200)
+            .toArray();
+
+        res.json(rows.map((r) => ({
+            _id: r._id.toString(),
+            collectionName: r.collectionName,
+            articleId: r.articleId,
+            originalHeadline: r.originalHeadline,
+            proposedHeadline: r.proposedEn?.headline,
+            status: r.status,
+            submittedAt: r.submittedAt,
+            reviewedAt: r.reviewedAt,
+            reviewNote: r.reviewNote,
+            isOwnArticle: r.isOwnArticle,
+        })));
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // POST /api/cms/submit
 router.post('/submit', requireAuth, async (req, res) => {
     try {
@@ -366,15 +741,8 @@ router.post('/submit', requireAuth, async (req, res) => {
         if (!CATEGORY_MAP[category]) {
             return res.status(400).json({ error: 'Invalid category' });
         }
-        if (!Array.isArray(content) || content.length === 0) {
-            return res.status(400).json({ error: 'At least one content section is required' });
-        }
-        // Validate each section has at least text
-        for (const section of content) {
-            if (!section.text || section.text.trim().length < 50) {
-                return res.status(400).json({ error: 'Each section must have at least 50 characters of text' });
-            }
-        }
+        const contentErr = validateArticleContentBlocks(content);
+        if (contentErr) return res.status(400).json({ error: contentErr });
 
         const draft = {
             headline:       headline.trim(),
@@ -539,6 +907,185 @@ router.post('/reject/:id', requireAdmin, async (req, res) => {
 
         res.json({ ok: true });
     } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ADMIN — ARTICLE EDIT REQUESTS (existing articles)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// GET /api/cms/admin/article-edit-requests
+router.get('/admin/article-edit-requests', requireAdmin, async (req, res) => {
+    try {
+        const status = req.query.status === 'approved' || req.query.status === 'rejected' ? req.query.status : 'pending';
+        const rows = await req.db.collection('cms_article_edit_requests')
+            .find({ status })
+            .sort({ submittedAt: -1 })
+            .limit(300)
+            .toArray();
+        res.json(rows.map((r) => ({
+            _id: r._id.toString(),
+            collectionName: r.collectionName,
+            articleId: r.articleId,
+            originalHeadline: r.originalHeadline,
+            proposedHeadline: r.proposedEn?.headline,
+            submittedByName: r.submittedByName,
+            submittedByEmail: r.submittedByEmail,
+            isOwnArticle: r.isOwnArticle,
+            status: r.status,
+            submittedAt: r.submittedAt,
+            reviewedAt: r.reviewedAt,
+            reviewNote: r.reviewNote,
+        })));
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// GET /api/cms/admin/article-edit-requests/:id
+router.get('/admin/article-edit-requests/:id', requireAdmin, async (req, res) => {
+    try {
+        const row = await req.db.collection('cms_article_edit_requests').findOne({
+            _id: new ObjectId(req.params.id),
+        });
+        if (!row) return res.status(404).json({ error: 'Request not found' });
+        res.json({
+            ...row,
+            _id: row._id.toString(),
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/cms/admin/article-edit-requests/:id/approve
+router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req, res) => {
+    try {
+        const { reviewNote } = req.body;
+        const request = await req.db.collection('cms_article_edit_requests').findOne({
+            _id: new ObjectId(req.params.id),
+        });
+        if (!request) return res.status(404).json({ error: 'Request not found' });
+        if (request.status !== 'pending') return res.status(400).json({ error: 'Request is not pending' });
+
+        const col = request.collectionName;
+        if (!ARTICLE_COLLECTIONS.includes(col)) return res.status(400).json({ error: 'Invalid collection' });
+
+        const article = await req.db.collection(col).findOne(findArticleFilter(request.articleId));
+        if (!article) return res.status(404).json({ error: 'Article not found' });
+
+        const now = new Date().toISOString();
+        const p = request.proposedEn;
+        const lastEditedBy = {
+            name: request.submittedByName,
+            email: request.submittedByEmail,
+        };
+
+        if (article.languages && article.languages.en && typeof article.languages.en === 'object') {
+            const existingEn = article.languages.en;
+            const mergedEn = {
+                ...existingEn,
+                headline: p.headline,
+                content: p.content,
+                dateModified: now,
+                lastEditedBy,
+            };
+            const existingImg = existingEn.image !== undefined ? existingEn.image : article.image;
+            mergedEn.image = mergeArticleImageForApprove(p.image, p.imageCaption, existingImg);
+            if (p.metaDescription !== undefined) mergedEn.metaDescription = p.metaDescription;
+
+            await req.db.collection(col).updateOne(
+                findArticleFilter(request.articleId),
+                { $set: { 'languages.en': mergedEn } }
+            );
+        } else {
+            const $set = {
+                headline: p.headline,
+                content: p.content,
+                dateModified: now,
+                lastEditedBy,
+            };
+            $set.image = mergeArticleImageForApprove(p.image, p.imageCaption, article.image);
+            if (p.metaDescription !== undefined) $set.metaDescription = p.metaDescription;
+            await req.db.collection(col).updateOne(findArticleFilter(request.articleId), { $set });
+        }
+
+        await req.db.collection('cms_article_edit_requests').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: {
+                status: 'approved',
+                reviewedAt: now,
+                reviewNote: reviewNote || '',
+            } },
+        );
+
+        const cache = require('./cache');
+        cache.flush().catch(() => {});
+
+        sendEmailSafe({
+            from:    'Dollars & Life <contact@dollarsandlife.com>',
+            to:      request.submittedByEmail,
+            subject: `✅ Edit approved: "${p.headline}"`,
+            html: `
+                <h2>Your article edit was approved</h2>
+                <p>Hi ${request.submittedByName},</p>
+                <p>Your proposed changes to <strong>"${request.originalHeadline}"</strong> are now live.</p>
+                ${reviewNote ? `<p><strong>Note from editor:</strong> ${reviewNote}</p>` : ''}
+                <a href="https://www.dollarsandlife.com/cms/articles" style="background:#700877;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;">
+                    My Articles →
+                </a>
+            `,
+        });
+
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('[cms] approve article-edit-request:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/cms/admin/article-edit-requests/:id/reject
+router.post('/admin/article-edit-requests/:id/reject', requireAdmin, async (req, res) => {
+    try {
+        const { reviewNote } = req.body;
+        if (!reviewNote || !String(reviewNote).trim()) {
+            return res.status(400).json({ error: 'reviewNote is required' });
+        }
+        const request = await req.db.collection('cms_article_edit_requests').findOne({
+            _id: new ObjectId(req.params.id),
+        });
+        if (!request) return res.status(404).json({ error: 'Request not found' });
+        if (request.status !== 'pending') return res.status(400).json({ error: 'Request is not pending' });
+
+        const now = new Date().toISOString();
+        await req.db.collection('cms_article_edit_requests').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: {
+                status: 'rejected',
+                reviewedAt: now,
+                reviewNote: String(reviewNote).trim(),
+            } },
+        );
+
+        sendEmailSafe({
+            from:    'Dollars & Life <contact@dollarsandlife.com>',
+            to:      request.submittedByEmail,
+            subject: `📋 Edit not approved: "${request.proposedEn?.headline || request.originalHeadline}"`,
+            html: `
+                <h2>Your article edit was not approved</h2>
+                <p>Hi ${request.submittedByName},</p>
+                <p>Your proposed changes to <strong>"${request.originalHeadline}"</strong> were not merged.</p>
+                <p><strong>Feedback:</strong> ${String(reviewNote).trim()}</p>
+                <a href="https://www.dollarsandlife.com/cms/articles" style="background:#700877;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;">
+                    My Articles →
+                </a>
+            `,
+        });
+
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('[cms] reject article-edit-request:', err.message);
         res.status(500).json({ error: 'Server error' });
     }
 });
