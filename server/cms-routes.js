@@ -114,13 +114,18 @@ const ARTICLE_COLLECTIONS = Object.values(CATEGORY_MAP);
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        if (!email || !password) return res.status(400).json({ error: 'Email and password required' });
+        const normalizedEmail = String(email || '').toLowerCase().trim();
+        const rawPassword = String(password || '');
+        if (!normalizedEmail || !rawPassword) return res.status(400).json({ error: 'Email and password required' });
 
-        const author = await req.db.collection('authors').findOne({ email: email.toLowerCase().trim() });
+        const author = await req.db.collection('authors').findOne({ email: normalizedEmail });
         if (!author) return res.status(401).json({ error: 'Invalid credentials' });
         if (author.disabled) return res.status(403).json({ error: 'Account disabled' });
 
-        const valid = await bcrypt.compare(password, author.passwordHash || '');
+        // Allow accidental leading/trailing spaces from copied temp passwords.
+        const valid =
+            await bcrypt.compare(rawPassword, author.passwordHash || '') ||
+            (rawPassword !== rawPassword.trim() && await bcrypt.compare(rawPassword.trim(), author.passwordHash || ''));
         if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
 
         const payload = {
@@ -210,8 +215,13 @@ router.get('/profile', requireAuth, async (req, res) => {
 // PUT /api/cms/profile
 router.put('/profile', requireAuth, async (req, res) => {
     try {
-        const { bio, title, expertise, linkedin, achievements } = req.body;
+        const { name, bio, title, expertise, linkedin, achievements } = req.body;
         const update = { profileComplete: true };
+        if (name !== undefined) {
+            const nextName = String(name).trim();
+            if (!nextName) return res.status(400).json({ error: 'Display name cannot be empty' });
+            update.name = nextName;
+        }
         if (bio          !== undefined) update.bio               = bio;
         if (title        !== undefined) update.title             = title;
         if (expertise    !== undefined) update.expertise         = Array.isArray(expertise) ? expertise : [expertise];
@@ -219,6 +229,12 @@ router.put('/profile', requireAuth, async (req, res) => {
         if (achievements !== undefined) update.achievements      = achievements;
 
         await req.db.collection('authors').updateOne({ email: req.cmsUser.email }, { $set: update });
+        // Author pages are cached by /authors and /authors/:slug routes.
+        const cache = require('./cache');
+        await cache.flush().catch(() => {});
+        if (update.name) {
+            setTokenCookie(res, { ...req.cmsUser, name: update.name });
+        }
         res.json({ ok: true });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
@@ -507,19 +523,117 @@ router.get('/authors-list', requireAdmin, async (req, res) => {
     }
 });
 
+// GET /api/cms/authors-public-list (admin only)
+router.get('/authors-public-list', requireAdmin, async (req, res) => {
+    try {
+        const authors = await req.db.collection('authors')
+            .find({}, {
+                projection: {
+                    passwordHash: 0,
+                },
+            })
+            .sort({ joinedDate: 1, name: 1 })
+            .toArray();
+        res.json(authors);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// GET /api/cms/authors-public/:id (admin only)
+router.get('/authors-public/:id', requireAdmin, async (req, res) => {
+    try {
+        const author = await req.db.collection('authors').findOne(
+            { _id: new ObjectId(req.params.id) },
+            { projection: { passwordHash: 0 } }
+        );
+        if (!author) return res.status(404).json({ error: 'Author not found' });
+        res.json(author);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// PUT /api/cms/authors-public/:id (admin only)
+router.put('/authors-public/:id', requireAdmin, async (req, res) => {
+    try {
+        const { name, title, bio, achievements, expertise, linkedin, joinedDate, editedCount, active } = req.body;
+        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(req.params.id) });
+        if (!author) return res.status(404).json({ error: 'Author not found' });
+
+        const update = {};
+        if (name !== undefined) update.name = String(name).trim();
+        if (title !== undefined) update.title = String(title);
+        if (bio !== undefined) update.bio = String(bio);
+        if (achievements !== undefined) update.achievements = String(achievements);
+        if (expertise !== undefined) update.expertise = Array.isArray(expertise) ? expertise : [];
+        if (linkedin !== undefined) update['social.linkedin'] = String(linkedin || '');
+        if (joinedDate !== undefined) update.joinedDate = String(joinedDate || '');
+        if (editedCount !== undefined) update.editedCount = Number.isFinite(Number(editedCount)) ? Number(editedCount) : 0;
+        if (active !== undefined) update.active = Boolean(active);
+
+        if (name !== undefined) {
+            update.slug = String(name)
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        await req.db.collection('authors').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: update }
+        );
+        const cache = require('./cache');
+        await cache.flush().catch(() => {});
+
+        res.json({ ok: true });
+    } catch (err) {
+        if (err.code === 11000) return res.status(409).json({ error: 'Slug already exists' });
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// DELETE /api/cms/authors-public/:id (admin only)
+router.delete('/authors-public/:id', requireAdmin, async (req, res) => {
+    try {
+        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(req.params.id) });
+        if (!author) return res.status(404).json({ error: 'Author not found' });
+        if (author.role === 'admin') return res.status(400).json({ error: 'Admin accounts cannot be removed from Authors tab' });
+
+        // Authors tab "delete" should only remove public visibility, not delete account.
+        await req.db.collection('authors').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: { active: false } }
+        );
+        const cache = require('./cache');
+        await cache.flush().catch(() => {});
+        res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // POST /api/cms/add-author (admin only)
 router.post('/add-author', requireAdmin, async (req, res) => {
     try {
         const { name, email, tempPassword } = req.body;
-        if (!name || !email || !tempPassword) return res.status(400).json({ error: 'name, email and tempPassword required' });
+        const normalizedName = String(name || '').trim();
+        const normalizedEmail = String(email || '').toLowerCase().trim();
+        const normalizedTempPassword = String(tempPassword || '').trim();
+        if (!normalizedName || !normalizedEmail || !normalizedTempPassword) {
+            return res.status(400).json({ error: 'name, email and tempPassword required' });
+        }
+        if (normalizedTempPassword.length < 8) {
+            return res.status(400).json({ error: 'tempPassword must be at least 8 characters' });
+        }
 
-        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-        const passwordHash = await bcrypt.hash(tempPassword, 12);
+        const slug = normalizedName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        const passwordHash = await bcrypt.hash(normalizedTempPassword, 12);
 
         await req.db.collection('authors').insertOne({
             slug,
-            name,
-            email: email.toLowerCase().trim(),
+            name: normalizedName,
+            email: normalizedEmail,
             passwordHash,
             title: 'Contributor',
             bio: '',
@@ -539,13 +653,13 @@ router.post('/add-author', requireAdmin, async (req, res) => {
         // Send welcome email to new author
         resend.emails.send({
             from:    'Dollars & Life <contact@dollarsandlife.com>',
-            to:      email,
+            to:      normalizedEmail,
             subject: 'Welcome to Dollars & Life — Your contributor account is ready',
             html: `
-                <h2>Welcome to Dollars & Life, ${name}!</h2>
+                <h2>Welcome to Dollars & Life, ${normalizedName}!</h2>
                 <p>Your contributor account has been created. Here are your login details:</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Temporary password:</strong> ${tempPassword}</p>
+                <p><strong>Email:</strong> ${normalizedEmail}</p>
+                <p><strong>Temporary password:</strong> ${normalizedTempPassword}</p>
                 <p>You will be asked to change your password on first login.</p>
                 <br>
                 <a href="https://www.dollarsandlife.com/cms/login" style="background:#700877;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;">
@@ -605,9 +719,14 @@ router.delete('/authors/:id', requireAdmin, async (req, res) => {
         const author = await req.db.collection('authors').findOne({ _id: new ObjectId(id) });
         if (!author) return res.status(404).json({ error: 'Author not found' });
         if (author.email === req.cmsUser.email) return res.status(400).json({ error: 'You cannot delete your own account' });
+        if (author.role === 'admin') return res.status(400).json({ error: 'Admin accounts cannot be revoked' });
 
-        await req.db.collection('authors').deleteOne({ _id: new ObjectId(id) });
-        res.json({ ok: true });
+        // Contributors tab "delete" should revoke CMS access, not erase author data.
+        await req.db.collection('authors').updateOne(
+            { _id: new ObjectId(id) },
+            { $set: { disabled: true } }
+        );
+        res.json({ ok: true, revoked: true });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }

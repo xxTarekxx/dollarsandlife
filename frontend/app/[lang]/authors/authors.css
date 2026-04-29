@@ -360,8 +360,10 @@
 }
 
 .author-social-link:hover {
-  opacity: 0.88;
+  opacity: 1;
   transform: translateY(-1px);
+  color: #fff;
+  background: linear-gradient(90deg, #5f0665 0%, #e61f52 100%);
 }
 
 /* ── Stats bar ───────────────────────────────────────── */
@@ -404,6 +406,31 @@
   color: #9a9ab0;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+/* ── Achievements section ─────────────────────────────── */
+.author-achievements-section {
+  margin-bottom: 2rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(112, 8, 119, 0.16);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.author-achievements-heading {
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.author-achievements-text {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #4f4f69;
+  white-space: pre-line;
 }
 
 /* ── Articles section ────────────────────────────────── */
