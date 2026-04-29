@@ -36,14 +36,16 @@ export default function AuthorsClient({ authors, error }: Props) {
       <div className="authors-grid">
         {authors.map((author) => (
           <Link key={author.slug} href={`/authors/${author.slug}`} className="author-card">
-            <Image
-              src={author.image || "/images/authors/placeholder.webp"}
-              alt={author.name}
-              width={80}
-              height={80}
-              className="author-card-image"
-              unoptimized
-            />
+            <div className="author-card-image-wrap">
+              <Image
+                src={author.image || "/images/authors/placeholder.webp"}
+                alt={author.name}
+                width={320}
+                height={220}
+                className="author-card-image"
+                unoptimized
+              />
+            </div>
             <div className="author-card-body">
               <h2 className="author-card-name">{author.name}</h2>
               <span className="author-card-title">{author.title}</span>
