@@ -55,9 +55,21 @@ export default function AuthorsClient({ authors, error }: Props) {
                   ))}
                 </div>
               )}
-              <span className="author-card-count">
-                {author.articleCount} {author.articleCount === 1 ? "article" : "articles"} published
-              </span>
+              <div className="author-card-stats">
+                <span className="author-card-count">
+                  Published: {author.articleCount}
+                </span>
+                {typeof author.editedCount === "number" && author.editedCount > 0 && (
+                  <span className="author-card-count">
+                    Edits: {author.editedCount}
+                  </span>
+                )}
+                {author.joinedDate && (
+                  <span className="author-card-count">
+                    Contributing since: {new Date(author.joinedDate).getFullYear()}
+                  </span>
+                )}
+              </div>
             </div>
           </Link>
         ))}

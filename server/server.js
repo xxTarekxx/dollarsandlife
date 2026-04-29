@@ -8,6 +8,10 @@ const rateLimit = require('express-rate-limit');
 const { MongoClient } = require('mongodb');
 const cache = require('./cache');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+// In local dev, .env.local overrides (e.g. CMS_UPLOAD_DIR → frontend/public/images)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__dirname, '.env.local'), override: true });
+}
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -27,7 +31,11 @@ async function connectDB() {
     return dbInstance;
 }
 
-app.use(cors());
+const ALLOWED_ORIGINS = process.env.NODE_ENV === 'production'
+    ? ['https://www.dollarsandlife.com', 'https://dollarsandlife.com']
+    : ['http://localhost:3000', 'http://127.0.0.1:3000'];
+
+app.use(cors({ origin: ALLOWED_ORIGINS, credentials: true }));
 app.use(express.json());
 
 // Create rate limiter for frontend routes
@@ -60,8 +68,10 @@ app.use(async (req, res, next) => {
 });
 
 // API routes
-const routes = require('./routes.js');
+const routes    = require('./routes.js');
+const cmsRoutes = require('./cms-routes.js');
 app.use('/api', routes);
+app.use('/api/cms', cmsRoutes);
 
 // Serve static files only from ./public — never the project root (avoids exposing .env, routes.js, etc.)
 const staticRoot = path.join(__dirname, 'public');

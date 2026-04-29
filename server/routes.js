@@ -491,8 +491,10 @@ router.get('/authors', generalLimiter, async (req, res) => {
             }))
         );
 
-        cache.set(key, withCounts, TTL_LIST).catch(() => {});
-        return sendWithCache(res, withCounts, TTL_LIST, false);
+        const visibleAuthors = withCounts.filter((author) => author.articleCount > 0);
+
+        cache.set(key, visibleAuthors, TTL_LIST).catch(() => {});
+        return sendWithCache(res, visibleAuthors, TTL_LIST, false);
     } catch (err) {
         console.error('[routes] GET /authors error:', err.message);
         res.status(500).json({ error: 'Internal server error' });
