@@ -406,4 +406,130 @@ router.post('/fix-normalize-ids-lowercase', strictLimiter, async (req, res) => {
     }
 });
 
+// ── Authors ───────────────────────────────────────────────────────────────────
+const ARTICLE_COLLECTIONS = [
+    'breaking_news', 'budget_data', 'freelance_jobs',
+    'money_making_apps', 'remote_jobs', 'start_a_blog',
+];
+
+async function countArticlesByAuthor(db, authorName) {
+    const counts = await Promise.all(
+        ARTICLE_COLLECTIONS.map(col =>
+            db.collection(col).countDocuments({
+                $or: [
+                    { 'author.name': authorName },
+                    { 'languages.en.author.name': authorName },
+                ],
+            }, { maxTimeMS: 5000 }).catch(() => 0)
+        )
+    );
+    return counts.reduce((sum, n) => sum + n, 0);
+}
+
+async function getArticlesByAuthor(db, authorName) {
+    const results = [];
+    for (const col of ARTICLE_COLLECTIONS) {
+        const docs = await db.collection(col).find({
+            $or: [
+                { 'author.name': authorName },
+                { 'languages.en.author.name': authorName },
+            ],
+        }, {
+            projection: {
+                _id: 0,
+                articleId: 1,
+                id: 1,
+                headline: 1,
+                image: 1,
+                datePublished: 1,
+                'languages.en.headline': 1,
+                'languages.en.image': 1,
+                'languages.en.datePublished': 1,
+                'languages.en.content': { $slice: 1 },
+                content: { $slice: 1 },
+            },
+        }).maxTimeMS(5000).toArray().catch(() => []);
+
+        for (const doc of docs) {
+            const lang = doc.languages?.en || {};
+            const contentArr = lang.content || doc.content || [];
+            const rawText = contentArr[0]?.text || '';
+            const excerpt = rawText.replace(/<[^>]+>/g, '').slice(0, 160).trim();
+            results.push({
+                id: doc.articleId || doc.id,
+                headline: lang.headline || doc.headline,
+                image: lang.image || doc.image,
+                datePublished: lang.datePublished || doc.datePublished,
+                excerpt,
+                collection: col,
+            });
+        }
+    }
+    return results.sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished));
+}
+
+// GET /api/authors — list all active authors
+router.get('/authors', generalLimiter, async (req, res) => {
+    try {
+        const db = req.db;
+        if (!db) return res.status(503).json({ error: 'Database not available' });
+
+        const key = cacheKey('/authors');
+        const cached = await cache.get(key);
+        if (cached !== null) return sendWithCache(res, cached, TTL_LIST, true);
+
+        const authors = await db.collection('authors')
+            .find({ active: true }, { projection: { _id: 0, passwordHash: 0, email: 0 } })
+            .sort({ joinedDate: 1 })
+            .maxTimeMS(5000)
+            .toArray();
+
+        const withCounts = await Promise.all(
+            authors.map(async (a) => ({
+                ...a,
+                articleCount: await countArticlesByAuthor(db, a.name),
+            }))
+        );
+
+        cache.set(key, withCounts, TTL_LIST).catch(() => {});
+        return sendWithCache(res, withCounts, TTL_LIST, false);
+    } catch (err) {
+        console.error('[routes] GET /authors error:', err.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// GET /api/authors/:slug — single author + their articles
+router.get('/authors/:slug', strictLimiter, async (req, res) => {
+    try {
+        const db = req.db;
+        if (!db) return res.status(503).json({ error: 'Database not available' });
+
+        const { slug } = req.params;
+        if (!isValidId(slug)) return res.status(400).json({ error: 'Invalid slug' });
+
+        const key = cacheKey(`/authors/${slug}`);
+        const cached = await cache.get(key);
+        if (cached !== null) return sendWithCache(res, cached, TTL_ARTICLE, true);
+
+        const author = await db.collection('authors').findOne(
+            { slug, active: true },
+            { projection: { _id: 0, passwordHash: 0, email: 0 } }
+        );
+        if (!author) return res.status(404).json({ error: 'Author not found' });
+
+        const [articles, articleCount] = await Promise.all([
+            getArticlesByAuthor(db, author.name),
+            countArticlesByAuthor(db, author.name),
+        ]);
+
+        const result = { ...author, articleCount, articles };
+        cache.set(key, result, TTL_ARTICLE).catch(() => {});
+        return sendWithCache(res, result, TTL_ARTICLE, false);
+    } catch (err) {
+        console.error('[routes] GET /authors/:slug error:', err.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 module.exports = router;
