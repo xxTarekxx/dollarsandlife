@@ -4,7 +4,7 @@
 // Browser base:
 // - local dev: allow explicit localhost API base from env
 // - production: force same-origin /api (avoids accidentally shipping localhost)
-const BASE = (() => {
+export function getCmsApiBase(): string {
   if (typeof window === "undefined") {
     return process.env.NEXT_PUBLIC_REACT_APP_API_BASE || "https://www.dollarsandlife.com/api";
   }
@@ -13,7 +13,22 @@ const BASE = (() => {
     return process.env.NEXT_PUBLIC_REACT_APP_API_BASE;
   }
   return "/api";
-})();
+}
+
+const BASE = getCmsApiBase();
+
+/** Uploaded article/author images live on the API host in dev (`/images/...`), not on the Next dev server — use this for `<img src>`. */
+export function resolveUploadedMediaUrl(path: string): string {
+  if (!path || /^https?:\/\//i.test(path)) return path;
+  if (!path.startsWith("/")) return path;
+  if (typeof window === "undefined") return path;
+  const apiBase = getCmsApiBase();
+  if (apiBase.startsWith("http://") || apiBase.startsWith("https://")) {
+    const origin = apiBase.replace(/\/api\/?$/i, "");
+    return `${origin}${path}`;
+  }
+  return `${window.location.origin}${path}`;
+}
 
 export async function cmsApi(
   path: string,

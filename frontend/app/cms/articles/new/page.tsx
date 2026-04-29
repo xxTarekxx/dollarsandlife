@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { cmsGet, cmsPost, cmsUpload } from "@/lib/cmsApi";
+import { cmsGet, cmsPost, cmsUpload, resolveUploadedMediaUrl } from "@/lib/cmsApi";
 import CmsNav from "../../CmsNav";
+import "@components/articles-content/BlogPostContent.css";
 
 /* ── Types ───────────────────────────────────────────────────────────────────── */
-type BlockType = "paragraph" | "heading" | "subheading" | "quote" | "list";
+type BlockType = "paragraph" | "heading" | "subheading" | "quote" | "list" | "authority" | "stats";
 
 interface Block {
   id: string;
@@ -29,9 +30,45 @@ const BLOCK_LABELS: Record<BlockType, string> = {
   subheading: "Subheading (H3)",
   quote:      "Pull Quote",
   list:       "Bullet List",
+  authority:  "Authority links",
+  stats:      "Stats",
 };
 
 function uid() { return Math.random().toString(36).slice(2); }
+
+function linesToStringOrArray(text: string): string | string[] {
+  const lines = text.split("\n").map((s) => s.trim()).filter(Boolean);
+  if (lines.length === 0) return "";
+  if (lines.length === 1) return lines[0]!;
+  return lines;
+}
+
+function blockToSubmitSection(b: Block): Record<string, unknown> | null {
+  if (b.type === "authority") {
+    const v = linesToStringOrArray(b.text);
+    if (typeof v === "string" && !v.trim()) return null;
+    if (Array.isArray(v) && v.length === 0) return null;
+    return { authorityLinks: v };
+  }
+  if (b.type === "stats") {
+    const v = linesToStringOrArray(b.text);
+    if (typeof v === "string" && !v.trim()) return null;
+    if (Array.isArray(v) && v.length === 0) return null;
+    return { stats: v };
+  }
+  if (b.type === "list") {
+    const items = b.items?.filter((i) => i.trim()) || [];
+    if (!items.length) return null;
+    return { type: "list", items };
+  }
+  return { type: b.type, text: b.text };
+}
+
+function blockHasBody(b: Block): boolean {
+  if (b.type === "list") return Boolean(b.items?.some((i) => i.trim()));
+  if (b.type === "authority" || b.type === "stats") return Boolean(b.text.trim());
+  return Boolean(b.text.trim());
+}
 
 /* ── Component ───────────────────────────────────────────────────────────────── */
 export default function NewArticle() {
@@ -120,17 +157,13 @@ export default function NewArticle() {
     setError(""); setSuccess("");
 
     if (!imageUrl) { setError("Please upload a cover image."); return; }
-    if (blocks.every(b => !b.text.trim() && !(b.items?.some(i => i.trim())))) {
+    if (!blocks.some(blockHasBody)) {
       setError("Article body cannot be empty."); return;
     }
 
-    // Build content array matching site structure
-    const content = blocks.map(b => {
-      if (b.type === "list") {
-        return { type: "list", items: b.items?.filter(i => i.trim()) || [] };
-      }
-      return { type: b.type, text: b.text };
-    }).filter(b => (b as { text?: string }).text?.trim() || (b as { items?: string[] }).items?.length);
+    const content = blocks
+      .map(blockToSubmitSection)
+      .filter((s): s is Record<string, unknown> => s != null);
 
     setSubmitting(true);
     try {
@@ -194,7 +227,7 @@ export default function NewArticle() {
               onChange={e => { if (e.target.files?.[0]) uploadImage(e.target.files[0]); }} />
             {imageUrl ? (
               <div>
-                <Image src={imageUrl} alt={imageAlt || "Cover"} width={800} height={300}
+                <Image src={resolveUploadedMediaUrl(imageUrl)} alt={imageAlt || "Cover"} width={800} height={300}
                   className="cms-image-preview" unoptimized />
                 <div className="cms-field" style={{ marginTop: "0.75rem" }}>
                   <label className="cms-label">Image Alt Text</label>
@@ -248,6 +281,26 @@ export default function NewArticle() {
                       </div>
                     ))}
                     <button type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={() => addListItem(block.id)}>+ Add item</button>
+                  </div>
+                ) : block.type === "authority" ? (
+                  <div className="authority-link">
+                    <textarea
+                      className="cms-textarea"
+                      rows={5}
+                      value={block.text}
+                      onChange={(e) => updateBlock(block.id, { text: e.target.value })}
+                      placeholder="Links or HTML (one per line)"
+                    />
+                  </div>
+                ) : block.type === "stats" ? (
+                  <div className="stats">
+                    <textarea
+                      className="cms-textarea"
+                      rows={4}
+                      value={block.text}
+                      onChange={(e) => updateBlock(block.id, { text: e.target.value })}
+                      placeholder="Stats (one per line, or HTML)"
+                    />
                   </div>
                 ) : (
                   <textarea

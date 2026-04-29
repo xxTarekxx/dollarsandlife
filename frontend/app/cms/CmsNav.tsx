@@ -38,6 +38,9 @@ export default function CmsNav({ userName, role }: Props) {
         <Link href="/cms/articles" className={`cms-nav-link ${currentPath.startsWith("/cms/articles") ? "active" : ""}`}>
           My Articles
         </Link>
+        <Link href="/cms/other-articles" className={`cms-nav-link ${currentPath.startsWith("/cms/other-articles") ? "active" : ""}`}>
+          Other Articles
+        </Link>
       </div>
 
       <div className="cms-nav-right">
