@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
       };
     }
-  } catch (_) {
+  } catch {
     // metadata fetch failed — return fallback
   }
   return { title: "Author | Dollars & Life" };

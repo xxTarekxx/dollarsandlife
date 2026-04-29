@@ -29,7 +29,8 @@ interface Draft {
 interface Me { name: string; role: string; }
 
 export default function ReviewDraft() {
-  const { id }   = useParams<{ id: string }>();
+  const params = useParams<{ id?: string | string[] }>();
+  const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
   const router   = useRouter();
 
   const [me,      setMe]      = useState<Me | null>(null);
@@ -41,6 +42,10 @@ export default function ReviewDraft() {
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
+    if (!id) {
+      router.push("/cms/admin");
+      return;
+    }
     Promise.all([cmsGet("/me"), cmsGet(`/drafts/${id}`)])
       .then(([user, d]) => {
         if (user.role !== "admin") { router.push("/cms/dashboard"); return; }

@@ -13,7 +13,7 @@ interface Article {
   datePublished: string;
   image?: string;
   source?: "published" | "draft";
-  status?: "pending" | "approved" | "rejected";
+  status?: "published" | "pending" | "approved" | "rejected";
   reviewNote?: string;
 }
 
@@ -36,7 +36,10 @@ export default function MyArticles() {
     ]).then(([user, arts]) => {
       setMe(user);
       setArticles(arts);
-    }).catch(() => router.push("/cms/login"))
+    }).catch(() => {
+      setError("Failed to load articles.");
+      router.push("/cms/login");
+    })
       .finally(() => setLoading(false));
   }, [router]);
 

@@ -13,6 +13,7 @@ interface Props {
 export default function CmsNav({ userName, role }: Props) {
   const pathname = usePathname();
   const router   = useRouter();
+  const currentPath = pathname || "";
 
   async function logout() {
     await cmsPost("/logout", {});
@@ -27,14 +28,14 @@ export default function CmsNav({ userName, role }: Props) {
 
       <div className="cms-nav-links">
         {role === "admin" && (
-          <Link href="/cms/admin" className={`cms-nav-link ${pathname.startsWith("/cms/admin") ? "active" : ""}`}>
+          <Link href="/cms/admin" className={`cms-nav-link ${currentPath.startsWith("/cms/admin") ? "active" : ""}`}>
             Admin
           </Link>
         )}
-        <Link href="/cms/dashboard" className={`cms-nav-link ${pathname === "/cms/dashboard" ? "active" : ""}`}>
+        <Link href="/cms/dashboard" className={`cms-nav-link ${currentPath === "/cms/dashboard" ? "active" : ""}`}>
           My Profile
         </Link>
-        <Link href="/cms/articles" className={`cms-nav-link ${pathname.startsWith("/cms/articles") ? "active" : ""}`}>
+        <Link href="/cms/articles" className={`cms-nav-link ${currentPath.startsWith("/cms/articles") ? "active" : ""}`}>
           My Articles
         </Link>
       </div>
