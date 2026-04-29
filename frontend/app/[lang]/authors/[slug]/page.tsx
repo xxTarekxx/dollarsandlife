@@ -9,7 +9,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const res = await fetchInternal(`/authors/${slug}`);
+    const res = await fetchInternal(`/authors/${slug}`, 15_000, { revalidate: 60 });
     if (res.ok) {
       const author = await res.json();
       return {
@@ -35,7 +35,7 @@ export default async function AuthorPage({ params }: PageProps) {
   let error: string | undefined;
 
   try {
-    const res = await fetchInternal(`/authors/${slug}`);
+    const res = await fetchInternal(`/authors/${slug}`, 15_000, { revalidate: 60 });
     if (res.ok) {
       author = await res.json();
     } else if (res.status === 404) {

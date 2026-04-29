@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { cmsGet, cmsPut, cmsUpload } from "@/lib/cmsApi";
-import { FORUM_TAGS, normalizeForumTag } from "../../../src/data/forumTags";
+import { FORUM_TAGS } from "../../../src/data/forumTags";
+import tagColors from "../../../src/utils/tagColors";
 import CmsNav from "../CmsNav";
 
 interface Author {
@@ -30,7 +31,6 @@ export default function Dashboard() {
   const [bio, setBio] = useState("");
   const [achievements, setAchievements] = useState("");
   const [linkedin, setLinkedin] = useState("");
-  const [expertiseInput, setExpertiseInput] = useState("");
   const [expertise, setExpertise] = useState<string[]>([]);
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -51,16 +51,6 @@ export default function Dashboard() {
       setImageUrl(data.image || "");
     }).catch(() => router.push("/cms/login"));
   }, [router]);
-
-  function addTag() {
-    const tag = normalizeForumTag(expertiseInput);
-    if (!tag) {
-      setError("Use one of the forum tags (budgeting, saving, investing, etc).");
-      return;
-    }
-    if (!expertise.includes(tag)) setExpertise((prev) => [...prev, tag]);
-    setExpertiseInput("");
-  }
 
   async function uploadImage(file: File) {
     setUploading(true);
@@ -164,32 +154,16 @@ export default function Dashboard() {
                       }
                     }}
                     style={{
-                      border: expertise.includes(tag) ? "1px solid #700877" : undefined,
-                      background: expertise.includes(tag) ? "#f2e7f8" : undefined,
+                      background: expertise.includes(tag) ? (tagColors[tag]?.bg || "#f2e7f8") : undefined,
+                      color: expertise.includes(tag) ? (tagColors[tag]?.text || "#fff") : undefined,
+                      border: expertise.includes(tag) ? "1px solid transparent" : undefined,
                       cursor: "pointer",
+                      opacity: expertise.includes(tag) ? 1 : 0.9,
                     }}
                   >
                     {tag}
                   </button>
                 ))}
-              </div>
-              <div className="cms-tags">
-                {expertise.map((tag) => (
-                  <span key={tag} className="cms-tag">
-                    {tag}
-                    <button type="button" className="cms-tag-remove" onClick={() => setExpertise((p) => p.filter((t) => t !== tag))}>x</button>
-                  </span>
-                ))}
-              </div>
-              <div className="cms-dashboard-inline">
-                <input
-                  className="cms-input"
-                  value={expertiseInput}
-                  onChange={(e) => setExpertiseInput(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
-                  placeholder="e.g. budgeting, investing"
-                />
-                <button type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={addTag}>Add</button>
               </div>
             </div>
 

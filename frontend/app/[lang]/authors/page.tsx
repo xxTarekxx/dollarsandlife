@@ -21,7 +21,7 @@ export default async function AuthorsPage() {
   let error: string | undefined;
 
   try {
-    const res = await fetchInternal("/authors");
+    const res = await fetchInternal("/authors", 15_000, { revalidate: 60 });
     if (res.ok) {
       authors = await res.json();
     } else {
