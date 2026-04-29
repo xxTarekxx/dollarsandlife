@@ -1,12 +1,19 @@
 /**
  * CMS API helper — all fetch calls go directly to Express with credentials (cookies).
  */
-// Browser should always call same-origin /api (avoids accidentally shipping localhost).
-// Server-side fallback still supports explicit env-based API URL.
-const BASE =
-  typeof window !== "undefined"
-    ? "/api"
-    : (process.env.NEXT_PUBLIC_REACT_APP_API_BASE || "https://www.dollarsandlife.com/api");
+// Browser base:
+// - local dev: allow explicit localhost API base from env
+// - production: force same-origin /api (avoids accidentally shipping localhost)
+const BASE = (() => {
+  if (typeof window === "undefined") {
+    return process.env.NEXT_PUBLIC_REACT_APP_API_BASE || "https://www.dollarsandlife.com/api";
+  }
+  const host = window.location.hostname;
+  if ((host === "localhost" || host === "127.0.0.1") && process.env.NEXT_PUBLIC_REACT_APP_API_BASE) {
+    return process.env.NEXT_PUBLIC_REACT_APP_API_BASE;
+  }
+  return "/api";
+})();
 
 export async function cmsApi(
   path: string,

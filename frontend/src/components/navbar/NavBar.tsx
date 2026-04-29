@@ -110,6 +110,7 @@ const NavBar: React.FC<{ lang?: string; labels?: NavLabels }> = ({ lang, labels 
 		{ to: "/start-a-blog", text: labels?.startABlog ?? "Start A Blog" },
 		{ to: "/breaking-news", text: labels?.breakingNews ?? "Breaking News" },
 		{ to: "/financial-calculators", text: labels?.financialCalculators ?? "Financial Calculators" },
+		{ to: "/authors", text: "Authors" },
 		{ to: "/about-us", text: labels?.aboutUs ?? "About Us" },
 	];
 

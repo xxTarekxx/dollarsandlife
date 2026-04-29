@@ -635,13 +635,10 @@ router.delete('/authors-public/:id', requireAdmin, async (req, res) => {
     try {
         const author = await req.db.collection('authors').findOne({ _id: new ObjectId(req.params.id) });
         if (!author) return res.status(404).json({ error: 'Author not found' });
-        if (author.role === 'admin') return res.status(400).json({ error: 'Admin accounts cannot be removed from Authors tab' });
+        if (author.role === 'admin') return res.status(400).json({ error: 'Admin accounts cannot be deleted from Authors tab' });
 
-        // Authors tab "delete" should only remove public visibility, not delete account.
-        await req.db.collection('authors').updateOne(
-            { _id: new ObjectId(req.params.id) },
-            { $set: { active: false } }
-        );
+        // Authors tab "Delete Author" now permanently deletes from DB.
+        await req.db.collection('authors').deleteOne({ _id: new ObjectId(req.params.id) });
         const cache = require('./cache');
         await cache.flush().catch(() => {});
         res.json({ ok: true });

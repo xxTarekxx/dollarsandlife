@@ -88,7 +88,7 @@ export default function MyArticles() {
           </div>
         </div>
 
-          <div className="cms-articles-section">
+        <div className="cms-articles-section">
           <div className="cms-card-title">Submitted Drafts</div>
           {drafts.length === 0 ? (
             <div className="cms-articles-empty">
