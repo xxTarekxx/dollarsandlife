@@ -550,8 +550,29 @@ function AuthorEditor({
     }
   }
 
+  async function setAuthorVisibility(nextActive: boolean) {
+    setLoading(true);
+    setError("");
+    setSuccess("");
+    try {
+      const res = await cmsPut(`/authors-public/${author._id}`, { active: nextActive });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Update failed");
+        return;
+      }
+      setActive(nextActive);
+      setSuccess(nextActive ? "Author shown on /authors." : "Author hidden from /authors.");
+      await onSaved();
+    } catch {
+      setError("Network error.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function removeAuthor() {
-    const confirmed = window.confirm("Remove this author card from /authors? Contributor account will be kept.");
+    const confirmed = window.confirm("Delete this author from DB permanently?");
     if (!confirmed) return;
     setDeleting(true);
     setError("");
@@ -610,17 +631,26 @@ function AuthorEditor({
           <label className="cms-label">Edits Count</label>
           <input className="cms-input" type="number" min="0" value={editedCount} onChange={(e) => setEditedCount(e.target.value)} />
         </div>
-        <div className="cms-field">
-          <label className="cms-label">Public Visibility</label>
-          <select className="cms-select" value={active ? "live" : "hidden"} onChange={(e) => setActive(e.target.value === "live")}>
-            <option value="live">Live on /authors</option>
-            <option value="hidden">Hidden from /authors</option>
-          </select>
-        </div>
       </div>
       <div style={{ display: "flex", gap: "0.75rem" }}>
+        <button
+          className="cms-btn cms-btn-secondary"
+          type="button"
+          onClick={() => setAuthorVisibility(false)}
+          disabled={deleting || loading || !active}
+        >
+          Hide From Authors Page
+        </button>
+        <button
+          className="cms-btn cms-btn-secondary"
+          type="button"
+          onClick={() => setAuthorVisibility(true)}
+          disabled={deleting || loading || active}
+        >
+          Show On Authors Page
+        </button>
         <button className="cms-btn cms-btn-danger" type="button" onClick={removeAuthor} disabled={deleting || loading}>
-          {deleting ? "Removing..." : "Remove From Authors Page"}
+          {deleting ? "Deleting..." : "Delete Author"}
         </button>
         <button className="cms-btn cms-btn-primary" type="submit" disabled={loading || deleting}>
           {loading ? "Saving..." : "Save Author"}
