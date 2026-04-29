@@ -3,7 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"predev": "node scripts/generate-content-language-manifest.cjs",
+		"predev": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && node scripts/generate-content-language-manifest.cjs",
 		"prebuild": "node scripts/generate-content-language-manifest.cjs",
 		"dev": "node node_modules/next/dist/bin/next dev",
 		"build": "node node_modules/next/dist/bin/next build && node sitemap-generator/mongo-generate-sitemap.cjs",

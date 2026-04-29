@@ -30,6 +30,7 @@ interface Author {
   name: string;
   title: string;
   bio: string;
+  achievements?: string;
   image: string;
   expertise: string[];
   social: { linkedin?: string };
@@ -120,6 +121,13 @@ export default function AuthorProfileClient({ author, error }: Props) {
           </div>
         )}
       </div>
+
+      {author.achievements?.trim() && (
+        <section className="author-achievements-section" aria-label="Previous achievements">
+          <h2 className="author-achievements-heading">Previous Achievements</h2>
+          <p className="author-achievements-text">{author.achievements}</p>
+        </section>
+      )}
 
       {/* ── Articles ── */}
       {author.articles?.length > 0 && (
