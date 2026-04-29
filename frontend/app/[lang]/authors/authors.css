@@ -215,6 +215,13 @@
   margin-top: 0.2rem;
 }
 
+.author-card-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.2rem;
+}
+
 .authors-error {
   text-align: center;
   color: #cc2244;
