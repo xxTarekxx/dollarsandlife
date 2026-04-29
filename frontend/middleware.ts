@@ -18,6 +18,25 @@ const LOCALE_COOKIE = "NEXT_LOCALE";
  */
 const AUTH_BYPASS_PREFIXES = ["/auth", "/forgot-password", "/new-password"];
 
+// ── CMS auth ──────────────────────────────────────────────────────────────────
+async function handleCms(request: NextRequest): Promise<NextResponse> {
+	const { pathname } = request.nextUrl;
+
+	const token = request.cookies.get("cms_token")?.value;
+
+	// Pages that are always accessible (no token required)
+	if (pathname === "/cms/login" || pathname === "/cms/change-password") {
+		return NextResponse.next();
+	}
+
+	// All other CMS pages require a valid token
+	if (!token) {
+		return NextResponse.redirect(new URL("/cms/login", request.url));
+	}
+
+	return NextResponse.next();
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────────────────────────────────────
@@ -68,8 +87,13 @@ function mapAcceptLanguageToLocale(acceptLang: string | null): string {
 // MIDDLEWARE
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
+
+	// ── CMS routes — handle auth, skip i18n entirely ──────────────────────────
+	if (pathname.startsWith("/cms")) {
+		return handleCms(request);
+	}
 
 	// ── Skip static assets, API routes, and known file paths ──────────────────
 	// These should never be redirected or have language prefixes injected.

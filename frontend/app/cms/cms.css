@@ -1,0 +1,507 @@
+/* ── CMS Shell ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.cms-body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f3f0fb;
+  color: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* ── Top nav ────────────────────────────────────────────────────────────────── */
+.cms-nav {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.cms-nav-brand {
+  font-weight: 800;
+  font-size: 1rem;
+  color: #700877;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cms-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.cms-nav-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #5a5a72;
+  text-decoration: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cms-nav-link:hover,
+.cms-nav-link.active {
+  background: #f3f0fb;
+  color: #700877;
+}
+
+.cms-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cms-nav-user {
+  font-size: 0.82rem;
+  color: #9a9ab0;
+}
+
+.cms-btn-logout {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #700877;
+  background: none;
+  border: 1.5px solid #700877;
+  border-radius: 8px;
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cms-btn-logout:hover {
+  background: #700877;
+  color: #fff;
+}
+
+/* ── Page wrapper ───────────────────────────────────────────────────────────── */
+.cms-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.cms-page-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Auth pages (login / change-password) ─────────────────────────────────── */
+.cms-auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.cms-auth-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 32px rgba(112, 8, 119, 0.1);
+}
+
+.cms-auth-logo {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #700877;
+  margin-bottom: 0.4rem;
+}
+
+.cms-auth-sub {
+  text-align: center;
+  font-size: 0.88rem;
+  color: #9a9ab0;
+  margin-bottom: 2rem;
+}
+
+/* ── Card ───────────────────────────────────────────────────────────────────── */
+.cms-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.25rem;
+}
+
+.cms-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f0edfb;
+}
+
+/* ── Form elements ──────────────────────────────────────────────────────────── */
+.cms-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.cms-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5a5a72;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cms-label span {
+  color: #ff2759;
+}
+
+.cms-input,
+.cms-textarea,
+.cms-select {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  color: #1a1a2e;
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.cms-input:focus,
+.cms-textarea:focus,
+.cms-select:focus {
+  border-color: #700877;
+  background: #fff;
+}
+
+.cms-textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.cms-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.cms-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.cms-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.cms-btn-primary {
+  background: linear-gradient(90deg, #700877 0%, #ff2759 100%);
+  color: #fff;
+  width: 100%;
+}
+
+.cms-btn-secondary {
+  background: #f3f0fb;
+  color: #700877;
+}
+
+.cms-btn-danger {
+  background: #fff0f3;
+  color: #cc2244;
+  border: 1.5px solid #ffccd5;
+}
+
+.cms-btn-ghost {
+  background: none;
+  color: #5a5a72;
+  border: 1.5px solid #e5e7eb;
+}
+
+.cms-btn-sm {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+}
+
+/* ── Page heading ───────────────────────────────────────────────────────────── */
+.cms-heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 0.35rem;
+}
+
+.cms-subheading {
+  font-size: 0.9rem;
+  color: #9a9ab0;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Error / success banners ────────────────────────────────────────────────── */
+.cms-error {
+  background: #fff0f3;
+  border: 1px solid #ffccd5;
+  color: #cc2244;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.cms-success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Tag input ──────────────────────────────────────────────────────────────── */
+.cms-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.cms-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f3f0fb;
+  color: #700877;
+  border-radius: 20px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.cms-tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #700877;
+  font-size: 0.9rem;
+  line-height: 1;
+  padding: 0;
+}
+
+/* ── Article list ───────────────────────────────────────────────────────────── */
+.cms-article-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cms-article-row {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cms-article-row-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cms-article-row-headline {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cms-article-row-meta {
+  font-size: 0.78rem;
+  color: #9a9ab0;
+  margin-top: 0.2rem;
+}
+
+/* ── Status badges ──────────────────────────────────────────────────────────── */
+.cms-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.cms-badge-published { background: #f0fdf4; color: #16a34a; }
+.cms-badge-pending   { background: #fffbeb; color: #d97706; }
+.cms-badge-approved  { background: #f0fdf4; color: #16a34a; }
+.cms-badge-rejected  { background: #fff0f3; color: #cc2244; }
+
+/* ── Section builder ────────────────────────────────────────────────────────── */
+.cms-section-block {
+  background: #fafafa;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.cms-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cms-section-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #700877;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Admin draft card ───────────────────────────────────────────────────────── */
+.cms-draft-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.cms-draft-info { flex: 1; min-width: 0; }
+.cms-draft-headline {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 0.25rem;
+}
+.cms-draft-meta {
+  font-size: 0.78rem;
+  color: #9a9ab0;
+}
+.cms-draft-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* ── Image upload preview ───────────────────────────────────────────────────── */
+.cms-image-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}
+
+.cms-avatar-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+/* ── Divider ────────────────────────────────────────────────────────────────── */
+.cms-divider {
+  height: 1px;
+  background: #f0edfb;
+  margin: 1.5rem 0;
+}
+
+/* ── Empty state ────────────────────────────────────────────────────────────── */
+.cms-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #9a9ab0;
+}
+
+.cms-empty h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #5a5a72;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Table ──────────────────────────────────────────────────────────────────── */
+.cms-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.cms-table th {
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9a9ab0;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f0edfb;
+}
+
+.cms-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #f7f5fc;
+  color: #1a1a2e;
+  vertical-align: middle;
+}
+
+.cms-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cms-table tr:hover td {
+  background: #faf9fe;
+}
+
+/* ── Status badges (table variant) ─────────────────────────────────────────── */
+.cms-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+.cms-status-pending  { background: #fffbeb; color: #d97706; }
+.cms-status-approved { background: #f0fdf4; color: #16a34a; }
+.cms-status-rejected { background: #fff0f3; color: #cc2244; }
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .cms-page, .cms-page-wide { padding: 1rem 1rem 3rem; }
+  .cms-nav { padding: 0 1rem; }
+  .cms-draft-card { flex-direction: column; }
+  .cms-draft-actions { width: 100%; }
+  .cms-draft-actions .cms-btn { flex: 1; }
+}

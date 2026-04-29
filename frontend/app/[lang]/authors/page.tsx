@@ -44,4 +44,5 @@ export interface Author {
   social: { linkedin?: string };
   joinedDate: string;
   articleCount: number;
+  editedCount?: number;
 }
