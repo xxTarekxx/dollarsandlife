@@ -29,6 +29,7 @@ interface Contributor {
 }
 
 interface PublicAuthor extends Contributor {
+  slug?: string;
   title?: string;
   bio?: string;
   image?: string;
@@ -50,9 +51,9 @@ export default function AdminPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [me, setMe] = useState<Me | null>(null);
-  const sectionParam = searchParams.get("section");
-  const statusParam = searchParams.get("status");
-  const authorId = searchParams.get("authorId") || "";
+  const sectionParam = searchParams?.get("section");
+  const statusParam = searchParams?.get("status");
+  const authorId = searchParams?.get("authorId") || "";
   const section = sectionParam === "contributors" || sectionParam === "authors" ? sectionParam : "articles";
   const tab = statusParam === "approved" || statusParam === "rejected" ? statusParam : "pending";
   const [drafts, setDrafts] = useState<Draft[]>([]);
@@ -69,7 +70,7 @@ export default function AdminPage() {
     nextTab?: "pending" | "approved" | "rejected",
     nextAuthorId?: string
   ) {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() || "");
     params.set("section", nextSection);
     if (nextSection === "articles") {
       params.set("status", nextTab || tab);

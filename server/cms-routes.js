@@ -6,14 +6,24 @@ const jwt      = require('jsonwebtoken');
 const multer   = require('multer');
 const path     = require('path');
 const fs       = require('fs');
+const sharp    = require('sharp');
 const { Resend } = require('resend');
 const { ObjectId } = require('mongodb');
 
 const router      = express.Router();
-const resend      = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend      = resendApiKey ? new Resend(resendApiKey) : null;
 const JWT_SECRET  = process.env.JWT_SECRET;
 const ADMIN_EMAIL = process.env.CMS_ADMIN_EMAIL;
 const UPLOAD_DIR  = process.env.CMS_UPLOAD_DIR || path.join(__dirname, '../frontend/public/images');
+
+function sendEmailSafe(payload) {
+    if (!resend) {
+        console.warn('[cms] RESEND_API_KEY missing; email skipped');
+        return;
+    }
+    resend.emails.send(payload).catch(e => console.warn('[cms] email failed:', e.message));
+}
 
 // ── Cookie parser (no extra dependency) ───────────────────────────────────────
 function parseCookies(header) {
@@ -252,12 +262,31 @@ router.put('/profile', requireAuth, async (req, res) => {
 // POST /api/cms/upload-profile-image
 router.post('/upload-profile-image', requireAuth, uploadAuthor.single('image'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-    const url = `/images/authors/${req.file.filename}`;
-    await req.db.collection('authors').updateOne(
-        { email: req.cmsUser.email },
-        { $set: { image: url } }
-    ).catch(() => {});
-    res.json({ ok: true, url });
+    try {
+        const inputPath = req.file.path;
+        const parsed = path.parse(req.file.filename);
+        const outputFileName = `${parsed.name}.webp`;
+        const outputPath = path.join(path.dirname(inputPath), outputFileName);
+
+        // Compress to WebP (80% quality) before storing on server.
+        await sharp(inputPath)
+            .rotate()
+            .webp({ quality: 80 })
+            .toFile(outputPath);
+
+        // Remove original upload once WebP is written.
+        await fs.promises.unlink(inputPath).catch(() => {});
+
+        const url = `/images/authors/${outputFileName}`;
+        await req.db.collection('authors').updateOne(
+            { email: req.cmsUser.email },
+            { $set: { image: url } }
+        ).catch(() => {});
+        res.json({ ok: true, url });
+    } catch (err) {
+        console.error('[cms] upload-profile-image error:', err.message);
+        res.status(500).json({ error: 'Image processing failed' });
+    }
 });
 
 // POST /api/cms/upload-article-image
@@ -365,7 +394,7 @@ router.post('/submit', requireAuth, async (req, res) => {
         await req.db.collection('cms_drafts').insertOne(draft);
 
         // Notify admin
-        resend.emails.send({
+        sendEmailSafe({
             from:    'CMS Notifications <contact@dollarsandlife.com>',
             to:      ADMIN_EMAIL,
             subject: `📝 New article submitted: "${headline}"`,
@@ -380,7 +409,7 @@ router.post('/submit', requireAuth, async (req, res) => {
                     Review in Admin →
                 </a>
             `,
-        }).catch(e => console.warn('[cms] email failed:', e.message));
+        });
 
         res.json({ ok: true });
     } catch (err) {
@@ -459,7 +488,7 @@ router.post('/approve/:id', requireAdmin, async (req, res) => {
         cache.flush().catch(() => {});
 
         // Notify author
-        resend.emails.send({
+        sendEmailSafe({
             from:    'Dollars & Life <contact@dollarsandlife.com>',
             to:      draft.authorEmail,
             subject: `✅ Your article is live: "${draft.headline}"`,
@@ -472,7 +501,7 @@ router.post('/approve/:id', requireAdmin, async (req, res) => {
                     View on site →
                 </a>
             `,
-        }).catch(e => console.warn('[cms] email failed:', e.message));
+        });
 
         res.json({ ok: true, articleId });
     } catch (err) {
@@ -493,7 +522,7 @@ router.post('/reject/:id', requireAdmin, async (req, res) => {
             { $set: { status: 'rejected', reviewedAt: new Date().toISOString(), reviewNote: reviewNote || '' } }
         );
 
-        resend.emails.send({
+        sendEmailSafe({
             from:    'Dollars & Life <contact@dollarsandlife.com>',
             to:      draft.authorEmail,
             subject: `📋 Article needs revision: "${draft.headline}"`,
@@ -506,7 +535,7 @@ router.post('/reject/:id', requireAdmin, async (req, res) => {
                     Go to your dashboard →
                 </a>
             `,
-        }).catch(e => console.warn('[cms] email failed:', e.message));
+        });
 
         res.json({ ok: true });
     } catch (err) {
@@ -659,7 +688,7 @@ router.post('/add-author', requireAdmin, async (req, res) => {
         });
 
         // Send welcome email to new author
-        resend.emails.send({
+        sendEmailSafe({
             from:    'Dollars & Life <contact@dollarsandlife.com>',
             to:      normalizedEmail,
             subject: 'Welcome to Dollars & Life — Your contributor account is ready',
@@ -674,7 +703,7 @@ router.post('/add-author', requireAdmin, async (req, res) => {
                     Log in now →
                 </a>
             `,
-        }).catch(e => console.warn('[cms] welcome email failed:', e.message));
+        });
 
         res.json({ ok: true, slug });
     } catch (err) {
