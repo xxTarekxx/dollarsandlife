@@ -12,6 +12,7 @@ import { getFirebaseAuth, getFirebaseDb } from "../../src/firebase";
 import ForumHeader from "../../src/components/forum/ForumHeader";
 import { createForumPost } from "../../src/services/forum/forumService";
 import { COUNTRY_NAMES } from "../../src/data/countries";
+import { FORUM_TAGS } from "../../src/data/forumTags";
 import styles from "./CreatePostForm.module.css";
 
 // If this is a standalone page, onPostSuccess might not be passed as a prop.
@@ -21,18 +22,7 @@ interface CreatePostFormProps {
 	dbInput?: Firestore; // Renamed to avoid conflict if initialized locally
 }
 
-const availableTags = [
-	"budgeting",
-	"saving",
-	"investing",
-	"credit",
-	"side hustles",
-	"debt",
-	"freelancing",
-	"real estate",
-	"taxes",
-	"retirement",
-];
+const availableTags = [...FORUM_TAGS];
 
 const CreatePostFormPage: React.FC<CreatePostFormProps> = ({
 	authInput,

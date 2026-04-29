@@ -479,7 +479,7 @@ router.get('/authors', generalLimiter, async (req, res) => {
         if (cached !== null) return sendWithCache(res, cached, TTL_LIST, true);
 
         const authors = await db.collection('authors')
-            .find({ active: true }, { projection: { _id: 0, passwordHash: 0, email: 0 } })
+            .find({ $or: [{ active: true }, { active: { $exists: false } }] }, { projection: { _id: 0, passwordHash: 0, email: 0 } })
             .sort({ joinedDate: 1 })
             .maxTimeMS(5000)
             .toArray();
@@ -514,7 +514,7 @@ router.get('/authors/:slug', strictLimiter, async (req, res) => {
         if (cached !== null) return sendWithCache(res, cached, TTL_ARTICLE, true);
 
         const author = await db.collection('authors').findOne(
-            { slug, active: true },
+            { slug, $or: [{ active: true }, { active: { $exists: false } }] },
             { projection: { _id: 0, passwordHash: 0, email: 0 } }
         );
         if (!author) return res.status(404).json({ error: 'Author not found' });
