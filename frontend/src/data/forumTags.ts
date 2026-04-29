@@ -1,14 +1,14 @@
 export const FORUM_TAGS = [
   "budgeting",
-  "saving",
-  "investing",
   "credit",
-  "side hustles",
   "debt",
   "freelancing",
+  "investing",
   "real estate",
-  "taxes",
   "retirement",
+  "saving",
+  "side hustles",
+  "taxes",
 ] as const;
 
 export type ForumTag = (typeof FORUM_TAGS)[number];
