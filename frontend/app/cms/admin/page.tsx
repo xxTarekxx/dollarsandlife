@@ -496,7 +496,7 @@ function AuthorEditor({
   const [linkedin, setLinkedin] = useState(author.social?.linkedin || "");
   const [joinedDate, setJoinedDate] = useState(author.joinedDate || "");
   const [editedCount, setEditedCount] = useState(String(author.editedCount || 0));
-  const [active, setActive] = useState(Boolean(author.active));
+  const [active, setActive] = useState(author.active ?? true);
   const [expertiseText, setExpertiseText] = useState((author.expertise || []).join(", "));
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -511,7 +511,7 @@ function AuthorEditor({
     setLinkedin(author.social?.linkedin || "");
     setJoinedDate(author.joinedDate || "");
     setEditedCount(String(author.editedCount || 0));
-    setActive(Boolean(author.active));
+    setActive(author.active ?? true);
     setExpertiseText((author.expertise || []).join(", "));
     setError("");
     setSuccess("");

@@ -215,7 +215,7 @@ router.get('/profile', requireAuth, async (req, res) => {
 // PUT /api/cms/profile
 router.put('/profile', requireAuth, async (req, res) => {
     try {
-        const { name, bio, title, expertise, linkedin, achievements } = req.body;
+        const { name, bio, title, expertise, linkedin, achievements, joinedDate } = req.body;
         const update = { profileComplete: true };
         if (name !== undefined) {
             const nextName = String(name).trim();
@@ -227,6 +227,14 @@ router.put('/profile', requireAuth, async (req, res) => {
         if (expertise    !== undefined) update.expertise         = Array.isArray(expertise) ? expertise : [expertise];
         if (linkedin     !== undefined) update['social.linkedin']= linkedin;
         if (achievements !== undefined) update.achievements      = achievements;
+        // Super user only: controls "Contributing since" shown on /authors cards.
+        if (joinedDate !== undefined && req.cmsUser.role === 'admin') {
+            const date = String(joinedDate || '').trim();
+            if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+                return res.status(400).json({ error: 'joinedDate must be YYYY-MM-DD' });
+            }
+            update.joinedDate = date;
+        }
 
         await req.db.collection('authors').updateOne({ email: req.cmsUser.email }, { $set: update });
         // Author pages are cached by /authors and /authors/:slug routes.

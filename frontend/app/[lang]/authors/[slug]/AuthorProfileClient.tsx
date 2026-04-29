@@ -76,7 +76,20 @@ export default function AuthorProfileClient({ author, error }: Props) {
           unoptimized
         />
         <div className="author-profile-info">
-          <h1 className="author-profile-name">{author.name}</h1>
+          <div className="author-profile-top-row">
+            <h1 className="author-profile-name">{author.name}</h1>
+            <div className="author-inline-stats">
+              {author.articleCount > 0 && (
+                <span className="author-inline-stat">Published: {author.articleCount}</span>
+              )}
+              {author.editedCount !== undefined && author.editedCount > 0 && (
+                <span className="author-inline-stat">Edited: {author.editedCount}</span>
+              )}
+              {joinedYear && (
+                <span className="author-inline-stat">Since: {joinedYear}</span>
+              )}
+            </div>
+          </div>
           <div className="author-profile-title">{author.title}</div>
           <p className="author-profile-bio">{author.bio}</p>
           {author.expertise?.length > 0 && (
@@ -98,28 +111,6 @@ export default function AuthorProfileClient({ author, error }: Props) {
             </a>
           )}
         </div>
-      </div>
-
-      {/* ── Stats ── */}
-      <div className="author-stats-bar">
-        {author.articleCount > 0 && (
-          <div className="author-stat">
-            <span className="author-stat-value">{author.articleCount}</span>
-            <span className="author-stat-label">Published</span>
-          </div>
-        )}
-        {author.editedCount !== undefined && author.editedCount > 0 && (
-          <div className="author-stat">
-            <span className="author-stat-value">{author.editedCount}</span>
-            <span className="author-stat-label">Edited</span>
-          </div>
-        )}
-        {joinedYear && (
-          <div className="author-stat">
-            <span className="author-stat-value">{joinedYear}</span>
-            <span className="author-stat-label">Contributing since</span>
-          </div>
-        )}
       </div>
 
       {author.achievements?.trim() && (

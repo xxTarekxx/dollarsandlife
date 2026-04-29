@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { cmsGet, cmsPut, cmsUpload } from "@/lib/cmsApi";
+import { FORUM_TAGS, normalizeForumTag } from "../../../src/data/forumTags";
 import CmsNav from "../CmsNav";
 
 interface Author {
   name: string;
   email: string;
   role: string;
+  joinedDate?: string;
   title: string;
   bio: string;
   image: string;
@@ -24,6 +26,7 @@ export default function Dashboard() {
   const [author, setAuthor] = useState<Author | null>(null);
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
+  const [joinedDate, setJoinedDate] = useState("");
   const [bio, setBio] = useState("");
   const [achievements, setAchievements] = useState("");
   const [linkedin, setLinkedin] = useState("");
@@ -40,6 +43,7 @@ export default function Dashboard() {
       setAuthor(data);
       setName(data.name || "");
       setTitle(data.title || "");
+      setJoinedDate(data.joinedDate || "");
       setBio(data.bio || "");
       setAchievements(data.achievements || "");
       setLinkedin(data.social?.linkedin || "");
@@ -49,8 +53,12 @@ export default function Dashboard() {
   }, [router]);
 
   function addTag() {
-    const tag = expertiseInput.trim().toLowerCase();
-    if (tag && !expertise.includes(tag)) setExpertise((prev) => [...prev, tag]);
+    const tag = normalizeForumTag(expertiseInput);
+    if (!tag) {
+      setError("Use one of the forum tags (budgeting, saving, investing, etc).");
+      return;
+    }
+    if (!expertise.includes(tag)) setExpertise((prev) => [...prev, tag]);
     setExpertiseInput("");
   }
 
@@ -74,7 +82,9 @@ export default function Dashboard() {
     setSuccess("");
     setSaving(true);
     try {
-      const res = await cmsPut("/profile", { name, title, bio, achievements, linkedin, expertise });
+      const payload: Record<string, unknown> = { name, title, bio, achievements, linkedin, expertise };
+      if (author?.role === "admin") payload.joinedDate = joinedDate;
+      const res = await cmsPut("/profile", payload);
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || "Save failed");
@@ -122,6 +132,12 @@ export default function Dashboard() {
                 <label className="cms-label">Title / Role <span>*</span></label>
                 <input className="cms-input" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Personal Finance Writer" required />
               </div>
+              {author.role === "admin" && (
+                <div className="cms-field">
+                  <label className="cms-label">Contributing Since</label>
+                  <input className="cms-input" type="date" value={joinedDate} onChange={(e) => setJoinedDate(e.target.value)} />
+                </div>
+              )}
               <div className="cms-field">
                 <label className="cms-label">Bio <span>*</span></label>
                 <textarea className="cms-textarea" value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Tell readers about yourself..." rows={5} required />
@@ -134,6 +150,29 @@ export default function Dashboard() {
 
             <div className="cms-card">
               <div className="cms-card-title">Areas of Expertise</div>
+              <div className="cms-tags" style={{ marginBottom: "0.6rem" }}>
+                {FORUM_TAGS.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    className="cms-tag"
+                    onClick={() => {
+                      if (expertise.includes(tag)) {
+                        setExpertise((p) => p.filter((t) => t !== tag));
+                      } else {
+                        setExpertise((p) => [...p, tag]);
+                      }
+                    }}
+                    style={{
+                      border: expertise.includes(tag) ? "1px solid #700877" : undefined,
+                      background: expertise.includes(tag) ? "#f2e7f8" : undefined,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
               <div className="cms-tags">
                 {expertise.map((tag) => (
                   <span key={tag} className="cms-tag">
