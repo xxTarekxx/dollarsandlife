@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "@components/articles-content/BlogPostContent.css";
+import AutosizeTextarea from "@components/cms/AutosizeTextarea";
+import { buildArticleLinkHtml, insertSnippetAtSelection } from "@/lib/articleCmsLink";
 import { cmsGet, cmsPost, cmsUpload, resolveUploadedMediaUrl } from "@/lib/cmsApi";
 import CmsNav from "../../../../CmsNav";
 
@@ -156,6 +157,25 @@ interface LiveArticleMeta {
   dateModified: string;
 }
 
+interface PublishedArticlePayload {
+  headline?: string;
+  metaDescription?: string;
+  image?: string;
+  coverImageAbsoluteUrl?: string;
+  imageCaption?: string | null;
+  categorySlug?: string;
+  articleId?: string;
+  authorName?: string;
+  content?: unknown[];
+  publicView?: {
+    id?: string;
+    author?: { name: string };
+    datePublished?: string;
+    dateModified?: string;
+    image?: { url: string };
+  } | null;
+}
+
 function formatArticleDate(iso: string) {
   if (!iso) return "—";
   try {
@@ -165,6 +185,29 @@ function formatArticleDate(iso: string) {
   }
 }
 
+/** Legacy sessionStorage key — removed autosave; still cleared on load/submit/reset. */
+function draftStorageKey(collection: string, articleId: string) {
+  return `dnl-cms-propose:${collection}:${articleId}`;
+}
+
+function editorFingerprint(headline: string, metaDesc: string, imageUrl: string, imageCaption: string, blocks: Block[]) {
+  return JSON.stringify({
+    h: headline,
+    m: metaDesc,
+    i: imageUrl,
+    c: imageCaption,
+    b: blocks.map((x) => ({ type: x.type, text: x.text, items: x.items })),
+  });
+}
+
+interface PublishedSnapshot {
+  headline: string;
+  metaDesc: string;
+  image: string;
+  imageCaption: string;
+  blocks: Block[];
+}
+
 export default function ProposeArticleEditPage() {
   const router = useRouter();
   const params = useParams<{ collection?: string | string[]; articleId?: string | string[] }>();
@@ -172,11 +215,15 @@ export default function ProposeArticleEditPage() {
   const articleId = Array.isArray(params.articleId) ? params.articleId[0] : params.articleId;
 
   const imgRef = useRef<HTMLInputElement>(null);
+  const initialImagePathRef = useRef<string | null>(null);
+  const publishedSnapshotRef = useRef<PublishedSnapshot | null>(null);
+  const publishedFingerprintRef = useRef("");
   const [me, setMe] = useState<Me | null>(null);
   const [sectionLabel, setSectionLabel] = useState("");
   const [headline, setHeadline] = useState("");
   const [metaDesc, setMetaDesc] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [serverCoverAbs, setServerCoverAbs] = useState("");
   const [imageCaption, setImageCaption] = useState("");
   const [imageFallbackUrl, setImageFallbackUrl] = useState("");
   const [liveMeta, setLiveMeta] = useState<LiveArticleMeta | null>(null);
@@ -186,31 +233,75 @@ export default function ProposeArticleEditPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [submitNotice, setSubmitNotice] = useState<null | { kind: "success" | "error"; message: string }>(null);
+  const [linkModal, setLinkModal] = useState<null | { blockId: string }>(null);
+  const [linkUrl, setLinkUrl] = useState("https://");
+  const [linkLabel, setLinkLabel] = useState("");
+  const [linkFieldError, setLinkFieldError] = useState("");
+  const taRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
+  const [localCoverObjectUrl, setLocalCoverObjectUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!collection || !articleId) return;
     let cancelled = false;
+    setPageLoading(true);
+    setImageUrl("");
+    setImageFallbackUrl("");
+    setServerCoverAbs("");
+    initialImagePathRef.current = null;
+    publishedSnapshotRef.current = null;
+    setLocalCoverObjectUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
     (async () => {
       try {
         const user = await cmsGet("/me");
         if (cancelled) return;
         setMe(user);
-        const art = await cmsGet(
+        const art = (await cmsGet(
           `/published-article/${encodeURIComponent(collection)}/${encodeURIComponent(articleId)}`
-        );
+        )) as PublishedArticlePayload;
         if (cancelled) return;
+
+        const pathFromApi = String(art.image || "");
+        const snapBlocks = contentToBlocks(art.content);
+        initialImagePathRef.current = pathFromApi;
+        publishedSnapshotRef.current = {
+          headline: art.headline || "",
+          metaDesc: art.metaDescription || "",
+          image: pathFromApi,
+          imageCaption: String(art.imageCaption ?? ""),
+          blocks: snapBlocks.map((b) => ({
+            ...b,
+            items: b.items ? [...b.items] : undefined,
+          })),
+        };
+        publishedFingerprintRef.current = editorFingerprint(
+          art.headline || "",
+          art.metaDescription || "",
+          pathFromApi,
+          String(art.imageCaption ?? ""),
+          snapBlocks
+        );
+
+        if (typeof window !== "undefined") {
+          try {
+            sessionStorage.removeItem(draftStorageKey(collection, articleId));
+          } catch {
+            /* ignore */
+          }
+        }
+
         setSectionLabel(art.categorySlug || collection);
         setHeadline(art.headline || "");
         setMetaDesc(art.metaDescription || "");
-        setImageUrl(art.image || "");
+        setImageUrl(pathFromApi);
         setImageCaption(art.imageCaption ?? "");
-        const pub = art.publicView as {
-          id?: string;
-          author?: { name: string };
-          datePublished?: string;
-          dateModified?: string;
-          image?: { url: string };
-        } | null | undefined;
+        setBlocks(snapBlocks);
+
+        setServerCoverAbs(String(art.coverImageAbsoluteUrl || ""));
+        const pub = art.publicView;
         if (pub?.image?.url) setImageFallbackUrl(pub.image.url);
         else setImageFallbackUrl(art.image || "");
         setLiveMeta({
@@ -219,7 +310,6 @@ export default function ProposeArticleEditPage() {
           datePublished: pub?.datePublished || "",
           dateModified: pub?.dateModified || "",
         });
-        setBlocks(contentToBlocks(art.content));
       } catch {
         if (!cancelled) router.push("/cms/login");
       } finally {
@@ -231,18 +321,110 @@ export default function ProposeArticleEditPage() {
     };
   }, [collection, articleId, router]);
 
-  const heroSrc = resolveUploadedMediaUrl((imageUrl || "").trim() || imageFallbackUrl);
+  useEffect(() => {
+    if (pageLoading) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      const cur = editorFingerprint(headline, metaDesc, imageUrl, imageCaption, blocks);
+      if (cur === publishedFingerprintRef.current) return;
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [pageLoading, headline, metaDesc, imageUrl, imageCaption, blocks]);
+
+  useEffect(() => {
+    return () => {
+      if (localCoverObjectUrl) URL.revokeObjectURL(localCoverObjectUrl);
+    };
+  }, [localCoverObjectUrl]);
+
+  const heroSrc = useMemo(() => {
+    if (localCoverObjectUrl) return localCoverObjectUrl;
+    const p = (imageUrl || "").trim();
+    const abs = (serverCoverAbs || "").trim();
+    const fb = (imageFallbackUrl || "").trim();
+    const initial = initialImagePathRef.current;
+    if (p && abs && initial !== null && p === initial) return resolveUploadedMediaUrl(abs);
+    if (p) return resolveUploadedMediaUrl(p);
+    if (abs) return resolveUploadedMediaUrl(abs);
+    return resolveUploadedMediaUrl(fb);
+  }, [localCoverObjectUrl, imageUrl, imageFallbackUrl, serverCoverAbs]);
+
+  function resetEditorToPublishedCopy() {
+    const snap = publishedSnapshotRef.current;
+    if (!snap) return;
+    try {
+      if (collection && articleId) sessionStorage.removeItem(draftStorageKey(collection, articleId));
+    } catch {
+      /* ignore */
+    }
+    setLocalCoverObjectUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
+    setHeadline(snap.headline);
+    setMetaDesc(snap.metaDesc);
+    setImageUrl(snap.image);
+    setImageCaption(snap.imageCaption);
+    setBlocks(snap.blocks.map((b) => ({ ...b, items: b.items ? [...b.items] : undefined })));
+  }
+
+  function revertCoverOnly() {
+    const snap = publishedSnapshotRef.current;
+    const published = snap?.image ?? initialImagePathRef.current ?? "";
+    if (localCoverObjectUrl) {
+      URL.revokeObjectURL(localCoverObjectUrl);
+      setLocalCoverObjectUrl(null);
+    }
+    setImageUrl(published);
+  }
+
+  const initialCover = (initialImagePathRef.current ?? "").trim();
+  const coverDiffersFromPublished =
+    Boolean(localCoverObjectUrl) || (imageUrl || "").trim() !== initialCover;
+
+  function isEditorDirty() {
+    return editorFingerprint(headline, metaDesc, imageUrl, imageCaption, blocks) !== publishedFingerprintRef.current;
+  }
+
+  function confirmLeaveIfDirty() {
+    if (!isEditorDirty()) return true;
+    return window.confirm("Leave this page? Unsaved changes will be lost.");
+  }
 
   async function uploadImage(file: File) {
     setUploading(true);
     setError("");
+    setLocalCoverObjectUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      const next = URL.createObjectURL(file);
+      return next;
+    });
     try {
       const fd = new FormData();
       fd.append("image", file);
-      const res = await cmsUpload("/upload-article-image", fd);
+      const res = await cmsUpload("/upload-article-image-pending", fd);
       const data = await res.json();
-      if (res.ok) setImageUrl(data.url);
-      else setError(data.error || "Image upload failed");
+      if (res.ok) {
+        setImageUrl(data.url);
+        setLocalCoverObjectUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return null;
+        });
+      } else {
+        setError(data.error || "Image upload failed");
+        setLocalCoverObjectUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return null;
+        });
+      }
+    } catch {
+      setError("Network error.");
+      setLocalCoverObjectUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return null;
+      });
     } finally {
       setUploading(false);
     }
@@ -295,6 +477,87 @@ export default function ProposeArticleEditPage() {
     );
   }
 
+  function getAuthorityEntries(text: string): string[] {
+    const lines = String(text || "").split("\n");
+    return lines.length ? lines : [""];
+  }
+
+  function updateAuthorityEntry(blockId: string, idx: number, value: string) {
+    setBlocks((p) =>
+      p.map((b) => {
+        if (b.id !== blockId || b.type !== "authority") return b;
+        const lines = getAuthorityEntries(b.text);
+        lines[idx] = value;
+        return { ...b, text: lines.join("\n") };
+      })
+    );
+  }
+
+  function addAuthorityEntry(blockId: string) {
+    setBlocks((p) =>
+      p.map((b) => {
+        if (b.id !== blockId || b.type !== "authority") return b;
+        const lines = getAuthorityEntries(b.text);
+        lines.push("");
+        return { ...b, text: lines.join("\n") };
+      })
+    );
+  }
+
+  function removeAuthorityEntry(blockId: string, idx: number) {
+    setBlocks((p) =>
+      p.map((b) => {
+        if (b.id !== blockId || b.type !== "authority") return b;
+        const next = getAuthorityEntries(b.text).filter((_, i) => i !== idx);
+        return { ...b, text: (next.length ? next : [""]).join("\n") };
+      })
+    );
+  }
+
+  function openLinkModal(blockId: string) {
+    const ta = taRefs.current[blockId];
+    let sel = "";
+    if (ta && ta.selectionStart !== ta.selectionEnd) {
+      sel = ta.value.slice(ta.selectionStart, ta.selectionEnd);
+    }
+    setLinkUrl("https://");
+    setLinkLabel(sel);
+    setLinkFieldError("");
+    setLinkModal({ blockId });
+  }
+
+  function applyLinkFromModal(e?: React.FormEvent) {
+    e?.preventDefault();
+    if (!linkModal) return;
+    setLinkFieldError("");
+    let snippet: string;
+    try {
+      snippet = buildArticleLinkHtml(linkUrl, linkLabel);
+    } catch {
+      setLinkFieldError("Enter a full URL with http:// or https://");
+      return;
+    }
+    const { blockId } = linkModal;
+    const b = blocks.find((x) => x.id === blockId);
+    if (!b || b.type === "list") {
+      setLinkModal(null);
+      return;
+    }
+    const ta = taRefs.current[blockId];
+    const start = ta ? ta.selectionStart : b.text.length;
+    const end = ta ? ta.selectionEnd : b.text.length;
+    const { next, caret } = insertSnippetAtSelection(b.text, start, end, snippet);
+    updateBlock(blockId, { text: next });
+    setLinkModal(null);
+    requestAnimationFrame(() => {
+      const t2 = taRefs.current[blockId];
+      if (t2) {
+        t2.focus();
+        t2.setSelectionRange(caret, caret);
+      }
+    });
+  }
+
   function blockHasContent(b: Block): boolean {
     if (b.type === "list") return Boolean(b.items?.some((i) => i.trim()));
     if (b.type === "authority" || b.type === "stats") return Boolean(b.text.trim());
@@ -305,6 +568,7 @@ export default function ProposeArticleEditPage() {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setSubmitNotice(null);
     if (!collection || !articleId) return;
     if (!imageUrl.trim() && !imageFallbackUrl.trim()) {
       setError("Please set a cover image.");
@@ -314,7 +578,6 @@ export default function ProposeArticleEditPage() {
       setError("Article body cannot be empty.");
       return;
     }
-
     const content = blocks
       .map(blockToPersistedSection)
       .filter((s): s is Record<string, unknown> => s != null);
@@ -332,13 +595,23 @@ export default function ProposeArticleEditPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Submission failed");
+        const msg = data.error || "Submission failed";
+        setError(msg);
+        setSubmitNotice({ kind: "error", message: msg });
         return;
       }
-      setSuccess("Edit submitted for review. An admin will merge it if approved.");
-      setTimeout(() => router.push("/cms/articles"), 2200);
+      try {
+        if (collection && articleId) sessionStorage.removeItem(draftStorageKey(collection, articleId));
+      } catch {
+        /* ignore */
+      }
+      const okMsg = "Request submitted. Admin can now review it in Articles > Article edits > Pending.";
+      setSuccess(okMsg);
+      setSubmitNotice({ kind: "success", message: okMsg });
     } catch {
-      setError("Network error.");
+      const msg = "Network error.";
+      setError(msg);
+      setSubmitNotice({ kind: "error", message: msg });
     } finally {
       setSubmitting(false);
     }
@@ -364,12 +637,34 @@ export default function ProposeArticleEditPage() {
     <>
       <CmsNav userName={me.name} role={me.role} />
       <div className="cms-page" style={{ maxWidth: 760 }}>
-        <Link href="/cms/other-articles" className="cms-btn cms-btn-ghost cms-btn-sm" style={{ marginBottom: "0.75rem", display: "inline-block" }}>
+        <button
+          type="button"
+          className="cms-btn cms-btn-ghost cms-btn-sm"
+          style={{ marginBottom: "0.75rem", display: "inline-block" }}
+          onClick={() => {
+            if (confirmLeaveIfDirty()) router.push("/cms/other-articles");
+          }}
+        >
           ← Other Articles
-        </Link>
-        <p className="cms-subheading" style={{ marginBottom: "1rem" }}>
-          Section <span className="cms-tag">{sectionLabel}</span> · Edit in place below · Live site updates only after admin approval.
+        </button>
+        <p className="cms-subheading" style={{ marginBottom: "0.65rem" }}>
+          Section <span className="cms-tag">{sectionLabel}</span> · You are editing a <strong>preview copy</strong> in this browser. Nothing on the live site or in MongoDB changes until you submit for review and an admin approves.
         </p>
+        <div
+          style={{
+            fontSize: "0.8rem",
+            color: "#3d3558",
+            background: "#f0ecfa",
+            border: "1px solid #dcd4ee",
+            borderRadius: 8,
+            padding: "0.65rem 0.85rem",
+            marginBottom: "1rem",
+            lineHeight: 1.45,
+          }}
+        >
+          Cover uploads go to a <strong>temp</strong> folder only until an admin approves. If you close or refresh the tab with unsaved edits, your browser will warn you; leaving discards those edits unless you submitted for review. Use{" "}
+          <strong>Revert cover</strong> for the published image only, or <strong>Reset editor</strong> to restore the full server snapshot.
+        </div>
 
         {error && <div className="cms-error">{error}</div>}
         {success && <div className="cms-success">{success}</div>}
@@ -379,10 +674,11 @@ export default function ProposeArticleEditPage() {
             className="blog-post-content page-container"
             style={{ maxWidth: "100%", padding: "0 0.5rem 5rem", border: "1px solid #e8e2f0", borderRadius: 10, background: "#fff" }}
           >
-            <input
+            <AutosizeTextarea
               value={headline}
               onChange={(e) => setHeadline(e.target.value)}
               required
+              minRows={1}
               className="cms-inplace-headline"
               style={{
                 ...taBase,
@@ -395,7 +691,7 @@ export default function ProposeArticleEditPage() {
               placeholder="Headline"
             />
 
-            <div className="image-box" style={{ marginBottom: "0.75rem" }}>
+            <div className="image-box" style={{ marginBottom: "0.75rem", position: "relative" }}>
               {heroSrc ? (
                 // eslint-disable-next-line @next/next/no-img-element -- CMS assets may be on API origin; avoids Next/Image remote config issues
                 <img
@@ -407,18 +703,42 @@ export default function ProposeArticleEditPage() {
               ) : (
                 <div style={{ padding: "2rem", textAlign: "center", border: "2px dashed #ddd", borderRadius: 8 }}>No cover image</div>
               )}
-              <div style={{ marginTop: "0.5rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
-                <input ref={imgRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => e.target.files?.[0] && uploadImage(e.target.files[0])} />
-                <button type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={() => imgRef.current?.click()} disabled={uploading}>
-                  {uploading ? "Uploading…" : "Change cover image"}
+              <input ref={imgRef} type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => e.target.files?.[0] && uploadImage(e.target.files[0])} />
+              <button
+                type="button"
+                className="cms-btn cms-btn-secondary cms-btn-sm"
+                aria-label="Choose a new cover image"
+                onClick={() => imgRef.current?.click()}
+                disabled={uploading}
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  zIndex: 2,
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
+                }}
+              >
+                {uploading ? "…" : "Edit"}
+              </button>
+            </div>
+            <div style={{ marginTop: "-0.35rem", marginBottom: "0.75rem", display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
+              <p style={{ fontSize: "0.72rem", color: "#6b6578", margin: 0, flex: "1 1 12rem" }}>
+                What you see here replaces the preview only. After you submit, an admin can approve → pending cover becomes WebP (~70%) and the <strong>target</strong> article document is updated.
+              </p>
+              {coverDiffersFromPublished && (
+                <button type="button" className="cms-btn cms-btn-ghost cms-btn-sm" style={{ width: "auto" }} onClick={revertCoverOnly}>
+                  Revert cover to published
                 </button>
-              </div>
+              )}
+              <button type="button" className="cms-btn cms-btn-ghost cms-btn-sm" style={{ width: "auto" }} onClick={resetEditorToPublishedCopy}>
+                Reset editor to server copy
+              </button>
             </div>
 
-            <textarea
+            <AutosizeTextarea
               value={imageCaption}
               onChange={(e) => setImageCaption(e.target.value)}
-              rows={2}
+              minRows={2}
               placeholder="Cover caption (shown on site as image caption / alt)"
               style={{ ...taBase, marginBottom: "1rem", fontSize: "0.9rem" }}
             />
@@ -437,7 +757,7 @@ export default function ProposeArticleEditPage() {
 
             <details style={{ marginBottom: "1.25rem" }}>
               <summary style={{ cursor: "pointer", fontSize: "0.88rem", color: "#5c5678" }}>Meta description (SEO)</summary>
-              <textarea value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} rows={3} style={{ ...taBase, marginTop: "0.5rem" }} />
+              <AutosizeTextarea value={metaDesc} onChange={(e) => setMetaDesc(e.target.value)} minRows={3} style={{ ...taBase, marginTop: "0.5rem" }} />
             </details>
 
             {blocks.map((block, i) => (
@@ -470,6 +790,17 @@ export default function ProposeArticleEditPage() {
                   </div>
                 </div>
 
+                {block.type !== "list" && block.type !== "authority" && (
+                  <div style={{ marginBottom: "0.4rem" }}>
+                    <button type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={() => openLinkModal(block.id)}>
+                      Insert link…
+                    </button>
+                    <span style={{ fontSize: "0.72rem", color: "#8d88a6", marginLeft: "0.45rem" }}>
+                      Select text first to use it as the link label (no raw HTML needed).
+                    </span>
+                  </div>
+                )}
+
                 {block.type === "list" ? (
                   <div>
                     {(block.items || []).map((item, idx) => (
@@ -488,29 +819,51 @@ export default function ProposeArticleEditPage() {
                   </div>
                 ) : block.type === "authority" ? (
                   <div className="authority-link">
-                    <textarea
-                      value={block.text}
-                      onChange={(e) => updateBlock(block.id, { text: e.target.value })}
-                      rows={5}
-                      placeholder="Links or HTML (one per line)"
-                      style={{ ...taBase, minHeight: "6rem" }}
-                    />
+                    {getAuthorityEntries(block.text).map((entry, idx, all) => (
+                      <div key={`${block.id}-auth-${idx}`} style={{ display: "flex", gap: "0.4rem", marginBottom: "0.45rem" }}>
+                        <AutosizeTextarea
+                          value={entry}
+                          onChange={(e) => updateAuthorityEntry(block.id, idx, e.target.value)}
+                          minRows={2}
+                          placeholder="Authority link or text..."
+                          style={{ ...taBase, flex: 1, borderStyle: "solid", borderColor: "#c4bdd4" }}
+                        />
+                        {all.length > 1 && (
+                          <button
+                            type="button"
+                            className="cms-btn cms-btn-danger cms-btn-sm"
+                            onClick={() => removeAuthorityEntry(block.id, idx)}
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={() => addAuthorityEntry(block.id)}>
+                      + Add authority box
+                    </button>
                   </div>
                 ) : block.type === "stats" ? (
                   <div className="stats">
-                    <textarea
+                    <AutosizeTextarea
+                      ref={(el) => {
+                        taRefs.current[block.id] = el;
+                      }}
                       value={block.text}
                       onChange={(e) => updateBlock(block.id, { text: e.target.value })}
-                      rows={4}
-                      placeholder="Stats lines (one per line, or HTML)"
+                      minRows={4}
+                      placeholder="One entry per line"
                       style={{ ...taBase, minHeight: "5rem" }}
                     />
                   </div>
                 ) : (
-                  <textarea
+                  <AutosizeTextarea
+                    ref={(el) => {
+                      taRefs.current[block.id] = el;
+                    }}
                     value={block.text}
                     onChange={(e) => updateBlock(block.id, { text: e.target.value })}
-                    rows={block.type === "paragraph" ? 6 : 3}
+                    minRows={block.type === "paragraph" ? 5 : 2}
                     style={{
                       ...taBase,
                       fontWeight: block.type === "heading" ? 700 : block.type === "subheading" ? 600 : block.type === "quote" ? 500 : 400,
@@ -538,7 +891,7 @@ export default function ProposeArticleEditPage() {
                 gap: "0.4rem",
               }}
             >
-              {(Object.keys(BLOCK_LABELS) as BlockType[]).map((type) => (
+              {(Object.keys(BLOCK_LABELS).filter((type) => type !== "authority") as BlockType[]).map((type) => (
                 <button key={type} type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={() => addBlock(type)}>
                   + {BLOCK_LABELS[type]}
                 </button>
@@ -547,7 +900,14 @@ export default function ProposeArticleEditPage() {
           </div>
 
           <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
-            <button type="button" className="cms-btn cms-btn-ghost" style={{ width: "auto" }} onClick={() => router.push("/cms/other-articles")}>
+            <button
+              type="button"
+              className="cms-btn cms-btn-ghost"
+              style={{ width: "auto" }}
+              onClick={() => {
+                if (confirmLeaveIfDirty()) router.push("/cms/other-articles");
+              }}
+            >
               Cancel
             </button>
             <button className="cms-btn cms-btn-primary" type="submit" disabled={submitting || uploading}>
@@ -555,6 +915,102 @@ export default function ProposeArticleEditPage() {
             </button>
           </div>
         </form>
+
+        {linkModal && (
+          <div
+            role="presentation"
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(20, 12, 40, 0.45)",
+              zIndex: 1000,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "1rem",
+            }}
+            onClick={() => setLinkModal(null)}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              className="cms-card"
+              style={{ maxWidth: 420, width: "100%", margin: 0 }}
+              onClick={(ev) => ev.stopPropagation()}
+            >
+              <div className="cms-card-title">Insert link</div>
+              {linkFieldError && <div className="cms-error" style={{ marginBottom: "0.5rem" }}>{linkFieldError}</div>}
+              <form
+                onSubmit={(ev) => {
+                  ev.preventDefault();
+                  applyLinkFromModal(ev);
+                }}
+              >
+                <div className="cms-field">
+                  <label className="cms-label">URL</label>
+                  <input className="cms-input" value={linkUrl} onChange={(e) => setLinkUrl(e.target.value)} placeholder="https://…" required />
+                </div>
+                <div className="cms-field">
+                  <label className="cms-label">Link text (visible)</label>
+                  <input className="cms-input" value={linkLabel} onChange={(e) => setLinkLabel(e.target.value)} placeholder="e.g. here" />
+                </div>
+                <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.75rem" }}>
+                  <button type="button" className="cms-btn cms-btn-ghost" style={{ width: "auto" }} onClick={() => setLinkModal(null)}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="cms-btn cms-btn-primary" style={{ width: "auto" }}>
+                    Insert
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {submitNotice && (
+          <div
+            role="presentation"
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(20, 12, 40, 0.45)",
+              zIndex: 1100,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "1rem",
+            }}
+            onClick={() => setSubmitNotice(null)}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              className="cms-card"
+              style={{ maxWidth: 460, width: "100%", margin: 0 }}
+              onClick={(ev) => ev.stopPropagation()}
+            >
+              <div className="cms-card-title">
+                {submitNotice.kind === "success" ? "Request Submitted" : "Could Not Submit"}
+              </div>
+              <p style={{ marginTop: 0, marginBottom: "0.9rem", lineHeight: 1.45 }}>{submitNotice.message}</p>
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                <button type="button" className="cms-btn cms-btn-ghost" style={{ width: "auto" }} onClick={() => setSubmitNotice(null)}>
+                  Close
+                </button>
+                {submitNotice.kind === "success" && (
+                  <button
+                    type="button"
+                    className="cms-btn cms-btn-primary"
+                    style={{ width: "auto" }}
+                    onClick={() => router.push("/cms/articles?tab=myEdits")}
+                  >
+                    Go to My Edits
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

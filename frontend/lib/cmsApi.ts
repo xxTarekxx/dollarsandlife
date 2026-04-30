@@ -17,17 +17,69 @@ export function getCmsApiBase(): string {
 
 const BASE = getCmsApiBase();
 
-/** Uploaded article/author images live on the API host in dev (`/images/...`), not on the Next dev server — use this for `<img src>`. */
+/**
+ * In local dev, article files usually live under Next `public/images` (page origin) while the CMS API
+ * runs on loopback with another port. Rewrites **only** when the asset URL host is localhost/127.0.0.1
+ * (not production CDNs) so prod image URLs are unchanged.
+ */
+export function preferPageOriginForLocalArticleImages(resolvedUrl: string, path: string): string {
+  if (typeof window === "undefined" || !path.startsWith("/images/")) return resolvedUrl;
+  const ph = window.location.hostname;
+  if (ph !== "localhost" && ph !== "127.0.0.1") return resolvedUrl;
+  try {
+    const asset = new URL(resolvedUrl);
+    const page = new URL(window.location.href);
+    if (asset.origin === page.origin) return resolvedUrl;
+    if (asset.hostname !== "localhost" && asset.hostname !== "127.0.0.1") return resolvedUrl;
+    return `${page.origin}${path.startsWith("/") ? path : `/${path}`}`;
+  } catch {
+    return resolvedUrl;
+  }
+}
+
+/**
+ * Browser `<img src>` for CMS and article assets: relative `/images/...`, API-built absolute URLs,
+ * and same-origin paths. Use for every article image in CMS (cover, previews, etc.).
+ */
 export function resolveUploadedMediaUrl(path: string): string {
-  if (!path || /^https?:\/\//i.test(path)) return path;
+  if (!path) return path;
+  if (/^https?:\/\//i.test(path)) {
+    try {
+      const pathname = new URL(path).pathname;
+      if (pathname.startsWith("/images/")) {
+        return preferPageOriginForLocalArticleImages(path, pathname);
+      }
+    } catch {
+      return path;
+    }
+    return path;
+  }
+  // protocol-relative URLs
+  if (path.startsWith("//")) {
+    if (typeof window === "undefined") return `https:${path}`;
+    return `${window.location.protocol}${path}`;
+  }
   if (!path.startsWith("/")) return path;
   if (typeof window === "undefined") return path;
   const apiBase = getCmsApiBase();
+  let resolved: string;
   if (apiBase.startsWith("http://") || apiBase.startsWith("https://")) {
-    const origin = apiBase.replace(/\/api\/?$/i, "");
-    return `${origin}${path}`;
+    let origin = apiBase.replace(/\/api\/?$/i, "");
+    if (!origin.endsWith("/") && !path.startsWith("/")) {
+      resolved = `${origin}/${path}`;
+    } else {
+      if (origin.endsWith("/") && path.startsWith("/")) origin = origin.slice(0, -1);
+      resolved = `${origin}${path}`;
+    }
+  } else {
+    // Same-origin `/api` (or other relative base): uploads may be served from the API process — override when needed.
+    const mediaOrigin =
+      typeof process !== "undefined" && process.env.NEXT_PUBLIC_CMS_MEDIA_ORIGIN
+        ? String(process.env.NEXT_PUBLIC_CMS_MEDIA_ORIGIN).replace(/\/$/, "")
+        : "";
+    resolved = mediaOrigin ? `${mediaOrigin}${path}` : `${window.location.origin}${path}`;
   }
-  return `${window.location.origin}${path}`;
+  return preferPageOriginForLocalArticleImages(resolved, path);
 }
 
 export async function cmsApi(

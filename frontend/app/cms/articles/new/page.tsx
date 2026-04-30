@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import AutosizeTextarea from "@components/cms/AutosizeTextarea";
 import { cmsGet, cmsPost, cmsUpload, resolveUploadedMediaUrl } from "@/lib/cmsApi";
 import CmsNav from "../../CmsNav";
 import "@components/articles-content/BlogPostContent.css";
@@ -212,8 +213,8 @@ export default function NewArticle() {
 
             <div className="cms-field">
               <label className="cms-label">Meta Description <span>*</span></label>
-              <textarea className="cms-textarea" value={metaDesc} onChange={e => setMetaDesc(e.target.value)}
-                placeholder="Brief summary for search engines (150–160 characters)…" rows={2} required />
+              <AutosizeTextarea className="cms-textarea" value={metaDesc} onChange={e => setMetaDesc(e.target.value)}
+                placeholder="Brief summary for search engines (150–160 characters)…" minRows={2} required />
               <span style={{ fontSize: "0.72rem", color: metaDesc.length > 160 ? "#cc2244" : "#9a9ab0" }}>
                 {metaDesc.length} / 160
               </span>
@@ -284,9 +285,9 @@ export default function NewArticle() {
                   </div>
                 ) : block.type === "authority" ? (
                   <div className="authority-link">
-                    <textarea
+                    <AutosizeTextarea
                       className="cms-textarea"
-                      rows={5}
+                      minRows={5}
                       value={block.text}
                       onChange={(e) => updateBlock(block.id, { text: e.target.value })}
                       placeholder="Links or HTML (one per line)"
@@ -294,18 +295,18 @@ export default function NewArticle() {
                   </div>
                 ) : block.type === "stats" ? (
                   <div className="stats">
-                    <textarea
+                    <AutosizeTextarea
                       className="cms-textarea"
-                      rows={4}
+                      minRows={4}
                       value={block.text}
                       onChange={(e) => updateBlock(block.id, { text: e.target.value })}
                       placeholder="Stats (one per line, or HTML)"
                     />
                   </div>
                 ) : (
-                  <textarea
+                  <AutosizeTextarea
                     className="cms-textarea"
-                    rows={block.type === "paragraph" ? 4 : 2}
+                    minRows={block.type === "paragraph" ? 4 : 2}
                     value={block.text}
                     onChange={e => updateBlock(block.id, { text: e.target.value })}
                     placeholder={

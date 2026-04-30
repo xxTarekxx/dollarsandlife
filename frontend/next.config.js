@@ -132,6 +132,8 @@ const nextConfig = {
     NEXT_PUBLIC_EMAILJS_USER_ID: process.env.NEXT_PUBLIC_EMAILJS_USER_ID || '',
     NEXT_PUBLIC_RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
     NEXT_PUBLIC_REACT_APP_INTERNAL_IP_PREFIX: process.env.NEXT_PUBLIC_REACT_APP_INTERNAL_IP_PREFIX || '',
+    // When CMS API is same-origin `/api` but Express serves `/images` on another host (e.g. http://127.0.0.1:5001), set this so cover URLs resolve.
+    NEXT_PUBLIC_CMS_MEDIA_ORIGIN: process.env.NEXT_PUBLIC_CMS_MEDIA_ORIGIN || '',
   },
 };
 
