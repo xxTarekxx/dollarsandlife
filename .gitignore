@@ -78,7 +78,6 @@ dist
 
 # Gatsby files
 .cache/
-public
 
 # Storybook build outputs
 .out
@@ -108,3 +107,12 @@ Thumbs.db
 .htaccess
 f2f534c237f3484bbed9b00b5ccad78a.txt
 robots.txt
+
+# Frontend-specific custom ignores (moved from frontend/.gitignore)
+frontend/.translation-cache/
+frontend/ads/
+frontend/_document.tsx
+frontend/ads.txt
+frontend/backup-vite.config.ts
+frontend/fixJsonFields.js
+frontend/.env.production

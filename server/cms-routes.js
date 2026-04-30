@@ -252,15 +252,22 @@ function buildPublicViewFromDoc(doc) {
 }
 
 function mergeArticleImageForApprove(proposedUrlStr, proposedCaption, existing) {
+    const existingUrl = imageFieldToUrl(existing);
+    const existingCaption = imageFieldCaption(existing);
     const url = (proposedUrlStr !== undefined && proposedUrlStr !== null && String(proposedUrlStr).trim() !== '')
         ? String(proposedUrlStr).trim()
-        : imageFieldToUrl(existing);
+        : existingUrl;
     if (!url) return existing;
     let caption = '';
     if (proposedCaption !== undefined && String(proposedCaption).trim() !== '') {
         caption = String(proposedCaption).trim();
-    } else if (typeof existing === 'object' && existing?.caption != null) {
-        caption = String(existing.caption);
+    } else if (existingCaption) {
+        caption = existingCaption;
+    }
+
+    // If nothing effectively changed, keep existing DB value untouched.
+    if (url === existingUrl && caption === existingCaption) {
+        return existing;
     }
     return { url, caption };
 }
@@ -269,19 +276,45 @@ function isSafePendingArticleBasename(name) {
     return typeof name === 'string' && /^p-\d+-[a-z0-9]+\.[a-z0-9.]+$/i.test(name);
 }
 
+function getSafeExistingImageRelativePath(urlPathStr) {
+    const s = String(urlPathStr || '').split('?')[0];
+    if (!s || !s.startsWith('/images/')) return null;
+    if (s.includes('/_pending/')) return null;
+    const rel = s.slice('/images/'.length);
+    const parts = rel.split('/').filter(Boolean);
+    if (parts.length < 2) return null;
+    // Only allow safe path segments and a webp output target.
+    if (!parts.every((p) => /^[a-z0-9._-]+$/i.test(p))) return null;
+    const last = parts[parts.length - 1];
+    if (!/^[a-z0-9._-]+\.[a-z0-9]+$/i.test(last)) return null;
+    const parsed = path.parse(last);
+    if (!parsed.name || !/^[a-z0-9._-]+$/i.test(parsed.name)) return null;
+    // Output is always WebP; keep original basename, force `.webp`.
+    parts[parts.length - 1] = `${parsed.name}.webp`;
+    return parts.join('/');
+}
+
 /** Convert `_pending` upload → WebP (~70% quality) in `articles/`, delete temp. Returns final `/images/articles/...` URL. */
-async function finalizePendingArticleImage(urlPathStr) {
+async function finalizePendingArticleImage(urlPathStr, preferredOutputBasename = null) {
     const s = String(urlPathStr || '').split('?')[0];
     if (!s.includes('/images/articles/_pending/')) return urlPathStr;
     const base = path.basename(s);
     if (!isSafePendingArticleBasename(base)) return urlPathStr;
     const inputPath = path.join(UPLOAD_DIR, 'articles', '_pending', base);
     if (!fs.existsSync(inputPath)) return urlPathStr;
-    const outName = `article-${Date.now()}.webp`;
-    const outPath = path.join(UPLOAD_DIR, 'articles', outName);
-    await sharp(inputPath).rotate().webp({ quality: 70 }).toFile(outPath);
+    const preferredRel = getSafeExistingImageRelativePath(preferredOutputBasename);
+    const outRel = preferredRel || `articles/article-${Date.now()}.webp`;
+    const outPath = path.join(UPLOAD_DIR, ...outRel.split('/'));
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    const ext = path.extname(base).toLowerCase();
+    if (ext === '.webp') {
+        // Already WebP: bypass conversion but still copy/overwrite to final target path.
+        await fs.promises.copyFile(inputPath, outPath);
+    } else {
+        await sharp(inputPath).rotate().webp({ quality: 70 }).toFile(outPath);
+    }
     await fs.promises.unlink(inputPath).catch(() => {});
-    return `/images/articles/${outName}`;
+    return `/images/${outRel.replace(/\\/g, '/')}`;
 }
 
 async function deletePendingArticleFileIfAny(urlPathStr) {
@@ -722,6 +755,131 @@ router.get('/published-article/:collection/:articleId', requireAuth, async (req,
     }
 });
 
+// POST /api/cms/article-edit-drafts/open
+// Creates (or returns) a Mongo draft copy for this author+article.
+router.post('/article-edit-drafts/open', requireAuth, async (req, res) => {
+    try {
+        const { collection: collectionName, articleId } = req.body || {};
+        if (!collectionName || !articleId) {
+            return res.status(400).json({ error: 'collection and articleId are required' });
+        }
+        if (!ARTICLE_COLLECTIONS.includes(collectionName)) {
+            return res.status(400).json({ error: 'Invalid collection' });
+        }
+
+        const q = {
+            collectionName: String(collectionName),
+            articleId: String(articleId),
+            authorEmail: req.cmsUser.email,
+        };
+
+        const article = await req.db.collection(collectionName).findOne(findArticleFilter(String(articleId)));
+        if (!article) return res.status(404).json({ error: 'Article not found' });
+
+        const en = article.languages?.en || {};
+        const imgExisting = en.image !== undefined ? en.image : article.image;
+        const now = new Date().toISOString();
+        const draft = {
+            collectionName: String(collectionName),
+            articleId: String(articleId),
+            authorEmail: req.cmsUser.email,
+            authorName: req.cmsUser.name,
+            targetArticleObjectId: article._id ? article._id.toString() : null,
+            headline: en.headline || article.headline || '',
+            content: Array.isArray(en.content || article.content) ? (en.content || article.content) : [],
+            image: imageFieldToUrl(imgExisting),
+            imageCaption: imageFieldCaption(imgExisting),
+            metaDescription: en.metaDescription || article.metaDescription || '',
+            updatedAt: now,
+        };
+
+        await req.db.collection('cms_article_edit_drafts').updateOne(
+            q,
+            {
+                $set: draft,
+                $setOnInsert: { createdAt: now },
+            },
+            { upsert: true }
+        );
+
+        const fresh = await req.db.collection('cms_article_edit_drafts').findOne(q);
+        if (!fresh) return res.status(500).json({ error: 'Could not create draft' });
+        return res.json({
+            _id: fresh._id.toString(),
+            collectionName: fresh.collectionName,
+            articleId: fresh.articleId,
+            headline: fresh.headline || '',
+            content: Array.isArray(fresh.content) ? fresh.content : [],
+            image: fresh.image || '',
+            imageCaption: fresh.imageCaption || '',
+            metaDescription: fresh.metaDescription || '',
+            updatedAt: fresh.updatedAt || fresh.createdAt || null,
+        });
+    } catch (err) {
+        console.error('[cms] article-edit-drafts/open:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/cms/article-edit-drafts/save
+// Updates the Mongo draft copy while user edits.
+router.post('/article-edit-drafts/save', requireAuth, async (req, res) => {
+    try {
+        const { collection: collectionName, articleId, headline, content, image, imageCaption, metaDescription } = req.body || {};
+        if (!collectionName || !articleId) {
+            return res.status(400).json({ error: 'collection and articleId are required' });
+        }
+        const q = {
+            collectionName: String(collectionName),
+            articleId: String(articleId),
+            authorEmail: req.cmsUser.email,
+        };
+        const now = new Date().toISOString();
+        const $set = {
+            headline: headline !== undefined ? String(headline) : '',
+            content: Array.isArray(content) ? content : [],
+            image: image !== undefined ? String(image) : '',
+            imageCaption: imageCaption !== undefined ? String(imageCaption) : '',
+            metaDescription: metaDescription !== undefined ? String(metaDescription) : '',
+            updatedAt: now,
+        };
+        await req.db.collection('cms_article_edit_drafts').updateOne(q, { $set }, { upsert: true });
+        res.json({ ok: true, updatedAt: now });
+    } catch (err) {
+        console.error('[cms] article-edit-drafts/save:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// DELETE /api/cms/article-edit-drafts/:collection/:articleId
+router.delete('/article-edit-drafts/:collection/:articleId', requireAuth, async (req, res) => {
+    try {
+        const collectionName = String(req.params.collection || '');
+        const articleId = String(req.params.articleId || '');
+        if (!collectionName || !articleId) {
+            return res.status(400).json({ error: 'collection and articleId are required' });
+        }
+        const q = {
+            collectionName,
+            articleId,
+            authorEmail: req.cmsUser.email,
+        };
+        const draft = await req.db.collection('cms_article_edit_drafts').findOne(q);
+        if (draft && typeof draft.image === 'string' && draft.image.includes('/images/articles/_pending/')) {
+            await deletePendingArticleFileIfAny(draft.image);
+        }
+        // If draft row is already gone (manual DB cleanup), still allow caller to provide current pending image path.
+        if ((!draft || !draft.image) && typeof req.query.image === 'string') {
+            await deletePendingArticleFileIfAny(String(req.query.image));
+        }
+        await req.db.collection('cms_article_edit_drafts').deleteOne(q);
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('[cms] article-edit-drafts/delete:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // POST /api/cms/article-edit-requests
 router.post('/article-edit-requests', requireAuth, async (req, res) => {
     try {
@@ -772,6 +930,7 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
         const row = {
             collectionName,
             articleId: String(articleId),
+            targetArticleObjectId: article._id ? article._id.toString() : null,
             originalHeadline,
             originalAuthorName,
             isOwnArticle,
@@ -785,6 +944,11 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
         };
 
         await req.db.collection('cms_article_edit_requests').insertOne(row);
+        await req.db.collection('cms_article_edit_drafts').deleteOne({
+            collectionName,
+            articleId: String(articleId),
+            authorEmail: req.cmsUser.email,
+        });
 
         sendEmailSafe({
             from:    'CMS Notifications <contact@dollarsandlife.com>',
@@ -1084,7 +1248,12 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
         const col = request.collectionName;
         if (!ARTICLE_COLLECTIONS.includes(col)) return res.status(400).json({ error: 'Invalid collection' });
 
-        const article = await req.db.collection(col).findOne(findArticleFilter(request.articleId));
+        let targetFilter = findArticleFilter(request.articleId);
+        if (request.targetArticleObjectId && ObjectId.isValid(request.targetArticleObjectId)) {
+            targetFilter = { _id: new ObjectId(request.targetArticleObjectId) };
+        }
+
+        const article = await req.db.collection(col).findOne(targetFilter);
         if (!article) return res.status(404).json({ error: 'Article not found' });
 
         const now = new Date().toISOString();
@@ -1095,9 +1264,13 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
         };
 
         let imageUrlMerged = p.image;
+        const existingImageForName = (article.languages?.en && article.languages.en.image !== undefined)
+            ? article.languages.en.image
+            : article.image;
+        const preferredLiveImagePath = imageFieldToUrl(existingImageForName);
         if (typeof imageUrlMerged === 'string' && imageUrlMerged.includes('/images/articles/_pending/')) {
             try {
-                imageUrlMerged = await finalizePendingArticleImage(imageUrlMerged);
+                imageUrlMerged = await finalizePendingArticleImage(imageUrlMerged, preferredLiveImagePath);
             } catch (e) {
                 console.error('[cms] finalize pending cover:', e.message);
                 return res.status(400).json({ error: 'Could not process cover image' });
@@ -1118,7 +1291,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
             if (p.metaDescription !== undefined) mergedEn.metaDescription = p.metaDescription;
 
             await req.db.collection(col).updateOne(
-                findArticleFilter(request.articleId),
+                targetFilter,
                 { $set: { 'languages.en': mergedEn } }
             );
         } else {
@@ -1130,7 +1303,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
             };
             $set.image = mergeArticleImageForApprove(imageUrlMerged, p.imageCaption, article.image);
             if (p.metaDescription !== undefined) $set.metaDescription = p.metaDescription;
-            await req.db.collection(col).updateOne(findArticleFilter(request.articleId), { $set });
+            await req.db.collection(col).updateOne(targetFilter, { $set });
         }
 
         await req.db.collection('cms_article_edit_requests').updateOne(

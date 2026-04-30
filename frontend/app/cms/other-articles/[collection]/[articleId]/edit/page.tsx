@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import "@components/articles-content/BlogPostContent.css";
 import AutosizeTextarea from "@components/cms/AutosizeTextarea";
 import { buildArticleLinkHtml, insertSnippetAtSelection } from "@/lib/articleCmsLink";
-import { cmsGet, cmsPost, cmsUpload, resolveUploadedMediaUrl } from "@/lib/cmsApi";
+import { cmsDelete, cmsGet, cmsPost, cmsUpload, resolveUploadedMediaUrl } from "@/lib/cmsApi";
 import CmsNav from "../../../../CmsNav";
 
 type BlockType =
@@ -208,6 +208,14 @@ interface PublishedSnapshot {
   blocks: Block[];
 }
 
+interface EditDraftPayload {
+  headline?: string;
+  metaDescription?: string;
+  image?: string;
+  imageCaption?: string;
+  content?: unknown[];
+}
+
 export default function ProposeArticleEditPage() {
   const router = useRouter();
   const params = useParams<{ collection?: string | string[]; articleId?: string | string[] }>();
@@ -234,6 +242,8 @@ export default function ProposeArticleEditPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [submitNotice, setSubmitNotice] = useState<null | { kind: "success" | "error"; message: string }>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingDraft, setDeletingDraft] = useState(false);
   const [linkModal, setLinkModal] = useState<null | { blockId: string }>(null);
   const [linkUrl, setLinkUrl] = useState("https://");
   const [linkLabel, setLinkLabel] = useState("");
@@ -256,16 +266,16 @@ export default function ProposeArticleEditPage() {
     });
     (async () => {
       try {
-        const user = await cmsGet("/me");
+        const [user, art, draft] = (await Promise.all([
+          cmsGet("/me"),
+          cmsGet(`/published-article/${encodeURIComponent(collection)}/${encodeURIComponent(articleId)}`),
+          cmsPost("/article-edit-drafts/open", { collection, articleId }).then((r) => r.json()),
+        ])) as [Me, PublishedArticlePayload, EditDraftPayload];
         if (cancelled) return;
         setMe(user);
-        const art = (await cmsGet(
-          `/published-article/${encodeURIComponent(collection)}/${encodeURIComponent(articleId)}`
-        )) as PublishedArticlePayload;
-        if (cancelled) return;
 
         const pathFromApi = String(art.image || "");
-        const snapBlocks = contentToBlocks(art.content);
+        const snapBlocks = contentToBlocks(art.content || []);
         initialImagePathRef.current = pathFromApi;
         publishedSnapshotRef.current = {
           headline: art.headline || "",
@@ -285,20 +295,12 @@ export default function ProposeArticleEditPage() {
           snapBlocks
         );
 
-        if (typeof window !== "undefined") {
-          try {
-            sessionStorage.removeItem(draftStorageKey(collection, articleId));
-          } catch {
-            /* ignore */
-          }
-        }
-
         setSectionLabel(art.categorySlug || collection);
-        setHeadline(art.headline || "");
-        setMetaDesc(art.metaDescription || "");
-        setImageUrl(pathFromApi);
-        setImageCaption(art.imageCaption ?? "");
-        setBlocks(snapBlocks);
+        setHeadline(String(draft?.headline ?? art.headline ?? ""));
+        setMetaDesc(String(draft?.metaDescription ?? art.metaDescription ?? ""));
+        setImageUrl(String(draft?.image ?? pathFromApi));
+        setImageCaption(String(draft?.imageCaption ?? art.imageCaption ?? ""));
+        setBlocks(contentToBlocks(draft?.content ?? art.content ?? []));
 
         setServerCoverAbs(String(art.coverImageAbsoluteUrl || ""));
         const pub = art.publicView;
@@ -320,6 +322,25 @@ export default function ProposeArticleEditPage() {
       cancelled = true;
     };
   }, [collection, articleId, router]);
+
+  useEffect(() => {
+    if (pageLoading || !collection || !articleId || deletingDraft || submitting) return;
+    const t = window.setTimeout(() => {
+      const content = blocks
+        .map(blockToPersistedSection)
+        .filter((s): s is Record<string, unknown> => s != null);
+      cmsPost("/article-edit-drafts/save", {
+        collection,
+        articleId,
+        headline,
+        metaDescription: metaDesc,
+        image: imageUrl,
+        imageCaption,
+        content,
+      }).catch(() => {});
+    }, 500);
+    return () => window.clearTimeout(t);
+  }, [pageLoading, collection, articleId, headline, metaDesc, imageUrl, imageCaption, blocks, deletingDraft, submitting]);
 
   useEffect(() => {
     if (pageLoading) return;
@@ -354,11 +375,6 @@ export default function ProposeArticleEditPage() {
   function resetEditorToPublishedCopy() {
     const snap = publishedSnapshotRef.current;
     if (!snap) return;
-    try {
-      if (collection && articleId) sessionStorage.removeItem(draftStorageKey(collection, articleId));
-    } catch {
-      /* ignore */
-    }
     setLocalCoverObjectUrl((prev) => {
       if (prev) URL.revokeObjectURL(prev);
       return null;
@@ -368,6 +384,21 @@ export default function ProposeArticleEditPage() {
     setImageUrl(snap.image);
     setImageCaption(snap.imageCaption);
     setBlocks(snap.blocks.map((b) => ({ ...b, items: b.items ? [...b.items] : undefined })));
+  }
+
+  async function confirmDeleteDraftAndExit() {
+    if (!collection || !articleId) return;
+    setDeletingDraft(true);
+    setError("");
+    try {
+      const imageParam = encodeURIComponent(imageUrl || "");
+      await cmsDelete(`/article-edit-drafts/${encodeURIComponent(collection)}/${encodeURIComponent(articleId)}?image=${imageParam}`);
+      router.push("/cms/other-articles");
+    } catch {
+      setError("Could not delete draft.");
+      setDeletingDraft(false);
+      setShowDeleteModal(false);
+    }
   }
 
   function revertCoverOnly() {
@@ -600,11 +631,6 @@ export default function ProposeArticleEditPage() {
         setSubmitNotice({ kind: "error", message: msg });
         return;
       }
-      try {
-        if (collection && articleId) sessionStorage.removeItem(draftStorageKey(collection, articleId));
-      } catch {
-        /* ignore */
-      }
       const okMsg = "Request submitted. Admin can now review it in Articles > Article edits > Pending.";
       setSuccess(okMsg);
       setSubmitNotice({ kind: "success", message: okMsg });
@@ -790,7 +816,7 @@ export default function ProposeArticleEditPage() {
                   </div>
                 </div>
 
-                {block.type !== "list" && block.type !== "authority" && (
+                {block.type !== "list" && block.type !== "authority" && block.type !== "heading" && (
                   <div style={{ marginBottom: "0.4rem" }}>
                     <button type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={() => openLinkModal(block.id)}>
                       Insert link…
@@ -899,18 +925,23 @@ export default function ProposeArticleEditPage() {
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
-            <button
-              type="button"
-              className="cms-btn cms-btn-ghost"
-              style={{ width: "auto" }}
-              onClick={() => {
-                if (confirmLeaveIfDirty()) router.push("/cms/other-articles");
-              }}
-            >
-              Cancel
-            </button>
-            <button className="cms-btn cms-btn-primary" type="submit" disabled={submitting || uploading}>
+          <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem", justifyContent: "space-between", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: "0.65rem", flexWrap: "wrap" }}>
+              <button type="button" className="cms-btn cms-btn-danger" style={{ width: "auto" }} onClick={() => setShowDeleteModal(true)}>
+                Delete
+              </button>
+              <button
+                type="button"
+                className="cms-btn cms-btn-ghost"
+                style={{ width: "auto" }}
+                onClick={() => {
+                  if (confirmLeaveIfDirty()) router.push("/cms/other-articles");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+            <button className="cms-btn cms-btn-primary" style={{ width: "auto", minWidth: 240 }} type="submit" disabled={submitting || uploading}>
               {submitting ? "Submitting…" : "Submit edit for review"}
             </button>
           </div>
@@ -1007,6 +1038,56 @@ export default function ProposeArticleEditPage() {
                     Go to My Edits
                   </button>
                 )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showDeleteModal && (
+          <div
+            role="presentation"
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(20, 12, 40, 0.45)",
+              zIndex: 1200,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "1rem",
+            }}
+            onClick={() => !deletingDraft && setShowDeleteModal(false)}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              className="cms-card"
+              style={{ maxWidth: 460, width: "100%", margin: 0 }}
+              onClick={(ev) => ev.stopPropagation()}
+            >
+              <div className="cms-card-title">Delete Draft</div>
+              <p style={{ marginTop: 0, marginBottom: "0.9rem", lineHeight: 1.45 }}>
+                Delete these changes? This removes your temporary draft copy from the Data Base.
+              </p>
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                <button
+                  type="button"
+                  className="cms-btn cms-btn-ghost"
+                  style={{ width: "auto" }}
+                  onClick={() => setShowDeleteModal(false)}
+                  disabled={deletingDraft}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="cms-btn cms-btn-danger"
+                  style={{ width: "auto" }}
+                  onClick={confirmDeleteDraftAndExit}
+                  disabled={deletingDraft}
+                >
+                  {deletingDraft ? "Deleting…" : "Delete"}
+                </button>
               </div>
             </div>
           </div>
