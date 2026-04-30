@@ -527,8 +527,8 @@
 
 .cms-articles-stats {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.9rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.65rem;
   margin-bottom: 1.5rem;
 }
 
@@ -536,25 +536,27 @@
   background: linear-gradient(180deg, #fff 0%, #faf7fd 100%);
   border: 1px solid #efe7f7;
   border-radius: 18px;
-  padding: 1rem 1.1rem;
+  padding: 0.58rem 0.68rem;
   box-shadow: 0 10px 24px rgba(112, 8, 119, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.15rem;
+  align-items: center;
+  text-align: center;
 }
 
 .cms-articles-stat-value {
-  font-size: 1.7rem;
+  font-size: 1.2rem;
   font-weight: 800;
   color: #700877;
   line-height: 1;
 }
 
 .cms-articles-stat-label {
-  font-size: 0.78rem;
+  font-size: 0.62rem;
   color: #8a86a3;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   font-weight: 700;
 }
 
