@@ -89,7 +89,7 @@ export default function OtherArticlesPage() {
                       className="cms-btn cms-btn-secondary cms-btn-sm"
                       style={{ textDecoration: "none", whiteSpace: "nowrap" }}
                     >
-                      Propose edit
+                      Edit
                     </Link>
                   </li>
                 ))}

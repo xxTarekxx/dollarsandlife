@@ -102,8 +102,22 @@ const articleStorage = multer.diskStorage({
     },
 });
 
-const uploadAuthor  = multer({ storage: authorStorage,  limits: { fileSize: 5 * 1024 * 1024 } });
-const uploadArticle = multer({ storage: articleStorage, limits: { fileSize: 8 * 1024 * 1024 } });
+const articlePendingStorage = multer.diskStorage({
+    destination: (_req, _file, cb) => {
+        const dir = path.join(UPLOAD_DIR, 'articles', '_pending');
+        fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+    },
+    filename: (_req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
+        const safeExt = /^\.[a-z0-9]+$/i.test(ext) ? ext : '.jpg';
+        cb(null, `p-${Date.now()}-${Math.random().toString(36).slice(2, 10)}${safeExt}`);
+    },
+});
+
+const uploadAuthor          = multer({ storage: authorStorage, limits: { fileSize: 5 * 1024 * 1024 } });
+const uploadArticle         = multer({ storage: articleStorage, limits: { fileSize: 8 * 1024 * 1024 } });
+const uploadArticlePending  = multer({ storage: articlePendingStorage, limits: { fileSize: 8 * 1024 * 1024 } });
 
 const CATEGORY_MAP = {
     'breaking-news':     'breaking_news',
@@ -156,6 +170,20 @@ function mergeArticleImage(proposedUrlStr, existing) {
 function imageFieldCaption(img) {
     if (!img || typeof img === 'string') return '';
     return img.caption != null ? String(img.caption) : '';
+}
+
+/** Absolute URL for CMS <img src> when the browser page origin differs from the API/static host. */
+function absolutePublicUrlFromReq(req, urlPath) {
+    if (!urlPath || typeof urlPath !== 'string') return '';
+    const u = urlPath.trim();
+    if (!u) return '';
+    if (/^https?:\/\//i.test(u) || u.startsWith('//')) return u;
+    const pathOnly = u.startsWith('/') ? u : `/${u}`;
+    let proto = (req.get('x-forwarded-proto') || req.protocol || 'http').split(',')[0].trim();
+    if (!/^https?$/i.test(proto)) proto = 'http';
+    const host = (req.get('x-forwarded-host') || req.get('host') || '').split(',')[0].trim();
+    if (!host) return pathOnly;
+    return `${proto}://${host}${pathOnly}`;
 }
 
 /** Same shape as `resolveLocale` in routes.js — flat EN slice for preview. */
@@ -237,6 +265,77 @@ function mergeArticleImageForApprove(proposedUrlStr, proposedCaption, existing) 
     return { url, caption };
 }
 
+function isSafePendingArticleBasename(name) {
+    return typeof name === 'string' && /^p-\d+-[a-z0-9]+\.[a-z0-9.]+$/i.test(name);
+}
+
+/** Convert `_pending` upload → WebP (~70% quality) in `articles/`, delete temp. Returns final `/images/articles/...` URL. */
+async function finalizePendingArticleImage(urlPathStr) {
+    const s = String(urlPathStr || '').split('?')[0];
+    if (!s.includes('/images/articles/_pending/')) return urlPathStr;
+    const base = path.basename(s);
+    if (!isSafePendingArticleBasename(base)) return urlPathStr;
+    const inputPath = path.join(UPLOAD_DIR, 'articles', '_pending', base);
+    if (!fs.existsSync(inputPath)) return urlPathStr;
+    const outName = `article-${Date.now()}.webp`;
+    const outPath = path.join(UPLOAD_DIR, 'articles', outName);
+    await sharp(inputPath).rotate().webp({ quality: 70 }).toFile(outPath);
+    await fs.promises.unlink(inputPath).catch(() => {});
+    return `/images/articles/${outName}`;
+}
+
+async function deletePendingArticleFileIfAny(urlPathStr) {
+    const s = String(urlPathStr || '').split('?')[0];
+    if (!s.includes('/images/articles/_pending/')) return;
+    const base = path.basename(s);
+    if (!isSafePendingArticleBasename(base)) return;
+    const p = path.join(UPLOAD_DIR, 'articles', '_pending', base);
+    await fs.promises.unlink(p).catch(() => {});
+}
+
+/** Strip dangerous markup; keep safe `<a href="http(s):…">` and `<br>`. */
+function sanitizeArticleBodyHtml(input) {
+    if (input == null || typeof input !== 'string') return input;
+    let s = input.replace(/<script[\s\S]*?<\/script>/gi, '');
+    s = s.replace(/<style[\s\S]*?<\/style>/gi, '');
+    s = s.replace(/\son\w+\s*=\s*["'][^"']*["']/gi, '');
+    s = s.replace(/javascript:/gi, '');
+    s = s.replace(/<\s*iframe[^>]*>/gi, '');
+    s = s.replace(/<a\s+([^>]*?)>([\s\S]*?)<\/a>/gi, (_m, attrs, inner) => {
+        const hrefM = /href\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(attrs);
+        const href = (hrefM && (hrefM[2] || hrefM[3] || hrefM[4] || '')).trim();
+        if (!/^https?:\/\//i.test(href)) return inner.replace(/<[^>]+>/g, '');
+        const escHref = href.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        const innerPlain = String(inner).replace(/<[^>]+>/g, '');
+        return `<a href="${escHref}" target="_blank" rel="noopener noreferrer">${innerPlain}</a>`;
+    });
+    s = s.replace(/<(?!\/?(?:br|a)\b)[^>]+>/gi, '');
+    return s;
+}
+
+function stripAllHtml(s) {
+    return String(s || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function sanitizeProposedContentArray(content) {
+    if (!Array.isArray(content)) return content;
+    return content.map((section) => {
+        if (!section || typeof section !== 'object') return section;
+        const next = { ...section };
+        if (typeof next.text === 'string') next.text = sanitizeArticleBodyHtml(next.text);
+        if (typeof next.details === 'string') next.details = sanitizeArticleBodyHtml(next.details);
+        if (typeof next.additionalInsights === 'string') next.additionalInsights = sanitizeArticleBodyHtml(next.additionalInsights);
+        if (typeof next.authorityLinks === 'string') next.authorityLinks = sanitizeArticleBodyHtml(next.authorityLinks);
+        if (Array.isArray(next.authorityLinks)) {
+            next.authorityLinks = next.authorityLinks.map((x) => sanitizeArticleBodyHtml(String(x)));
+        }
+        if (typeof next.stats === 'string') next.stats = sanitizeArticleBodyHtml(next.stats);
+        if (Array.isArray(next.stats)) next.stats = next.stats.map((x) => sanitizeArticleBodyHtml(String(x)));
+        if (Array.isArray(next.items)) next.items = next.items.map((x) => sanitizeArticleBodyHtml(String(x)));
+        return next;
+    });
+}
+
 function validateArticleContentBlocks(content) {
     if (!Array.isArray(content) || content.length === 0) {
         return 'At least one content section is required';
@@ -273,15 +372,15 @@ function validateArticleContentBlocks(content) {
             continue;
         }
         if (section.type && section.type !== 'list') {
-            if (!section.text || section.text.trim().length < 50) {
-                return 'Each text section must have at least 50 characters';
+            if (!section.text || section.text.trim().length === 0) {
+                return 'Text sections cannot be empty';
             }
             hasSubstantial = true;
             continue;
         }
         if (section.text !== undefined && !section.type) {
-            if (!section.text || section.text.trim().length < 50) {
-                return 'Each text section must have at least 50 characters';
+            if (!section.text || section.text.trim().length === 0) {
+                return 'Text sections cannot be empty';
             }
             hasSubstantial = true;
         }
@@ -469,6 +568,12 @@ router.post('/upload-article-image', requireAuth, uploadArticle.single('image'),
     res.json({ ok: true, url: `/images/articles/${req.file.filename}` });
 });
 
+// POST /api/cms/upload-article-image-pending — temp file until an edit request is approved (WebP ~70% + move on approve)
+router.post('/upload-article-image-pending', requireAuth, uploadArticlePending.single('image'), (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    res.json({ ok: true, url: `/images/articles/_pending/${req.file.filename}` });
+});
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // ARTICLES
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -589,6 +694,8 @@ router.get('/published-article/:collection/:articleId', requireAuth, async (req,
         const imageUrl = imageFieldToUrl(imageRaw);
         const imageCaption = imageFieldCaption(imageRaw);
         const publicView = buildPublicViewFromDoc(doc);
+        const coverRelPath = imageUrl || (publicView && publicView.image && publicView.image.url) || '';
+        const coverImageAbsoluteUrl = absolutePublicUrlFromReq(req, coverRelPath);
         let availableLangs = ['en'];
         if (doc.languages && typeof doc.languages === 'object') {
             availableLangs = Object.keys(doc.languages);
@@ -601,6 +708,7 @@ router.get('/published-article/:collection/:articleId', requireAuth, async (req,
             headline,
             content,
             image: imageUrl,
+            coverImageAbsoluteUrl,
             imageCaption,
             metaDescription,
             authorName: getArticleAuthorName(doc),
@@ -652,11 +760,13 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
 
         const imgExisting = en.image !== undefined ? en.image : article.image;
         const proposedEn = {
-            headline: String(headline).trim(),
-            content,
+            headline: stripAllHtml(String(headline).trim()),
+            content: sanitizeProposedContentArray(content),
             image: image !== undefined && image !== null ? String(image) : imageFieldToUrl(imgExisting),
             imageCaption: imageCaption !== undefined ? String(imageCaption) : imageFieldCaption(imgExisting),
-            metaDescription: metaDescription !== undefined ? String(metaDescription) : (en.metaDescription || article.metaDescription || ''),
+            metaDescription: stripAllHtml(
+                metaDescription !== undefined ? String(metaDescription) : (en.metaDescription || article.metaDescription || '')
+            ),
         };
 
         const row = {
@@ -705,7 +815,9 @@ router.get('/article-edit-requests', requireAuth, async (req, res) => {
     try {
         const selfOnly = req.query.selfOnly === '1' || req.query.selfOnly === 'true';
         const q = { submittedByEmail: req.cmsUser.email };
-        if (selfOnly) q.isOwnArticle = true;
+        // selfOnly = "my submissions" (all articles). ownArticleOnly = restrict to edits on articles I authored.
+        const ownArticleOnly = req.query.ownArticleOnly === '1' || req.query.ownArticleOnly === 'true';
+        if (selfOnly && ownArticleOnly) q.isOwnArticle = true;
 
         const rows = await req.db.collection('cms_article_edit_requests')
             .find(q)
@@ -745,11 +857,11 @@ router.post('/submit', requireAuth, async (req, res) => {
         if (contentErr) return res.status(400).json({ error: contentErr });
 
         const draft = {
-            headline:       headline.trim(),
+            headline:       stripAllHtml(String(headline).trim()),
             category,
-            content,
+            content:        sanitizeProposedContentArray(content),
             image,
-            metaDescription: metaDescription || '',
+            metaDescription: stripAllHtml(String(metaDescription || '')),
             authorName:     req.cmsUser.name,
             authorSlug:     req.cmsUser.slug,
             authorEmail:    req.cmsUser.email,
@@ -982,6 +1094,16 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
             email: request.submittedByEmail,
         };
 
+        let imageUrlMerged = p.image;
+        if (typeof imageUrlMerged === 'string' && imageUrlMerged.includes('/images/articles/_pending/')) {
+            try {
+                imageUrlMerged = await finalizePendingArticleImage(imageUrlMerged);
+            } catch (e) {
+                console.error('[cms] finalize pending cover:', e.message);
+                return res.status(400).json({ error: 'Could not process cover image' });
+            }
+        }
+
         if (article.languages && article.languages.en && typeof article.languages.en === 'object') {
             const existingEn = article.languages.en;
             const mergedEn = {
@@ -992,7 +1114,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
                 lastEditedBy,
             };
             const existingImg = existingEn.image !== undefined ? existingEn.image : article.image;
-            mergedEn.image = mergeArticleImageForApprove(p.image, p.imageCaption, existingImg);
+            mergedEn.image = mergeArticleImageForApprove(imageUrlMerged, p.imageCaption, existingImg);
             if (p.metaDescription !== undefined) mergedEn.metaDescription = p.metaDescription;
 
             await req.db.collection(col).updateOne(
@@ -1006,7 +1128,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
                 dateModified: now,
                 lastEditedBy,
             };
-            $set.image = mergeArticleImageForApprove(p.image, p.imageCaption, article.image);
+            $set.image = mergeArticleImageForApprove(imageUrlMerged, p.imageCaption, article.image);
             if (p.metaDescription !== undefined) $set.metaDescription = p.metaDescription;
             await req.db.collection(col).updateOne(findArticleFilter(request.articleId), { $set });
         }
@@ -1057,6 +1179,10 @@ router.post('/admin/article-edit-requests/:id/reject', requireAdmin, async (req,
         });
         if (!request) return res.status(404).json({ error: 'Request not found' });
         if (request.status !== 'pending') return res.status(400).json({ error: 'Request is not pending' });
+
+        await deletePendingArticleFileIfAny(
+            typeof request.proposedEn?.image === 'string' ? request.proposedEn.image : ''
+        );
 
         const now = new Date().toISOString();
         await req.db.collection('cms_article_edit_requests').updateOne(

@@ -61,13 +61,13 @@ export default function MyArticles() {
   }, [router]);
 
   useEffect(() => {
-    if (tab !== "myEdits" || !me) return;
+    if (!me) return;
     setEditsLoading(true);
     cmsGet("/article-edit-requests?selfOnly=1")
       .then(setMyEdits)
       .catch(() => setError("Failed to load your edit requests."))
       .finally(() => setEditsLoading(false));
-  }, [tab, me]);
+  }, [me]);
 
   if (loading) {
     return <div className="cms-body" style={{ padding: "2rem", textAlign: "center" }}>Loading...</div>;
@@ -79,6 +79,7 @@ export default function MyArticles() {
   const approvedCount = drafts.filter((a) => a.status === "approved").length;
   const rejectedCount = drafts.filter((a) => a.status === "rejected").length;
   const pendingEdits = myEdits.filter((e) => e.status === "pending").length;
+  const editFeedbackCount = myEdits.filter((e) => e.status === "rejected" && Boolean(e.reviewNote && e.reviewNote.trim())).length;
 
   return (
     <>
@@ -88,7 +89,7 @@ export default function MyArticles() {
           <div>
             <h1 className="cms-articles-kicker" style={{ marginBottom: "0.5rem" }}>My Articles</h1>
             <p className="cms-subheading" style={{ marginBottom: 0 }}>
-              Published work, draft submissions, and edits you proposed on your own articles.
+              Published work, draft submissions, and edit proposals you have submitted.
             </p>
           </div>
           <Link href="/cms/articles/new" className="cms-btn cms-btn-primary cms-articles-add">
@@ -126,7 +127,7 @@ export default function MyArticles() {
             [
               ["published", "Published"],
               ["drafts", "Submitted drafts"],
-              ["myEdits", "Edits to my work"],
+              ["myEdits", "My edit requests"],
             ] as const
           ).map(([key, label]) => (
             <button
@@ -137,6 +138,28 @@ export default function MyArticles() {
               onClick={() => setTab(key)}
             >
               {label}
+              {key === "myEdits" && editFeedbackCount > 0 && (
+                <span
+                  style={{
+                    marginLeft: "0.45rem",
+                    display: "inline-flex",
+                    minWidth: "1.1rem",
+                    height: "1.1rem",
+                    borderRadius: "999px",
+                    padding: "0 0.32rem",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "0.72rem",
+                    fontWeight: 700,
+                    background: "#dc2626",
+                    color: "#fff",
+                    lineHeight: 1,
+                  }}
+                  title="Rejected edit requests with feedback"
+                >
+                  {editFeedbackCount}
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -192,7 +215,7 @@ export default function MyArticles() {
                         className="cms-btn cms-btn-secondary cms-btn-sm"
                         style={{ textDecoration: "none" }}
                       >
-                        Propose an update
+                        Edit
                       </Link>
                     </div>
                   </article>
@@ -204,12 +227,12 @@ export default function MyArticles() {
 
         {tab === "myEdits" && (
           <div className="cms-articles-section">
-            <div className="cms-card-title">Edits on articles you authored</div>
+            <div className="cms-card-title">Edit requests you submitted</div>
             {editsLoading && myEdits.length === 0 ? (
               <div style={{ padding: "1rem", color: "#9a9ab0" }}>Loading…</div>
             ) : myEdits.length === 0 ? (
               <div className="cms-articles-empty">
-                <p>No edit requests yet. Open a published article and submit changes for review.</p>
+                <p>No edit requests yet. Use Other Articles or a published card below to open the editor.</p>
               </div>
             ) : (
               <div className="cms-articles-grid">
@@ -225,6 +248,20 @@ export default function MyArticles() {
                     </div>
                     <div className="cms-article-card-meta">Submitted {new Date(row.submittedAt).toLocaleDateString()}</div>
                     {row.reviewNote && <div className="cms-article-card-note">{row.reviewNote}</div>}
+                    <div style={{ marginTop: "0.75rem" }}>
+                      <Link
+                        href={`/cms/other-articles/${encodeURIComponent(row.collectionName)}/${encodeURIComponent(row.articleId)}/edit`}
+                        className="cms-btn cms-btn-secondary cms-btn-sm"
+                        style={{ textDecoration: "none" }}
+                        title={
+                          row.status === "pending"
+                            ? "Open editor; a new submission is blocked until this request is reviewed"
+                            : "Open the article editor"
+                        }
+                      >
+                        Edit
+                      </Link>
+                    </div>
                   </article>
                 ))}
               </div>
