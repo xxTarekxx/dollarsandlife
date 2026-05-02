@@ -219,8 +219,8 @@ interface EditDraftPayload {
 export default function ProposeArticleEditPage() {
   const router = useRouter();
   const params = useParams<{ collection?: string | string[]; articleId?: string | string[] }>();
-  const collection = Array.isArray(params.collection) ? params.collection[0] : params.collection;
-  const articleId = Array.isArray(params.articleId) ? params.articleId[0] : params.articleId;
+  const collection = params ? (Array.isArray(params.collection) ? params.collection[0] : params.collection) : undefined;
+  const articleId = params ? (Array.isArray(params.articleId) ? params.articleId[0] : params.articleId) : undefined;
 
   const imgRef = useRef<HTMLInputElement>(null);
   const initialImagePathRef = useRef<string | null>(null);

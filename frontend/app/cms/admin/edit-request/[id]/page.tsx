@@ -11,6 +11,18 @@ interface ContentBlock {
   type: string;
   text?: string;
   items?: string[];
+  // May already be in BlogPostSection shape when fetched from published data
+  subtitle?: string;
+  details?: string;
+  bulletPoints?: string[];
+  expertQuotes?: string[];
+  authorityLinks?: string | string[];
+  stats?: string | string[];
+  additionalInsights?: string;
+  personalTips?: string[] | string;
+  conclusion?: { title: string; text: string; additionalInsights?: string };
+  images?: { url: string; caption?: string }[];
+  image?: string;
 }
 
 interface EditRequestDetail {
@@ -68,7 +80,7 @@ function linesToStringOrArray(text: string): string | string[] {
 function blocksToBlogPostSections(blocks: ContentBlock[]): BlogPostSection[] {
   if (!Array.isArray(blocks)) return [];
   return blocks
-    .map((b: ContentBlock & Record<string, unknown>) => {
+    .map((b: ContentBlock) => {
       if (!b) return null;
       // Already in public/regular shape: preserve as-is so preview matches article renderer.
       if (
