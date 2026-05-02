@@ -20,15 +20,13 @@ export default function CmsLogin() {
       const res  = await cmsPost("/login", { email: normalizedEmail, password });
       const data = await res.json();
       if (!res.ok) {
-        if (res.status === 401) {
-          setError("Wrong email or password. If you just changed it, use your new password and the exact CMS email on the account.");
-        } else {
-          setError(data.error || "Login failed");
-        }
+        setError(res.status === 401
+          ? "Wrong email or password."
+          : data.error || "Login failed");
         return;
       }
       if (data.mustChangePassword) { router.push("/cms/change-password"); return; }
-      router.push(data.role === "admin" ? "/cms/admin" : "/cms/dashboard");
+      router.push(data.role === "admin" || data.role === "sub-admin" ? "/cms/admin" : "/cms/dashboard");
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -38,43 +36,62 @@ export default function CmsLogin() {
 
   return (
     <div className="cms-auth-wrap">
-      <div className="cms-auth-card">
-        <div className="cms-auth-logo">✍️ Dollars & Life</div>
-        <div className="cms-auth-sub">Contributor Portal</div>
+      {/* ── Brand panel ─────────────────────────────────────────────────── */}
+      <div className="cms-auth-brand">
+        <div className="cms-auth-brand-logo">✍️</div>
+        <h1 className="cms-auth-brand-title">
+          Dollars &amp; Life<br />Contributor Portal
+        </h1>
+        <p className="cms-auth-brand-desc">Write. Publish. Inspire.</p>
+        <ul className="cms-auth-brand-features">
+          <li>Submit &amp; manage your articles</li>
+          <li>Propose edits to published content</li>
+          <li>Build your public author profile</li>
+          <li>Track reviews &amp; feedback</li>
+        </ul>
+      </div>
 
-        {error && <div className="cms-error">{error}</div>}
+      {/* ── Form panel ──────────────────────────────────────────────────── */}
+      <div className="cms-auth-form-panel">
+        <div className="cms-auth-card">
+          <div className="cms-auth-logo">Welcome back</div>
+          <div className="cms-auth-sub">Sign in to your contributor account</div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="cms-field">
-            <label className="cms-label">Email</label>
-            <input
-              className="cms-input"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              autoFocus
-            />
-            <div style={{ fontSize: "0.78rem", color: "#9a9ab0" }}>
-              Use the exact CMS email tied to your account.
+          {error && <div className="cms-error">{error}</div>}
+
+          <form onSubmit={handleSubmit}>
+            <div className="cms-field">
+              <label className="cms-label">Email address</label>
+              <input
+                className="cms-input"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                autoFocus
+              />
             </div>
-          </div>
-          <div className="cms-field">
-            <label className="cms-label">Password</label>
-            <input
-              className="cms-input"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          <button className="cms-btn cms-btn-primary" type="submit" disabled={loading}>
-            {loading ? "Signing in…" : "Sign In"}
-          </button>
-        </form>
+            <div className="cms-field" style={{ marginBottom: "1.5rem" }}>
+              <label className="cms-label">Password</label>
+              <input
+                className="cms-input"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+              />
+            </div>
+            <button className="cms-btn cms-btn-primary" type="submit" disabled={loading}>
+              {loading ? "Signing in…" : "Sign In →"}
+            </button>
+          </form>
+
+          <p style={{ marginTop: "1.5rem", fontSize: "0.78rem", color: "var(--subtle)", textAlign: "center", lineHeight: 1.5 }}>
+            Don&apos;t have an account? Contact the site admin to get access.
+          </p>
+        </div>
       </div>
     </div>
   );

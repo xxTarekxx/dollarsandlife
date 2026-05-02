@@ -631,7 +631,9 @@ export default function ProposeArticleEditPage() {
         setSubmitNotice({ kind: "error", message: msg });
         return;
       }
-      const okMsg = "Request submitted. Admin can now review it in Articles > Article edits > Pending.";
+      const okMsg = data.autoApproved
+        ? "Your article has been updated and is now live (auto-approved as your own article)."
+        : "Request submitted. Admin can now review it in Articles > Article edits > Pending.";
       setSuccess(okMsg);
       setSubmitNotice({ kind: "success", message: okMsg });
     } catch {

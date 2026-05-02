@@ -112,7 +112,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     cmsGet("/me").then((user) => {
-      if (user.role !== "admin") {
+      if (user.role !== "admin" && user.role !== "sub-admin") {
         router.push("/cms/dashboard");
         return;
       }
@@ -192,8 +192,12 @@ export default function AdminPage() {
     <>
       <CmsNav userName={me.name} role={me.role} />
       <div className="cms-page" style={{ maxWidth: 1120 }}>
-        <h1 className="cms-heading">Admin</h1>
-        <p className="cms-subheading">Manage article review, contributors, and public author profiles.</p>
+        <div className="cms-page-banner" style={{ marginBottom: "1.5rem" }}>
+          <div>
+            <h1>{me.role === "sub-admin" ? "Review Queue" : "Admin"}</h1>
+            <p>{me.role === "sub-admin" ? "Review and approve article submissions and edit requests." : "Manage article review, contributors, and public author profiles."}</p>
+          </div>
+        </div>
 
         {error && <div className="cms-error">{error}</div>}
 
@@ -201,12 +205,16 @@ export default function AdminPage() {
           <button type="button" onClick={() => setAdminView("articles", "pending", undefined, { articleQueue: "new" })} className={`cms-btn cms-btn-sm ${section === "articles" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
             Articles
           </button>
-          <button type="button" onClick={() => setAdminView("contributors")} className={`cms-btn cms-btn-sm ${section === "contributors" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
-            Contributors
-          </button>
-          <button type="button" onClick={() => setAdminView("authors")} className={`cms-btn cms-btn-sm ${section === "authors" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
-            Authors
-          </button>
+          {me.role === "admin" && (
+            <>
+              <button type="button" onClick={() => setAdminView("contributors")} className={`cms-btn cms-btn-sm ${section === "contributors" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
+                Contributors
+              </button>
+              <button type="button" onClick={() => setAdminView("authors")} className={`cms-btn cms-btn-sm ${section === "authors" ? "cms-btn-primary" : "cms-btn-secondary"}`} style={{ width: "auto" }}>
+                Authors
+              </button>
+            </>
+          )}
         </div>
 
         {section === "articles" && (
@@ -340,7 +348,7 @@ export default function AdminPage() {
                   <p>Nothing here yet.</p>
                 </div>
               ) : (
-                <ContributorsTable contributors={contributors} currentUserEmail={me.email} onRefresh={loadContributors} />
+                <ContributorsTable contributors={contributors} currentUserEmail={me.email} currentUserRole={me.role} onRefresh={loadContributors} />
               )}
               {contributorsLoading && contributors.length > 0 && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#9a9ab0" }}>Updating...</div>}
             </div>
@@ -419,16 +427,18 @@ export default function AdminPage() {
 function ContributorsTable({
   contributors,
   currentUserEmail,
+  currentUserRole,
   onRefresh,
 }: {
   contributors: Contributor[];
   currentUserEmail: string;
+  currentUserRole: string;
   onRefresh: () => Promise<void>;
 }) {
   const [busyId, setBusyId] = useState("");
   const [error, setError] = useState("");
 
-  async function runAction(id: string, action: "enable" | "disable" | "delete") {
+  async function runAction(id: string, action: "enable" | "disable" | "delete" | "toggle-sub-admin") {
     if (action === "delete") {
       const confirmed = window.confirm("Revoke this contributor's CMS access? Author profile data stays intact.");
       if (!confirmed) return;
@@ -436,7 +446,9 @@ function ContributorsTable({
     setBusyId(id + action);
     setError("");
     try {
-      const res = action === "delete" ? await cmsDelete(`/authors/${id}`) : await cmsPost(`/authors/${id}/${action}`, {});
+      const res = action === "delete"
+        ? await cmsDelete(`/authors/${id}`)
+        : await cmsPost(`/authors/${id}/${action}`, {});
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || "Action failed");
@@ -449,6 +461,8 @@ function ContributorsTable({
       setBusyId("");
     }
   }
+
+  const isMainAdmin = currentUserRole === "admin";
 
   return (
     <>
@@ -468,11 +482,20 @@ function ContributorsTable({
           {contributors.map((author) => {
             const isSelf = author.email === currentUserEmail;
             const isDisabled = Boolean(author.disabled);
+            const isSubAdmin = author.role === "sub-admin";
+            const isAdmin = author.role === "admin";
             return (
               <tr key={author._id}>
                 <td>{author.name}</td>
                 <td style={{ fontSize: "0.82rem" }}>{author.email}</td>
-                <td style={{ textTransform: "capitalize" }}>{author.role}</td>
+                <td>
+                  <span
+                    className={`cms-status ${isAdmin ? "cms-status-approved" : isSubAdmin ? "cms-status-pending" : ""}`}
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    {isAdmin ? "Admin" : isSubAdmin ? "Sub-Admin" : author.role || "contributor"}
+                  </span>
+                </td>
                 <td>
                   <span className={`cms-status ${isDisabled ? "cms-status-rejected" : "cms-status-approved"}`}>
                     {isDisabled ? "disabled" : "active"}
@@ -481,18 +504,32 @@ function ContributorsTable({
                 <td style={{ whiteSpace: "nowrap", fontSize: "0.82rem" }}>{author.joinedDate || "-"}</td>
                 <td>
                   <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", flexWrap: "wrap" }}>
+                    {/* Sub-admin toggle — admin only, not for self or other admins */}
+                    {isMainAdmin && !isSelf && !isAdmin && (
+                      <button
+                        type="button"
+                        className={`cms-btn cms-btn-sm ${isSubAdmin ? "cms-btn-ghost" : "cms-btn-secondary"}`}
+                        onClick={() => runAction(author._id, "toggle-sub-admin")}
+                        disabled={busyId === author._id + "toggle-sub-admin"}
+                        title={isSubAdmin ? "Demote to contributor" : "Promote to sub-admin (can approve/reject articles)"}
+                      >
+                        {isSubAdmin ? "Remove Sub-Admin" : "Make Sub-Admin"}
+                      </button>
+                    )}
                     {isDisabled ? (
                       <button type="button" className="cms-btn cms-btn-secondary cms-btn-sm" onClick={() => runAction(author._id, "enable")} disabled={busyId === author._id + "enable"}>
                         Enable
                       </button>
                     ) : (
-                      <button type="button" className="cms-btn cms-btn-ghost cms-btn-sm" onClick={() => runAction(author._id, "disable")} disabled={isSelf || busyId === author._id + "disable"}>
+                      <button type="button" className="cms-btn cms-btn-ghost cms-btn-sm" onClick={() => runAction(author._id, "disable")} disabled={isSelf || isAdmin || busyId === author._id + "disable"}>
                         Disable
                       </button>
                     )}
-                    <button type="button" className="cms-btn cms-btn-danger cms-btn-sm" onClick={() => runAction(author._id, "delete")} disabled={isSelf || busyId === author._id + "delete"}>
-                      Revoke Access
-                    </button>
+                    {!isAdmin && (
+                      <button type="button" className="cms-btn cms-btn-danger cms-btn-sm" onClick={() => runAction(author._id, "delete")} disabled={isSelf || busyId === author._id + "delete"}>
+                        Revoke Access
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>
@@ -508,6 +545,7 @@ function AddAuthorForm({ onAdded }: { onAdded: () => void | Promise<void> }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [isSubAdmin, setIsSubAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -529,16 +567,15 @@ function AddAuthorForm({ onAdded }: { onAdded: () => void | Promise<void> }) {
         name: normalizedName,
         email: normalizedEmail,
         tempPassword: normalizedPass,
+        role: isSubAdmin ? "sub-admin" : "contributor",
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Failed to add author");
+        setError(data.error || "Failed to add account");
         return;
       }
-      setSuccess(`Author "${normalizedName}" added.`);
-      setName("");
-      setEmail("");
-      setPass("");
+      setSuccess(`${isSubAdmin ? "Sub-admin" : "Contributor"} "${normalizedName}" added. A welcome email was sent.`);
+      setName(""); setEmail(""); setPass(""); setIsSubAdmin(false);
       await onAdded();
     } catch {
       setError("Network error.");
@@ -551,7 +588,7 @@ function AddAuthorForm({ onAdded }: { onAdded: () => void | Promise<void> }) {
     <form onSubmit={submit}>
       {error && <div className="cms-error">{error}</div>}
       {success && <div className="cms-success">{success}</div>}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem", marginBottom: "1rem" }}>
         <div className="cms-field" style={{ marginBottom: 0 }}>
           <label className="cms-label">Display Name <span>*</span></label>
           <input className="cms-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" required />
@@ -565,9 +602,35 @@ function AddAuthorForm({ onAdded }: { onAdded: () => void | Promise<void> }) {
           <input className="cms-input" value={pass} onChange={(e) => setPass(e.target.value)} placeholder="Min. 8 chars" required />
         </div>
       </div>
-      <button className="cms-btn cms-btn-secondary" type="submit" disabled={loading} style={{ marginTop: "1rem", width: "auto" }}>
-        {loading ? "Adding..." : "Add Contributor"}
-      </button>
+
+      {/* Role toggle */}
+      <label style={{
+        display: "inline-flex", alignItems: "center", gap: "0.6rem",
+        padding: "0.55rem 1rem", borderRadius: 8,
+        background: isSubAdmin ? "rgba(124,58,237,0.08)" : "#F9FAFB",
+        border: `1.5px solid ${isSubAdmin ? "rgba(124,58,237,0.3)" : "#E5E7EB"}`,
+        cursor: "pointer", fontSize: "0.85rem", fontWeight: 600,
+        color: isSubAdmin ? "var(--brand)" : "var(--muted)",
+        transition: "all 0.15s", userSelect: "none",
+        marginBottom: "1rem",
+      }}>
+        <input
+          type="checkbox"
+          checked={isSubAdmin}
+          onChange={e => setIsSubAdmin(e.target.checked)}
+          style={{ accentColor: "var(--brand)", width: 15, height: 15 }}
+        />
+        Grant Sub-Admin access
+        <span style={{ fontSize: "0.75rem", fontWeight: 400, color: isSubAdmin ? "var(--brand-mid)" : "var(--subtle)" }}>
+          {isSubAdmin ? "Can approve / reject articles" : "Article contributor only"}
+        </span>
+      </label>
+
+      <div>
+        <button className="cms-btn cms-btn-secondary" type="submit" disabled={loading} style={{ width: "auto" }}>
+          {loading ? "Adding..." : isSubAdmin ? "+ Add Sub-Admin" : "+ Add Contributor"}
+        </button>
+      </div>
     </form>
   );
 }

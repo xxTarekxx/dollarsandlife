@@ -75,6 +75,16 @@ function requireAdmin(req, res, next) {
     });
 }
 
+// Sub-admins can do everything admins do EXCEPT manage accounts/roles
+function requireAdminOrSubAdmin(req, res, next) {
+    requireAuth(req, res, () => {
+        if (req.cmsUser.role !== 'admin' && req.cmsUser.role !== 'sub-admin') {
+            return res.status(403).json({ error: 'Admin or sub-admin only' });
+        }
+        next();
+    });
+}
+
 // ── Multer — author profile images ────────────────────────────────────────────
 const authorStorage = multer.diskStorage({
     destination: (_req, _file, cb) => {
@@ -618,8 +628,12 @@ router.get('/my-articles', requireAuth, async (req, res) => {
         const results    = [];
 
         for (const col of ARTICLE_COLLECTIONS) {
+            const authorEmail = req.cmsUser.email;
             const docs = await req.db.collection(col).find({
                 $or: [
+                    { 'author.email': authorEmail },
+                    { 'languages.en.author.email': authorEmail },
+                    // Legacy: articles published before email was stored
                     { 'author.name': authorName },
                     { 'languages.en.author.name': authorName },
                 ],
@@ -900,8 +914,11 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
         const article = await req.db.collection(collectionName).findOne(findArticleFilter(String(articleId)));
         if (!article) return res.status(404).json({ error: 'Article not found' });
 
-        const originalAuthorName = getArticleAuthorName(article);
-        const isOwnArticle = originalAuthorName.trim().toLowerCase() === String(req.cmsUser.name || '').trim().toLowerCase();
+        const originalAuthorEmail = (article.languages?.en?.author?.email || article.author?.email || '').toLowerCase();
+        const originalAuthorName  = getArticleAuthorName(article);
+        const isOwnArticle =
+            (originalAuthorEmail && originalAuthorEmail === req.cmsUser.email.toLowerCase()) ||
+            originalAuthorName.trim().toLowerCase() === String(req.cmsUser.name || '').trim().toLowerCase();
 
         const dup = await req.db.collection('cms_article_edit_requests').findOne({
             collectionName,
@@ -914,6 +931,87 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
         }
 
         const en = article.languages?.en || {};
+
+        // ── OWN-ARTICLE BYPASS ────────────────────────────────────────────────────
+        // Authors editing their own articles skip the approval queue and go live
+        // immediately. The edit is still recorded for audit purposes.
+        if (isOwnArticle) {
+            const cleanHeadline = stripAllHtml(String(headline).trim());
+            const cleanContent  = sanitizeProposedContentArray(content);
+            const cleanMeta     = stripAllHtml(metaDescription !== undefined ? String(metaDescription) : (en.metaDescription || article.metaDescription || ''));
+            const imgExisting   = en.image !== undefined ? en.image : article.image;
+            const proposedImg   = image !== undefined && image !== null ? String(image) : imageFieldToUrl(imgExisting);
+            const proposedCap   = imageCaption !== undefined ? String(imageCaption) : imageFieldCaption(imgExisting);
+            const now           = new Date().toISOString();
+            const lastEditedBy  = { name: req.cmsUser.name, email: req.cmsUser.email };
+
+            let imageUrlFinal = proposedImg;
+            if (typeof imageUrlFinal === 'string' && imageUrlFinal.includes('/images/articles/_pending/')) {
+                try {
+                    imageUrlFinal = await finalizePendingArticleImage(imageUrlFinal, imageFieldToUrl(imgExisting));
+                } catch (e) {
+                    console.error('[cms] own-article finalize pending cover:', e.message);
+                    return res.status(400).json({ error: 'Could not process cover image' });
+                }
+            }
+
+            let targetFilter = findArticleFilter(String(articleId));
+            if (article._id && ObjectId.isValid(article._id.toString())) {
+                targetFilter = { _id: article._id };
+            }
+
+            if (article.languages && article.languages.en && typeof article.languages.en === 'object') {
+                const mergedEn = {
+                    ...article.languages.en,
+                    headline: cleanHeadline,
+                    content: cleanContent,
+                    metaDescription: cleanMeta,
+                    image: mergeArticleImageForApprove(imageUrlFinal, proposedCap, imgExisting),
+                    dateModified: now,
+                    lastEditedBy,
+                };
+                await req.db.collection(collectionName).updateOne(targetFilter, { $set: { 'languages.en': mergedEn } });
+            } else {
+                const $set = {
+                    headline: cleanHeadline,
+                    content: cleanContent,
+                    metaDescription: cleanMeta,
+                    image: mergeArticleImageForApprove(imageUrlFinal, proposedCap, imgExisting),
+                    dateModified: now,
+                    lastEditedBy,
+                };
+                await req.db.collection(collectionName).updateOne(targetFilter, { $set });
+            }
+
+            // Record for audit trail (auto-approved)
+            await req.db.collection('cms_article_edit_requests').insertOne({
+                collectionName,
+                articleId: String(articleId),
+                targetArticleObjectId: article._id ? article._id.toString() : null,
+                originalHeadline: en.headline || article.headline || '',
+                originalAuthorName,
+                isOwnArticle: true,
+                proposedEn: { headline: cleanHeadline, content: cleanContent, image: imageUrlFinal, imageCaption: proposedCap, metaDescription: cleanMeta },
+                submittedByEmail: req.cmsUser.email,
+                submittedByName: req.cmsUser.name,
+                status: 'auto-approved',
+                submittedAt: now,
+                reviewedAt: now,
+                reviewNote: 'Auto-approved: author editing their own article',
+            });
+
+            await req.db.collection('cms_article_edit_drafts').deleteOne({
+                collectionName,
+                articleId: String(articleId),
+                authorEmail: req.cmsUser.email,
+            });
+
+            const cache = require('./cache');
+            cache.flush().catch(() => {});
+
+            return res.json({ ok: true, autoApproved: true });
+        }
+        // ── END OWN-ARTICLE BYPASS ────────────────────────────────────────────────
         const originalHeadline = en.headline || article.headline || '';
 
         const imgExisting = en.image !== undefined ? en.image : article.image;
@@ -1020,6 +1118,14 @@ router.post('/submit', requireAuth, async (req, res) => {
         const contentErr = validateArticleContentBlocks(content);
         if (contentErr) return res.status(400).json({ error: contentErr });
 
+        // Prevent duplicate submissions (e.g. double-click or network retry)
+        const dupDraft = await req.db.collection('cms_drafts').findOne({
+            authorEmail: req.cmsUser.email,
+            status: 'pending',
+            headline: stripAllHtml(String(headline).trim()),
+        });
+        if (dupDraft) return res.status(400).json({ error: 'You already have a pending draft with this headline.' });
+
         const draft = {
             headline:       stripAllHtml(String(headline).trim()),
             category,
@@ -1067,7 +1173,7 @@ router.post('/submit', requireAuth, async (req, res) => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // GET /api/cms/drafts
-router.get('/drafts', requireAdmin, async (req, res) => {
+router.get('/drafts', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { status = 'pending' } = req.query;
         const drafts = await req.db.collection('cms_drafts')
@@ -1081,7 +1187,7 @@ router.get('/drafts', requireAdmin, async (req, res) => {
 });
 
 // GET /api/cms/drafts/:id
-router.get('/drafts/:id', requireAdmin, async (req, res) => {
+router.get('/drafts/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
         if (!draft) return res.status(404).json({ error: 'Draft not found' });
@@ -1092,11 +1198,12 @@ router.get('/drafts/:id', requireAdmin, async (req, res) => {
 });
 
 // POST /api/cms/approve/:id
-router.post('/approve/:id', requireAdmin, async (req, res) => {
+router.post('/approve/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
         if (!draft) return res.status(404).json({ error: 'Draft not found' });
+        if (draft.status !== 'pending') return res.status(400).json({ error: 'Draft is not pending' });
 
         const collectionName = CATEGORY_MAP[draft.category];
         if (!collectionName) return res.status(400).json({ error: 'Invalid category' });
@@ -1111,7 +1218,7 @@ router.post('/approve/:id', requireAdmin, async (req, res) => {
             languages: {
                 en: {
                     headline:        draft.headline,
-                    author:          { name: draft.authorName },
+                    author:          { name: draft.authorName, email: draft.authorEmail },
                     datePublished:   new Date().toISOString(),
                     dateModified:    new Date().toISOString(),
                     image:           draft.image,
@@ -1155,7 +1262,7 @@ router.post('/approve/:id', requireAdmin, async (req, res) => {
 });
 
 // POST /api/cms/reject/:id
-router.post('/reject/:id', requireAdmin, async (req, res) => {
+router.post('/reject/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
@@ -1192,7 +1299,7 @@ router.post('/reject/:id', requireAdmin, async (req, res) => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // GET /api/cms/admin/article-edit-requests
-router.get('/admin/article-edit-requests', requireAdmin, async (req, res) => {
+router.get('/admin/article-edit-requests', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const status = req.query.status === 'approved' || req.query.status === 'rejected' ? req.query.status : 'pending';
         const rows = await req.db.collection('cms_article_edit_requests')
@@ -1220,7 +1327,7 @@ router.get('/admin/article-edit-requests', requireAdmin, async (req, res) => {
 });
 
 // GET /api/cms/admin/article-edit-requests/:id
-router.get('/admin/article-edit-requests/:id', requireAdmin, async (req, res) => {
+router.get('/admin/article-edit-requests/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const row = await req.db.collection('cms_article_edit_requests').findOne({
             _id: new ObjectId(req.params.id),
@@ -1236,7 +1343,7 @@ router.get('/admin/article-edit-requests/:id', requireAdmin, async (req, res) =>
 });
 
 // POST /api/cms/admin/article-edit-requests/:id/approve
-router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req, res) => {
+router.post('/admin/article-edit-requests/:id/approve', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         const request = await req.db.collection('cms_article_edit_requests').findOne({
@@ -1341,7 +1448,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdmin, async (req
 });
 
 // POST /api/cms/admin/article-edit-requests/:id/reject
-router.post('/admin/article-edit-requests/:id/reject', requireAdmin, async (req, res) => {
+router.post('/admin/article-edit-requests/:id/reject', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         if (!reviewNote || !String(reviewNote).trim()) {
@@ -1393,8 +1500,8 @@ router.post('/admin/article-edit-requests/:id/reject', requireAdmin, async (req,
 // ADMIN — AUTHORS MANAGEMENT
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// GET /api/cms/authors-list (admin only)
-router.get('/authors-list', requireAdmin, async (req, res) => {
+// GET /api/cms/authors-list (admin or sub-admin)
+router.get('/authors-list', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const authors = await req.db.collection('authors')
             .find({}, { projection: { passwordHash: 0 } })
@@ -1406,8 +1513,8 @@ router.get('/authors-list', requireAdmin, async (req, res) => {
     }
 });
 
-// GET /api/cms/authors-public-list (admin only)
-router.get('/authors-public-list', requireAdmin, async (req, res) => {
+// GET /api/cms/authors-public-list (admin or sub-admin)
+router.get('/authors-public-list', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const authors = await req.db.collection('authors')
             .find({}, {
@@ -1423,8 +1530,8 @@ router.get('/authors-public-list', requireAdmin, async (req, res) => {
     }
 });
 
-// GET /api/cms/authors-public/:id (admin only)
-router.get('/authors-public/:id', requireAdmin, async (req, res) => {
+// GET /api/cms/authors-public/:id (admin or sub-admin)
+router.get('/authors-public/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
         const author = await req.db.collection('authors').findOne(
             { _id: new ObjectId(req.params.id) },
@@ -1496,7 +1603,7 @@ router.delete('/authors-public/:id', requireAdmin, async (req, res) => {
 // POST /api/cms/add-author (admin only)
 router.post('/add-author', requireAdmin, async (req, res) => {
     try {
-        const { name, email, tempPassword } = req.body;
+        const { name, email, tempPassword, role } = req.body;
         const normalizedName = String(name || '').trim();
         const normalizedEmail = String(email || '').toLowerCase().trim();
         const normalizedTempPassword = String(tempPassword || '').trim();
@@ -1507,6 +1614,9 @@ router.post('/add-author', requireAdmin, async (req, res) => {
             return res.status(400).json({ error: 'tempPassword must be at least 8 characters' });
         }
 
+        const allowedRoles = ['contributor', 'sub-admin'];
+        const assignedRole = allowedRoles.includes(role) ? role : 'contributor';
+
         const slug = normalizedName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
         const passwordHash = await bcrypt.hash(normalizedTempPassword, 12);
 
@@ -1515,7 +1625,7 @@ router.post('/add-author', requireAdmin, async (req, res) => {
             name: normalizedName,
             email: normalizedEmail,
             passwordHash,
-            title: 'Contributor',
+            title: assignedRole === 'sub-admin' ? 'Sub-Admin' : 'Contributor',
             bio: '',
             image: '',
             expertise: [],
@@ -1523,21 +1633,22 @@ router.post('/add-author', requireAdmin, async (req, res) => {
             achievements: '',
             active: true,
             joinedDate: new Date().toISOString().slice(0, 10),
-            role: 'contributor',
+            role: assignedRole,
             mustChangePassword: true,
             profileComplete: false,
             editedCount: 0,
             disabled: false,
         });
 
-        // Send welcome email to new author
+        // Send welcome email to new author/sub-admin
+        const roleLabel = assignedRole === 'sub-admin' ? 'Sub-Admin' : 'Contributor';
         sendEmailSafe({
             from:    'Dollars & Life <contact@dollarsandlife.com>',
             to:      normalizedEmail,
-            subject: 'Welcome to Dollars & Life — Your contributor account is ready',
+            subject: `Welcome to Dollars & Life — Your ${roleLabel} account is ready`,
             html: `
                 <h2>Welcome to Dollars & Life, ${normalizedName}!</h2>
-                <p>Your contributor account has been created. Here are your login details:</p>
+                <p>Your ${roleLabel} account has been created. Here are your login details:</p>
                 <p><strong>Email:</strong> ${normalizedEmail}</p>
                 <p><strong>Temporary password:</strong> ${normalizedTempPassword}</p>
                 <p>You will be asked to change your password on first login.</p>
@@ -1587,6 +1698,26 @@ router.post('/authors/:id/enable', requireAdmin, async (req, res) => {
         );
 
         res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// POST /api/cms/authors/:id/toggle-sub-admin (admin only)
+// Promotes a contributor/author to sub-admin, or demotes a sub-admin back to contributor
+router.post('/authors/:id/toggle-sub-admin', requireAdmin, async (req, res) => {
+    try {
+        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(req.params.id) });
+        if (!author) return res.status(404).json({ error: 'Author not found' });
+        if (author.role === 'admin') return res.status(400).json({ error: 'Cannot change role of an admin account' });
+        if (author.email === req.cmsUser.email) return res.status(400).json({ error: 'Cannot change your own role' });
+
+        const newRole = author.role === 'sub-admin' ? 'contributor' : 'sub-admin';
+        await req.db.collection('authors').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: { role: newRole } }
+        );
+        res.json({ ok: true, role: newRole });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
     }

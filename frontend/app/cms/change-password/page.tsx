@@ -22,7 +22,7 @@ export default function ChangePassword() {
       const res  = await cmsPost("/change-password", { currentPassword: current, newPassword: next });
       const data = await res.json();
       if (!res.ok) { setError(data.error || "Failed to change password"); return; }
-      router.push(data.role === "admin" ? "/cms/admin" : "/cms/dashboard");
+      router.push(data.role === "admin" || data.role === "sub-admin" ? "/cms/admin" : "/cms/dashboard");
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -32,29 +32,46 @@ export default function ChangePassword() {
 
   return (
     <div className="cms-auth-wrap">
-      <div className="cms-auth-card">
-        <div className="cms-auth-logo">🔒 Set Your Password</div>
-        <div className="cms-auth-sub">You must set a new password before continuing.</div>
+      {/* ── Brand panel ─────────────────────────────────────────────────── */}
+      <div className="cms-auth-brand">
+        <div className="cms-auth-brand-logo">🔒</div>
+        <h1 className="cms-auth-brand-title">
+          Set your<br />new password
+        </h1>
+        <p className="cms-auth-brand-desc">One-time setup required before you continue.</p>
+        <ul className="cms-auth-brand-features">
+          <li>Minimum 8 characters</li>
+          <li>Choose something memorable</li>
+          <li>You can change it anytime in settings</li>
+        </ul>
+      </div>
 
-        {error && <div className="cms-error">{error}</div>}
+      {/* ── Form panel ──────────────────────────────────────────────────── */}
+      <div className="cms-auth-form-panel">
+        <div className="cms-auth-card">
+          <div className="cms-auth-logo">Create your password</div>
+          <div className="cms-auth-sub">Enter your temporary password and choose a new one to continue.</div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="cms-field">
-            <label className="cms-label">Current (temporary) password</label>
-            <input className="cms-input" type="password" value={current} onChange={e => setCurrent(e.target.value)} required />
-          </div>
-          <div className="cms-field">
-            <label className="cms-label">New password <span>*</span></label>
-            <input className="cms-input" type="password" value={next} onChange={e => setNext(e.target.value)} placeholder="Min. 8 characters" required />
-          </div>
-          <div className="cms-field">
-            <label className="cms-label">Confirm new password <span>*</span></label>
-            <input className="cms-input" type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required />
-          </div>
-          <button className="cms-btn cms-btn-primary" type="submit" disabled={loading}>
-            {loading ? "Saving…" : "Set Password & Continue"}
-          </button>
-        </form>
+          {error && <div className="cms-error">{error}</div>}
+
+          <form onSubmit={handleSubmit}>
+            <div className="cms-field">
+              <label className="cms-label">Current (temporary) password</label>
+              <input className="cms-input" type="password" value={current} onChange={e => setCurrent(e.target.value)} required autoFocus />
+            </div>
+            <div className="cms-field">
+              <label className="cms-label">New password <span style={{ color: "var(--danger)" }}>*</span></label>
+              <input className="cms-input" type="password" value={next} onChange={e => setNext(e.target.value)} placeholder="Min. 8 characters" required />
+            </div>
+            <div className="cms-field" style={{ marginBottom: "1.5rem" }}>
+              <label className="cms-label">Confirm new password <span style={{ color: "var(--danger)" }}>*</span></label>
+              <input className="cms-input" type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required />
+            </div>
+            <button className="cms-btn cms-btn-primary" type="submit" disabled={loading}>
+              {loading ? "Saving…" : "Set Password & Continue →"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

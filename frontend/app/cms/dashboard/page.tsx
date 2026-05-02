@@ -95,14 +95,13 @@ export default function Dashboard() {
     <>
       <CmsNav userName={author.name} role={author.role} />
       <div className="cms-page-wide">
-        <div className="cms-dashboard-hero">
+        <div className="cms-page-banner">
           <div>
-            <h1 className="cms-articles-kicker" style={{ marginBottom: "0.5rem" }}>My Profile</h1>
-            <p className="cms-subheading" style={{ marginBottom: 0 }}>
-              Update how your public author page looks across Dollars &amp; Life.
-            </p>
+            <h1>My Profile</h1>
+            <p>Update how your public author page looks across Dollars &amp; Life.</p>
           </div>
-          <button className="cms-btn cms-btn-primary cms-dashboard-save-top" type="submit" form="cms-profile-form" disabled={saving}>
+          <button className="cms-btn" type="submit" form="cms-profile-form" disabled={saving}
+            style={{ background: "rgba(255,255,255,0.15)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", width: "auto", backdropFilter: "blur(8px)" }}>
             {saving ? "Saving..." : "Save Profile"}
           </button>
         </div>

@@ -85,15 +85,14 @@ export default function MyArticles() {
     <>
       <CmsNav userName={me?.name} role={me?.role} />
       <div className="cms-page-wide">
-        <div className="cms-articles-hero">
+        <div className="cms-page-banner">
           <div>
-            <h1 className="cms-articles-kicker" style={{ marginBottom: "0.5rem" }}>My Articles</h1>
-            <p className="cms-subheading" style={{ marginBottom: 0 }}>
-              Published work, draft submissions, and edit proposals you have submitted.
-            </p>
+            <h1>My Articles</h1>
+            <p>Published work, draft submissions, and edit proposals you have submitted.</p>
           </div>
-          <Link href="/cms/articles/new" className="cms-btn cms-btn-primary cms-articles-add">
-            + Add Article
+          <Link href="/cms/articles/new" className="cms-btn"
+            style={{ background: "rgba(255,255,255,0.15)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", width: "auto", backdropFilter: "blur(8px)", textDecoration: "none" }}>
+            + New Article
           </Link>
         </div>
 

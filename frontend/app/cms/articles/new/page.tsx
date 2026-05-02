@@ -20,9 +20,14 @@ interface Block {
 
 interface Me { name: string; role: string; }
 
-const CATEGORIES = [
-  "Extra Income", "Money Management", "Saving Money",
-  "Investment", "Financial Freedom", "Shopping Deals",
+// Keys must match server CATEGORY_MAP exactly
+const CATEGORIES: { value: string; label: string }[] = [
+  { value: "breaking-news",     label: "Breaking News" },
+  { value: "budget",            label: "Budget" },
+  { value: "freelance-jobs",    label: "Freelance Jobs" },
+  { value: "money-making-apps", label: "Money Making Apps" },
+  { value: "remote-online-jobs",label: "Remote / Online Jobs" },
+  { value: "start-a-blog",      label: "Start a Blog" },
 ];
 
 const BLOCK_LABELS: Record<BlockType, string> = {
@@ -78,7 +83,7 @@ export default function NewArticle() {
 
   const [me,          setMe]          = useState<Me | null>(null);
   const [headline,    setHeadline]    = useState("");
-  const [category,    setCategory]    = useState(CATEGORIES[0]);
+  const [category,    setCategory]    = useState(CATEGORIES[0].value);
   const [metaDesc,    setMetaDesc]    = useState("");
   const [imageUrl,    setImageUrl]    = useState("");
   const [imageAlt,    setImageAlt]    = useState("");
@@ -207,7 +212,7 @@ export default function NewArticle() {
             <div className="cms-field">
               <label className="cms-label">Category <span>*</span></label>
               <select className="cms-select" value={category} onChange={e => setCategory(e.target.value)}>
-                {CATEGORIES.map(c => <option key={c}>{c}</option>)}
+                {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
               </select>
             </div>
 
