@@ -1,16 +1,48 @@
 'use strict';
 
-const express  = require('express');
-const bcrypt   = require('bcryptjs');
-const jwt      = require('jsonwebtoken');
-const multer   = require('multer');
-const path     = require('path');
-const fs       = require('fs');
-const sharp    = require('sharp');
+const express    = require('express');
+const bcrypt     = require('bcryptjs');
+const jwt        = require('jsonwebtoken');
+const multer     = require('multer');
+const path       = require('path');
+const fs         = require('fs');
+const sharp      = require('sharp');
+const sanitizeHtml = require('sanitize-html');
+const rateLimit  = require('express-rate-limit');
 const { Resend } = require('resend');
 const { ObjectId } = require('mongodb');
 
 const router      = express.Router();
+
+// ── Rate limiters ─────────────────────────────────────────────────────────────
+// General limit covers every CMS endpoint; auth routes get a stricter cap.
+const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,   // 15 minutes
+    max: 300,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: { error: 'Too many requests. Please slow down.' },
+});
+
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: { error: 'Too many login attempts. Please try again later.' },
+});
+
+const writeLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: { error: 'Too many requests. Please slow down.' },
+});
+
+// Apply to every CMS route (satisfies CodeQL "missing rate limiting" for all routes).
+router.use(generalLimiter);
+
 const resendApiKey = process.env.RESEND_API_KEY;
 const resend      = resendApiKey ? new Resend(resendApiKey) : null;
 const JWT_SECRET  = process.env.JWT_SECRET;
@@ -139,6 +171,19 @@ const CATEGORY_MAP = {
 };
 
 const ARTICLE_COLLECTIONS = Object.values(CATEGORY_MAP);
+
+/**
+ * Validate a collection name against the allowlist and return a db.Collection.
+ * Always derive the final name from ARTICLE_COLLECTIONS (trusted), never from
+ * raw user input — this breaks the user-data → db.collection() dataflow that
+ * CodeQL flags as "Database query built from user-controlled sources".
+ * Returns null if the name is not in the allowlist.
+ */
+function resolveArticleCollection(db, userInput) {
+    const safe = ARTICLE_COLLECTIONS.find(c => c === String(userInput));
+    if (!safe) return null;
+    return db.collection(safe);
+}
 
 const COLLECTION_TO_CATEGORY_SLUG = Object.fromEntries(
     Object.entries(CATEGORY_MAP).map(([slug, col]) => [col, slug])
@@ -336,24 +381,30 @@ async function deletePendingArticleFileIfAny(urlPathStr) {
     await fs.promises.unlink(p).catch(() => {});
 }
 
-/** Strip dangerous markup; keep safe `<a href="http(s):…">` and `<br>`. */
+/** Strip dangerous markup; keep safe `<a href="https?:…">` and `<br>`. */
 function sanitizeArticleBodyHtml(input) {
     if (input == null || typeof input !== 'string') return input;
-    let s = input.replace(/<script[\s\S]*?<\/script>/gi, '');
-    s = s.replace(/<style[\s\S]*?<\/style>/gi, '');
-    s = s.replace(/\son\w+\s*=\s*["'][^"']*["']/gi, '');
-    s = s.replace(/javascript:/gi, '');
-    s = s.replace(/<\s*iframe[^>]*>/gi, '');
-    s = s.replace(/<a\s+([^>]*?)>([\s\S]*?)<\/a>/gi, (_m, attrs, inner) => {
-        const hrefM = /href\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(attrs);
-        const href = (hrefM && (hrefM[2] || hrefM[3] || hrefM[4] || '')).trim();
-        if (!/^https?:\/\//i.test(href)) return inner.replace(/<[^>]+>/g, '');
-        const escHref = href.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-        const innerPlain = String(inner).replace(/<[^>]+>/g, '');
-        return `<a href="${escHref}" target="_blank" rel="noopener noreferrer">${innerPlain}</a>`;
+    return sanitizeHtml(input, {
+        allowedTags: ['br', 'a'],
+        allowedAttributes: { a: ['href', 'target', 'rel'] },
+        allowedSchemes: ['https', 'http'],
+        allowedSchemesByTag: { a: ['https', 'http'] },
+        transformTags: {
+            a: (tagName, attribs) => {
+                const href = String(attribs.href || '').trim();
+                let scheme = '';
+                try { scheme = new URL(href).protocol; } catch { /* invalid URL — drop */ }
+                if (scheme !== 'https:' && scheme !== 'http:') {
+                    return { tagName: false };
+                }
+                return {
+                    tagName: 'a',
+                    attribs: { href, target: '_blank', rel: 'noopener noreferrer' },
+                };
+            },
+        },
+        disallowedTagsMode: 'discard',
     });
-    s = s.replace(/<(?!\/?(?:br|a)\b)[^>]+>/gi, '');
-    return s;
 }
 
 function stripAllHtml(s) {
@@ -437,7 +488,7 @@ function validateArticleContentBlocks(content) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // POST /api/cms/login
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
     try {
         const { email, password } = req.body;
         const normalizedEmail = String(email || '').toLowerCase().trim();
@@ -496,7 +547,7 @@ router.get('/me', requireAuth, async (req, res) => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // POST /api/cms/change-password
-router.post('/change-password', requireAuth, async (req, res) => {
+router.post('/change-password', authLimiter, requireAuth, async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body;
         if (!currentPassword || !newPassword) return res.status(400).json({ error: 'Both passwords required' });
@@ -576,12 +627,12 @@ router.put('/profile', requireAuth, async (req, res) => {
 });
 
 // POST /api/cms/upload-profile-image
-router.post('/upload-profile-image', requireAuth, uploadAuthor.single('image'), async (req, res) => {
+router.post('/upload-profile-image', writeLimiter, requireAuth, uploadAuthor.single('image'), async (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     try {
         const inputPath = req.file.path;
-        const parsed = path.parse(req.file.filename);
-        const outputFileName = `${parsed.name}.webp`;
+        // Generate a safe filename — never derive it from user-supplied data.
+        const outputFileName = `author-${Date.now()}-${Math.random().toString(36).slice(2)}.webp`;
         const outputPath = path.join(path.dirname(inputPath), outputFileName);
 
         // Compress to WebP (80% quality) before storing on server.
@@ -606,13 +657,13 @@ router.post('/upload-profile-image', requireAuth, uploadAuthor.single('image'), 
 });
 
 // POST /api/cms/upload-article-image
-router.post('/upload-article-image', requireAuth, uploadArticle.single('image'), (req, res) => {
+router.post('/upload-article-image', writeLimiter, requireAuth, uploadArticle.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     res.json({ ok: true, url: `/images/articles/${req.file.filename}` });
 });
 
 // POST /api/cms/upload-article-image-pending — temp file until an edit request is approved (WebP ~70% + move on approve)
-router.post('/upload-article-image-pending', requireAuth, uploadArticlePending.single('image'), (req, res) => {
+router.post('/upload-article-image-pending', writeLimiter, requireAuth, uploadArticlePending.single('image'), (req, res) => {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     res.json({ ok: true, url: `/images/articles/_pending/${req.file.filename}` });
 });
@@ -726,11 +777,12 @@ router.get('/browse-articles', requireAuth, async (req, res) => {
 // GET /api/cms/published-article/:collection/:articleId — EN fields + same-shape payload as public article API (read-only; Mongo unchanged)
 router.get('/published-article/:collection/:articleId', requireAuth, async (req, res) => {
     try {
-        const { collection: col, articleId } = req.params;
-        if (!ARTICLE_COLLECTIONS.includes(col)) {
+        const { collection: rawCol, articleId } = req.params;
+        const pubCol = resolveArticleCollection(req.db, rawCol);
+        if (!pubCol) {
             return res.status(400).json({ error: 'Invalid collection' });
         }
-        const doc = await req.db.collection(col).findOne(findArticleFilter(articleId));
+        const doc = await pubCol.findOne(findArticleFilter(articleId));
         if (!doc) return res.status(404).json({ error: 'Article not found' });
 
         const en = doc.languages?.en || {};
@@ -777,7 +829,8 @@ router.post('/article-edit-drafts/open', requireAuth, async (req, res) => {
         if (!collectionName || !articleId) {
             return res.status(400).json({ error: 'collection and articleId are required' });
         }
-        if (!ARTICLE_COLLECTIONS.includes(collectionName)) {
+        const articleCol = resolveArticleCollection(req.db, collectionName);
+        if (!articleCol) {
             return res.status(400).json({ error: 'Invalid collection' });
         }
 
@@ -787,7 +840,7 @@ router.post('/article-edit-drafts/open', requireAuth, async (req, res) => {
             authorEmail: req.cmsUser.email,
         };
 
-        const article = await req.db.collection(collectionName).findOne(findArticleFilter(String(articleId)));
+        const article = await articleCol.findOne(findArticleFilter(String(articleId)));
         if (!article) return res.status(404).json({ error: 'Article not found' });
 
         const en = article.languages?.en || {};
@@ -895,14 +948,15 @@ router.delete('/article-edit-drafts/:collection/:articleId', requireAuth, async 
 });
 
 // POST /api/cms/article-edit-requests
-router.post('/article-edit-requests', requireAuth, async (req, res) => {
+router.post('/article-edit-requests', writeLimiter, requireAuth, async (req, res) => {
     try {
         const { collection: collectionName, articleId, headline, content, image, imageCaption, metaDescription } = req.body;
 
         if (!collectionName || !articleId || !headline) {
             return res.status(400).json({ error: 'collection, articleId and headline are required' });
         }
-        if (!ARTICLE_COLLECTIONS.includes(collectionName)) {
+        const articleCol = resolveArticleCollection(req.db, collectionName);
+        if (!articleCol) {
             return res.status(400).json({ error: 'Invalid collection' });
         }
         if (!Array.isArray(content) || content.length === 0) {
@@ -911,7 +965,7 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
         const contentErr = validateArticleContentBlocks(content);
         if (contentErr) return res.status(400).json({ error: contentErr });
 
-        const article = await req.db.collection(collectionName).findOne(findArticleFilter(String(articleId)));
+        const article = await articleCol.findOne(findArticleFilter(String(articleId)));
         if (!article) return res.status(404).json({ error: 'Article not found' });
 
         const originalAuthorEmail = (article.languages?.en?.author?.email || article.author?.email || '').toLowerCase();
@@ -970,7 +1024,7 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
                     dateModified: now,
                     lastEditedBy,
                 };
-                await req.db.collection(collectionName).updateOne(targetFilter, { $set: { 'languages.en': mergedEn } });
+                await articleCol.updateOne(targetFilter, { $set: { 'languages.en': mergedEn } });
             } else {
                 const $set = {
                     headline: cleanHeadline,
@@ -980,7 +1034,7 @@ router.post('/article-edit-requests', requireAuth, async (req, res) => {
                     dateModified: now,
                     lastEditedBy,
                 };
-                await req.db.collection(collectionName).updateOne(targetFilter, { $set });
+                await articleCol.updateOne(targetFilter, { $set });
             }
 
             // Record for audit trail (auto-approved)
@@ -1105,7 +1159,7 @@ router.get('/article-edit-requests', requireAuth, async (req, res) => {
 });
 
 // POST /api/cms/submit
-router.post('/submit', requireAuth, async (req, res) => {
+router.post('/submit', writeLimiter, requireAuth, async (req, res) => {
     try {
         const { headline, category, content, image, metaDescription } = req.body;
 
@@ -1198,15 +1252,15 @@ router.get('/drafts/:id', requireAdminOrSubAdmin, async (req, res) => {
 });
 
 // POST /api/cms/approve/:id
-router.post('/approve/:id', requireAdminOrSubAdmin, async (req, res) => {
+router.post('/approve/:id', writeLimiter, requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
         if (!draft) return res.status(404).json({ error: 'Draft not found' });
         if (draft.status !== 'pending') return res.status(400).json({ error: 'Draft is not pending' });
 
-        const collectionName = CATEGORY_MAP[draft.category];
-        if (!collectionName) return res.status(400).json({ error: 'Invalid category' });
+        const targetCol = resolveArticleCollection(req.db, CATEGORY_MAP[draft.category]);
+        if (!targetCol) return res.status(400).json({ error: 'Invalid category' });
 
         // Build slug from headline
         const slug      = draft.headline.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').slice(0, 80);
@@ -1228,7 +1282,7 @@ router.post('/approve/:id', requireAdminOrSubAdmin, async (req, res) => {
             },
         };
 
-        await req.db.collection(collectionName).insertOne(article);
+        await targetCol.insertOne(article);
         await req.db.collection('cms_drafts').updateOne(
             { _id: new ObjectId(req.params.id) },
             { $set: { status: 'approved', reviewedAt: new Date().toISOString(), reviewNote: reviewNote || '' } }
@@ -1262,7 +1316,7 @@ router.post('/approve/:id', requireAdminOrSubAdmin, async (req, res) => {
 });
 
 // POST /api/cms/reject/:id
-router.post('/reject/:id', requireAdminOrSubAdmin, async (req, res) => {
+router.post('/reject/:id', writeLimiter, requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
@@ -1343,7 +1397,7 @@ router.get('/admin/article-edit-requests/:id', requireAdminOrSubAdmin, async (re
 });
 
 // POST /api/cms/admin/article-edit-requests/:id/approve
-router.post('/admin/article-edit-requests/:id/approve', requireAdminOrSubAdmin, async (req, res) => {
+router.post('/admin/article-edit-requests/:id/approve', writeLimiter, requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         const request = await req.db.collection('cms_article_edit_requests').findOne({
@@ -1352,15 +1406,15 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdminOrSubAdmin, 
         if (!request) return res.status(404).json({ error: 'Request not found' });
         if (request.status !== 'pending') return res.status(400).json({ error: 'Request is not pending' });
 
-        const col = request.collectionName;
-        if (!ARTICLE_COLLECTIONS.includes(col)) return res.status(400).json({ error: 'Invalid collection' });
+        const editCol = resolveArticleCollection(req.db, request.collectionName);
+        if (!editCol) return res.status(400).json({ error: 'Invalid collection' });
 
         let targetFilter = findArticleFilter(request.articleId);
         if (request.targetArticleObjectId && ObjectId.isValid(request.targetArticleObjectId)) {
             targetFilter = { _id: new ObjectId(request.targetArticleObjectId) };
         }
 
-        const article = await req.db.collection(col).findOne(targetFilter);
+        const article = await editCol.findOne(targetFilter);
         if (!article) return res.status(404).json({ error: 'Article not found' });
 
         const now = new Date().toISOString();
@@ -1397,7 +1451,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdminOrSubAdmin, 
             mergedEn.image = mergeArticleImageForApprove(imageUrlMerged, p.imageCaption, existingImg);
             if (p.metaDescription !== undefined) mergedEn.metaDescription = p.metaDescription;
 
-            await req.db.collection(col).updateOne(
+            await editCol.updateOne(
                 targetFilter,
                 { $set: { 'languages.en': mergedEn } }
             );
@@ -1410,7 +1464,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdminOrSubAdmin, 
             };
             $set.image = mergeArticleImageForApprove(imageUrlMerged, p.imageCaption, article.image);
             if (p.metaDescription !== undefined) $set.metaDescription = p.metaDescription;
-            await req.db.collection(col).updateOne(targetFilter, { $set });
+            await editCol.updateOne(targetFilter, { $set });
         }
 
         await req.db.collection('cms_article_edit_requests').updateOne(
@@ -1448,7 +1502,7 @@ router.post('/admin/article-edit-requests/:id/approve', requireAdminOrSubAdmin, 
 });
 
 // POST /api/cms/admin/article-edit-requests/:id/reject
-router.post('/admin/article-edit-requests/:id/reject', requireAdminOrSubAdmin, async (req, res) => {
+router.post('/admin/article-edit-requests/:id/reject', writeLimiter, requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
         if (!reviewNote || !String(reviewNote).trim()) {
@@ -1601,7 +1655,7 @@ router.delete('/authors-public/:id', requireAdmin, async (req, res) => {
 });
 
 // POST /api/cms/add-author (admin only)
-router.post('/add-author', requireAdmin, async (req, res) => {
+router.post('/add-author', writeLimiter, requireAdmin, async (req, res) => {
     try {
         const { name, email, tempPassword, role } = req.body;
         const normalizedName = String(name || '').trim();
