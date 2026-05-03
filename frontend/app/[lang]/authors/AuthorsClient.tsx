@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { resolveUploadedMediaUrl } from "@/lib/cmsApi";
+import { resolveUploadedMediaUrlWithVersion } from "@/lib/cmsApi";
 import type { Author } from "./page";
 import "./authors.css";
 
@@ -39,7 +39,10 @@ export default function AuthorsClient({ authors, error }: Props) {
           <Link key={author.slug} href={`/authors/${author.slug}`} className="author-card">
             <div className="author-card-image-wrap">
               <Image
-                src={resolveUploadedMediaUrl(author.image || "/images/authors/placeholder.webp")}
+                src={resolveUploadedMediaUrlWithVersion(
+                  author.image || "/images/authors/placeholder.webp",
+                  author.imageUpdatedAt
+                )}
                 alt={author.name}
                 width={320}
                 height={220}

@@ -40,6 +40,7 @@ export interface Author {
   title: string;
   bio: string;
   image: string;
+  imageUpdatedAt?: string;
   expertise: string[];
   social: { linkedin?: string };
   joinedDate: string;

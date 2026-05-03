@@ -97,6 +97,26 @@ export function resolveUploadedMediaUrl(path: string): string {
   return preferPageOriginForLocalArticleImages(resolved, path);
 }
 
+export function resolveUploadedMediaUrlWithVersion(path: string, updatedAt?: string): string {
+  const resolved = resolveUploadedMediaUrl(path);
+  if (!resolved || !updatedAt) return resolved;
+  const version = Date.parse(updatedAt);
+  const token = Number.isFinite(version) ? String(version) : updatedAt;
+
+  try {
+    const base =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : "https://www.dollarsandlife.com";
+    const url = new URL(resolved, base);
+    url.searchParams.set("v", token);
+    return url.toString();
+  } catch {
+    const joiner = resolved.includes("?") ? "&" : "?";
+    return `${resolved}${joiner}v=${encodeURIComponent(token)}`;
+  }
+}
+
 export async function cmsApi(
   path: string,
   options: RequestInit = {}

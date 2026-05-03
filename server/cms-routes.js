@@ -642,28 +642,39 @@ router.post('/upload-profile-image', writeLimiter, requireAuth, uploadAuthor.sin
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
     try {
         const inputPath = req.file.path;
-        // Generate a safe filename — never derive it from user-supplied data.
-        const outputFileName = `author-${Date.now()}-${Math.random().toString(36).slice(2)}.webp`;
+        const authorSlug = String(req.cmsUser?.slug || 'author')
+            .toLowerCase()
+            .replace(/[^a-z0-9-]+/g, '-')
+            .replace(/^-+|-+$/g, '') || 'author';
+        const outputFileName = `${authorSlug}.webp`;
         const outputPath = path.join(path.dirname(inputPath), outputFileName);
+        const tempOutputPath = path.join(
+            path.dirname(inputPath),
+            `${authorSlug}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.tmp.webp`
+        );
 
         // Compress to WebP (80% quality) before storing on server.
         await sharp(inputPath)
             .rotate()
+            .resize(1000, 1000, { fit: 'cover', position: 'centre' })
             .webp({ quality: 80 })
-            .toFile(outputPath);
+            .toFile(tempOutputPath);
+
+        await fs.promises.rename(tempOutputPath, outputPath);
 
         // Remove original upload once WebP is written.
         await fs.promises.unlink(inputPath).catch(() => {});
 
         const url = `/images/authors/${outputFileName}`;
+        const imageUpdatedAt = new Date().toISOString();
         await req.db.collection('authors').updateOne(
             { email: req.cmsUser.email },
-            { $set: { image: url } }
+            { $set: { image: url, imageUpdatedAt } }
         ).catch(() => {});
         // Public /authors and /authors/:slug are cached — invalidate so the new image shows.
         const cache = require('./cache');
         await cache.flush().catch(() => {});
-        res.json({ ok: true, url });
+        res.json({ ok: true, url, imageUpdatedAt });
     } catch (err) {
         console.error('[cms] upload-profile-image error:', err.message);
         res.status(500).json({ error: 'Image processing failed' });
