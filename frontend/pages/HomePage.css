@@ -222,7 +222,7 @@ a:focus {
     justify-content: center;
     text-align: center;
 
-    background: linear-gradient(150deg, var(--primary) 0%, var(--primary-mid) 55%, var(--primary-light) 100%);
+    background: var(--primary);
     margin-bottom: 0;
     overflow: hidden;
     z-index: 0;
