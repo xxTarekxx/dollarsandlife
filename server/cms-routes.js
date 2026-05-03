@@ -660,6 +660,9 @@ router.post('/upload-profile-image', writeLimiter, requireAuth, uploadAuthor.sin
             { email: req.cmsUser.email },
             { $set: { image: url } }
         ).catch(() => {});
+        // Public /authors and /authors/:slug are cached — invalidate so the new image shows.
+        const cache = require('./cache');
+        await cache.flush().catch(() => {});
         res.json({ ok: true, url });
     } catch (err) {
         console.error('[cms] upload-profile-image error:', err.message);
