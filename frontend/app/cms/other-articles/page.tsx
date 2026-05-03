@@ -69,7 +69,7 @@ export default function OtherArticlesPage() {
                   <li
                     key={a.id}
                     style={{
-                      borderBottom: "1px solid #ece8f2",
+                      borderBottom: "1px solid rgba(255,255,255,0.07)",
                       padding: "0.65rem 0",
                       display: "flex",
                       justifyContent: "space-between",
@@ -79,9 +79,9 @@ export default function OtherArticlesPage() {
                     }}
                   >
                     <div>
-                      <div style={{ fontWeight: 600, color: "#1a1a2e" }}>{a.headline}</div>
+                      <div style={{ fontWeight: 600, color: "#EDE9FF" }}>{a.headline}</div>
                       {a.authorName && (
-                        <div style={{ fontSize: "0.8rem", color: "#8d88a6", marginTop: "0.2rem" }}>{a.authorName}</div>
+                        <div style={{ fontSize: "0.8rem", color: "#928EAE", marginTop: "0.2rem" }}>{a.authorName}</div>
                       )}
                     </div>
                     <Link

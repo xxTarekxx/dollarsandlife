@@ -312,8 +312,12 @@ export default function ProposeArticleEditPage() {
           datePublished: pub?.datePublished || "",
           dateModified: pub?.dateModified || "",
         });
-      } catch {
-        if (!cancelled) router.push("/cms/login");
+      } catch (err) {
+        if (!cancelled) {
+          const is401 = err instanceof Error && err.message.includes("401");
+          if (is401) router.push("/cms/login");
+          else setError("Failed to load article. Please check the URL and try again.");
+        }
       } finally {
         if (!cancelled) setPageLoading(false);
       }

@@ -56,7 +56,7 @@ export default function CmsNav({ userName, role }: Props) {
     <nav className="cms-nav">
       {/* Brand */}
       <Link href={isAdmin ? "/cms/admin" : "/cms/dashboard"} className="cms-nav-brand">
-        ✍️ <span>D&amp;L CMS</span>
+        <img src="/images/website-logo.webp" alt="Dollars & Life" />
         {role && (
           <span style={{
             fontSize: "0.6rem",

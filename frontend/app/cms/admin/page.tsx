@@ -262,7 +262,7 @@ export default function AdminPage() {
                         <td style={{ maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.headline}</td>
                         <td>
                           <div style={{ fontSize: "0.85rem" }}>{d.authorName}</div>
-                          <div style={{ fontSize: "0.72rem", color: "#9a9ab0" }}>{d.authorEmail}</div>
+                          <div style={{ fontSize: "0.72rem", color: "#928EAE" }}>{d.authorEmail}</div>
                         </td>
                         <td><span className="cms-tag" style={{ margin: 0 }}>{d.category}</span></td>
                         <td style={{ whiteSpace: "nowrap", fontSize: "0.82rem" }}>{new Date(d.submittedAt).toLocaleDateString()}</td>
@@ -276,7 +276,7 @@ export default function AdminPage() {
                     ))}
                   </tbody>
                 </table>
-                {loading && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#9a9ab0" }}>Updating...</div>}
+                {loading && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#B8B4D4" }}>Updating...</div>}
               </div>
             ))}
 
@@ -305,10 +305,10 @@ export default function AdminPage() {
                     {editRequests.map((r) => (
                       <tr key={r._id}>
                         <td style={{ maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.proposedHeadline}</td>
-                        <td style={{ maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: "0.82rem", color: "#6b6578" }}>{r.originalHeadline}</td>
+                        <td style={{ maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: "0.82rem", color: "#B8B4D4" }}>{r.originalHeadline}</td>
                         <td>
                           <div style={{ fontSize: "0.85rem" }}>{r.submittedByName}</div>
-                          <div style={{ fontSize: "0.72rem", color: "#9a9ab0" }}>{r.submittedByEmail}</div>
+                          <div style={{ fontSize: "0.72rem", color: "#928EAE" }}>{r.submittedByEmail}</div>
                         </td>
                         <td><span className="cms-tag" style={{ margin: 0 }}>{r.collectionName}</span></td>
                         <td style={{ whiteSpace: "nowrap", fontSize: "0.82rem" }}>{new Date(r.submittedAt).toLocaleDateString()}</td>
@@ -322,7 +322,7 @@ export default function AdminPage() {
                     ))}
                   </tbody>
                 </table>
-                {loading && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#9a9ab0" }}>Updating...</div>}
+                {loading && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#B8B4D4" }}>Updating...</div>}
               </div>
             ))}
 
@@ -350,7 +350,7 @@ export default function AdminPage() {
               ) : (
                 <ContributorsTable contributors={contributors} currentUserEmail={me.email} currentUserRole={me.role} onRefresh={loadContributors} />
               )}
-              {contributorsLoading && contributors.length > 0 && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#9a9ab0" }}>Updating...</div>}
+              {contributorsLoading && contributors.length > 0 && <div style={{ paddingTop: "0.75rem", fontSize: "0.8rem", color: "#B8B4D4" }}>Updating...</div>}
             </div>
 
             <div className="cms-card" style={{ marginTop: "2rem" }}>
@@ -365,7 +365,7 @@ export default function AdminPage() {
             <div className="cms-card">
               <div className="cms-card-title">Authors</div>
               {authorsLoading && authors.length === 0 ? (
-                <div style={{ color: "#9a9ab0" }}>Loading...</div>
+                <div style={{ color: "#B8B4D4" }}>Loading...</div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
                   {authors.map((author) => (
@@ -377,13 +377,13 @@ export default function AdminPage() {
                       style={{
                         width: "100%",
                         justifyContent: "space-between",
-                        background: authorId === author._id ? "#eadcf5" : "#f7f2fb",
-                        color: "#3b3254",
+                        background: authorId === author._id ? "rgba(124,58,237,0.25)" : "rgba(255,255,255,0.04)",
+                        color: "#E4DFFA",
                       }}
                     >
                       <span style={{ textAlign: "left" }}>
-                        <strong style={{ display: "block", color: "#1a1a2e" }}>{author.name}</strong>
-                        <span style={{ fontSize: "0.75rem", color: "#8d88a6" }}>{author.slug}</span>
+                        <strong style={{ display: "block", color: "#EDE9FF" }}>{author.name}</strong>
+                        <span style={{ fontSize: "0.75rem", color: "#928EAE" }}>{author.slug}</span>
                       </span>
                       <span className={`cms-status ${author.active ? "cms-status-approved" : "cms-status-rejected"}`}>
                         {author.active ? "live" : "hidden"}
@@ -487,7 +487,7 @@ function ContributorsTable({
             return (
               <tr key={author._id}>
                 <td>{author.name}</td>
-                <td style={{ fontSize: "0.82rem" }}>{author.email}</td>
+                <td style={{ fontSize: "0.82rem", color: "#B8B4D4" }}>{author.email}</td>
                 <td>
                   <span
                     className={`cms-status ${isAdmin ? "cms-status-approved" : isSubAdmin ? "cms-status-pending" : ""}`}

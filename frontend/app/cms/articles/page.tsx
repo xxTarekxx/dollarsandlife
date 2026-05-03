@@ -228,7 +228,7 @@ export default function MyArticles() {
           <div className="cms-articles-section">
             <div className="cms-card-title">Edit requests you submitted</div>
             {editsLoading && myEdits.length === 0 ? (
-              <div style={{ padding: "1rem", color: "#9a9ab0" }}>Loading…</div>
+              <div style={{ padding: "1rem", color: "#B8B4D4" }}>Loading…</div>
             ) : myEdits.length === 0 ? (
               <div className="cms-articles-empty">
                 <p>No edit requests yet. Use Other Articles or a published card below to open the editor.</p>
@@ -242,7 +242,7 @@ export default function MyArticles() {
                       <span className="cms-tag">{row.collectionName}</span>
                     </div>
                     <h2 className="cms-article-card-title">{row.proposedHeadline || row.originalHeadline}</h2>
-                    <div className="cms-article-card-meta" style={{ fontSize: "0.8rem", color: "#6b6578" }}>
+                    <div className="cms-article-card-meta" style={{ fontSize: "0.8rem", color: "#B8B4D4" }}>
                       Was: {row.originalHeadline}
                     </div>
                     <div className="cms-article-card-meta">Submitted {new Date(row.submittedAt).toLocaleDateString()}</div>

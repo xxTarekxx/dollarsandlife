@@ -813,8 +813,8 @@ router.get('/published-article/:collection/:articleId', requireAuth, async (req,
 
         res.json({
             articleId: doc.articleId || doc.id,
-            collection: col,
-            categorySlug: COLLECTION_TO_CATEGORY_SLUG[col] || col,
+            collection: rawCol,
+            categorySlug: COLLECTION_TO_CATEGORY_SLUG[rawCol] || rawCol,
             headline,
             content,
             image: imageUrl,
