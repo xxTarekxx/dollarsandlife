@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { cmsGet, cmsPut, cmsUpload } from "@/lib/cmsApi";
+import { cmsGet, cmsPut, cmsUpload, resolveUploadedMediaUrl } from "@/lib/cmsApi";
 import { FORUM_TAGS } from "../../../src/data/forumTags";
 import tagColors from "../../../src/utils/tagColors";
 import CmsNav from "../CmsNav";
@@ -180,7 +180,14 @@ export default function Dashboard() {
               <div className="cms-card-title">Profile Photo</div>
               <div className="cms-dashboard-avatar-wrap">
                 {imageUrl ? (
-                  <Image src={imageUrl} alt="Profile" width={160} height={160} className="cms-dashboard-avatar" unoptimized />
+                  <Image
+                    src={resolveUploadedMediaUrl(imageUrl)}
+                    alt="Profile"
+                    width={160}
+                    height={160}
+                    className="cms-dashboard-avatar"
+                    unoptimized
+                  />
                 ) : (
                   <div className="cms-dashboard-avatar cms-dashboard-avatar-placeholder">Photo</div>
                 )}

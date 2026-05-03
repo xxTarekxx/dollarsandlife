@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { resolveUploadedMediaUrl } from "@/lib/cmsApi";
 import "../authors.css";
 
 const COLLECTION_ROUTE_MAP: Record<string, string> = {
@@ -68,7 +69,7 @@ export default function AuthorProfileClient({ author, error }: Props) {
       {/* ── Profile hero ── */}
       <div className="author-profile-card">
         <Image
-          src={author.image || "/images/authors/placeholder.webp"}
+          src={resolveUploadedMediaUrl(author.image || "/images/authors/placeholder.webp")}
           alt={author.name}
           width={110}
           height={110}

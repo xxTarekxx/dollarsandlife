@@ -16,6 +16,10 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express();
 const PORT = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI;
+const cmsUploadDir = process.env.CMS_UPLOAD_DIR
+    ? path.resolve(__dirname, process.env.CMS_UPLOAD_DIR)
+    : path.join(__dirname, '../frontend/public/images');
+const staticRoot = path.dirname(cmsUploadDir);
 
 if (!MONGODB_URI) {
     console.error("❌ MONGODB_URI is missing from .env");
@@ -73,8 +77,7 @@ const cmsRoutes = require('./cms-routes.js');
 app.use('/api', routes);
 app.use('/api/cms', cmsRoutes);
 
-// Serve static files only from ./public — never the project root (avoids exposing .env, routes.js, etc.)
-const staticRoot = path.join(__dirname, 'public');
+// Serve public files from the same root that profile/article uploads write into.
 fs.mkdirSync(staticRoot, { recursive: true });
 app.use(express.static(staticRoot, { dotfiles: 'deny', index: false }));
 

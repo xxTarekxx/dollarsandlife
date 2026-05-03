@@ -60,7 +60,13 @@ export function resolveUploadedMediaUrl(path: string): string {
     return `${window.location.protocol}${path}`;
   }
   if (!path.startsWith("/")) return path;
-  if (typeof window === "undefined") return path;
+  if (typeof window === "undefined") {
+    const mediaOrigin =
+      typeof process !== "undefined" && process.env.NEXT_PUBLIC_CMS_MEDIA_ORIGIN
+        ? String(process.env.NEXT_PUBLIC_CMS_MEDIA_ORIGIN).replace(/\/$/, "")
+        : "https://www.dollarsandlife.com";
+    return `${mediaOrigin}${path}`;
+  }
   const apiBase = getCmsApiBase();
   let resolved: string;
   if (apiBase.startsWith("http://") || apiBase.startsWith("https://")) {
@@ -72,12 +78,21 @@ export function resolveUploadedMediaUrl(path: string): string {
       resolved = `${origin}${path}`;
     }
   } else {
-    // Same-origin `/api` (or other relative base): uploads may be served from the API process — override when needed.
+    // Same-origin `/api` (or other relative base): prefer an explicit media origin,
+    // keep localhost on the current page origin, and otherwise use the canonical site host.
     const mediaOrigin =
       typeof process !== "undefined" && process.env.NEXT_PUBLIC_CMS_MEDIA_ORIGIN
         ? String(process.env.NEXT_PUBLIC_CMS_MEDIA_ORIGIN).replace(/\/$/, "")
         : "";
-    resolved = mediaOrigin ? `${mediaOrigin}${path}` : `${window.location.origin}${path}`;
+    if (mediaOrigin) {
+      resolved = `${mediaOrigin}${path}`;
+    } else {
+      const host = window.location.hostname;
+      const isLocalHost = host === "localhost" || host === "127.0.0.1";
+      resolved = isLocalHost
+        ? `${window.location.origin}${path}`
+        : `https://www.dollarsandlife.com${path}`;
+    }
   }
   return preferPageOriginForLocalArticleImages(resolved, path);
 }
