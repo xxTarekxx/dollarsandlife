@@ -38,7 +38,7 @@ export default function CmsLogin() {
     <div className="cms-auth-wrap">
       {/* ── Brand panel ─────────────────────────────────────────────────── */}
       <div className="cms-auth-brand">
-        <div className="cms-auth-brand-logo">✍️</div>
+        <img src="/images/website-logo.webp" alt="Dollars & Life" className="cms-auth-brand-logo" />
         <h1 className="cms-auth-brand-title">
           Dollars &amp; Life<br />Contributor Portal
         </h1>

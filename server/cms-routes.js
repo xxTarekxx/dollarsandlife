@@ -100,6 +100,17 @@ function requireAuth(req, res, next) {
     }
 }
 
+/**
+ * Validate and construct an ObjectId from untrusted input.
+ * Returns null for any input that is not a valid 24-char hex string,
+ * breaking the user-data → db-query dataflow that CodeQL flags.
+ */
+function safeObjectId(rawId) {
+    const s = String(rawId || '').trim();
+    if (!ObjectId.isValid(s) || s.length !== 24) return null;
+    return new ObjectId(s);
+}
+
 function requireAdmin(req, res, next) {
     requireAuth(req, res, () => {
         if (req.cmsUser.role !== 'admin') return res.status(403).json({ error: 'Admin only' });
@@ -1243,7 +1254,9 @@ router.get('/drafts', requireAdminOrSubAdmin, async (req, res) => {
 // GET /api/cms/drafts/:id
 router.get('/drafts/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
-        const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const draft = await req.db.collection('cms_drafts').findOne({ _id });
         if (!draft) return res.status(404).json({ error: 'Draft not found' });
         res.json(draft);
     } catch (err) {
@@ -1255,7 +1268,9 @@ router.get('/drafts/:id', requireAdminOrSubAdmin, async (req, res) => {
 router.post('/approve/:id', writeLimiter, requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
-        const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const draft = await req.db.collection('cms_drafts').findOne({ _id });
         if (!draft) return res.status(404).json({ error: 'Draft not found' });
         if (draft.status !== 'pending') return res.status(400).json({ error: 'Draft is not pending' });
 
@@ -1284,7 +1299,7 @@ router.post('/approve/:id', writeLimiter, requireAdminOrSubAdmin, async (req, re
 
         await targetCol.insertOne(article);
         await req.db.collection('cms_drafts').updateOne(
-            { _id: new ObjectId(req.params.id) },
+            { _id },
             { $set: { status: 'approved', reviewedAt: new Date().toISOString(), reviewNote: reviewNote || '' } }
         );
 
@@ -1319,11 +1334,13 @@ router.post('/approve/:id', writeLimiter, requireAdminOrSubAdmin, async (req, re
 router.post('/reject/:id', writeLimiter, requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
-        const draft = await req.db.collection('cms_drafts').findOne({ _id: new ObjectId(req.params.id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const draft = await req.db.collection('cms_drafts').findOne({ _id });
         if (!draft) return res.status(404).json({ error: 'Draft not found' });
 
         await req.db.collection('cms_drafts').updateOne(
-            { _id: new ObjectId(req.params.id) },
+            { _id },
             { $set: { status: 'rejected', reviewedAt: new Date().toISOString(), reviewNote: reviewNote || '' } }
         );
 
@@ -1383,9 +1400,9 @@ router.get('/admin/article-edit-requests', requireAdminOrSubAdmin, async (req, r
 // GET /api/cms/admin/article-edit-requests/:id
 router.get('/admin/article-edit-requests/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
-        const row = await req.db.collection('cms_article_edit_requests').findOne({
-            _id: new ObjectId(req.params.id),
-        });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const row = await req.db.collection('cms_article_edit_requests').findOne({ _id });
         if (!row) return res.status(404).json({ error: 'Request not found' });
         res.json({
             ...row,
@@ -1400,9 +1417,9 @@ router.get('/admin/article-edit-requests/:id', requireAdminOrSubAdmin, async (re
 router.post('/admin/article-edit-requests/:id/approve', writeLimiter, requireAdminOrSubAdmin, async (req, res) => {
     try {
         const { reviewNote } = req.body;
-        const request = await req.db.collection('cms_article_edit_requests').findOne({
-            _id: new ObjectId(req.params.id),
-        });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const request = await req.db.collection('cms_article_edit_requests').findOne({ _id });
         if (!request) return res.status(404).json({ error: 'Request not found' });
         if (request.status !== 'pending') return res.status(400).json({ error: 'Request is not pending' });
 
@@ -1468,7 +1485,7 @@ router.post('/admin/article-edit-requests/:id/approve', writeLimiter, requireAdm
         }
 
         await req.db.collection('cms_article_edit_requests').updateOne(
-            { _id: new ObjectId(req.params.id) },
+            { _id },
             { $set: {
                 status: 'approved',
                 reviewedAt: now,
@@ -1508,9 +1525,9 @@ router.post('/admin/article-edit-requests/:id/reject', writeLimiter, requireAdmi
         if (!reviewNote || !String(reviewNote).trim()) {
             return res.status(400).json({ error: 'reviewNote is required' });
         }
-        const request = await req.db.collection('cms_article_edit_requests').findOne({
-            _id: new ObjectId(req.params.id),
-        });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const request = await req.db.collection('cms_article_edit_requests').findOne({ _id });
         if (!request) return res.status(404).json({ error: 'Request not found' });
         if (request.status !== 'pending') return res.status(400).json({ error: 'Request is not pending' });
 
@@ -1520,7 +1537,7 @@ router.post('/admin/article-edit-requests/:id/reject', writeLimiter, requireAdmi
 
         const now = new Date().toISOString();
         await req.db.collection('cms_article_edit_requests').updateOne(
-            { _id: new ObjectId(req.params.id) },
+            { _id },
             { $set: {
                 status: 'rejected',
                 reviewedAt: now,
@@ -1587,8 +1604,10 @@ router.get('/authors-public-list', requireAdminOrSubAdmin, async (req, res) => {
 // GET /api/cms/authors-public/:id (admin or sub-admin)
 router.get('/authors-public/:id', requireAdminOrSubAdmin, async (req, res) => {
     try {
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
         const author = await req.db.collection('authors').findOne(
-            { _id: new ObjectId(req.params.id) },
+            { _id },
             { projection: { passwordHash: 0 } }
         );
         if (!author) return res.status(404).json({ error: 'Author not found' });
@@ -1602,7 +1621,9 @@ router.get('/authors-public/:id', requireAdminOrSubAdmin, async (req, res) => {
 router.put('/authors-public/:id', requireAdmin, async (req, res) => {
     try {
         const { name, title, bio, achievements, expertise, linkedin, joinedDate, editedCount, active } = req.body;
-        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(req.params.id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const author = await req.db.collection('authors').findOne({ _id });
         if (!author) return res.status(404).json({ error: 'Author not found' });
 
         const update = {};
@@ -1624,7 +1645,7 @@ router.put('/authors-public/:id', requireAdmin, async (req, res) => {
         }
 
         await req.db.collection('authors').updateOne(
-            { _id: new ObjectId(req.params.id) },
+            { _id },
             { $set: update }
         );
         const cache = require('./cache');
@@ -1640,12 +1661,14 @@ router.put('/authors-public/:id', requireAdmin, async (req, res) => {
 // DELETE /api/cms/authors-public/:id (admin only)
 router.delete('/authors-public/:id', requireAdmin, async (req, res) => {
     try {
-        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(req.params.id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const author = await req.db.collection('authors').findOne({ _id });
         if (!author) return res.status(404).json({ error: 'Author not found' });
         if (author.role === 'admin') return res.status(400).json({ error: 'Admin accounts cannot be deleted from Authors tab' });
 
         // Authors tab "Delete Author" now permanently deletes from DB.
-        await req.db.collection('authors').deleteOne({ _id: new ObjectId(req.params.id) });
+        await req.db.collection('authors').deleteOne({ _id });
         const cache = require('./cache');
         await cache.flush().catch(() => {});
         res.json({ ok: true });
@@ -1723,13 +1746,14 @@ router.post('/add-author', writeLimiter, requireAdmin, async (req, res) => {
 // POST /api/cms/authors/:id/disable (admin only)
 router.post('/authors/:id/disable', requireAdmin, async (req, res) => {
     try {
-        const id = req.params.id;
-        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const author = await req.db.collection('authors').findOne({ _id });
         if (!author) return res.status(404).json({ error: 'Author not found' });
         if (author.email === req.cmsUser.email) return res.status(400).json({ error: 'You cannot disable your own account' });
 
         await req.db.collection('authors').updateOne(
-            { _id: new ObjectId(id) },
+            { _id },
             { $set: { disabled: true } }
         );
 
@@ -1742,12 +1766,13 @@ router.post('/authors/:id/disable', requireAdmin, async (req, res) => {
 // POST /api/cms/authors/:id/enable (admin only)
 router.post('/authors/:id/enable', requireAdmin, async (req, res) => {
     try {
-        const id = req.params.id;
-        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const author = await req.db.collection('authors').findOne({ _id });
         if (!author) return res.status(404).json({ error: 'Author not found' });
 
         await req.db.collection('authors').updateOne(
-            { _id: new ObjectId(id) },
+            { _id },
             { $set: { disabled: false } }
         );
 
@@ -1761,14 +1786,16 @@ router.post('/authors/:id/enable', requireAdmin, async (req, res) => {
 // Promotes a contributor/author to sub-admin, or demotes a sub-admin back to contributor
 router.post('/authors/:id/toggle-sub-admin', requireAdmin, async (req, res) => {
     try {
-        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(req.params.id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const author = await req.db.collection('authors').findOne({ _id });
         if (!author) return res.status(404).json({ error: 'Author not found' });
         if (author.role === 'admin') return res.status(400).json({ error: 'Cannot change role of an admin account' });
         if (author.email === req.cmsUser.email) return res.status(400).json({ error: 'Cannot change your own role' });
 
         const newRole = author.role === 'sub-admin' ? 'contributor' : 'sub-admin';
         await req.db.collection('authors').updateOne(
-            { _id: new ObjectId(req.params.id) },
+            { _id },
             { $set: { role: newRole } }
         );
         res.json({ ok: true, role: newRole });
@@ -1780,15 +1807,16 @@ router.post('/authors/:id/toggle-sub-admin', requireAdmin, async (req, res) => {
 // DELETE /api/cms/authors/:id (admin only)
 router.delete('/authors/:id', requireAdmin, async (req, res) => {
     try {
-        const id = req.params.id;
-        const author = await req.db.collection('authors').findOne({ _id: new ObjectId(id) });
+        const _id = safeObjectId(req.params.id);
+        if (!_id) return res.status(400).json({ error: 'Invalid ID' });
+        const author = await req.db.collection('authors').findOne({ _id });
         if (!author) return res.status(404).json({ error: 'Author not found' });
         if (author.email === req.cmsUser.email) return res.status(400).json({ error: 'You cannot delete your own account' });
         if (author.role === 'admin') return res.status(400).json({ error: 'Admin accounts cannot be revoked' });
 
         // Contributors tab "delete" should revoke CMS access, not erase author data.
         await req.db.collection('authors').updateOne(
-            { _id: new ObjectId(id) },
+            { _id },
             { $set: { disabled: true } }
         );
         res.json({ ok: true, revoked: true });

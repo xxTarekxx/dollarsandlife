@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+const sanitizeHtml = require('sanitize-html');
 const cache = require('./cache');
 
 const router = express.Router();
@@ -454,7 +455,7 @@ async function getArticlesByAuthor(db, authorName) {
             const lang = doc.languages?.en || {};
             const contentArr = lang.content || doc.content || [];
             const rawText = contentArr[0]?.text || '';
-            const excerpt = rawText.replace(/<[^>]+>/g, '').slice(0, 160).trim();
+            const excerpt = sanitizeHtml(rawText, { allowedTags: [] }).slice(0, 160).trim();
             results.push({
                 id: doc.articleId || doc.id,
                 headline: lang.headline || doc.headline,
