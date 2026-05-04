@@ -103,6 +103,9 @@ temp/
 ehthumbs.db
 Thumbs.db
 
+# Claude Code settings (may contain secrets)
+.claude/settings.local.json
+
 # Custom entries
 .htaccess
 f2f534c237f3484bbed9b00b5ccad78a.txt
