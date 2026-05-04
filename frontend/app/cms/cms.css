@@ -188,7 +188,7 @@
   align-items: center;
   text-align: center;
   padding: 3rem 3.5rem;
-  background: linear-gradient(155deg, #0D0820 0%, #1A0E42 30%, #3B1285 65%, #5B21B6 100%);
+  background: #1A0E42;
   position: relative;
   overflow: hidden;
 }
@@ -197,10 +197,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 70% 55% at 85% -5%,  rgba(167,139,250,0.25) 0%, transparent 55%),
-    radial-gradient(ellipse 55% 45% at 10% 105%, rgba(217,119,6,0.18)   0%, transparent 50%),
-    radial-gradient(ellipse 40% 30% at 50%  50%, rgba(124,58,237,0.08)  0%, transparent 60%);
+  background: none;
   pointer-events: none;
 }
 
@@ -209,10 +206,10 @@
   position: absolute;
   width: 320px; height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(109,40,217,0.35) 0%, transparent 70%);
+  background: none;
   top: -80px; right: -80px;
   pointer-events: none;
-  filter: blur(40px);
+  filter: none;
 }
 
 .cms-auth-brand-logo {
