@@ -24,10 +24,20 @@ interface Me {
   role: string;
 }
 
+const CATEGORY_ICONS: Record<string, string> = {
+  breaking_news:    "📰",
+  budget_data:      "💰",
+  freelance_jobs:   "💼",
+  money_making_apps:"📱",
+  remote_jobs:      "🖥️",
+  start_a_blog:     "✍️",
+};
+
 export default function OtherArticlesPage() {
   const router = useRouter();
   const [me, setMe] = useState<Me | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
+  const [selected, setSelected] = useState<Group | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -52,51 +62,101 @@ export default function OtherArticlesPage() {
     <>
       <CmsNav userName={me.name} role={me.role} />
       <div className="cms-page-wide">
-        <h1 className="cms-heading">Other Articles</h1>
-        <p className="cms-subheading">
-          Browse published articles by section and propose edits. Changes go to an admin for review before they go live.
-        </p>
-        {error && <div className="cms-error">{error}</div>}
 
-        {groups.map((g) => (
-          <div key={g.collection} className="cms-articles-section" style={{ marginTop: "1.5rem" }}>
-            <div className="cms-card-title">{g.label}</div>
-            {g.articles.length === 0 ? (
-              <div className="cms-articles-empty"><p>No articles in this section.</p></div>
-            ) : (
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {g.articles.map((a) => (
-                  <li
-                    key={a.id}
-                    style={{
-                      borderBottom: "1px solid rgba(255,255,255,0.07)",
-                      padding: "0.65rem 0",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      gap: "1rem",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontWeight: 600, color: "#EDE9FF" }}>{a.headline}</div>
-                      {a.authorName && (
-                        <div style={{ fontSize: "0.8rem", color: "#928EAE", marginTop: "0.2rem" }}>{a.authorName}</div>
-                      )}
-                    </div>
-                    <Link
-                      href={`/cms/other-articles/${encodeURIComponent(g.collection)}/${encodeURIComponent(a.id)}/edit`}
-                      className="cms-btn cms-btn-secondary cms-btn-sm"
-                      style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+        {!selected ? (
+          <>
+            <div className="cms-articles-hero">
+              <div>
+                <div className="cms-articles-kicker">Browse Articles</div>
+                <p className="cms-subheading" style={{ marginTop: "0.4rem" }}>
+                  Pick a category to see published articles and propose edits.
+                </p>
+              </div>
+            </div>
+
+            {error && <div className="cms-error">{error}</div>}
+
+            <div className="cms-browse-category-grid">
+              {groups.map((g) => (
+                <button
+                  key={g.collection}
+                  className="cms-browse-category-card"
+                  onClick={() => setSelected(g)}
+                >
+                  <span className="cms-browse-category-icon">
+                    {CATEGORY_ICONS[g.collection] || "📄"}
+                  </span>
+                  <span className="cms-browse-category-label">{g.label}</span>
+                  <span className="cms-browse-category-count">
+                    {g.articles.length} article{g.articles.length !== 1 ? "s" : ""}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="cms-articles-hero">
+              <div>
+                <button
+                  className="cms-browse-back"
+                  onClick={() => setSelected(null)}
+                >
+                  ← All Categories
+                </button>
+                <div className="cms-articles-kicker" style={{ marginTop: "0.5rem" }}>
+                  {CATEGORY_ICONS[selected.collection] || "📄"} {selected.label}
+                </div>
+                <p className="cms-subheading" style={{ marginTop: "0.4rem" }}>
+                  {selected.articles.length} article{selected.articles.length !== 1 ? "s" : ""} — click Edit to propose a change.
+                </p>
+              </div>
+            </div>
+
+            {error && <div className="cms-error">{error}</div>}
+
+            <div className="cms-articles-section">
+              {selected.articles.length === 0 ? (
+                <div className="cms-articles-empty">
+                  <p>No articles in this section yet.</p>
+                </div>
+              ) : (
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {selected.articles.map((a) => (
+                    <li
+                      key={a.id}
+                      style={{
+                        borderBottom: "1px solid rgba(255,255,255,0.07)",
+                        padding: "0.75rem 0",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        gap: "1rem",
+                        flexWrap: "wrap",
+                      }}
                     >
-                      Edit
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
+                      <div>
+                        <div style={{ fontWeight: 600, color: "#EDE9FF" }}>{a.headline}</div>
+                        {a.authorName && (
+                          <div style={{ fontSize: "0.8rem", color: "#928EAE", marginTop: "0.2rem" }}>
+                            {a.authorName}
+                          </div>
+                        )}
+                      </div>
+                      <Link
+                        href={`/cms/other-articles/${encodeURIComponent(selected.collection)}/${encodeURIComponent(a.id)}/edit`}
+                        className="cms-btn cms-btn-secondary cms-btn-sm"
+                        style={{ textDecoration: "none", whiteSpace: "nowrap" }}
+                      >
+                        Edit
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </>
   );

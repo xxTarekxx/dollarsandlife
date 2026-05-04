@@ -545,6 +545,13 @@ export default function Dashboard() {
                 <label className="cms-label" htmlFor="cms-crop-zoom">
                   Zoom
                 </label>
+                <button
+                  type="button"
+                  className="cms-cropper-zoom-btn"
+                  aria-label="Zoom out"
+                  onClick={() => handleCropZoom(Math.max(1, Math.round((crop.zoom - 0.1) * 100) / 100))}
+                  disabled={crop.zoom <= 1}
+                >−</button>
                 <input
                   id="cms-crop-zoom"
                   className="cms-cropper-zoom"
@@ -555,6 +562,13 @@ export default function Dashboard() {
                   value={crop.zoom}
                   onChange={(e) => handleCropZoom(Number(e.target.value))}
                 />
+                <button
+                  type="button"
+                  className="cms-cropper-zoom-btn"
+                  aria-label="Zoom in"
+                  onClick={() => handleCropZoom(Math.min(2.6, Math.round((crop.zoom + 0.1) * 100) / 100))}
+                  disabled={crop.zoom >= 2.6}
+                >+</button>
                 <div className="cms-cropper-zoom-value">{Math.round(crop.zoom * 100)}%</div>
               </div>
             </div>

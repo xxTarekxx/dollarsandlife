@@ -986,6 +986,65 @@
 }
 .cms-articles-empty-link:hover { text-decoration: underline; }
 
+/* Browse-by-category grid */
+.cms-browse-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.cms-browse-category-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 1.75rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s, background 0.15s;
+}
+.cms-browse-category-card:hover {
+  background: rgba(124,58,237,0.07);
+  border-color: var(--border-brand);
+  box-shadow: var(--sh);
+  transform: translateY(-3px);
+}
+
+.cms-browse-category-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.cms-browse-category-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.cms-browse-category-count {
+  font-size: 0.78rem;
+  color: var(--subtle);
+}
+
+.cms-browse-back {
+  background: none;
+  border: none;
+  color: #A78BFA;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: opacity 0.15s;
+}
+.cms-browse-back:hover { opacity: 0.75; }
+
 /* ══════════════════════════════════════════════════════════════════════════════
    DASHBOARD
 ══════════════════════════════════════════════════════════════════════════════ */
@@ -1110,9 +1169,9 @@
 
 .cms-cropper-controls {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  gap: 0.5rem 0.8rem;
+  gap: 0.5rem 0.6rem;
 }
 
 .cms-cropper-controls .cms-label {
@@ -1120,12 +1179,38 @@
   margin-bottom: 0;
 }
 
+.cms-cropper-zoom-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(124,58,237,0.45);
+  background: rgba(124,58,237,0.12);
+  color: var(--text);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.cms-cropper-zoom-btn:hover:not(:disabled) {
+  background: rgba(124,58,237,0.28);
+}
+
+.cms-cropper-zoom-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .cms-cropper-zoom {
   width: 100%;
 }
 
 .cms-cropper-zoom-value {
-  min-width: 56px;
+  min-width: 48px;
   text-align: right;
   color: var(--subtle);
   font-size: 0.82rem;
